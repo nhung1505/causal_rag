@@ -5,7 +5,7 @@ import json
 import math
 import re
 import unicodedata
-from collections import defaultdict, deque
+from collections import defaultdict
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Optional
@@ -21,56 +21,53 @@ from sentence_transformers import SentenceTransformer
 # ============================================================
 
 DATA_PATH = "data/4_blhs_merged.json"
-
+MEMORY_PATH = "data/causal_memory.csv"
 FAISS_INDEX_PATH = "data/causal_memory.index"
 
-# File CSV này phải giữ đúng thứ tự các dòng đã dùng khi tạo FAISS.
-MEMORY_PATH = "data/causal_memory.csv"
+RETRIEVAL_RESULT_PATH = "data/retrieval_result.json"
 
-EMBEDDING_MODEL = "BAAI/bge-m3"
+OUTPUT_PATH = "data/counterfactual_result.json"
+CONTEXT_OUTPUT_PATH = "data/counterfactual_result_context.txt"
 
-DEFAULT_SEED_TOP_K = 8
-DEFAULT_SEMANTIC_POOL_SIZE = 50
+MODEL_NAME = "BAAI/bge-m3"
 
-DEFAULT_MAX_DEPTH = 2
-DEFAULT_MAX_EXPANSIONS_PER_RULE = 15
-DEFAULT_FINAL_TOP_K = 12
+DEFAULT_TOP_K_ALTERNATIVES = 10
+DEFAULT_SEMANTIC_SEARCH_K = 40
 
-OUTPUT_PATH = "data/retrieval_result.json"
+MIN_SEMANTIC_SCORE = 0.30
 
 
 # ============================================================
-# RELATION WEIGHTS
+# SCORING WEIGHTS
 # ============================================================
 
-RELATION_WEIGHTS = {
-    # Quan hệ causal bridge quan trọng nhất:
-    # effect của rule hiện tại trở thành condition của rule tiếp theo.
-    "EFFECT_TO_CONDITION": 0.42,
-
-    # Hai rule tạo cùng hậu quả pháp lý.
-    "SAME_EFFECT": 0.30,
-
-    # Hai rule dùng cùng điều kiện chuẩn hóa.
-    "SAME_CONDITION": 0.26,
-
-    # Cùng điều luật thường có tính bổ sung rất cao.
-    "SAME_ARTICLE": 0.24,
-
-    # Cùng nhóm chủ thể pháp lý.
-    "SAME_SUBJECT": 0.18,
-
-    # Điều luật hiện tại tham chiếu trực tiếp đến điều luật khác.
-    "ARTICLE_REFERENCE": 0.34,
-
-    # Quan hệ semantic từ dense retrieval.
-    "SEMANTIC": 0.20,
+ALTERNATIVE_WEIGHTS = {
+    "SAME_ARTICLE": 0.32,
+    "SAME_SUBJECT": 0.22,
+    "SAME_EFFECT": 0.15,
+    "SAME_CONDITION": 0.10,
+    "SEMANTIC": 0.28,
+    "ARTICLE_REFERENCE": 0.30,
 }
 
-DEPTH_PENALTY = 0.08
+CONTRADICTION_KEYWORDS = {
+    "KHONG",
+    "CAM",
+    "MIEN",
+    "LOAI_TRU",
+    "DINH_CHI",
+    "HUY",
+    "TU_CHOI",
+}
 
-# Giảm điểm khi các rule trong path lặp lại cùng condition/effect.
-REDUNDANCY_PENALTY = 0.05
+MODALITY_KEYWORDS = {
+    "CO_THE",
+    "PHAI",
+    "DUOC",
+    "BI",
+    "KHONG_DUOC",
+    "BUOC",
+}
 
 
 # ============================================================
@@ -97,26 +94,29 @@ class Rule:
 
 
 @dataclass
-class PathStep:
-    from_rule_id: str
-    to_rule_id: str
-    relation: str
-    relation_score: float
-    explanation: str
+class Intervention:
+    intervention_type: str
+
+    target_condition_norm: str
+    target_condition_text: str
+
+    replacement_condition_norm: Optional[str] = None
+    replacement_condition_text: Optional[str] = None
+
+    description: str = ""
 
 
 @dataclass
-class RetrievalPath:
-    seed_rule_id: str
-    rule_ids: list[str]
-    steps: list[PathStep]
-
-    seed_similarity: float
+class AlternativeRule:
+    rule_id: str
     score: float
+    relations: list[str]
+    semantic_score: Optional[float]
+    explanation: str
 
 
 # ============================================================
-# TEXT HELPERS
+# HELPERS
 # ============================================================
 
 def safe_string(value: Any) -> str:
@@ -134,9 +134,7 @@ def safe_string(value: Any) -> str:
 
 def remove_vietnamese_accents(text: str) -> str:
     text = safe_string(text)
-
     text = text.replace("Đ", "D").replace("đ", "d")
-
     text = unicodedata.normalize("NFD", text)
 
     return "".join(
@@ -155,23 +153,9 @@ def normalize_identifier(text: str) -> str:
     return text.strip("_")
 
 
-def normalize_norm_field(value: Any) -> str:
-    """
-    Chuẩn hóa condition_norm/effect_norm để so khớp ổn định.
-
-    Ví dụ:
-        "CHIU_TRACH_NHIEM_HINH_SU"
-        " chiu_trach_nhiem_hinh_su "
-    cùng trở thành:
-        CHIU_TRACH_NHIEM_HINH_SU
-    """
-    return normalize_identifier(safe_string(value))
-
-
 def normalize_article_id(value: Any) -> str:
     text = safe_string(value)
 
-    # Pandas đôi khi đọc 2 thành 2.0
     if re.fullmatch(r"\d+\.0", text):
         text = text[:-2]
 
@@ -179,42 +163,63 @@ def normalize_article_id(value: Any) -> str:
 
 
 def extract_article_references(text: str) -> set[str]:
-    """
-    Trích xuất các tham chiếu như:
-        Điều 76
-        Điều 123 của Bộ luật này
-        các điều 123, 124 và 125
-
-    Hàm ưu tiên độ chính xác, không cố bắt mọi cấu trúc pháp lý.
-    """
     text = safe_string(text)
 
-    references: set[str] = set()
-
-    patterns = [
-        r"\bĐiều\s+(\d+)\b",
-        r"\bđiều\s+(\d+)\b",
-    ]
-
-    for pattern in patterns:
-        for match in re.findall(pattern, text):
-            references.add(normalize_article_id(match))
-
-    return references
+    return {
+        normalize_article_id(number)
+        for number in re.findall(
+            r"\b(?:Điều|điều)\s+(\d+)\b",
+            text,
+        )
+    }
 
 
-def build_embedding_text(rule: Rule) -> str:
-    """
-    Phải gần với định dạng đã dùng lúc xây FAISS index.
-    """
-    return (
-        f"Legal Subject:\n{rule.legal_subject}\n\n"
-        f"Condition:\n{rule.condition}\n\n"
-        f"Effect:\n{rule.effect}\n\n"
-        f"Article:\n"
-        f"Điều {rule.article_id}. {rule.article_title}\n\n"
-        f"Normalized condition: {rule.condition_norm}\n"
-        f"Normalized effect: {rule.effect_norm}"
+def tokenize_norm(norm_value: str) -> set[str]:
+    return {
+        token
+        for token in normalize_identifier(norm_value).split("_")
+        if token
+    }
+
+
+def jaccard_similarity(
+    left_tokens: set[str],
+    right_tokens: set[str],
+) -> float:
+    if not left_tokens or not right_tokens:
+        return 0.0
+
+    intersection = len(left_tokens & right_tokens)
+    union = len(left_tokens | right_tokens)
+
+    return intersection / union if union else 0.0
+
+
+def build_counterfactual_query(
+    original_query: str,
+    intervention: Intervention,
+) -> str:
+    if intervention.intervention_type == "NEGATE":
+        return (
+            f"{original_query}\n"
+            f"Giả sử điều kiện sau không xảy ra: "
+            f"{intervention.target_condition_text}.\n"
+            f"Trong trường hợp đó hậu quả pháp lý nào còn áp dụng?"
+        )
+
+    if intervention.intervention_type == "REPLACE":
+        return (
+            f"{original_query}\n"
+            f"Thay điều kiện "
+            f"'{intervention.target_condition_text}' "
+            f"bằng "
+            f"'{intervention.replacement_condition_text}'.\n"
+            f"Hậu quả pháp lý thay đổi như thế nào?"
+        )
+
+    raise ValueError(
+        f"Intervention type không hợp lệ: "
+        f"{intervention.intervention_type}"
     )
 
 
@@ -242,13 +247,6 @@ class RuleRepository:
         self.condition_to_rules: dict[str, set[str]] = defaultdict(set)
         self.effect_to_rules: dict[str, set[str]] = defaultdict(set)
 
-        # Cho causal chaining:
-        # effect_norm của rule A == condition_norm của rule B.
-        self.norm_as_condition_to_rules: dict[str, set[str]] = defaultdict(set)
-        self.norm_as_effect_to_rules: dict[str, set[str]] = defaultdict(set)
-
-        self.article_reference_to_rules: dict[str, set[str]] = defaultdict(set)
-
         self._build_repository()
 
     def _validate_columns(self) -> None:
@@ -268,42 +266,49 @@ class RuleRepository:
 
         if missing:
             raise ValueError(
-                f"File dữ liệu thiếu các cột: {sorted(missing)}"
+                f"Thiếu các cột: {sorted(missing)}"
             )
 
     def _build_repository(self) -> None:
-        duplicate_rule_ids: dict[str, int] = defaultdict(int)
+        duplicate_counts: dict[str, int] = defaultdict(int)
 
         for row_position, row in self.df.iterrows():
-            original_rule_id = safe_string(row["index"])
-
-            if not original_rule_id:
-                original_rule_id = str(row_position + 1)
-
-            duplicate_rule_ids[original_rule_id] += 1
-
-            if duplicate_rule_ids[original_rule_id] == 1:
-                rule_id = original_rule_id
-            else:
-                rule_id = (
-                    f"{original_rule_id}_"
-                    f"{duplicate_rule_ids[original_rule_id]}"
-                )
-
-            article_id = normalize_article_id(row["article_id"])
-
-            legal_subject = safe_string(row["legal_subject"])
-            subject_norm = normalize_identifier(legal_subject)
-
-            condition_norm = normalize_norm_field(
+            condition_norm = normalize_identifier(
                 row["condition_norm"]
             )
-            effect_norm = normalize_norm_field(
+            effect_norm = normalize_identifier(
                 row["effect_norm"]
             )
 
             if not condition_norm or not effect_norm:
                 continue
+
+            original_rule_id = safe_string(row["index"])
+
+            if not original_rule_id:
+                original_rule_id = str(row_position + 1)
+
+            duplicate_counts[original_rule_id] += 1
+
+            if duplicate_counts[original_rule_id] == 1:
+                rule_id = original_rule_id
+            else:
+                rule_id = (
+                    f"{original_rule_id}_"
+                    f"{duplicate_counts[original_rule_id]}"
+                )
+
+            article_id = normalize_article_id(
+                row["article_id"]
+            )
+
+            legal_subject = safe_string(
+                row["legal_subject"]
+            )
+
+            subject_norm = normalize_identifier(
+                legal_subject
+            )
 
             rule = Rule(
                 rule_id=rule_id,
@@ -315,7 +320,9 @@ class RuleRepository:
                 effect=safe_string(row["effect"]),
                 condition_norm=condition_norm,
                 effect_norm=effect_norm,
-                article_title=safe_string(row["article_title"]),
+                article_title=safe_string(
+                    row["article_title"]
+                ),
                 content=safe_string(row["content"]),
             )
 
@@ -326,41 +333,7 @@ class RuleRepository:
             self.condition_to_rules[condition_norm].add(rule_id)
             self.effect_to_rules[effect_norm].add(rule_id)
 
-            self.norm_as_condition_to_rules[condition_norm].add(
-                rule_id
-            )
-            self.norm_as_effect_to_rules[effect_norm].add(
-                rule_id
-            )
-
-            references = extract_article_references(
-                rule.condition + "\n" + rule.effect
-            )
-
-            references.discard(article_id)
-
-            for referenced_article_id in references:
-                self.article_reference_to_rules[
-                    referenced_article_id
-                ].add(rule_id)
-
-        print(f"Loaded rules: {len(self.rules)}")
-        print(
-            "Unique articles:",
-            len(self.article_to_rules),
-        )
-        print(
-            "Unique subjects:",
-            len(self.subject_to_rules),
-        )
-        print(
-            "Unique conditions:",
-            len(self.condition_to_rules),
-        )
-        print(
-            "Unique effects:",
-            len(self.effect_to_rules),
-        )
+        print(f"Loaded valid rules: {len(self.rules)}")
 
     def get(self, rule_id: str) -> Rule:
         return self.rules[rule_id]
@@ -370,149 +343,79 @@ class RuleRepository:
 
 
 # ============================================================
-# DENSE RETRIEVER
+# DENSE SEARCH
 # ============================================================
 
-class DenseRuleRetriever:
+class DenseRuleSearch:
     def __init__(
         self,
         repository: RuleRepository,
-        index_path: str,
         memory_path: str,
+        index_path: str,
         model_name: str,
     ):
-        self.repository = repository
+        self.repo = repository
 
-        self.index_path = Path(index_path)
         self.memory_path = Path(memory_path)
-
-        if not self.index_path.exists():
-            raise FileNotFoundError(
-                f"Không tìm thấy FAISS index: {self.index_path}"
-            )
+        self.index_path = Path(index_path)
 
         if not self.memory_path.exists():
             raise FileNotFoundError(
-                f"Không tìm thấy memory file: {self.memory_path}"
+                f"Không tìm thấy memory: {self.memory_path}"
             )
 
-        print(f"Loading embedding model: {model_name}")
-
-        self.model = SentenceTransformer(model_name)
-
-        print(f"Loading FAISS index: {self.index_path}")
-
-        self.index = faiss.read_index(str(self.index_path))
+        if not self.index_path.exists():
+            raise FileNotFoundError(
+                f"Không tìm thấy FAISS index: "
+                f"{self.index_path}"
+            )
 
         self.memory_df = pd.read_csv(self.memory_path)
+        self.index = faiss.read_index(str(self.index_path))
 
         if len(self.memory_df) != self.index.ntotal:
             raise ValueError(
-                "Số dòng causal_memory.csv không khớp FAISS index: "
-                f"memory={len(self.memory_df)}, "
-                f"index={self.index.ntotal}"
+                "causal_memory.csv và FAISS index "
+                "không cùng số phần tử."
             )
 
-        self.memory_position_to_rule_id = (
-            self._align_memory_with_repository()
+        print(f"Loading model: {model_name}")
+        self.model = SentenceTransformer(model_name)
+
+        self.position_to_rule_id = (
+            self._build_position_mapping()
         )
 
-    def _align_memory_with_repository(
+    def _build_position_mapping(
         self,
     ) -> dict[int, Optional[str]]:
-        """
-        Liên kết từng vector trong FAISS với rule_id trong repository.
-
-        Ưu tiên:
-        1. cột index/rule_id;
-        2. article + condition_norm + effect_norm;
-        3. vị trí dòng nếu memory và JSON cùng thứ tự.
-        """
         mapping: dict[int, Optional[str]] = {}
 
-        memory_columns = set(self.memory_df.columns)
-
-        rule_key_to_ids: dict[
-            tuple[str, str, str], list[str]
-        ] = defaultdict(list)
-
-        for rule_id, rule in self.repository.rules.items():
-            key = (
-                rule.article_id,
-                rule.condition_norm,
-                rule.effect_norm,
-            )
-            rule_key_to_ids[key].append(rule_id)
-
-        used_rule_ids: set[str] = set()
-
         for position, row in self.memory_df.iterrows():
+            rule_id = safe_string(
+                row.get(
+                    "rule_id",
+                    row.get("index", ""),
+                )
+            )
+
+            if self.repo.has(rule_id):
+                mapping[int(position)] = rule_id
+                continue
+
+            row_id = row.get("row_id")
+
             matched_rule_id: Optional[str] = None
 
-            # ------------------------------------------------
-            # Cách 1: khớp trực tiếp bằng index/rule_id
-            # ------------------------------------------------
+            if row_id is not None and not pd.isna(row_id):
+                row_id = int(row_id)
 
-            for candidate_column in [
-                "rule_id",
-                "index",
-                "id",
-            ]:
-                if candidate_column not in memory_columns:
-                    continue
-
-                candidate_id = safe_string(row[candidate_column])
-
-                if self.repository.has(candidate_id):
-                    matched_rule_id = candidate_id
-                    break
-
-            # ------------------------------------------------
-            # Cách 2: khớp bằng bộ ba causal
-            # ------------------------------------------------
-
-            if matched_rule_id is None:
-                required = {
-                    "article_id",
-                    "condition_norm",
-                    "effect_norm",
-                }
-
-                if required.issubset(memory_columns):
-                    key = (
-                        normalize_article_id(row["article_id"]),
-                        normalize_norm_field(
-                            row["condition_norm"]
-                        ),
-                        normalize_norm_field(
-                            row["effect_norm"]
-                        ),
-                    )
-
-                    possible_ids = rule_key_to_ids.get(key, [])
-
-                    for possible_id in possible_ids:
-                        if possible_id not in used_rule_ids:
-                            matched_rule_id = possible_id
-                            break
-
-                    if matched_rule_id is None and possible_ids:
-                        matched_rule_id = possible_ids[0]
-
-            # ------------------------------------------------
-            # Cách 3: dựa vào thứ tự dòng
-            # ------------------------------------------------
-
-            if matched_rule_id is None:
-                for rule_id, rule in self.repository.rules.items():
-                    if rule.row_id == position:
-                        matched_rule_id = rule_id
+                for candidate_id, rule in self.repo.rules.items():
+                    if rule.row_id == row_id:
+                        matched_rule_id = candidate_id
                         break
 
             mapping[int(position)] = matched_rule_id
-
-            if matched_rule_id is not None:
-                used_rule_ids.add(matched_rule_id)
 
         unmatched = sum(
             rule_id is None
@@ -521,62 +424,52 @@ class DenseRuleRetriever:
 
         if unmatched:
             print(
-                f"Warning: {unmatched} vectors không khớp được rule."
+                f"Warning: {unmatched} vector chưa khớp rule."
             )
 
         return mapping
 
-    def retrieve(
+    def search(
         self,
         query: str,
         top_k: int,
     ) -> list[tuple[str, float]]:
-        query = safe_string(query)
-
-        if not query:
-            raise ValueError("Query không được để trống.")
-
-        query_embedding = self.model.encode(
+        embedding = self.model.encode(
             [query],
             normalize_embeddings=True,
             convert_to_numpy=True,
             show_progress_bar=False,
-        ).astype("float32")
+        ).astype(np.float32)
 
         search_k = min(
-            max(top_k * 3, top_k),
+            max(top_k * 2, top_k),
             self.index.ntotal,
         )
 
         scores, positions = self.index.search(
-            query_embedding,
+            embedding,
             search_k,
         )
 
         results: list[tuple[str, float]] = []
-        seen_rule_ids: set[str] = set()
+        seen: set[str] = set()
 
-        for score, position in zip(scores[0], positions[0]):
+        for score, position in zip(
+            scores[0],
+            positions[0],
+        ):
             if position < 0:
                 continue
 
-            rule_id = self.memory_position_to_rule_id.get(
+            rule_id = self.position_to_rule_id.get(
                 int(position)
             )
 
-            if rule_id is None:
+            if rule_id is None or rule_id in seen:
                 continue
 
-            if rule_id in seen_rule_ids:
-                continue
-
-            seen_rule_ids.add(rule_id)
-
-            # Với IndexFlatIP + normalized embeddings,
-            # score thường là cosine similarity.
-            normalized_score = float(score)
-
-            results.append((rule_id, normalized_score))
+            seen.add(rule_id)
+            results.append((rule_id, float(score)))
 
             if len(results) >= top_k:
                 break
@@ -585,642 +478,862 @@ class DenseRuleRetriever:
 
 
 # ============================================================
-# CAUSAL GRAPH EXPANSION
+# INTERVENTION PARSER
 # ============================================================
 
-class MultiHopCausalRetriever:
+class InterventionParser:
+    """
+    Phiên bản đầu tiên dùng explicit intervention.
+
+    Người dùng truyền:
+        --target-condition PHAM_TOI_LAN_DAU_IT_NGHIEM_TRONG
+        --intervention-type NEGATE
+
+    hoặc:
+        --intervention-type REPLACE
+        --replacement-condition TAI_PHAM_NGUY_HIEM
+    """
+
+    @staticmethod
+    def create(
+        repository: RuleRepository,
+        target_condition: str,
+        intervention_type: str,
+        replacement_condition: Optional[str] = None,
+    ) -> Intervention:
+        intervention_type = intervention_type.upper().strip()
+
+        target_norm = normalize_identifier(target_condition)
+
+        if intervention_type not in {"NEGATE", "REPLACE"}:
+            raise ValueError(
+                "intervention-type phải là NEGATE hoặc REPLACE."
+            )
+
+        target_rules = repository.condition_to_rules.get(
+            target_norm,
+            set(),
+        )
+
+        if target_rules:
+            example_rule = repository.get(
+                next(iter(target_rules))
+            )
+            target_text = example_rule.condition
+        else:
+            target_text = target_condition
+
+        if intervention_type == "NEGATE":
+            return Intervention(
+                intervention_type="NEGATE",
+                target_condition_norm=target_norm,
+                target_condition_text=target_text,
+                description=(
+                    f"Can thiệp do(NOT {target_norm})"
+                ),
+            )
+
+        if not replacement_condition:
+            raise ValueError(
+                "REPLACE yêu cầu --replacement-condition."
+            )
+
+        replacement_norm = normalize_identifier(
+            replacement_condition
+        )
+
+        replacement_rules = (
+            repository.condition_to_rules.get(
+                replacement_norm,
+                set(),
+            )
+        )
+
+        if replacement_rules:
+            replacement_example = repository.get(
+                next(iter(replacement_rules))
+            )
+            replacement_text = (
+                replacement_example.condition
+            )
+        else:
+            replacement_text = replacement_condition
+
+        return Intervention(
+            intervention_type="REPLACE",
+            target_condition_norm=target_norm,
+            target_condition_text=target_text,
+            replacement_condition_norm=replacement_norm,
+            replacement_condition_text=replacement_text,
+            description=(
+                f"Can thiệp do("
+                f"{target_norm} := {replacement_norm})"
+            ),
+        )
+
+
+# ============================================================
+# COUNTERFACTUAL VERIFIER
+# ============================================================
+
+class CounterfactualVerifier:
     def __init__(
         self,
         repository: RuleRepository,
-        dense_retriever: DenseRuleRetriever,
+        dense_search: DenseRuleSearch,
     ):
         self.repo = repository
-        self.dense = dense_retriever
+        self.dense = dense_search
 
-    def _relation_explanation(
+    def load_retrieval_result(
         self,
-        source: Rule,
-        target: Rule,
-        relation: str,
-    ) -> str:
-        if relation == "EFFECT_TO_CONDITION":
-            return (
-                f"Hậu quả {source.effect_norm} của Rule "
-                f"{source.rule_id} trở thành điều kiện "
-                f"{target.condition_norm} của Rule "
-                f"{target.rule_id}."
+        retrieval_result_path: str,
+    ) -> dict[str, Any]:
+        path = Path(retrieval_result_path)
+
+        if not path.exists():
+            raise FileNotFoundError(
+                f"Không tìm thấy retrieval result: {path}"
             )
 
-        if relation == "SAME_EFFECT":
-            return (
-                f"Hai rule cùng dẫn đến hậu quả pháp lý "
-                f"{source.effect_norm}."
-            )
+        with path.open("r", encoding="utf-8") as file:
+            return json.load(file)
 
-        if relation == "SAME_CONDITION":
-            return (
-                f"Hai rule có cùng điều kiện chuẩn hóa "
-                f"{source.condition_norm}."
-            )
-
-        if relation == "SAME_ARTICLE":
-            return (
-                f"Hai rule cùng thuộc Điều "
-                f"{source.article_id}."
-            )
-
-        if relation == "SAME_SUBJECT":
-            return (
-                f"Hai rule cùng áp dụng cho chủ thể "
-                f"{source.legal_subject}."
-            )
-
-        if relation == "ARTICLE_REFERENCE":
-            return (
-                f"Rule {source.rule_id} có tham chiếu đến "
-                f"Điều {target.article_id}."
-            )
-
-        if relation == "SEMANTIC":
-            return "Hai rule có nội dung gần nhau về ngữ nghĩa."
-
-        return relation
-
-    def _add_candidates(
+    def get_factual_rule_ids(
         self,
-        candidate_relations: dict[
-            str, tuple[str, float, str]
-        ],
-        source: Rule,
-        candidate_ids: set[str],
-        relation: str,
-    ) -> None:
-        relation_score = RELATION_WEIGHTS[relation]
+        retrieval_result: dict[str, Any],
+    ) -> list[str]:
+        factual_ids: list[str] = []
 
-        for candidate_id in candidate_ids:
-            if candidate_id == source.rule_id:
-                continue
-
-            if not self.repo.has(candidate_id):
-                continue
-
-            target = self.repo.get(candidate_id)
-
-            explanation = self._relation_explanation(
-                source,
-                target,
-                relation,
+        for evidence in retrieval_result.get(
+            "evidence",
+            [],
+        ):
+            rule_id = safe_string(
+                evidence.get("rule_id")
             )
 
-            current = candidate_relations.get(candidate_id)
+            if (
+                rule_id
+                and self.repo.has(rule_id)
+                and rule_id not in factual_ids
+            ):
+                factual_ids.append(rule_id)
 
-            # Nếu cùng candidate có nhiều quan hệ,
-            # giữ quan hệ có trọng số lớn hơn.
-            if current is None or relation_score > current[1]:
-                candidate_relations[candidate_id] = (
-                    relation,
-                    relation_score,
-                    explanation,
+        if factual_ids:
+            return factual_ids
+
+        for path in retrieval_result.get("paths", []):
+            for rule_id in path.get("rule_ids", []):
+                rule_id = safe_string(rule_id)
+
+                if (
+                    self.repo.has(rule_id)
+                    and rule_id not in factual_ids
+                ):
+                    factual_ids.append(rule_id)
+
+        return factual_ids
+
+    def classify_rule_under_intervention(
+        self,
+        rule: Rule,
+        intervention: Intervention,
+    ) -> tuple[str, str]:
+        """
+        Trả về:
+            INVALIDATED
+            PRESERVED
+            ACTIVATED
+            UNCERTAIN
+        """
+
+        if (
+            rule.condition_norm
+            == intervention.target_condition_norm
+        ):
+            if intervention.intervention_type == "NEGATE":
+                return (
+                    "INVALIDATED",
+                    (
+                        "Rule bị loại vì condition của rule "
+                        "chính là condition đã bị phủ định."
+                    ),
                 )
 
-    def expand_rule(
+            if intervention.intervention_type == "REPLACE":
+                return (
+                    "INVALIDATED",
+                    (
+                        "Rule factual bị loại vì condition "
+                        "đã được thay bằng condition khác."
+                    ),
+                )
+
+        if intervention.intervention_type == "REPLACE":
+            if (
+                rule.condition_norm
+                == intervention.replacement_condition_norm
+            ):
+                return (
+                    "ACTIVATED",
+                    (
+                        "Rule được kích hoạt vì condition của rule "
+                        "khớp condition thay thế."
+                    ),
+                )
+
+        return (
+            "PRESERVED",
+            (
+                "Condition của rule không trùng với "
+                "condition bị can thiệp."
+            ),
+        )
+
+    def evaluate_factual_rules(
         self,
-        source_rule_id: str,
-        semantic_rule_ids: Optional[set[str]] = None,
-        max_candidates: int = DEFAULT_MAX_EXPANSIONS_PER_RULE,
-    ) -> list[tuple[str, str, float, str]]:
-        source = self.repo.get(source_rule_id)
+        factual_rule_ids: list[str],
+        intervention: Intervention,
+    ) -> list[dict[str, Any]]:
+        evaluations = []
 
-        candidate_relations: dict[
-            str, tuple[str, float, str]
-        ] = {}
+        for rule_id in factual_rule_ids:
+            rule = self.repo.get(rule_id)
 
-        # ----------------------------------------------------
-        # 1. Causal bridge:
-        # effect của source trùng condition của target.
-        # ----------------------------------------------------
-
-        causal_targets = (
-            self.repo.norm_as_condition_to_rules.get(
-                source.effect_norm,
-                set(),
+            status, reason = (
+                self.classify_rule_under_intervention(
+                    rule,
+                    intervention,
+                )
             )
-        )
 
-        self._add_candidates(
-            candidate_relations,
-            source,
-            causal_targets,
-            "EFFECT_TO_CONDITION",
-        )
+            evaluations.append({
+                "rule": asdict(rule),
+                "counterfactual_status": status,
+                "reason": reason,
+            })
 
-        # ----------------------------------------------------
-        # 2. Các rule có cùng effect.
-        # ----------------------------------------------------
+        return evaluations
 
-        same_effect = self.repo.effect_to_rules.get(
-            source.effect_norm,
+    def _collect_structural_candidates(
+        self,
+        factual_rule: Rule,
+        intervention: Intervention,
+    ) -> dict[str, set[str]]:
+        candidates: dict[str, set[str]] = defaultdict(set)
+
+        # Cùng article
+        for rule_id in self.repo.article_to_rules.get(
+            factual_rule.article_id,
             set(),
-        )
+        ):
+            candidates[rule_id].add("SAME_ARTICLE")
 
-        self._add_candidates(
-            candidate_relations,
-            source,
-            same_effect,
-            "SAME_EFFECT",
-        )
-
-        # ----------------------------------------------------
-        # 3. Các rule có cùng condition.
-        # ----------------------------------------------------
-
-        same_condition = self.repo.condition_to_rules.get(
-            source.condition_norm,
+        # Cùng chủ thể
+        for rule_id in self.repo.subject_to_rules.get(
+            factual_rule.subject_norm,
             set(),
-        )
+        ):
+            candidates[rule_id].add("SAME_SUBJECT")
 
-        self._add_candidates(
-            candidate_relations,
-            source,
-            same_condition,
-            "SAME_CONDITION",
-        )
-
-        # ----------------------------------------------------
-        # 4. Các rule cùng article.
-        # ----------------------------------------------------
-
-        same_article = self.repo.article_to_rules.get(
-            source.article_id,
+        # Cùng effect
+        for rule_id in self.repo.effect_to_rules.get(
+            factual_rule.effect_norm,
             set(),
-        )
+        ):
+            candidates[rule_id].add("SAME_EFFECT")
 
-        self._add_candidates(
-            candidate_relations,
-            source,
-            same_article,
-            "SAME_ARTICLE",
-        )
-
-        # ----------------------------------------------------
-        # 5. Các rule cùng subject.
-        # ----------------------------------------------------
-
-        same_subject = self.repo.subject_to_rules.get(
-            source.subject_norm,
+        # Cùng condition
+        for rule_id in self.repo.condition_to_rules.get(
+            factual_rule.condition_norm,
             set(),
+        ):
+            candidates[rule_id].add("SAME_CONDITION")
+
+        # Rule thuộc điều luật được tham chiếu
+        references = extract_article_references(
+            factual_rule.condition
+            + "\n"
+            + factual_rule.effect
+            + "\n"
+            + factual_rule.content
         )
 
-        self._add_candidates(
-            candidate_relations,
-            source,
-            same_subject,
-            "SAME_SUBJECT",
-        )
-
-        # ----------------------------------------------------
-        # 6. Điều luật được source tham chiếu.
-        # ----------------------------------------------------
-
-        referenced_articles = extract_article_references(
-            source.condition + "\n" + source.effect
-        )
-
-        for article_id in referenced_articles:
-            target_ids = self.repo.article_to_rules.get(
+        for article_id in references:
+            for rule_id in self.repo.article_to_rules.get(
                 article_id,
                 set(),
-            )
-
-            self._add_candidates(
-                candidate_relations,
-                source,
-                target_ids,
-                "ARTICLE_REFERENCE",
-            )
-
-        # ----------------------------------------------------
-        # 7. Các rule semantic gần query.
-        # Chỉ thêm các seed/global semantic candidates đã lấy.
-        # ----------------------------------------------------
-
-        if semantic_rule_ids:
-            self._add_candidates(
-                candidate_relations,
-                source,
-                semantic_rule_ids,
-                "SEMANTIC",
-            )
-
-        sorted_candidates = sorted(
-            (
-                (
-                    candidate_id,
-                    relation,
-                    relation_score,
-                    explanation,
+            ):
+                candidates[rule_id].add(
+                    "ARTICLE_REFERENCE"
                 )
-                for candidate_id, (
-                    relation,
-                    relation_score,
-                    explanation,
-                ) in candidate_relations.items()
-            ),
-            key=lambda item: item[2],
-            reverse=True,
-        )
 
-        return sorted_candidates[:max_candidates]
+        # Condition thay thế
+        if (
+            intervention.intervention_type == "REPLACE"
+            and intervention.replacement_condition_norm
+        ):
+            for rule_id in self.repo.condition_to_rules.get(
+                intervention.replacement_condition_norm,
+                set(),
+            ):
+                candidates[rule_id].add(
+                    "REPLACEMENT_CONDITION"
+                )
 
-    @staticmethod
-    def _compute_path_score(
-        seed_similarity: float,
-        rule_ids: list[str],
-        steps: list[PathStep],
-        repository: RuleRepository,
+        return candidates
+
+    def _score_alternative(
+        self,
+        factual_rule: Rule,
+        candidate_rule: Rule,
+        relations: set[str],
+        semantic_score: Optional[float],
+        intervention: Intervention,
     ) -> float:
-        score = seed_similarity
+        score = 0.0
 
-        for depth, step in enumerate(steps, start=1):
-            depth_discount = 1.0 / math.sqrt(depth)
+        for relation in relations:
+            score += ALTERNATIVE_WEIGHTS.get(
+                relation,
+                0.20,
+            )
 
+        if semantic_score is not None:
             score += (
-                step.relation_score
-                * depth_discount
+                ALTERNATIVE_WEIGHTS["SEMANTIC"]
+                * max(semantic_score, 0.0)
             )
 
-            score -= DEPTH_PENALTY * depth
-
-        rules = [
-            repository.get(rule_id)
-            for rule_id in rule_ids
-        ]
-
-        condition_norms = [
-            rule.condition_norm
-            for rule in rules
-        ]
-
-        effect_norms = [
-            rule.effect_norm
-            for rule in rules
-        ]
-
-        repeated_conditions = (
-            len(condition_norms)
-            - len(set(condition_norms))
+        subject_similarity = jaccard_similarity(
+            tokenize_norm(factual_rule.subject_norm),
+            tokenize_norm(candidate_rule.subject_norm),
         )
 
-        repeated_effects = (
-            len(effect_norms)
-            - len(set(effect_norms))
+        condition_similarity = jaccard_similarity(
+            tokenize_norm(factual_rule.condition_norm),
+            tokenize_norm(candidate_rule.condition_norm),
         )
 
-        score -= REDUNDANCY_PENALTY * (
-            repeated_conditions + repeated_effects
+        effect_similarity = jaccard_similarity(
+            tokenize_norm(factual_rule.effect_norm),
+            tokenize_norm(candidate_rule.effect_norm),
         )
 
-        # Thưởng nhẹ nếu path đi qua nhiều article,
-        # vì có khả năng thực sự là multi-hop liên điều luật.
-        distinct_articles = len({
-            rule.article_id
-            for rule in rules
-        })
+        score += 0.10 * subject_similarity
+        score += 0.08 * condition_similarity
+        score += 0.07 * effect_similarity
 
-        if distinct_articles > 1:
-            score += min(
-                0.05 * (distinct_articles - 1),
-                0.15,
-            )
+        if (
+            candidate_rule.condition_norm
+            == intervention.target_condition_norm
+        ):
+            score -= 0.80
+
+        if (
+            intervention.intervention_type == "REPLACE"
+            and candidate_rule.condition_norm
+            == intervention.replacement_condition_norm
+        ):
+            score += 0.50
+
+        if candidate_rule.rule_id == factual_rule.rule_id:
+            score -= 1.00
 
         return float(score)
 
-    def retrieve(
+    def find_alternative_rules(
         self,
-        query: str,
-        seed_top_k: int = DEFAULT_SEED_TOP_K,
-        semantic_pool_size: int = DEFAULT_SEMANTIC_POOL_SIZE,
-        max_depth: int = DEFAULT_MAX_DEPTH,
-        max_expansions_per_rule: int = (
-            DEFAULT_MAX_EXPANSIONS_PER_RULE
-        ),
-        final_top_k: int = DEFAULT_FINAL_TOP_K,
-    ) -> dict[str, Any]:
-        # ----------------------------------------------------
-        # Dense retrieval pool
-        # ----------------------------------------------------
+        original_query: str,
+        factual_rule: Rule,
+        intervention: Intervention,
+        semantic_search_k: int,
+        top_k: int,
+    ) -> list[AlternativeRule]:
+        candidate_relations = (
+            self._collect_structural_candidates(
+                factual_rule,
+                intervention,
+            )
+        )
 
-        semantic_results = self.dense.retrieve(
-            query=query,
-            top_k=semantic_pool_size,
+        counterfactual_query = build_counterfactual_query(
+            original_query,
+            intervention,
+        )
+
+        semantic_results = self.dense.search(
+            query=counterfactual_query,
+            top_k=semantic_search_k,
         )
 
         semantic_scores = {
             rule_id: score
             for rule_id, score in semantic_results
+            if score >= MIN_SEMANTIC_SCORE
         }
 
-        semantic_rule_ids = set(semantic_scores)
+        for rule_id in semantic_scores:
+            candidate_relations[rule_id].add("SEMANTIC")
 
-        seeds = semantic_results[:seed_top_k]
+        alternatives: list[AlternativeRule] = []
 
-        if not seeds:
-            return {
-                "query": query,
-                "paths": [],
-                "evidence": [],
+        for candidate_id, relations in (
+            candidate_relations.items()
+        ):
+            if not self.repo.has(candidate_id):
+                continue
+
+            candidate_rule = self.repo.get(candidate_id)
+
+            status, _ = self.classify_rule_under_intervention(
+                candidate_rule,
+                intervention,
+            )
+
+            if status == "INVALIDATED":
+                continue
+
+            semantic_score = semantic_scores.get(candidate_id)
+
+            score = self._score_alternative(
+                factual_rule=factual_rule,
+                candidate_rule=candidate_rule,
+                relations=relations,
+                semantic_score=semantic_score,
+                intervention=intervention,
+            )
+
+            explanation = (
+                f"Rule thay thế được tìm qua các quan hệ: "
+                f"{', '.join(sorted(relations))}."
+            )
+
+            alternatives.append(
+                AlternativeRule(
+                    rule_id=candidate_id,
+                    score=score,
+                    relations=sorted(relations),
+                    semantic_score=semantic_score,
+                    explanation=explanation,
+                )
+            )
+
+        alternatives.sort(
+            key=lambda item: item.score,
+            reverse=True,
+        )
+
+        return alternatives[:top_k]
+
+    def compare_effects(
+        self,
+        factual_rule: Rule,
+        alternative_rules: list[AlternativeRule],
+    ) -> dict[str, Any]:
+        factual_effect = factual_rule.effect_norm
+
+        same_effect_rules = []
+        different_effect_rules = []
+        possibly_contradictory_rules = []
+
+        factual_tokens = tokenize_norm(factual_effect)
+
+        for alternative in alternative_rules:
+            rule = self.repo.get(alternative.rule_id)
+
+            item = {
+                "rule_id": rule.rule_id,
+                "article_id": rule.article_id,
+                "condition": rule.condition,
+                "condition_norm": rule.condition_norm,
+                "effect": rule.effect,
+                "effect_norm": rule.effect_norm,
+                "score": alternative.score,
+                "relations": alternative.relations,
             }
 
-        all_paths: list[RetrievalPath] = []
+            if rule.effect_norm == factual_effect:
+                same_effect_rules.append(item)
+                continue
 
-        # ----------------------------------------------------
-        # BFS từ mỗi seed rule
-        # ----------------------------------------------------
-
-        for seed_rule_id, seed_similarity in seeds:
-            initial_path = RetrievalPath(
-                seed_rule_id=seed_rule_id,
-                rule_ids=[seed_rule_id],
-                steps=[],
-                seed_similarity=seed_similarity,
-                score=seed_similarity,
+            alternative_tokens = tokenize_norm(
+                rule.effect_norm
             )
 
-            all_paths.append(initial_path)
-
-            queue = deque([initial_path])
-
-            while queue:
-                current_path = queue.popleft()
-
-                current_depth = len(current_path.steps)
-
-                if current_depth >= max_depth:
-                    continue
-
-                current_rule_id = current_path.rule_ids[-1]
-
-                expansions = self.expand_rule(
-                    source_rule_id=current_rule_id,
-                    semantic_rule_ids=semantic_rule_ids,
-                    max_candidates=max_expansions_per_rule,
-                )
-
-                for (
-                    target_rule_id,
-                    relation,
-                    relation_score,
-                    explanation,
-                ) in expansions:
-                    # Tránh cycle ở path level.
-                    if target_rule_id in current_path.rule_ids:
-                        continue
-
-                    new_rule_ids = (
-                        current_path.rule_ids
-                        + [target_rule_id]
-                    )
-
-                    new_step = PathStep(
-                        from_rule_id=current_rule_id,
-                        to_rule_id=target_rule_id,
-                        relation=relation,
-                        relation_score=relation_score,
-                        explanation=explanation,
-                    )
-
-                    new_steps = (
-                        current_path.steps
-                        + [new_step]
-                    )
-
-                    new_score = self._compute_path_score(
-                        seed_similarity=seed_similarity,
-                        rule_ids=new_rule_ids,
-                        steps=new_steps,
-                        repository=self.repo,
-                    )
-
-                    new_path = RetrievalPath(
-                        seed_rule_id=seed_rule_id,
-                        rule_ids=new_rule_ids,
-                        steps=new_steps,
-                        seed_similarity=seed_similarity,
-                        score=new_score,
-                    )
-
-                    all_paths.append(new_path)
-                    queue.append(new_path)
-
-        # ----------------------------------------------------
-        # Loại path trùng
-        # ----------------------------------------------------
-
-        unique_paths: dict[
-            tuple[str, ...], RetrievalPath
-        ] = {}
-
-        for path in all_paths:
-            key = tuple(path.rule_ids)
-
-            current = unique_paths.get(key)
-
-            if current is None or path.score > current.score:
-                unique_paths[key] = path
-
-        ranked_paths = sorted(
-            unique_paths.values(),
-            key=lambda path: (
-                path.score,
-                len(path.rule_ids),
-            ),
-            reverse=True,
-        )
-
-        selected_paths = ranked_paths[:final_top_k]
-
-        # ----------------------------------------------------
-        # Gom evidence rule từ các path tốt nhất
-        # ----------------------------------------------------
-
-        evidence_scores: dict[str, float] = defaultdict(float)
-        evidence_path_count: dict[str, int] = defaultdict(int)
-
-        for path in selected_paths:
-            path_contribution = path.score / max(
-                len(path.rule_ids),
-                1,
+            contains_contradiction_marker = bool(
+                alternative_tokens
+                & CONTRADICTION_KEYWORDS
             )
 
-            for rule_id in path.rule_ids:
-                evidence_scores[rule_id] = max(
-                    evidence_scores[rule_id],
-                    path_contribution,
-                )
+            semantic_overlap = jaccard_similarity(
+                factual_tokens,
+                alternative_tokens,
+            )
 
-                evidence_path_count[rule_id] += 1
+            if (
+                contains_contradiction_marker
+                and semantic_overlap > 0
+            ):
+                possibly_contradictory_rules.append(item)
+            else:
+                different_effect_rules.append(item)
 
-        ranked_evidence_ids = sorted(
-            evidence_scores,
-            key=lambda rule_id: (
-                evidence_scores[rule_id],
-                evidence_path_count[rule_id],
-                semantic_scores.get(rule_id, -1.0),
+        return {
+            "factual_effect": {
+                "text": factual_rule.effect,
+                "norm": factual_rule.effect_norm,
+            },
+            "same_effect_rules": same_effect_rules,
+            "different_effect_rules": different_effect_rules,
+            "possibly_contradictory_rules": (
+                possibly_contradictory_rules
             ),
-            reverse=True,
-        )
+        }
 
-        # Giữ evidence gọn để không làm tràn context LLM.
-        ranked_evidence_ids = ranked_evidence_ids[
-            :final_top_k
+    def infer_verification_conclusion(
+        self,
+        factual_evaluation: dict[str, Any],
+        effect_comparison: dict[str, Any],
+    ) -> dict[str, str]:
+        status = factual_evaluation[
+            "counterfactual_status"
         ]
 
-        return {
-            "query": query,
-            "config": {
-                "seed_top_k": seed_top_k,
-                "semantic_pool_size": semantic_pool_size,
-                "max_depth": max_depth,
-                "max_expansions_per_rule": (
-                    max_expansions_per_rule
+        same_effect = effect_comparison[
+            "same_effect_rules"
+        ]
+
+        different_effect = effect_comparison[
+            "different_effect_rules"
+        ]
+
+        contradictory = effect_comparison[
+            "possibly_contradictory_rules"
+        ]
+
+        if status == "PRESERVED":
+            return {
+                "label": "FACTUAL_RULE_PRESERVED",
+                "conclusion": (
+                    "Can thiệp không trực tiếp làm mất hiệu lực "
+                    "của factual rule này. Hệ quả factual vẫn có "
+                    "thể được giữ, nhưng cần kiểm tra thêm các "
+                    "điều kiện pháp lý khác."
                 ),
-                "final_top_k": final_top_k,
-            },
-            "seed_rules": [
-                self._serialize_rule(
-                    rule_id,
-                    semantic_score=score,
-                )
-                for rule_id, score in seeds
-            ],
-            "paths": [
-                self._serialize_path(path)
-                for path in selected_paths
-            ],
-            "evidence": [
-                {
-                    **self._serialize_rule(
-                        rule_id,
-                        semantic_score=semantic_scores.get(
-                            rule_id
-                        ),
-                    ),
-                    "evidence_score": evidence_scores[
-                        rule_id
-                    ],
-                    "path_count": evidence_path_count[
-                        rule_id
-                    ],
-                }
-                for rule_id in ranked_evidence_ids
-            ],
+            }
+
+        if status == "ACTIVATED":
+            return {
+                "label": "REPLACEMENT_RULE_ACTIVATED",
+                "conclusion": (
+                    "Condition thay thế trực tiếp kích hoạt rule. "
+                    "Hệ quả của rule này là ứng viên "
+                    "counterfactual chính."
+                ),
+            }
+
+        if contradictory:
+            return {
+                "label": "POSSIBLE_EFFECT_REVERSAL",
+                "conclusion": (
+                    "Factual rule bị loại và tồn tại rule có hệ "
+                    "quả có dấu hiệu đối lập. Tuy nhiên cần kiểm "
+                    "tra bằng văn bản luật hoặc LLM trước khi "
+                    "kết luận đảo ngược hậu quả."
+                ),
+            }
+
+        if different_effect:
+            return {
+                "label": "ALTERNATIVE_EFFECT_FOUND",
+                "conclusion": (
+                    "Factual rule bị loại và tìm thấy một hoặc "
+                    "nhiều hệ quả pháp lý thay thế. Không nên "
+                    "coi các hệ quả này là phủ định trực tiếp của "
+                    "hệ quả factual."
+                ),
+            }
+
+        if same_effect:
+            return {
+                "label": "EFFECT_SUPPORTED_BY_OTHER_RULES",
+                "conclusion": (
+                    "Factual rule bị loại nhưng cùng hệ quả vẫn "
+                    "được hỗ trợ bởi rule khác. Vì vậy việc phủ "
+                    "định condition hiện tại chưa đủ để phủ định "
+                    "hệ quả pháp lý."
+                ),
+            }
+
+        return {
+            "label": "INSUFFICIENT_COUNTERFACTUAL_EVIDENCE",
+            "conclusion": (
+                "Factual rule không còn áp dụng sau can thiệp, "
+                "nhưng chưa tìm thấy rule đủ mạnh để xác định hệ "
+                "quả thay thế. Kết luận an toàn là không còn đủ "
+                "căn cứ áp dụng hệ quả factual theo rule này."
+            ),
         }
 
-    def _serialize_rule(
+    def verify(
         self,
-        rule_id: str,
-        semantic_score: Optional[float] = None,
+        retrieval_result_path: str,
+        intervention: Intervention,
+        top_k_alternatives: int,
+        semantic_search_k: int,
     ) -> dict[str, Any]:
-        rule = self.repo.get(rule_id)
+        retrieval_result = self.load_retrieval_result(
+            retrieval_result_path
+        )
 
-        result = asdict(rule)
+        original_query = retrieval_result.get(
+            "query",
+            "",
+        )
 
-        if semantic_score is not None:
-            result["semantic_score"] = float(
-                semantic_score
+        factual_rule_ids = self.get_factual_rule_ids(
+            retrieval_result
+        )
+
+        if not factual_rule_ids:
+            raise ValueError(
+                "Không tìm thấy factual rules trong "
+                "retrieval_result.json."
             )
 
-        return result
+        factual_evaluations = (
+            self.evaluate_factual_rules(
+                factual_rule_ids,
+                intervention,
+            )
+        )
 
-    def _serialize_path(
-        self,
-        path: RetrievalPath,
-    ) -> dict[str, Any]:
+        verification_items = []
+
+        for evaluation in factual_evaluations:
+            factual_rule_data = evaluation["rule"]
+            factual_rule = self.repo.get(
+                factual_rule_data["rule_id"]
+            )
+
+            alternatives = self.find_alternative_rules(
+                original_query=original_query,
+                factual_rule=factual_rule,
+                intervention=intervention,
+                semantic_search_k=semantic_search_k,
+                top_k=top_k_alternatives,
+            )
+
+            effect_comparison = self.compare_effects(
+                factual_rule=factual_rule,
+                alternative_rules=alternatives,
+            )
+
+            conclusion = (
+                self.infer_verification_conclusion(
+                    factual_evaluation=evaluation,
+                    effect_comparison=effect_comparison,
+                )
+            )
+
+            verification_items.append({
+                "factual_rule": asdict(factual_rule),
+                "counterfactual_status": evaluation[
+                    "counterfactual_status"
+                ],
+                "status_reason": evaluation["reason"],
+                "alternative_rules": [
+                    {
+                        **asdict(alternative),
+                        "rule": asdict(
+                            self.repo.get(
+                                alternative.rule_id
+                            )
+                        ),
+                    }
+                    for alternative in alternatives
+                ],
+                "effect_comparison": effect_comparison,
+                "verification": conclusion,
+            })
+
+        overall = self._aggregate_overall_result(
+            verification_items
+        )
+
         return {
-            "seed_rule_id": path.seed_rule_id,
-            "rule_ids": path.rule_ids,
-            "seed_similarity": path.seed_similarity,
-            "score": path.score,
-            "steps": [
-                asdict(step)
-                for step in path.steps
-            ],
-            "rules": [
-                self._serialize_rule(rule_id)
-                for rule_id in path.rule_ids
-            ],
+            "original_query": original_query,
+            "intervention": asdict(intervention),
+            "factual_rule_count": len(
+                factual_rule_ids
+            ),
+            "verification_items": verification_items,
+            "overall_verification": overall,
+        }
+
+    @staticmethod
+    def _aggregate_overall_result(
+        verification_items: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        label_counts: dict[str, int] = defaultdict(int)
+
+        invalidated_count = 0
+        preserved_count = 0
+        activated_count = 0
+
+        for item in verification_items:
+            status = item["counterfactual_status"]
+
+            if status == "INVALIDATED":
+                invalidated_count += 1
+            elif status == "PRESERVED":
+                preserved_count += 1
+            elif status == "ACTIVATED":
+                activated_count += 1
+
+            label = item["verification"]["label"]
+            label_counts[label] += 1
+
+        if invalidated_count == 0:
+            overall_label = "INTERVENTION_HAS_NO_DIRECT_EFFECT"
+            overall_conclusion = (
+                "Không factual rule nào có condition trùng với "
+                "condition bị can thiệp. Can thiệp hiện tại chưa "
+                "tác động trực tiếp đến bằng chứng được truy hồi."
+            )
+
+        elif invalidated_count > 0 and preserved_count > 0:
+            overall_label = "PARTIAL_EFFECT"
+            overall_conclusion = (
+                "Can thiệp làm mất hiệu lực một phần bằng chứng, "
+                "nhưng một số factual rule vẫn được giữ. Câu trả "
+                "lời counterfactual cần dựa trên các rule còn hợp lệ."
+            )
+
+        elif invalidated_count > 0:
+            overall_label = "FACTUAL_SUPPORT_CHANGED"
+            overall_conclusion = (
+                "Can thiệp làm thay đổi trực tiếp tập bằng chứng "
+                "factual. Không được giữ nguyên câu trả lời ban đầu "
+                "nếu chưa kiểm tra các rule thay thế."
+            )
+
+        else:
+            overall_label = "UNCERTAIN"
+            overall_conclusion = (
+                "Chưa đủ thông tin để đánh giá tác động của "
+                "can thiệp."
+            )
+
+        return {
+            "label": overall_label,
+            "conclusion": overall_conclusion,
+            "invalidated_rule_count": invalidated_count,
+            "preserved_rule_count": preserved_count,
+            "activated_rule_count": activated_count,
+            "verification_label_counts": dict(
+                label_counts
+            ),
         }
 
 
 # ============================================================
-# LLM CONTEXT FORMATTER
+# LLM CONTEXT
 # ============================================================
 
-def format_context_for_llm(
-    retrieval_result: dict[str, Any],
-    max_evidence: int = 8,
+def format_counterfactual_context(
+    result: dict[str, Any],
+    max_items: int = 5,
+    max_alternatives: int = 5,
 ) -> str:
-    """
-    Biến retrieval result thành context gọn để truyền vào LLM.
-    """
-    query = retrieval_result["query"]
+    intervention = result["intervention"]
 
     lines = [
-        "CÂU HỎI:",
-        query,
+        "CÂU HỎI GỐC:",
+        result["original_query"],
         "",
-        "BẰNG CHỨNG PHÁP LUẬT:",
+        "CAN THIỆP PHẢN THỰC:",
+        intervention["description"],
+        "",
+        (
+            "Lưu ý: phủ định condition không đồng nghĩa "
+            "với phủ định effect."
+        ),
+        "",
+        "KẾT QUẢ KIỂM CHỨNG:",
     ]
 
-    evidence = retrieval_result.get(
-        "evidence",
-        [],
-    )[:max_evidence]
+    for index, item in enumerate(
+        result["verification_items"][:max_items],
+        start=1,
+    ):
+        factual = item["factual_rule"]
 
-    for position, item in enumerate(evidence, start=1):
         lines.extend([
             "",
-            f"[Bằng chứng {position}]",
+            f"[Factual rule {index}]",
             (
-                f"Rule ID: {item['rule_id']} | "
-                f"Điều {item['article_id']}"
+                f"Rule {factual['rule_id']} - "
+                f"Điều {factual['article_id']}"
             ),
-            f"Tên điều: {item['article_title']}",
-            f"Chủ thể: {item['legal_subject']}",
+            f"Điều kiện: {factual['condition']}",
+            f"Hệ quả: {factual['effect']}",
             (
-                f"Điều kiện: {item['condition']} "
-                f"({item['condition_norm']})"
+                "Trạng thái sau can thiệp: "
+                f"{item['counterfactual_status']}"
             ),
+            f"Lý do: {item['status_reason']}",
             (
-                f"Hệ quả: {item['effect']} "
-                f"({item['effect_norm']})"
+                "Kết luận kiểm chứng: "
+                f"{item['verification']['conclusion']}"
             ),
         ])
 
+        alternatives = item["alternative_rules"][
+            :max_alternatives
+        ]
+
+        if alternatives:
+            lines.append("Các rule thay thế:")
+
+        for alternative in alternatives:
+            rule = alternative["rule"]
+
+            lines.extend([
+                (
+                    f"- Rule {rule['rule_id']} - "
+                    f"Điều {rule['article_id']}"
+                ),
+                f"  Condition: {rule['condition']}",
+                f"  Effect: {rule['effect']}",
+                (
+                    f"  Score: "
+                    f"{alternative['score']:.4f}"
+                ),
+                (
+                    f"  Relations: "
+                    f"{', '.join(alternative['relations'])}"
+                ),
+            ])
+
+    overall = result["overall_verification"]
+
     lines.extend([
         "",
-        "CÁC ĐƯỜNG SUY LUẬN ĐƯỢC TRUY HỒI:",
+        "KẾT LUẬN TỔNG THỂ:",
+        overall["label"],
+        overall["conclusion"],
+        "",
+        "YÊU CẦU SINH CÂU TRẢ LỜI:",
+        (
+            "Chỉ sử dụng các rule còn hợp lệ sau can thiệp. "
+            "Không suy diễn rằng NOT condition dẫn trực tiếp "
+            "đến NOT effect. Nếu không có rule thay thế rõ ràng, "
+            "hãy nói rằng chưa đủ căn cứ xác định hậu quả pháp lý."
+        ),
     ])
-
-    for path_index, path in enumerate(
-        retrieval_result.get("paths", [])[:5],
-        start=1,
-    ):
-        lines.append("")
-        lines.append(
-            f"[Đường {path_index}] "
-            f"score={path['score']:.4f}"
-        )
-
-        for step in path["steps"]:
-            lines.append(
-                f"- Rule {step['from_rule_id']} "
-                f"--{step['relation']}--> "
-                f"Rule {step['to_rule_id']}"
-            )
-            lines.append(
-                f"  {step['explanation']}"
-            )
 
     return "\n".join(lines)
 
@@ -1229,86 +1342,117 @@ def format_context_for_llm(
 # DISPLAY
 # ============================================================
 
-def print_result_summary(
-    retrieval_result: dict[str, Any],
-) -> None:
+def print_summary(result: dict[str, Any]) -> None:
     print("\n" + "=" * 80)
-    print("MULTI-HOP CAUSAL RETRIEVAL")
+    print("COUNTERFACTUAL VERIFICATION")
     print("=" * 80)
 
-    print("\nQuery:")
-    print(retrieval_result["query"])
+    print("\nOriginal query:")
+    print(result["original_query"])
 
-    print("\nTop paths:")
+    print("\nIntervention:")
+    print(result["intervention"]["description"])
 
-    for index, path in enumerate(
-        retrieval_result.get("paths", [])[:10],
-        start=1,
-    ):
-        print(
-            f"\nPath {index}: "
-            f"score={path['score']:.4f}"
-        )
-
-        print(
-            "  "
-            + " -> ".join(path["rule_ids"])
-        )
-
-        if not path["steps"]:
-            print("  Seed rule trực tiếp.")
-            continue
-
-        for step in path["steps"]:
-            print(
-                f"  [{step['relation']}] "
-                f"{step['from_rule_id']} "
-                f"-> {step['to_rule_id']}"
-            )
-
-    print("\nTop evidence:")
+    print("\nVerification items:")
 
     for index, item in enumerate(
-        retrieval_result.get("evidence", [])[:10],
+        result["verification_items"],
         start=1,
     ):
+        factual = item["factual_rule"]
+
         print(
-            f"\n{index}. Rule {item['rule_id']} "
-            f"- Điều {item['article_id']}: "
-            f"{item['article_title']}"
+            f"\n{index}. Rule {factual['rule_id']} "
+            f"- Điều {factual['article_id']}"
         )
+
         print(
-            f"   Chủ thể: {item['legal_subject']}"
+            f"   Condition: "
+            f"{factual['condition_norm']}"
         )
+
         print(
-            f"   Condition: {item['condition']}"
+            f"   Effect: "
+            f"{factual['effect_norm']}"
         )
+
         print(
-            f"   Effect: {item['effect']}"
+            f"   Status: "
+            f"{item['counterfactual_status']}"
         )
+
         print(
-            f"   Evidence score: "
-            f"{item['evidence_score']:.4f}"
+            f"   Verification: "
+            f"{item['verification']['label']}"
         )
+
+        print(
+            f"   Alternatives: "
+            f"{len(item['alternative_rules'])}"
+        )
+
+        for alternative in (
+            item["alternative_rules"][:3]
+        ):
+            rule = alternative["rule"]
+
+            print(
+                f"      - Rule {rule['rule_id']}: "
+                f"{rule['condition_norm']} "
+                f"-> {rule['effect_norm']} "
+                f"(score={alternative['score']:.4f})"
+            )
+
+    overall = result["overall_verification"]
+
+    print("\nOverall:")
+    print("  Label:", overall["label"])
+    print("  Conclusion:", overall["conclusion"])
 
 
 # ============================================================
-# MAIN
+# ARGUMENTS
 # ============================================================
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Multi-hop Causal Retriever cho dữ liệu "
-            "Bộ luật Hình sự Việt Nam."
+            "Counterfactual Verification cho "
+            "CausalRAG luật hình sự Việt Nam."
         )
     )
 
     parser.add_argument(
-        "--query",
+        "--retrieval-result",
+        type=str,
+        default=RETRIEVAL_RESULT_PATH,
+    )
+
+    parser.add_argument(
+        "--target-condition",
         type=str,
         required=True,
-        help="Câu hỏi pháp luật cần truy hồi.",
+        help=(
+            "condition_norm cần can thiệp, ví dụ "
+            "PHAM_TOI_LAN_DAU_IT_NGHIEM_TRONG"
+        ),
+    )
+
+    parser.add_argument(
+        "--intervention-type",
+        type=str,
+        choices=["NEGATE", "REPLACE"],
+        default="NEGATE",
+    )
+
+    parser.add_argument(
+        "--replacement-condition",
+        type=str,
+        default=None,
+        help=(
+            "Condition thay thế khi dùng "
+            "--intervention-type REPLACE."
+        ),
     )
 
     parser.add_argument(
@@ -1318,51 +1462,33 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "--index",
-        type=str,
-        default=FAISS_INDEX_PATH,
-    )
-
-    parser.add_argument(
         "--memory",
         type=str,
         default=MEMORY_PATH,
     )
 
     parser.add_argument(
+        "--index",
+        type=str,
+        default=FAISS_INDEX_PATH,
+    )
+
+    parser.add_argument(
         "--model",
         type=str,
-        default=EMBEDDING_MODEL,
+        default=MODEL_NAME,
     )
 
     parser.add_argument(
-        "--seed-top-k",
+        "--top-k-alternatives",
         type=int,
-        default=DEFAULT_SEED_TOP_K,
+        default=DEFAULT_TOP_K_ALTERNATIVES,
     )
 
     parser.add_argument(
-        "--semantic-pool-size",
+        "--semantic-search-k",
         type=int,
-        default=DEFAULT_SEMANTIC_POOL_SIZE,
-    )
-
-    parser.add_argument(
-        "--max-depth",
-        type=int,
-        default=DEFAULT_MAX_DEPTH,
-    )
-
-    parser.add_argument(
-        "--max-expansions",
-        type=int,
-        default=DEFAULT_MAX_EXPANSIONS_PER_RULE,
-    )
-
-    parser.add_argument(
-        "--final-top-k",
-        type=int,
-        default=DEFAULT_FINAL_TOP_K,
+        default=DEFAULT_SEMANTIC_SEARCH_K,
     )
 
     parser.add_argument(
@@ -1371,40 +1497,52 @@ def parse_args() -> argparse.Namespace:
         default=OUTPUT_PATH,
     )
 
+    parser.add_argument(
+        "--context-output",
+        type=str,
+        default=CONTEXT_OUTPUT_PATH,
+    )
+
     return parser.parse_args()
 
 
+# ============================================================
+# MAIN
+# ============================================================
+
 def main() -> None:
     args = parse_args()
-
-    if args.max_depth < 0:
-        raise ValueError(
-            "--max-depth phải lớn hơn hoặc bằng 0."
-        )
 
     repository = RuleRepository(
         data_path=args.data
     )
 
-    dense_retriever = DenseRuleRetriever(
+    dense_search = DenseRuleSearch(
         repository=repository,
-        index_path=args.index,
         memory_path=args.memory,
+        index_path=args.index,
         model_name=args.model,
     )
 
-    retriever = MultiHopCausalRetriever(
+    intervention = InterventionParser.create(
         repository=repository,
-        dense_retriever=dense_retriever,
+        target_condition=args.target_condition,
+        intervention_type=args.intervention_type,
+        replacement_condition=(
+            args.replacement_condition
+        ),
     )
 
-    result = retriever.retrieve(
-        query=args.query,
-        seed_top_k=args.seed_top_k,
-        semantic_pool_size=args.semantic_pool_size,
-        max_depth=args.max_depth,
-        max_expansions_per_rule=args.max_expansions,
-        final_top_k=args.final_top_k,
+    verifier = CounterfactualVerifier(
+        repository=repository,
+        dense_search=dense_search,
+    )
+
+    result = verifier.verify(
+        retrieval_result_path=args.retrieval_result,
+        intervention=intervention,
+        top_k_alternatives=args.top_k_alternatives,
+        semantic_search_k=args.semantic_search_k,
     )
 
     output_path = Path(args.output)
@@ -1424,26 +1562,29 @@ def main() -> None:
             indent=2,
         )
 
-    print_result_summary(result)
-
-    llm_context = format_context_for_llm(
-        result,
-        max_evidence=8,
+    context = format_counterfactual_context(
+        result
     )
 
-    context_output_path = output_path.with_name(
-        output_path.stem + "_context.txt"
+    context_output_path = Path(
+        args.context_output
+    )
+
+    context_output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
     )
 
     context_output_path.write_text(
-        llm_context,
+        context,
         encoding="utf-8",
     )
 
-    print("\n" + "=" * 80)
-    print(f"Saved retrieval JSON: {output_path}")
-    print(f"Saved LLM context: {context_output_path}")
-    print("=" * 80)
+    print_summary(result)
+
+    print("\nSaved:")
+    print(f"- JSON: {output_path}")
+    print(f"- LLM context: {context_output_path}")
 
 
 if __name__ == "__main__":
