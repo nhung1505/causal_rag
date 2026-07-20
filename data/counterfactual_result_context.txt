@@ -1,0 +1,186 @@
+CÂU HỎI GỐC:
+Người lần đầu phạm tội ít nghiêm trọng có phải chịu hình phạt tù không?
+
+CAN THIỆP PHẢN THỰC:
+Can thiệp do(NOT PHAM_TOI_LAN_DAU_IT_NGHIEM_TRONG)
+
+Lưu ý: phủ định condition không đồng nghĩa với phủ định effect.
+
+KẾT QUẢ KIỂM CHỨNG:
+
+[Factual rule 1]
+Rule 3 - Điều 3
+Điều kiện: lần đầu phạm tội ít nghiêm trọng
+Hệ quả: áp dụng hình phạt nhẹ hơn hình phạt tù
+Trạng thái sau can thiệp: INVALIDATED
+Lý do: Rule bị loại vì condition của rule chính là condition đã bị phủ định.
+Kết luận kiểm chứng: Factual rule bị loại và tồn tại rule có hệ quả có dấu hiệu đối lập. Tuy nhiên cần kiểm tra bằng văn bản luật hoặc LLM trước khi kết luận đảo ngược hậu quả.
+Các rule thay thế:
+- Rule 7 - Điều 3
+  Condition: có đủ điều kiện theo Bộ luật Hình sự
+  Effect: được xét giảm thời hạn chấp hành hình phạt
+  Score: 1.1020
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC
+- Rule 5 - Điều 3
+  Condition: bị phạt tù
+  Effect: chấp hành hình phạt tại cơ sở giam giữ
+  Score: 0.6500
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE
+- Rule 8 - Điều 3
+  Condition: có đủ điều kiện theo Bộ luật Hình sự
+  Effect: được tha tù trước thời hạn có điều kiện
+  Score: 0.6325
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE
+- Rule 6 - Điều 3
+  Condition: bị phạt tù
+  Effect: lao động và học tập để trở thành người có ích cho xã hội
+  Score: 0.6325
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE
+- Rule 9 - Điều 3
+  Condition: đã chấp hành xong hình phạt
+  Effect: được tạo điều kiện làm ăn, sinh sống lương thiện, hòa nhập cộng đồng
+  Score: 0.6291
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE
+
+[Factual rule 2]
+Rule 186 - Điều 51
+Điều kiện: phạm tội lần đầu và thuộc trường hợp ít nghiêm trọng
+Hệ quả: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+Trạng thái sau can thiệp: INVALIDATED
+Lý do: Rule bị loại vì condition của rule chính là condition đã bị phủ định.
+Kết luận kiểm chứng: Factual rule bị loại và tìm thấy một hoặc nhiều hệ quả pháp lý thay thế. Không nên coi các hệ quả này là phủ định trực tiếp của hệ quả factual.
+Các rule thay thế:
+- Rule 184 - Điều 51
+  Condition: đã ngăn chặn hoặc làm giảm bớt tác hại của tội phạm
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1723
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 192 - Điều 51
+  Condition: lập công chuộc tội
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1680
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 190 - Điều 51
+  Condition: thành khẩn khai báo, ăn năn hối cải
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 189 - Điều 51
+  Condition: tự thú
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 191 - Điều 51
+  Condition: tích cực hợp tác với cơ quan có trách nhiệm trong việc phát hiện tội phạm hoặc giải quyết vụ án
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+
+[Factual rule 3]
+Rule 367 - Điều 84
+Điều kiện: đã ngăn chặn hoặc làm giảm bớt tác hại của tội phạm
+Hệ quả: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+Trạng thái sau can thiệp: PRESERVED
+Lý do: Condition của rule không trùng với condition bị can thiệp.
+Kết luận kiểm chứng: Can thiệp không trực tiếp làm mất hiệu lực của factual rule này. Hệ quả factual vẫn có thể được giữ, nhưng cần kiểm tra thêm các điều kiện pháp lý khác.
+Các rule thay thế:
+- Rule 369 - Điều 84
+  Condition: phạm tội nhưng chưa gây thiệt hại hoặc gây thiệt hại không lớn
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.6394
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT, SEMANTIC
+- Rule 370 - Điều 84
+  Condition: tích cực hợp tác với cơ quan có trách nhiệm trong việc phát hiện tội phạm hoặc giải quyết vụ án
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1689
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 368 - Điều 84
+  Condition: tự nguyện sửa chữa, bồi thường thiệt hại hoặc khắc phục hậu quả
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 371 - Điều 84
+  Condition: có nhiều đóng góp trong việc thực hiện chính sách xã hội
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 373 - Điều 84
+  Condition: tình tiết đã là dấu hiệu định tội hoặc định khung
+  Effect: không được áp dụng là tình tiết giảm nhẹ
+  Score: 0.6673
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE
+
+[Factual rule 4]
+Rule 369 - Điều 84
+Điều kiện: phạm tội nhưng chưa gây thiệt hại hoặc gây thiệt hại không lớn
+Hệ quả: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+Trạng thái sau can thiệp: PRESERVED
+Lý do: Condition của rule không trùng với condition bị can thiệp.
+Kết luận kiểm chứng: Can thiệp không trực tiếp làm mất hiệu lực của factual rule này. Hệ quả factual vẫn có thể được giữ, nhưng cần kiểm tra thêm các điều kiện pháp lý khác.
+Các rule thay thế:
+- Rule 367 - Điều 84
+  Condition: đã ngăn chặn hoặc làm giảm bớt tác hại của tội phạm
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1689
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 368 - Điều 84
+  Condition: tự nguyện sửa chữa, bồi thường thiệt hại hoặc khắc phục hậu quả
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 371 - Điều 84
+  Condition: có nhiều đóng góp trong việc thực hiện chính sách xã hội
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 370 - Điều 84
+  Condition: tích cực hợp tác với cơ quan có trách nhiệm trong việc phát hiện tội phạm hoặc giải quyết vụ án
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 369 - Điều 84
+  Condition: phạm tội nhưng chưa gây thiệt hại hoặc gây thiệt hại không lớn
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 0.8105
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_CONDITION, SAME_EFFECT, SAME_SUBJECT, SEMANTIC
+
+[Factual rule 5]
+Rule 370 - Điều 84
+Điều kiện: tích cực hợp tác với cơ quan có trách nhiệm trong việc phát hiện tội phạm hoặc giải quyết vụ án
+Hệ quả: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+Trạng thái sau can thiệp: PRESERVED
+Lý do: Condition của rule không trùng với condition bị can thiệp.
+Kết luận kiểm chứng: Can thiệp không trực tiếp làm mất hiệu lực của factual rule này. Hệ quả factual vẫn có thể được giữ, nhưng cần kiểm tra thêm các điều kiện pháp lý khác.
+Các rule thay thế:
+- Rule 369 - Điều 84
+  Condition: phạm tội nhưng chưa gây thiệt hại hoặc gây thiệt hại không lớn
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.6305
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT, SEMANTIC
+- Rule 367 - Điều 84
+  Condition: đã ngăn chặn hoặc làm giảm bớt tác hại của tội phạm
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1689
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 368 - Điều 84
+  Condition: tự nguyện sửa chữa, bồi thường thiệt hại hoặc khắc phục hậu quả
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 371 - Điều 84
+  Condition: có nhiều đóng góp trong việc thực hiện chính sách xã hội
+  Effect: được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự
+  Score: 1.1600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_EFFECT, SAME_SUBJECT
+- Rule 373 - Điều 84
+  Condition: tình tiết đã là dấu hiệu định tội hoặc định khung
+  Effect: không được áp dụng là tình tiết giảm nhẹ
+  Score: 0.6600
+  Relations: ARTICLE_REFERENCE, SAME_ARTICLE
+
+KẾT LUẬN TỔNG THỂ:
+PARTIAL_EFFECT
+Can thiệp làm mất hiệu lực một phần bằng chứng, nhưng một số factual rule vẫn được giữ. Câu trả lời counterfactual cần dựa trên các rule còn hợp lệ.
+
+YÊU CẦU SINH CÂU TRẢ LỜI:
+Chỉ sử dụng các rule còn hợp lệ sau can thiệp. Không suy diễn rằng NOT condition dẫn trực tiếp đến NOT effect. Nếu không có rule thay thế rõ ràng, hãy nói rằng chưa đủ căn cứ xác định hậu quả pháp lý.
