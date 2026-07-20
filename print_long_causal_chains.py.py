@@ -640,3 +640,18 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# python test.py \
+#   --min-nodes 3 \
+#   --max-paths 50
+# ====================================================================================================
+# THỐNG KÊ CAUSAL GRAPH
+# ====================================================================================================
+# Event nodes: 1914
+# Causal edges: 1682
+# Root nodes: 1487
+# Leaf nodes: 416
+# Bridge nodes: 12
+# Chains có ít nhất 3 node: 35
+# Chuỗi dài nhất: 4 node, 3 hop

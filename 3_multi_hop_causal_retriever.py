@@ -32,9 +32,10 @@ EMBEDDING_MODEL = "BAAI/bge-m3"
 DEFAULT_SEED_TOP_K = 8
 DEFAULT_SEMANTIC_POOL_SIZE = 50
 
-DEFAULT_MAX_DEPTH = 2
+DEFAULT_MAX_DEPTH = 4
 DEFAULT_MAX_EXPANSIONS_PER_RULE = 15
 DEFAULT_FINAL_TOP_K = 12
+DEFAULT_MIN_EVENT_NODES = 3
 
 OUTPUT_PATH = "data/retrieval_result.json"
 
@@ -71,6 +72,7 @@ DEPTH_PENALTY = 0.08
 
 # Giảm điểm khi các rule trong path lặp lại cùng condition/effect.
 REDUNDANCY_PENALTY = 0.05
+CAUSAL_HOP_BONUS = 0.12
 
 
 # ============================================================
@@ -94,6 +96,9 @@ class Rule:
 
     article_title: str
     content: str
+
+    condition_event_id: str
+    effect_event_id: str
 
 
 @dataclass
@@ -317,6 +322,8 @@ class RuleRepository:
                 effect_norm=effect_norm,
                 article_title=safe_string(row["article_title"]),
                 content=safe_string(row["content"]),
+                condition_event_id=f"EVENT::{condition_norm}",
+                effect_event_id=f"EVENT::{effect_norm}",
             )
 
             self.rules[rule_id] = rule
@@ -688,6 +695,7 @@ class MultiHopCausalRetriever:
         source_rule_id: str,
         semantic_rule_ids: Optional[set[str]] = None,
         max_candidates: int = DEFAULT_MAX_EXPANSIONS_PER_RULE,
+        causal_only: bool = True,
     ) -> list[tuple[str, str, float, str]]:
         source = self.repo.get(source_rule_id)
 
@@ -713,6 +721,23 @@ class MultiHopCausalRetriever:
             causal_targets,
             "EFFECT_TO_CONDITION",
         )
+
+        # Trong chế độ causal thuần, chỉ mở rộng khi:
+        # effect_norm(rule hiện tại) == condition_norm(rule tiếp theo).
+        # Các quan hệ SAME_*, ARTICLE_REFERENCE và SEMANTIC chỉ là
+        # quan hệ hỗ trợ truy hồi, không phải cạnh nhân quả.
+        if causal_only:
+            sorted_candidates = sorted(
+                (
+                    (candidate_id, relation, relation_score, explanation)
+                    for candidate_id, (
+                        relation, relation_score, explanation
+                    ) in candidate_relations.items()
+                ),
+                key=lambda item: item[2],
+                reverse=True,
+            )
+            return sorted_candidates[:max_candidates]
 
         # ----------------------------------------------------
         # 2. Các rule có cùng effect.
@@ -851,6 +876,9 @@ class MultiHopCausalRetriever:
 
             score -= DEPTH_PENALTY * depth
 
+            if step.relation == "EFFECT_TO_CONDITION":
+                score += CAUSAL_HOP_BONUS
+
         rules = [
             repository.get(rule_id)
             for rule_id in rule_ids
@@ -905,6 +933,8 @@ class MultiHopCausalRetriever:
             DEFAULT_MAX_EXPANSIONS_PER_RULE
         ),
         final_top_k: int = DEFAULT_FINAL_TOP_K,
+        causal_only: bool = True,
+        min_event_nodes: int = DEFAULT_MIN_EVENT_NODES,
     ) -> dict[str, Any]:
         # ----------------------------------------------------
         # Dense retrieval pool
@@ -964,6 +994,7 @@ class MultiHopCausalRetriever:
                     source_rule_id=current_rule_id,
                     semantic_rule_ids=semantic_rule_ids,
                     max_candidates=max_expansions_per_rule,
+                    causal_only=causal_only,
                 )
 
                 for (
@@ -1037,7 +1068,15 @@ class MultiHopCausalRetriever:
             reverse=True,
         )
 
-        selected_paths = ranked_paths[:final_top_k]
+        # Một path gồm N rule causal liên tục sẽ tương ứng N+1 EVENT.
+        # Ví dụ 3 rule liên tiếp biểu diễn chuỗi 4 EVENT / 3 causal edges.
+        eligible_paths = [
+            path
+            for path in ranked_paths
+            if self._event_node_count(path) >= min_event_nodes
+        ]
+
+        selected_paths = eligible_paths[:final_top_k]
 
         # ----------------------------------------------------
         # Gom evidence rule từ các path tốt nhất
@@ -1085,6 +1124,8 @@ class MultiHopCausalRetriever:
                     max_expansions_per_rule
                 ),
                 "final_top_k": final_top_k,
+                "causal_only": causal_only,
+                "min_event_nodes": min_event_nodes,
             },
             "seed_rules": [
                 self._serialize_rule(
@@ -1116,6 +1157,51 @@ class MultiHopCausalRetriever:
             ],
         }
 
+    def _build_event_chain(
+        self,
+        path: RetrievalPath,
+    ) -> list[str]:
+        """
+        Chuyển một rule path liên tục thành chuỗi EVENT.
+
+        Rule A: EVENT X -> EVENT Y
+        Rule B: EVENT Y -> EVENT Z
+        Kết quả: [EVENT X, EVENT Y, EVENT Z]
+        """
+        if not path.rule_ids:
+            return []
+
+        first_rule = self.repo.get(path.rule_ids[0])
+        event_chain = [first_rule.condition_event_id]
+
+        for rule_id in path.rule_ids:
+            rule = self.repo.get(rule_id)
+
+            if event_chain[-1] != rule.condition_event_id:
+                # Path có quan hệ không-causal hoặc bị đứt mạch.
+                # Giữ cả condition để biểu diễn trung thực thay vì
+                # giả định đây là một causal chain liên tục.
+                event_chain.append(rule.condition_event_id)
+
+            event_chain.append(rule.effect_event_id)
+
+        return event_chain
+
+    def _event_node_count(
+        self,
+        path: RetrievalPath,
+    ) -> int:
+        return len(self._build_event_chain(path))
+
+    def _is_pure_causal_path(
+        self,
+        path: RetrievalPath,
+    ) -> bool:
+        return all(
+            step.relation == "EFFECT_TO_CONDITION"
+            for step in path.steps
+        )
+
     def _serialize_rule(
         self,
         rule_id: str,
@@ -1136,9 +1222,20 @@ class MultiHopCausalRetriever:
         self,
         path: RetrievalPath,
     ) -> dict[str, Any]:
+        event_node_ids = self._build_event_chain(path)
+
         return {
             "seed_rule_id": path.seed_rule_id,
             "rule_ids": path.rule_ids,
+            "event_node_ids": event_node_ids,
+            "event_chain": [
+                event_id.replace("EVENT::", "", 1)
+                for event_id in event_node_ids
+            ],
+            "event_node_count": len(event_node_ids),
+            "causal_edge_count": max(len(event_node_ids) - 1, 0),
+            "rule_count": len(path.rule_ids),
+            "is_pure_causal": self._is_pure_causal_path(path),
             "seed_similarity": path.seed_similarity,
             "score": path.score,
             "steps": [
@@ -1251,9 +1348,15 @@ def print_result_summary(
         )
 
         print(
-            "  "
+            "  Rules: "
             + " -> ".join(path["rule_ids"])
         )
+
+        if path.get("event_chain"):
+            print(
+                "  Events: "
+                + " -> ".join(path["event_chain"])
+            )
 
         if not path["steps"]:
             print("  Seed rule trực tiếp.")
@@ -1354,6 +1457,26 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--min-event-nodes",
+        type=int,
+        default=DEFAULT_MIN_EVENT_NODES,
+        help=(
+            "Số EVENT tối thiểu của path được trả về. "
+            "Dùng 4 để chỉ lấy chuỗi từ 4 EVENT trở lên."
+        ),
+    )
+
+    parser.add_argument(
+        "--allow-non-causal",
+        action="store_true",
+        help=(
+            "Cho phép mở rộng bằng SAME_EFFECT, SAME_CONDITION, "
+            "SAME_ARTICLE, SAME_SUBJECT, ARTICLE_REFERENCE và SEMANTIC. "
+            "Mặc định chỉ dùng EFFECT_TO_CONDITION."
+        ),
+    )
+
+    parser.add_argument(
         "--max-expansions",
         type=int,
         default=DEFAULT_MAX_EXPANSIONS_PER_RULE,
@@ -1382,6 +1505,11 @@ def main() -> None:
             "--max-depth phải lớn hơn hoặc bằng 0."
         )
 
+    if args.min_event_nodes < 2:
+        raise ValueError(
+            "--min-event-nodes phải lớn hơn hoặc bằng 2."
+        )
+
     repository = RuleRepository(
         data_path=args.data
     )
@@ -1405,6 +1533,8 @@ def main() -> None:
         max_depth=args.max_depth,
         max_expansions_per_rule=args.max_expansions,
         final_top_k=args.final_top_k,
+        causal_only=not args.allow_non_causal,
+        min_event_nodes=args.min_event_nodes,
     )
 
     output_path = Path(args.output)
