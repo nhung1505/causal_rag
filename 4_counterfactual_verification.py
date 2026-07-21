@@ -780,10 +780,10 @@ class CounterfactualVerifier:
             }
         if effect_comparison["same_effect_rules"]:
             return {
-                "label": "FINAL_EFFECT_SUPPORTED_BY_ALTERNATIVE_RULE",
+                "label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND",
                 "conclusion": (
-                    "Causal path factual bị phá vỡ nhưng có rule khác cùng dẫn tới hệ quả cuối. "
-                    "Cần kiểm tra điều kiện của rule thay thế có thực sự được thỏa mãn hay không."
+                    "Factual path đã bị phá vỡ.Hệ thống tìm thấy rule khác có thể liên quan đến cùng hệ quả cuối,"
+                    "nhưng chưa đủ căn cứ xác định hệ quả đó vẫn áp dụng trong tình huống phản thực."
                 ),
             }
         if effect_comparison["possibly_contradictory_rules"]:
@@ -869,7 +869,7 @@ class CounterfactualVerifier:
         preserved = len(paths) - broken
         final_reachable = sum(path["counterfactual_final_effect_reachable"] for path in paths)
         alternative_supported = sum(
-            path["verification"]["label"] == "FINAL_EFFECT_SUPPORTED_BY_ALTERNATIVE_RULE"
+            path["verification"]["label"] == "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
             for path in paths
         )
         labels: dict[str, int] = defaultdict(int)
