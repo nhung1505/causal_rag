@@ -1,0 +1,182 @@
+{
+  "original_query": "Một người chưa được xóa án tích mà lại cố ý phạm tội thì có thể bị xác định như thế nào, bị áp dụng hình phạt gì và phải chấp hành hình phạt đó ra sao?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "TAI_PHAM_DO_CO_Y_KHI_CHUA_XOA_AN_TICH",
+    "target_event_text": "chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT TAI_PHAM_DO_CO_Y_KHI_CHUA_XOA_AN_TICH)"
+  },
+  "source_overall_verification": {
+    "label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
+    "conclusion": "Tất cả causal path factual bị phá vỡ, nhưng có rule thay thế cùng hỗ trợ ít nhất một hệ quả cuối.",
+    "broken_path_count": 2,
+    "preserved_path_count": 0,
+    "reachable_final_effect_count": 0,
+    "alternative_supported_path_count": 2,
+    "verification_label_counts": {
+      "FINAL_EFFECT_SUPPORTED_BY_ALTERNATIVE_RULE": 2
+    }
+  },
+  "evidence_summary": {
+    "valid_rule_count": 0,
+    "removed_rule_count": 4,
+    "alternative_candidate_count": 2,
+    "valid_rule_ids": [],
+    "removed_rule_ids": [
+      "205",
+      "148",
+      "149",
+      "143"
+    ],
+    "alternative_candidate_rule_ids": [
+      "204",
+      "203"
+    ]
+  },
+  "refined_evidence": {
+    "valid_evidence": [],
+    "removed_evidence": [
+      {
+        "rule_id": "205",
+        "article_id": "53",
+        "article_title": "Tái phạm, tái phạm nguy hiểm",
+        "condition": "chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý",
+        "effect": "được xác định là tái phạm nguy hiểm",
+        "condition_norm": "TAI_PHAM_DO_CO_Y_KHI_CHUA_XOA_AN_TICH",
+        "effect_norm": "TAI_PHAM_NGUY_HIEM",
+        "status": "INVALIDATED",
+        "reason": "Input event TAI_PHAM_DO_CO_Y_KHI_CHUA_XOA_AN_TICH của Rule 205 đã bị phủ định trực tiếp.",
+        "path_ids": [
+          1,
+          2
+        ]
+      },
+      {
+        "rule_id": "148",
+        "article_id": "43",
+        "article_title": "Quản chế",
+        "condition": "tái phạm nguy hiểm",
+        "effect": "bị áp dụng hình phạt quản chế",
+        "condition_norm": "TAI_PHAM_NGUY_HIEM",
+        "effect_norm": "AP_DUNG_QUAN_CHE",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 148 bị chặn vì event đầu vào TAI_PHAM_NGUY_HIEM không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          1,
+          2
+        ]
+      },
+      {
+        "rule_id": "149",
+        "article_id": "43",
+        "article_title": "Quản chế",
+        "condition": "bị áp dụng hình phạt quản chế",
+        "effect": "thời hạn quản chế từ 01 năm đến 05 năm",
+        "condition_norm": "AP_DUNG_QUAN_CHE",
+        "effect_norm": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 149 bị chặn vì event đầu vào AP_DUNG_QUAN_CHE không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          1
+        ]
+      },
+      {
+        "rule_id": "143",
+        "article_id": "43",
+        "article_title": "Quản chế",
+        "condition": "bị áp dụng hình phạt quản chế",
+        "effect": "phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương",
+        "condition_norm": "AP_DUNG_QUAN_CHE",
+        "effect_norm": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 143 bị chặn vì event đầu vào AP_DUNG_QUAN_CHE không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          2
+        ]
+      }
+    ],
+    "alternative_candidates": [
+      {
+        "rule_id": "204",
+        "article_id": "53",
+        "article_title": "Tái phạm, tái phạm nguy hiểm",
+        "condition": "đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+        "effect": "được xác định là tái phạm nguy hiểm",
+        "condition_norm": "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "effect_norm": "TAI_PHAM_NGUY_HIEM",
+        "score": 1.2846854864248707,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SAME_EFFECT",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      },
+      {
+        "rule_id": "203",
+        "article_id": "53",
+        "article_title": "Tái phạm, tái phạm nguy hiểm",
+        "condition": "chưa được xóa án tích và lại thực hiện hành vi phạm tội do cố ý hoặc phạm tội rất nghiêm trọng, đặc biệt nghiêm trọng do vô ý",
+        "effect": "được xác định là tái phạm",
+        "condition_norm": "CHUA_XOA_AN_TICH_VA_TAI_PHAM",
+        "effect_norm": "TAI_PHAM",
+        "score": 1.1698252256195267,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      }
+    ],
+    "path_summary": [
+      {
+        "path_id": 1,
+        "path_score": 1.440571991519523,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "TAI_PHAM_DO_CO_Y_KHI_CHUA_XOA_AN_TICH",
+          "TAI_PHAM_NGUY_HIEM",
+          "AP_DUNG_QUAN_CHE",
+          "THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "FINAL_EFFECT_SUPPORTED_BY_ALTERNATIVE_RULE"
+      },
+      {
+        "path_id": 2,
+        "path_score": 1.440571991519523,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "TAI_PHAM_DO_CO_Y_KHI_CHUA_XOA_AN_TICH",
+          "TAI_PHAM_NGUY_HIEM",
+          "AP_DUNG_QUAN_CHE",
+          "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "FINAL_EFFECT_SUPPORTED_BY_ALTERNATIVE_RULE"
+      }
+    ]
+  },
+  "generation": {
+    "generator": "ollama",
+    "model": "qwen3:8b",
+    "template_answer": "Trong giả định phản thực rằng “chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.\n\nCó 2 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.\n\nKhông còn rule nào trong các factual path được xác nhận là PRESERVED hoặc ACTIVATED. Vì vậy, chưa đủ căn cứ từ các bằng chứng đã truy hồi để giữ nguyên kết luận ban đầu.\n\nCụ thể, hệ thống không còn suy ra được qua các path factual: thoi han quan che 01 den 05 nam; cu tru duoi su kiem soat giao duc.\n\nChuỗi bị loại trước đây dựa trên Điều 53 (Tái phạm, tái phạm nguy hiểm), Điều 43 (Quản chế).\n\nCác kết luận không còn được hỗ trợ bởi chuỗi factual gồm: được xác định là tái phạm nguy hiểm; bị áp dụng hình phạt quản chế; thời hạn quản chế từ 01 năm đến 05 năm; phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương.\n\nHệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:\n\n- Điều 53: nếu đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý thì được xác định là tái phạm nguy hiểm.\n\n- Điều 53: nếu chưa được xóa án tích và lại thực hiện hành vi phạm tội do cố ý hoặc phạm tội rất nghiêm trọng, đặc biệt nghiêm trọng do vô ý thì được xác định là tái phạm.\n\nDo đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.\n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu cũng không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.",
+    "final_answer": "Theo quy định pháp luật hình sự Việt Nam, nếu một người chưa được xóa án tích mà lại cố ý phạm tội, việc xác định và áp dụng hình phạt sẽ phụ thuộc vào các điều kiện cụ thể trong Bộ luật Hình sự. Tuy nhiên, trong trường hợp này, các bằng chứng hợp lệ để khẳng định hệ quả như tái phạm nguy hiểm, áp dụng hình phạt quản chế hoặc các hậu quả pháp lý liên quan đã bị phá vỡ do sự can thiệp phản thực. Cụ thể, điều kiện ban đầu (chưa xóa án tích và phạm tội cố ý) bị phủ định, dẫn đến các quy tắc liên quan (Điều 53, 43) không còn khả năng kích hoạt. Các quy tắc thay thế (Rule 204, 203) chỉ là ứng viên tiềm năng nhưng chưa được xác nhận điều kiện. Do đó, chưa đủ căn cứ pháp lý để xác định người này thuộc trường hợp tái phạm nguy hiểm, bị áp dụng hình phạt quản chế hoặc phải chịu các hệ quả pháp lý theo quy định. Việc phủ định điều kiện ban đầu không tự động chứng minh các hệ quả đó chắc chắn không thể phát sinh từ căn cứ khác, nhưng trong bối cảnh hiện tại, không có bằng chứng hợp lệ để duy trì kết luận ban đầu."
+  }
+}
