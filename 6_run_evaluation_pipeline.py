@@ -400,6 +400,34 @@ def parse_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
+def build_no_path_counterfactual_result(
+    question: str,
+    intervention: Any,
+) -> dict[str, Any]:
+    return {
+        "original_query": question,
+        "intervention": {
+            "intervention_type": intervention.intervention_type,
+            "target_event_norm": intervention.target_event_norm,
+            "target_event_text": intervention.target_event_text,
+            "replacement_event_norm": (
+                intervention.replacement_event_norm
+            ),
+            "replacement_event_text": (
+                intervention.replacement_event_text
+            ),
+            "description": intervention.description,
+        },
+        "factual_path_count": 0,
+        "verification_paths": [],
+        "overall_verification": {
+            "label": "NO_CAUSAL_PATH_FOUND",
+            "conclusion": (
+                "Không tìm thấy causal path factual hợp lệ từ kết quả "
+                "truy hồi nên chưa thể thực hiện kiểm chứng phản thực."
+            ),
+        },
+    }
 
 def main() -> None:
     args = parse_args()
@@ -615,13 +643,21 @@ def main() -> None:
                 retrieval_file = sample_dir / "retrieval_result.json"
                 save_json(retrieval_result, str(retrieval_file))
 
-                counterfactual_result = verifier.verify(
-                    retrieval_result_path=str(retrieval_file),
-                    intervention=intervention,
-                    top_k_alternatives=args.top_k_alternatives,
-                    semantic_search_k=args.semantic_search_k,
-                    max_paths=args.max_paths,
-                )
+                has_retrieved_path = bool(retrieval_result.get("paths"))
+
+                if has_retrieved_path:
+                    counterfactual_result = verifier.verify(
+                        retrieval_result_path=str(retrieval_file),
+                        intervention=intervention,
+                        top_k_alternatives=args.top_k_alternatives,
+                        semantic_search_k=args.semantic_search_k,
+                        max_paths=args.max_paths,
+                    )
+                else:
+                    counterfactual_result = build_no_path_counterfactual_result(
+                        question=question,
+                        intervention=intervention,
+                    )
 
                 if args.save_intermediate:
                     save_json(
