@@ -587,9 +587,15 @@ def main() -> None:
                         },
                         str(sample_dir / "final_answer.json"),
                     )
+
+                    (sample_dir / "final_answer.txt").write_text(
+                        final_answer + "\n",
+                        encoding="utf-8",
+                    )
+
                     if prompt:
                         (sample_dir / "final_answer_prompt.txt").write_text(
-                            prompt,
+                            prompt + "\n",
                             encoding="utf-8",
                         )
 
@@ -604,7 +610,7 @@ def main() -> None:
                     intervention_type=intervention_type,
                     replacement_event=replacement_event,
                 )
-                
+
                 sample_dir.mkdir(parents=True, exist_ok=True)
                 retrieval_file = sample_dir / "retrieval_result.json"
                 save_json(retrieval_result, str(retrieval_file))
