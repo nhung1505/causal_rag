@@ -502,489 +502,6 @@
       "blocked_from_rule_index": 0,
       "factual_rule_ids": [
         "348",
-        "353"
-      ],
-      "factual_event_chain": [
-        "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-        "CAM_HUY_DONG_VON",
-        "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-      ],
-      "counterfactual_event_chain_prefix": [],
-      "surviving_rule_ids": [],
-      "removed_rule_ids": [
-        "348",
-        "353"
-      ],
-      "removed_events": [
-        "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-        "CAM_HUY_DONG_VON",
-        "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-      ],
-      "factual_final_effect": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
-      "counterfactual_final_effect_reachable": false,
-      "rule_evaluations": [
-        {
-          "path_position": 0,
-          "rule": {
-            "rule_id": "348",
-            "row_id": 347,
-            "article_id": "81",
-            "legal_subject": "pháp nhân thương mại bị kết án",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_KET_AN",
-            "condition": "tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội",
-            "effect": "bị cấm huy động vốn",
-            "condition_norm": "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "effect_norm": "CAM_HUY_DONG_VON",
-            "condition_event_id": "EVENT::DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::CAM_HUY_DONG_VON",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          },
-          "input_event": "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-          "output_event": "CAM_HUY_DONG_VON",
-          "counterfactual_status": "INVALIDATED",
-          "reason": "Input event DU_DIEU_KIEN_CAM_HUY_DONG_VON của Rule 348 đã bị phủ định trực tiếp."
-        },
-        {
-          "path_position": 1,
-          "rule": {
-            "rule_id": "353",
-            "row_id": 352,
-            "article_id": "81",
-            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
-            "condition": "bị cấm huy động vốn",
-            "effect": "bị cấm hình thành quỹ tín thác bất động sản",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
-            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::CAM_THANH_LAP_QUY_TIN_THAC_BDS",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          },
-          "input_event": "CAM_HUY_DONG_VON",
-          "output_event": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
-          "counterfactual_status": "BLOCKED_BY_UPSTREAM",
-          "reason": "Rule 353 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước."
-        }
-      ],
-      "alternative_rules": [
-        {
-          "rule_id": "353",
-          "score": 2.0610997088543783,
-          "relations": [
-            "ARTICLE_REFERENCE",
-            "CAUSES_TARGET_EFFECT",
-            "SAME_ARTICLE",
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.7140388488769531,
-          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, CAUSES_TARGET_EFFECT, SAME_ARTICLE, SEMANTIC.",
-          "rule": {
-            "rule_id": "353",
-            "row_id": 352,
-            "article_id": "81",
-            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
-            "condition": "bị cấm huy động vốn",
-            "effect": "bị cấm hình thành quỹ tín thác bất động sản",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
-            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::CAM_THANH_LAP_QUY_TIN_THAC_BDS",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          }
-        },
-        {
-          "rule_id": "351",
-          "score": 1.2038131562662333,
-          "relations": [
-            "ARTICLE_REFERENCE",
-            "SAME_ARTICLE",
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.7386106848716736,
-          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
-          "rule": {
-            "rule_id": "351",
-            "row_id": 350,
-            "article_id": "81",
-            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
-            "condition": "bị cấm huy động vốn",
-            "effect": "bị cấm huy động vốn của khách hàng",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect_norm": "CAM_HUY_DONG_VON_KHACH_HANG",
-            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::CAM_HUY_DONG_VON_KHACH_HANG",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          }
-        },
-        {
-          "rule_id": "352",
-          "score": 1.2008035925022968,
-          "relations": [
-            "ARTICLE_REFERENCE",
-            "SAME_ARTICLE",
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.7236955761909485,
-          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
-          "rule": {
-            "rule_id": "352",
-            "row_id": 351,
-            "article_id": "81",
-            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
-            "condition": "bị cấm huy động vốn",
-            "effect": "bị cấm liên doanh hoặc liên kết trong và ngoài nước",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect_norm": "CAM_LIEN_DOANH_LIEN_KET",
-            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::CAM_LIEN_DOANH_LIEN_KET",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          }
-        },
-        {
-          "rule_id": "349",
-          "score": 1.200744535372543,
-          "relations": [
-            "ARTICLE_REFERENCE",
-            "SAME_ARTICLE",
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.7207068800926208,
-          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
-          "rule": {
-            "rule_id": "349",
-            "row_id": 348,
-            "article_id": "81",
-            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
-            "condition": "bị cấm huy động vốn",
-            "effect": "bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect_norm": "CAM_VAY_VON",
-            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::CAM_VAY_VON",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          }
-        },
-        {
-          "rule_id": "350",
-          "score": 1.1998545548203705,
-          "relations": [
-            "ARTICLE_REFERENCE",
-            "SAME_ARTICLE",
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.7225788831710815,
-          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
-          "rule": {
-            "rule_id": "350",
-            "row_id": 349,
-            "article_id": "81",
-            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
-            "condition": "bị cấm huy động vốn",
-            "effect": "bị cấm phát hành hoặc chào bán chứng khoán",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect_norm": "CAM_PHAT_HANH_CHUNG_KHOAN",
-            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::CAM_PHAT_HANH_CHUNG_KHOAN",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          }
-        },
-        {
-          "rule_id": "355",
-          "score": 1.1940368049366252,
-          "relations": [
-            "ARTICLE_REFERENCE",
-            "SAME_ARTICLE",
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.7052977085113525,
-          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
-          "rule": {
-            "rule_id": "355",
-            "row_id": 354,
-            "article_id": "81",
-            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
-            "condition": "bị cấm huy động vốn",
-            "effect": "thời hạn cấm từ 01 năm đến 03 năm",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect_norm": "THOI_HAN_CAM_1_DEN_3_NAM",
-            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::THOI_HAN_CAM_1_DEN_3_NAM",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          }
-        },
-        {
-          "rule_id": "354",
-          "score": 1.1566738674375745,
-          "relations": [
-            "ARTICLE_REFERENCE",
-            "SAME_ARTICLE",
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.7272082567214966,
-          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
-          "rule": {
-            "rule_id": "354",
-            "row_id": 353,
-            "article_id": "81",
-            "legal_subject": "Tòa án",
-            "subject_norm": "TOA_AN",
-            "condition": "áp dụng hình phạt cấm huy động vốn",
-            "effect": "quyết định áp dụng một hoặc nhiều hình thức cấm huy động vốn",
-            "condition_norm": "AP_DUNG_CAM_HUY_DONG_VON",
-            "effect_norm": "QUYET_DINH_HINH_THUC_CAM_HUY_DONG_VON",
-            "condition_event_id": "EVENT::AP_DUNG_CAM_HUY_DONG_VON",
-            "effect_event_id": "EVENT::QUYET_DINH_HINH_THUC_CAM_HUY_DONG_VON",
-            "article_title": "Cấm huy động vốn",
-            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          }
-        },
-        {
-          "rule_id": "345",
-          "score": 0.8255524335726343,
-          "relations": [
-            "SAME_SUBJECT",
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.6558330059051514,
-          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
-          "rule": {
-            "rule_id": "345",
-            "row_id": 344,
-            "article_id": "80",
-            "legal_subject": "pháp nhân thương mại bị kết án",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_KET_AN",
-            "condition": "tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội",
-            "effect": "bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó",
-            "condition_norm": "DU_DIEU_KIEN_CAM_KINH_DOANH",
-            "effect_norm": "CAM_KINH_DOANH_HOAT_DONG",
-            "condition_event_id": "EVENT::DU_DIEU_KIEN_CAM_KINH_DOANH",
-            "effect_event_id": "EVENT::CAM_KINH_DOANH_HOAT_DONG",
-            "article_title": "Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định",
-            "content": "Điều 80. Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định\n1. Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó, thì có thể gây nguy hại cho tính mạng, sức khỏe của con người hoặc cho xã hội.\n2. Tòa án quyết định lĩnh vực cụ thể bị cấm kinh doanh hoặc cấm hoạt động.\n3. Thời hạn cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
-          }
-        },
-        {
-          "rule_id": "339",
-          "score": 0.5288286631739038,
-          "relations": [
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.6420315504074097,
-          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
-          "rule": {
-            "rule_id": "339",
-            "row_id": 338,
-            "article_id": "78",
-            "legal_subject": "pháp nhân thương mại phạm tội",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
-            "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
-            "effect": "bị đình chỉ hoạt động có thời hạn",
-            "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
-            "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
-            "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
-            "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
-            "article_title": "Đình chỉ hoạt động có thời hạn",
-            "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm."
-          }
-        },
-        {
-          "rule_id": "1031",
-          "score": 0.5283466132585105,
-          "relations": [
-            "SEMANTIC"
-          ],
-          "semantic_score": 0.6568965315818787,
-          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
-          "rule": {
-            "rule_id": "1031",
-            "row_id": 1030,
-            "article_id": "300",
-            "legal_subject": "pháp nhân thương mại",
-            "subject_norm": "PHAP_NHAN_THUONG_MAI",
-            "condition": "phạm tội thuộc trường hợp quy định tại Điều 79 Bộ luật Hình sự",
-            "effect": "bị đình chỉ hoạt động vĩnh viễn",
-            "condition_norm": "PHAP_NHAN_THUOC_DIEU_79",
-            "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
-            "condition_event_id": "EVENT::PHAP_NHAN_THUOC_DIEU_79",
-            "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
-            "article_title": "Tội tài trợ khủng bố",
-            "content": "Điều 300. Tội tài trợ khủng bố\n1. Người nào huy động, hỗ trợ tiền, tài sản dưới bất kỳ hình thức nào cho tổ chức, cá nhân khủng bố, thì bị phạt tù từ 05 năm đến 10 năm.\n2. Người chuẩn bị phạm tội này, thì bị phạt tù từ 01 năm đến 05 năm.\n3. Người phạm tội còn có thể bị phạt quản chế, cấm cư trú từ 01 năm đến 05 năm hoặc tịch thu một phần hoặc toàn bộ tài sản.\n4.[281] Pháp nhân thương mại phạm tội quy định tại Điều này, thì bị phạt như sau:\na) Phạm tội thuộc trường hợp quy định tại khoản 1 Điều này, thì bị phạt tiền từ 7.000.000.000 đồng đến 15.000.000.000 đồng hoặc đình chỉ hoạt động có thời hạn từ 06 tháng đến 03 năm;\nb) Phạm tội thuộc trường hợp quy định tại Điều 79 của Bộ luật này, thì bị đình chỉ hoạt động vĩnh viễn;\nc) Pháp nhân thương mại còn có thể bị phạt tiền từ 1.000.000.000 đồng đến 5.000.000.000 đồng, cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định hoặc cấm huy động vốn từ 01 năm đến 03 năm."
-          }
-        }
-      ],
-      "effect_comparison": {
-        "target_effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
-        "same_effect_rules": [
-          {
-            "rule_id": "353",
-            "article_id": "81",
-            "condition": "bị cấm huy động vốn",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect": "bị cấm hình thành quỹ tín thác bất động sản",
-            "effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
-            "score": 2.0610997088543783,
-            "relations": [
-              "ARTICLE_REFERENCE",
-              "CAUSES_TARGET_EFFECT",
-              "SAME_ARTICLE",
-              "SEMANTIC"
-            ]
-          }
-        ],
-        "different_effect_rules": [
-          {
-            "rule_id": "339",
-            "article_id": "78",
-            "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
-            "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
-            "effect": "bị đình chỉ hoạt động có thời hạn",
-            "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
-            "score": 0.5288286631739038,
-            "relations": [
-              "SEMANTIC"
-            ]
-          },
-          {
-            "rule_id": "1031",
-            "article_id": "300",
-            "condition": "phạm tội thuộc trường hợp quy định tại Điều 79 Bộ luật Hình sự",
-            "condition_norm": "PHAP_NHAN_THUOC_DIEU_79",
-            "effect": "bị đình chỉ hoạt động vĩnh viễn",
-            "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
-            "score": 0.5283466132585105,
-            "relations": [
-              "SEMANTIC"
-            ]
-          }
-        ],
-        "possibly_contradictory_rules": [
-          {
-            "rule_id": "351",
-            "article_id": "81",
-            "condition": "bị cấm huy động vốn",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect": "bị cấm huy động vốn của khách hàng",
-            "effect_norm": "CAM_HUY_DONG_VON_KHACH_HANG",
-            "score": 1.2038131562662333,
-            "relations": [
-              "ARTICLE_REFERENCE",
-              "SAME_ARTICLE",
-              "SEMANTIC"
-            ]
-          },
-          {
-            "rule_id": "352",
-            "article_id": "81",
-            "condition": "bị cấm huy động vốn",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect": "bị cấm liên doanh hoặc liên kết trong và ngoài nước",
-            "effect_norm": "CAM_LIEN_DOANH_LIEN_KET",
-            "score": 1.2008035925022968,
-            "relations": [
-              "ARTICLE_REFERENCE",
-              "SAME_ARTICLE",
-              "SEMANTIC"
-            ]
-          },
-          {
-            "rule_id": "349",
-            "article_id": "81",
-            "condition": "bị cấm huy động vốn",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect": "bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư",
-            "effect_norm": "CAM_VAY_VON",
-            "score": 1.200744535372543,
-            "relations": [
-              "ARTICLE_REFERENCE",
-              "SAME_ARTICLE",
-              "SEMANTIC"
-            ]
-          },
-          {
-            "rule_id": "350",
-            "article_id": "81",
-            "condition": "bị cấm huy động vốn",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect": "bị cấm phát hành hoặc chào bán chứng khoán",
-            "effect_norm": "CAM_PHAT_HANH_CHUNG_KHOAN",
-            "score": 1.1998545548203705,
-            "relations": [
-              "ARTICLE_REFERENCE",
-              "SAME_ARTICLE",
-              "SEMANTIC"
-            ]
-          },
-          {
-            "rule_id": "355",
-            "article_id": "81",
-            "condition": "bị cấm huy động vốn",
-            "condition_norm": "CAM_HUY_DONG_VON",
-            "effect": "thời hạn cấm từ 01 năm đến 03 năm",
-            "effect_norm": "THOI_HAN_CAM_1_DEN_3_NAM",
-            "score": 1.1940368049366252,
-            "relations": [
-              "ARTICLE_REFERENCE",
-              "SAME_ARTICLE",
-              "SEMANTIC"
-            ]
-          },
-          {
-            "rule_id": "354",
-            "article_id": "81",
-            "condition": "áp dụng hình phạt cấm huy động vốn",
-            "condition_norm": "AP_DUNG_CAM_HUY_DONG_VON",
-            "effect": "quyết định áp dụng một hoặc nhiều hình thức cấm huy động vốn",
-            "effect_norm": "QUYET_DINH_HINH_THUC_CAM_HUY_DONG_VON",
-            "score": 1.1566738674375745,
-            "relations": [
-              "ARTICLE_REFERENCE",
-              "SAME_ARTICLE",
-              "SEMANTIC"
-            ]
-          },
-          {
-            "rule_id": "345",
-            "article_id": "80",
-            "condition": "tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội",
-            "condition_norm": "DU_DIEU_KIEN_CAM_KINH_DOANH",
-            "effect": "bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó",
-            "effect_norm": "CAM_KINH_DOANH_HOAT_DONG",
-            "score": 0.8255524335726343,
-            "relations": [
-              "SAME_SUBJECT",
-              "SEMANTIC"
-            ]
-          }
-        ]
-      },
-      "verification": {
-        "label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND",
-        "conclusion": "Factual path đã bị phá vỡ.Hệ thống tìm thấy rule khác có thể liên quan đến cùng hệ quả cuối,nhưng chưa đủ căn cứ xác định hệ quả đó vẫn áp dụng trong tình huống phản thực."
-      }
-    },
-    {
-      "path_id": 3,
-      "path_score": 1.1984378910064697,
-      "path_status": "CAUSAL_PATH_BROKEN",
-      "direct_intervention_status": "INPUT_EVENT_NEGATED",
-      "intervention_event_position": 0,
-      "blocked_from_rule_index": 0,
-      "factual_rule_ids": [
-        "348",
         "349"
       ],
       "factual_event_chain": [
@@ -1447,6 +964,489 @@
             "effect": "bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó",
             "effect_norm": "CAM_KINH_DOANH_HOAT_DONG",
             "score": 0.829188797208998,
+            "relations": [
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND",
+        "conclusion": "Factual path đã bị phá vỡ.Hệ thống tìm thấy rule khác có thể liên quan đến cùng hệ quả cuối,nhưng chưa đủ căn cứ xác định hệ quả đó vẫn áp dụng trong tình huống phản thực."
+      }
+    },
+    {
+      "path_id": 3,
+      "path_score": 1.1984378910064697,
+      "path_status": "CAUSAL_PATH_BROKEN",
+      "direct_intervention_status": "INPUT_EVENT_NEGATED",
+      "intervention_event_position": 0,
+      "blocked_from_rule_index": 0,
+      "factual_rule_ids": [
+        "348",
+        "353"
+      ],
+      "factual_event_chain": [
+        "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+        "CAM_HUY_DONG_VON",
+        "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+      ],
+      "counterfactual_event_chain_prefix": [],
+      "surviving_rule_ids": [],
+      "removed_rule_ids": [
+        "348",
+        "353"
+      ],
+      "removed_events": [
+        "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+        "CAM_HUY_DONG_VON",
+        "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+      ],
+      "factual_final_effect": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+      "counterfactual_final_effect_reachable": false,
+      "rule_evaluations": [
+        {
+          "path_position": 0,
+          "rule": {
+            "rule_id": "348",
+            "row_id": 347,
+            "article_id": "81",
+            "legal_subject": "pháp nhân thương mại bị kết án",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_KET_AN",
+            "condition": "tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội",
+            "effect": "bị cấm huy động vốn",
+            "condition_norm": "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "effect_norm": "CAM_HUY_DONG_VON",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::CAM_HUY_DONG_VON",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          },
+          "input_event": "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+          "output_event": "CAM_HUY_DONG_VON",
+          "counterfactual_status": "INVALIDATED",
+          "reason": "Input event DU_DIEU_KIEN_CAM_HUY_DONG_VON của Rule 348 đã bị phủ định trực tiếp."
+        },
+        {
+          "path_position": 1,
+          "rule": {
+            "rule_id": "353",
+            "row_id": 352,
+            "article_id": "81",
+            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
+            "condition": "bị cấm huy động vốn",
+            "effect": "bị cấm hình thành quỹ tín thác bất động sản",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          },
+          "input_event": "CAM_HUY_DONG_VON",
+          "output_event": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+          "counterfactual_status": "BLOCKED_BY_UPSTREAM",
+          "reason": "Rule 353 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước."
+        }
+      ],
+      "alternative_rules": [
+        {
+          "rule_id": "353",
+          "score": 2.0610997088543783,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "CAUSES_TARGET_EFFECT",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.7140388488769531,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, CAUSES_TARGET_EFFECT, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "353",
+            "row_id": 352,
+            "article_id": "81",
+            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
+            "condition": "bị cấm huy động vốn",
+            "effect": "bị cấm hình thành quỹ tín thác bất động sản",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          }
+        },
+        {
+          "rule_id": "351",
+          "score": 1.2038131562662333,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.7386106848716736,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "351",
+            "row_id": 350,
+            "article_id": "81",
+            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
+            "condition": "bị cấm huy động vốn",
+            "effect": "bị cấm huy động vốn của khách hàng",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect_norm": "CAM_HUY_DONG_VON_KHACH_HANG",
+            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::CAM_HUY_DONG_VON_KHACH_HANG",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          }
+        },
+        {
+          "rule_id": "352",
+          "score": 1.2008035925022968,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.7236955761909485,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "352",
+            "row_id": 351,
+            "article_id": "81",
+            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
+            "condition": "bị cấm huy động vốn",
+            "effect": "bị cấm liên doanh hoặc liên kết trong và ngoài nước",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect_norm": "CAM_LIEN_DOANH_LIEN_KET",
+            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::CAM_LIEN_DOANH_LIEN_KET",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          }
+        },
+        {
+          "rule_id": "349",
+          "score": 1.200744535372543,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.7207068800926208,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "349",
+            "row_id": 348,
+            "article_id": "81",
+            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
+            "condition": "bị cấm huy động vốn",
+            "effect": "bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect_norm": "CAM_VAY_VON",
+            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::CAM_VAY_VON",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          }
+        },
+        {
+          "rule_id": "350",
+          "score": 1.1998545548203705,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.7225788831710815,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "350",
+            "row_id": 349,
+            "article_id": "81",
+            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
+            "condition": "bị cấm huy động vốn",
+            "effect": "bị cấm phát hành hoặc chào bán chứng khoán",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect_norm": "CAM_PHAT_HANH_CHUNG_KHOAN",
+            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::CAM_PHAT_HANH_CHUNG_KHOAN",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          }
+        },
+        {
+          "rule_id": "355",
+          "score": 1.1940368049366252,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.7052977085113525,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "355",
+            "row_id": 354,
+            "article_id": "81",
+            "legal_subject": "pháp nhân thương mại bị cấm huy động vốn",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_CAM_HUY_DONG_VON",
+            "condition": "bị cấm huy động vốn",
+            "effect": "thời hạn cấm từ 01 năm đến 03 năm",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect_norm": "THOI_HAN_CAM_1_DEN_3_NAM",
+            "condition_event_id": "EVENT::CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::THOI_HAN_CAM_1_DEN_3_NAM",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          }
+        },
+        {
+          "rule_id": "354",
+          "score": 1.1566738674375745,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.7272082567214966,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "354",
+            "row_id": 353,
+            "article_id": "81",
+            "legal_subject": "Tòa án",
+            "subject_norm": "TOA_AN",
+            "condition": "áp dụng hình phạt cấm huy động vốn",
+            "effect": "quyết định áp dụng một hoặc nhiều hình thức cấm huy động vốn",
+            "condition_norm": "AP_DUNG_CAM_HUY_DONG_VON",
+            "effect_norm": "QUYET_DINH_HINH_THUC_CAM_HUY_DONG_VON",
+            "condition_event_id": "EVENT::AP_DUNG_CAM_HUY_DONG_VON",
+            "effect_event_id": "EVENT::QUYET_DINH_HINH_THUC_CAM_HUY_DONG_VON",
+            "article_title": "Cấm huy động vốn",
+            "content": "Điều 81. Cấm huy động vốn\n1. Cấm huy động vốn được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án huy động vốn thì có nguy cơ tiếp tục phạm tội.\n2. Các hình thức cấm huy động vốn bao gồm:\na) Cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư[31];\nb) Cấm phát hành, chào bán chứng khoán;\nc) Cấm huy động vốn khách hàng;\nd) Cấm liên doanh, liên kết trong và ngoài nước;\nđ) Cấm hình thành quỹ tín thác bất động sản.\n3. Tòa án quyết định áp dụng một hoặc một số hình thức cấm huy động vốn quy định tại khoản 2 Điều này.\n4. Thời hạn cấm huy động vốn là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          }
+        },
+        {
+          "rule_id": "345",
+          "score": 0.8255524335726343,
+          "relations": [
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6558330059051514,
+          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "345",
+            "row_id": 344,
+            "article_id": "80",
+            "legal_subject": "pháp nhân thương mại bị kết án",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_KET_AN",
+            "condition": "tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội",
+            "effect": "bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó",
+            "condition_norm": "DU_DIEU_KIEN_CAM_KINH_DOANH",
+            "effect_norm": "CAM_KINH_DOANH_HOAT_DONG",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_CAM_KINH_DOANH",
+            "effect_event_id": "EVENT::CAM_KINH_DOANH_HOAT_DONG",
+            "article_title": "Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định",
+            "content": "Điều 80. Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định\n1. Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định được áp dụng khi xét thấy nếu để pháp nhân thương mại bị kết án tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó, thì có thể gây nguy hại cho tính mạng, sức khỏe của con người hoặc cho xã hội.\n2. Tòa án quyết định lĩnh vực cụ thể bị cấm kinh doanh hoặc cấm hoạt động.\n3. Thời hạn cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định là từ 01 năm đến 03 năm, kể từ ngày bản án có hiệu lực pháp luật."
+          }
+        },
+        {
+          "rule_id": "339",
+          "score": 0.5288286631739038,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6420315504074097,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "339",
+            "row_id": 338,
+            "article_id": "78",
+            "legal_subject": "pháp nhân thương mại phạm tội",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+            "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
+            "effect": "bị đình chỉ hoạt động có thời hạn",
+            "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+            "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+            "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+            "article_title": "Đình chỉ hoạt động có thời hạn",
+            "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm."
+          }
+        },
+        {
+          "rule_id": "1031",
+          "score": 0.5283466132585105,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6568965315818787,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "1031",
+            "row_id": 1030,
+            "article_id": "300",
+            "legal_subject": "pháp nhân thương mại",
+            "subject_norm": "PHAP_NHAN_THUONG_MAI",
+            "condition": "phạm tội thuộc trường hợp quy định tại Điều 79 Bộ luật Hình sự",
+            "effect": "bị đình chỉ hoạt động vĩnh viễn",
+            "condition_norm": "PHAP_NHAN_THUOC_DIEU_79",
+            "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+            "condition_event_id": "EVENT::PHAP_NHAN_THUOC_DIEU_79",
+            "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+            "article_title": "Tội tài trợ khủng bố",
+            "content": "Điều 300. Tội tài trợ khủng bố\n1. Người nào huy động, hỗ trợ tiền, tài sản dưới bất kỳ hình thức nào cho tổ chức, cá nhân khủng bố, thì bị phạt tù từ 05 năm đến 10 năm.\n2. Người chuẩn bị phạm tội này, thì bị phạt tù từ 01 năm đến 05 năm.\n3. Người phạm tội còn có thể bị phạt quản chế, cấm cư trú từ 01 năm đến 05 năm hoặc tịch thu một phần hoặc toàn bộ tài sản.\n4.[281] Pháp nhân thương mại phạm tội quy định tại Điều này, thì bị phạt như sau:\na) Phạm tội thuộc trường hợp quy định tại khoản 1 Điều này, thì bị phạt tiền từ 7.000.000.000 đồng đến 15.000.000.000 đồng hoặc đình chỉ hoạt động có thời hạn từ 06 tháng đến 03 năm;\nb) Phạm tội thuộc trường hợp quy định tại Điều 79 của Bộ luật này, thì bị đình chỉ hoạt động vĩnh viễn;\nc) Pháp nhân thương mại còn có thể bị phạt tiền từ 1.000.000.000 đồng đến 5.000.000.000 đồng, cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định hoặc cấm huy động vốn từ 01 năm đến 03 năm."
+          }
+        }
+      ],
+      "effect_comparison": {
+        "target_effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+        "same_effect_rules": [
+          {
+            "rule_id": "353",
+            "article_id": "81",
+            "condition": "bị cấm huy động vốn",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect": "bị cấm hình thành quỹ tín thác bất động sản",
+            "effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+            "score": 2.0610997088543783,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "CAUSES_TARGET_EFFECT",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          }
+        ],
+        "different_effect_rules": [
+          {
+            "rule_id": "339",
+            "article_id": "78",
+            "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
+            "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+            "effect": "bị đình chỉ hoạt động có thời hạn",
+            "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+            "score": 0.5288286631739038,
+            "relations": [
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "1031",
+            "article_id": "300",
+            "condition": "phạm tội thuộc trường hợp quy định tại Điều 79 Bộ luật Hình sự",
+            "condition_norm": "PHAP_NHAN_THUOC_DIEU_79",
+            "effect": "bị đình chỉ hoạt động vĩnh viễn",
+            "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+            "score": 0.5283466132585105,
+            "relations": [
+              "SEMANTIC"
+            ]
+          }
+        ],
+        "possibly_contradictory_rules": [
+          {
+            "rule_id": "351",
+            "article_id": "81",
+            "condition": "bị cấm huy động vốn",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect": "bị cấm huy động vốn của khách hàng",
+            "effect_norm": "CAM_HUY_DONG_VON_KHACH_HANG",
+            "score": 1.2038131562662333,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "352",
+            "article_id": "81",
+            "condition": "bị cấm huy động vốn",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect": "bị cấm liên doanh hoặc liên kết trong và ngoài nước",
+            "effect_norm": "CAM_LIEN_DOANH_LIEN_KET",
+            "score": 1.2008035925022968,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "349",
+            "article_id": "81",
+            "condition": "bị cấm huy động vốn",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect": "bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư",
+            "effect_norm": "CAM_VAY_VON",
+            "score": 1.200744535372543,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "350",
+            "article_id": "81",
+            "condition": "bị cấm huy động vốn",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect": "bị cấm phát hành hoặc chào bán chứng khoán",
+            "effect_norm": "CAM_PHAT_HANH_CHUNG_KHOAN",
+            "score": 1.1998545548203705,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "355",
+            "article_id": "81",
+            "condition": "bị cấm huy động vốn",
+            "condition_norm": "CAM_HUY_DONG_VON",
+            "effect": "thời hạn cấm từ 01 năm đến 03 năm",
+            "effect_norm": "THOI_HAN_CAM_1_DEN_3_NAM",
+            "score": 1.1940368049366252,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "354",
+            "article_id": "81",
+            "condition": "áp dụng hình phạt cấm huy động vốn",
+            "condition_norm": "AP_DUNG_CAM_HUY_DONG_VON",
+            "effect": "quyết định áp dụng một hoặc nhiều hình thức cấm huy động vốn",
+            "effect_norm": "QUYET_DINH_HINH_THUC_CAM_HUY_DONG_VON",
+            "score": 1.1566738674375745,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "345",
+            "article_id": "80",
+            "condition": "tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội",
+            "condition_norm": "DU_DIEU_KIEN_CAM_KINH_DOANH",
+            "effect": "bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó",
+            "effect_norm": "CAM_KINH_DOANH_HOAT_DONG",
+            "score": 0.8255524335726343,
             "relations": [
               "SAME_SUBJECT",
               "SEMANTIC"

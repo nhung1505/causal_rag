@@ -1,0 +1,35 @@
+{
+  "original_query": "Giả sử điều kiện hoặc sự kiện “bị áp dụng hình phạt chính” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “thời hạn đình chỉ từ 06 tháng đến 03 năm” hay không?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "AP_DUNG_HINH_PHAT_CHINH",
+    "target_event_text": "bị áp dụng hình phạt chính",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT AP_DUNG_HINH_PHAT_CHINH)"
+  },
+  "source_overall_verification": {
+    "label": "NO_CAUSAL_PATH_FOUND",
+    "conclusion": "Không tìm thấy causal path factual hợp lệ từ kết quả truy hồi nên chưa thể thực hiện kiểm chứng phản thực."
+  },
+  "evidence_summary": {
+    "valid_rule_count": 0,
+    "removed_rule_count": 0,
+    "alternative_candidate_count": 0,
+    "valid_rule_ids": [],
+    "removed_rule_ids": [],
+    "alternative_candidate_rule_ids": []
+  },
+  "refined_evidence": {
+    "valid_evidence": [],
+    "removed_evidence": [],
+    "alternative_candidates": [],
+    "path_summary": []
+  },
+  "generation": {
+    "generator": "ollama",
+    "model": "qwen3:8b",
+    "template_answer": "Trong giả định phản thực rằng “bị áp dụng hình phạt chính” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.\n\nKhông còn rule nào trong các factual path được xác nhận là PRESERVED hoặc ACTIVATED. Vì vậy, chưa đủ căn cứ từ các bằng chứng đã truy hồi để giữ nguyên kết luận ban đầu.\n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu cũng không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.",
+    "final_answer": "Trong trường hợp điều kiện \"bị áp dụng hình phạt chính\" không còn xảy ra, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để duy trì kết luận về \"thời hạn đình chỉ từ 06 tháng đến 03 năm\". Theo quy tắc, việc phủ nhận điều kiện ban đầu không tự động chứng minh rằng hệ quả pháp lý liên quan không thể phát sinh từ căn cứ khác. Do đó, không thể khẳng định chắc chắn rằng kết luận ban đầu vẫn đúng.  \n\nKết quả tổng thể \"không tìm thấy causal path factual hợp lệ\" cho thấy chuỗi suy luận pháp lý không được xác nhận từ bằng chứng truy hồi. Điều này dẫn đến việc không đủ căn cứ để giữ nguyên kết luận về thời hạn đình chỉ. Các quy tắc yêu cầu không thêm giả định hoặc điều luật không có trong context, nên không thể suy diễn rằng hệ quả pháp lý không tồn tại.  \n\nVì không có rule nào được xác nhận là PRESERVED hoặc ACTIVATED, kết luận về thời hạn đình chỉ không thể được xác định từ tập bằng chứng hiện có. Do đó, cần khẳng định rằng \"chưa đủ căn cứ\" để xác định người này thuộc trường hợp tái phạm nguy hiểm hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu chỉ loại bỏ một khả năng, nhưng không loại trừ hoàn toàn các căn cứ pháp lý độc lập khác."
+  }
+}

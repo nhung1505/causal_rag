@@ -28,8 +28,8 @@
     "ollama_model": "qwen3:8b",
     "number_of_requested_samples": 70,
     "number_of_predictions": 70,
-    "successful_predictions": 60,
-    "failed_predictions": 10
+    "successful_predictions": 70,
+    "failed_predictions": 0
   },
   "predictions": [
     {
@@ -302,9 +302,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương\" không còn đủ căn cứ.  \n\nCác quy tắc liên quan đến kết luận này (Điều 53, 43, 388) đều bị ảnh hưởng bởi sự thay đổi trong điều kiện ban đầu. Cụ thể, Rule 205 (Điều 53) bị vô hiệu hóa do điều kiện đầu vào bị phủ nhận, dẫn đến các quy tắc sau đó (Rule 148, 143, 149, 1604) bị chặn bởi sự kiện đầu vào không còn khả thi. Mặc dù một số quy tắc như Rule 204 (Điều 53), Rule 148 (Điều 43), Rule 143 (Điều 43) vẫn giữ trạng thái PRESERVED, nhưng điều kiện để kích hoạt chúng (như \"tái phạm nguy hiểm\") không còn được thỏa mãn do sự thay đổi trong điều kiện ban đầu.  \n\nNgoài ra, các quy tắc thay thế (Rule 147, 1601, 1602) chỉ là ứng viên chưa được xác nhận, không đủ để thay thế kết luận ban đầu. Do đó, không còn bằng chứng hợp lệ để khẳng định hệ quả \"phải cư trú...\". Hệ thống không thể đưa ra kết luận chắc chắn, mà phải xác nhận rằng \"chưa đủ căn cứ\" để kết luận như vậy.",
+      "predicted_answer": "Trong tình huống giả định phản thực, điều kiện \"chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý\" không còn xảy ra, dẫn đến một số rule bị vô hiệu hóa hoặc bị chặn bởi sự kiện phía trước. Các bằng chứng hợp lệ còn lại bao gồm: Điều 53 (tái phạm nguy hiểm), Điều 43 (hình phạt quản chế), và các hệ quả liên quan đến thời hạn quản chế, áp dụng hình phạt quản chế. Tuy nhiên, các rule này chỉ được duy trì nếu điều kiện đầu vào (tái phạm nguy hiểm) vẫn hợp lệ.  \n\nDo sự can thiệp phá vỡ các path factual, các rule liên quan đến tái phạm nguy hiểm (như Điều 53) không còn được kích hoạt, dẫn đến việc các hệ quả như \"phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định\" không còn có cơ sở pháp lý. Mặc dù một số rule (như Điều 43) vẫn tồn tại, nhưng chúng không thể tự đứng riêng mà phụ thuộc vào điều kiện trước đó bị vô hiệu hóa.  \n\nVì không còn bằng chứng hợp lệ để duy trì chuỗi suy luận từ điều kiện ban đầu đến kết luận cuối cùng, hệ thống không thể khẳng định chắc chắn rằng kết luận về cư trú và cải tạo tại địa phương nhất định vẫn áp dụng. Do đó, theo quy tắc, cần kết luận rằng \"chưa đủ căn cứ\" để xác định hệ quả này trong tình huống hiện tại.",
       "generator": "ollama",
-      "runtime_seconds": 16.7624,
+      "runtime_seconds": 22.0643,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 5,
@@ -327,7 +327,7 @@
         "alternative_candidate_rule_ids": [
           "147",
           "1601",
-          "1602"
+          "1603"
         ]
       }
     },
@@ -492,9 +492,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định điều kiện \"chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý\" không còn xảy ra, các bằng chứng hợp lệ để xác định hệ quả \"thời hạn quản chế từ 01 năm đến 05 năm\" không còn tồn tại. Điều này do chuỗi logic pháp lý ban đầu bị phá vỡ: Rule 205 (Điều 53) bị vô hiệu hóa do điều kiện đầu vào bị phủ định, dẫn đến các rule phụ thuộc như Rule 148, 149, 1604 bị chặn bởi sự kiện không còn khả thi. Các rule thay thế tiềm năng (Rule 1555, 203, 440) hiện chưa được xác nhận điều kiện, nên không thể coi là bằng chứng hợp lệ. Do đó, không còn căn cứ pháp lý để duy trì kết luận ban đầu về thời hạn quản chế. Việc phủ định điều kiện ban đầu không tự động loại trừ khả năng tồn tại các hệ quả từ căn cứ khác, nhưng trong bối cảnh hiện tại, không có bằng chứng đủ để khẳng định kết luận đó vẫn đúng.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu bị phá vỡ do các rule liên quan bị vô hiệu hóa hoặc bị chặn bởi sự kiện đầu vào không còn khả thi. Cụ thể, Rule 205 (Điều 53) bị vô hiệu hóa do điều kiện đầu vào bị phủ định, dẫn đến các rule tiếp theo (Rule 148, 149, 1604) không thể kích hoạt do thiếu điều kiện cần thiết. Do đó, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để duy trì kết luận về \"thời hạn quản chế từ 01 năm đến 05 năm\" hay các hệ quả liên quan.  \n\nMặc dù có một số rule thay thế tiềm năng (Rule 1555, 203, 440), nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực. Theo quy tắc, không thể coi các ứng viên này là bằng chứng hợp lệ nếu điều kiện chưa được kiểm chứng. Vì vậy, không thể khẳng định chắc chắn rằng các hệ quả trước đây vẫn áp dụng.  \n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng hình phạt quản chế hoặc chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ căn cứ độc lập khác.",
       "generator": "ollama",
-      "runtime_seconds": 12.7732,
+      "runtime_seconds": 13.2925,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -785,9 +785,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định phản thực, khi điều kiện \"đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý\" không còn xảy ra, các bằng chứng hợp lệ vẫn tồn tại để hỗ trợ kết luận. Cụ thể, Rule 205 (Điều 53) xác định người phạm tội chưa được xóa án tích và thực hiện hành vi phạm tội do cố ý là tái phạm nguy hiểm (trạng thái PRESERVED). Từ đó, Rule 148 (Điều 43) áp dụng hình phạt quản chế (PRESERVED), và Rule 143 (Điều 43) dẫn đến kết luận \"phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương\" (PRESERVED). Các điều kiện này vẫn có thể được thỏa mãn nếu người phạm tội chưa được xóa án tích và thực hiện hành vi phạm tội do cố ý, dù điều kiện ban đầu bị phủ nhận.  \n\nTuy nhiên, một số rule như Rule 148, 143, 149 và 1604 bị chặn do điều kiện đầu vào không còn khả thi sau can thiệp. Dù vậy, các bằng chứng hợp lệ còn lại vẫn đủ để duy trì kết luận về việc phải cư trú và cải tạo tại địa phương. Các rule thay thế (như Điều 43 và Điều 388) chỉ là ứng viên chưa xác nhận, không thể khẳng định kết luận cuối cùng. Do đó, trong phạm vi bằng chứng hợp lệ, vẫn có căn cứ để kết luận \"phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương\".",
+      "predicted_answer": "Trong tình huống giả định phản thực, điều kiện ban đầu về \"đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý\" không còn xảy ra. Điều này làm thay đổi trạng thái của các quy tắc liên quan, dẫn đến việc một số chuỗi suy luận bị phá vỡ. \n\nCác quy tắc vẫn còn hợp lệ sau can thiệp bao gồm: Điều 53 (xác định tái phạm nguy hiểm), Điều 43 (áp dụng hình phạt quản chế), và Điều 43 (yêu cầu cư trú, làm ăn sinh sống tại địa phương nhất định). Tuy nhiên, các quy tắc này chỉ được duy trì nếu điều kiện đầu vào của chúng vẫn được thỏa mãn. Trong trường hợp này, việc điều kiện ban đầu bị phủ nhận khiến các quy tắc liên quan đến \"tái phạm nguy hiểm\" và \"hình phạt quản chế\" không còn có thể được kích hoạt. Do đó, kết luận về việc \"phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định\" không còn được hỗ trợ bởi chuỗi suy luận hợp lệ. \n\nCác quy tắc thay thế (như Điều 43 về tội xâm phạm an ninh quốc gia hoặc Điều 388 về thủ đoạn tinh vi) chỉ là ứng viên chưa được xác nhận, không đủ căn cứ để khẳng định hệ quả cuối. Vì không còn bằng chứng hợp lệ để duy trì kết luận ban đầu, hệ thống không thể xác định chắc chắn rằng yêu cầu cư trú tại địa phương nhất định vẫn áp dụng. Do đó, cần kết luận rằng \"chưa đủ căn cứ\" để khẳng định hệ quả này.",
       "generator": "ollama",
-      "runtime_seconds": 34.7427,
+      "runtime_seconds": 28.066,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 5,
@@ -809,7 +809,7 @@
         ],
         "alternative_candidate_rule_ids": [
           "147",
-          "1601",
+          "1603",
           "1602"
         ]
       }
@@ -975,9 +975,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý\" không còn xảy ra, các bằng chứng hợp lệ để xác định hệ quả \"thời hạn quản chế từ 01 năm đến 05 năm\" không còn tồn tại. Cụ thể, các quy tắc dẫn đến kết luận này (Rule 204, 148, 149) đều bị vô hiệu hóa hoặc bị chặn bởi sự kiện đầu vào không còn khả thi do can thiệp phản thực. Do đó, không còn đường lối pháp lý nào được xác nhận để duy trì kết luận ban đầu. Các quy tắc thay thế (Rule 203, 1555, 1444) chỉ là ứng viên tiềm năng nhưng điều kiện của chúng chưa được kiểm chứng trong bối cảnh này. Vì vậy, không thể khẳng định chắc chắn rằng hệ quả \"thời hạn quản chế từ 01 năm đến 05 năm\" vẫn áp dụng. Hệ thống pháp lý hiện tại không đủ căn cứ để xác định kết luận này vẫn đúng, do đó cần kết luận rằng chưa đủ điều kiện pháp lý để khẳng định hệ quả tiếp theo.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý\" không còn xảy ra, các bằng chứng hợp lệ để xác định hệ quả \"thời hạn quản chế từ 01 năm đến 05 năm\" không còn tồn tại. Điều này do các quy tắc liên quan (Rule 204, 148, 143, 149, 1604) đều bị vô hiệu hóa hoặc bị chặn bởi sự kiện đầu vào không còn khả thi sau can thiệp phản thực. Các quy tắc thay thế (Rule 203, 1555, 1444) tuy có thể là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được kiểm chứng trong bối cảnh này, nên không thể coi là bằng chứng hợp lệ.  \n\nTheo quy tắc, khi không còn bằng chứng hợp lệ để duy trì kết luận ban đầu, phải khẳng định \"chưa đủ căn cứ\" thay vì phủ nhận chắc chắn. Trong trường hợp này, chuỗi suy luận pháp lý dựa trên Điều 53 (tái phạm nguy hiểm), Điều 43 (hình phạt quản chế) và Điều 388 (phạt tù) đã bị phá vỡ. Các hệ quả như \"thời hạn quản chế\" hay \"phạt tù từ 02 năm đến 07 năm\" không còn được hỗ trợ bởi bất kỳ quy tắc nào trong tình huống hiện tại. Do đó, không thể xác định chắc chắn rằng người phạm tội vẫn thuộc trường hợp tái phạm nguy hiểm hoặc phải chịu các hậu quả pháp lý liên quan.  \n\nKết luận: Không đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng hình phạt quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.",
       "generator": "ollama",
-      "runtime_seconds": 12.3031,
+      "runtime_seconds": 15.3605,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -1090,9 +1090,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định \"bị áp dụng hình phạt chính\" không còn xảy ra, các bằng chứng hợp lệ vẫn còn đủ để kết luận \"phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\". Cụ thể, Rule 123 (Điều 37) và Rule 122 (Điều 37) vẫn giữ trạng thái PRESERVED, cho phép duy trì hệ quả \"phải rời khỏi lãnh thổ Việt Nam\" nếu điều kiện \"bị áp dụng hình phạt trục xuất\" được thỏa mãn. Tuy nhiên, sự can thiệp phản thực đã làm mất đi điều kiện \"bị áp dụng hình phạt chính\", dẫn đến việc Rule 98 (Điều 32) bị loại và Rule 122 bị chặn do không thể tiếp cận sự kiện \"bị áp dụng hình phạt trục xuất\".  \n\nMặc dù vậy, Rule 123 vẫn có thể được áp dụng nếu \"trục xuất\" được xem là hình phạt bổ sung thay vì hình phạt chính. Trong trường hợp này, hệ quả của Rule 122 (phải rời khỏi lãnh thổ) vẫn có thể được kích hoạt. Tuy nhiên, điều kiện để kích hoạt Rule 123 (tòa án xét thấy cần thiết) chưa được xác nhận trong tình huống phản thực, nên kết luận này chỉ là ứng viên tiềm năng, chưa đủ để khẳng định chắc chắn.  \n\nDo đó, mặc dù có bằng chứng hợp lệ, nhưng các điều kiện cần thiết để duy trì kết luận cuối cùng vẫn chưa được kiểm chứng đầy đủ. Vì vậy, hệ thống không thể khẳng định chắc chắn kết luận \"phải rời khỏi lãnh thổ Việt Nam\" vẫn áp dụng, mà chỉ có thể khẳng định rằng vẫn còn căn cứ pháp lý để xem xét.",
+      "predicted_answer": "Trong tình huống giả định \"bị áp dụng hình phạt chính\" không còn xảy ra, các bằng chứng hợp lệ vẫn tồn tại để kết luận \"phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\". Cụ thể, Rule 123 (Điều 37) vẫn giữ nguyên trạng thái PRESERVED, cho phép Tòa án xét thấy cần thiết thì hình phạt trục xuất có thể là hình phạt chính hoặc bổ sung. Nếu hình phạt trục xuất được áp dụng (theo Rule 123), Rule 122 (Điều 37) cũng giữ nguyên trạng thái PRESERVED, dẫn đến hệ quả \"phải rời khỏi lãnh thổ Việt Nam\". \n\nTuy nhiên, cần lưu ý rằng Rule 122 chỉ phát sinh hiệu lực khi điều kiện \"bị áp dụng hình phạt trục xuất\" được thỏa mãn. Trong trường hợp này, việc áp dụng hình phạt trục xuất có thể phụ thuộc vào quyết định của Tòa án theo Điều 37, không bị ảnh hưởng trực tiếp bởi việc \"bị áp dụng hình phạt chính\" không còn xảy ra. Do đó, nếu Tòa án vẫn xác định trục xuất là cần thiết, kết luận về việc phải rời khỏi lãnh thổ vẫn có thể được duy trì. \n\nTuy nhiên, các bằng chứng khác như Rule 98 (Điều 32) bị loại do điều kiện bị phủ nhận, và Rule 122 bị chặn bởi sự kiện phía trước không còn khả thi. Vì vậy, kết luận cuối cùng chỉ dựa trên các rule PRESERVED, không thể khẳng định chắc chắn mà phải xác nhận rằng vẫn còn đủ căn cứ pháp lý để duy trì hệ quả.",
       "generator": "ollama",
-      "runtime_seconds": 18.9676,
+      "runtime_seconds": 24.7941,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 2,
@@ -1306,9 +1306,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định \"bị áp dụng hình phạt chính\" không còn xảy ra, các bằng chứng hợp lệ còn lại không đủ để khẳng định kết luận \"tạm dừng hoạt động trong một hoặc một số lĩnh vực\". Cụ thể, các rule PRESERVED như Điều 78 (đình chỉ hoạt động có thời hạn) và Điều 79 (chấm dứt hoạt động trong lĩnh vực) chỉ có thể dẫn đến kết luận cuối nếu điều kiện đầu vào của chúng được thỏa mãn. Tuy nhiên, do sự can thiệp phá vỡ các path factual, điều kiện \"bị đình chỉ hoạt động có thời hạn\" (điều kiện của Rule 340 và 341) không còn reachable, dẫn đến các hệ quả như \"tạm dừng hoạt động\" không thể được xác nhận. Ngoài ra, các rule thay thế như Điều 33 (liên quan đến hình phạt chính) bị loại do điều kiện không còn hợp lệ. Do đó, không còn bằng chứng hợp lệ nào hỗ trợ kết luận về \"tạm dừng hoạt động\", và hệ thống phải kết luận \"chưa đủ căn cứ\" để khẳng định hệ quả này.",
+      "predicted_answer": "Trong tình huống giả định \"bị áp dụng hình phạt chính\" không còn xảy ra, các bằng chứng hợp lệ còn tồn tại bao gồm Điều 86, Điều 79, và các quy định tại Điều 78 (các quy tắc 339, 340, 341). Tuy nhiên, kết luận \"tạm dừng hoạt động trong một hoặc một số lĩnh vực\" không còn được hỗ trợ bởi chuỗi logic hợp lệ do sự can thiệp phá vỡ các điều kiện trung gian. Cụ thể, các quy tắc dẫn đến kết luận này (như Điều 78) bị chặn bởi sự kiện đầu vào không còn khả thi sau can thiệp. Mặc dù có thể tồn tại các điều kiện thay thế (như gây thiệt hại), nhưng chúng chưa được xác nhận trong tình huống hiện tại. Do đó, không đủ căn cứ để khẳng định kết luận \"tạm dừng hoạt động\" vẫn áp dụng. Hệ thống phải kết luận rằng chưa đủ căn cứ để xác định hệ quả này.",
       "generator": "ollama",
-      "runtime_seconds": 20.7782,
+      "runtime_seconds": 13.705,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 5,
@@ -1349,15 +1349,22 @@
         "edges": [],
         "score": 0.0
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "NO_PATH_FOUND",
+      "predicted_overall_verification_label": "NO_CAUSAL_PATH_FOUND",
+      "predicted_final_effect_reachable": false,
+      "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
+      "predicted_answer": "Trong trường hợp điều kiện \"bị áp dụng hình phạt chính\" không còn xảy ra, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để duy trì kết luận về \"thời hạn đình chỉ từ 06 tháng đến 03 năm\". Theo quy tắc, việc phủ nhận điều kiện ban đầu không tự động chứng minh rằng hệ quả pháp lý liên quan không thể phát sinh từ căn cứ khác. Do đó, không thể khẳng định chắc chắn rằng kết luận ban đầu vẫn đúng.  \n\nKết quả tổng thể \"không tìm thấy causal path factual hợp lệ\" cho thấy chuỗi suy luận pháp lý không được xác nhận từ bằng chứng truy hồi. Điều này dẫn đến việc không đủ căn cứ để giữ nguyên kết luận về thời hạn đình chỉ. Các quy tắc yêu cầu không thêm giả định hoặc điều luật không có trong context, nên không thể suy diễn rằng hệ quả pháp lý không tồn tại.  \n\nVì không có rule nào được xác nhận là PRESERVED hoặc ACTIVATED, kết luận về thời hạn đình chỉ không thể được xác định từ tập bằng chứng hiện có. Do đó, cần khẳng định rằng \"chưa đủ căn cứ\" để xác định người này thuộc trường hợp tái phạm nguy hiểm hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu chỉ loại bỏ một khả năng, nhưng không loại trừ hoàn toàn các căn cứ pháp lý độc lập khác.",
       "generator": "ollama",
-      "runtime_seconds": 0.0099,
-      "error": "ValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 612, in main\n    counterfactual_result = verifier.verify(\n                            ^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/4_counterfactual_verification.py\", line 819, in verify\n    raise ValueError(\"Không tìm thấy causal path hợp lệ trong retrieval_result.json.\")\nValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.\n"
+      "runtime_seconds": 12.3093,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 0,
+        "removed_rule_count": 0,
+        "alternative_candidate_count": 0,
+        "valid_rule_ids": [],
+        "removed_rule_ids": [],
+        "alternative_candidate_rule_ids": []
+      }
     },
     {
       "question_id": "CF008",
@@ -1580,9 +1587,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định \"bị áp dụng hình phạt chính\" không còn xảy ra, các bằng chứng hợp lệ còn tồn tại không đủ để khẳng định kết luận \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\". Các rule PRESERVED như Điều 86 và Điều 79 có thể liên quan đến đình chỉ hoạt động, nhưng điều kiện để kích hoạt chúng (như đình chỉ hoạt động vĩnh viễn hoặc có thời hạn) không còn được đảm bảo do sự can thiệp phá vỡ chuỗi logic. Các rule liên quan đến hình phạt chính (Điều 33) bị loại do điều kiện không thỏa mãn, và các rule phụ thuộc vào chúng (như Điều 79) bị chặn do không thể tiếp cận điều kiện đầu vào. Do đó, không còn bằng chứng hợp lệ để duy trì kết luận ban đầu. Hệ thống không thể khẳng định chắc chắn kết quả, vì thiếu căn cứ pháp lý đầy đủ.",
+      "predicted_answer": "Trong tình huống giả định \"bị áp dụng hình phạt chính\" không còn xảy ra, các bằng chứng hợp lệ còn lại không đủ để khẳng định kết luận \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\". Các quy tắc liên quan đến kết luận này (như Điều 79 và Điều 80) bị ảnh hưởng bởi sự thay đổi điều kiện ban đầu, dẫn đến các chuỗi suy luận bị phá vỡ. Mặc dù một số quy tắc khác (như Điều 78 và Điều 86) vẫn còn hiệu lực, nhưng chúng không trực tiếp dẫn đến hệ quả về việc chấm dứt hoạt động. Các ứng viên thay thế chưa được xác nhận điều kiện, nên không thể sử dụng để thay thế. Do đó, không còn đủ căn cứ pháp lý để khẳng định kết luận ban đầu.",
       "generator": "ollama",
-      "runtime_seconds": 24.0073,
+      "runtime_seconds": 17.779,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 7,
@@ -1626,15 +1633,22 @@
         "edges": [],
         "score": 0.0
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "NO_PATH_FOUND",
+      "predicted_overall_verification_label": "NO_CAUSAL_PATH_FOUND",
+      "predicted_final_effect_reachable": false,
+      "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
+      "predicted_answer": "Trong trường hợp điều kiện \"bị áp dụng hình phạt chính\" không còn xảy ra, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để duy trì kết luận về việc \"phải chấp hành hình phạt tại cơ sở giam giữ trong một thời hạn nhất định\". Theo quy tắc, việc phủ nhận điều kiện ban đầu không tự động chứng minh rằng mọi hệ quả pháp lý liên quan chắc chắn không thể phát sinh từ căn cứ khác. Do không tìm thấy causal path factual hợp lệ từ kết quả truy hồi, không thể xác định chắc chắn tính hợp lệ của kết luận ban đầu.  \n\nViệc thiếu bằng chứng pháp lý cụ thể để chứng minh sự tồn tại của các điều kiện dẫn đến hệ quả cần thiết khiến kết luận về việc phải chấp hành hình phạt trở nên không có cơ sở. Trong bối cảnh này, cần thận trọng tránh khẳng định ngược lại mà chỉ nêu rõ rằng hiện tại chưa đủ căn cứ để xác định hệ quả pháp lý đó. Do đó, kết luận cuối cùng là: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo.",
       "generator": "ollama",
-      "runtime_seconds": 0.0119,
-      "error": "ValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 612, in main\n    counterfactual_result = verifier.verify(\n                            ^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/4_counterfactual_verification.py\", line 819, in verify\n    raise ValueError(\"Không tìm thấy causal path hợp lệ trong retrieval_result.json.\")\nValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.\n"
+      "runtime_seconds": 10.8292,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 0,
+        "removed_rule_count": 0,
+        "alternative_candidate_count": 0,
+        "valid_rule_ids": [],
+        "removed_rule_ids": [],
+        "alternative_candidate_rule_ids": []
+      }
     },
     {
       "question_id": "CF010",
@@ -1651,15 +1665,22 @@
         "edges": [],
         "score": 0.0
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "NO_PATH_FOUND",
+      "predicted_overall_verification_label": "NO_CAUSAL_PATH_FOUND",
+      "predicted_final_effect_reachable": false,
+      "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
+      "predicted_answer": "Trong trường hợp điều kiện \"bị áp dụng hình phạt chính\" không còn xảy ra hoặc không còn thỏa mãn, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để duy trì kết luận về \"thời hạn tù từ 03 tháng đến 20 năm\". Theo quy tắc, việc phủ nhận điều kiện ban đầu không tự động chứng minh các hệ quả pháp lý liên quan không thể phát sinh từ căn cứ khác. Do không tìm thấy causal path factual hợp lệ từ kết quả truy hồi, không thể xác định chắc chắn rằng các hệ quả như thời hạn tù vẫn tồn tại. Vì vậy, cần khẳng định rằng chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo.",
       "generator": "ollama",
-      "runtime_seconds": 0.0097,
-      "error": "ValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 612, in main\n    counterfactual_result = verifier.verify(\n                            ^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/4_counterfactual_verification.py\", line 819, in verify\n    raise ValueError(\"Không tìm thấy causal path hợp lệ trong retrieval_result.json.\")\nValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.\n"
+      "runtime_seconds": 10.3469,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 0,
+        "removed_rule_count": 0,
+        "alternative_candidate_count": 0,
+        "valid_rule_ids": [],
+        "removed_rule_ids": [],
+        "alternative_candidate_rule_ids": []
+      }
     },
     {
       "question_id": "CF011",
@@ -1752,9 +1773,9 @@
       "predicted_overall_verification_label": "INTERVENTION_HAS_NO_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định phản thực, các bằng chứng hợp lệ vẫn tồn tại từ các quy tắc PRESERVED (Điều 63) liên quan đến việc xét giảm án lần đầu và giảm xuống 30 năm tù. Tuy nhiên, kết luận về \"mức hình phạt không quá ba phần tư mức phạt tù do điều luật quy định\" không được trực tiếp hỗ trợ bởi các quy tắc này. Các quy tắc hiện có chỉ xác định việc giảm án cụ thể (30 năm tù) mà không đề cập đến giới hạn tỷ lệ phần trăm so với mức phạt tối đa. Ngoài ra, các quy tắc thay thế (257, 266, 252) có điều kiện chưa được kiểm chứng, nên không thể dùng để khẳng định kết luận. Do đó, không đủ căn cứ để xác định hệ quả cuối cùng về tỷ lệ phần trăm mức phạt.",
+      "predicted_answer": "Trong tình huống giả định phản thực, khi điều kiện \"bị áp dụng hình phạt chính\" không còn xảy ra, các bằng chứng hợp lệ vẫn còn tồn tại và đủ để xác định hệ quả cuối cùng. Cụ thể, các quy tắc PRESERVED (Điều 63) vẫn đảm bảo rằng nếu bị cáo đã chấp hành được một phần ba thời hạn hình phạt, sẽ được xét giảm án lần đầu, sau đó giảm xuống 30 năm tù. Điều này cho thấy hệ quả \"mức hình phạt không quá ba phần tư mức phạt tù do điều luật quy định\" vẫn có thể đạt được, vì 30 năm tù không vượt quá ba phần tư mức phạt tối đa (nếu mức phạt tối đa cao hơn 40 năm). \n\nTuy nhiên, các quy tắc thay thế (CONDITION_NOT_VERIFIED) chưa thể xác nhận điều kiện của chúng, nên không thể dùng để khẳng định kết luận. Do đó, kết luận duy nhất có thể đưa ra là: **còn đủ căn cứ để xác định rằng mức hình phạt không vượt quá ba phần tư mức phạt tù do điều luật quy định**, dựa trên các quy tắc PRESERVED vẫn còn hiệu lực.",
       "generator": "ollama",
-      "runtime_seconds": 10.7038,
+      "runtime_seconds": 18.1101,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 3,
@@ -1788,15 +1809,22 @@
         "edges": [],
         "score": 0.0
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "NO_PATH_FOUND",
+      "predicted_overall_verification_label": "NO_CAUSAL_PATH_FOUND",
+      "predicted_final_effect_reachable": false,
+      "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
+      "predicted_answer": "Trong trường hợp điều kiện \"bị áp dụng hình phạt chính\" không còn xảy ra, không còn bằng chứng hợp lệ để duy trì kết luận ban đầu về việc \"các hình phạt được cộng lại thành hình phạt chung không quá 30 năm\". Theo quy tắc, chỉ những rule có trạng thái PRESERVED hoặc ACTIVATED mới được coi là bằng chứng hợp lệ, nhưng trong trường hợp này, không có rule nào đạt điều kiện này. Việc phủ nhận điều kiện ban đầu không tự động chứng minh rằng hệ quả pháp lý liên quan không thể phát sinh từ căn cứ khác. Do đó, không thể khẳng định chắc chắn rằng kết luận về giới hạn hình phạt chung không còn đúng.  \n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định rằng hệ quả về hình phạt chung không quá 30 năm vẫn tồn tại. Việc loại bỏ điều kiện \"bị áp dụng hình phạt chính\" không tạo ra cơ sở pháp lý mới để thay thế cho kết luận ban đầu. Vì không có rule nào trong chuỗi suy luận được xác nhận là PRESERVED hoặc ACTIVATED, nên không thể khẳng định hay phủ nhận kết luận dựa trên thông tin hiện có.",
       "generator": "ollama",
-      "runtime_seconds": 0.0098,
-      "error": "ValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 612, in main\n    counterfactual_result = verifier.verify(\n                            ^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/4_counterfactual_verification.py\", line 819, in verify\n    raise ValueError(\"Không tìm thấy causal path hợp lệ trong retrieval_result.json.\")\nValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.\n"
+      "runtime_seconds": 10.9156,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 0,
+        "removed_rule_count": 0,
+        "alternative_candidate_count": 0,
+        "valid_rule_ids": [],
+        "removed_rule_ids": [],
+        "alternative_candidate_rule_ids": []
+      }
     },
     {
       "question_id": "CF013",
@@ -1910,15 +1938,33 @@
         ],
         "score": 1.1652926421165466
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "PARTIALLY_INVALIDATED",
+      "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
+      "predicted_final_effect_reachable": true,
+      "predicted_answer_label": "SUPPORTED",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"đã chấp hành được 12 năm tù\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu bị ảnh hưởng do Rule 256 (liên quan đến điều kiện 12 năm tù) bị loại bỏ. Tuy nhiên, các rule khác như Rule 264 và 265 (điều kiện 25 năm tù) vẫn giữ nguyên trạng thái PRESERVED, cho phép tiếp tục suy luận về việc được xét giảm án lần đầu. Nếu điều kiện 25 năm tù vẫn được đáp ứng, thì kết luận \"được giảm xuống 30 năm tù\" vẫn có thể đạt được thông qua Rule 258. Tuy nhiên, do không có thông tin xác nhận liệu điều kiện 25 năm tù có còn thỏa mãn hay không, hệ thống không thể khẳng định chắc chắn kết luận này. Do đó, mặc dù tồn tại bằng chứng hợp lệ, nhưng chưa đủ căn cứ để khẳng định kết quả cuối cùng.",
       "generator": "ollama",
-      "runtime_seconds": 180.1473,
-      "error": "TimeoutError: timed out",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 638, in main\n    final_answer = answer_module.call_ollama(\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/5_generate_final_answer.py\", line 692, in call_ollama\n    with urllib.request.urlopen(request, timeout=timeout) as response:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 515, in open\n    response = self._open(req, data)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 532, in _open\n    result = self._call_chain(self.handle_open, protocol, protocol +\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 1373, in http_open\n    return self.do_open(http.client.HTTPConnection, req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 1348, in do_open\n    r = h.getresponse()\n        ^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/http/client.py\", line 1450, in getresponse\n    response.begin()\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/http/client.py\", line 336, in begin\n    version, status, reason = self._read_status()\n                              ^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/http/client.py\", line 297, in _read_status\n    line = str(self.fp.readline(_MAXLINE + 1), \"iso-8859-1\")\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/socket.py\", line 720, in readinto\n    return self._sock.recv_into(b)\n           ^^^^^^^^^^^^^^^^^^^^^^^\nTimeoutError: timed out\n"
+      "runtime_seconds": 19.3066,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 3,
+        "removed_rule_count": 2,
+        "alternative_candidate_count": 3,
+        "valid_rule_ids": [
+          "264",
+          "258",
+          "265"
+        ],
+        "removed_rule_ids": [
+          "256",
+          "258"
+        ],
+        "alternative_candidate_rule_ids": [
+          "259",
+          "255",
+          "254"
+        ]
+      }
     },
     {
       "question_id": "CF014",
@@ -2032,15 +2078,33 @@
         ],
         "score": 1.1780804014205932
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "PARTIALLY_INVALIDATED",
+      "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
+      "predicted_final_effect_reachable": true,
+      "predicted_answer_label": "SUPPORTED",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"đã chấp hành được một phần ba thời hạn hình phạt\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu vẫn có thể duy trì kết luận \"được giảm xuống 30 năm tù\" nhờ các bằng chứng hợp lệ còn tồn tại. Cụ thể, các quy tắc Điều 63 (Rule 264, 265 và 258) vẫn giữ trạng thái PRESERVED, cho phép xác lập mối liên hệ logic: nếu đã chấp hành đủ 25 năm tù (điều kiện của Rule 264/265), thì được xét giảm án lần đầu (hệ quả của Rule 264/265), từ đó dẫn đến kết luận \"được giảm xuống 30 năm tù\" (hệ quả của Rule 258). \n\nTuy nhiên, cần lưu ý rằng các quy tắc thay thế (Rule 260, 266, 257) chỉ là ứng viên tiềm năng, chưa được xác nhận điều kiện trong tình huống phản thực. Do đó, kết luận cuối cùng vẫn dựa trên chuỗi causal path còn hợp lệ, không bị ảnh hưởng bởi sự loại bỏ của điều kiện một phần ba thời hạn hình phạt. Trong trường hợp này, không có căn cứ để khẳng định kết luận không đúng, nhưng cũng không thể khẳng định chắc chắn kết luận vẫn đúng mà phải đánh giá dựa trên bằng chứng hiện có.",
       "generator": "ollama",
-      "runtime_seconds": 180.1474,
-      "error": "TimeoutError: timed out",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 638, in main\n    final_answer = answer_module.call_ollama(\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/5_generate_final_answer.py\", line 692, in call_ollama\n    with urllib.request.urlopen(request, timeout=timeout) as response:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 515, in open\n    response = self._open(req, data)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 532, in _open\n    result = self._call_chain(self.handle_open, protocol, protocol +\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 1373, in http_open\n    return self.do_open(http.client.HTTPConnection, req)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/urllib/request.py\", line 1348, in do_open\n    r = h.getresponse()\n        ^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/http/client.py\", line 1450, in getresponse\n    response.begin()\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/http/client.py\", line 336, in begin\n    version, status, reason = self._read_status()\n                              ^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/http/client.py\", line 297, in _read_status\n    line = str(self.fp.readline(_MAXLINE + 1), \"iso-8859-1\")\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/.conda/envs/nhungnt/lib/python3.12/socket.py\", line 720, in readinto\n    return self._sock.recv_into(b)\n           ^^^^^^^^^^^^^^^^^^^^^^^\nTimeoutError: timed out\n"
+      "runtime_seconds": 16.5266,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 3,
+        "removed_rule_count": 2,
+        "alternative_candidate_count": 3,
+        "valid_rule_ids": [
+          "265",
+          "258",
+          "264"
+        ],
+        "removed_rule_ids": [
+          "255",
+          "258"
+        ],
+        "alternative_candidate_rule_ids": [
+          "260",
+          "266",
+          "257"
+        ]
+      }
     },
     {
       "question_id": "CF015",
@@ -2133,9 +2197,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Theo quy tắc và bằng chứng được cung cấp, khi điều kiện \"đã chấp hành được 25 năm tù\" bị phủ nhận, các quy tắc liên quan đến kết luận \"được giảm xuống 30 năm tù\" không còn được duy trì. Cụ thể, các quy tắc 265, 264 (điều kiện bị vô hiệu hóa) và quy tắc 258 (bị chặn bởi sự kiện đầu vào không còn khả thi) không còn hỗ trợ hệ quả ban đầu. Các quy tắc thay thế (256, 255, 254) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực. Do đó, không có bằng chứng hợp lệ nào còn tồn tại để duy trì kết luận \"được giảm xuống 30 năm tù\". Hệ thống không thể khẳng định chắc chắn rằng hệ quả này vẫn xảy ra, vì không còn đường dẫn hợp lệ từ các điều kiện đã được kiểm chứng. Kết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định kết quả cuối cùng vẫn áp dụng.",
+      "predicted_answer": "Theo quy tắc và bằng chứng được cung cấp, khi điều kiện \"đã chấp hành được 25 năm tù\" không còn xảy ra, các quy tắc liên quan đến kết luận \"được giảm xuống 30 năm tù\" không còn được hỗ trợ bởi bằng chứng hợp lệ. Cụ thể, các quy tắc 265, 264 và 258 đều bị vô hiệu hóa hoặc bị chặn do điều kiện đầu vào không còn khả thi. Các quy tắc thay thế (256, 255, 254) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực. Do đó, không thể khẳng định kết luận \"được giảm xuống 30 năm tù\" vẫn có căn cứ pháp lý. Hệ thống không còn bằng chứng hợp lệ để duy trì kết luận ban đầu, nên phải kết luận rằng chưa đủ căn cứ để xác định hệ quả này vẫn áp dụng. Việc phủ định điều kiện ban đầu không tự động chứng minh kết quả đó chắc chắn không xảy ra, mà chỉ cho thấy cần kiểm tra các điều kiện thay thế khác.",
       "generator": "ollama",
-      "runtime_seconds": 10.4904,
+      "runtime_seconds": 10.7088,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -2373,9 +2437,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu bị ảnh hưởng do một số rule bị phá vỡ hoặc chặn. Cụ thể, Rule 343 (Điều 79) – quy định kết nối giữa đình chỉ hoạt động vĩnh viễn và chấm dứt hoạt động trong lĩnh vực – không còn khả thi vì điều kiện đầu vào (đình chỉ vĩnh viễn) không còn reachable sau can thiệp. Các rule khác như Rule 340 (Điều 78) chỉ dẫn đến việc tạm dừng hoạt động, không trực tiếp dẫn đến kết luận \"chấm dứt hoạt động\". \n\nDù có một số rule PRESERVED (như Điều 33, Điều 78, Điều 79) vẫn còn hợp lệ, chúng không đủ để duy trì kết luận về việc chấm dứt hoạt động trong lĩnh vực. Các rule thay thế tiềm năng (Điều 86) chưa được xác nhận điều kiện, nên không thể sử dụng để khẳng định hệ quả. Do đó, không còn bằng chứng hợp lệ để kết luận \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\" trong tình huống phản thực này. Hệ thống phải kết luận rằng \"chưa đủ căn cứ\" để khẳng định hệ quả cuối.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu bị ảnh hưởng do một số rule bị phá vỡ hoặc chặn. Cụ thể, Rule 343 (Điều 79) – quy định dẫn đến kết luận \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\" – hiện ở trạng thái BLOCKED_BY_UPSTREAM vì điều kiện đầu vào \"đình chỉ hoạt động vĩnh viễn\" không còn khả thi sau can thiệp. Các rule khác như Rule 105, 340, 106, 339, 342 vẫn được bảo toàn nhưng không đủ để duy trì kết luận cuối cùng do thiếu liên kết trực tiếp đến hệ quả cần xác định. \n\nCác rule thay thế (Rule 386, 384, 385) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được kiểm chứng trong bối cảnh phản thực. Do đó, không thể khẳng định kết luận \"chấm dứt hoạt động\" vẫn hợp lệ. Hệ thống không còn bằng chứng pháp lý đủ để xác nhận hệ quả này, nên cần kết luận rằng \"chưa đủ căn cứ\" để khẳng định kết quả.",
       "generator": "ollama",
-      "runtime_seconds": 19.2218,
+      "runtime_seconds": 13.7627,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 7,
@@ -2416,15 +2480,22 @@
         "edges": [],
         "score": 0.0
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "NO_PATH_FOUND",
+      "predicted_overall_verification_label": "NO_CAUSAL_PATH_FOUND",
+      "predicted_final_effect_reachable": false,
+      "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
+      "predicted_answer": "Trong trường hợp điều kiện hoặc sự kiện ban đầu (bị xử phạt tù không quá 03 năm, có nhân thân tốt, có các tình tiết giảm nhẹ và không cần bắt chấp hành hình phạt tù) không còn xảy ra hoặc không còn được thỏa mãn, thì không còn bằng chứng hợp lệ để duy trì kết luận \"được giao cho cơ quan, tổ chức hoặc chính quyền địa phương giám sát, giáo dục\". Theo quy tắc, chỉ những rule có trạng thái PRESERVED hoặc ACTIVATED mới được coi là bằng chứng hợp lệ, và trong trường hợp này, không có rule nào đạt điều kiện đó. Do đó, không thể khẳng định kết luận ban đầu vẫn đúng dựa trên các bằng chứng đã truy hồi.  \n\nViệc phủ định điều kiện ban đầu không tự động chứng minh rằng mọi hệ quả pháp lý liên quan (như việc được giám sát, giáo dục) chắc chắn không thể xảy ra từ một căn cứ độc lập khác. Tuy nhiên, theo quy tắc, nếu không còn bằng chứng hợp lệ để xác lập mối liên hệ nhân quả, thì không thể duy trì kết luận ban đầu. Trong bối cảnh này, không có rule nào được xác nhận là PRESERVED hoặc ACTIVATED, nên không đủ căn cứ pháp lý để khẳng định kết luận về việc người đó thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo.  \n\nKết luận: Từ tập bằng chứng hiện có, không đủ căn cứ để xác định người này vẫn thuộc trường hợp được giao cho cơ quan, tổ chức hoặc chính quyền địa phương giám sát, giáo dục. Việc phủ định điều kiện ban đầu không thể thay thế cho việc kiểm chứng các bằng chứng hợp lệ khác, và do đó, không thể khẳng định chắc chắn rằng kết luận ban đầu vẫn đúng.",
       "generator": "ollama",
-      "runtime_seconds": 0.0212,
-      "error": "ValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 612, in main\n    counterfactual_result = verifier.verify(\n                            ^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/4_counterfactual_verification.py\", line 819, in verify\n    raise ValueError(\"Không tìm thấy causal path hợp lệ trong retrieval_result.json.\")\nValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.\n"
+      "runtime_seconds": 12.2577,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 0,
+        "removed_rule_count": 0,
+        "alternative_candidate_count": 0,
+        "valid_rule_ids": [],
+        "removed_rule_ids": [],
+        "alternative_candidate_rule_ids": []
+      }
     },
     {
       "question_id": "CF018",
@@ -2441,15 +2512,22 @@
         "edges": [],
         "score": 0.0
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "NO_PATH_FOUND",
+      "predicted_overall_verification_label": "NO_CAUSAL_PATH_FOUND",
+      "predicted_final_effect_reachable": false,
+      "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
+      "predicted_answer": "Trong trường hợp điều kiện hoặc sự kiện ban đầu (bị xử phạt tù không quá 03 năm, có nhân thân tốt, có các tình tiết giảm nhẹ và không cần bắt chấp hành hình phạt tù) không còn xảy ra hoặc không còn được thỏa mãn, thì không còn bằng chứng hợp lệ để duy trì kết luận về việc phải thực hiện nghĩa vụ trong thời gian thử thách từ 01 năm đến 05 năm. Điều này là do không có rule nào trong các factual path được xác nhận là PRESERVED hoặc ACTIVATED, dẫn đến việc không thể xây dựng được causal path hợp lệ từ các bằng chứng đã truy hồi. Việc phủ định điều kiện ban đầu không tự động chứng minh rằng các hệ quả pháp lý liên quan (như nghĩa vụ thử thách) chắc chắn không thể phát sinh từ căn cứ pháp lý khác. Do đó, từ tập bằng chứng hiện có, chưa đủ căn cứ để xác định người này thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo.",
       "generator": "ollama",
-      "runtime_seconds": 0.0216,
-      "error": "ValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 612, in main\n    counterfactual_result = verifier.verify(\n                            ^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/4_counterfactual_verification.py\", line 819, in verify\n    raise ValueError(\"Không tìm thấy causal path hợp lệ trong retrieval_result.json.\")\nValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.\n"
+      "runtime_seconds": 10.4712,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 0,
+        "removed_rule_count": 0,
+        "alternative_candidate_count": 0,
+        "valid_rule_ids": [],
+        "removed_rule_ids": [],
+        "alternative_candidate_rule_ids": []
+      }
     },
     {
       "question_id": "CF019",
@@ -2498,30 +2576,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.1984378910064697
-        },
-        {
-          "rank": 3,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -2537,6 +2591,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.1984378910064697
+        },
+        {
+          "rank": 3,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.1984378910064697
@@ -2642,9 +2720,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"bị cấm huy động vốn của khách hàng\" không còn tồn tại. Điều này xuất phát từ việc Rule 348 (Điều 81) bị vô hiệu hóa do điều kiện đầu vào bị phủ định trực tiếp, đồng thời các rule liên kết (350-355) bị chặn bởi sự kiện đầu vào không còn khả thi. Không còn rule nào trong chuỗi suy luận pháp lý có trạng thái PRESERVED hoặc ACTIVATED, nên không thể duy trì kết luận ban đầu. Các rule thay thế (354, 347) chỉ là ứng viên chưa xác nhận điều kiện, không đủ để khẳng định hệ quả. Do đó, chưa đủ căn cứ pháp lý để xác định hệ quả \"bị cấm huy động vốn của khách hàng\" vẫn áp dụng, dù điều kiện ban đầu bị phủ nhận.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"bị cấm huy động vốn của khách hàng\" không còn tồn tại. Điều này xuất phát từ việc Rule 348 (Điều 81) bị vô hiệu hóa do điều kiện đầu vào bị phủ định trực tiếp, dẫn đến các rule liên quan (350-355) bị chặn bởi sự kiện phía trước không thể tiếp cận. Không còn rule nào trong chuỗi suy luận pháp lý ban đầu được xác nhận là PRESERVED hoặc ACTIVATED, nên không thể duy trì kết luận ban đầu. Các rule thay thế (354, 347) chỉ là ứng viên tiềm năng nhưng điều kiện của chúng chưa được kiểm chứng. Do đó, không đủ căn cứ pháp lý để khẳng định hệ quả \"bị cấm huy động vốn của khách hàng\" vẫn áp dụng. Việc phủ định điều kiện ban đầu không tự động chứng minh mọi hệ quả liên quan chắc chắn không xảy ra, mà chỉ cho thấy không còn bằng chứng hợp lệ để xác định kết luận đó.",
       "generator": "ollama",
-      "runtime_seconds": 12.1675,
+      "runtime_seconds": 12.2111,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -2654,8 +2732,8 @@
         "removed_rule_ids": [
           "348",
           "350",
-          "353",
           "349",
+          "353",
           "351",
           "352",
           "355"
@@ -2713,30 +2791,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.136792323589325
-        },
-        {
-          "rank": 3,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -2752,6 +2806,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.136792323589325
+        },
+        {
+          "rank": 3,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.136792323589325
@@ -2857,9 +2935,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"bị cấm liên doanh hoặc liên kết trong và ngoài nước\" không còn tồn tại. Cụ thể, Rule 352 (Điều 81) – quy tắc trực tiếp dẫn đến hệ quả cần đánh giá – bị chặn bởi upstream do điều kiện đầu vào \"bị cấm huy động vốn\" không còn khả thi sau khi điều kiện gốc bị phủ nhận. Các quy tắc khác trong chuỗi (Rule 348, 350, 353, 349, 351, 355) cũng đều bị vô hiệu hóa hoặc bị chặn do sự thay đổi trong điều kiện đầu vào. \n\nKhông còn rule nào trong hệ thống có trạng thái PRESERVED hoặc ACTIVATED để duy trì kết luận ban đầu. Các rule thay thế (Rule 354, 347) chỉ là ứng viên tiềm năng nhưng điều kiện của chúng chưa được xác nhận trong bối cảnh phản thực. Do đó, không thể khẳng định kết luận \"bị cấm liên doanh hoặc liên kết\" vẫn hợp lệ. \n\nTheo quy tắc, khi không còn bằng chứng hợp lệ, phải kết luận \"chưa đủ căn cứ\" thay vì phủ nhận chắc chắn. Việc phủ định điều kiện ban đầu không tự động loại bỏ khả năng tồn tại các căn cứ độc lập khác, nhưng trong trường hợp này, không có bằng chứng nào còn tồn tại để hỗ trợ hệ quả cuối. Vì vậy, chưa đủ căn cứ pháp lý để xác định kết luận ban đầu vẫn đúng.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"bị cấm liên doanh hoặc liên kết trong và ngoài nước\" không còn tồn tại. Theo chuỗi quy tắc, kết luận này dựa trên Rule 352 (Điều 81), nhưng điều kiện của Rule 352 là \"bị cấm huy động vốn,\" một hệ quả của Rule 348. Tuy nhiên, Rule 348 đã bị vô hiệu hóa do điều kiện đầu vào của nó bị phủ định trực tiếp. Do đó, không còn đường dẫn hợp lệ để duy trì kết luận ban đầu.  \n\nCác quy tắc khác trong chuỗi (Rule 350, 349, 353, 351, 355) đều bị chặn bởi sự kiện đầu vào \"bị cấm huy động vốn\" không còn khả thi sau can thiệp. Điều này khiến tất cả các hệ quả liên quan đến cấm huy động vốn, phát hành chứng khoán, vay vốn, hoặc liên doanh đều không còn được hỗ trợ bởi bằng chứng hợp lệ. Ngoài ra, các quy tắc thay thế (Rule 354, 347) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống hiện tại.  \n\nVì không còn rule nào có trạng thái PRESERVED hoặc ACTIVATED để hỗ trợ kết luận, hệ thống không thể khẳng định chắc chắn rằng hệ quả \"bị cấm liên doanh hoặc liên kết\" vẫn áp dụng. Việc phủ định điều kiện ban đầu không tự động loại bỏ khả năng tồn tại của các căn cứ độc lập khác, nhưng trong bối cảnh hiện tại, không đủ căn cứ pháp lý để duy trì kết luận ban đầu. Do đó, cần xác định rằng chưa đủ điều kiện để khẳng định hệ quả tiếp theo.",
       "generator": "ollama",
-      "runtime_seconds": 14.1065,
+      "runtime_seconds": 15.8532,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -2869,8 +2947,8 @@
         "removed_rule_ids": [
           "348",
           "350",
-          "353",
           "349",
+          "353",
           "351",
           "352",
           "355"
@@ -2996,30 +3074,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.1331318235397339
-        },
-        {
-          "rank": 5,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -3035,6 +3089,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.1331318235397339
+        },
+        {
+          "rank": 5,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.1331318235397339
@@ -3194,9 +3272,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, chuỗi suy luận pháp lý dẫn đến kết luận \"bị cấm phát hành hoặc chào bán chứng khoán\" không còn được duy trì. Các quy tắc liên quan đến cấm huy động vốn (Rule 348, 350, 351, 352, 353, 354, 355) bị vô hiệu hóa hoặc bị chặn do điều kiện đầu vào không còn hợp lệ. Do đó, hệ quả \"bị cấm phát hành hoặc chào bán chứng khoán\" không còn được hỗ trợ bởi bằng chứng hợp lệ.  \n\nCác quy tắc còn giữ nguyên trạng thái PRESERVED (Điều 53, 43, 388) chỉ xác định hình phạt quản chế hoặc tù giam cho tái phạm nguy hiểm, nhưng không liên quan trực tiếp đến cấm phát hành chứng khoán. Các quy tắc thay thế (Rule 147, 1601, 1602) chưa được kiểm chứng điều kiện, nên không thể xác định hệ quả thay thế.  \n\nVì không còn bằng chứng hợp lệ để khẳng định kết luận \"bị cấm phát hành hoặc chào bán chứng khoán\", hệ thống phải kết luận rằng hiện tại chưa đủ căn cứ để xác nhận hệ quả này. Trong trường hợp này, không thể khẳng định chắc chắn rằng hành vi bị cấm không tồn tại, mà chỉ xác nhận rằng chuỗi pháp lý dẫn đến kết luận ban đầu không còn hợp lệ.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng pháp lý liên quan đến việc bị cấm phát hành hoặc chào bán chứng khoán không còn hợp lệ. Cụ thể, Rule 348 (Điều 81) bị loại do điều kiện đầu vào bị phủ nhận, dẫn đến các rule phụ thuộc (Rule 350, 349, 353, v.v.) bị chặn bởi sự kiện phía trước không còn khả thi. Do đó, kết luận về việc bị cấm phát hành chứng khoán không còn được hỗ trợ bởi chuỗi logic pháp lý.  \n\nTuy nhiên, vẫn tồn tại một số bằng chứng hợp lệ khác như Rule 205 (Điều 53), Rule 148, 143, 149, 1604 (Điều 388), dẫn đến các hệ quả như áp dụng hình phạt quản chế, thời hạn quản chế, hoặc phạt tù. Những hệ quả này không liên quan trực tiếp đến việc bị cấm phát hành chứng khoán. Các rule thay thế tiềm năng (Rule 147, 1603, 1602) vẫn chưa được xác nhận điều kiện, nên không thể sử dụng để khẳng định kết luận.  \n\nVì không còn bằng chứng hợp lệ để duy trì kết luận về việc bị cấm phát hành chứng khoán, hệ thống không thể khẳng định chắc chắn có hệ quả này. Do đó, cần kết luận rằng chưa đủ căn cứ để xác định việc bị cấm phát hành hoặc chào bán chứng khoán trong tình huống đã nêu.",
       "generator": "ollama",
-      "runtime_seconds": 13.9651,
+      "runtime_seconds": 15.3361,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 5,
@@ -3212,15 +3290,15 @@
         "removed_rule_ids": [
           "348",
           "350",
-          "353",
           "349",
+          "353",
           "351",
           "352",
           "355"
         ],
         "alternative_candidate_rule_ids": [
           "147",
-          "1601",
+          "1603",
           "1602"
         ]
       }
@@ -3272,30 +3350,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.1442423677444458
-        },
-        {
-          "rank": 3,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -3311,6 +3365,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.1442423677444458
+        },
+        {
+          "rank": 3,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.1442423677444458
@@ -3416,9 +3494,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để duy trì kết luận \"bị cấm hình thành quỹ tín thác bất động sản\" không còn tồn tại. Điều này do Rule 348 (Điều 81) bị vô hiệu hóa do điều kiện đầu vào bị phủ định, dẫn đến các rule liên quan (350, 353, 349, 351, 352, 355) bị chặn bởi sự kiện phía trước không còn khả thi. Không còn rule nào trong chuỗi suy luận pháp lý ban đầu có trạng thái PRESERVED hoặc ACTIVATED, nên không thể khẳng định kết luận ban đầu vẫn hợp lệ.  \n\nCác rule thay thế (347, 354) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực. Do đó, không thể coi chúng là bằng chứng đủ để hỗ trợ hệ quả cuối. Việc phủ định điều kiện ban đầu không tự động chứng minh rằng các hệ quả liên quan chắc chắn không thể phát sinh từ căn cứ khác. Vì vậy, theo quy tắc, khi không còn bằng chứng hợp lệ, cần kết luận \"chưa đủ căn cứ\" thay vì khẳng định chắc chắn không có hệ quả.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"bị cấm hình thành quỹ tín thác bất động sản\" không còn tồn tại. Điều này xuất phát từ việc tất cả các quy tắc liên quan (Rule 353 và các quy tắc khác trong chuỗi Điều 81) đều bị phá vỡ hoặc bị chặn do sự kiện đầu vào không còn khả thi. Không có quy tắc nào trong trạng thái PRESERVED hoặc ACTIVATED để duy trì hệ quả ban đầu. Các quy tắc thay thế (Rule 354, 347) chỉ là ứng viên chưa được xác nhận điều kiện, do đó không thể sử dụng để khẳng định kết luận. Vì vậy, chưa đủ căn cứ pháp lý để xác định hệ quả \"bị cấm hình thành quỹ tín thác bất động sản\" vẫn áp dụng. Việc phủ định điều kiện ban đầu không tự động chứng minh mọi hệ quả liên quan chắc chắn không thể phát sinh từ căn cứ khác.",
       "generator": "ollama",
-      "runtime_seconds": 12.9654,
+      "runtime_seconds": 11.5798,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -3428,8 +3506,8 @@
         "removed_rule_ids": [
           "348",
           "350",
-          "353",
           "349",
+          "353",
           "351",
           "352",
           "355"
@@ -3487,30 +3565,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.1825509881973266
-        },
-        {
-          "rank": 3,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -3526,6 +3580,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.1825509881973266
+        },
+        {
+          "rank": 3,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.1825509881973266
@@ -3631,9 +3709,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng pháp lý hỗ trợ kết luận ban đầu đã bị phá vỡ. Cụ thể, Rule 348 (Điều 81) bị vô hiệu hóa do điều kiện đầu vào bị phủ nhận, đồng thời các rule liên kết (350-355) bị chặn do không thể tiếp cận sự kiện đầu vào từ trước. Không còn rule nào trong chuỗi suy luận đạt trạng thái PRESERVED hoặc ACTIVATED, dẫn đến việc không thể duy trì kết luận về việc bị cấm vay vốn hoặc các hệ quả liên quan.  \n\nCác rule thay thế (347, 354) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong bối cảnh hiện tại. Do đó, không thể khẳng định chắc chắn rằng các hệ quả pháp lý trước đây vẫn áp dụng. Theo quy tắc, khi không còn bằng chứng hợp lệ, cần tránh khẳng định kết luận mà phải thừa nhận \"chưa đủ căn cứ\". Việc phủ định điều kiện ban đầu không tự động loại bỏ khả năng tồn tại các căn cứ độc lập khác, nhưng trong trường hợp này, không có bằng chứng nào đủ để hỗ trợ kết luận cuối.  \n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm hoặc bị áp dụng các hệ quả tiếp theo.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư\" không còn tồn tại. Điều này xuất phát từ việc tất cả các quy tắc (rule) liên quan đến hệ quả này đều bị vô hiệu hóa hoặc bị chặn bởi sự kiện đầu vào không còn khả thi. Cụ thể, Rule 348 (điều kiện ban đầu) bị vô hiệu hóa do điều kiện đầu vào bị phủ nhận, dẫn đến các rule phụ thuộc (Rule 349, 350, 351, 352, 353, 355) không thể kích hoạt. Các quy tắc thay thế (Rule 347, 354) hiện chỉ ở trạng thái điều kiện chưa xác nhận, chưa đủ cơ sở để khẳng định hệ quả. Do đó, không còn bằng chứng hợp lệ để duy trì kết luận ban đầu. Hệ thống không thể xác định chắc chắn rằng các hệ quả pháp lý liên quan vẫn áp dụng, vì việc phủ định điều kiện ban đầu không tự động loại bỏ khả năng tồn tại của các căn cứ pháp lý độc lập khác.",
       "generator": "ollama",
-      "runtime_seconds": 12.1162,
+      "runtime_seconds": 11.9175,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -3643,8 +3721,8 @@
         "removed_rule_ids": [
           "348",
           "350",
-          "353",
           "349",
+          "353",
           "351",
           "352",
           "355"
@@ -3702,30 +3780,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.1407420253753662
-        },
-        {
-          "rank": 3,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -3741,6 +3795,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.1407420253753662
+        },
+        {
+          "rank": 3,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.1407420253753662
@@ -3846,9 +3924,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"thời hạn cấm từ 01 năm đến 03 năm\" không còn tồn tại. Các quy tắc liên quan đến điều kiện này (Rule 348, 350-355) đều bị vô hiệu hóa hoặc bị chặn do sự kiện đầu vào không còn khả thi sau can thiệp. Không có quy tắc nào trong chuỗi suy luận ban đầu được xác nhận là PRESERVED hoặc ACTIVATED, dẫn đến việc tất cả các hệ quả pháp lý trước đây không còn được hỗ trợ. Các quy tắc thay thế (Rule 347, 354) chỉ là ứng viên tiềm năng nhưng điều kiện của chúng chưa được kiểm chứng. Do đó, không thể khẳng định chắc chắn rằng hệ quả \"thời hạn cấm từ 01 năm đến 03 năm\" vẫn áp dụng. Hệ thống không đủ căn cứ để duy trì kết luận ban đầu, vì sự phủ định điều kiện gốc không tự động loại bỏ tất cả các cơ sở pháp lý khác.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng pháp lý hỗ trợ kết luận \"thời hạn cấm từ 01 năm đến 03 năm\" đã bị phá vỡ. Cụ thể, Rule 355 (Điều 81) và các rule phụ thuộc (350, 349, 353, 351, 352) đều bị chặn do không thể tiếp cận event đầu vào CAM_HUY_DONG_VON sau can thiệp. Không còn rule nào trong chuỗi causal path được xác nhận là PRESERVED hoặc ACTIVATED, do đó không đủ căn cứ pháp lý để duy trì kết luận ban đầu.  \n\nCác rule thay thế (347, 354) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được kiểm chứng trong tình huống phản thực. Việc phủ định điều kiện ban đầu không tự động chứng minh các hệ quả liên quan không thể phát sinh từ căn cứ độc lập khác. Vì vậy, cần thận trọng trong việc khẳng định hoặc phủ nhận kết luận, và phải công nhận rằng hiện tại chưa đủ căn cứ để xác định hệ quả cuối cùng vẫn áp dụng.",
       "generator": "ollama",
-      "runtime_seconds": 12.7117,
+      "runtime_seconds": 12.0836,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -3858,8 +3936,8 @@
         "removed_rule_ids": [
           "348",
           "350",
-          "353",
           "349",
+          "353",
           "351",
           "352",
           "355"
@@ -3988,9 +4066,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu bị ảnh hưởng do sự can thiệp phá vỡ một số path. Các bằng chứng hợp lệ còn tồn tại bao gồm: Điều 78 quy định hình thức đình chỉ hoạt động có thời hạn (Rule 339, 341) và tạm dừng hoạt động trong một số lĩnh vực (Rule 340). Tuy nhiên, kết luận về \"thời hạn cấm từ 01 năm đến 03 năm\" không còn được hỗ trợ bởi chuỗi factual do Rule 347 (kết nối với điều kiện cấm kinh doanh) bị chặn bởi sự kiện đầu vào không còn khả thi. \n\nCác rule thay thế như Điều 81 (Rule 355) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực. Do đó, không thể khẳng định chắc chắn rằng hệ quả \"thời hạn cấm từ 01 năm đến 03 năm\" vẫn áp dụng. Hệ thống chỉ có thể kết luận rằng, trong điều kiện hiện tại, không đủ căn cứ để khẳng định kết luận ban đầu về thời hạn cấm 1-3 năm.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội\" không còn xảy ra, các bằng chứng pháp lý dẫn đến kết luận \"thời hạn cấm từ 01 năm đến 03 năm\" không còn hợp lệ. Điều này là do chuỗi quy tắc liên quan (Rule 345 và Rule 347) bị ảnh hưởng trực tiếp bởi sự phủ nhận của điều kiện đầu vào, dẫn đến trạng thái INVALIDATED và BLOCKED_BY_UPSTREAM. Các quy tắc thay thế như Rule 355 (Điều 81) chưa được xác nhận điều kiện, nên không thể sử dụng để khẳng định kết luận. Do đó, không còn bằng chứng pháp lý đủ để duy trì hệ quả \"thời hạn cấm từ 01 năm đến 03 năm\". Hệ thống chỉ còn các bằng chứng liên quan đến đình chỉ hoạt động có thời hạn (theo Điều 78), nhưng không đủ để suy ra kết luận ban đầu. Vì vậy, cần kết luận rằng chưa đủ căn cứ để khẳng định hệ quả đó.",
       "generator": "ollama",
-      "runtime_seconds": 13.3213,
+      "runtime_seconds": 10.4847,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 3,
@@ -4155,9 +4233,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục\" không còn xảy ra, các bằng chứng pháp lý dẫn đến kết luận \"tạm dừng hoạt động trong một hoặc một số lĩnh vực\" không còn hợp lệ. Cụ thể, các quy tắc liên quan đến đình chỉ hoạt động có thời hạn (Rule 339, 340, 341) đã bị loại do điều kiện đầu vào bị phủ nhận, đồng thời không còn đường dẫn logic để duy trì kết luận ban đầu. \n\nCác quy tắc còn hiệu lực (Rule 342, 343, 345, 347) chỉ dẫn đến các hệ quả như đình chỉ hoạt động vĩnh viễn, chấm dứt hoạt động hoặc cấm kinh doanh, không bao gồm \"tạm dừng hoạt động\" theo nghĩa pháp lý được quy định trong Điều 78. Do đó, không còn căn cứ pháp lý đủ để khẳng định kết luận về việc tạm dừng hoạt động trong trường hợp này. Hệ thống không thể xác định thêm điều luật hoặc sự kiện mới để thay thế, nên kết luận cuối cùng là \"chưa đủ căn cứ\" để khẳng định hệ quả đó.",
+      "predicted_answer": "Trong tình huống giả định phản thực, điều kiện \"gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục\" không còn xảy ra, dẫn đến việc các quy tắc liên quan đến đình chỉ hoạt động có thời hạn (Rule 339, 340, 341) bị loại hoặc bị chặn. Các bằng chứng hợp lệ còn lại (Rule 342, 343, 345, 347) không trực tiếp hỗ trợ kết luận \"tạm dừng hoạt động trong một hoặc một số lĩnh vực\" mà thay vào đó dẫn đến các hệ quả khác như đình chỉ hoạt động vĩnh viễn hoặc cấm kinh doanh. Do đó, không còn đủ căn cứ để khẳng định kết luận ban đầu về việc tạm dừng hoạt động. Các quy tắc thay thế chỉ là ứng viên cần kiểm tra thêm, không thể xác định chắc chắn hệ quả cuối cùng.",
       "generator": "ollama",
-      "runtime_seconds": 14.5212,
+      "runtime_seconds": 20.8603,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 4,
@@ -4195,15 +4273,22 @@
         "edges": [],
         "score": 0.0
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "NO_PATH_FOUND",
+      "predicted_overall_verification_label": "NO_CAUSAL_PATH_FOUND",
+      "predicted_final_effect_reachable": false,
+      "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
+      "predicted_answer": "Trong trường hợp điều kiện \"gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục\" không còn xảy ra, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để duy trì kết luận về thời hạn đình chỉ từ 06 tháng đến 03 năm. Theo quy tắc, việc phủ nhận điều kiện ban đầu không tự động chứng minh rằng mọi hệ quả pháp lý liên quan không thể phát sinh từ căn cứ độc lập khác. Do đó, từ tập bằng chứng hiện có, chưa đủ căn cứ pháp lý để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Kết luận phải thận trọng, tránh khẳng định chắc chắn không có hệ quả khi không có bằng chứng hợp lệ.",
       "generator": "ollama",
-      "runtime_seconds": 0.012,
-      "error": "ValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 612, in main\n    counterfactual_result = verifier.verify(\n                            ^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/4_counterfactual_verification.py\", line 819, in verify\n    raise ValueError(\"Không tìm thấy causal path hợp lệ trong retrieval_result.json.\")\nValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.\n"
+      "runtime_seconds": 9.416,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 0,
+        "removed_rule_count": 0,
+        "alternative_candidate_count": 0,
+        "valid_rule_ids": [],
+        "removed_rule_ids": [],
+        "alternative_candidate_rule_ids": []
+      }
     },
     {
       "question_id": "CF028",
@@ -4376,9 +4461,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu bị ảnh hưởng. Cụ thể, Rule 343 (Điều 79) bị chặn do điều kiện đầu vào \"bị đình chỉ hoạt động vĩnh viễn\" không còn hợp lệ sau can thiệp. Các bằng chứng hợp lệ còn lại (Rule 383, Rule 340, Rule 345, Rule 347) chỉ dẫn đến các hệ quả như \"tạm dừng hoạt động\", \"thời hạn cấm kinh doanh\" hoặc \"thời hạn đình chỉ hoạt động có thời hạn\", chứ không trực tiếp dẫn đến kết luận \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\". \n\nCác rule thay thế như Rule 355 và Rule 106 vẫn chưa được xác nhận điều kiện, nên không thể sử dụng để khẳng định kết luận. Do đó, không còn bằng chứng hợp lệ để duy trì kết luận ban đầu về việc \"chấm dứt hoạt động\". Hệ thống không thể khẳng định chắc chắn kết luận này, mà phải kết luận rằng \"chưa đủ căn cứ\" để xác định hệ quả cuối cùng.",
+      "predicted_answer": "Trong tình huống giả định phản thực, điều kiện ban đầu dẫn đến việc đình chỉ hoạt động vĩnh viễn (Rule 342) đã bị phủ nhận, làm cho Rule 343 (kết luận chấm dứt hoạt động trong lĩnh vực) không còn được áp dụng. Tuy nhiên, vẫn tồn tại các bằng chứng hợp lệ khác từ các quy tắc như Điều 78, 79, 80, và 86, cho phép suy luận về các hệ quả như đình chỉ hoạt động có thời hạn, tạm dừng hoạt động, hoặc cấm kinh doanh trong một số trường hợp.  \n\nCác quy tắc này yêu cầu điều kiện cụ thể (ví dụ: gây thiệt hại nhưng có khả năng khắc phục, hoặc nguy cơ gây hại nhưng chưa xảy ra) phải được xác nhận. Trong khi đó, điều kiện ban đầu bị phủ nhận không còn là cơ sở để khẳng định kết luận về đình chỉ vĩnh viễn hoặc chấm dứt hoạt động. Do đó, không đủ căn cứ để khẳng định kết luận \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\" vẫn đúng, vì các bằng chứng thay thế chưa được kiểm chứng.  \n\nHệ thống chỉ có thể xác nhận các hệ quả liên quan đến đình chỉ có thời hạn hoặc cấm hoạt động nếu điều kiện tương ứng được thỏa mãn. Tuy nhiên, trong tình huống hiện tại, không có thông tin xác nhận các điều kiện này, nên kết luận cuối cùng vẫn chưa thể xác định.",
       "generator": "ollama",
-      "runtime_seconds": 13.8152,
+      "runtime_seconds": 20.1789,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 7,
@@ -4469,9 +4554,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định mà điều kiện \"có đủ điều kiện do luật định || thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự\" không còn xảy ra, các bằng chứng hợp lệ để duy trì kết luận \"coi như chưa bị kết án\" đã bị phá vỡ. Cụ thể, Rule 300 (Điều 69) bị vô hiệu hóa do điều kiện đầu vào bị phủ định, và Rule 301 (Điều 69) bị chặn do không còn đường dẫn đến sự kiện \"được xóa án tích\". Các rule thay thế (302, 305, 306) tuy có thể là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong bối cảnh phản thực, nên không thể coi là bằng chứng hợp lệ. Do đó, không còn căn cứ pháp lý để khẳng định kết luận ban đầu vẫn áp dụng. Hệ thống không thể suy ra hệ quả \"coi như chưa bị kết án\" từ các bằng chứng hiện có, vì không có rule nào trong các path factual được xác nhận là PRESERVED hoặc ACTIVATED. Kết luận: chưa đủ căn cứ pháp lý để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm hoặc phải chịu các hệ quả tiếp theo.",
+      "predicted_answer": "Trong tình huống giả định mà điều kiện \"có đủ điều kiện do luật định || thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự\" không còn xảy ra, các bằng chứng pháp lý hỗ trợ kết luận \"coi như chưa bị kết án\" đã bị phá vỡ. Cụ thể, các quy tắc liên quan (Rule 300 và Rule 301) bị vô hiệu hóa hoặc bị chặn do sự kiện đầu vào bị phủ định, dẫn đến không còn đường dẫn hợp lệ để duy trì kết luận ban đầu.  \n\nCác quy tắc thay thế (Rule 302, Rule 305, Rule 306) tuy có thể là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong bối cảnh phản thực. Điều này khiến chúng không thể được coi là bằng chứng hợp lệ để khẳng định hệ quả cuối. Do đó, không thể dựa vào các quy tắc này để kết luận rằng người đó vẫn thuộc trường hợp \"coi như chưa bị kết án\".  \n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.",
       "generator": "ollama",
-      "runtime_seconds": 12.2702,
+      "runtime_seconds": 12.5115,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -4580,9 +4665,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định \"phạm tội xâm phạm an ninh quốc gia\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương\" không còn tồn tại. Điều này do tất cả các quy tắc trong chuỗi logic dẫn đến kết luận đó đều bị vô hiệu hóa hoặc bị chặn bởi sự kiện đầu vào không còn khả thi. Cụ thể, quy tắc 147 (liên quan đến hình phạt quản chế) bị vô hiệu hóa do điều kiện ban đầu bị phủ nhận, trong khi quy tắc 143 và 149 bị chặn do không thể tiếp cận sự kiện \"bị áp dụng hình phạt quản chế\". Các quy tắc thay thế như quy tắc 148 (liên quan đến tái phạm nguy hiểm) chưa được xác minh điều kiện, nên không thể coi là bằng chứng hợp lệ. Do đó, không còn căn cứ pháp lý để duy trì kết luận ban đầu. Việc phủ định điều kiện ban đầu không tự động loại bỏ hoàn toàn khả năng tồn tại các hệ quả khác từ những căn cứ độc lập, nhưng trong bối cảnh hiện tại, không đủ bằng chứng để khẳng định kết luận đó vẫn đúng.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"phạm tội xâm phạm an ninh quốc gia\" không còn xảy ra, các bằng chứng pháp lý để xác định hệ quả \"phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương\" không còn hợp lệ. Điều này xuất phát từ việc các rule liên quan đến hệ quả này (Rule 143, 149) đều bị phá vỡ do điều kiện đầu vào (bị áp dụng hình phạt quản chế) không còn khả thi sau khi điều kiện ban đầu bị phủ nhận. Các rule thay thế (Rule 148) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng (tái phạm nguy hiểm) chưa được xác nhận trong bối cảnh phản thực. Do đó, không thể coi chúng là bằng chứng hợp lệ để duy trì kết luận ban đầu.  \n\nTheo quy tắc, khi không còn bằng chứng hợp lệ từ các rule PRESERVED hoặc ACTIVATED, hệ thống không được phép khẳng định chắc chắn rằng hệ quả không còn xảy ra. Thay vào đó, cần kết luận rằng \"chưa đủ căn cứ\" để xác định hệ quả vẫn áp dụng. Việc phủ định điều kiện ban đầu (phạm tội xâm phạm an ninh quốc gia) không tự động loại bỏ mọi khả năng phát sinh hệ quả từ các căn cứ pháp lý khác. Tuy nhiên, trong trường hợp này, không có bằng chứng nào còn tồn tại để hỗ trợ kết luận ban đầu.  \n\nKết luận: Dựa trên các bằng chứng và quy tắc được cung cấp, không đủ căn cứ pháp lý để khẳng định rằng người này vẫn thuộc trường hợp phải cư trú, làm ăn sinh sống và cải tạo tại địa phương nhất định. Các hệ quả liên quan đến hình phạt quản chế và điều kiện kèm theo không còn được hỗ trợ bởi chuỗi suy luận hợp lệ. Do đó, cần xem xét thêm các điều kiện pháp lý khác nếu có thể xác minh.",
       "generator": "ollama",
-      "runtime_seconds": 10.9397,
+      "runtime_seconds": 15.7886,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -4690,9 +4775,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định \"phạm tội xâm phạm an ninh quốc gia\" không còn xảy ra, các bằng chứng hợp lệ để duy trì kết luận \"thời hạn quản chế từ 01 năm đến 05 năm\" không còn tồn tại. Điều này do các quy tắc liên quan (Rule 147, 143, 149) đều bị vô hiệu hóa hoặc bị chặn bởi sự kiện đầu vào không còn khả thi sau can thiệp phản thực. Cụ thể, Rule 147 (liên kết tội phạm với hình phạt quản chế) bị vô hiệu hóa do điều kiện ban đầu bị phủ nhận, dẫn đến các quy tắc phụ thuộc (Rule 143, 149) không thể kích hoạt. \n\nMặc dù có một quy tắc thay thế (Rule 148) liên quan đến \"tái phạm nguy hiểm\", nhưng điều kiện của nó chưa được xác minh trong bối cảnh hiện tại. Do đó, đây chỉ là ứng viên tiềm năng, chưa đủ để khẳng định hệ quả cuối. Hệ thống không thể suy luận rằng việc phủ nhận điều kiện ban đầu sẽ loại bỏ hoàn toàn mọi khả năng xảy ra các hệ quả pháp lý khác. \n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng hình phạt quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.",
+      "predicted_answer": "Trong tình huống giả định \"phạm tội xâm phạm an ninh quốc gia\" không còn xảy ra, các bằng chứng hợp lệ để duy trì kết luận \"thời hạn quản chế từ 01 năm đến 05 năm\" không còn tồn tại. Điều này do các quy tắc liên quan (Rule 147, 143, 149) đều bị vô hiệu hóa hoặc bị chặn bởi sự kiện đầu vào không còn khả thi sau can thiệp phản thực. Không có quy tắc nào trong chuỗi suy luận ban đầu đạt trạng thái PRESERVED hoặc ACTIVATED, dẫn đến việc không thể xác nhận hệ quả cuối cùng dựa trên các bằng chứng hiện có.  \n\nMặc dù có thể tồn tại các quy tắc thay thế (như Rule 148), nhưng điều kiện cần thiết để kích hoạt chúng (ví dụ: \"tái phạm nguy hiểm\") chưa được kiểm chứng trong tình huống này. Do đó, các ứng viên thay thế chỉ là khả năng cần được xem xét thêm, chứ không đủ để khẳng định kết luận ban đầu vẫn đúng.  \n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng hình phạt quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ căn cứ độc lập khác.",
       "generator": "ollama",
-      "runtime_seconds": 11.9694,
+      "runtime_seconds": 11.3249,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -4906,9 +4991,9 @@
       "predicted_overall_verification_label": "PARTIAL_PATH_EFFECT",
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"phạm tội thuộc trường hợp quy định tại Điều 79 Bộ luật Hình sự\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu bị ảnh hưởng do sự can thiệp phá vỡ một số path factual. Cụ thể, Rule 343 (Điều 79) bị chặn vì điều kiện \"bị đình chỉ hoạt động vĩnh viễn\" không còn khả thi, dẫn đến kết luận \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\" không còn được hỗ trợ. Các bằng chứng hợp lệ còn lại (Rule 340, 341, 342, 345, 347, 339, 383) chỉ liên quan đến các hệ quả như \"tạm dừng hoạt động,\" \"thời hạn đình chỉ,\" hoặc \"thời hạn cấm kinh doanh,\" nhưng không trực tiếp dẫn đến kết luận về \"chấm dứt hoạt động.\" Các rule thay thế (Rule 344, 346, 355) vẫn chưa xác nhận điều kiện, nên không thể sử dụng để khẳng định kết luận. Do đó, không còn bằng chứng hợp lệ để duy trì kết luận ban đầu. Hệ thống phải kết luận rằng \"chưa đủ căn cứ\" để khẳng định hệ quả \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\" trong tình huống này.",
+      "predicted_answer": "Trong tình huống giả định \"phạm tội thuộc trường hợp quy định tại Điều 79 Bộ luật Hình sự\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"chấm dứt hoạt động trong một hoặc một số lĩnh vực\" không còn đủ căn cứ. \n\nCác rule liên quan đến kết luận này (như Rule 343 - Điều 79) bị chặn do điều kiện đầu vào \"bị đình chỉ hoạt động vĩnh viễn\" không còn khả thi sau can thiệp. Các rule thay thế (Rule 344, 346, 355) chỉ là ứng viên chưa xác nhận điều kiện, không thể sử dụng để khẳng định hệ quả. Những rule còn hiệu lực (như Điều 78, 80) chỉ dẫn đến các biện pháp tạm thời (tạm dừng hoạt động, cấm kinh doanh) chứ không đủ để suy ra \"chấm dứt hoạt động\" theo nghĩa vĩnh viễn. Do đó, không còn bằng chứng hợp lệ để duy trì kết luận ban đầu.",
       "generator": "ollama",
-      "runtime_seconds": 19.439,
+      "runtime_seconds": 12.3135,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 8,
@@ -4950,15 +5035,22 @@
         "edges": [],
         "score": 0.0
       },
-      "predicted_counterfactual_status": null,
-      "predicted_overall_verification_label": null,
-      "predicted_final_effect_reachable": null,
-      "predicted_answer_label": null,
-      "predicted_answer": "",
+      "predicted_counterfactual_status": "NO_PATH_FOUND",
+      "predicted_overall_verification_label": "NO_CAUSAL_PATH_FOUND",
+      "predicted_final_effect_reachable": false,
+      "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
+      "predicted_answer": "Trong trường hợp điều kiện \"chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý\" không còn xảy ra, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để duy trì kết luận ban đầu về việc bị phạt tù từ 02 năm đến 07 năm. Việc phủ định điều kiện này không tự động chứng minh rằng hệ quả pháp lý (như mức án cụ thể) không thể phát sinh từ căn cứ khác. Tuy nhiên, theo quy tắc, khi không còn bằng chứng hợp lệ, không thể khẳng định chắc chắn có hoặc không có hệ quả, mà phải xác nhận \"chưa đủ căn cứ\" để đưa ra kết luận. Do đó, từ tập bằng chứng hiện có, không thể xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm hoặc phải chịu các hậu quả pháp lý theo quy định.",
       "generator": "ollama",
-      "runtime_seconds": 0.0121,
-      "error": "ValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.",
-      "traceback": "Traceback (most recent call last):\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/6_run_evaluation_pipeline.py\", line 612, in main\n    counterfactual_result = verifier.verify(\n                            ^^^^^^^^^^^^^^^^\n  File \"/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/4_counterfactual_verification.py\", line 819, in verify\n    raise ValueError(\"Không tìm thấy causal path hợp lệ trong retrieval_result.json.\")\nValueError: Không tìm thấy causal path hợp lệ trong retrieval_result.json.\n"
+      "runtime_seconds": 9.2437,
+      "error": null,
+      "evidence_summary": {
+        "valid_rule_count": 0,
+        "removed_rule_count": 0,
+        "alternative_candidate_count": 0,
+        "valid_rule_ids": [],
+        "removed_rule_ids": [],
+        "alternative_candidate_rule_ids": []
+      }
     },
     {
       "question_id": "CF034",
@@ -5121,9 +5213,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý\" không còn xảy ra, các bằng chứng hợp lệ để duy trì kết luận \"bị phạt tù từ 02 năm đến 07 năm\" đã bị phá vỡ. Các quy tắc liên quan đến điều kiện này (như Điều 53, Điều 43, Điều 388) đều bị vô hiệu hóa hoặc bị chặn bởi sự kiện đầu vào không còn khả thi do can thiệp phản thực. Do đó, không còn quy tắc nào trong chuỗi suy luận pháp lý ban đầu được xác nhận là PRESERVED hoặc ACTIVATED, dẫn đến việc không đủ căn cứ để khẳng định kết luận ban đầu vẫn đúng.  \n\nCác quy tắc thay thế (như Điều 53, Điều 378, Điều 379) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được kiểm tra hoặc xác nhận trong bối cảnh hiện tại. Điều này có nghĩa là chúng chưa thể được sử dụng để thay thế cho kết luận ban đầu. Việc phủ định điều kiện gốc không tự động loại bỏ hoàn toàn khả năng tồn tại của các hệ quả pháp lý khác, nhưng cũng không đủ để xác định rằng chúng vẫn áp dụng. Vì vậy, hệ thống không thể xác định chắc chắn rằng kết luận \"bị phạt tù từ 02 năm đến 07 năm\" vẫn hợp lệ.  \n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này thuộc trường hợp tái phạm nguy hiểm, bị áp dụng hình phạt quản chế hoặc phải chịu các hệ quả pháp lý liên quan. Việc điều kiện ban đầu bị phủ định không chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác. Do đó, cần tiếp tục kiểm tra các điều kiện và quy tắc liên quan để xác định tính hợp lệ của kết luận cuối cùng.",
+      "predicted_answer": "Trong tình huống giả định rằng điều kiện \"đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý\" không còn xảy ra, các bằng chứng hợp lệ để duy trì kết luận \"bị phạt tù từ 02 năm đến 07 năm\" đã bị phá vỡ. Các quy tắc liên quan (Rule 204, 1604, 148, 143, 149) đều bị vô hiệu hóa do điều kiện đầu vào không còn khả thi hoặc bị chặn bởi quy tắc phía trước. Không còn quy tắc nào trong chuỗi logic được xác nhận là PRESERVED hoặc ACTIVATED, do đó không đủ căn cứ pháp lý để khẳng định hệ quả cuối cùng vẫn áp dụng.  \n\nCác quy tắc thay thế (Rule 203, 1543, 1555) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được kiểm chứng trong bối cảnh này. Việc phủ định điều kiện ban đầu không tự động loại trừ khả năng tồn tại các căn cứ độc lập khác, nhưng hiện tại không có bằng chứng hợp lệ để xác định rõ ràng. Do đó, kết luận \"bị phạt tù từ 02 năm đến 07 năm\" không còn được hỗ trợ bởi chuỗi logic hợp lệ, và cần thêm thông tin để đánh giá lại.",
       "generator": "ollama",
-      "runtime_seconds": 14.3817,
+      "runtime_seconds": 11.7897,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -5210,9 +5302,9 @@
       "predicted_overall_verification_label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Trong trường hợp điều kiện \"Tòa án xét thấy cần thiết trong từng trường hợp cụ thể\" không còn xảy ra, các quy tắc pháp lý liên quan đến việc áp dụng hình phạt trục xuất và hệ quả phải rời khỏi lãnh thổ Việt Nam không còn được duy trì. Cụ thể, quy tắc 123 (Điều 37) bị vô hiệu hóa do điều kiện đầu vào bị phủ định, dẫn đến quy tắc 122 (liên quan đến kết luận phải rời khỏi lãnh thổ) bị chặn bởi sự kiện phía trước không thể tiếp cận. Do đó, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để hỗ trợ kết luận ban đầu. Theo quy tắc, khi không còn bằng chứng hợp lệ, không thể khẳng định chắc chắn kết luận đó không còn hiệu lực, mà phải xác định \"chưa đủ căn cứ\". Hệ quả là, không thể xác định người đó vẫn thuộc trường hợp phải rời khỏi lãnh thổ Việt Nam dựa trên các bằng chứng hiện có. Việc phủ định điều kiện ban đầu không tự động loại bỏ mọi khả năng phát sinh hệ quả từ căn cứ khác, nhưng trong bối cảnh hiện tại, không có bằng chứng đủ để duy trì kết luận.",
+      "predicted_answer": "Trong trường hợp điều kiện \"Tòa án xét thấy cần thiết trong từng trường hợp cụ thể\" không còn xảy ra, chuỗi suy luận pháp lý dẫn đến kết luận \"phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\" không còn được hỗ trợ bởi các quy tắc hợp lệ. Cụ thể, quy tắc 123 (Điều 37) bị vô hiệu hóa do điều kiện đầu vào bị phủ nhận, trong khi quy tắc 122 bị chặn do sự kiện \"bị áp dụng hình phạt trục xuất\" không còn khả thi. Không còn quy tắc nào trong các đường dẫn pháp lý được xác nhận là PRESERVED hoặc ACTIVATED, dẫn đến việc các hệ quả cuối cùng không còn được suy ra từ bằng chứng hợp lệ. Do đó, chưa đủ căn cứ pháp lý để khẳng định kết luận ban đầu vẫn đúng, vì sự phủ nhận điều kiện ban đầu không tự động loại bỏ hoàn toàn khả năng tồn tại của các căn cứ độc lập khác.",
       "generator": "ollama",
-      "runtime_seconds": 11.2048,
+      "runtime_seconds": 9.3309,
       "error": null,
       "evidence_summary": {
         "valid_rule_count": 0,
@@ -5496,9 +5588,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path và căn cứ pháp lý, người phạm tội chưa xóa án tích mà thực hiện hành vi do cố ý sẽ bị xác định là **tái phạm nguy hiểm** (theo Điều 53). Hậu quả pháp lý cuối cùng là **bị áp dụng hình phạt quản chế**, bao gồm thời hạn từ **01 đến 05 năm** (theo Điều 43) và phải **cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương**. Căn cứ pháp lý bao gồm Điều 53 (xác định tái phạm nguy hiểm) và Điều 43 (quy định về hình phạt quản chế).",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ các quy tắc và đường dẫn nguyên nhân, trường hợp này dẫn đến hậu quả: **được xác định là tái phạm nguy hiểm** → **bị áp dụng hình phạt quản chế** → **phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương**. Căn cứ pháp lý bao gồm Điều 53 (xác định tái phạm nguy hiểm) và Điều 43 (quy định về hình phạt quản chế).",
       "generator": "ollama",
-      "runtime_seconds": 13.5468,
+      "runtime_seconds": 20.0987,
       "error": null
     },
     {
@@ -5771,9 +5863,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path và căn cứ pháp lý, trường hợp này sẽ bị xác định là **tái phạm nguy hiểm** (theo Điều 53) và **bị áp dụng hình phạt quản chế** (theo Điều 43). Cụ thể, người phạm tội phải **cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương**. Căn cứ pháp lý bao gồm Điều 53 (xác định tái phạm nguy hiểm) và Điều 43 (quy định về hình phạt quản chế).",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path và bằng chứng, trường hợp này sẽ bị xác định là \"tái phạm nguy hiểm\" (căn cứ Điều 53) và bị áp dụng hình phạt quản chế (căn cứ Điều 43). Cụ thể, người phạm tội phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương, với thời hạn quản chế từ 01 năm đến 05 năm.",
       "generator": "ollama",
-      "runtime_seconds": 13.1064,
+      "runtime_seconds": 7.1786,
       "error": null
     },
     {
@@ -6046,9 +6138,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ các causal path và căn cứ pháp lý, trường hợp nêu trên sẽ bị xác định là **tái phạm nguy hiểm** (theo Điều 53, khoản 2), dẫn đến **áp dụng hình phạt quản chế** (theo Điều 43). Cụ thể, người phạm tội phải **cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương** (theo Điều 43, khoản 1). Căn cứ pháp lý chính bao gồm Điều 53 (điều kiện tái phạm nguy hiểm) và Điều 43 (hình phạt quản chế).",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path và căn cứ pháp lý, người phạm tội sẽ bị xác định là **tái phạm nguy hiểm** (theo Điều 53, khoản 1, Điều 204) và **bị áp dụng hình phạt quản chế** (theo Điều 43, khoản 1, Điều 148). Cụ thể, người phạm tội phải **cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương** (theo Điều 143). Dữ liệu không cung cấp đủ thông tin để xác định thời hạn quản chế cụ thể (khoản 2, Điều 149).",
       "generator": "ollama",
-      "runtime_seconds": 12.4044,
+      "runtime_seconds": 17.8144,
       "error": null
     },
     {
@@ -6321,9 +6413,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ các causal path và căn cứ pháp lý, người phạm tội trong trường hợp này sẽ bị xác định là **tái phạm nguy hiểm** (theo Điều 53, khoản 1 và 2), dẫn đến **áp dụng hình phạt quản chế** (theo Điều 43). Cụ thể, người phạm tội phải **cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương** (theo Điều 43, khoản 1). Căn cứ pháp lý bao gồm Điều 53 (xác định tái phạm nguy hiểm) và Điều 43 (quy định về hình phạt quản chế).",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ các causal path và căn cứ pháp lý, người phạm tội sẽ bị xác định là **tái phạm nguy hiểm** (theo Điều 53, cụ thể là Rule 204) và **bị áp dụng hình phạt quản chế** (theo Điều 43, cụ thể là Rule 148 hoặc 149). Hậu quả cuối cùng là **phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương**, với thời hạn quản chế từ **01 đến 05 năm** (theo Rule 149). Căn cứ pháp lý bao gồm Điều 53 và Điều 43 của Bộ luật Hình sự.",
       "generator": "ollama",
-      "runtime_seconds": 18.5154,
+      "runtime_seconds": 14.6867,
       "error": null
     },
     {
@@ -6393,9 +6485,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, việc áp dụng hình phạt chính dẫn trực tiếp đến hậu quả là tù chung thân (Rule 100 - Điều 32). Đồng thời, theo Rule 212 - Điều 55, hình phạt chung sẽ là tù chung thân khi hình phạt nặng nhất là tù chung thân. Do đó, hậu quả cuối cùng là hình phạt chung là tù chung thân.",
+      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác lập dựa trên Rule 100 (Điều 32) quy định hình phạt chính dẫn đến tù chung thân, và Rule 212 (Điều 55) khẳng định tù chung thân là hình phạt chung khi nó là hình phạt nặng nhất.",
       "generator": "ollama",
-      "runtime_seconds": 11.5535,
+      "runtime_seconds": 7.8478,
       "error": null
     },
     {
@@ -6465,9 +6557,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác lập dựa trên Rule 100 (Điều 32) quy định rằng điều kiện áp dụng hình phạt chính dẫn đến kết quả tù chung thân. Đồng thời, Rule 212 (Điều 55) khẳng định rằng hình phạt nặng nhất (tù chung thân) chính là hình phạt chung trong trường hợp này. Do đó, chuỗi suy luận pháp lý dẫn đến kết luận duy nhất: hình phạt chung là tù chung thân.",
+      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác định dựa trên Rule 100 (Điều 32) quy định hình phạt chính dẫn đến tù chung thân, đồng thời Rule 212 (Điều 55) khẳng định hình phạt chung cũng là tù chung thân khi hình phạt nặng nhất là tù chung thân. Do đó, chuỗi suy luận pháp lý dẫn đến kết luận duy nhất: tù chung thân.",
       "generator": "ollama",
-      "runtime_seconds": 9.1496,
+      "runtime_seconds": 9.269,
       "error": null
     },
     {
@@ -6537,9 +6629,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, hậu quả cuối cùng là hình phạt chung là tù chung thân. Khi bị áp dụng hình phạt chính (AP_DUNG_HINH_PHAT_CHINH), điều kiện trong Rule 100 (Điều 32) dẫn đến kết quả là tù chung thân (TU_CHUNG_THAN). Đồng thời, theo Rule 212 (Điều 55), tù chung thân là hình phạt nặng nhất, nên hình phạt chung cũng là tù chung thân. Do đó, chuỗi suy luận pháp lý kết luận hình phạt chung là tù chung thân.",
+      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác định dựa trên Rule 100 (Điều 32) quy định hình phạt chính dẫn đến tù chung thân, và Rule 212 (Điều 55) khẳng định tù chung thân là hình phạt chung khi đó là hình phạt nặng nhất. Do đó, chuỗi suy luận pháp lý dẫn đến kết luận duy nhất: tù chung thân.",
       "generator": "ollama",
-      "runtime_seconds": 7.9782,
+      "runtime_seconds": 7.874,
       "error": null
     },
     {
@@ -6609,9 +6701,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và bằng chứng, việc áp dụng hình phạt chính dẫn trực tiếp đến hậu quả là tù chung thân (Rule 100 - Điều 32). Đồng thời, do tù chung thân là hình phạt nặng nhất (Rule 212 - Điều 55), hình phạt chung cũng được xác định là tù chung thân. Kết luận cuối cùng là hình phạt chung là tù chung thân.",
+      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác lập dựa trên Rule 100 (Điều 32) quy định hình phạt chính dẫn đến tù chung thân, đồng thời Rule 212 (Điều 55) khẳng định hình phạt chung cũng là tù chung thân khi hình phạt nặng nhất là tù chung thân. Do đó, chuỗi suy luận pháp lý dẫn đến kết luận duy nhất: tù chung thân.",
       "generator": "ollama",
-      "runtime_seconds": 11.7706,
+      "runtime_seconds": 8.5149,
       "error": null
     },
     {
@@ -6681,9 +6773,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi bị áp dụng hình phạt chính (AP_DUNG_HINH_PHAT_CHINH), hệ quả trực tiếp là hình phạt tù chung thân (TU_CHUNG_THAN). Đồng thời, theo Điều 55, nếu hình phạt nặng nhất là tù chung thân, thì hình phạt chung cũng là tù chung thân. Do đó, hậu quả cuối cùng là hình phạt chung là tù chung thân, dựa trên quy định của Điều 32 và Điều 55.",
+      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, việc áp dụng hình phạt chính sẽ dẫn đến hậu quả là tù chung thân. Cụ thể, Rule 100 - Điều 32 quy định rằng khi áp dụng hình phạt chính, hệ quả là tù chung thân. Đồng thời, Rule 212 - Điều 55 nêu rõ nếu hình phạt nặng nhất là tù chung thân, thì hình phạt chung cũng là tù chung thân. Do đó, chuỗi suy luận pháp lý kết luận: hình phạt chính → tù chung thân → hình phạt chung là tù chung thân.",
       "generator": "ollama",
-      "runtime_seconds": 7.1163,
+      "runtime_seconds": 10.0225,
       "error": null
     },
     {
@@ -6753,9 +6845,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, việc áp dụng hình phạt chính dẫn trực tiếp đến hậu quả là **tù chung thân** (theo Điều 32). Đồng thời, quy tắc 212 (Điều 55) xác nhận rằng hình phạt chung sẽ là tù chung thân khi hình phạt nặng nhất là tù chung thân. Do đó, hậu quả cuối cùng là **hình phạt chung là tù chung thân**.",
+      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi bị áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác định qua hai bước: đầu tiên, áp dụng hình phạt chính dẫn trực tiếp đến kết quả là tù chung thân (Rule 100 - Điều 32). Thứ hai, do tù chung thân là hình phạt nặng nhất (theo Rule 212 - Điều 55), nên hình phạt chung cũng được xác định là tù chung thân. Do đó, chuỗi suy luận pháp lý dẫn đến kết luận duy nhất là tù chung thân.",
       "generator": "ollama",
-      "runtime_seconds": 12.4285,
+      "runtime_seconds": 8.0851,
       "error": null
     },
     {
@@ -6825,9 +6917,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác lập dựa trên Rule 100 (Điều 32) quy định hình phạt chính dẫn đến tù chung thân, đồng thời Rule 212 (Điều 55) khẳng định hình phạt chung cũng là tù chung thân khi hình phạt nặng nhất là tù chung thân. Do đó, chuỗi suy luận pháp lý dẫn đến kết luận duy nhất: tù chung thân.",
+      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác định dựa trên Rule 100 (Điều 32) quy định hình phạt chính dẫn đến tù chung thân, và Rule 212 (Điều 55) xác định tù chung thân là hình phạt nặng nhất, do đó trở thành hình phạt chung.",
       "generator": "ollama",
-      "runtime_seconds": 8.443,
+      "runtime_seconds": 6.8251,
       "error": null
     },
     {
@@ -6897,9 +6989,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác lập qua quy tắc Rule 100 (Điều 32) quy định hình phạt chính dẫn đến tù chung thân, và quy tắc Rule 212 (Điều 55) xác định tù chung thân là hình phạt nặng nhất, do đó hình phạt chung cũng là tù chung thân. Căn cứ pháp lý được truy hồi đầy đủ từ các điều luật nêu trên.",
+      "predicted_answer": "Theo causal path và bằng chứng được cung cấp, khi áp dụng hình phạt chính, hậu quả cuối cùng là hình phạt chung là tù chung thân. Điều này được xác lập dựa trên Rule 100 (Điều 32) quy định hình phạt chính dẫn đến tù chung thân, và Rule 212 (Điều 55) xác định tù chung thân là hình phạt nặng nhất, do đó hình phạt chung cũng là tù chung thân.",
       "generator": "ollama",
-      "runtime_seconds": 7.7118,
+      "runtime_seconds": 7.5278,
       "error": null
     },
     {
@@ -6968,9 +7060,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path, sau 12 năm chấp hành án tù, người phạm tội sẽ được xét giảm án lần đầu theo Điều 63 (Rule 256), sau đó được giảm xuống 30 năm tù theo Điều 63 (Rule 258). Căn cứ pháp lý duy nhất được cung cấp là Điều 63, không có thông tin bổ sung về điều kiện hoặc giới hạn khác.",
+      "predicted_answer": "Theo chuỗi suy luận pháp lý từ causal path và căn cứ Điều 63, sau 12 năm chấp hành án tù, người phạm tội sẽ được xét giảm án lần đầu, sau đó được giảm xuống 30 năm tù. Hậu quả cuối cùng là mức án được điều chỉnh thành 30 năm tù.",
       "generator": "ollama",
-      "runtime_seconds": 7.1787,
+      "runtime_seconds": 6.7907,
       "error": null
     },
     {
@@ -7039,9 +7131,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path, nếu đã chấp hành được một phần ba thời hạn hình phạt, người phạm tội sẽ được xét giảm án lần đầu, sau đó được giảm xuống 30 năm tù. Căn cứ pháp lý là Điều 63 Bộ luật Hình sự Việt Nam, cụ thể là các quy định tại Rule 255 và Rule 258.",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path, nếu đã chấp hành được một phần ba thời hạn hình phạt, người phạm tội sẽ được xét giảm án lần đầu, sau đó được giảm xuống 30 năm tù. Căn cứ pháp lý là Điều 63 Bộ luật Hình sự, cụ thể là các quy định tại Rule 255 và Rule 258.",
       "generator": "ollama",
-      "runtime_seconds": 7.4032,
+      "runtime_seconds": 6.1804,
       "error": null
     },
     {
@@ -7063,9 +7155,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả cuối cùng trong trường hợp này. Dữ liệu cung cấp không nêu rõ các điều luật liên quan, thời điểm phạm tội, tính chất hành vi, hay các yếu tố pháp lý khác cần thiết để phân tích mối liên hệ nhân quả. Do đó, không thể kết luận cụ thể về tình trạng pháp lý của người đã chấp hành 25 năm tù.",
+      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả pháp lý cuối cùng trong trường hợp đã chấp hành 25 năm tù. Dữ liệu cung cấp không nêu rõ các yếu tố pháp lý liên quan như loại tội phạm, thời hiệu xử lý, hoặc điều kiện đặc biệt của vụ án. Do đó, không thể suy luận kết quả cụ thể dựa trên thông tin hiện có.",
       "generator": "ollama",
-      "runtime_seconds": 5.5858,
+      "runtime_seconds": 5.3586,
       "error": null
     },
     {
@@ -7238,9 +7330,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và evidence, khi xảy ra trường hợp đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực, hậu quả cuối cùng là **chấm dứt hoạt động trong một hoặc một số lĩnh vực**. Căn cứ pháp lý là Điều 86 (Rule 383) quy định hình phạt chung là đình chỉ hoạt động vĩnh viễn, và Điều 79 (Rule 343) xác định hậu quả của đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động. Các causal path khác không áp dụng trong trường hợp này do không đáp ứng điều kiện đồng thời của đình chỉ có thời hạn và vĩnh viễn trong cùng lĩnh vực.",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ Rule 383 (Điều 86) và Rule 343 (Điều 79), khi xảy ra đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực, hậu quả cuối cùng là **chấm dứt hoạt động trong một hoặc một số lĩnh vực**. Căn cứ pháp lý chính là hình phạt chung là đình chỉ hoạt động vĩnh viễn (theo Điều 86), dẫn đến kết quả chấm dứt hoạt động (theo Điều 79). Các quy định khác về đình chỉ có thời hạn không áp dụng trong trường hợp này do điều kiện \"cùng lĩnh vực\" và \"đình chỉ vĩnh viễn\" được nêu rõ trong Rule 383.",
       "generator": "ollama",
-      "runtime_seconds": 9.5589,
+      "runtime_seconds": 9.7505,
       "error": null
     },
     {
@@ -7334,9 +7426,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo quy định tại Điều 65, nếu đáp ứng đủ điều kiện (xử phạt tù không quá 03 năm, nhân thân tốt, có tình tiết giảm nhẹ và không cần bắt chấp hành hình phạt tù), người phạm tội sẽ được hưởng án treo. Hậu quả pháp lý cuối cùng là: **phải thực hiện nghĩa vụ trong thời gian thử thách từ 01 năm đến 05 năm** (theo Rule 271). Ngoài ra, người được hưởng án treo cũng **bị giám sát, giáo dục bởi cơ quan, tổ chức hoặc chính quyền địa phương** (theo Rule 272). Tuy nhiên, căn cứ trong dữ liệu chỉ nêu rõ kết quả từ Rule 271, nên kết luận chính xác nhất là **phải thực hiện nghĩa vụ trong thời gian thử thách**.",
+      "predicted_answer": "Theo quy định tại Điều 65, nếu đáp ứng đủ điều kiện (xử phạt tù không quá 03 năm, nhân thân tốt, có tình tiết giảm nhẹ và không cần bắt chấp hành hình phạt tù), người phạm tội sẽ được hưởng án treo. Hậu quả pháp lý cuối cùng là: **phải thực hiện nghĩa vụ trong thời gian thử thách từ 01 năm đến 05 năm** (theo Rule 271). Ngoài ra, người được hưởng án treo cũng có thể bị giao cho cơ quan, tổ chức hoặc chính quyền địa phương giám sát, giáo dục (theo Rule 272), nhưng điều này không được nêu trong kết luận cuối cùng do không có đủ căn cứ xác định thời gian hoặc phạm vi giám sát cụ thể.",
       "generator": "ollama",
-      "runtime_seconds": 23.5963,
+      "runtime_seconds": 21.523,
       "error": null
     },
     {
@@ -7430,9 +7522,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path được truy hồi, chuỗi hậu quả pháp lý là: được hưởng án treo → phải thực hiện nghĩa vụ trong thời gian thử thách từ 01 năm đến 05 năm. Căn cứ được truy hồi gồm Điều 65.",
+      "predicted_answer": "Theo quy định tại Điều 65, nếu đáp ứng đủ điều kiện (xử phạt tù không quá 03 năm, nhân thân tốt, có tình tiết giảm nhẹ và không cần bắt chấp hành hình phạt tù), người phạm tội sẽ được hưởng án treo. Hậu quả cuối cùng là phải thực hiện nghĩa vụ trong thời gian thử thách từ 01 năm đến 05 năm (theo Rule 271). Căn cứ pháp lý được truy hồi là Điều 65.",
       "generator": "ollama",
-      "runtime_seconds": 22.0824,
+      "runtime_seconds": 9.5484,
       "error": null
     },
     {
@@ -7610,30 +7702,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.138851068019867
-        },
-        {
-          "rank": 7,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -7649,6 +7717,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.138851068019867
+        },
+        {
+          "rank": 7,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.138851068019867
@@ -7808,9 +7900,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo các bằng chứng được cung cấp, nếu xảy ra trường hợp \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\", thì hậu quả pháp lý cuối cùng là bị cấm huy động vốn (theo Điều 81, Rule 348). Từ đó, người vi phạm sẽ phải chịu các biện pháp cấm đoán liên quan như: cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, và thời hạn cấm từ 01 đến 03 năm (theo các Rule 350, 353, 349, 355). Các causal path liên quan đến \"tái phạm nguy hiểm\" và hình phạt quản chế không được hỗ trợ bởi bằng chứng trong dữ liệu, do đó không thể xác định hậu quả pháp lý theo hướng đó.",
+      "predicted_answer": "Theo các bằng chứng và causal path, nếu xảy ra trường hợp tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội, hậu quả cuối cùng là bị cấm huy động vốn (theo Rule 348 - Điều 81). Từ đó, người vi phạm sẽ phải chịu các biện pháp cấm chế liên quan như: cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, và thời hạn cấm từ 01 đến 03 năm (theo các Rule 350, 353, 349, 355). Các hậu quả này được quy định cụ thể trong Điều 81, không liên quan trực tiếp đến hình phạt quản chế trong Điều 43. Do đó, căn cứ pháp lý chỉ dừng lại ở các biện pháp cấm chế liên quan đến hoạt động huy động vốn.",
       "generator": "ollama",
-      "runtime_seconds": 12.7625,
+      "runtime_seconds": 15.9294,
       "error": null
     },
     {
@@ -7988,30 +8080,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.138851068019867
-        },
-        {
-          "rank": 7,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -8027,6 +8095,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.138851068019867
+        },
+        {
+          "rank": 7,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.138851068019867
@@ -8186,9 +8278,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo các bằng chứng được cung cấp, nếu xảy ra trường hợp tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội, thì hậu quả pháp lý cuối cùng là bị cấm huy động vốn (theo Điều 81, Rule 348). Sau đó, các biện pháp cấm chế liên quan đến hoạt động tài chính sẽ được áp dụng, bao gồm: cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, và thời hạn cấm từ 01 đến 03 năm (theo các Rule 350, 353, 349, 355). Các causal path liên quan đến \"tái phạm nguy hiểm\" và hình phạt quản chế (Điều 43) không được áp dụng trong trường hợp này, vì không có đủ căn cứ để kết nối trực tiếp giữa hành vi huy động vốn và tiêu chí \"tái phạm nguy hiểm\" trong luật.",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ các quy định trong Điều 81, nếu xảy ra trường hợp \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\", thì hậu quả cuối cùng là bị cấm huy động vốn (theo Điều 348). Từ đó, các biện pháp cấm chế liên quan sẽ được áp dụng, bao gồm: bị cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, và thời hạn cấm từ 01 đến 03 năm (theo các quy định 350, 353, 349, 355). Các quy định này không liên quan trực tiếp đến hình phạt quản chế (Điều 43) mà chỉ áp dụng khi có điều kiện cụ thể khác. Do đó, căn cứ pháp lý phù hợp nhất là các quy định về cấm huy động vốn và các biện pháp hạn chế liên quan.",
       "generator": "ollama",
-      "runtime_seconds": 18.2407,
+      "runtime_seconds": 16.1569,
       "error": null
     },
     {
@@ -8366,30 +8458,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.138851068019867
-        },
-        {
-          "rank": 7,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -8405,6 +8473,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.138851068019867
+        },
+        {
+          "rank": 7,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.138851068019867
@@ -8564,9 +8656,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo các bằng chứng được cung cấp, nếu xảy ra trường hợp \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\", thì hậu quả cuối cùng là bị cấm huy động vốn (theo Điều 81, Rule 348). Sau đó, các biện pháp cấm khác sẽ được áp dụng, bao gồm: cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, và thời hạn cấm từ 01 đến 03 năm (theo các Rule 350, 353, 349, 355). Các causal path liên quan đến \"tái phạm nguy hiểm\" và hình phạt quản chế không được hỗ trợ bởi bằng chứng cụ thể trong dữ liệu, do đó không thể xác định hậu quả pháp lý theo hướng đó.",
+      "predicted_answer": "Theo các quy định tại Điều 81, nếu xảy ra trường hợp \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\", thì hậu quả pháp lý đầu tiên là bị cấm huy động vốn (Rule 348). Từ đó, các biện pháp cấm khác sẽ được áp dụng, bao gồm: cấm phát hành chứng khoán (Rule 350), cấm hình thành quỹ tín thác bất động sản (Rule 353), và thời hạn cấm từ 01 đến 03 năm (Rule 355). Các hậu quả này không liên quan trực tiếp đến hình phạt quản chế (Rule 148) mà chỉ áp dụng khi có điều kiện cụ thể về tái phạm nguy hiểm, không được nêu trong dữ liệu. Do đó, căn cứ pháp lý phù hợp nhất là các quy định về cấm huy động vốn và các biện pháp liên quan.",
       "generator": "ollama",
-      "runtime_seconds": 12.508,
+      "runtime_seconds": 18.8464,
       "error": null
     },
     {
@@ -8744,30 +8836,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.138851068019867
-        },
-        {
-          "rank": 7,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -8783,6 +8851,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.138851068019867
+        },
+        {
+          "rank": 7,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.138851068019867
@@ -8942,9 +9034,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo các bằng chứng được cung cấp, nếu xảy ra trường hợp \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\", thì hậu quả pháp lý cuối cùng là bị cấm huy động vốn (theo Điều 81, Rule 348). Từ đó, người vi phạm sẽ phải chịu các biện pháp cấm đoán liên quan như: cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, và thời hạn cấm từ 01 đến 03 năm (theo các Rule 350, 353, 355). Các hậu quả này không liên quan trực tiếp đến hình phạt quản chế hay tái phạm nguy hiểm, mà chỉ tập trung vào việc hạn chế hoạt động kinh doanh và tài chính.",
+      "predicted_answer": "Theo các bằng chứng và causal path, nếu xảy ra trường hợp \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\", điều kiện này sẽ kích hoạt **Rule 348 - Điều 81**, dẫn đến hậu quả **bị cấm huy động vốn**. Từ đó, các quy định liên quan (Rule 352, 355, 350, 353, 349, 351) sẽ áp dụng, gây ra các biện pháp cấm chế như: **cấm phát hành chứng khoán, cấm vay vốn, cấm hình thành quỹ tín thác bất động sản**, và **thời hạn cấm từ 01 đến 03 năm**. Các causal path khác (Path 1-4) liên quan đến \"tái phạm nguy hiểm\" và \"hình phạt quản chế\" không được chứng minh từ điều kiện ban đầu, do đó **không đủ căn cứ** để kết luận hậu quả cuối cùng là hình phạt quản chế.",
       "generator": "ollama",
-      "runtime_seconds": 12.5386,
+      "runtime_seconds": 15.7621,
       "error": null
     },
     {
@@ -9122,30 +9214,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.138851068019867
-        },
-        {
-          "rank": 7,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -9161,6 +9229,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.138851068019867
+        },
+        {
+          "rank": 7,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.138851068019867
@@ -9320,9 +9412,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo các bằng chứng được cung cấp, nếu xảy ra trường hợp tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội, hậu quả pháp lý cuối cùng là bị cấm huy động vốn (theo Điều 81, Rule 348). Các biện pháp cấm chế cụ thể bao gồm: cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, và thời hạn cấm từ 01 đến 03 năm (theo các Rule 350, 353, 355). Các causal path liên quan đến \"tái phạm nguy hiểm\" và hình phạt quản chế (Điều 43) không được hỗ trợ bởi bằng chứng trong dữ liệu, do đó không thể xác định hậu quả pháp lý theo hướng đó.",
+      "predicted_answer": "Theo các bằng chứng và causal path được cung cấp, nếu xảy ra trường hợp \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\", điều kiện này sẽ kích hoạt **Rule 348 - Điều 81**, dẫn đến hậu quả **bị cấm huy động vốn**. Từ đó, các quy định liên quan đến việc bị cấm huy động vốn (Rule 352, 355, 350, 353, 349, 351) sẽ áp dụng, bao gồm: **cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, cấm huy động vốn của khách hàng**, và **thời hạn cấm từ 01 đến 03 năm**. Các causal path khác (Path 1-4) liên quan đến \"tái phạm nguy hiểm\" không được chứng minh từ điều kiện ban đầu, do đó không thể áp dụng.",
       "generator": "ollama",
-      "runtime_seconds": 13.9013,
+      "runtime_seconds": 19.121,
       "error": null
     },
     {
@@ -9500,30 +9592,6 @@
           "seed_rule_id": "348",
           "rule_ids": [
             "348",
-            "353"
-          ],
-          "nodes": [
-            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-            "CAM_HUY_DONG_VON",
-            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-          ],
-          "edges": [
-            [
-              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
-              "CAM_HUY_DONG_VON"
-            ],
-            [
-              "CAM_HUY_DONG_VON",
-              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
-            ]
-          ],
-          "score": 1.138851068019867
-        },
-        {
-          "rank": 7,
-          "seed_rule_id": "348",
-          "rule_ids": [
-            "348",
             "349"
           ],
           "nodes": [
@@ -9539,6 +9607,30 @@
             [
               "CAM_HUY_DONG_VON",
               "CAM_VAY_VON"
+            ]
+          ],
+          "score": 1.138851068019867
+        },
+        {
+          "rank": 7,
+          "seed_rule_id": "348",
+          "rule_ids": [
+            "348",
+            "353"
+          ],
+          "nodes": [
+            "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+            "CAM_HUY_DONG_VON",
+            "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+          ],
+          "edges": [
+            [
+              "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+              "CAM_HUY_DONG_VON"
+            ],
+            [
+              "CAM_HUY_DONG_VON",
+              "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
             ]
           ],
           "score": 1.138851068019867
@@ -9698,9 +9790,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo các bằng chứng và causal path được cung cấp, trường hợp tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội sẽ dẫn đến hậu quả cuối cùng là bị cấm huy động vốn. Cụ thể, Điều 81 quy định các hình thức cấm chế như: cấm phát hành chứng khoán, cấm hình thành quỹ tín thác bất động sản, cấm vay vốn từ tổ chức tín dụng, và thời hạn cấm từ 01 đến 03 năm. Các hậu quả này được áp dụng trực tiếp dựa trên điều kiện \"bị cấm huy động vốn\" (Rule 348), không liên quan đến hình phạt quản chế (Điều 43) trong trường hợp này. Do đó, căn cứ pháp lý chỉ xác định các biện pháp cấm chế tài chính, không có kết luận về hình phạt quản chế.",
+      "predicted_answer": "Theo các bằng chứng được cung cấp, nếu xảy ra trường hợp \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\", điều kiện này sẽ kích hoạt **Rule 348 - Điều 81**, dẫn đến hậu quả **bị cấm huy động vốn**. Từ đó, các quy định liên quan (Rule 352, 355, 350, 353, 349, 351) sẽ áp dụng, khiến cá nhân bị cấm một loạt hành vi như phát hành chứng khoán, vay vốn, liên doanh, hoặc huy động vốn của khách hàng, với thời hạn cấm từ 01 đến 03 năm. Không có bằng chứng đủ để xác định đây là \"tái phạm nguy hiểm\" theo **Rule 148 - Điều 43**, do đó **hình phạt quản chế** không phải hậu quả pháp lý trong trường hợp này.",
       "generator": "ollama",
-      "runtime_seconds": 17.0797,
+      "runtime_seconds": 14.757,
       "error": null
     },
     {
@@ -9900,9 +9992,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo causal path và evidence, nếu xảy ra trường hợp tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội, hậu quả pháp lý cuối cùng là **bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó** với **thời hạn cấm từ 01 năm đến 03 năm**. Điều này dựa trên Rule 345 (Điều 80) quy định điều kiện cấm kinh doanh và Rule 347 (Điều 80) xác định thời hạn cấm. Các causal path khác như đình chỉ hoạt động vĩnh viễn hoặc có thời hạn không áp dụng vì không đáp ứng đủ điều kiện trong trường hợp này.",
+      "predicted_answer": "Theo chuỗi suy luận pháp lý, nếu tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực có nguy cơ gây hại cho tính mạng, sức khỏe con người hoặc xã hội, thì hậu quả cuối cùng là **bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó** với **thời hạn cấm từ 01 năm đến 03 năm**. Căn cứ pháp lý là Điều 80, cụ thể là **Rule 345** (điều kiện cấm kinh doanh) và **Rule 347** (hệ quả thời hạn cấm). Các quy định khác như đình chỉ hoạt động vĩnh viễn hoặc có thời hạn không được áp dụng trong trường hợp này do không đủ điều kiện về thiệt hại thực tế hoặc khả năng khắc phục hậu quả.",
       "generator": "ollama",
-      "runtime_seconds": 9.8041,
+      "runtime_seconds": 12.213,
       "error": null
     },
     {
@@ -9924,9 +10016,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Không tìm thấy causal path đủ căn cứ để trả lời câu hỏi.",
+      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả cuối cùng trong trường hợp này. Dữ liệu cung cấp không thể hiện mối liên hệ pháp lý cụ thể giữa hành vi gây thiệt hại và kết quả pháp lý tương ứng, do đó không thể suy luận được hậu quả pháp lý chính xác theo quy định của pháp luật hình sự Việt Nam.",
       "generator": "ollama",
-      "runtime_seconds": 4.0586,
+      "runtime_seconds": 5.5063,
       "error": null
     },
     {
@@ -9948,9 +10040,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả cuối cùng trong trường hợp này. Dữ liệu cung cấp không nêu rõ các yếu tố pháp lý cụ thể như hành vi vi phạm, mức độ thiệt hại, hoặc các điều khoản pháp luật liên quan. Do đó, không thể tiến hành chuỗi suy luận pháp lý đầy đủ để kết luận hậu quả pháp lý chính xác.",
+      "predicted_answer": "Không tìm thấy causal path đủ căn cứ để trả lời câu hỏi. Dựa trên thông tin cung cấp, không có bằng chứng pháp lý cụ thể hoặc mối liên hệ nhân quả rõ ràng giữa hành vi gây thiệt hại và hậu quả pháp lý cuối cùng. Do đó, không thể xác định hậu quả pháp lý chính xác trong trường hợp này.",
       "generator": "ollama",
-      "runtime_seconds": 5.4537,
+      "runtime_seconds": 5.6178,
       "error": null
     },
     {
@@ -9972,9 +10064,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả pháp lý cuối cùng trong trường hợp này. Dữ liệu cung cấp không thể hiện mối liên hệ cụ thể giữa hành vi gây thiệt hại hoặc nguy cơ nghiêm trọng đến tính mạng, môi trường, an ninh, trật tự xã hội và khả năng khắc phục hậu quả với các quy định pháp luật hình sự Việt Nam. Do đó, không thể kết luận rõ ràng về hình phạt hoặc trách nhiệm pháp lý mà không có cơ sở pháp lý đầy đủ.",
+      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả pháp lý cuối cùng trong trường hợp này. Dữ liệu cung cấp không nêu rõ các yếu tố pháp lý cụ thể (như hành vi, động cơ, hậu quả thực tế, hoặc bằng chứng liên quan đến thiệt hại môi trường, an ninh, trật tự xã hội) cần thiết để áp dụng các điều luật trong Bộ luật Hình sự Việt Nam. Việc kết luận hậu quả pháp lý yêu cầu sự liên kết chặt chẽ giữa các yếu tố vi phạm, mức độ nghiêm trọng, và khả năng khắc phục hậu quả, mà hiện tại chưa đủ để xác định.",
       "generator": "ollama",
-      "runtime_seconds": 6.0915,
+      "runtime_seconds": 8.8442,
       "error": null
     },
     {
@@ -9996,9 +10088,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả cuối cùng trong trường hợp này. Dữ liệu cung cấp không nêu rõ các yếu tố pháp lý cụ thể liên quan đến các điều khoản trong Bộ luật Hình sự Việt Nam, cũng như không có thông tin về mối liên hệ nhân quả (causal path) giữa các hành vi, điều kiện và kết quả pháp lý. Do đó, không thể suy luận được hậu quả pháp lý chính xác dựa trên thông tin hiện có.",
+      "predicted_answer": "Không đủ căn cứ để xác định hậu quả cuối cùng trong trường hợp này. Dữ liệu cung cấp không nêu rõ mối liên hệ cụ thể giữa các điều kiện pháp lý (Điều 70 đến Điều 73 Bộ luật Hình sự) và kết quả pháp lý tương ứng. Việc thiếu thông tin về các yếu tố cấu thành tội phạm, hành vi, hậu quả thực tế, hoặc căn cứ pháp lý liên kết trực tiếp khiến không thể suy luận chắc chắn về kết cục pháp lý. Do đó, cần thêm bằng chứng hoặc phân tích pháp lý chi tiết để xác định hậu quả cuối cùng.",
       "generator": "ollama",
-      "runtime_seconds": 6.4934,
+      "runtime_seconds": 6.9595,
       "error": null
     },
     {
@@ -10092,9 +10184,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal paths và căn cứ pháp lý, phạm tội xâm phạm an ninh quốc gia sẽ dẫn đến hình phạt quản chế. Cụ thể, người phạm tội phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương, đồng thời thời hạn quản chế dao động từ 01 đến 05 năm. Căn cứ pháp lý bao gồm Điều 43 Bộ luật Hình sự, cụ thể là các quy định về hình phạt quản chế và các hậu quả phát sinh từ hình phạt này.",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ các causal path và căn cứ pháp lý, hậu quả cuối cùng của việc phạm tội xâm phạm an ninh quốc gia là bị áp dụng hình phạt quản chế, bao gồm việc phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương, đồng thời thời hạn quản chế dao động từ 01 đến 05 năm. Căn cứ pháp lý được áp dụng là Điều 43 Bộ luật Hình sự.",
       "generator": "ollama",
-      "runtime_seconds": 10.2286,
+      "runtime_seconds": 17.233,
       "error": null
     },
     {
@@ -10188,9 +10280,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path và căn cứ pháp lý, phạm tội xâm phạm an ninh quốc gia sẽ bị áp dụng hình phạt quản chế. Hậu quả trực tiếp của hình phạt này là bị yêu cầu cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương, đồng thời thời hạn quản chế dao động từ 01 đến 05 năm. Các quy định này được quy định tại Điều 43 Bộ luật Hình sự.",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal paths và căn cứ trong Rule 147, 143, 149 của Điều 43, hậu quả cuối cùng của việc phạm tội xâm phạm an ninh quốc gia là bị áp dụng hình phạt quản chế, bao gồm việc phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương, đồng thời thời hạn quản chế dao động từ 01 đến 05 năm.",
       "generator": "ollama",
-      "runtime_seconds": 8.4087,
+      "runtime_seconds": 9.5935,
       "error": null
     },
     {
@@ -10212,9 +10304,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả cuối cùng. Causal path và bằng chứng cung cấp không đủ để phân tích cụ thể tình huống phạm tội thuộc Điều 79 Bộ luật Hình sự. Pháp lý liên quan đến Điều 79 có thể dẫn đến các hình phạt nghiêm khắc, nhưng cần thông tin chi tiết về hành vi, hậu quả cụ thể và các yếu tố cấu thành tội phạm để đưa ra kết luận chính xác.",
+      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả cuối cùng trong trường hợp phạm tội thuộc Điều 79 Bộ luật Hình sự. Causal path và bằng chứng cung cấp không đủ để tiến hành suy luận pháp lý cụ thể, do đó không thể kết luận về hình phạt hoặc hậu quả pháp lý cuối cùng dựa trên thông tin hiện có.",
       "generator": "ollama",
-      "runtime_seconds": 6.3665,
+      "runtime_seconds": 4.8097,
       "error": null
     },
     {
@@ -10487,9 +10579,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path và căn cứ trong Rule 205 (Điều 53) và Rule 148 (Điều 43), trường hợp chưa xóa án tích mà thực hiện hành vi phạm tội do cố ý sẽ bị xác định là **tái phạm nguy hiểm**, dẫn đến **áp dụng hình phạt quản chế**. Hậu quả cuối cùng là người phạm tội phải **cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương**.",
+      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ causal path và căn cứ pháp lý, nếu chưa xóa án tích mà thực hiện hành vi phạm tội do cố ý, người phạm tội sẽ bị xác định là **tái phạm nguy hiểm** (theo Điều 53). Hậu quả cuối cùng là **bị áp dụng hình phạt quản chế**, cụ thể là **phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương** (theo Điều 43). Căn cứ pháp lý bao gồm Điều 53 và Điều 43.",
       "generator": "ollama",
-      "runtime_seconds": 10.6327,
+      "runtime_seconds": 10.7488,
       "error": null
     },
     {
@@ -10762,9 +10854,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": true,
       "predicted_answer_label": "SUPPORTED",
-      "predicted_answer": "Theo chuỗi hậu quả pháp lý được truy hồi từ các causal path và căn cứ pháp lý, trường hợp nêu trên sẽ bị xác định là **tái phạm nguy hiểm** (theo Điều 53, cụ thể là Rule 204). Hậu quả cuối cùng là **bị áp dụng hình phạt quản chế** với thời hạn **từ 01 năm đến 05 năm** (theo Rule 149). Căn cứ pháp lý bao gồm Điều 53 và Điều 43 Bộ luật Hình sự.",
+      "predicted_answer": "Theo chuỗi suy luận pháp lý, người phạm tội đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa xóa án tích và lại phạm tội tương tự sẽ bị xác định là **tái phạm nguy hiểm** (căn cứ Điều 53, Điều 204). Hậu quả cuối cùng là **bị áp dụng hình phạt quản chế**, bao gồm thời hạn từ 01 đến 05 năm và phải cư trú, làm ăn, cải tạo tại địa phương dưới sự kiểm soát, giáo dục của chính quyền và nhân dân (căn cứ Điều 43, Điều 143, Điều 149). Các quy định này không đề cập đến hình phạt tù mà chỉ quy định hình thức quản chế với điều kiện cụ thể.",
       "generator": "ollama",
-      "runtime_seconds": 10.3298,
+      "runtime_seconds": 12.195,
       "error": null
     },
     {
@@ -10786,9 +10878,9 @@
       "predicted_overall_verification_label": null,
       "predicted_final_effect_reachable": false,
       "predicted_answer_label": "NOT_ENOUGH_LEGAL_BASIS",
-      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả cuối cùng trong trường hợp này. Dữ liệu cung cấp không thể hiện mối liên hệ pháp lý cụ thể giữa hành vi, căn cứ pháp luật và kết quả pháp lý cần thiết. Do đó, không thể đưa ra kết luận về hậu quả pháp lý dựa trên thông tin hiện có.",
+      "predicted_answer": "Chưa đủ căn cứ để xác định hậu quả cuối cùng trong trường hợp này. Dữ liệu cung cấp không có thông tin về các yếu tố pháp lý cụ thể, mối liên hệ nhân quả (causal path) hoặc bằng chứng liên quan đến việc tòa án xét thấy cần thiết trong từng trường hợp. Do đó, không thể suy luận kết quả pháp lý dựa trên thông tin hiện có.",
       "generator": "ollama",
-      "runtime_seconds": 4.8107,
+      "runtime_seconds": 4.5468,
       "error": null
     }
   ]
