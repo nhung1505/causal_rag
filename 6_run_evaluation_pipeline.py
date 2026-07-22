@@ -604,13 +604,17 @@ def main() -> None:
                     intervention_type=intervention_type,
                     replacement_event=replacement_event,
                 )
+                
+                sample_dir.mkdir(parents=True, exist_ok=True)
+                retrieval_file = sample_dir / "retrieval_result.json"
+                save_json(retrieval_result, str(retrieval_file))
 
                 counterfactual_result = verifier.verify(
-                    retrieval_result,
-                    intervention,
-                    args.top_k_alternatives,
-                    args.semantic_search_k,
-                    args.max_paths,
+                    retrieval_result_path=str(retrieval_file),
+                    intervention=intervention,
+                    top_k_alternatives=args.top_k_alternatives,
+                    semantic_search_k=args.semantic_search_k,
+                    max_paths=args.max_paths,
                 )
 
                 if args.save_intermediate:
