@@ -1,0 +1,187 @@
+{
+  "original_query": "Giả sử điều kiện hoặc sự kiện “đã chấp hành được 25 năm tù” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “được giảm xuống 30 năm tù” hay không?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "DA_CHAP_HANH_25_NAM_TU",
+    "target_event_text": "đã chấp hành được 25 năm tù",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT DA_CHAP_HANH_25_NAM_TU)"
+  },
+  "source_overall_verification": {
+    "label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
+    "conclusion": "Tất cả causal path factual bị phá vỡ, nhưng có rule thay thế cùng hỗ trợ ít nhất một hệ quả cuối.",
+    "broken_path_count": 2,
+    "preserved_path_count": 0,
+    "reachable_final_effect_count": 0,
+    "alternative_supported_path_count": 2,
+    "verification_label_counts": {
+      "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND": 2
+    }
+  },
+  "evidence_summary": {
+    "valid_rule_count": 0,
+    "removed_rule_count": 3,
+    "alternative_candidate_count": 3,
+    "valid_rule_ids": [],
+    "removed_rule_ids": [
+      "265",
+      "258",
+      "264"
+    ],
+    "alternative_candidate_rule_ids": [
+      "256",
+      "255",
+      "254"
+    ]
+  },
+  "refined_evidence": {
+    "valid_evidence": [],
+    "removed_evidence": [
+      {
+        "rule_id": "265",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "đã chấp hành được 25 năm tù",
+        "effect": "được xét giảm án lần đầu",
+        "condition_norm": "DA_CHAP_HANH_25_NAM_TU",
+        "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "status": "INVALIDATED",
+        "reason": "Input event DA_CHAP_HANH_25_NAM_TU của Rule 265 đã bị phủ định trực tiếp.",
+        "path_ids": [
+          1
+        ]
+      },
+      {
+        "rule_id": "258",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "được xét giảm án lần đầu",
+        "effect": "được giảm xuống 30 năm tù",
+        "condition_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "effect_norm": "GIAM_XUONG_30_NAM_TU",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 258 bị chặn vì event đầu vào DUOC_XET_GIAM_AN_LAN_DAU không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          1,
+          2
+        ]
+      },
+      {
+        "rule_id": "264",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "đã chấp hành được 25 năm tù",
+        "effect": "được xét giảm án lần đầu",
+        "condition_norm": "DA_CHAP_HANH_25_NAM_TU",
+        "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "status": "INVALIDATED",
+        "reason": "Input event DA_CHAP_HANH_25_NAM_TU của Rule 264 đã bị phủ định trực tiếp.",
+        "path_ids": [
+          2
+        ]
+      }
+    ],
+    "alternative_candidates": [
+      {
+        "rule_id": "256",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "đã chấp hành được 12 năm tù",
+        "effect": "được xét giảm án lần đầu",
+        "condition_norm": "DA_CHAP_HANH_12_NAM_TU",
+        "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "score": 1.3542712741579328,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SAME_EFFECT",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      },
+      {
+        "rule_id": "255",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "đã chấp hành được một phần ba thời hạn hình phạt",
+        "effect": "được xét giảm án lần đầu",
+        "condition_norm": "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+        "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "score": 1.3135924648805097,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SAME_EFFECT",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      },
+      {
+        "rule_id": "254",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "đã chấp hành được một phần ba thời hạn hình phạt",
+        "effect": "được xét giảm án lần đầu",
+        "condition_norm": "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+        "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "score": 1.3069718777338664,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SAME_EFFECT",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      }
+    ],
+    "path_summary": [
+      {
+        "path_id": 1,
+        "path_score": 1.1790743088722229,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DA_CHAP_HANH_25_NAM_TU",
+          "DUOC_XET_GIAM_AN_LAN_DAU",
+          "GIAM_XUONG_30_NAM_TU"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "GIAM_XUONG_30_NAM_TU",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      },
+      {
+        "path_id": 2,
+        "path_score": 1.1755499458312988,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DA_CHAP_HANH_25_NAM_TU",
+          "DUOC_XET_GIAM_AN_LAN_DAU",
+          "GIAM_XUONG_30_NAM_TU"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "GIAM_XUONG_30_NAM_TU",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      }
+    ]
+  },
+  "generation": {
+    "generator": "ollama",
+    "model": "qwen3:8b",
+    "template_answer": "Trong giả định phản thực rằng “đã chấp hành được 25 năm tù” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.\n\nCó 2 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.\n\nKhông còn rule nào trong các factual path được xác nhận là PRESERVED hoặc ACTIVATED. Vì vậy, chưa đủ căn cứ từ các bằng chứng đã truy hồi để giữ nguyên kết luận ban đầu.\n\nCụ thể, hệ thống không còn suy ra được qua các path factual: giam xuong 30 nam tu.\n\nChuỗi bị loại trước đây dựa trên Điều 63 (Giảm mức hình phạt đã tuyên).\n\nCác kết luận không còn được hỗ trợ bởi chuỗi factual gồm: được xét giảm án lần đầu; được giảm xuống 30 năm tù.\n\nHệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:\n\n- Điều 63: nếu đã chấp hành được 12 năm tù thì được xét giảm án lần đầu.\n\n- Điều 63: nếu đã chấp hành được một phần ba thời hạn hình phạt thì được xét giảm án lần đầu.\n\n- Điều 63: nếu đã chấp hành được một phần ba thời hạn hình phạt thì được xét giảm án lần đầu.\n\nDo đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.\n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu cũng không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.",
+    "final_answer": "Theo quy tắc và bằng chứng được cung cấp, khi điều kiện \"đã chấp hành được 25 năm tù\" bị phủ nhận, các quy tắc liên quan đến kết luận \"được giảm xuống 30 năm tù\" không còn được duy trì. Cụ thể, các quy tắc 265, 264 (điều kiện bị vô hiệu hóa) và quy tắc 258 (bị chặn bởi sự kiện đầu vào không còn khả thi) không còn hỗ trợ hệ quả ban đầu. Các quy tắc thay thế (256, 255, 254) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực. Do đó, không có bằng chứng hợp lệ nào còn tồn tại để duy trì kết luận \"được giảm xuống 30 năm tù\". Hệ thống không thể khẳng định chắc chắn rằng hệ quả này vẫn xảy ra, vì không còn đường dẫn hợp lệ từ các điều kiện đã được kiểm chứng. Kết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định kết quả cuối cùng vẫn áp dụng."
+  }
+}

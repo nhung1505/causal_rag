@@ -1,0 +1,328 @@
+{
+  "query": "Giả sử điều kiện hoặc sự kiện “bị áp dụng hình phạt chính” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam” hay không?",
+  "config": {
+    "seed_top_k": 8,
+    "semantic_pool_size": 50,
+    "max_depth": 4,
+    "max_expansions_per_rule": 15,
+    "final_top_k": 12,
+    "causal_only": true,
+    "min_event_nodes": 3
+  },
+  "seed_rules": [
+    {
+      "rule_id": "122",
+      "row_id": 121,
+      "article_id": "37",
+      "legal_subject": "người nước ngoài bị kết án",
+      "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+      "condition": "bị áp dụng hình phạt trục xuất",
+      "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "condition_norm": "AP_DUNG_TRUC_XUAT",
+      "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+      "article_title": "Trục xuất",
+      "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể.",
+      "condition_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+      "effect_event_id": "EVENT::ROI_KHOI_LANH_THO_VIET_NAM",
+      "semantic_score": 0.7004776000976562
+    },
+    {
+      "rule_id": "19",
+      "row_id": 18,
+      "article_id": "6",
+      "legal_subject": "công dân Việt Nam",
+      "subject_norm": "CONG_DAN_VIET_NAM",
+      "condition": "có hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam và hành vi đó được Bộ luật Hình sự quy định là tội phạm",
+      "effect": "có thể bị truy cứu trách nhiệm hình sự tại Việt Nam",
+      "condition_norm": "PHAM_TOI_NGOAI_LANH_THO",
+      "effect_norm": "CO_THE_BI_TRUY_CUU_TNHS",
+      "article_title": "Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "content": "Điều 6. Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\n1. Công dân Việt Nam hoặc pháp nhân thương mại Việt Nam có hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam mà Bộ luật này quy định là tội phạm, thì có thể bị truy cứu trách nhiệm hình sự tại Việt Nam theo quy định của Bộ luật này.\nQuy định này cũng được áp dụng đối với người không quốc tịch thường trú ở Việt Nam.\n2. Người nước ngoài, pháp nhân thương mại nước ngoài phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam có thể bị truy cứu trách nhiệm hình sự theo quy định của Bộ luật này trong trường hợp hành vi phạm tội xâm hại quyền, lợi ích hợp pháp của công dân Việt Nam hoặc xâm hại lợi ích của nước Cộng hòa xã hội chủ nghĩa Việt Nam hoặc theo quy định của điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên.\n3. Đối với hành vi phạm tội hoặc hậu quả của hành vi phạm tội xảy ra trên tàu bay, tàu biển không mang quốc tịch Việt Nam đang ở tại biển cả hoặc tại giới hạn vùng trời nằm ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam, thì người phạm tội có thể bị truy cứu trách nhiệm hình sự theo quy định của Bộ luật này trong trường hợp điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên có quy định.",
+      "condition_event_id": "EVENT::PHAM_TOI_NGOAI_LANH_THO",
+      "effect_event_id": "EVENT::CO_THE_BI_TRUY_CUU_TNHS",
+      "semantic_score": 0.6636355519294739
+    },
+    {
+      "rule_id": "21",
+      "row_id": 20,
+      "article_id": "6",
+      "legal_subject": "người không quốc tịch thường trú tại Việt Nam",
+      "subject_norm": "NGUOI_KHONG_QUOC_TICH_THUONG_TRU_TAI_VIET_NAM",
+      "condition": "có hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam và hành vi đó được Bộ luật Hình sự quy định là tội phạm",
+      "effect": "có thể bị truy cứu trách nhiệm hình sự tại Việt Nam",
+      "condition_norm": "PHAM_TOI_NGOAI_LANH_THO",
+      "effect_norm": "CO_THE_BI_TRUY_CUU_TNHS",
+      "article_title": "Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "content": "Điều 6. Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\n1. Công dân Việt Nam hoặc pháp nhân thương mại Việt Nam có hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam mà Bộ luật này quy định là tội phạm, thì có thể bị truy cứu trách nhiệm hình sự tại Việt Nam theo quy định của Bộ luật này.\nQuy định này cũng được áp dụng đối với người không quốc tịch thường trú ở Việt Nam.\n2. Người nước ngoài, pháp nhân thương mại nước ngoài phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam có thể bị truy cứu trách nhiệm hình sự theo quy định của Bộ luật này trong trường hợp hành vi phạm tội xâm hại quyền, lợi ích hợp pháp của công dân Việt Nam hoặc xâm hại lợi ích của nước Cộng hòa xã hội chủ nghĩa Việt Nam hoặc theo quy định của điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên.\n3. Đối với hành vi phạm tội hoặc hậu quả của hành vi phạm tội xảy ra trên tàu bay, tàu biển không mang quốc tịch Việt Nam đang ở tại biển cả hoặc tại giới hạn vùng trời nằm ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam, thì người phạm tội có thể bị truy cứu trách nhiệm hình sự theo quy định của Bộ luật này trong trường hợp điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên có quy định.",
+      "condition_event_id": "EVENT::PHAM_TOI_NGOAI_LANH_THO",
+      "effect_event_id": "EVENT::CO_THE_BI_TRUY_CUU_TNHS",
+      "semantic_score": 0.6528458595275879
+    },
+    {
+      "rule_id": "180",
+      "row_id": 179,
+      "article_id": "49",
+      "legal_subject": "người đang chấp hành hình phạt tù",
+      "subject_norm": "NGUOI_DANG_CHAP_HANH_HINH_PHAT_TU",
+      "condition": "đã khỏi bệnh hoặc đủ khả năng nhận thức, điều khiển hành vi và không có lý do được miễn chấp hành hình phạt",
+      "effect": "phải tiếp tục chấp hành hình phạt",
+      "condition_norm": "HOI_PHUC_NANG_LUC_VA_KHONG_DUOC_MIEN_AN",
+      "effect_norm": "TIEP_TUC_CHAP_HANH_HINH_PHAT",
+      "article_title": "Bắt buộc chữa bệnh[15]",
+      "content": "Điều 49. Bắt buộc chữa bệnh[15]\n1. Đối với người thực hiện hành vi nguy hiểm cho xã hội trong khi mắc bệnh quy định tại Điều 21 của Bộ luật này, Viện kiểm sát hoặc Tòa án căn cứ vào kết luận giám định pháp y, giám định pháp y tâm thần có thể quyết định đưa họ vào một cơ sở khám bệnh, chữa bệnh để bắt buộc chữa bệnh.\n2. Đối với người phạm tội trong khi có năng lực trách nhiệm hình sự nhưng trước khi bị kết án đã mắc bệnh tới mức mất khả năng nhận thức hoặc khả năng điều khiển hành vi của mình, thì căn cứ vào kết luận giám định pháp y, giám định pháp y tâm thần, Tòa án có thể quyết định đưa họ vào một cơ sở khám bệnh, chữa bệnh để bắt buộc chữa bệnh. Sau khi có kết luận khỏi bệnh hoặc có kết luận đủ khả năng nhận thức, đủ khả năng điều khiển hành vi, người đó có thể phải chịu trách nhiệm hình sự.\n3. Đối với người đang chấp hành hình phạt tù mà bị bệnh tới mức mất khả năng nhận thức hoặc khả năng điều khiển hành vi của mình, thì căn cứ vào kết luận giám định pháp y, giám định pháp y tâm thần, Tòa án có thể quyết định đưa họ vào một cơ sở khám bệnh, chữa bệnh để bắt buộc chữa bệnh. Sau khi có kết luận khỏi bệnh hoặc có kết luận đủ khả năng nhận thức, đủ khả năng điều khiển hành vi, nếu không có lý do khác để miễn chấp hành hình phạt, thì người đó phải tiếp tục chấp hành hình phạt.\nThời gian bắt buộc chữa bệnh được trừ vào thời hạn chấp hành hình phạt tù.\nChương VIII \nQUYẾT ĐỊNH HÌNH PHẠT \nMục 1. QUY ĐỊNH CHUNG VỀ QUYẾT ĐỊNH HÌNH PHẠT",
+      "condition_event_id": "EVENT::HOI_PHUC_NANG_LUC_VA_KHONG_DUOC_MIEN_AN",
+      "effect_event_id": "EVENT::TIEP_TUC_CHAP_HANH_HINH_PHAT",
+      "semantic_score": 0.6504111289978027
+    },
+    {
+      "rule_id": "17",
+      "row_id": 16,
+      "article_id": "5",
+      "legal_subject": "người nước ngoài",
+      "subject_norm": "NGUOI_NUOC_NGOAI",
+      "condition": "phạm tội trên lãnh thổ Việt Nam và thuộc đối tượng được hưởng quyền miễn trừ ngoại giao hoặc lãnh sự",
+      "effect": "trách nhiệm hình sự được giải quyết theo điều ước quốc tế hoặc tập quán quốc tế",
+      "condition_norm": "MIEN_TRU_NGOAI_GIAO",
+      "effect_norm": "GIAI_QUYET_THEO_DIEU_UOC_QUOC_TE",
+      "article_title": "Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "content": "Điều 5. Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\n1. Bộ luật Hình sự được áp dụng đối với mọi hành vi phạm tội thực hiện trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nQuy định này cũng được áp dụng đối với hành vi phạm tội hoặc hậu quả của hành vi phạm tội xảy ra trên tàu bay, tàu biển mang quốc tịch Việt Nam hoặc tại vùng đặc quyền kinh tế, thềm lục địa của Việt Nam.\n2. Đối với người nước ngoài phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam thuộc đối tượng được hưởng quyền miễn trừ ngoại giao hoặc lãnh sự theo pháp luật Việt Nam, theo điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên hoặc theo tập quán quốc tế, thì vấn đề trách nhiệm hình sự của họ được giải quyết theo quy định của điều ước quốc tế hoặc theo tập quán quốc tế đó; trường hợp điều ước quốc tế đó không quy định hoặc không có tập quán quốc tế thì trách nhiệm hình sự của họ được giải quyết bằng con đường ngoại giao.",
+      "condition_event_id": "EVENT::MIEN_TRU_NGOAI_GIAO",
+      "effect_event_id": "EVENT::GIAI_QUYET_THEO_DIEU_UOC_QUOC_TE",
+      "semantic_score": 0.6436513662338257
+    },
+    {
+      "rule_id": "20",
+      "row_id": 19,
+      "article_id": "6",
+      "legal_subject": "pháp nhân thương mại Việt Nam",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_VIET_NAM",
+      "condition": "có hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam và hành vi đó được Bộ luật Hình sự quy định là tội phạm",
+      "effect": "có thể bị truy cứu trách nhiệm hình sự tại Việt Nam",
+      "condition_norm": "PHAM_TOI_NGOAI_LANH_THO",
+      "effect_norm": "CO_THE_BI_TRUY_CUU_TNHS",
+      "article_title": "Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "content": "Điều 6. Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\n1. Công dân Việt Nam hoặc pháp nhân thương mại Việt Nam có hành vi phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam mà Bộ luật này quy định là tội phạm, thì có thể bị truy cứu trách nhiệm hình sự tại Việt Nam theo quy định của Bộ luật này.\nQuy định này cũng được áp dụng đối với người không quốc tịch thường trú ở Việt Nam.\n2. Người nước ngoài, pháp nhân thương mại nước ngoài phạm tội ở ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam có thể bị truy cứu trách nhiệm hình sự theo quy định của Bộ luật này trong trường hợp hành vi phạm tội xâm hại quyền, lợi ích hợp pháp của công dân Việt Nam hoặc xâm hại lợi ích của nước Cộng hòa xã hội chủ nghĩa Việt Nam hoặc theo quy định của điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên.\n3. Đối với hành vi phạm tội hoặc hậu quả của hành vi phạm tội xảy ra trên tàu bay, tàu biển không mang quốc tịch Việt Nam đang ở tại biển cả hoặc tại giới hạn vùng trời nằm ngoài lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam, thì người phạm tội có thể bị truy cứu trách nhiệm hình sự theo quy định của Bộ luật này trong trường hợp điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên có quy định.",
+      "condition_event_id": "EVENT::PHAM_TOI_NGOAI_LANH_THO",
+      "effect_event_id": "EVENT::CO_THE_BI_TRUY_CUU_TNHS",
+      "semantic_score": 0.6422680020332336
+    },
+    {
+      "rule_id": "123",
+      "row_id": 122,
+      "article_id": "37",
+      "legal_subject": "người nước ngoài bị kết án",
+      "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+      "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+      "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+      "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+      "effect_norm": "AP_DUNG_TRUC_XUAT",
+      "article_title": "Trục xuất",
+      "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể.",
+      "condition_event_id": "EVENT::TOA_AN_XET_THAY_CAN_THIET",
+      "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+      "semantic_score": 0.6384982466697693
+    },
+    {
+      "rule_id": "98",
+      "row_id": 97,
+      "article_id": "32",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "bị áp dụng hình phạt chính",
+      "effect": "trục xuất",
+      "condition_norm": "AP_DUNG_HINH_PHAT_CHINH",
+      "effect_norm": "AP_DUNG_TRUC_XUAT",
+      "article_title": "Các hình phạt đối với người phạm tội",
+      "content": "Điều 32. Các hình phạt đối với người phạm tội\n1. Hình phạt chính bao gồm:\na) Cảnh cáo;\nb) Phạt tiền;\nc) Cải tạo không giam giữ;\nd) Trục xuất;\nđ) Tù có thời hạn; \ne) Tù chung thân; \ng) Tử hình.\n2. Hình phạt bổ sung bao gồm:\na) Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định;\nb) Cấm cư trú;\nc) Quản chế;\nd) Tước một số quyền công dân;\nđ) Tịch thu tài sản;\ne) Phạt tiền, khi không áp dụng là hình phạt chính;\ng) Trục xuất, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, người phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung.",
+      "condition_event_id": "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+      "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+      "semantic_score": 0.6335042715072632
+    }
+  ],
+  "paths": [
+    {
+      "seed_rule_id": "98",
+      "rule_ids": [
+        "98",
+        "122"
+      ],
+      "event_node_ids": [
+        "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+        "EVENT::AP_DUNG_TRUC_XUAT",
+        "EVENT::ROI_KHOI_LANH_THO_VIET_NAM"
+      ],
+      "event_chain": [
+        "AP_DUNG_HINH_PHAT_CHINH",
+        "AP_DUNG_TRUC_XUAT",
+        "ROI_KHOI_LANH_THO_VIET_NAM"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6335042715072632,
+      "score": 1.1435042715072632,
+      "steps": [
+        {
+          "from_rule_id": "98",
+          "to_rule_id": "122",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả AP_DUNG_TRUC_XUAT của Rule 98 trở thành điều kiện AP_DUNG_TRUC_XUAT của Rule 122."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "98",
+          "row_id": 97,
+          "article_id": "32",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "bị áp dụng hình phạt chính",
+          "effect": "trục xuất",
+          "condition_norm": "AP_DUNG_HINH_PHAT_CHINH",
+          "effect_norm": "AP_DUNG_TRUC_XUAT",
+          "article_title": "Các hình phạt đối với người phạm tội",
+          "content": "Điều 32. Các hình phạt đối với người phạm tội\n1. Hình phạt chính bao gồm:\na) Cảnh cáo;\nb) Phạt tiền;\nc) Cải tạo không giam giữ;\nd) Trục xuất;\nđ) Tù có thời hạn; \ne) Tù chung thân; \ng) Tử hình.\n2. Hình phạt bổ sung bao gồm:\na) Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định;\nb) Cấm cư trú;\nc) Quản chế;\nd) Tước một số quyền công dân;\nđ) Tịch thu tài sản;\ne) Phạt tiền, khi không áp dụng là hình phạt chính;\ng) Trục xuất, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, người phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung.",
+          "condition_event_id": "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+          "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT"
+        },
+        {
+          "rule_id": "122",
+          "row_id": 121,
+          "article_id": "37",
+          "legal_subject": "người nước ngoài bị kết án",
+          "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+          "condition": "bị áp dụng hình phạt trục xuất",
+          "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+          "condition_norm": "AP_DUNG_TRUC_XUAT",
+          "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+          "article_title": "Trục xuất",
+          "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể.",
+          "condition_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+          "effect_event_id": "EVENT::ROI_KHOI_LANH_THO_VIET_NAM"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "123",
+      "rule_ids": [
+        "123",
+        "122"
+      ],
+      "event_node_ids": [
+        "EVENT::TOA_AN_XET_THAY_CAN_THIET",
+        "EVENT::AP_DUNG_TRUC_XUAT",
+        "EVENT::ROI_KHOI_LANH_THO_VIET_NAM"
+      ],
+      "event_chain": [
+        "TOA_AN_XET_THAY_CAN_THIET",
+        "AP_DUNG_TRUC_XUAT",
+        "ROI_KHOI_LANH_THO_VIET_NAM"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6384982466697693,
+      "score": 1.0984982466697693,
+      "steps": [
+        {
+          "from_rule_id": "123",
+          "to_rule_id": "122",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả AP_DUNG_TRUC_XUAT của Rule 123 trở thành điều kiện AP_DUNG_TRUC_XUAT của Rule 122."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "123",
+          "row_id": 122,
+          "article_id": "37",
+          "legal_subject": "người nước ngoài bị kết án",
+          "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+          "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+          "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+          "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+          "effect_norm": "AP_DUNG_TRUC_XUAT",
+          "article_title": "Trục xuất",
+          "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể.",
+          "condition_event_id": "EVENT::TOA_AN_XET_THAY_CAN_THIET",
+          "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT"
+        },
+        {
+          "rule_id": "122",
+          "row_id": 121,
+          "article_id": "37",
+          "legal_subject": "người nước ngoài bị kết án",
+          "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+          "condition": "bị áp dụng hình phạt trục xuất",
+          "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+          "condition_norm": "AP_DUNG_TRUC_XUAT",
+          "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+          "article_title": "Trục xuất",
+          "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể.",
+          "condition_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+          "effect_event_id": "EVENT::ROI_KHOI_LANH_THO_VIET_NAM"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "rule_id": "122",
+      "row_id": 121,
+      "article_id": "37",
+      "legal_subject": "người nước ngoài bị kết án",
+      "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+      "condition": "bị áp dụng hình phạt trục xuất",
+      "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "condition_norm": "AP_DUNG_TRUC_XUAT",
+      "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+      "article_title": "Trục xuất",
+      "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể.",
+      "condition_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+      "effect_event_id": "EVENT::ROI_KHOI_LANH_THO_VIET_NAM",
+      "semantic_score": 0.7004776000976562,
+      "evidence_score": 0.5717521357536316,
+      "path_count": 2
+    },
+    {
+      "rule_id": "98",
+      "row_id": 97,
+      "article_id": "32",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "bị áp dụng hình phạt chính",
+      "effect": "trục xuất",
+      "condition_norm": "AP_DUNG_HINH_PHAT_CHINH",
+      "effect_norm": "AP_DUNG_TRUC_XUAT",
+      "article_title": "Các hình phạt đối với người phạm tội",
+      "content": "Điều 32. Các hình phạt đối với người phạm tội\n1. Hình phạt chính bao gồm:\na) Cảnh cáo;\nb) Phạt tiền;\nc) Cải tạo không giam giữ;\nd) Trục xuất;\nđ) Tù có thời hạn; \ne) Tù chung thân; \ng) Tử hình.\n2. Hình phạt bổ sung bao gồm:\na) Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định;\nb) Cấm cư trú;\nc) Quản chế;\nd) Tước một số quyền công dân;\nđ) Tịch thu tài sản;\ne) Phạt tiền, khi không áp dụng là hình phạt chính;\ng) Trục xuất, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, người phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung.",
+      "condition_event_id": "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+      "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+      "semantic_score": 0.6335042715072632,
+      "evidence_score": 0.5717521357536316,
+      "path_count": 1
+    },
+    {
+      "rule_id": "123",
+      "row_id": 122,
+      "article_id": "37",
+      "legal_subject": "người nước ngoài bị kết án",
+      "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+      "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+      "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+      "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+      "effect_norm": "AP_DUNG_TRUC_XUAT",
+      "article_title": "Trục xuất",
+      "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể.",
+      "condition_event_id": "EVENT::TOA_AN_XET_THAY_CAN_THIET",
+      "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+      "semantic_score": 0.6384982466697693,
+      "evidence_score": 0.5492491233348846,
+      "path_count": 1
+    }
+  ]
+}

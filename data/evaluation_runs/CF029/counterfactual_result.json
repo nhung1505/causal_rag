@@ -1,0 +1,516 @@
+{
+  "original_query": "Giả sử điều kiện hoặc sự kiện “có đủ điều kiện do luật định || thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “coi như chưa bị kết án” hay không?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "DU_DIEU_KIEN_XOA_AN_TICH",
+    "target_event_text": "có đủ điều kiện do luật định || thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT DU_DIEU_KIEN_XOA_AN_TICH)"
+  },
+  "factual_path_count": 1,
+  "verification_paths": [
+    {
+      "path_id": 1,
+      "path_score": 1.1305105304718017,
+      "path_status": "CAUSAL_PATH_BROKEN",
+      "direct_intervention_status": "INPUT_EVENT_NEGATED",
+      "intervention_event_position": 0,
+      "blocked_from_rule_index": 0,
+      "factual_rule_ids": [
+        "300",
+        "301"
+      ],
+      "factual_event_chain": [
+        "DU_DIEU_KIEN_XOA_AN_TICH",
+        "DUOC_XOA_AN_TICH",
+        "COI_NHU_CHUA_BI_KET_AN"
+      ],
+      "counterfactual_event_chain_prefix": [],
+      "surviving_rule_ids": [],
+      "removed_rule_ids": [
+        "300",
+        "301"
+      ],
+      "removed_events": [
+        "DU_DIEU_KIEN_XOA_AN_TICH",
+        "DUOC_XOA_AN_TICH",
+        "COI_NHU_CHUA_BI_KET_AN"
+      ],
+      "factual_final_effect": "COI_NHU_CHUA_BI_KET_AN",
+      "counterfactual_final_effect_reachable": false,
+      "rule_evaluations": [
+        {
+          "path_position": 0,
+          "rule": {
+            "rule_id": "300",
+            "row_id": 299,
+            "article_id": "69",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự",
+            "effect": "được xóa án tích",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH",
+            "effect_norm": "DUOC_XOA_AN_TICH",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH",
+            "effect_event_id": "EVENT::DUOC_XOA_AN_TICH",
+            "article_title": "Xóa án tích",
+            "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích."
+          },
+          "input_event": "DU_DIEU_KIEN_XOA_AN_TICH",
+          "output_event": "DUOC_XOA_AN_TICH",
+          "counterfactual_status": "INVALIDATED",
+          "reason": "Input event DU_DIEU_KIEN_XOA_AN_TICH của Rule 300 đã bị phủ định trực tiếp."
+        },
+        {
+          "path_position": 1,
+          "rule": {
+            "rule_id": "301",
+            "row_id": 300,
+            "article_id": "69",
+            "legal_subject": "người được xóa án tích",
+            "subject_norm": "NGUOI_DUOC_XOA_AN_TICH",
+            "condition": "được xóa án tích",
+            "effect": "coi như chưa bị kết án",
+            "condition_norm": "DUOC_XOA_AN_TICH",
+            "effect_norm": "COI_NHU_CHUA_BI_KET_AN",
+            "condition_event_id": "EVENT::DUOC_XOA_AN_TICH",
+            "effect_event_id": "EVENT::COI_NHU_CHUA_BI_KET_AN",
+            "article_title": "Xóa án tích",
+            "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích."
+          },
+          "input_event": "DUOC_XOA_AN_TICH",
+          "output_event": "COI_NHU_CHUA_BI_KET_AN",
+          "counterfactual_status": "BLOCKED_BY_UPSTREAM",
+          "reason": "Rule 301 bị chặn vì event đầu vào DUOC_XOA_AN_TICH không còn reachable sau can thiệp ở bước trước."
+        }
+      ],
+      "alternative_rules": [
+        {
+          "rule_id": "301",
+          "score": 2.0276393713269916,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "CAUSES_TARGET_EFFECT",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6956508159637451,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, CAUSES_TARGET_EFFECT, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "301",
+            "row_id": 300,
+            "article_id": "69",
+            "legal_subject": "người được xóa án tích",
+            "subject_norm": "NGUOI_DUOC_XOA_AN_TICH",
+            "condition": "được xóa án tích",
+            "effect": "coi như chưa bị kết án",
+            "condition_norm": "DUOC_XOA_AN_TICH",
+            "effect_norm": "COI_NHU_CHUA_BI_KET_AN",
+            "condition_event_id": "EVENT::DUOC_XOA_AN_TICH",
+            "effect_event_id": "EVENT::COI_NHU_CHUA_BI_KET_AN",
+            "article_title": "Xóa án tích",
+            "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích."
+          }
+        },
+        {
+          "rule_id": "302",
+          "score": 1.4243670402632822,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.7021045088768005,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "302",
+            "row_id": 301,
+            "article_id": "69",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+            "effect": "không bị coi là có án tích",
+            "condition_norm": "PHAM_TOI_VO_Y_IT_NGHIEM_TRONG_HOAC_NGHIEM_TRONG",
+            "effect_norm": "KHONG_CO_AN_TICH",
+            "condition_event_id": "EVENT::PHAM_TOI_VO_Y_IT_NGHIEM_TRONG_HOAC_NGHIEM_TRONG",
+            "effect_event_id": "EVENT::KHONG_CO_AN_TICH",
+            "article_title": "Xóa án tích",
+            "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích."
+          }
+        },
+        {
+          "rule_id": "305",
+          "score": 1.1543126476894727,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6712464690208435,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "305",
+            "row_id": 304,
+            "article_id": "70",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không phạm tội mới trong 01 năm sau khi chấp hành xong hình phạt cảnh cáo, phạt tiền, cải tạo không giam giữ hoặc án treo",
+            "effect": "đương nhiên được xóa án tích",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_1_NAM",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH_1_NAM",
+            "effect_event_id": "EVENT::DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "article_title": "Đương nhiên được xóa án tích",
+            "content": "Điều 70. Đương nhiên được xóa án tích\n1. Đương nhiên được xóa án tích được áp dụng đối với người bị kết án không phải về các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này khi họ đã chấp hành xong hình phạt chính, thời gian thử thách án treo hoặc hết thời hiệu thi hành bản án và đáp ứng các điều kiện quy định tại khoản 2 và khoản 3 Điều này.\n2. Người bị kết án đương nhiên được xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt tiền, cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 02 năm trong trong trường hợp bị phạt tù đến 05 năm;\nc) 03 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 05 năm trong trường hợp bị phạt tù từ trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại các điểm a, b và c khoản này thì thời hạn đương nhiên được xóa án tích sẽ hết vào thời điểm người đó chấp hành xong hình phạt bổ sung.\n3. Người bị kết án đương nhiên được xóa án tích, nếu từ khi hết thời hiệu thi hành bản án, người đó không thực hiện hành vi phạm tội mới trong thời hạn quy định tại khoản 2 Điều này.\n4. Cơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cập nhật thông tin về tình hình án tích của người bị kết án và khi có yêu cầu thì cấp phiếu lý lịch tư pháp xác nhận không có án tích, nếu có đủ điều kiện quy định tại khoản 2 hoặc khoản 3 Điều này."
+          }
+        },
+        {
+          "rule_id": "306",
+          "score": 1.1532662786136976,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6675094366073608,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "306",
+            "row_id": 305,
+            "article_id": "70",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "đã chấp hành xong hình phạt bổ sung và không phạm tội mới trong 02 năm sau khi chấp hành xong hình phạt tù đến 05 năm",
+            "effect": "đương nhiên được xóa án tích",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_2_NAM",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH_2_NAM",
+            "effect_event_id": "EVENT::DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "article_title": "Đương nhiên được xóa án tích",
+            "content": "Điều 70. Đương nhiên được xóa án tích\n1. Đương nhiên được xóa án tích được áp dụng đối với người bị kết án không phải về các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này khi họ đã chấp hành xong hình phạt chính, thời gian thử thách án treo hoặc hết thời hiệu thi hành bản án và đáp ứng các điều kiện quy định tại khoản 2 và khoản 3 Điều này.\n2. Người bị kết án đương nhiên được xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt tiền, cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 02 năm trong trong trường hợp bị phạt tù đến 05 năm;\nc) 03 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 05 năm trong trường hợp bị phạt tù từ trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại các điểm a, b và c khoản này thì thời hạn đương nhiên được xóa án tích sẽ hết vào thời điểm người đó chấp hành xong hình phạt bổ sung.\n3. Người bị kết án đương nhiên được xóa án tích, nếu từ khi hết thời hiệu thi hành bản án, người đó không thực hiện hành vi phạm tội mới trong thời hạn quy định tại khoản 2 Điều này.\n4. Cơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cập nhật thông tin về tình hình án tích của người bị kết án và khi có yêu cầu thì cấp phiếu lý lịch tư pháp xác nhận không có án tích, nếu có đủ điều kiện quy định tại khoản 2 hoặc khoản 3 Điều này."
+          }
+        },
+        {
+          "rule_id": "308",
+          "score": 1.152979272712361,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6664844155311584,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "308",
+            "row_id": 307,
+            "article_id": "70",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "đã chấp hành xong hình phạt bổ sung và không phạm tội mới trong 05 năm sau khi chấp hành xong hình phạt tù trên 15 năm, tù chung thân hoặc tử hình đã được giảm án",
+            "effect": "đương nhiên được xóa án tích",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_5_NAM",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH_5_NAM",
+            "effect_event_id": "EVENT::DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "article_title": "Đương nhiên được xóa án tích",
+            "content": "Điều 70. Đương nhiên được xóa án tích\n1. Đương nhiên được xóa án tích được áp dụng đối với người bị kết án không phải về các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này khi họ đã chấp hành xong hình phạt chính, thời gian thử thách án treo hoặc hết thời hiệu thi hành bản án và đáp ứng các điều kiện quy định tại khoản 2 và khoản 3 Điều này.\n2. Người bị kết án đương nhiên được xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt tiền, cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 02 năm trong trong trường hợp bị phạt tù đến 05 năm;\nc) 03 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 05 năm trong trường hợp bị phạt tù từ trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại các điểm a, b và c khoản này thì thời hạn đương nhiên được xóa án tích sẽ hết vào thời điểm người đó chấp hành xong hình phạt bổ sung.\n3. Người bị kết án đương nhiên được xóa án tích, nếu từ khi hết thời hiệu thi hành bản án, người đó không thực hiện hành vi phạm tội mới trong thời hạn quy định tại khoản 2 Điều này.\n4. Cơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cập nhật thông tin về tình hình án tích của người bị kết án và khi có yêu cầu thì cấp phiếu lý lịch tư pháp xác nhận không có án tích, nếu có đủ điều kiện quy định tại khoản 2 hoặc khoản 3 Điều này."
+          }
+        },
+        {
+          "rule_id": "307",
+          "score": 1.151929832805287,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6627364158630371,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "307",
+            "row_id": 306,
+            "article_id": "70",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "đã chấp hành xong hình phạt bổ sung và không phạm tội mới trong 03 năm sau khi chấp hành xong hình phạt tù trên 05 năm đến 15 năm",
+            "effect": "đương nhiên được xóa án tích",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_3_NAM",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH_3_NAM",
+            "effect_event_id": "EVENT::DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "article_title": "Đương nhiên được xóa án tích",
+            "content": "Điều 70. Đương nhiên được xóa án tích\n1. Đương nhiên được xóa án tích được áp dụng đối với người bị kết án không phải về các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này khi họ đã chấp hành xong hình phạt chính, thời gian thử thách án treo hoặc hết thời hiệu thi hành bản án và đáp ứng các điều kiện quy định tại khoản 2 và khoản 3 Điều này.\n2. Người bị kết án đương nhiên được xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt tiền, cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 02 năm trong trong trường hợp bị phạt tù đến 05 năm;\nc) 03 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 05 năm trong trường hợp bị phạt tù từ trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại các điểm a, b và c khoản này thì thời hạn đương nhiên được xóa án tích sẽ hết vào thời điểm người đó chấp hành xong hình phạt bổ sung.\n3. Người bị kết án đương nhiên được xóa án tích, nếu từ khi hết thời hiệu thi hành bản án, người đó không thực hiện hành vi phạm tội mới trong thời hạn quy định tại khoản 2 Điều này.\n4. Cơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cập nhật thông tin về tình hình án tích của người bị kết án và khi có yêu cầu thì cấp phiếu lý lịch tư pháp xác nhận không có án tích, nếu có đủ điều kiện quy định tại khoản 2 hoặc khoản 3 Điều này."
+          }
+        },
+        {
+          "rule_id": "303",
+          "score": 1.111148935423957,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6816827058792114,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SEMANTIC.",
+          "rule": {
+            "rule_id": "303",
+            "row_id": 302,
+            "article_id": "69",
+            "legal_subject": "người được miễn hình phạt",
+            "subject_norm": "NGUOI_DUOC_MIEN_HINH_PHAT",
+            "condition": "được miễn hình phạt",
+            "effect": "không bị coi là có án tích",
+            "condition_norm": "DUOC_MIEN_HINH_PHAT",
+            "effect_norm": "KHONG_CO_AN_TICH",
+            "condition_event_id": "EVENT::DUOC_MIEN_HINH_PHAT",
+            "effect_event_id": "EVENT::KHONG_CO_AN_TICH",
+            "article_title": "Xóa án tích",
+            "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích."
+          }
+        },
+        {
+          "rule_id": "309",
+          "score": 1.0933025846114526,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6711356043815613,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "309",
+            "row_id": 308,
+            "article_id": "70",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "thời hạn chấp hành hình phạt bổ sung dài hơn thời hạn quy định",
+            "effect": "thời hạn đương nhiên được xóa án tích kết thúc khi chấp hành xong hình phạt bổ sung",
+            "condition_norm": "THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect_norm": "XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "condition_event_id": "EVENT::THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect_event_id": "EVENT::XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "article_title": "Đương nhiên được xóa án tích",
+            "content": "Điều 70. Đương nhiên được xóa án tích\n1. Đương nhiên được xóa án tích được áp dụng đối với người bị kết án không phải về các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này khi họ đã chấp hành xong hình phạt chính, thời gian thử thách án treo hoặc hết thời hiệu thi hành bản án và đáp ứng các điều kiện quy định tại khoản 2 và khoản 3 Điều này.\n2. Người bị kết án đương nhiên được xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt tiền, cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 02 năm trong trong trường hợp bị phạt tù đến 05 năm;\nc) 03 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 05 năm trong trường hợp bị phạt tù từ trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại các điểm a, b và c khoản này thì thời hạn đương nhiên được xóa án tích sẽ hết vào thời điểm người đó chấp hành xong hình phạt bổ sung.\n3. Người bị kết án đương nhiên được xóa án tích, nếu từ khi hết thời hiệu thi hành bản án, người đó không thực hiện hành vi phạm tội mới trong thời hạn quy định tại khoản 2 Điều này.\n4. Cơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cập nhật thông tin về tình hình án tích của người bị kết án và khi có yêu cầu thì cấp phiếu lý lịch tư pháp xác nhận không có án tích, nếu có đủ điều kiện quy định tại khoản 2 hoặc khoản 3 Điều này."
+          }
+        },
+        {
+          "rule_id": "238",
+          "score": 0.803233928802686,
+          "relations": [
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6827951669692993,
+          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "238",
+            "row_id": 237,
+            "article_id": "61",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "phạm tội quy định tại khoản 3 hoặc khoản 4 Điều 353",
+            "effect": "không áp dụng thời hiệu thi hành bản án",
+            "condition_norm": "PHAM_TOI_DIEU_353_KHOAN_3_4",
+            "effect_norm": "KHONG_AP_DUNG_THOI_HIEU_THI_HANH_AN",
+            "condition_event_id": "EVENT::PHAM_TOI_DIEU_353_KHOAN_3_4",
+            "effect_event_id": "EVENT::KHONG_AP_DUNG_THOI_HIEU_THI_HANH_AN",
+            "article_title": "Không áp dụng thời hiệu thi hành bản án[23]",
+            "content": "Điều 61. Không áp dụng thời hiệu thi hành bản án[23]\nKhông áp dụng thời hiệu thi hành bản án đối với các tội quy định tại Chương XIII, Chương XXVI, khoản 3 và khoản 4 Điều 353, khoản 3 và khoản 4 Điều 354 của Bộ luật này."
+          }
+        },
+        {
+          "rule_id": "239",
+          "score": 0.8011865521699956,
+          "relations": [
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6754831075668335,
+          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "239",
+            "row_id": 238,
+            "article_id": "61",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "phạm tội quy định tại khoản 3 hoặc khoản 4 Điều 354",
+            "effect": "không áp dụng thời hiệu thi hành bản án",
+            "condition_norm": "PHAM_TOI_DIEU_354_KHOAN_3_4",
+            "effect_norm": "KHONG_AP_DUNG_THOI_HIEU_THI_HANH_AN",
+            "condition_event_id": "EVENT::PHAM_TOI_DIEU_354_KHOAN_3_4",
+            "effect_event_id": "EVENT::KHONG_AP_DUNG_THOI_HIEU_THI_HANH_AN",
+            "article_title": "Không áp dụng thời hiệu thi hành bản án[23]",
+            "content": "Điều 61. Không áp dụng thời hiệu thi hành bản án[23]\nKhông áp dụng thời hiệu thi hành bản án đối với các tội quy định tại Chương XIII, Chương XXVI, khoản 3 và khoản 4 Điều 353, khoản 3 và khoản 4 Điều 354 của Bộ luật này."
+          }
+        }
+      ],
+      "effect_comparison": {
+        "target_effect_norm": "COI_NHU_CHUA_BI_KET_AN",
+        "same_effect_rules": [
+          {
+            "rule_id": "301",
+            "article_id": "69",
+            "condition": "được xóa án tích",
+            "condition_norm": "DUOC_XOA_AN_TICH",
+            "effect": "coi như chưa bị kết án",
+            "effect_norm": "COI_NHU_CHUA_BI_KET_AN",
+            "score": 2.0276393713269916,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "CAUSES_TARGET_EFFECT",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          }
+        ],
+        "different_effect_rules": [
+          {
+            "rule_id": "305",
+            "article_id": "70",
+            "condition": "đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không phạm tội mới trong 01 năm sau khi chấp hành xong hình phạt cảnh cáo, phạt tiền, cải tạo không giam giữ hoặc án treo",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_1_NAM",
+            "effect": "đương nhiên được xóa án tích",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "score": 1.1543126476894727,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "306",
+            "article_id": "70",
+            "condition": "đã chấp hành xong hình phạt bổ sung và không phạm tội mới trong 02 năm sau khi chấp hành xong hình phạt tù đến 05 năm",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_2_NAM",
+            "effect": "đương nhiên được xóa án tích",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "score": 1.1532662786136976,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "308",
+            "article_id": "70",
+            "condition": "đã chấp hành xong hình phạt bổ sung và không phạm tội mới trong 05 năm sau khi chấp hành xong hình phạt tù trên 15 năm, tù chung thân hoặc tử hình đã được giảm án",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_5_NAM",
+            "effect": "đương nhiên được xóa án tích",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "score": 1.152979272712361,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "307",
+            "article_id": "70",
+            "condition": "đã chấp hành xong hình phạt bổ sung và không phạm tội mới trong 03 năm sau khi chấp hành xong hình phạt tù trên 05 năm đến 15 năm",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_3_NAM",
+            "effect": "đương nhiên được xóa án tích",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "score": 1.151929832805287,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "309",
+            "article_id": "70",
+            "condition": "thời hạn chấp hành hình phạt bổ sung dài hơn thời hạn quy định",
+            "condition_norm": "THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect": "thời hạn đương nhiên được xóa án tích kết thúc khi chấp hành xong hình phạt bổ sung",
+            "effect_norm": "XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "score": 1.0933025846114526,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          }
+        ],
+        "possibly_contradictory_rules": [
+          {
+            "rule_id": "302",
+            "article_id": "69",
+            "condition": "bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+            "condition_norm": "PHAM_TOI_VO_Y_IT_NGHIEM_TRONG_HOAC_NGHIEM_TRONG",
+            "effect": "không bị coi là có án tích",
+            "effect_norm": "KHONG_CO_AN_TICH",
+            "score": 1.4243670402632822,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "303",
+            "article_id": "69",
+            "condition": "được miễn hình phạt",
+            "condition_norm": "DUOC_MIEN_HINH_PHAT",
+            "effect": "không bị coi là có án tích",
+            "effect_norm": "KHONG_CO_AN_TICH",
+            "score": 1.111148935423957,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "238",
+            "article_id": "61",
+            "condition": "phạm tội quy định tại khoản 3 hoặc khoản 4 Điều 353",
+            "condition_norm": "PHAM_TOI_DIEU_353_KHOAN_3_4",
+            "effect": "không áp dụng thời hiệu thi hành bản án",
+            "effect_norm": "KHONG_AP_DUNG_THOI_HIEU_THI_HANH_AN",
+            "score": 0.803233928802686,
+            "relations": [
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "239",
+            "article_id": "61",
+            "condition": "phạm tội quy định tại khoản 3 hoặc khoản 4 Điều 354",
+            "condition_norm": "PHAM_TOI_DIEU_354_KHOAN_3_4",
+            "effect": "không áp dụng thời hiệu thi hành bản án",
+            "effect_norm": "KHONG_AP_DUNG_THOI_HIEU_THI_HANH_AN",
+            "score": 0.8011865521699956,
+            "relations": [
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND",
+        "conclusion": "Factual path đã bị phá vỡ.Hệ thống tìm thấy rule khác có thể liên quan đến cùng hệ quả cuối,nhưng chưa đủ căn cứ xác định hệ quả đó vẫn áp dụng trong tình huống phản thực."
+      }
+    }
+  ],
+  "overall_verification": {
+    "label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
+    "conclusion": "Tất cả causal path factual bị phá vỡ, nhưng có rule thay thế cùng hỗ trợ ít nhất một hệ quả cuối.",
+    "broken_path_count": 1,
+    "preserved_path_count": 0,
+    "reachable_final_effect_count": 0,
+    "alternative_supported_path_count": 1,
+    "verification_label_counts": {
+      "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND": 1
+    }
+  }
+}

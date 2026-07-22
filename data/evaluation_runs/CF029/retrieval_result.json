@@ -1,0 +1,246 @@
+{
+  "query": "Giả sử điều kiện hoặc sự kiện “có đủ điều kiện do luật định || thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “coi như chưa bị kết án” hay không?",
+  "config": {
+    "seed_top_k": 8,
+    "semantic_pool_size": 50,
+    "max_depth": 4,
+    "max_expansions_per_rule": 15,
+    "final_top_k": 12,
+    "causal_only": true,
+    "min_event_nodes": 3
+  },
+  "seed_rules": [
+    {
+      "rule_id": "302",
+      "row_id": 301,
+      "article_id": "69",
+      "legal_subject": "người bị kết án",
+      "subject_norm": "NGUOI_BI_KET_AN",
+      "condition": "bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+      "effect": "không bị coi là có án tích",
+      "condition_norm": "PHAM_TOI_VO_Y_IT_NGHIEM_TRONG_HOAC_NGHIEM_TRONG",
+      "effect_norm": "KHONG_CO_AN_TICH",
+      "article_title": "Xóa án tích",
+      "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích.",
+      "condition_event_id": "EVENT::PHAM_TOI_VO_Y_IT_NGHIEM_TRONG_HOAC_NGHIEM_TRONG",
+      "effect_event_id": "EVENT::KHONG_CO_AN_TICH",
+      "semantic_score": 0.6899639964103699
+    },
+    {
+      "rule_id": "180",
+      "row_id": 179,
+      "article_id": "49",
+      "legal_subject": "người đang chấp hành hình phạt tù",
+      "subject_norm": "NGUOI_DANG_CHAP_HANH_HINH_PHAT_TU",
+      "condition": "đã khỏi bệnh hoặc đủ khả năng nhận thức, điều khiển hành vi và không có lý do được miễn chấp hành hình phạt",
+      "effect": "phải tiếp tục chấp hành hình phạt",
+      "condition_norm": "HOI_PHUC_NANG_LUC_VA_KHONG_DUOC_MIEN_AN",
+      "effect_norm": "TIEP_TUC_CHAP_HANH_HINH_PHAT",
+      "article_title": "Bắt buộc chữa bệnh[15]",
+      "content": "Điều 49. Bắt buộc chữa bệnh[15]\n1. Đối với người thực hiện hành vi nguy hiểm cho xã hội trong khi mắc bệnh quy định tại Điều 21 của Bộ luật này, Viện kiểm sát hoặc Tòa án căn cứ vào kết luận giám định pháp y, giám định pháp y tâm thần có thể quyết định đưa họ vào một cơ sở khám bệnh, chữa bệnh để bắt buộc chữa bệnh.\n2. Đối với người phạm tội trong khi có năng lực trách nhiệm hình sự nhưng trước khi bị kết án đã mắc bệnh tới mức mất khả năng nhận thức hoặc khả năng điều khiển hành vi của mình, thì căn cứ vào kết luận giám định pháp y, giám định pháp y tâm thần, Tòa án có thể quyết định đưa họ vào một cơ sở khám bệnh, chữa bệnh để bắt buộc chữa bệnh. Sau khi có kết luận khỏi bệnh hoặc có kết luận đủ khả năng nhận thức, đủ khả năng điều khiển hành vi, người đó có thể phải chịu trách nhiệm hình sự.\n3. Đối với người đang chấp hành hình phạt tù mà bị bệnh tới mức mất khả năng nhận thức hoặc khả năng điều khiển hành vi của mình, thì căn cứ vào kết luận giám định pháp y, giám định pháp y tâm thần, Tòa án có thể quyết định đưa họ vào một cơ sở khám bệnh, chữa bệnh để bắt buộc chữa bệnh. Sau khi có kết luận khỏi bệnh hoặc có kết luận đủ khả năng nhận thức, đủ khả năng điều khiển hành vi, nếu không có lý do khác để miễn chấp hành hình phạt, thì người đó phải tiếp tục chấp hành hình phạt.\nThời gian bắt buộc chữa bệnh được trừ vào thời hạn chấp hành hình phạt tù.\nChương VIII \nQUYẾT ĐỊNH HÌNH PHẠT \nMục 1. QUY ĐỊNH CHUNG VỀ QUYẾT ĐỊNH HÌNH PHẠT",
+      "condition_event_id": "EVENT::HOI_PHUC_NANG_LUC_VA_KHONG_DUOC_MIEN_AN",
+      "effect_event_id": "EVENT::TIEP_TUC_CHAP_HANH_HINH_PHAT",
+      "semantic_score": 0.6845767498016357
+    },
+    {
+      "rule_id": "219",
+      "row_id": 218,
+      "article_id": "57",
+      "legal_subject": "người phạm tội chưa đạt",
+      "subject_norm": "NGUOI_PHAM_TOI_CHUA_DAT",
+      "condition": "thực hiện hành vi phạm tội chưa đạt",
+      "effect": "hình phạt được quyết định theo tội phạm tương ứng căn cứ vào tính chất và mức độ nguy hiểm của hành vi",
+      "condition_norm": "PHAM_TOI_CHUA_DAT",
+      "effect_norm": "QUYET_DINH_HINH_PHAT_THEO_TOI_DANH_TUONG_UNG",
+      "article_title": "Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt",
+      "content": "Điều 57. Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt\n1. Đối với hành vi chuẩn bị phạm tội và hành vi phạm tội chưa đạt, hình phạt được quyết định theo các điều của Bộ luật này về các tội phạm tương ứng tùy theo tính chất, mức độ nguy hiểm cho xã hội của hành vi, mức độ thực hiện ý định phạm tội và những tình tiết khác khiến cho tội phạm không thực hiện được đến cùng.\n2. Đối với trường hợp chuẩn bị phạm tội, hình phạt được quyết định trong phạm vi khung hình phạt được quy định trong các điều luật cụ thể.\n3. Đối với trường hợp phạm tội chưa đạt, nếu điều luật được áp dụng có quy định hình phạt cao nhất là tù chung thân hoặc tử hình thì áp dụng hình phạt tù không quá 20 năm; nếu là tù có thời hạn thì mức hình phạt không quá ba phần tư mức phạt tù mà điều luật quy định.",
+      "condition_event_id": "EVENT::PHAM_TOI_CHUA_DAT",
+      "effect_event_id": "EVENT::QUYET_DINH_HINH_PHAT_THEO_TOI_DANH_TUONG_UNG",
+      "semantic_score": 0.6811514496803284
+    },
+    {
+      "rule_id": "301",
+      "row_id": 300,
+      "article_id": "69",
+      "legal_subject": "người được xóa án tích",
+      "subject_norm": "NGUOI_DUOC_XOA_AN_TICH",
+      "condition": "được xóa án tích",
+      "effect": "coi như chưa bị kết án",
+      "condition_norm": "DUOC_XOA_AN_TICH",
+      "effect_norm": "COI_NHU_CHUA_BI_KET_AN",
+      "article_title": "Xóa án tích",
+      "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích.",
+      "condition_event_id": "EVENT::DUOC_XOA_AN_TICH",
+      "effect_event_id": "EVENT::COI_NHU_CHUA_BI_KET_AN",
+      "semantic_score": 0.6801578998565674
+    },
+    {
+      "rule_id": "238",
+      "row_id": 237,
+      "article_id": "61",
+      "legal_subject": "người bị kết án",
+      "subject_norm": "NGUOI_BI_KET_AN",
+      "condition": "phạm tội quy định tại khoản 3 hoặc khoản 4 Điều 353",
+      "effect": "không áp dụng thời hiệu thi hành bản án",
+      "condition_norm": "PHAM_TOI_DIEU_353_KHOAN_3_4",
+      "effect_norm": "KHONG_AP_DUNG_THOI_HIEU_THI_HANH_AN",
+      "article_title": "Không áp dụng thời hiệu thi hành bản án[23]",
+      "content": "Điều 61. Không áp dụng thời hiệu thi hành bản án[23]\nKhông áp dụng thời hiệu thi hành bản án đối với các tội quy định tại Chương XIII, Chương XXVI, khoản 3 và khoản 4 Điều 353, khoản 3 và khoản 4 Điều 354 của Bộ luật này.",
+      "condition_event_id": "EVENT::PHAM_TOI_DIEU_353_KHOAN_3_4",
+      "effect_event_id": "EVENT::KHONG_AP_DUNG_THOI_HIEU_THI_HANH_AN",
+      "semantic_score": 0.6714581847190857
+    },
+    {
+      "rule_id": "222",
+      "row_id": 221,
+      "article_id": "57",
+      "legal_subject": "người phạm tội chưa đạt",
+      "subject_norm": "NGUOI_PHAM_TOI_CHUA_DAT",
+      "condition": "điều luật quy định hình phạt tù có thời hạn",
+      "effect": "mức hình phạt không quá ba phần tư mức phạt tù do điều luật quy định",
+      "condition_norm": "TU_CO_THOI_HAN",
+      "effect_norm": "TOI_DA_BA_PHAN_TU_MUC_PHAT",
+      "article_title": "Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt",
+      "content": "Điều 57. Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt\n1. Đối với hành vi chuẩn bị phạm tội và hành vi phạm tội chưa đạt, hình phạt được quyết định theo các điều của Bộ luật này về các tội phạm tương ứng tùy theo tính chất, mức độ nguy hiểm cho xã hội của hành vi, mức độ thực hiện ý định phạm tội và những tình tiết khác khiến cho tội phạm không thực hiện được đến cùng.\n2. Đối với trường hợp chuẩn bị phạm tội, hình phạt được quyết định trong phạm vi khung hình phạt được quy định trong các điều luật cụ thể.\n3. Đối với trường hợp phạm tội chưa đạt, nếu điều luật được áp dụng có quy định hình phạt cao nhất là tù chung thân hoặc tử hình thì áp dụng hình phạt tù không quá 20 năm; nếu là tù có thời hạn thì mức hình phạt không quá ba phần tư mức phạt tù mà điều luật quy định.",
+      "condition_event_id": "EVENT::TU_CO_THOI_HAN",
+      "effect_event_id": "EVENT::TOI_DA_BA_PHAN_TU_MUC_PHAT",
+      "semantic_score": 0.6706771850585938
+    },
+    {
+      "rule_id": "300",
+      "row_id": 299,
+      "article_id": "69",
+      "legal_subject": "người bị kết án",
+      "subject_norm": "NGUOI_BI_KET_AN",
+      "condition": "thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự",
+      "effect": "được xóa án tích",
+      "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH",
+      "effect_norm": "DUOC_XOA_AN_TICH",
+      "article_title": "Xóa án tích",
+      "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích.",
+      "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH",
+      "effect_event_id": "EVENT::DUOC_XOA_AN_TICH",
+      "semantic_score": 0.6705105304718018
+    },
+    {
+      "rule_id": "188",
+      "row_id": 187,
+      "article_id": "51",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "là người đủ 70 tuổi trở lên",
+      "effect": "được áp dụng tình tiết giảm nhẹ trách nhiệm hình sự",
+      "condition_norm": "NGUOI_DU_70_TUOI_TRO_LEN",
+      "effect_norm": "TINH_TIET_GIAM_NHE",
+      "article_title": "Các tình tiết giảm nhẹ trách nhiệm hình sự",
+      "content": "Điều 51. Các tình tiết giảm nhẹ trách nhiệm hình sự\n1. Các tình tiết sau đây là tình tiết giảm nhẹ trách nhiệm hình sự:\na) Người phạm tội đã ngăn chặn hoặc làm giảm bớt tác hại của tội phạm;\nb) Người phạm tội tự nguyện sửa chữa, bồi thường thiệt hại hoặc khắc phục hậu quả;\nc) Phạm tội trong trường hợp vượt quá giới hạn phòng vệ chính đáng;\nd) Phạm tội trong trường hợp vượt quá yêu cầu của tình thế cấp thiết;\nđ) Phạm tội trong trường hợp vượt quá mức cần thiết khi bắt giữ người phạm tội;\ne) Phạm tội trong trường hợp bị kích động về tinh thần do hành vi trái pháp luật của nạn nhân gây ra;\ng) Phạm tội vì hoàn cảnh đặc biệt khó khăn mà không phải do mình tự gây ra;\nh) Phạm tội nhưng chưa gây thiệt hại hoặc gây thiệt hại không lớn;\ni) Phạm tội lần đầu và thuộc trường hợp ít nghiêm trọng;\nk) Phạm tội vì bị người khác đe dọa hoặc cưỡng bức;\nl) Phạm tội trong trường hợp bị hạn chế khả năng nhận thức mà không phải do lỗi của mình gây ra;\nm) Phạm tội do lạc hậu;\nn) Người phạm tội là phụ nữ có thai;\no) Người phạm tội là người đủ 70 tuổi trở lên;\np) Người phạm tội là người khuyết tật nặng hoặc khuyết tật đặc biệt nặng;\nq) Người phạm tội là người có bệnh bị hạn chế khả năng nhận thức hoặc khả năng điều khiển hành vi của mình;\nr) Người phạm tội tự thú;\ns)[16] Người phạm tội thành khẩn khai báo, ăn năn hối cải;\nt)[17] Người phạm tội tích cực hợp tác với cơ quan có trách nhiệm trong việc phát hiện tội phạm hoặc trong quá trình giải quyết vụ án;\nu) Người phạm tội đã lập công chuộc tội;\nv) Người phạm tội là người có thành tích xuất sắc trong sản xuất, chiến đấu, học tập hoặc công tác;\nx)[18] Người phạm tội là người có công với cách mạng hoặc là cha, mẹ, vợ, chồng, con của liệt sĩ.\n2. Khi quyết định hình phạt, Tòa án có thể coi đầu thú hoặc tình tiết khác là tình tiết giảm nhẹ, nhưng phải ghi rõ lý do giảm nhẹ trong bản án.\n3. Các tình tiết giảm nhẹ đã được Bộ luật này quy định là dấu hiệu định tội hoặc định khung thì không được coi là tình tiết giảm nhẹ trong khi quyết định hình phạt.",
+      "condition_event_id": "EVENT::NGUOI_DU_70_TUOI_TRO_LEN",
+      "effect_event_id": "EVENT::TINH_TIET_GIAM_NHE",
+      "semantic_score": 0.6681796312332153
+    }
+  ],
+  "paths": [
+    {
+      "seed_rule_id": "300",
+      "rule_ids": [
+        "300",
+        "301"
+      ],
+      "event_node_ids": [
+        "EVENT::DU_DIEU_KIEN_XOA_AN_TICH",
+        "EVENT::DUOC_XOA_AN_TICH",
+        "EVENT::COI_NHU_CHUA_BI_KET_AN"
+      ],
+      "event_chain": [
+        "DU_DIEU_KIEN_XOA_AN_TICH",
+        "DUOC_XOA_AN_TICH",
+        "COI_NHU_CHUA_BI_KET_AN"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6705105304718018,
+      "score": 1.1305105304718017,
+      "steps": [
+        {
+          "from_rule_id": "300",
+          "to_rule_id": "301",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DUOC_XOA_AN_TICH của Rule 300 trở thành điều kiện DUOC_XOA_AN_TICH của Rule 301."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "300",
+          "row_id": 299,
+          "article_id": "69",
+          "legal_subject": "người bị kết án",
+          "subject_norm": "NGUOI_BI_KET_AN",
+          "condition": "thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự",
+          "effect": "được xóa án tích",
+          "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH",
+          "effect_norm": "DUOC_XOA_AN_TICH",
+          "article_title": "Xóa án tích",
+          "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích.",
+          "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH",
+          "effect_event_id": "EVENT::DUOC_XOA_AN_TICH"
+        },
+        {
+          "rule_id": "301",
+          "row_id": 300,
+          "article_id": "69",
+          "legal_subject": "người được xóa án tích",
+          "subject_norm": "NGUOI_DUOC_XOA_AN_TICH",
+          "condition": "được xóa án tích",
+          "effect": "coi như chưa bị kết án",
+          "condition_norm": "DUOC_XOA_AN_TICH",
+          "effect_norm": "COI_NHU_CHUA_BI_KET_AN",
+          "article_title": "Xóa án tích",
+          "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích.",
+          "condition_event_id": "EVENT::DUOC_XOA_AN_TICH",
+          "effect_event_id": "EVENT::COI_NHU_CHUA_BI_KET_AN"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "rule_id": "301",
+      "row_id": 300,
+      "article_id": "69",
+      "legal_subject": "người được xóa án tích",
+      "subject_norm": "NGUOI_DUOC_XOA_AN_TICH",
+      "condition": "được xóa án tích",
+      "effect": "coi như chưa bị kết án",
+      "condition_norm": "DUOC_XOA_AN_TICH",
+      "effect_norm": "COI_NHU_CHUA_BI_KET_AN",
+      "article_title": "Xóa án tích",
+      "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích.",
+      "condition_event_id": "EVENT::DUOC_XOA_AN_TICH",
+      "effect_event_id": "EVENT::COI_NHU_CHUA_BI_KET_AN",
+      "semantic_score": 0.6801578998565674,
+      "evidence_score": 0.5652552652359009,
+      "path_count": 1
+    },
+    {
+      "rule_id": "300",
+      "row_id": 299,
+      "article_id": "69",
+      "legal_subject": "người bị kết án",
+      "subject_norm": "NGUOI_BI_KET_AN",
+      "condition": "thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự",
+      "effect": "được xóa án tích",
+      "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH",
+      "effect_norm": "DUOC_XOA_AN_TICH",
+      "article_title": "Xóa án tích",
+      "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích.",
+      "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH",
+      "effect_event_id": "EVENT::DUOC_XOA_AN_TICH",
+      "semantic_score": 0.6705105304718018,
+      "evidence_score": 0.5652552652359009,
+      "path_count": 1
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "original_query": "Giả sử điều kiện hoặc sự kiện “bị áp dụng hình phạt chính” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “mức hình phạt không quá ba phần tư mức phạt tù do điều luật quy định” hay không?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "AP_DUNG_HINH_PHAT_CHINH",
+    "target_event_text": "bị áp dụng hình phạt chính",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT AP_DUNG_HINH_PHAT_CHINH)"
+  },
+  "source_overall_verification": {
+    "label": "INTERVENTION_HAS_NO_PATH_EFFECT",
+    "conclusion": "Can thiệp không làm phá vỡ causal path factual nào được truy hồi.",
+    "broken_path_count": 0,
+    "preserved_path_count": 2,
+    "reachable_final_effect_count": 2,
+    "alternative_supported_path_count": 0,
+    "verification_label_counts": {
+      "FACTUAL_PATH_PRESERVED": 2
+    }
+  },
+  "evidence_summary": {
+    "valid_rule_count": 3,
+    "removed_rule_count": 0,
+    "alternative_candidate_count": 3,
+    "valid_rule_ids": [
+      "255",
+      "258",
+      "254"
+    ],
+    "removed_rule_ids": [],
+    "alternative_candidate_rule_ids": [
+      "257",
+      "266",
+      "252"
+    ]
+  },
+  "refined_evidence": {
+    "valid_evidence": [
+      {
+        "rule_id": "255",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "legal_subject": "người bị kết án tù có thời hạn",
+        "condition": "đã chấp hành được một phần ba thời hạn hình phạt",
+        "effect": "được xét giảm án lần đầu",
+        "condition_norm": "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+        "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "status": "PRESERVED",
+        "path_ids": [
+          1
+        ]
+      },
+      {
+        "rule_id": "258",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "legal_subject": "người bị kết án tù chung thân",
+        "condition": "được xét giảm án lần đầu",
+        "effect": "được giảm xuống 30 năm tù",
+        "condition_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "effect_norm": "GIAM_XUONG_30_NAM_TU",
+        "status": "PRESERVED",
+        "path_ids": [
+          1,
+          2
+        ]
+      },
+      {
+        "rule_id": "254",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "legal_subject": "người bị kết án cải tạo không giam giữ",
+        "condition": "đã chấp hành được một phần ba thời hạn hình phạt",
+        "effect": "được xét giảm án lần đầu",
+        "condition_norm": "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+        "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+        "status": "PRESERVED",
+        "path_ids": [
+          2
+        ]
+      }
+    ],
+    "removed_evidence": [],
+    "alternative_candidates": [
+      {
+        "rule_id": "257",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "được giảm án nhiều lần",
+        "effect": "phải chấp hành ít nhất một phần hai mức hình phạt đã tuyên",
+        "condition_norm": "DUOC_GIAM_AN_NHIEU_LAN",
+        "effect_norm": "PHAI_CHAP_HANH_IT_NHAT_1_2_HINH_PHAT",
+        "score": 1.1894796385083881,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      },
+      {
+        "rule_id": "266",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "được giảm án nhiều lần",
+        "effect": "phải chấp hành thực tế ít nhất 30 năm tù",
+        "condition_norm": "DUOC_GIAM_AN_NHIEU_LAN",
+        "effect_norm": "PHAI_CHAP_HANH_THUC_TE_30_NAM_TU",
+        "score": 1.1839630521365576,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      },
+      {
+        "rule_id": "252",
+        "article_id": "63",
+        "article_title": "Giảm mức hình phạt đã tuyên",
+        "condition": "đã chấp hành hình phạt một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự",
+        "effect": "có thể được giảm thời hạn chấp hành hình phạt",
+        "condition_norm": "CHAP_HANH_AN_TIEN_BO_VA_BOI_THUONG_MOT_PHAN_NGHIA_VU",
+        "effect_norm": "CO_THE_GIAM_THOI_HAN_CHAP_HANH_HINH_PHAT",
+        "score": 1.145932227378517,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      }
+    ],
+    "path_summary": [
+      {
+        "path_id": 1,
+        "path_score": 1.1185429906845092,
+        "path_status": "CAUSAL_PATH_PRESERVED",
+        "factual_event_chain": [
+          "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+          "DUOC_XET_GIAM_AN_LAN_DAU",
+          "GIAM_XUONG_30_NAM_TU"
+        ],
+        "counterfactual_event_chain_prefix": [
+          "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+          "DUOC_XET_GIAM_AN_LAN_DAU",
+          "GIAM_XUONG_30_NAM_TU"
+        ],
+        "factual_final_effect": "GIAM_XUONG_30_NAM_TU",
+        "counterfactual_final_effect_reachable": true,
+        "verification_label": "FACTUAL_PATH_PRESERVED"
+      },
+      {
+        "path_id": 2,
+        "path_score": 1.1036786651611328,
+        "path_status": "CAUSAL_PATH_PRESERVED",
+        "factual_event_chain": [
+          "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+          "DUOC_XET_GIAM_AN_LAN_DAU",
+          "GIAM_XUONG_30_NAM_TU"
+        ],
+        "counterfactual_event_chain_prefix": [
+          "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+          "DUOC_XET_GIAM_AN_LAN_DAU",
+          "GIAM_XUONG_30_NAM_TU"
+        ],
+        "factual_final_effect": "GIAM_XUONG_30_NAM_TU",
+        "counterfactual_final_effect_reachable": true,
+        "verification_label": "FACTUAL_PATH_PRESERVED"
+      }
+    ]
+  },
+  "generation": {
+    "generator": "ollama",
+    "model": "qwen3:8b",
+    "template_answer": "Trong giả định phản thực rằng “bị áp dụng hình phạt chính” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.\n\nNhững bằng chứng vẫn còn hợp lệ sau can thiệp gồm:\n\n- Điều 63: nếu đã chấp hành được một phần ba thời hạn hình phạt thì được xét giảm án lần đầu (PRESERVED).\n\n- Điều 63: nếu được xét giảm án lần đầu thì được giảm xuống 30 năm tù (PRESERVED).\n\n- Điều 63: nếu đã chấp hành được một phần ba thời hạn hình phạt thì được xét giảm án lần đầu (PRESERVED).\n\nVì vậy, các hệ quả cuối vẫn còn reachable gồm: giam xuong 30 nam tu.\n\nHệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:\n\n- Điều 63: nếu được giảm án nhiều lần thì phải chấp hành ít nhất một phần hai mức hình phạt đã tuyên.\n\n- Điều 63: nếu được giảm án nhiều lần thì phải chấp hành thực tế ít nhất 30 năm tù.\n\n- Điều 63: nếu đã chấp hành hình phạt một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự thì có thể được giảm thời hạn chấp hành hình phạt.\n\nDo đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.\n\nKết luận trên chỉ dựa vào những causal path còn hợp lệ sau can thiệp.",
+    "final_answer": "Trong tình huống giả định phản thực, các bằng chứng hợp lệ vẫn tồn tại từ các quy tắc PRESERVED (Điều 63) liên quan đến việc xét giảm án lần đầu và giảm xuống 30 năm tù. Tuy nhiên, kết luận về \"mức hình phạt không quá ba phần tư mức phạt tù do điều luật quy định\" không được trực tiếp hỗ trợ bởi các quy tắc này. Các quy tắc hiện có chỉ xác định việc giảm án cụ thể (30 năm tù) mà không đề cập đến giới hạn tỷ lệ phần trăm so với mức phạt tối đa. Ngoài ra, các quy tắc thay thế (257, 266, 252) có điều kiện chưa được kiểm chứng, nên không thể dùng để khẳng định kết luận. Do đó, không đủ căn cứ để xác định hệ quả cuối cùng về tỷ lệ phần trăm mức phạt."
+  }
+}

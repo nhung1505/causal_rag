@@ -1,0 +1,194 @@
+{
+  "original_query": "Giả sử điều kiện hoặc sự kiện “tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “thời hạn cấm từ 01 năm đến 03 năm” hay không?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "DU_DIEU_KIEN_CAM_KINH_DOANH",
+    "target_event_text": "tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT DU_DIEU_KIEN_CAM_KINH_DOANH)"
+  },
+  "source_overall_verification": {
+    "label": "PARTIAL_PATH_EFFECT",
+    "conclusion": "Can thiệp phá vỡ một số path nhưng vẫn còn path factual khác được bảo toàn.",
+    "broken_path_count": 1,
+    "preserved_path_count": 2,
+    "reachable_final_effect_count": 2,
+    "alternative_supported_path_count": 1,
+    "verification_label_counts": {
+      "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND": 1,
+      "FACTUAL_PATH_PRESERVED": 2
+    }
+  },
+  "evidence_summary": {
+    "valid_rule_count": 3,
+    "removed_rule_count": 2,
+    "alternative_candidate_count": 1,
+    "valid_rule_ids": [
+      "339",
+      "341",
+      "340"
+    ],
+    "removed_rule_ids": [
+      "345",
+      "347"
+    ],
+    "alternative_candidate_rule_ids": [
+      "355"
+    ]
+  },
+  "refined_evidence": {
+    "valid_evidence": [
+      {
+        "rule_id": "339",
+        "article_id": "78",
+        "article_title": "Đình chỉ hoạt động có thời hạn",
+        "legal_subject": "pháp nhân thương mại phạm tội",
+        "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
+        "effect": "bị đình chỉ hoạt động có thời hạn",
+        "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "status": "PRESERVED",
+        "path_ids": [
+          2,
+          3
+        ]
+      },
+      {
+        "rule_id": "341",
+        "article_id": "78",
+        "article_title": "Đình chỉ hoạt động có thời hạn",
+        "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động",
+        "condition": "bị đình chỉ hoạt động có thời hạn",
+        "effect": "thời hạn đình chỉ từ 06 tháng đến 03 năm",
+        "condition_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "effect_norm": "THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM",
+        "status": "PRESERVED",
+        "path_ids": [
+          2
+        ]
+      },
+      {
+        "rule_id": "340",
+        "article_id": "78",
+        "article_title": "Đình chỉ hoạt động có thời hạn",
+        "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động",
+        "condition": "bị đình chỉ hoạt động có thời hạn",
+        "effect": "tạm dừng hoạt động trong một hoặc một số lĩnh vực",
+        "condition_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "effect_norm": "TAM_DUNG_HOAT_DONG",
+        "status": "PRESERVED",
+        "path_ids": [
+          3
+        ]
+      }
+    ],
+    "removed_evidence": [
+      {
+        "rule_id": "345",
+        "article_id": "80",
+        "article_title": "Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định",
+        "condition": "tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội",
+        "effect": "bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó",
+        "condition_norm": "DU_DIEU_KIEN_CAM_KINH_DOANH",
+        "effect_norm": "CAM_KINH_DOANH_HOAT_DONG",
+        "status": "INVALIDATED",
+        "reason": "Input event DU_DIEU_KIEN_CAM_KINH_DOANH của Rule 345 đã bị phủ định trực tiếp.",
+        "path_ids": [
+          1
+        ]
+      },
+      {
+        "rule_id": "347",
+        "article_id": "80",
+        "article_title": "Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định",
+        "condition": "bị cấm kinh doanh hoặc cấm hoạt động",
+        "effect": "thời hạn cấm từ 01 năm đến 03 năm",
+        "condition_norm": "CAM_KINH_DOANH_HOAT_DONG",
+        "effect_norm": "THOI_HAN_CAM_1_DEN_3_NAM",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 347 bị chặn vì event đầu vào CAM_KINH_DOANH_HOAT_DONG không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          1
+        ]
+      }
+    ],
+    "alternative_candidates": [
+      {
+        "rule_id": "355",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "bị cấm huy động vốn",
+        "effect": "thời hạn cấm từ 01 năm đến 03 năm",
+        "condition_norm": "CAM_HUY_DONG_VON",
+        "effect_norm": "THOI_HAN_CAM_1_DEN_3_NAM",
+        "score": 0.9243434343434344,
+        "relations": [
+          "CAUSES_TARGET_EFFECT"
+        ],
+        "path_ids": [
+          1
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      }
+    ],
+    "path_summary": [
+      {
+        "path_id": 1,
+        "path_score": 1.1074422216415405,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_CAM_KINH_DOANH",
+          "CAM_KINH_DOANH_HOAT_DONG",
+          "THOI_HAN_CAM_1_DEN_3_NAM"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "THOI_HAN_CAM_1_DEN_3_NAM",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      },
+      {
+        "path_id": 2,
+        "path_score": 1.1053161239624023,
+        "path_status": "CAUSAL_PATH_PRESERVED",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM"
+        ],
+        "counterfactual_event_chain_prefix": [
+          "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM"
+        ],
+        "factual_final_effect": "THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM",
+        "counterfactual_final_effect_reachable": true,
+        "verification_label": "FACTUAL_PATH_PRESERVED"
+      },
+      {
+        "path_id": 3,
+        "path_score": 1.1053161239624023,
+        "path_status": "CAUSAL_PATH_PRESERVED",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "TAM_DUNG_HOAT_DONG"
+        ],
+        "counterfactual_event_chain_prefix": [
+          "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "TAM_DUNG_HOAT_DONG"
+        ],
+        "factual_final_effect": "TAM_DUNG_HOAT_DONG",
+        "counterfactual_final_effect_reachable": true,
+        "verification_label": "FACTUAL_PATH_PRESERVED"
+      }
+    ]
+  },
+  "generation": {
+    "generator": "ollama",
+    "model": "qwen3:8b",
+    "template_answer": "Trong giả định phản thực rằng “tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.\n\nCó 1 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.\n\nNhững bằng chứng vẫn còn hợp lệ sau can thiệp gồm:\n\n- Điều 78: nếu gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục thì bị đình chỉ hoạt động có thời hạn (PRESERVED).\n\n- Điều 78: nếu bị đình chỉ hoạt động có thời hạn thì thời hạn đình chỉ từ 06 tháng đến 03 năm (PRESERVED).\n\n- Điều 78: nếu bị đình chỉ hoạt động có thời hạn thì tạm dừng hoạt động trong một hoặc một số lĩnh vực (PRESERVED).\n\nVì vậy, các hệ quả cuối vẫn còn reachable gồm: thoi han dinh chi 6 thang den 3 nam; tam dung hoat dong.\n\nChuỗi bị loại trước đây dựa trên Điều 80 (Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định).\n\nCác kết luận không còn được hỗ trợ bởi chuỗi factual gồm: bị cấm kinh doanh hoặc cấm hoạt động trong lĩnh vực đó; thời hạn cấm từ 01 năm đến 03 năm.\n\nHệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:\n\n- Điều 81: nếu bị cấm huy động vốn thì thời hạn cấm từ 01 năm đến 03 năm.\n\nDo đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.\n\nKết luận trên chỉ dựa vào những causal path còn hợp lệ sau can thiệp.",
+    "final_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục kinh doanh hoặc hoạt động trong lĩnh vực đó có thể gây nguy hại cho tính mạng, sức khỏe con người hoặc xã hội\" không còn xảy ra, chuỗi suy luận pháp lý ban đầu bị ảnh hưởng do sự can thiệp phá vỡ một số path. Các bằng chứng hợp lệ còn tồn tại bao gồm: Điều 78 quy định hình thức đình chỉ hoạt động có thời hạn (Rule 339, 341) và tạm dừng hoạt động trong một số lĩnh vực (Rule 340). Tuy nhiên, kết luận về \"thời hạn cấm từ 01 năm đến 03 năm\" không còn được hỗ trợ bởi chuỗi factual do Rule 347 (kết nối với điều kiện cấm kinh doanh) bị chặn bởi sự kiện đầu vào không còn khả thi. \n\nCác rule thay thế như Điều 81 (Rule 355) chỉ là ứng viên tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực. Do đó, không thể khẳng định chắc chắn rằng hệ quả \"thời hạn cấm từ 01 năm đến 03 năm\" vẫn áp dụng. Hệ thống chỉ có thể kết luận rằng, trong điều kiện hiện tại, không đủ căn cứ để khẳng định kết luận ban đầu về thời hạn cấm 1-3 năm."
+  }
+}

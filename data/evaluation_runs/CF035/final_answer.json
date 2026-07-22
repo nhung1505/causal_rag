@@ -1,0 +1,89 @@
+{
+  "original_query": "Giả sử điều kiện hoặc sự kiện “Tòa án xét thấy cần thiết trong từng trường hợp cụ thể” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam” hay không?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "TOA_AN_XET_THAY_CAN_THIET",
+    "target_event_text": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT TOA_AN_XET_THAY_CAN_THIET)"
+  },
+  "source_overall_verification": {
+    "label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
+    "conclusion": "Tất cả causal path factual bị phá vỡ, nhưng có rule thay thế cùng hỗ trợ ít nhất một hệ quả cuối.",
+    "broken_path_count": 1,
+    "preserved_path_count": 0,
+    "reachable_final_effect_count": 0,
+    "alternative_supported_path_count": 1,
+    "verification_label_counts": {
+      "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND": 1
+    }
+  },
+  "evidence_summary": {
+    "valid_rule_count": 0,
+    "removed_rule_count": 2,
+    "alternative_candidate_count": 0,
+    "valid_rule_ids": [],
+    "removed_rule_ids": [
+      "123",
+      "122"
+    ],
+    "alternative_candidate_rule_ids": []
+  },
+  "refined_evidence": {
+    "valid_evidence": [],
+    "removed_evidence": [
+      {
+        "rule_id": "123",
+        "article_id": "37",
+        "article_title": "Trục xuất",
+        "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+        "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+        "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+        "effect_norm": "AP_DUNG_TRUC_XUAT",
+        "status": "INVALIDATED",
+        "reason": "Input event TOA_AN_XET_THAY_CAN_THIET của Rule 123 đã bị phủ định trực tiếp.",
+        "path_ids": [
+          1
+        ]
+      },
+      {
+        "rule_id": "122",
+        "article_id": "37",
+        "article_title": "Trục xuất",
+        "condition": "bị áp dụng hình phạt trục xuất",
+        "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+        "condition_norm": "AP_DUNG_TRUC_XUAT",
+        "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 122 bị chặn vì event đầu vào AP_DUNG_TRUC_XUAT không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          1
+        ]
+      }
+    ],
+    "alternative_candidates": [],
+    "path_summary": [
+      {
+        "path_id": 1,
+        "path_score": 1.04125102519989,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "TOA_AN_XET_THAY_CAN_THIET",
+          "AP_DUNG_TRUC_XUAT",
+          "ROI_KHOI_LANH_THO_VIET_NAM"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "ROI_KHOI_LANH_THO_VIET_NAM",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      }
+    ]
+  },
+  "generation": {
+    "generator": "ollama",
+    "model": "qwen3:8b",
+    "template_answer": "Trong giả định phản thực rằng “Tòa án xét thấy cần thiết trong từng trường hợp cụ thể” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.\n\nCó 1 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.\n\nKhông còn rule nào trong các factual path được xác nhận là PRESERVED hoặc ACTIVATED. Vì vậy, chưa đủ căn cứ từ các bằng chứng đã truy hồi để giữ nguyên kết luận ban đầu.\n\nCụ thể, hệ thống không còn suy ra được qua các path factual: roi khoi lanh tho viet nam.\n\nChuỗi bị loại trước đây dựa trên Điều 37 (Trục xuất).\n\nCác kết luận không còn được hỗ trợ bởi chuỗi factual gồm: bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung; phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu cũng không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.",
+    "final_answer": "Trong trường hợp điều kiện \"Tòa án xét thấy cần thiết trong từng trường hợp cụ thể\" không còn xảy ra, các quy tắc pháp lý liên quan đến việc áp dụng hình phạt trục xuất và hệ quả phải rời khỏi lãnh thổ Việt Nam không còn được duy trì. Cụ thể, quy tắc 123 (Điều 37) bị vô hiệu hóa do điều kiện đầu vào bị phủ định, dẫn đến quy tắc 122 (liên quan đến kết luận phải rời khỏi lãnh thổ) bị chặn bởi sự kiện phía trước không thể tiếp cận. Do đó, không còn bằng chứng hợp lệ (rule PRESERVED hoặc ACTIVATED) để hỗ trợ kết luận ban đầu. Theo quy tắc, khi không còn bằng chứng hợp lệ, không thể khẳng định chắc chắn kết luận đó không còn hiệu lực, mà phải xác định \"chưa đủ căn cứ\". Hệ quả là, không thể xác định người đó vẫn thuộc trường hợp phải rời khỏi lãnh thổ Việt Nam dựa trên các bằng chứng hiện có. Việc phủ định điều kiện ban đầu không tự động loại bỏ mọi khả năng phát sinh hệ quả từ căn cứ khác, nhưng trong bối cảnh hiện tại, không có bằng chứng đủ để duy trì kết luận."
+  }
+}

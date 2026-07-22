@@ -1,0 +1,284 @@
+{
+  "original_query": "Giả sử điều kiện hoặc sự kiện “tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “thời hạn cấm từ 01 năm đến 03 năm” hay không?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+    "target_event_text": "tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT DU_DIEU_KIEN_CAM_HUY_DONG_VON)"
+  },
+  "source_overall_verification": {
+    "label": "FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS",
+    "conclusion": "Tất cả causal path factual bị phá vỡ, nhưng có rule thay thế cùng hỗ trợ ít nhất một hệ quả cuối.",
+    "broken_path_count": 6,
+    "preserved_path_count": 0,
+    "reachable_final_effect_count": 0,
+    "alternative_supported_path_count": 6,
+    "verification_label_counts": {
+      "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND": 6
+    }
+  },
+  "evidence_summary": {
+    "valid_rule_count": 0,
+    "removed_rule_count": 7,
+    "alternative_candidate_count": 2,
+    "valid_rule_ids": [],
+    "removed_rule_ids": [
+      "348",
+      "350",
+      "353",
+      "349",
+      "351",
+      "352",
+      "355"
+    ],
+    "alternative_candidate_rule_ids": [
+      "354",
+      "347"
+    ]
+  },
+  "refined_evidence": {
+    "valid_evidence": [],
+    "removed_evidence": [
+      {
+        "rule_id": "348",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội",
+        "effect": "bị cấm huy động vốn",
+        "condition_norm": "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+        "effect_norm": "CAM_HUY_DONG_VON",
+        "status": "INVALIDATED",
+        "reason": "Input event DU_DIEU_KIEN_CAM_HUY_DONG_VON của Rule 348 đã bị phủ định trực tiếp.",
+        "path_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "rule_id": "350",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "bị cấm huy động vốn",
+        "effect": "bị cấm phát hành hoặc chào bán chứng khoán",
+        "condition_norm": "CAM_HUY_DONG_VON",
+        "effect_norm": "CAM_PHAT_HANH_CHUNG_KHOAN",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 350 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          1
+        ]
+      },
+      {
+        "rule_id": "353",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "bị cấm huy động vốn",
+        "effect": "bị cấm hình thành quỹ tín thác bất động sản",
+        "condition_norm": "CAM_HUY_DONG_VON",
+        "effect_norm": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 353 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          2
+        ]
+      },
+      {
+        "rule_id": "349",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "bị cấm huy động vốn",
+        "effect": "bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư",
+        "condition_norm": "CAM_HUY_DONG_VON",
+        "effect_norm": "CAM_VAY_VON",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 349 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          3
+        ]
+      },
+      {
+        "rule_id": "351",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "bị cấm huy động vốn",
+        "effect": "bị cấm huy động vốn của khách hàng",
+        "condition_norm": "CAM_HUY_DONG_VON",
+        "effect_norm": "CAM_HUY_DONG_VON_KHACH_HANG",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 351 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          4
+        ]
+      },
+      {
+        "rule_id": "352",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "bị cấm huy động vốn",
+        "effect": "bị cấm liên doanh hoặc liên kết trong và ngoài nước",
+        "condition_norm": "CAM_HUY_DONG_VON",
+        "effect_norm": "CAM_LIEN_DOANH_LIEN_KET",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 352 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          5
+        ]
+      },
+      {
+        "rule_id": "355",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "bị cấm huy động vốn",
+        "effect": "thời hạn cấm từ 01 năm đến 03 năm",
+        "condition_norm": "CAM_HUY_DONG_VON",
+        "effect_norm": "THOI_HAN_CAM_1_DEN_3_NAM",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "reason": "Rule 355 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.",
+        "path_ids": [
+          6
+        ]
+      }
+    ],
+    "alternative_candidates": [
+      {
+        "rule_id": "354",
+        "article_id": "81",
+        "article_title": "Cấm huy động vốn",
+        "condition": "áp dụng hình phạt cấm huy động vốn",
+        "effect": "quyết định áp dụng một hoặc nhiều hình thức cấm huy động vốn",
+        "condition_norm": "AP_DUNG_CAM_HUY_DONG_VON",
+        "effect_norm": "QUYET_DINH_HINH_THUC_CAM_HUY_DONG_VON",
+        "score": 1.1680362345907422,
+        "relations": [
+          "ARTICLE_REFERENCE",
+          "SAME_ARTICLE",
+          "SEMANTIC"
+        ],
+        "path_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      },
+      {
+        "rule_id": "347",
+        "article_id": "80",
+        "article_title": "Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định",
+        "condition": "bị cấm kinh doanh hoặc cấm hoạt động",
+        "effect": "thời hạn cấm từ 01 năm đến 03 năm",
+        "condition_norm": "CAM_KINH_DOANH_HOAT_DONG",
+        "effect_norm": "THOI_HAN_CAM_1_DEN_3_NAM",
+        "score": 0.936,
+        "relations": [
+          "CAUSES_TARGET_EFFECT"
+        ],
+        "path_ids": [
+          6
+        ],
+        "validation_status": "CONDITION_NOT_VERIFIED"
+      }
+    ],
+    "path_summary": [
+      {
+        "path_id": 1,
+        "path_score": 1.1407420253753662,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+          "CAM_HUY_DONG_VON",
+          "CAM_PHAT_HANH_CHUNG_KHOAN"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "CAM_PHAT_HANH_CHUNG_KHOAN",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      },
+      {
+        "path_id": 2,
+        "path_score": 1.1407420253753662,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+          "CAM_HUY_DONG_VON",
+          "CAM_THANH_LAP_QUY_TIN_THAC_BDS"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "CAM_THANH_LAP_QUY_TIN_THAC_BDS",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      },
+      {
+        "path_id": 3,
+        "path_score": 1.1407420253753662,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+          "CAM_HUY_DONG_VON",
+          "CAM_VAY_VON"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "CAM_VAY_VON",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      },
+      {
+        "path_id": 4,
+        "path_score": 1.1407420253753662,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+          "CAM_HUY_DONG_VON",
+          "CAM_HUY_DONG_VON_KHACH_HANG"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "CAM_HUY_DONG_VON_KHACH_HANG",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      },
+      {
+        "path_id": 5,
+        "path_score": 1.1407420253753662,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+          "CAM_HUY_DONG_VON",
+          "CAM_LIEN_DOANH_LIEN_KET"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "CAM_LIEN_DOANH_LIEN_KET",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      },
+      {
+        "path_id": 6,
+        "path_score": 1.1407420253753662,
+        "path_status": "CAUSAL_PATH_BROKEN",
+        "factual_event_chain": [
+          "DU_DIEU_KIEN_CAM_HUY_DONG_VON",
+          "CAM_HUY_DONG_VON",
+          "THOI_HAN_CAM_1_DEN_3_NAM"
+        ],
+        "counterfactual_event_chain_prefix": [],
+        "factual_final_effect": "THOI_HAN_CAM_1_DEN_3_NAM",
+        "counterfactual_final_effect_reachable": false,
+        "verification_label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND"
+      }
+    ]
+  },
+  "generation": {
+    "generator": "ollama",
+    "model": "qwen3:8b",
+    "template_answer": "Trong giả định phản thực rằng “tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.\n\nCó 6 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.\n\nKhông còn rule nào trong các factual path được xác nhận là PRESERVED hoặc ACTIVATED. Vì vậy, chưa đủ căn cứ từ các bằng chứng đã truy hồi để giữ nguyên kết luận ban đầu.\n\nCụ thể, hệ thống không còn suy ra được qua các path factual: cam phat hanh chung khoan; cam thanh lap quy tin thac bds; cam vay von; cam huy dong von khach hang; cam lien doanh lien ket; thoi han cam 1 den 3 nam.\n\nChuỗi bị loại trước đây dựa trên Điều 81 (Cấm huy động vốn).\n\nCác kết luận không còn được hỗ trợ bởi chuỗi factual gồm: bị cấm huy động vốn; bị cấm phát hành hoặc chào bán chứng khoán; bị cấm hình thành quỹ tín thác bất động sản; bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư; bị cấm huy động vốn của khách hàng; bị cấm liên doanh hoặc liên kết trong và ngoài nước; thời hạn cấm từ 01 năm đến 03 năm.\n\nHệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:\n\n- Điều 81: nếu áp dụng hình phạt cấm huy động vốn thì quyết định áp dụng một hoặc nhiều hình thức cấm huy động vốn.\n\n- Điều 80: nếu bị cấm kinh doanh hoặc cấm hoạt động thì thời hạn cấm từ 01 năm đến 03 năm.\n\nDo đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.\n\nKết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu cũng không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.",
+    "final_answer": "Trong tình huống giả định rằng điều kiện \"tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội\" không còn xảy ra, các bằng chứng hợp lệ để kết luận \"thời hạn cấm từ 01 năm đến 03 năm\" không còn tồn tại. Các quy tắc liên quan đến điều kiện này (Rule 348, 350-355) đều bị vô hiệu hóa hoặc bị chặn do sự kiện đầu vào không còn khả thi sau can thiệp. Không có quy tắc nào trong chuỗi suy luận ban đầu được xác nhận là PRESERVED hoặc ACTIVATED, dẫn đến việc tất cả các hệ quả pháp lý trước đây không còn được hỗ trợ. Các quy tắc thay thế (Rule 347, 354) chỉ là ứng viên tiềm năng nhưng điều kiện của chúng chưa được kiểm chứng. Do đó, không thể khẳng định chắc chắn rằng hệ quả \"thời hạn cấm từ 01 năm đến 03 năm\" vẫn áp dụng. Hệ thống không đủ căn cứ để duy trì kết luận ban đầu, vì sự phủ định điều kiện gốc không tự động loại bỏ tất cả các cơ sở pháp lý khác."
+  }
+}

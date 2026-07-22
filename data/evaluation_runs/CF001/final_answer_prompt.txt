@@ -1,0 +1,121 @@
+Bạn là hệ thống hỏi đáp pháp luật hình sự Việt Nam.
+Hãy viết lại câu trả lời cuối cùng bằng tiếng Việt rõ ràng, thận trọng và có căn cứ.
+
+QUY TẮC BẮT BUỘC:
+1. Chỉ coi rule có trạng thái PRESERVED hoặc ACTIVATED là bằng chứng hợp lệ.
+2. Không sử dụng rule INVALIDATED, BLOCKED_BY_UPSTREAM, OUTPUT_INTERVENED hoặc OUTPUT_REPLACED để khẳng định kết luận.
+3. Alternative candidate chỉ là ứng viên; không coi là đúng nếu condition của nó chưa được xác nhận.
+4. Không suy luận NOT condition đồng nghĩa với NOT effect.
+5. Không thêm điều luật, sự kiện hoặc kết luận không có trong context.
+6. Khi không còn bằng chứng hợp lệ, phải nói 'chưa đủ căn cứ' thay vì khẳng định chắc chắn không có hệ quả.
+7. Trả lời trong 2-5 đoạn, không dùng markdown table.
+
+CÂU HỎI GỐC:
+Giả sử điều kiện hoặc sự kiện “chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương” hay không?
+
+CAN THIỆP PHẢN THỰC:
+do(NOT TAI_PHAM_DO_CO_Y_KHI_CHUA_XOA_AN_TICH)
+
+KẾT QUẢ TỔNG THỂ:
+PARTIAL_PATH_EFFECT
+Can thiệp phá vỡ một số path nhưng vẫn còn path factual khác được bảo toàn.
+
+BẰNG CHỨNG HỢP LỆ:
+- Rule 204 - Điều 53
+  Điều kiện: đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý
+  Hệ quả: được xác định là tái phạm nguy hiểm
+  Trạng thái: PRESERVED
+- Rule 148 - Điều 43
+  Điều kiện: tái phạm nguy hiểm
+  Hệ quả: bị áp dụng hình phạt quản chế
+  Trạng thái: PRESERVED
+- Rule 143 - Điều 43
+  Điều kiện: bị áp dụng hình phạt quản chế
+  Hệ quả: phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương
+  Trạng thái: PRESERVED
+- Rule 149 - Điều 43
+  Điều kiện: bị áp dụng hình phạt quản chế
+  Hệ quả: thời hạn quản chế từ 01 năm đến 05 năm
+  Trạng thái: PRESERVED
+- Rule 1604 - Điều 388
+  Điều kiện: tái phạm nguy hiểm
+  Hệ quả: bị phạt tù từ 02 năm đến 07 năm
+  Trạng thái: PRESERVED
+
+BẰNG CHỨNG BỊ LOẠI:
+- Rule 205 - Điều 53
+  Điều kiện: chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý
+  Hệ quả: được xác định là tái phạm nguy hiểm
+  Trạng thái: INVALIDATED
+  Lý do: Input event TAI_PHAM_DO_CO_Y_KHI_CHUA_XOA_AN_TICH của Rule 205 đã bị phủ định trực tiếp.
+- Rule 148 - Điều 43
+  Điều kiện: tái phạm nguy hiểm
+  Hệ quả: bị áp dụng hình phạt quản chế
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 148 bị chặn vì event đầu vào TAI_PHAM_NGUY_HIEM không còn reachable sau can thiệp ở bước trước.
+- Rule 143 - Điều 43
+  Điều kiện: bị áp dụng hình phạt quản chế
+  Hệ quả: phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 143 bị chặn vì event đầu vào AP_DUNG_QUAN_CHE không còn reachable sau can thiệp ở bước trước.
+- Rule 149 - Điều 43
+  Điều kiện: bị áp dụng hình phạt quản chế
+  Hệ quả: thời hạn quản chế từ 01 năm đến 05 năm
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 149 bị chặn vì event đầu vào AP_DUNG_QUAN_CHE không còn reachable sau can thiệp ở bước trước.
+- Rule 1604 - Điều 388
+  Điều kiện: tái phạm nguy hiểm
+  Hệ quả: bị phạt tù từ 02 năm đến 07 năm
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 1604 bị chặn vì event đầu vào TAI_PHAM_NGUY_HIEM không còn reachable sau can thiệp ở bước trước.
+
+ALTERNATIVE CANDIDATES CHƯA XÁC NHẬN:
+- Rule 147 - Điều 43
+  Điều kiện cần kiểm tra: phạm tội xâm phạm an ninh quốc gia
+  Hệ quả: bị áp dụng hình phạt quản chế
+  Trạng thái: CONDITION_NOT_VERIFIED
+- Rule 1601 - Điều 388
+  Điều kiện cần kiểm tra: có tổ chức
+  Hệ quả: bị phạt tù từ 02 năm đến 07 năm
+  Trạng thái: CONDITION_NOT_VERIFIED
+- Rule 1602 - Điều 388
+  Điều kiện cần kiểm tra: lợi dụng chức vụ, quyền hạn
+  Hệ quả: bị phạt tù từ 02 năm đến 07 năm
+  Trạng thái: CONDITION_NOT_VERIFIED
+
+BẢN NHÁP DETERMINISTIC:
+Trong giả định phản thực rằng “chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.
+
+Có 4 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.
+
+Những bằng chứng vẫn còn hợp lệ sau can thiệp gồm:
+
+- Điều 53: nếu đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý thì được xác định là tái phạm nguy hiểm (PRESERVED).
+
+- Điều 43: nếu tái phạm nguy hiểm thì bị áp dụng hình phạt quản chế (PRESERVED).
+
+- Điều 43: nếu bị áp dụng hình phạt quản chế thì phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương (PRESERVED).
+
+- Điều 43: nếu bị áp dụng hình phạt quản chế thì thời hạn quản chế từ 01 năm đến 05 năm (PRESERVED).
+
+- Điều 388: nếu tái phạm nguy hiểm thì bị phạt tù từ 02 năm đến 07 năm (PRESERVED).
+
+Vì vậy, các hệ quả cuối vẫn còn reachable gồm: cu tru duoi su kiem soat giao duc; thoi han quan che 01 den 05 nam; ap dung quan che; phat tu 2 7 nam.
+
+Chuỗi bị loại trước đây dựa trên Điều 53 (Tái phạm, tái phạm nguy hiểm), Điều 43 (Quản chế), Điều 388 (Tội vi phạm quy định về giam giữ).
+
+Các kết luận không còn được hỗ trợ bởi chuỗi factual gồm: được xác định là tái phạm nguy hiểm; bị áp dụng hình phạt quản chế; phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương; thời hạn quản chế từ 01 năm đến 05 năm; bị phạt tù từ 02 năm đến 07 năm.
+
+Hệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:
+
+- Điều 43: nếu phạm tội xâm phạm an ninh quốc gia thì bị áp dụng hình phạt quản chế.
+
+- Điều 388: nếu có tổ chức thì bị phạt tù từ 02 năm đến 07 năm.
+
+- Điều 388: nếu lợi dụng chức vụ, quyền hạn thì bị phạt tù từ 02 năm đến 07 năm.
+
+Do đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.
+
+Kết luận trên chỉ dựa vào những causal path còn hợp lệ sau can thiệp.
+
+Hãy trả về duy nhất câu trả lời hoàn chỉnh, không thêm tiêu đề như 'Câu trả lời'.

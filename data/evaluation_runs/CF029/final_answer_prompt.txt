@@ -1,0 +1,77 @@
+Bạn là hệ thống hỏi đáp pháp luật hình sự Việt Nam.
+Hãy viết lại câu trả lời cuối cùng bằng tiếng Việt rõ ràng, thận trọng và có căn cứ.
+
+QUY TẮC BẮT BUỘC:
+1. Chỉ coi rule có trạng thái PRESERVED hoặc ACTIVATED là bằng chứng hợp lệ.
+2. Không sử dụng rule INVALIDATED, BLOCKED_BY_UPSTREAM, OUTPUT_INTERVENED hoặc OUTPUT_REPLACED để khẳng định kết luận.
+3. Alternative candidate chỉ là ứng viên; không coi là đúng nếu condition của nó chưa được xác nhận.
+4. Không suy luận NOT condition đồng nghĩa với NOT effect.
+5. Không thêm điều luật, sự kiện hoặc kết luận không có trong context.
+6. Khi không còn bằng chứng hợp lệ, phải nói 'chưa đủ căn cứ' thay vì khẳng định chắc chắn không có hệ quả.
+7. Trả lời trong 2-5 đoạn, không dùng markdown table.
+
+CÂU HỎI GỐC:
+Giả sử điều kiện hoặc sự kiện “có đủ điều kiện do luật định || thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “coi như chưa bị kết án” hay không?
+
+CAN THIỆP PHẢN THỰC:
+do(NOT DU_DIEU_KIEN_XOA_AN_TICH)
+
+KẾT QUẢ TỔNG THỂ:
+FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS
+Tất cả causal path factual bị phá vỡ, nhưng có rule thay thế cùng hỗ trợ ít nhất một hệ quả cuối.
+
+BẰNG CHỨNG HỢP LỆ:
+Không có rule PRESERVED hoặc ACTIVATED.
+
+BẰNG CHỨNG BỊ LOẠI:
+- Rule 300 - Điều 69
+  Điều kiện: thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự
+  Hệ quả: được xóa án tích
+  Trạng thái: INVALIDATED
+  Lý do: Input event DU_DIEU_KIEN_XOA_AN_TICH của Rule 300 đã bị phủ định trực tiếp.
+- Rule 301 - Điều 69
+  Điều kiện: được xóa án tích
+  Hệ quả: coi như chưa bị kết án
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 301 bị chặn vì event đầu vào DUOC_XOA_AN_TICH không còn reachable sau can thiệp ở bước trước.
+
+ALTERNATIVE CANDIDATES CHƯA XÁC NHẬN:
+- Rule 302 - Điều 69
+  Điều kiện cần kiểm tra: bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng
+  Hệ quả: không bị coi là có án tích
+  Trạng thái: CONDITION_NOT_VERIFIED
+- Rule 305 - Điều 70
+  Điều kiện cần kiểm tra: đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không phạm tội mới trong 01 năm sau khi chấp hành xong hình phạt cảnh cáo, phạt tiền, cải tạo không giam giữ hoặc án treo
+  Hệ quả: đương nhiên được xóa án tích
+  Trạng thái: CONDITION_NOT_VERIFIED
+- Rule 306 - Điều 70
+  Điều kiện cần kiểm tra: đã chấp hành xong hình phạt bổ sung và không phạm tội mới trong 02 năm sau khi chấp hành xong hình phạt tù đến 05 năm
+  Hệ quả: đương nhiên được xóa án tích
+  Trạng thái: CONDITION_NOT_VERIFIED
+
+BẢN NHÁP DETERMINISTIC:
+Trong giả định phản thực rằng “có đủ điều kiện do luật định || thuộc trường hợp quy định tại Điều 70 đến Điều 73 của Bộ luật Hình sự” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.
+
+Có 1 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.
+
+Không còn rule nào trong các factual path được xác nhận là PRESERVED hoặc ACTIVATED. Vì vậy, chưa đủ căn cứ từ các bằng chứng đã truy hồi để giữ nguyên kết luận ban đầu.
+
+Cụ thể, hệ thống không còn suy ra được qua các path factual: coi nhu chua bi ket an.
+
+Chuỗi bị loại trước đây dựa trên Điều 69 (Xóa án tích).
+
+Các kết luận không còn được hỗ trợ bởi chuỗi factual gồm: được xóa án tích; coi như chưa bị kết án.
+
+Hệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:
+
+- Điều 69: nếu bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng thì không bị coi là có án tích.
+
+- Điều 70: nếu đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không phạm tội mới trong 01 năm sau khi chấp hành xong hình phạt cảnh cáo, phạt tiền, cải tạo không giam giữ hoặc án treo thì đương nhiên được xóa án tích.
+
+- Điều 70: nếu đã chấp hành xong hình phạt bổ sung và không phạm tội mới trong 02 năm sau khi chấp hành xong hình phạt tù đến 05 năm thì đương nhiên được xóa án tích.
+
+Do đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.
+
+Kết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu cũng không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.
+
+Hãy trả về duy nhất câu trả lời hoàn chỉnh, không thêm tiêu đề như 'Câu trả lời'.

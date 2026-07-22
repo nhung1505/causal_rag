@@ -1,0 +1,539 @@
+{
+  "query": "Giả sử điều kiện hoặc sự kiện “đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “thời hạn quản chế từ 01 năm đến 05 năm” hay không?",
+  "config": {
+    "seed_top_k": 8,
+    "semantic_pool_size": 50,
+    "max_depth": 4,
+    "max_expansions_per_rule": 15,
+    "final_top_k": 12,
+    "causal_only": true,
+    "min_event_nodes": 3
+  },
+  "seed_rules": [
+    {
+      "rule_id": "149",
+      "row_id": 148,
+      "article_id": "43",
+      "legal_subject": "người bị quản chế",
+      "subject_norm": "NGUOI_BI_QUAN_CHE",
+      "condition": "bị áp dụng hình phạt quản chế",
+      "effect": "thời hạn quản chế từ 01 năm đến 05 năm",
+      "condition_norm": "AP_DUNG_QUAN_CHE",
+      "effect_norm": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "effect_event_id": "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+      "semantic_score": 0.6961520910263062
+    },
+    {
+      "rule_id": "204",
+      "row_id": 203,
+      "article_id": "53",
+      "legal_subject": "người đã bị kết án",
+      "subject_norm": "NGUOI_DA_BI_KET_AN",
+      "condition": "đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "effect": "được xác định là tái phạm nguy hiểm",
+      "condition_norm": "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+      "effect_norm": "TAI_PHAM_NGUY_HIEM",
+      "article_title": "Tái phạm, tái phạm nguy hiểm",
+      "content": "Điều 53. Tái phạm, tái phạm nguy hiểm\n1. Tái phạm là trường hợp đã bị kết án, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý hoặc thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do vô ý.\n2. Những trường hợp sau đây được coi là tái phạm nguy hiểm:\na) Đã bị kết án về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý;\nb) Đã tái phạm, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý.\nMục 2. QUYẾT ĐỊNH HÌNH PHẠT TRONG CÁC TRƯỜNG HỢP CỤ THỂ",
+      "condition_event_id": "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+      "effect_event_id": "EVENT::TAI_PHAM_NGUY_HIEM",
+      "semantic_score": 0.6904454231262207
+    },
+    {
+      "rule_id": "1557",
+      "row_id": 1556,
+      "article_id": "379",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "dẫn đến người bị kết án tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm",
+      "condition_norm": "TIEP_TUC_PHAM_TOI_DAC_BIET_NGHIEM_TRONG",
+      "effect_norm": "PHAT_TU_5_10_NAM",
+      "article_title": "Tội không thi hành án",
+      "content": "Điều 379. Tội không thi hành án\n1. Người nào có thẩm quyền mà cố ý không ra quyết định thi hành án hoặc không thi hành quyết định thi hành bản án, quyết định của Tòa án thuộc một trong các trường hợp sau đây, thì bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:\na) Đã bị xử lý kỷ luật về hành vi này mà còn vi phạm;\nb) Dẫn đến người bị kết án, người phải chấp hành án bỏ trốn;\nc) Dẫn đến hết thời hiệu thi hành án;\nd) Dẫn đến người bị kết án, người phải chấp hành án, người có nghĩa vụ thi hành án tẩu tán tài sản và không thi hành được nghĩa vụ thi hành án với số tiền từ 50.000.000 đồng đến dưới 200.000.000 đồng.\n2. Phạm tội thuộc một trong những trường hợp sau đây, thì bị phạt tù từ 02 năm đến 07 năm:\na) Phạm tội 02 lần trở lên;\nb) Dẫn đến người bị kết án, người phải chấp hành án tiếp tục thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng;\nc) Dẫn đến người bị kết án, người phải thi hành án, người có nghĩa vụ thi hành án tẩu tán tài sản và không thi hành được nghĩa vụ thi hành án với số tiền từ 200.000.000 đồng đến dưới 1.000.000.000 đồng.\n3. Phạm tội thuộc một trong những trường hợp sau đây, thì bị phạt tù từ 05 năm đến 10 năm:\na) Dẫn đến người bị kết án, người phải chấp hành án tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng;\nb) Dẫn đến người bị kết án, người phải thi hành án, người có nghĩa vụ thi hành án tẩu tán tài sản và không thi hành được nghĩa vụ thi hành án với số tiền 1.000.000.000 đồng trở lên.\n4. Người phạm tội còn bị cấm đảm nhiệm chức vụ nhất định từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::TIEP_TUC_PHAM_TOI_DAC_BIET_NGHIEM_TRONG",
+      "effect_event_id": "EVENT::PHAT_TU_5_10_NAM",
+      "semantic_score": 0.6877102851867676
+    },
+    {
+      "rule_id": "1381",
+      "row_id": 1380,
+      "article_id": "360",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "bị kết án về tội thiếu trách nhiệm gây hậu quả nghiêm trọng",
+      "effect": "bị cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định từ 01 năm đến 05 năm",
+      "condition_norm": "KET_AN_THIEU_TRACH_NHIEM",
+      "effect_norm": "CAM_DAM_NHIEM_CHUC_VU",
+      "article_title": "Tội thiếu trách nhiệm gây hậu quả nghiêm trọng[357]",
+      "content": "Điều 360. Tội thiếu trách nhiệm gây hậu quả nghiêm trọng[357]\n1. Người nào có chức vụ, quyền hạn vì thiếu trách nhiệm mà không thực hiện hoặc thực hiện không đúng nhiệm vụ được giao thuộc một trong các trường hợp sau đây, nếu không thuộc trường hợp quy định tại các điều 179, 308 và 376 của Bộ luật này, thì bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 05 năm:\na) Làm chết người;\nb) Gây thương tích hoặc gây tổn hại cho sức khỏe của người khác mà tỷ lệ tổn thương cơ thể 61% trở lên;\nc) Gây thương tích hoặc gây tổn hại cho sức khỏe của 02 người trở lên mà tổng tỷ lệ tổn thương cơ thể của những người này từ 61% đến 121%;\nd) Gây thiệt hại về tài sản từ 100.000.000 đồng đến dưới 500.000.000 đồng.\n2. Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 03 năm đến 07 năm:\na) Làm chết 02 người;\nb) Gây thương tích hoặc gây tổn hại cho sức khỏe của 02 người trở lên mà tổng tỷ lệ tổn thương cơ thể của những người này từ 122% đến 200%;\nc) Gây thiệt hại về tài sản từ 500.000.000 đồng đến dưới 1.500.000.000 đồng.\n3. Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 07 năm đến 12 năm:\na) Làm chết 03 người trở lên;\nb) Gây thương tích hoặc gây tổn hại cho sức khỏe của 03 người trở lên mà tổng tỷ lệ tổn thương cơ thể của những người này 201% trở lên;\nc) Gây thiệt hại về tài sản 1.500.000.000 đồng trở lên.\n4. Người phạm tội còn bị cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::KET_AN_THIEU_TRACH_NHIEM",
+      "effect_event_id": "EVENT::CAM_DAM_NHIEM_CHUC_VU",
+      "semantic_score": 0.686608076095581
+    },
+    {
+      "rule_id": "203",
+      "row_id": 202,
+      "article_id": "53",
+      "legal_subject": "người đã bị kết án",
+      "subject_norm": "NGUOI_DA_BI_KET_AN",
+      "condition": "chưa được xóa án tích và lại thực hiện hành vi phạm tội do cố ý hoặc phạm tội rất nghiêm trọng, đặc biệt nghiêm trọng do vô ý",
+      "effect": "được xác định là tái phạm",
+      "condition_norm": "CHUA_XOA_AN_TICH_VA_TAI_PHAM",
+      "effect_norm": "TAI_PHAM",
+      "article_title": "Tái phạm, tái phạm nguy hiểm",
+      "content": "Điều 53. Tái phạm, tái phạm nguy hiểm\n1. Tái phạm là trường hợp đã bị kết án, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý hoặc thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do vô ý.\n2. Những trường hợp sau đây được coi là tái phạm nguy hiểm:\na) Đã bị kết án về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý;\nb) Đã tái phạm, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý.\nMục 2. QUYẾT ĐỊNH HÌNH PHẠT TRONG CÁC TRƯỜNG HỢP CỤ THỂ",
+      "condition_event_id": "EVENT::CHUA_XOA_AN_TICH_VA_TAI_PHAM",
+      "effect_event_id": "EVENT::TAI_PHAM",
+      "semantic_score": 0.6829206347465515
+    },
+    {
+      "rule_id": "1528",
+      "row_id": 1527,
+      "article_id": "376",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "người bỏ trốn tiếp tục thực hiện tội phạm đặc biệt nghiêm trọng",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm",
+      "condition_norm": "BO_TRON_PHAM_TOI_DAC_BIET_NGHIEM_TRONG",
+      "effect_norm": "PHAT_TU_5_10_NAM",
+      "article_title": "Tội thiếu trách nhiệm để người bị bắt, người bị tạm giữ, tạm giam, người đang chấp hành án phạt tù trốn",
+      "content": "Điều 376. Tội thiếu trách nhiệm để người bị bắt, người bị tạm giữ, tạm giam, người đang chấp hành án phạt tù trốn\n1.[380] Người nào được giao trách nhiệm trực tiếp quản lý, canh gác, áp giải người bị bắt, người bị tạm giữ, tạm giam, người đang chấp hành án phạt tù mà không thực hiện hoặc thực hiện không đúng quy định về quản lý, canh gác, áp giải để người thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng trốn thuộc một trong các trường hợp sau đây, thì bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:\na) Làm vụ án bị tạm đình chỉ;\nb) Người bỏ trốn trả thù người có thẩm quyền tiến hành tố tụng, người tham gia tố tụng;\nc) Người bỏ trốn tiếp tục thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng.\n2.[381] Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 02 năm đến 07 năm:\na) Làm vụ án bị đình chỉ;\nb) Người bỏ trốn tiếp tục thực hiện tội phạm rất nghiêm trọng;\nc) Để từ 02 người đến 05 người bỏ trốn;\nd) Để người thực hiện tội phạm rất nghiêm trọng bỏ trốn;\nđ) Gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội.\n3. Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 05 năm đến 10 năm:\na) Người bỏ trốn tiếp tục thực hiện tội phạm đặc biệt nghiêm trọng;\nb) Để 06 người trở lên bỏ trốn;\nc) Để người thực hiện tội phạm đặc biệt nghiêm trọng bỏ trốn.\n4. Người phạm tội còn bị cấm đảm nhiệm chức vụ nhất định từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::BO_TRON_PHAM_TOI_DAC_BIET_NGHIEM_TRONG",
+      "effect_event_id": "EVENT::PHAT_TU_5_10_NAM",
+      "semantic_score": 0.6779531240463257
+    },
+    {
+      "rule_id": "316",
+      "row_id": 315,
+      "article_id": "71",
+      "legal_subject": "người bị kết án",
+      "subject_norm": "NGUOI_BI_KET_AN",
+      "condition": "đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không phạm tội mới trong 05 năm sau khi chấp hành xong hình phạt tù trên 05 năm đến 15 năm",
+      "effect": "được Tòa án quyết định xóa án tích",
+      "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_TOA_AN_5_NAM",
+      "effect_norm": "DUOC_TOA_AN_XOA_AN_TICH",
+      "article_title": "Xóa án tích theo quyết định của Tòa án[29]",
+      "content": "Điều 71. Xóa án tích theo quyết định của Tòa án[29]\n1. Xóa án tích theo quyết định của Tòa án được áp dụng đối với người bị kết án về một trong các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này. Tòa án quyết định việc xóa án tích đối với người bị kết án căn cứ vào tính chất của tội phạm đã thực hiện, thái độ chấp hành pháp luật, thái độ lao động của người bị kết án và các điều kiện quy định tại khoản 2 Điều này.\n2. Người bị kết án được Tòa án quyết định việc xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 03 năm trong trường hợp bị phạt tù đến 05 năm;\nc) 05 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 07 năm trong trường hợp bị phạt tù trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại điểm a, điểm b khoản này thì Tòa án quyết định việc xóa án tích từ khi người đó chấp hành xong hình phạt bổ sung.\n3. Người bị Tòa án bác đơn xin xóa án tích lần đầu, thì sau 01 năm kể từ ngày bị Tòa án bác đơn mới được xin xóa án tích; nếu bị bác đơn lần thứ hai trở đi, thì sau 02 năm kể từ ngày bị Tòa án bác đơn mới được xin xóa án tích.",
+      "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH_TOA_AN_5_NAM",
+      "effect_event_id": "EVENT::DUOC_TOA_AN_XOA_AN_TICH",
+      "semantic_score": 0.6778154373168945
+    },
+    {
+      "rule_id": "140",
+      "row_id": 139,
+      "article_id": "41",
+      "legal_subject": "người bị kết án",
+      "subject_norm": "NGUOI_BI_KET_AN",
+      "condition": "bị áp dụng hình phạt cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định",
+      "effect": "thời hạn cấm từ 01 năm đến 05 năm",
+      "condition_norm": "AP_DUNG_CAM_DAM_NHIEM_CHUC_VU_HANH_NGHE",
+      "effect_norm": "THOI_HAN_CAM_01_DEN_05_NAM",
+      "article_title": "Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định",
+      "content": "Điều 41. Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định\nCấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định được áp dụng khi xét thấy nếu để người bị kết án đảm nhiệm chức vụ, hành nghề hoặc làm công việc đó thì có thể gây nguy hại cho xã hội.\nThời hạn cấm là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù hoặc từ ngày bản án có hiệu lực pháp luật nếu hình phạt chính là cảnh cáo, phạt tiền, cải tạo không giam giữ hoặc trong trường hợp người bị kết án được hưởng án treo.",
+      "condition_event_id": "EVENT::AP_DUNG_CAM_DAM_NHIEM_CHUC_VU_HANH_NGHE",
+      "effect_event_id": "EVENT::THOI_HAN_CAM_01_DEN_05_NAM",
+      "semantic_score": 0.6775574684143066
+    }
+  ],
+  "paths": [
+    {
+      "seed_rule_id": "204",
+      "rule_ids": [
+        "204",
+        "148",
+        "143"
+      ],
+      "event_node_ids": [
+        "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "EVENT::TAI_PHAM_NGUY_HIEM",
+        "EVENT::AP_DUNG_QUAN_CHE",
+        "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+      ],
+      "event_chain": [
+        "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "TAI_PHAM_NGUY_HIEM",
+        "AP_DUNG_QUAN_CHE",
+        "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+      ],
+      "event_node_count": 4,
+      "causal_edge_count": 3,
+      "rule_count": 3,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6904454231262207,
+      "score": 1.4574302712245706,
+      "steps": [
+        {
+          "from_rule_id": "204",
+          "to_rule_id": "148",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả TAI_PHAM_NGUY_HIEM của Rule 204 trở thành điều kiện TAI_PHAM_NGUY_HIEM của Rule 148."
+        },
+        {
+          "from_rule_id": "148",
+          "to_rule_id": "143",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả AP_DUNG_QUAN_CHE của Rule 148 trở thành điều kiện AP_DUNG_QUAN_CHE của Rule 143."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "204",
+          "row_id": 203,
+          "article_id": "53",
+          "legal_subject": "người đã bị kết án",
+          "subject_norm": "NGUOI_DA_BI_KET_AN",
+          "condition": "đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+          "effect": "được xác định là tái phạm nguy hiểm",
+          "condition_norm": "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+          "effect_norm": "TAI_PHAM_NGUY_HIEM",
+          "article_title": "Tái phạm, tái phạm nguy hiểm",
+          "content": "Điều 53. Tái phạm, tái phạm nguy hiểm\n1. Tái phạm là trường hợp đã bị kết án, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý hoặc thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do vô ý.\n2. Những trường hợp sau đây được coi là tái phạm nguy hiểm:\na) Đã bị kết án về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý;\nb) Đã tái phạm, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý.\nMục 2. QUYẾT ĐỊNH HÌNH PHẠT TRONG CÁC TRƯỜNG HỢP CỤ THỂ",
+          "condition_event_id": "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+          "effect_event_id": "EVENT::TAI_PHAM_NGUY_HIEM"
+        },
+        {
+          "rule_id": "148",
+          "row_id": 147,
+          "article_id": "43",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "tái phạm nguy hiểm",
+          "effect": "bị áp dụng hình phạt quản chế",
+          "condition_norm": "TAI_PHAM_NGUY_HIEM",
+          "effect_norm": "AP_DUNG_QUAN_CHE",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::TAI_PHAM_NGUY_HIEM",
+          "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE"
+        },
+        {
+          "rule_id": "143",
+          "row_id": 142,
+          "article_id": "43",
+          "legal_subject": "người bị kết án phạt tù",
+          "subject_norm": "NGUOI_BI_KET_AN_PHAT_TU",
+          "condition": "bị áp dụng hình phạt quản chế",
+          "effect": "phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương",
+          "condition_norm": "AP_DUNG_QUAN_CHE",
+          "effect_norm": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+          "effect_event_id": "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "204",
+      "rule_ids": [
+        "204",
+        "148",
+        "149"
+      ],
+      "event_node_ids": [
+        "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "EVENT::TAI_PHAM_NGUY_HIEM",
+        "EVENT::AP_DUNG_QUAN_CHE",
+        "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+      ],
+      "event_chain": [
+        "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "TAI_PHAM_NGUY_HIEM",
+        "AP_DUNG_QUAN_CHE",
+        "THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+      ],
+      "event_node_count": 4,
+      "causal_edge_count": 3,
+      "rule_count": 3,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6904454231262207,
+      "score": 1.4574302712245706,
+      "steps": [
+        {
+          "from_rule_id": "204",
+          "to_rule_id": "148",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả TAI_PHAM_NGUY_HIEM của Rule 204 trở thành điều kiện TAI_PHAM_NGUY_HIEM của Rule 148."
+        },
+        {
+          "from_rule_id": "148",
+          "to_rule_id": "149",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả AP_DUNG_QUAN_CHE của Rule 148 trở thành điều kiện AP_DUNG_QUAN_CHE của Rule 149."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "204",
+          "row_id": 203,
+          "article_id": "53",
+          "legal_subject": "người đã bị kết án",
+          "subject_norm": "NGUOI_DA_BI_KET_AN",
+          "condition": "đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+          "effect": "được xác định là tái phạm nguy hiểm",
+          "condition_norm": "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+          "effect_norm": "TAI_PHAM_NGUY_HIEM",
+          "article_title": "Tái phạm, tái phạm nguy hiểm",
+          "content": "Điều 53. Tái phạm, tái phạm nguy hiểm\n1. Tái phạm là trường hợp đã bị kết án, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý hoặc thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do vô ý.\n2. Những trường hợp sau đây được coi là tái phạm nguy hiểm:\na) Đã bị kết án về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý;\nb) Đã tái phạm, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý.\nMục 2. QUYẾT ĐỊNH HÌNH PHẠT TRONG CÁC TRƯỜNG HỢP CỤ THỂ",
+          "condition_event_id": "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+          "effect_event_id": "EVENT::TAI_PHAM_NGUY_HIEM"
+        },
+        {
+          "rule_id": "148",
+          "row_id": 147,
+          "article_id": "43",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "tái phạm nguy hiểm",
+          "effect": "bị áp dụng hình phạt quản chế",
+          "condition_norm": "TAI_PHAM_NGUY_HIEM",
+          "effect_norm": "AP_DUNG_QUAN_CHE",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::TAI_PHAM_NGUY_HIEM",
+          "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE"
+        },
+        {
+          "rule_id": "149",
+          "row_id": 148,
+          "article_id": "43",
+          "legal_subject": "người bị quản chế",
+          "subject_norm": "NGUOI_BI_QUAN_CHE",
+          "condition": "bị áp dụng hình phạt quản chế",
+          "effect": "thời hạn quản chế từ 01 năm đến 05 năm",
+          "condition_norm": "AP_DUNG_QUAN_CHE",
+          "effect_norm": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+          "effect_event_id": "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "204",
+      "rule_ids": [
+        "204",
+        "148"
+      ],
+      "event_node_ids": [
+        "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "EVENT::TAI_PHAM_NGUY_HIEM",
+        "EVENT::AP_DUNG_QUAN_CHE"
+      ],
+      "event_chain": [
+        "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "TAI_PHAM_NGUY_HIEM",
+        "AP_DUNG_QUAN_CHE"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6904454231262207,
+      "score": 1.2004454231262207,
+      "steps": [
+        {
+          "from_rule_id": "204",
+          "to_rule_id": "148",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả TAI_PHAM_NGUY_HIEM của Rule 204 trở thành điều kiện TAI_PHAM_NGUY_HIEM của Rule 148."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "204",
+          "row_id": 203,
+          "article_id": "53",
+          "legal_subject": "người đã bị kết án",
+          "subject_norm": "NGUOI_DA_BI_KET_AN",
+          "condition": "đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+          "effect": "được xác định là tái phạm nguy hiểm",
+          "condition_norm": "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+          "effect_norm": "TAI_PHAM_NGUY_HIEM",
+          "article_title": "Tái phạm, tái phạm nguy hiểm",
+          "content": "Điều 53. Tái phạm, tái phạm nguy hiểm\n1. Tái phạm là trường hợp đã bị kết án, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý hoặc thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do vô ý.\n2. Những trường hợp sau đây được coi là tái phạm nguy hiểm:\na) Đã bị kết án về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý;\nb) Đã tái phạm, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý.\nMục 2. QUYẾT ĐỊNH HÌNH PHẠT TRONG CÁC TRƯỜNG HỢP CỤ THỂ",
+          "condition_event_id": "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+          "effect_event_id": "EVENT::TAI_PHAM_NGUY_HIEM"
+        },
+        {
+          "rule_id": "148",
+          "row_id": 147,
+          "article_id": "43",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "tái phạm nguy hiểm",
+          "effect": "bị áp dụng hình phạt quản chế",
+          "condition_norm": "TAI_PHAM_NGUY_HIEM",
+          "effect_norm": "AP_DUNG_QUAN_CHE",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::TAI_PHAM_NGUY_HIEM",
+          "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "204",
+      "rule_ids": [
+        "204",
+        "1604"
+      ],
+      "event_node_ids": [
+        "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "EVENT::TAI_PHAM_NGUY_HIEM",
+        "EVENT::PHAT_TU_2_7_NAM"
+      ],
+      "event_chain": [
+        "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+        "TAI_PHAM_NGUY_HIEM",
+        "PHAT_TU_2_7_NAM"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6904454231262207,
+      "score": 1.2004454231262207,
+      "steps": [
+        {
+          "from_rule_id": "204",
+          "to_rule_id": "1604",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả TAI_PHAM_NGUY_HIEM của Rule 204 trở thành điều kiện TAI_PHAM_NGUY_HIEM của Rule 1604."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "204",
+          "row_id": 203,
+          "article_id": "53",
+          "legal_subject": "người đã bị kết án",
+          "subject_norm": "NGUOI_DA_BI_KET_AN",
+          "condition": "đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+          "effect": "được xác định là tái phạm nguy hiểm",
+          "condition_norm": "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+          "effect_norm": "TAI_PHAM_NGUY_HIEM",
+          "article_title": "Tái phạm, tái phạm nguy hiểm",
+          "content": "Điều 53. Tái phạm, tái phạm nguy hiểm\n1. Tái phạm là trường hợp đã bị kết án, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý hoặc thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do vô ý.\n2. Những trường hợp sau đây được coi là tái phạm nguy hiểm:\na) Đã bị kết án về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý;\nb) Đã tái phạm, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý.\nMục 2. QUYẾT ĐỊNH HÌNH PHẠT TRONG CÁC TRƯỜNG HỢP CỤ THỂ",
+          "condition_event_id": "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+          "effect_event_id": "EVENT::TAI_PHAM_NGUY_HIEM"
+        },
+        {
+          "rule_id": "1604",
+          "row_id": 1603,
+          "article_id": "388",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "tái phạm nguy hiểm",
+          "effect": "bị phạt tù từ 02 năm đến 07 năm",
+          "condition_norm": "TAI_PHAM_NGUY_HIEM",
+          "effect_norm": "PHAT_TU_2_7_NAM",
+          "article_title": "Tội vi phạm quy định về giam giữ",
+          "content": "Điều 388. Tội vi phạm quy định về giam giữ\n1.[389] Người nào thực hiện một trong các hành vi sau đây vi phạm quy định của pháp luật về giam giữ, đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm, thì bị phạt tù từ 06 tháng đến 03 năm:\na) Gây rối hoặc chống lại mệnh lệnh của người có thẩm quyền trong quản lý giam giữ;\nb) Không có trách nhiệm mà đưa vào, tàng trữ, sử dụng thiết bị thông tin liên lạc cá nhân hoặc phương tiện ghi âm, ghi hình trong cơ sở giam giữ.\n2. Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 02 năm đến 07 năm:\na) Có tổ chức;\nb) Lợi dụng chức vụ, quyền hạn;\nc) Dùng thủ đoạn tinh vi, xảo quyệt;\nd) Tái phạm nguy hiểm.\n3. Người phạm tội còn có thể bị cấm cư trú từ 01 năm đến 03 năm, cấm đảm nhiệm chức vụ từ 01 năm đến 03 năm.",
+          "condition_event_id": "EVENT::TAI_PHAM_NGUY_HIEM",
+          "effect_event_id": "EVENT::PHAT_TU_2_7_NAM"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "rule_id": "204",
+      "row_id": 203,
+      "article_id": "53",
+      "legal_subject": "người đã bị kết án",
+      "subject_norm": "NGUOI_DA_BI_KET_AN",
+      "condition": "đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "effect": "được xác định là tái phạm nguy hiểm",
+      "condition_norm": "TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+      "effect_norm": "TAI_PHAM_NGUY_HIEM",
+      "article_title": "Tái phạm, tái phạm nguy hiểm",
+      "content": "Điều 53. Tái phạm, tái phạm nguy hiểm\n1. Tái phạm là trường hợp đã bị kết án, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý hoặc thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do vô ý.\n2. Những trường hợp sau đây được coi là tái phạm nguy hiểm:\na) Đã bị kết án về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý, chưa được xóa án tích mà lại thực hiện hành vi phạm tội về tội phạm rất nghiêm trọng, tội phạm đặc biệt nghiêm trọng do cố ý;\nb) Đã tái phạm, chưa được xóa án tích mà lại thực hiện hành vi phạm tội do cố ý.\nMục 2. QUYẾT ĐỊNH HÌNH PHẠT TRONG CÁC TRƯỜNG HỢP CỤ THỂ",
+      "condition_event_id": "EVENT::TAI_PHAM_TOI_RAT_NGHIEM_TRONG_HOAC_DAC_BIET_NGHIEM_TRONG_DO_CO_Y",
+      "effect_event_id": "EVENT::TAI_PHAM_NGUY_HIEM",
+      "semantic_score": 0.6904454231262207,
+      "evidence_score": 0.6002227115631104,
+      "path_count": 4
+    },
+    {
+      "rule_id": "148",
+      "row_id": 147,
+      "article_id": "43",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "tái phạm nguy hiểm",
+      "effect": "bị áp dụng hình phạt quản chế",
+      "condition_norm": "TAI_PHAM_NGUY_HIEM",
+      "effect_norm": "AP_DUNG_QUAN_CHE",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::TAI_PHAM_NGUY_HIEM",
+      "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "evidence_score": 0.6002227115631104,
+      "path_count": 3
+    },
+    {
+      "rule_id": "1604",
+      "row_id": 1603,
+      "article_id": "388",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 02 năm đến 07 năm",
+      "condition_norm": "TAI_PHAM_NGUY_HIEM",
+      "effect_norm": "PHAT_TU_2_7_NAM",
+      "article_title": "Tội vi phạm quy định về giam giữ",
+      "content": "Điều 388. Tội vi phạm quy định về giam giữ\n1.[389] Người nào thực hiện một trong các hành vi sau đây vi phạm quy định của pháp luật về giam giữ, đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm, thì bị phạt tù từ 06 tháng đến 03 năm:\na) Gây rối hoặc chống lại mệnh lệnh của người có thẩm quyền trong quản lý giam giữ;\nb) Không có trách nhiệm mà đưa vào, tàng trữ, sử dụng thiết bị thông tin liên lạc cá nhân hoặc phương tiện ghi âm, ghi hình trong cơ sở giam giữ.\n2. Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 02 năm đến 07 năm:\na) Có tổ chức;\nb) Lợi dụng chức vụ, quyền hạn;\nc) Dùng thủ đoạn tinh vi, xảo quyệt;\nd) Tái phạm nguy hiểm.\n3. Người phạm tội còn có thể bị cấm cư trú từ 01 năm đến 03 năm, cấm đảm nhiệm chức vụ từ 01 năm đến 03 năm.",
+      "condition_event_id": "EVENT::TAI_PHAM_NGUY_HIEM",
+      "effect_event_id": "EVENT::PHAT_TU_2_7_NAM",
+      "evidence_score": 0.6002227115631104,
+      "path_count": 1
+    },
+    {
+      "rule_id": "149",
+      "row_id": 148,
+      "article_id": "43",
+      "legal_subject": "người bị quản chế",
+      "subject_norm": "NGUOI_BI_QUAN_CHE",
+      "condition": "bị áp dụng hình phạt quản chế",
+      "effect": "thời hạn quản chế từ 01 năm đến 05 năm",
+      "condition_norm": "AP_DUNG_QUAN_CHE",
+      "effect_norm": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "effect_event_id": "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+      "semantic_score": 0.6961520910263062,
+      "evidence_score": 0.4858100904081902,
+      "path_count": 1
+    },
+    {
+      "rule_id": "143",
+      "row_id": 142,
+      "article_id": "43",
+      "legal_subject": "người bị kết án phạt tù",
+      "subject_norm": "NGUOI_BI_KET_AN_PHAT_TU",
+      "condition": "bị áp dụng hình phạt quản chế",
+      "effect": "phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương",
+      "condition_norm": "AP_DUNG_QUAN_CHE",
+      "effect_norm": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "effect_event_id": "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+      "evidence_score": 0.4858100904081902,
+      "path_count": 1
+    }
+  ]
+}

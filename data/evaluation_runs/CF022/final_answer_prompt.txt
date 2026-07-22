@@ -1,0 +1,96 @@
+Bạn là hệ thống hỏi đáp pháp luật hình sự Việt Nam.
+Hãy viết lại câu trả lời cuối cùng bằng tiếng Việt rõ ràng, thận trọng và có căn cứ.
+
+QUY TẮC BẮT BUỘC:
+1. Chỉ coi rule có trạng thái PRESERVED hoặc ACTIVATED là bằng chứng hợp lệ.
+2. Không sử dụng rule INVALIDATED, BLOCKED_BY_UPSTREAM, OUTPUT_INTERVENED hoặc OUTPUT_REPLACED để khẳng định kết luận.
+3. Alternative candidate chỉ là ứng viên; không coi là đúng nếu condition của nó chưa được xác nhận.
+4. Không suy luận NOT condition đồng nghĩa với NOT effect.
+5. Không thêm điều luật, sự kiện hoặc kết luận không có trong context.
+6. Khi không còn bằng chứng hợp lệ, phải nói 'chưa đủ căn cứ' thay vì khẳng định chắc chắn không có hệ quả.
+7. Trả lời trong 2-5 đoạn, không dùng markdown table.
+
+CÂU HỎI GỐC:
+Giả sử điều kiện hoặc sự kiện “tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “bị cấm hình thành quỹ tín thác bất động sản” hay không?
+
+CAN THIỆP PHẢN THỰC:
+do(NOT DU_DIEU_KIEN_CAM_HUY_DONG_VON)
+
+KẾT QUẢ TỔNG THỂ:
+FACTUAL_PATHS_BROKEN_BUT_ALTERNATIVE_SUPPORT_EXISTS
+Tất cả causal path factual bị phá vỡ, nhưng có rule thay thế cùng hỗ trợ ít nhất một hệ quả cuối.
+
+BẰNG CHỨNG HỢP LỆ:
+Không có rule PRESERVED hoặc ACTIVATED.
+
+BẰNG CHỨNG BỊ LOẠI:
+- Rule 348 - Điều 81
+  Điều kiện: tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội
+  Hệ quả: bị cấm huy động vốn
+  Trạng thái: INVALIDATED
+  Lý do: Input event DU_DIEU_KIEN_CAM_HUY_DONG_VON của Rule 348 đã bị phủ định trực tiếp.
+- Rule 350 - Điều 81
+  Điều kiện: bị cấm huy động vốn
+  Hệ quả: bị cấm phát hành hoặc chào bán chứng khoán
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 350 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.
+- Rule 353 - Điều 81
+  Điều kiện: bị cấm huy động vốn
+  Hệ quả: bị cấm hình thành quỹ tín thác bất động sản
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 353 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.
+- Rule 349 - Điều 81
+  Điều kiện: bị cấm huy động vốn
+  Hệ quả: bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 349 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.
+- Rule 351 - Điều 81
+  Điều kiện: bị cấm huy động vốn
+  Hệ quả: bị cấm huy động vốn của khách hàng
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 351 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.
+- Rule 352 - Điều 81
+  Điều kiện: bị cấm huy động vốn
+  Hệ quả: bị cấm liên doanh hoặc liên kết trong và ngoài nước
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 352 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.
+- Rule 355 - Điều 81
+  Điều kiện: bị cấm huy động vốn
+  Hệ quả: thời hạn cấm từ 01 năm đến 03 năm
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 355 bị chặn vì event đầu vào CAM_HUY_DONG_VON không còn reachable sau can thiệp ở bước trước.
+
+ALTERNATIVE CANDIDATES CHƯA XÁC NHẬN:
+- Rule 354 - Điều 81
+  Điều kiện cần kiểm tra: áp dụng hình phạt cấm huy động vốn
+  Hệ quả: quyết định áp dụng một hoặc nhiều hình thức cấm huy động vốn
+  Trạng thái: CONDITION_NOT_VERIFIED
+- Rule 347 - Điều 80
+  Điều kiện cần kiểm tra: bị cấm kinh doanh hoặc cấm hoạt động
+  Hệ quả: thời hạn cấm từ 01 năm đến 03 năm
+  Trạng thái: CONDITION_NOT_VERIFIED
+
+BẢN NHÁP DETERMINISTIC:
+Trong giả định phản thực rằng “tiếp tục huy động vốn có nguy cơ tiếp tục phạm tội” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.
+
+Có 6 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.
+
+Không còn rule nào trong các factual path được xác nhận là PRESERVED hoặc ACTIVATED. Vì vậy, chưa đủ căn cứ từ các bằng chứng đã truy hồi để giữ nguyên kết luận ban đầu.
+
+Cụ thể, hệ thống không còn suy ra được qua các path factual: cam phat hanh chung khoan; cam thanh lap quy tin thac bds; cam vay von; cam huy dong von khach hang; cam lien doanh lien ket; thoi han cam 1 den 3 nam.
+
+Chuỗi bị loại trước đây dựa trên Điều 81 (Cấm huy động vốn).
+
+Các kết luận không còn được hỗ trợ bởi chuỗi factual gồm: bị cấm huy động vốn; bị cấm phát hành hoặc chào bán chứng khoán; bị cấm hình thành quỹ tín thác bất động sản; bị cấm vay vốn của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài hoặc quỹ đầu tư; bị cấm huy động vốn của khách hàng; bị cấm liên doanh hoặc liên kết trong và ngoài nước; thời hạn cấm từ 01 năm đến 03 năm.
+
+Hệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:
+
+- Điều 81: nếu áp dụng hình phạt cấm huy động vốn thì quyết định áp dụng một hoặc nhiều hình thức cấm huy động vốn.
+
+- Điều 80: nếu bị cấm kinh doanh hoặc cấm hoạt động thì thời hạn cấm từ 01 năm đến 03 năm.
+
+Do đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.
+
+Kết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ định điều kiện ban đầu cũng không tự động chứng minh rằng mọi hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác.
+
+Hãy trả về duy nhất câu trả lời hoàn chỉnh, không thêm tiêu đề như 'Câu trả lời'.

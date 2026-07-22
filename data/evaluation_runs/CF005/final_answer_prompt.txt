@@ -1,0 +1,82 @@
+Bạn là hệ thống hỏi đáp pháp luật hình sự Việt Nam.
+Hãy viết lại câu trả lời cuối cùng bằng tiếng Việt rõ ràng, thận trọng và có căn cứ.
+
+QUY TẮC BẮT BUỘC:
+1. Chỉ coi rule có trạng thái PRESERVED hoặc ACTIVATED là bằng chứng hợp lệ.
+2. Không sử dụng rule INVALIDATED, BLOCKED_BY_UPSTREAM, OUTPUT_INTERVENED hoặc OUTPUT_REPLACED để khẳng định kết luận.
+3. Alternative candidate chỉ là ứng viên; không coi là đúng nếu condition của nó chưa được xác nhận.
+4. Không suy luận NOT condition đồng nghĩa với NOT effect.
+5. Không thêm điều luật, sự kiện hoặc kết luận không có trong context.
+6. Khi không còn bằng chứng hợp lệ, phải nói 'chưa đủ căn cứ' thay vì khẳng định chắc chắn không có hệ quả.
+7. Trả lời trong 2-5 đoạn, không dùng markdown table.
+
+CÂU HỎI GỐC:
+Giả sử điều kiện hoặc sự kiện “bị áp dụng hình phạt chính” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam” hay không?
+
+CAN THIỆP PHẢN THỰC:
+do(NOT AP_DUNG_HINH_PHAT_CHINH)
+
+KẾT QUẢ TỔNG THỂ:
+PARTIAL_PATH_EFFECT
+Can thiệp phá vỡ một số path nhưng vẫn còn path factual khác được bảo toàn.
+
+BẰNG CHỨNG HỢP LỆ:
+- Rule 123 - Điều 37
+  Điều kiện: Tòa án xét thấy cần thiết trong từng trường hợp cụ thể
+  Hệ quả: bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung
+  Trạng thái: PRESERVED
+- Rule 122 - Điều 37
+  Điều kiện: bị áp dụng hình phạt trục xuất
+  Hệ quả: phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam
+  Trạng thái: PRESERVED
+
+BẰNG CHỨNG BỊ LOẠI:
+- Rule 98 - Điều 32
+  Điều kiện: bị áp dụng hình phạt chính
+  Hệ quả: trục xuất
+  Trạng thái: INVALIDATED
+  Lý do: Input event AP_DUNG_HINH_PHAT_CHINH của Rule 98 đã bị phủ định trực tiếp.
+- Rule 122 - Điều 37
+  Điều kiện: bị áp dụng hình phạt trục xuất
+  Hệ quả: phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam
+  Trạng thái: BLOCKED_BY_UPSTREAM
+  Lý do: Rule 122 bị chặn vì event đầu vào AP_DUNG_TRUC_XUAT không còn reachable sau can thiệp ở bước trước.
+
+ALTERNATIVE CANDIDATES CHƯA XÁC NHẬN:
+- Rule 93 - Điều 32
+  Điều kiện cần kiểm tra: thực hiện một tội phạm
+  Hệ quả: chỉ bị áp dụng một hình phạt chính
+  Trạng thái: CONDITION_NOT_VERIFIED
+- Rule 94 - Điều 32
+  Điều kiện cần kiểm tra: thực hiện một tội phạm
+  Hệ quả: có thể bị áp dụng một hoặc nhiều hình phạt bổ sung
+  Trạng thái: CONDITION_NOT_VERIFIED
+
+BẢN NHÁP DETERMINISTIC:
+Trong giả định phản thực rằng “bị áp dụng hình phạt chính” không xảy ra, cần đánh giá lại chuỗi suy luận pháp lý ban đầu.
+
+Có 1 causal path factual bị phá vỡ. Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía trước không còn được sử dụng để duy trì kết luận ban đầu.
+
+Những bằng chứng vẫn còn hợp lệ sau can thiệp gồm:
+
+- Điều 37: nếu Tòa án xét thấy cần thiết trong từng trường hợp cụ thể thì bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung (PRESERVED).
+
+- Điều 37: nếu bị áp dụng hình phạt trục xuất thì phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam (PRESERVED).
+
+Vì vậy, các hệ quả cuối vẫn còn reachable gồm: roi khoi lanh tho viet nam.
+
+Chuỗi bị loại trước đây dựa trên Điều 32 (Các hình phạt đối với người phạm tội), Điều 37 (Trục xuất).
+
+Các kết luận không còn được hỗ trợ bởi chuỗi factual gồm: trục xuất; phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.
+
+Hệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng điều kiện của chúng chưa được xác nhận trong tình huống phản thực:
+
+- Điều 32: nếu thực hiện một tội phạm thì chỉ bị áp dụng một hình phạt chính.
+
+- Điều 32: nếu thực hiện một tội phạm thì có thể bị áp dụng một hoặc nhiều hình phạt bổ sung.
+
+Do đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng.
+
+Kết luận trên chỉ dựa vào những causal path còn hợp lệ sau can thiệp.
+
+Hãy trả về duy nhất câu trả lời hoàn chỉnh, không thêm tiêu đề như 'Câu trả lời'.

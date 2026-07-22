@@ -1,0 +1,410 @@
+{
+  "query": "Giả sử điều kiện hoặc sự kiện “đã chấp hành được một phần ba thời hạn hình phạt” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “được giảm xuống 30 năm tù” hay không?",
+  "config": {
+    "seed_top_k": 8,
+    "semantic_pool_size": 50,
+    "max_depth": 4,
+    "max_expansions_per_rule": 15,
+    "final_top_k": 12,
+    "causal_only": true,
+    "min_event_nodes": 3
+  },
+  "seed_rules": [
+    {
+      "rule_id": "266",
+      "row_id": 265,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tử hình được ân giảm hoặc thuộc khoản 3 Điều 40",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_HINH_DUOC_AN_GIAM_HOAC_THUOC_KHOAN_3_DIEU_40",
+      "condition": "được giảm án nhiều lần",
+      "effect": "phải chấp hành thực tế ít nhất 30 năm tù",
+      "condition_norm": "DUOC_GIAM_AN_NHIEU_LAN",
+      "effect_norm": "PHAI_CHAP_HANH_THUC_TE_30_NAM_TU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DUOC_GIAM_AN_NHIEU_LAN",
+      "effect_event_id": "EVENT::PHAI_CHAP_HANH_THUC_TE_30_NAM_TU",
+      "semantic_score": 0.7199219465255737
+    },
+    {
+      "rule_id": "260",
+      "row_id": 259,
+      "article_id": "63",
+      "legal_subject": "người bị kết án nhiều tội có một tội bị phạt tù chung thân",
+      "subject_norm": "NGUOI_BI_KET_AN_NHIEU_TOI_CO_MOT_TOI_BI_PHAT_TU_CHUNG_THAN",
+      "condition": "đã chấp hành được 15 năm tù",
+      "effect": "được xét giảm án lần đầu xuống 30 năm tù",
+      "condition_norm": "DA_CHAP_HANH_15_NAM_TU",
+      "effect_norm": "DUOC_GIAM_XUONG_30_NAM_TU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DA_CHAP_HANH_15_NAM_TU",
+      "effect_event_id": "EVENT::DUOC_GIAM_XUONG_30_NAM_TU",
+      "semantic_score": 0.7190381288528442
+    },
+    {
+      "rule_id": "255",
+      "row_id": 254,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tù có thời hạn",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_CO_THOI_HAN",
+      "condition": "đã chấp hành được một phần ba thời hạn hình phạt",
+      "effect": "được xét giảm án lần đầu",
+      "condition_norm": "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+      "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+      "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+      "semantic_score": 0.7180804014205933
+    },
+    {
+      "rule_id": "265",
+      "row_id": 264,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tử hình thuộc trường hợp khoản 3 Điều 40",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_HINH_THUOC_TRUONG_HOP_KHOAN_3_DIEU_40",
+      "condition": "đã chấp hành được 25 năm tù",
+      "effect": "được xét giảm án lần đầu",
+      "condition_norm": "DA_CHAP_HANH_25_NAM_TU",
+      "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DA_CHAP_HANH_25_NAM_TU",
+      "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+      "semantic_score": 0.7049477100372314
+    },
+    {
+      "rule_id": "252",
+      "row_id": 251,
+      "article_id": "63",
+      "legal_subject": "người bị kết án cải tạo không giam giữ, tù có thời hạn hoặc tù chung thân",
+      "subject_norm": "NGUOI_BI_KET_AN_CAI_TAO_KHONG_GIAM_GIU_TU_CO_THOI_HAN_HOAC_TU_CHUNG_THAN",
+      "condition": "đã chấp hành hình phạt một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự",
+      "effect": "có thể được giảm thời hạn chấp hành hình phạt",
+      "condition_norm": "CHAP_HANH_AN_TIEN_BO_VA_BOI_THUONG_MOT_PHAN_NGHIA_VU",
+      "effect_norm": "CO_THE_GIAM_THOI_HAN_CHAP_HANH_HINH_PHAT",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::CHAP_HANH_AN_TIEN_BO_VA_BOI_THUONG_MOT_PHAN_NGHIA_VU",
+      "effect_event_id": "EVENT::CO_THE_GIAM_THOI_HAN_CHAP_HANH_HINH_PHAT",
+      "semantic_score": 0.7027873992919922
+    },
+    {
+      "rule_id": "258",
+      "row_id": 257,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tù chung thân",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_CHUNG_THAN",
+      "condition": "được xét giảm án lần đầu",
+      "effect": "được giảm xuống 30 năm tù",
+      "condition_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+      "effect_norm": "GIAM_XUONG_30_NAM_TU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+      "effect_event_id": "EVENT::GIAM_XUONG_30_NAM_TU",
+      "semantic_score": 0.6985815763473511
+    },
+    {
+      "rule_id": "263",
+      "row_id": 262,
+      "article_id": "63",
+      "legal_subject": "người đã được giảm một phần hình phạt",
+      "subject_norm": "NGUOI_DA_DUOC_GIAM_MOT_PHAN_HINH_PHAT",
+      "condition": "thực hiện tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+      "effect": "chỉ được xét giảm án lần đầu sau khi đã chấp hành hai phần ba mức hình phạt chung",
+      "condition_norm": "PHAM_TOI_MOI_NGHIEM_TRONG_HOAC_HON",
+      "effect_norm": "XET_GIAM_AN_SAU_KHI_CHAP_HANH_2_3_HINH_PHAT_CHUNG",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::PHAM_TOI_MOI_NGHIEM_TRONG_HOAC_HON",
+      "effect_event_id": "EVENT::XET_GIAM_AN_SAU_KHI_CHAP_HANH_2_3_HINH_PHAT_CHUNG",
+      "semantic_score": 0.6976299285888672
+    },
+    {
+      "rule_id": "264",
+      "row_id": 263,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tử hình được ân giảm",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_HINH_DUOC_AN_GIAM",
+      "condition": "đã chấp hành được 25 năm tù",
+      "effect": "được xét giảm án lần đầu",
+      "condition_norm": "DA_CHAP_HANH_25_NAM_TU",
+      "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DA_CHAP_HANH_25_NAM_TU",
+      "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+      "semantic_score": 0.6944459676742554
+    }
+  ],
+  "paths": [
+    {
+      "seed_rule_id": "255",
+      "rule_ids": [
+        "255",
+        "258"
+      ],
+      "event_node_ids": [
+        "EVENT::DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+        "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+        "EVENT::GIAM_XUONG_30_NAM_TU"
+      ],
+      "event_chain": [
+        "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+        "DUOC_XET_GIAM_AN_LAN_DAU",
+        "GIAM_XUONG_30_NAM_TU"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.7180804014205933,
+      "score": 1.1780804014205932,
+      "steps": [
+        {
+          "from_rule_id": "255",
+          "to_rule_id": "258",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DUOC_XET_GIAM_AN_LAN_DAU của Rule 255 trở thành điều kiện DUOC_XET_GIAM_AN_LAN_DAU của Rule 258."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "255",
+          "row_id": 254,
+          "article_id": "63",
+          "legal_subject": "người bị kết án tù có thời hạn",
+          "subject_norm": "NGUOI_BI_KET_AN_TU_CO_THOI_HAN",
+          "condition": "đã chấp hành được một phần ba thời hạn hình phạt",
+          "effect": "được xét giảm án lần đầu",
+          "condition_norm": "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+          "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+          "article_title": "Giảm mức hình phạt đã tuyên",
+          "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+          "condition_event_id": "EVENT::DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+          "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU"
+        },
+        {
+          "rule_id": "258",
+          "row_id": 257,
+          "article_id": "63",
+          "legal_subject": "người bị kết án tù chung thân",
+          "subject_norm": "NGUOI_BI_KET_AN_TU_CHUNG_THAN",
+          "condition": "được xét giảm án lần đầu",
+          "effect": "được giảm xuống 30 năm tù",
+          "condition_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+          "effect_norm": "GIAM_XUONG_30_NAM_TU",
+          "article_title": "Giảm mức hình phạt đã tuyên",
+          "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+          "condition_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+          "effect_event_id": "EVENT::GIAM_XUONG_30_NAM_TU"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "265",
+      "rule_ids": [
+        "265",
+        "258"
+      ],
+      "event_node_ids": [
+        "EVENT::DA_CHAP_HANH_25_NAM_TU",
+        "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+        "EVENT::GIAM_XUONG_30_NAM_TU"
+      ],
+      "event_chain": [
+        "DA_CHAP_HANH_25_NAM_TU",
+        "DUOC_XET_GIAM_AN_LAN_DAU",
+        "GIAM_XUONG_30_NAM_TU"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.7049477100372314,
+      "score": 1.1649477100372314,
+      "steps": [
+        {
+          "from_rule_id": "265",
+          "to_rule_id": "258",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DUOC_XET_GIAM_AN_LAN_DAU của Rule 265 trở thành điều kiện DUOC_XET_GIAM_AN_LAN_DAU của Rule 258."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "265",
+          "row_id": 264,
+          "article_id": "63",
+          "legal_subject": "người bị kết án tử hình thuộc trường hợp khoản 3 Điều 40",
+          "subject_norm": "NGUOI_BI_KET_AN_TU_HINH_THUOC_TRUONG_HOP_KHOAN_3_DIEU_40",
+          "condition": "đã chấp hành được 25 năm tù",
+          "effect": "được xét giảm án lần đầu",
+          "condition_norm": "DA_CHAP_HANH_25_NAM_TU",
+          "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+          "article_title": "Giảm mức hình phạt đã tuyên",
+          "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+          "condition_event_id": "EVENT::DA_CHAP_HANH_25_NAM_TU",
+          "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU"
+        },
+        {
+          "rule_id": "258",
+          "row_id": 257,
+          "article_id": "63",
+          "legal_subject": "người bị kết án tù chung thân",
+          "subject_norm": "NGUOI_BI_KET_AN_TU_CHUNG_THAN",
+          "condition": "được xét giảm án lần đầu",
+          "effect": "được giảm xuống 30 năm tù",
+          "condition_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+          "effect_norm": "GIAM_XUONG_30_NAM_TU",
+          "article_title": "Giảm mức hình phạt đã tuyên",
+          "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+          "condition_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+          "effect_event_id": "EVENT::GIAM_XUONG_30_NAM_TU"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "264",
+      "rule_ids": [
+        "264",
+        "258"
+      ],
+      "event_node_ids": [
+        "EVENT::DA_CHAP_HANH_25_NAM_TU",
+        "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+        "EVENT::GIAM_XUONG_30_NAM_TU"
+      ],
+      "event_chain": [
+        "DA_CHAP_HANH_25_NAM_TU",
+        "DUOC_XET_GIAM_AN_LAN_DAU",
+        "GIAM_XUONG_30_NAM_TU"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6944459676742554,
+      "score": 1.1544459676742553,
+      "steps": [
+        {
+          "from_rule_id": "264",
+          "to_rule_id": "258",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DUOC_XET_GIAM_AN_LAN_DAU của Rule 264 trở thành điều kiện DUOC_XET_GIAM_AN_LAN_DAU của Rule 258."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "264",
+          "row_id": 263,
+          "article_id": "63",
+          "legal_subject": "người bị kết án tử hình được ân giảm",
+          "subject_norm": "NGUOI_BI_KET_AN_TU_HINH_DUOC_AN_GIAM",
+          "condition": "đã chấp hành được 25 năm tù",
+          "effect": "được xét giảm án lần đầu",
+          "condition_norm": "DA_CHAP_HANH_25_NAM_TU",
+          "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+          "article_title": "Giảm mức hình phạt đã tuyên",
+          "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+          "condition_event_id": "EVENT::DA_CHAP_HANH_25_NAM_TU",
+          "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU"
+        },
+        {
+          "rule_id": "258",
+          "row_id": 257,
+          "article_id": "63",
+          "legal_subject": "người bị kết án tù chung thân",
+          "subject_norm": "NGUOI_BI_KET_AN_TU_CHUNG_THAN",
+          "condition": "được xét giảm án lần đầu",
+          "effect": "được giảm xuống 30 năm tù",
+          "condition_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+          "effect_norm": "GIAM_XUONG_30_NAM_TU",
+          "article_title": "Giảm mức hình phạt đã tuyên",
+          "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+          "condition_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+          "effect_event_id": "EVENT::GIAM_XUONG_30_NAM_TU"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "rule_id": "258",
+      "row_id": 257,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tù chung thân",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_CHUNG_THAN",
+      "condition": "được xét giảm án lần đầu",
+      "effect": "được giảm xuống 30 năm tù",
+      "condition_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+      "effect_norm": "GIAM_XUONG_30_NAM_TU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+      "effect_event_id": "EVENT::GIAM_XUONG_30_NAM_TU",
+      "semantic_score": 0.6985815763473511,
+      "evidence_score": 0.5890402007102966,
+      "path_count": 3
+    },
+    {
+      "rule_id": "255",
+      "row_id": 254,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tù có thời hạn",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_CO_THOI_HAN",
+      "condition": "đã chấp hành được một phần ba thời hạn hình phạt",
+      "effect": "được xét giảm án lần đầu",
+      "condition_norm": "DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+      "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DA_CHAP_HANH_1_3_THOI_HAN_HINH_PHAT",
+      "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+      "semantic_score": 0.7180804014205933,
+      "evidence_score": 0.5890402007102966,
+      "path_count": 1
+    },
+    {
+      "rule_id": "265",
+      "row_id": 264,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tử hình thuộc trường hợp khoản 3 Điều 40",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_HINH_THUOC_TRUONG_HOP_KHOAN_3_DIEU_40",
+      "condition": "đã chấp hành được 25 năm tù",
+      "effect": "được xét giảm án lần đầu",
+      "condition_norm": "DA_CHAP_HANH_25_NAM_TU",
+      "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DA_CHAP_HANH_25_NAM_TU",
+      "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+      "semantic_score": 0.7049477100372314,
+      "evidence_score": 0.5824738550186157,
+      "path_count": 1
+    },
+    {
+      "rule_id": "264",
+      "row_id": 263,
+      "article_id": "63",
+      "legal_subject": "người bị kết án tử hình được ân giảm",
+      "subject_norm": "NGUOI_BI_KET_AN_TU_HINH_DUOC_AN_GIAM",
+      "condition": "đã chấp hành được 25 năm tù",
+      "effect": "được xét giảm án lần đầu",
+      "condition_norm": "DA_CHAP_HANH_25_NAM_TU",
+      "effect_norm": "DUOC_XET_GIAM_AN_LAN_DAU",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "content": "Điều 63. Giảm mức hình phạt đã tuyên\n1.[25] Người bị kết án cải tạo không giam giữ, phạt tù có thời hạn hoặc phạt tù chung thân, nếu đã chấp hành hình phạt được một thời gian nhất định, có nhiều tiến bộ và đã bồi thường được một phần nghĩa vụ dân sự, thì theo đề nghị của cơ quan thi hành án hình sự có thẩm quyền, Tòa án có thể quyết định giảm thời hạn chấp hành hình phạt.\nNgười bị kết án tù chung thân về tội tham ô tài sản, tội nhận hối lộ chỉ có thể được xét giảm thời hạn chấp hành hình phạt khi đã chủ động nộp lại ít nhất ba phần tư tài sản tham ô, nhận hối lộ và đã hợp tác tích cực với cơ quan chức năng trong việc phát hiện, điều tra, xử lý tội phạm hoặc lập công lớn.\nThời gian đã chấp hành hình phạt để được xét giảm lần đầu là một phần ba thời hạn đối với hình phạt cải tạo không giam giữ, hình phạt tù có thời hạn, 12 năm đối với tù chung thân.\n2. Một người có thể được giảm nhiều lần, nhưng phải bảo đảm chấp hành được một phần hai mức hình phạt đã tuyên.\nNgười bị kết án tù chung thân, lần đầu được giảm xuống 30 năm tù và dù được giảm nhiều lần cũng phải bảo đảm thời hạn thực tế chấp hành hình phạt là 20 năm.\n3. Trường hợp người bị kết án về nhiều tội trong đó có tội bị kết án phạt tù chung thân thì Tòa án chỉ xét giảm lần đầu xuống 30 năm tù sau khi đã chấp hành được 15 năm tù và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời gian thực tế chấp hành là 25 năm.\n4. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới ít nghiêm trọng do cố ý, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được một phần hai mức hình phạt chung.\n5. Đối với người đã được giảm một phần hình phạt mà lại thực hiện hành vi phạm tội mới nghiêm trọng, rất nghiêm trọng hoặc đặc biệt nghiêm trọng, thì Tòa án chỉ xét giảm lần đầu sau khi người đó đã chấp hành được hai phần ba mức hình phạt chung hoặc trường hợp hình phạt chung là tù chung thân thì việc xét giảm án thực hiện theo quy định tại khoản 3 Điều này.\n6.[26] Đối với người bị kết án tử hình được ân giảm hoặc người bị kết án tử hình thuộc trường hợp quy định tại khoản 3 Điều 40 của Bộ luật này thì thời gian đã chấp hành hình phạt để được xét giảm lần đầu là 25 năm và dù được giảm nhiều lần nhưng vẫn phải bảo đảm thời hạn thực tế chấp hành hình phạt là 30 năm.",
+      "condition_event_id": "EVENT::DA_CHAP_HANH_25_NAM_TU",
+      "effect_event_id": "EVENT::DUOC_XET_GIAM_AN_LAN_DAU",
+      "semantic_score": 0.6944459676742554,
+      "evidence_score": 0.5772229838371277,
+      "path_count": 1
+    }
+  ]
+}

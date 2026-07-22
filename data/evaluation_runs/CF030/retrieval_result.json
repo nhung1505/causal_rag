@@ -1,0 +1,327 @@
+{
+  "query": "Giả sử điều kiện hoặc sự kiện “phạm tội xâm phạm an ninh quốc gia” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương” hay không?",
+  "config": {
+    "seed_top_k": 8,
+    "semantic_pool_size": 50,
+    "max_depth": 4,
+    "max_expansions_per_rule": 15,
+    "final_top_k": 12,
+    "causal_only": true,
+    "min_event_nodes": 3
+  },
+  "seed_rules": [
+    {
+      "rule_id": "143",
+      "row_id": 142,
+      "article_id": "43",
+      "legal_subject": "người bị kết án phạt tù",
+      "subject_norm": "NGUOI_BI_KET_AN_PHAT_TU",
+      "condition": "bị áp dụng hình phạt quản chế",
+      "effect": "phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương",
+      "condition_norm": "AP_DUNG_QUAN_CHE",
+      "effect_norm": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "effect_event_id": "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+      "semantic_score": 0.6475672721862793
+    },
+    {
+      "rule_id": "152",
+      "row_id": 151,
+      "article_id": "44",
+      "legal_subject": "công dân Việt Nam",
+      "subject_norm": "CONG_DAN_VIET_NAM",
+      "condition": "bị kết án phạt tù về tội xâm phạm an ninh quốc gia hoặc tội phạm khác do Bộ luật Hình sự quy định",
+      "effect": "bị tước quyền phục vụ trong lực lượng vũ trang nhân dân",
+      "condition_norm": "BI_KET_AN_PHAT_TU_THUOC_TRUONG_HOP_QUY_DINH",
+      "effect_norm": "TUOC_QUYEN_PHUC_VU_TRONG_LUC_LUONG_VU_TRANG",
+      "article_title": "Tước một số quyền công dân",
+      "content": "Điều 44. Tước một số quyền công dân\n1. Công dân Việt Nam bị kết án phạt tù về tội xâm phạm an ninh quốc gia hoặc tội phạm khác trong những trường hợp do Bộ luật này quy định, thì bị tước một hoặc một số quyền công dân sau đây:\na) Quyền ứng cử đại biểu cơ quan quyền lực Nhà nước;\nb) Quyền làm việc trong các cơ quan nhà nước và quyền phục vụ trong lực lượng vũ trang nhân dân.\n2. Thời hạn tước một số quyền công dân là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù hoặc kể từ ngày bản án có hiệu lực pháp luật trong trường hợp người bị kết án được hưởng án treo.",
+      "condition_event_id": "EVENT::BI_KET_AN_PHAT_TU_THUOC_TRUONG_HOP_QUY_DINH",
+      "effect_event_id": "EVENT::TUOC_QUYEN_PHUC_VU_TRONG_LUC_LUONG_VU_TRANG",
+      "semantic_score": 0.6203508377075195
+    },
+    {
+      "rule_id": "147",
+      "row_id": 146,
+      "article_id": "43",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "phạm tội xâm phạm an ninh quốc gia",
+      "effect": "bị áp dụng hình phạt quản chế",
+      "condition_norm": "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+      "effect_norm": "AP_DUNG_QUAN_CHE",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+      "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "semantic_score": 0.6124491691589355
+    },
+    {
+      "rule_id": "115",
+      "row_id": 114,
+      "article_id": "36",
+      "legal_subject": "gia đình người bị kết án",
+      "subject_norm": "GIA_DINH_NGUOI_BI_KET_AN",
+      "condition": "người thân bị áp dụng hình phạt cải tạo không giam giữ",
+      "effect": "có trách nhiệm phối hợp giám sát, giáo dục",
+      "condition_norm": "GIA_DINH_NGUOI_CHAP_HANH_AN",
+      "effect_norm": "PHOI_HOP_GIAM_SAT_GIAO_DUC",
+      "article_title": "Cải tạo không giam giữ",
+      "content": "Điều 36. Cải tạo không giam giữ\n1. Cải tạo không giam giữ được áp dụng từ 06 tháng đến 03 năm đối với người phạm tội ít nghiêm trọng, phạm tội nghiêm trọng do Bộ luật này quy định mà đang có nơi làm việc ổn định hoặc có nơi cư trú rõ ràng nếu xét thấy không cần thiết phải cách ly người phạm tội khỏi xã hội.\nNếu người bị kết án đã bị tạm giữ, tạm giam thì thời gian tạm giữ, tạm giam được trừ vào thời gian chấp hành hình phạt cải tạo không giam giữ, cứ 01 ngày tạm giữ, tạm giam bằng 03 ngày cải tạo không giam giữ.\n2. Tòa án giao người bị phạt cải tạo không giam giữ cho cơ quan, tổ chức nơi người đó làm việc, học tập hoặc Ủy ban nhân dân cấp xã nơi người đó cư trú để giám sát, giáo dục. Gia đình người bị kết án có trách nhiệm phối hợp với cơ quan, tổ chức hoặc Ủy ban nhân dân cấp xã trong việc giám sát, giáo dục người đó.\n3. Trong thời gian chấp hành án, người bị kết án phải thực hiện một số nghĩa vụ theo các quy định về cải tạo không giam giữ và bị khấu trừ một phần thu nhập từ 05% đến 20% để sung quỹ nhà nước. Việc khấu trừ thu nhập được thực hiện hằng tháng. Trong trường hợp đặc biệt, Tòa án có thể cho miễn việc khấu trừ thu nhập, nhưng phải ghi rõ lý do trong bản án.\nKhông khấu trừ thu nhập đối với người chấp hành án là người đang thực hiện nghĩa vụ quân sự.\n4. Trường hợp người bị phạt cải tạo không giam giữ không có việc làm hoặc bị mất việc làm trong thời gian chấp hành hình phạt này thì phải thực hiện một số công việc lao động phục vụ cộng đồng trong thời gian cải tạo không giam giữ.\nThời gian lao động phục vụ cộng đồng không quá 04 giờ trong một ngày và không quá 05 ngày trong 01 tuần.\nKhông áp dụng biện pháp lao động phục vụ cộng đồng đối với phụ nữ có thai hoặc đang nuôi con dưới 06 tháng tuổi, người già yếu, người bị bệnh hiểm nghèo, người khuyết tật nặng hoặc khuyết tật đặc biệt nặng.\nNgười bị kết án cải tạo không giam giữ phải thực hiện những nghĩa vụ quy định tại Luật Thi hành án hình sự.",
+      "condition_event_id": "EVENT::GIA_DINH_NGUOI_CHAP_HANH_AN",
+      "effect_event_id": "EVENT::PHOI_HOP_GIAM_SAT_GIAO_DUC",
+      "semantic_score": 0.6109153032302856
+    },
+    {
+      "rule_id": "119",
+      "row_id": 118,
+      "article_id": "36",
+      "legal_subject": "người bị phạt cải tạo không giam giữ",
+      "subject_norm": "NGUOI_BI_PHAT_CAI_TAO_KHONG_GIAM_GIU",
+      "condition": "không có việc làm hoặc bị mất việc làm trong thời gian chấp hành án",
+      "effect": "phải thực hiện lao động phục vụ cộng đồng",
+      "condition_norm": "KHONG_CO_VIEC_LAM_KHI_CHAP_HANH_AN",
+      "effect_norm": "LAO_DONG_PHUC_VU_CONG_DONG",
+      "article_title": "Cải tạo không giam giữ",
+      "content": "Điều 36. Cải tạo không giam giữ\n1. Cải tạo không giam giữ được áp dụng từ 06 tháng đến 03 năm đối với người phạm tội ít nghiêm trọng, phạm tội nghiêm trọng do Bộ luật này quy định mà đang có nơi làm việc ổn định hoặc có nơi cư trú rõ ràng nếu xét thấy không cần thiết phải cách ly người phạm tội khỏi xã hội.\nNếu người bị kết án đã bị tạm giữ, tạm giam thì thời gian tạm giữ, tạm giam được trừ vào thời gian chấp hành hình phạt cải tạo không giam giữ, cứ 01 ngày tạm giữ, tạm giam bằng 03 ngày cải tạo không giam giữ.\n2. Tòa án giao người bị phạt cải tạo không giam giữ cho cơ quan, tổ chức nơi người đó làm việc, học tập hoặc Ủy ban nhân dân cấp xã nơi người đó cư trú để giám sát, giáo dục. Gia đình người bị kết án có trách nhiệm phối hợp với cơ quan, tổ chức hoặc Ủy ban nhân dân cấp xã trong việc giám sát, giáo dục người đó.\n3. Trong thời gian chấp hành án, người bị kết án phải thực hiện một số nghĩa vụ theo các quy định về cải tạo không giam giữ và bị khấu trừ một phần thu nhập từ 05% đến 20% để sung quỹ nhà nước. Việc khấu trừ thu nhập được thực hiện hằng tháng. Trong trường hợp đặc biệt, Tòa án có thể cho miễn việc khấu trừ thu nhập, nhưng phải ghi rõ lý do trong bản án.\nKhông khấu trừ thu nhập đối với người chấp hành án là người đang thực hiện nghĩa vụ quân sự.\n4. Trường hợp người bị phạt cải tạo không giam giữ không có việc làm hoặc bị mất việc làm trong thời gian chấp hành hình phạt này thì phải thực hiện một số công việc lao động phục vụ cộng đồng trong thời gian cải tạo không giam giữ.\nThời gian lao động phục vụ cộng đồng không quá 04 giờ trong một ngày và không quá 05 ngày trong 01 tuần.\nKhông áp dụng biện pháp lao động phục vụ cộng đồng đối với phụ nữ có thai hoặc đang nuôi con dưới 06 tháng tuổi, người già yếu, người bị bệnh hiểm nghèo, người khuyết tật nặng hoặc khuyết tật đặc biệt nặng.\nNgười bị kết án cải tạo không giam giữ phải thực hiện những nghĩa vụ quy định tại Luật Thi hành án hình sự.",
+      "condition_event_id": "EVENT::KHONG_CO_VIEC_LAM_KHI_CHAP_HANH_AN",
+      "effect_event_id": "EVENT::LAO_DONG_PHUC_VU_CONG_DONG",
+      "semantic_score": 0.6096762418746948
+    },
+    {
+      "rule_id": "151",
+      "row_id": 150,
+      "article_id": "44",
+      "legal_subject": "công dân Việt Nam",
+      "subject_norm": "CONG_DAN_VIET_NAM",
+      "condition": "bị kết án phạt tù về tội xâm phạm an ninh quốc gia hoặc tội phạm khác do Bộ luật Hình sự quy định",
+      "effect": "bị tước quyền làm việc trong cơ quan nhà nước",
+      "condition_norm": "BI_KET_AN_PHAT_TU_THUOC_TRUONG_HOP_QUY_DINH",
+      "effect_norm": "TUOC_QUYEN_LAM_VIEC_TRONG_CO_QUAN_NHA_NUOC",
+      "article_title": "Tước một số quyền công dân",
+      "content": "Điều 44. Tước một số quyền công dân\n1. Công dân Việt Nam bị kết án phạt tù về tội xâm phạm an ninh quốc gia hoặc tội phạm khác trong những trường hợp do Bộ luật này quy định, thì bị tước một hoặc một số quyền công dân sau đây:\na) Quyền ứng cử đại biểu cơ quan quyền lực Nhà nước;\nb) Quyền làm việc trong các cơ quan nhà nước và quyền phục vụ trong lực lượng vũ trang nhân dân.\n2. Thời hạn tước một số quyền công dân là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù hoặc kể từ ngày bản án có hiệu lực pháp luật trong trường hợp người bị kết án được hưởng án treo.",
+      "condition_event_id": "EVENT::BI_KET_AN_PHAT_TU_THUOC_TRUONG_HOP_QUY_DINH",
+      "effect_event_id": "EVENT::TUOC_QUYEN_LAM_VIEC_TRONG_CO_QUAN_NHA_NUOC",
+      "semantic_score": 0.6090267896652222
+    },
+    {
+      "rule_id": "120",
+      "row_id": 119,
+      "article_id": "36",
+      "legal_subject": "phụ nữ có thai, phụ nữ nuôi con dưới 06 tháng tuổi, người già yếu, người bị bệnh hiểm nghèo, người khuyết tật nặng hoặc đặc biệt nặng",
+      "subject_norm": "PHU_NU_CO_THAI_PHU_NU_NUOI_CON_DUOI_06_THANG_TUOI_NGUOI_GIA_YEU_NGUOI_BI_BENH_HIEM_NGHEO_NGUOI_KHUYET_TAT_NANG_HOAC_DAC_BIET_NANG",
+      "condition": "chấp hành hình phạt cải tạo không giam giữ",
+      "effect": "không áp dụng biện pháp lao động phục vụ cộng đồng",
+      "condition_norm": "DOI_TUONG_DUOC_MIEN_LAO_DONG_CONG_DONG",
+      "effect_norm": "KHONG_AP_DUNG_LAO_DONG_CONG_DONG",
+      "article_title": "Cải tạo không giam giữ",
+      "content": "Điều 36. Cải tạo không giam giữ\n1. Cải tạo không giam giữ được áp dụng từ 06 tháng đến 03 năm đối với người phạm tội ít nghiêm trọng, phạm tội nghiêm trọng do Bộ luật này quy định mà đang có nơi làm việc ổn định hoặc có nơi cư trú rõ ràng nếu xét thấy không cần thiết phải cách ly người phạm tội khỏi xã hội.\nNếu người bị kết án đã bị tạm giữ, tạm giam thì thời gian tạm giữ, tạm giam được trừ vào thời gian chấp hành hình phạt cải tạo không giam giữ, cứ 01 ngày tạm giữ, tạm giam bằng 03 ngày cải tạo không giam giữ.\n2. Tòa án giao người bị phạt cải tạo không giam giữ cho cơ quan, tổ chức nơi người đó làm việc, học tập hoặc Ủy ban nhân dân cấp xã nơi người đó cư trú để giám sát, giáo dục. Gia đình người bị kết án có trách nhiệm phối hợp với cơ quan, tổ chức hoặc Ủy ban nhân dân cấp xã trong việc giám sát, giáo dục người đó.\n3. Trong thời gian chấp hành án, người bị kết án phải thực hiện một số nghĩa vụ theo các quy định về cải tạo không giam giữ và bị khấu trừ một phần thu nhập từ 05% đến 20% để sung quỹ nhà nước. Việc khấu trừ thu nhập được thực hiện hằng tháng. Trong trường hợp đặc biệt, Tòa án có thể cho miễn việc khấu trừ thu nhập, nhưng phải ghi rõ lý do trong bản án.\nKhông khấu trừ thu nhập đối với người chấp hành án là người đang thực hiện nghĩa vụ quân sự.\n4. Trường hợp người bị phạt cải tạo không giam giữ không có việc làm hoặc bị mất việc làm trong thời gian chấp hành hình phạt này thì phải thực hiện một số công việc lao động phục vụ cộng đồng trong thời gian cải tạo không giam giữ.\nThời gian lao động phục vụ cộng đồng không quá 04 giờ trong một ngày và không quá 05 ngày trong 01 tuần.\nKhông áp dụng biện pháp lao động phục vụ cộng đồng đối với phụ nữ có thai hoặc đang nuôi con dưới 06 tháng tuổi, người già yếu, người bị bệnh hiểm nghèo, người khuyết tật nặng hoặc khuyết tật đặc biệt nặng.\nNgười bị kết án cải tạo không giam giữ phải thực hiện những nghĩa vụ quy định tại Luật Thi hành án hình sự.",
+      "condition_event_id": "EVENT::DOI_TUONG_DUOC_MIEN_LAO_DONG_CONG_DONG",
+      "effect_event_id": "EVENT::KHONG_AP_DUNG_LAO_DONG_CONG_DONG",
+      "semantic_score": 0.6087620258331299
+    },
+    {
+      "rule_id": "150",
+      "row_id": 149,
+      "article_id": "44",
+      "legal_subject": "công dân Việt Nam",
+      "subject_norm": "CONG_DAN_VIET_NAM",
+      "condition": "bị kết án phạt tù về tội xâm phạm an ninh quốc gia hoặc tội phạm khác do Bộ luật Hình sự quy định",
+      "effect": "bị tước quyền ứng cử đại biểu cơ quan quyền lực nhà nước",
+      "condition_norm": "BI_KET_AN_PHAT_TU_THUOC_TRUONG_HOP_QUY_DINH",
+      "effect_norm": "TUOC_QUYEN_UNG_CU",
+      "article_title": "Tước một số quyền công dân",
+      "content": "Điều 44. Tước một số quyền công dân\n1. Công dân Việt Nam bị kết án phạt tù về tội xâm phạm an ninh quốc gia hoặc tội phạm khác trong những trường hợp do Bộ luật này quy định, thì bị tước một hoặc một số quyền công dân sau đây:\na) Quyền ứng cử đại biểu cơ quan quyền lực Nhà nước;\nb) Quyền làm việc trong các cơ quan nhà nước và quyền phục vụ trong lực lượng vũ trang nhân dân.\n2. Thời hạn tước một số quyền công dân là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù hoặc kể từ ngày bản án có hiệu lực pháp luật trong trường hợp người bị kết án được hưởng án treo.",
+      "condition_event_id": "EVENT::BI_KET_AN_PHAT_TU_THUOC_TRUONG_HOP_QUY_DINH",
+      "effect_event_id": "EVENT::TUOC_QUYEN_UNG_CU",
+      "semantic_score": 0.6082460880279541
+    }
+  ],
+  "paths": [
+    {
+      "seed_rule_id": "147",
+      "rule_ids": [
+        "147",
+        "143"
+      ],
+      "event_node_ids": [
+        "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+        "EVENT::AP_DUNG_QUAN_CHE",
+        "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+      ],
+      "event_chain": [
+        "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+        "AP_DUNG_QUAN_CHE",
+        "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6124491691589355,
+      "score": 1.0724491691589355,
+      "steps": [
+        {
+          "from_rule_id": "147",
+          "to_rule_id": "143",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả AP_DUNG_QUAN_CHE của Rule 147 trở thành điều kiện AP_DUNG_QUAN_CHE của Rule 143."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "147",
+          "row_id": 146,
+          "article_id": "43",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "phạm tội xâm phạm an ninh quốc gia",
+          "effect": "bị áp dụng hình phạt quản chế",
+          "condition_norm": "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+          "effect_norm": "AP_DUNG_QUAN_CHE",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+          "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE"
+        },
+        {
+          "rule_id": "143",
+          "row_id": 142,
+          "article_id": "43",
+          "legal_subject": "người bị kết án phạt tù",
+          "subject_norm": "NGUOI_BI_KET_AN_PHAT_TU",
+          "condition": "bị áp dụng hình phạt quản chế",
+          "effect": "phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương",
+          "condition_norm": "AP_DUNG_QUAN_CHE",
+          "effect_norm": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+          "effect_event_id": "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "147",
+      "rule_ids": [
+        "147",
+        "149"
+      ],
+      "event_node_ids": [
+        "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+        "EVENT::AP_DUNG_QUAN_CHE",
+        "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+      ],
+      "event_chain": [
+        "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+        "AP_DUNG_QUAN_CHE",
+        "THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6124491691589355,
+      "score": 1.0724491691589355,
+      "steps": [
+        {
+          "from_rule_id": "147",
+          "to_rule_id": "149",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả AP_DUNG_QUAN_CHE của Rule 147 trở thành điều kiện AP_DUNG_QUAN_CHE của Rule 149."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "147",
+          "row_id": 146,
+          "article_id": "43",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "phạm tội xâm phạm an ninh quốc gia",
+          "effect": "bị áp dụng hình phạt quản chế",
+          "condition_norm": "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+          "effect_norm": "AP_DUNG_QUAN_CHE",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+          "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE"
+        },
+        {
+          "rule_id": "149",
+          "row_id": 148,
+          "article_id": "43",
+          "legal_subject": "người bị quản chế",
+          "subject_norm": "NGUOI_BI_QUAN_CHE",
+          "condition": "bị áp dụng hình phạt quản chế",
+          "effect": "thời hạn quản chế từ 01 năm đến 05 năm",
+          "condition_norm": "AP_DUNG_QUAN_CHE",
+          "effect_norm": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+          "effect_event_id": "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "rule_id": "147",
+      "row_id": 146,
+      "article_id": "43",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "phạm tội xâm phạm an ninh quốc gia",
+      "effect": "bị áp dụng hình phạt quản chế",
+      "condition_norm": "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+      "effect_norm": "AP_DUNG_QUAN_CHE",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+      "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "semantic_score": 0.6124491691589355,
+      "evidence_score": 0.5362245845794678,
+      "path_count": 2
+    },
+    {
+      "rule_id": "143",
+      "row_id": 142,
+      "article_id": "43",
+      "legal_subject": "người bị kết án phạt tù",
+      "subject_norm": "NGUOI_BI_KET_AN_PHAT_TU",
+      "condition": "bị áp dụng hình phạt quản chế",
+      "effect": "phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương",
+      "condition_norm": "AP_DUNG_QUAN_CHE",
+      "effect_norm": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "effect_event_id": "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+      "semantic_score": 0.6475672721862793,
+      "evidence_score": 0.5362245845794678,
+      "path_count": 1
+    },
+    {
+      "rule_id": "149",
+      "row_id": 148,
+      "article_id": "43",
+      "legal_subject": "người bị quản chế",
+      "subject_norm": "NGUOI_BI_QUAN_CHE",
+      "condition": "bị áp dụng hình phạt quản chế",
+      "effect": "thời hạn quản chế từ 01 năm đến 05 năm",
+      "condition_norm": "AP_DUNG_QUAN_CHE",
+      "effect_norm": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "effect_event_id": "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+      "evidence_score": 0.5362245845794678,
+      "path_count": 1
+    }
+  ]
+}

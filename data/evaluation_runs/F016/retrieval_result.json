@@ -1,0 +1,592 @@
+{
+  "query": "Nếu xảy ra trường hợp: đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực, thì sau chuỗi suy luận pháp lý liên quan, hậu quả cuối cùng là gì?",
+  "config": {
+    "seed_top_k": 8,
+    "semantic_pool_size": 50,
+    "max_depth": 4,
+    "max_expansions_per_rule": 15,
+    "final_top_k": 12,
+    "causal_only": true,
+    "min_event_nodes": 3
+  },
+  "seed_rules": [
+    {
+      "rule_id": "343",
+      "row_id": 342,
+      "article_id": "79",
+      "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động vĩnh viễn",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "condition": "bị đình chỉ hoạt động vĩnh viễn",
+      "effect": "chấm dứt hoạt động trong một hoặc một số lĩnh vực",
+      "condition_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "effect_norm": "CHAM_DUT_HOAT_DONG",
+      "article_title": "Đình chỉ hoạt động vĩnh viễn",
+      "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+      "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "effect_event_id": "EVENT::CHAM_DUT_HOAT_DONG",
+      "semantic_score": 0.7111796140670776
+    },
+    {
+      "rule_id": "383",
+      "row_id": 382,
+      "article_id": "86",
+      "legal_subject": "pháp nhân thương mại phạm nhiều tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_NHIEU_TOI",
+      "condition": "đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực",
+      "effect": "hình phạt chung là đình chỉ hoạt động vĩnh viễn",
+      "condition_norm": "DINH_CHI_CUNG_LINH_VUC",
+      "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "article_title": "Quyết định hình phạt trong trường hợp pháp nhân thương mại phạm nhiều tội",
+      "content": "Điều 86. Quyết định hình phạt trong trường hợp pháp nhân thương mại phạm nhiều tội\nKhi xét xử cùng 01 lần pháp nhân thương mại phạm nhiều tội, Tòa án quyết định hình phạt đối với từng tội và tổng hợp hình phạt theo quy định sau đây:\n1.[33] Đối với hình phạt chính:\na) Nếu các hình phạt đã tuyên cùng là phạt tiền thì các khoản tiền phạt được cộng lại thành hình phạt chung. Hình phạt tiền không tổng hợp với các hình phạt khác;\nb) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực hoặc hình phạt đã tuyên cùng là đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực thì hình phạt chung là đình chỉ hoạt động vĩnh viễn trong lĩnh vực đó;\nc) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn trong cùng lĩnh vực thì được tổng hợp thành hình phạt chung nhưng không vượt quá 04 năm;\nd) Nếu trong số các hình phạt đã tuyên có hình phạt đình chỉ hoạt động vĩnh viễn thuộc trường hợp quy định tại khoản 2 Điều 79 của Bộ luật này thì hình phạt chung là đình chỉ hoạt động vĩnh viễn đối với toàn bộ hoạt động;\nđ) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn trong các lĩnh vực khác nhau hoặc đình chỉ hoạt động vĩnh viễn trong các lĩnh vực khác nhau hoặc đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong các lĩnh vực khác nhau thì không tổng hợp.\n2. Đối với hình phạt bổ sung:\na) Nếu các hình phạt đã tuyên là cùng loại thì hình phạt chung được quyết định trong giới hạn do Bộ luật này quy định đối với hình phạt đó; riêng đối với hình phạt tiền thì các khoản tiền được cộng lại thành hình phạt chung;\nb) Nếu các hình phạt đã tuyên là khác loại thì pháp nhân thương mại bị kết án phải chấp hành tất cả các hình phạt đã tuyên.",
+      "condition_event_id": "EVENT::DINH_CHI_CUNG_LINH_VUC",
+      "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "semantic_score": 0.7050392627716064
+    },
+    {
+      "rule_id": "342",
+      "row_id": 341,
+      "article_id": "79",
+      "legal_subject": "pháp nhân thương mại phạm tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+      "condition": "gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả",
+      "effect": "bị đình chỉ hoạt động vĩnh viễn",
+      "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "article_title": "Đình chỉ hoạt động vĩnh viễn",
+      "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+      "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "semantic_score": 0.696709156036377
+    },
+    {
+      "rule_id": "344",
+      "row_id": 343,
+      "article_id": "79",
+      "legal_subject": "pháp nhân thương mại",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI",
+      "condition": "được thành lập chỉ để thực hiện tội phạm",
+      "effect": "bị đình chỉ vĩnh viễn toàn bộ hoạt động",
+      "condition_norm": "THANH_LAP_DE_THUC_HIEN_TOI_PHAM",
+      "effect_norm": "DINH_CHI_TOAN_BO_HOAT_DONG_VINH_VIEN",
+      "article_title": "Đình chỉ hoạt động vĩnh viễn",
+      "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+      "condition_event_id": "EVENT::THANH_LAP_DE_THUC_HIEN_TOI_PHAM",
+      "effect_event_id": "EVENT::DINH_CHI_TOAN_BO_HOAT_DONG_VINH_VIEN",
+      "semantic_score": 0.6764477491378784
+    },
+    {
+      "rule_id": "340",
+      "row_id": 339,
+      "article_id": "78",
+      "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG",
+      "condition": "bị đình chỉ hoạt động có thời hạn",
+      "effect": "tạm dừng hoạt động trong một hoặc một số lĩnh vực",
+      "condition_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_norm": "TAM_DUNG_HOAT_DONG",
+      "article_title": "Đình chỉ hoạt động có thời hạn",
+      "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+      "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_event_id": "EVENT::TAM_DUNG_HOAT_DONG",
+      "semantic_score": 0.6692136526107788
+    },
+    {
+      "rule_id": "339",
+      "row_id": 338,
+      "article_id": "78",
+      "legal_subject": "pháp nhân thương mại phạm tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+      "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
+      "effect": "bị đình chỉ hoạt động có thời hạn",
+      "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "article_title": "Đình chỉ hoạt động có thời hạn",
+      "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+      "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "semantic_score": 0.6682663559913635
+    },
+    {
+      "rule_id": "106",
+      "row_id": 105,
+      "article_id": "33",
+      "legal_subject": "pháp nhân thương mại phạm tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+      "condition": "bị áp dụng hình phạt chính",
+      "effect": "đình chỉ hoạt động vĩnh viễn",
+      "condition_norm": "AP_DUNG_HINH_PHAT_CHINH",
+      "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "article_title": "Các hình phạt đối với pháp nhân thương mại phạm tội",
+      "content": "Điều 33. Các hình phạt đối với pháp nhân thương mại phạm tội\n1. Hình phạt chính bao gồm:\na) Phạt tiền;\nb) Đình chỉ hoạt động có thời hạn;\nc) Đình chỉ hoạt động vĩnh viễn.\n2. Hình phạt bổ sung bao gồm:\na) Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định;\nb) Cấm huy động vốn;\nc) Phạt tiền, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, pháp nhân thương mại phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung.",
+      "condition_event_id": "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+      "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "semantic_score": 0.6672581434249878
+    },
+    {
+      "rule_id": "385",
+      "row_id": 384,
+      "article_id": "86",
+      "legal_subject": "pháp nhân thương mại phạm nhiều tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_NHIEU_TOI",
+      "condition": "có hình phạt đình chỉ hoạt động vĩnh viễn theo khoản 2 Điều 79",
+      "effect": "đình chỉ vĩnh viễn toàn bộ hoạt động",
+      "condition_norm": "DINH_CHI_TOAN_BO_HOAT_DONG",
+      "effect_norm": "DINH_CHI_TOAN_BO_HOAT_DONG_VINH_VIEN",
+      "article_title": "Quyết định hình phạt trong trường hợp pháp nhân thương mại phạm nhiều tội",
+      "content": "Điều 86. Quyết định hình phạt trong trường hợp pháp nhân thương mại phạm nhiều tội\nKhi xét xử cùng 01 lần pháp nhân thương mại phạm nhiều tội, Tòa án quyết định hình phạt đối với từng tội và tổng hợp hình phạt theo quy định sau đây:\n1.[33] Đối với hình phạt chính:\na) Nếu các hình phạt đã tuyên cùng là phạt tiền thì các khoản tiền phạt được cộng lại thành hình phạt chung. Hình phạt tiền không tổng hợp với các hình phạt khác;\nb) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực hoặc hình phạt đã tuyên cùng là đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực thì hình phạt chung là đình chỉ hoạt động vĩnh viễn trong lĩnh vực đó;\nc) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn trong cùng lĩnh vực thì được tổng hợp thành hình phạt chung nhưng không vượt quá 04 năm;\nd) Nếu trong số các hình phạt đã tuyên có hình phạt đình chỉ hoạt động vĩnh viễn thuộc trường hợp quy định tại khoản 2 Điều 79 của Bộ luật này thì hình phạt chung là đình chỉ hoạt động vĩnh viễn đối với toàn bộ hoạt động;\nđ) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn trong các lĩnh vực khác nhau hoặc đình chỉ hoạt động vĩnh viễn trong các lĩnh vực khác nhau hoặc đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong các lĩnh vực khác nhau thì không tổng hợp.\n2. Đối với hình phạt bổ sung:\na) Nếu các hình phạt đã tuyên là cùng loại thì hình phạt chung được quyết định trong giới hạn do Bộ luật này quy định đối với hình phạt đó; riêng đối với hình phạt tiền thì các khoản tiền được cộng lại thành hình phạt chung;\nb) Nếu các hình phạt đã tuyên là khác loại thì pháp nhân thương mại bị kết án phải chấp hành tất cả các hình phạt đã tuyên.",
+      "condition_event_id": "EVENT::DINH_CHI_TOAN_BO_HOAT_DONG",
+      "effect_event_id": "EVENT::DINH_CHI_TOAN_BO_HOAT_DONG_VINH_VIEN",
+      "semantic_score": 0.6616044044494629
+    }
+  ],
+  "paths": [
+    {
+      "seed_rule_id": "383",
+      "rule_ids": [
+        "383",
+        "343"
+      ],
+      "event_node_ids": [
+        "EVENT::DINH_CHI_CUNG_LINH_VUC",
+        "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+        "EVENT::CHAM_DUT_HOAT_DONG"
+      ],
+      "event_chain": [
+        "DINH_CHI_CUNG_LINH_VUC",
+        "DINH_CHI_HOAT_DONG_VINH_VIEN",
+        "CHAM_DUT_HOAT_DONG"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.7050392627716064,
+      "score": 1.2150392627716065,
+      "steps": [
+        {
+          "from_rule_id": "383",
+          "to_rule_id": "343",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DINH_CHI_HOAT_DONG_VINH_VIEN của Rule 383 trở thành điều kiện DINH_CHI_HOAT_DONG_VINH_VIEN của Rule 343."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "383",
+          "row_id": 382,
+          "article_id": "86",
+          "legal_subject": "pháp nhân thương mại phạm nhiều tội",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_NHIEU_TOI",
+          "condition": "đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực",
+          "effect": "hình phạt chung là đình chỉ hoạt động vĩnh viễn",
+          "condition_norm": "DINH_CHI_CUNG_LINH_VUC",
+          "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "article_title": "Quyết định hình phạt trong trường hợp pháp nhân thương mại phạm nhiều tội",
+          "content": "Điều 86. Quyết định hình phạt trong trường hợp pháp nhân thương mại phạm nhiều tội\nKhi xét xử cùng 01 lần pháp nhân thương mại phạm nhiều tội, Tòa án quyết định hình phạt đối với từng tội và tổng hợp hình phạt theo quy định sau đây:\n1.[33] Đối với hình phạt chính:\na) Nếu các hình phạt đã tuyên cùng là phạt tiền thì các khoản tiền phạt được cộng lại thành hình phạt chung. Hình phạt tiền không tổng hợp với các hình phạt khác;\nb) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực hoặc hình phạt đã tuyên cùng là đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực thì hình phạt chung là đình chỉ hoạt động vĩnh viễn trong lĩnh vực đó;\nc) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn trong cùng lĩnh vực thì được tổng hợp thành hình phạt chung nhưng không vượt quá 04 năm;\nd) Nếu trong số các hình phạt đã tuyên có hình phạt đình chỉ hoạt động vĩnh viễn thuộc trường hợp quy định tại khoản 2 Điều 79 của Bộ luật này thì hình phạt chung là đình chỉ hoạt động vĩnh viễn đối với toàn bộ hoạt động;\nđ) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn trong các lĩnh vực khác nhau hoặc đình chỉ hoạt động vĩnh viễn trong các lĩnh vực khác nhau hoặc đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong các lĩnh vực khác nhau thì không tổng hợp.\n2. Đối với hình phạt bổ sung:\na) Nếu các hình phạt đã tuyên là cùng loại thì hình phạt chung được quyết định trong giới hạn do Bộ luật này quy định đối với hình phạt đó; riêng đối với hình phạt tiền thì các khoản tiền được cộng lại thành hình phạt chung;\nb) Nếu các hình phạt đã tuyên là khác loại thì pháp nhân thương mại bị kết án phải chấp hành tất cả các hình phạt đã tuyên.",
+          "condition_event_id": "EVENT::DINH_CHI_CUNG_LINH_VUC",
+          "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN"
+        },
+        {
+          "rule_id": "343",
+          "row_id": 342,
+          "article_id": "79",
+          "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động vĩnh viễn",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "condition": "bị đình chỉ hoạt động vĩnh viễn",
+          "effect": "chấm dứt hoạt động trong một hoặc một số lĩnh vực",
+          "condition_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "effect_norm": "CHAM_DUT_HOAT_DONG",
+          "article_title": "Đình chỉ hoạt động vĩnh viễn",
+          "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+          "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "effect_event_id": "EVENT::CHAM_DUT_HOAT_DONG"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "106",
+      "rule_ids": [
+        "106",
+        "343"
+      ],
+      "event_node_ids": [
+        "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+        "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+        "EVENT::CHAM_DUT_HOAT_DONG"
+      ],
+      "event_chain": [
+        "AP_DUNG_HINH_PHAT_CHINH",
+        "DINH_CHI_HOAT_DONG_VINH_VIEN",
+        "CHAM_DUT_HOAT_DONG"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6672581434249878,
+      "score": 1.1772581434249878,
+      "steps": [
+        {
+          "from_rule_id": "106",
+          "to_rule_id": "343",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DINH_CHI_HOAT_DONG_VINH_VIEN của Rule 106 trở thành điều kiện DINH_CHI_HOAT_DONG_VINH_VIEN của Rule 343."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "106",
+          "row_id": 105,
+          "article_id": "33",
+          "legal_subject": "pháp nhân thương mại phạm tội",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+          "condition": "bị áp dụng hình phạt chính",
+          "effect": "đình chỉ hoạt động vĩnh viễn",
+          "condition_norm": "AP_DUNG_HINH_PHAT_CHINH",
+          "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "article_title": "Các hình phạt đối với pháp nhân thương mại phạm tội",
+          "content": "Điều 33. Các hình phạt đối với pháp nhân thương mại phạm tội\n1. Hình phạt chính bao gồm:\na) Phạt tiền;\nb) Đình chỉ hoạt động có thời hạn;\nc) Đình chỉ hoạt động vĩnh viễn.\n2. Hình phạt bổ sung bao gồm:\na) Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định;\nb) Cấm huy động vốn;\nc) Phạt tiền, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, pháp nhân thương mại phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung.",
+          "condition_event_id": "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+          "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN"
+        },
+        {
+          "rule_id": "343",
+          "row_id": 342,
+          "article_id": "79",
+          "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động vĩnh viễn",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "condition": "bị đình chỉ hoạt động vĩnh viễn",
+          "effect": "chấm dứt hoạt động trong một hoặc một số lĩnh vực",
+          "condition_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "effect_norm": "CHAM_DUT_HOAT_DONG",
+          "article_title": "Đình chỉ hoạt động vĩnh viễn",
+          "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+          "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "effect_event_id": "EVENT::CHAM_DUT_HOAT_DONG"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "342",
+      "rule_ids": [
+        "342",
+        "343"
+      ],
+      "event_node_ids": [
+        "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_VINH_VIEN",
+        "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+        "EVENT::CHAM_DUT_HOAT_DONG"
+      ],
+      "event_chain": [
+        "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_VINH_VIEN",
+        "DINH_CHI_HOAT_DONG_VINH_VIEN",
+        "CHAM_DUT_HOAT_DONG"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.696709156036377,
+      "score": 1.156709156036377,
+      "steps": [
+        {
+          "from_rule_id": "342",
+          "to_rule_id": "343",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DINH_CHI_HOAT_DONG_VINH_VIEN của Rule 342 trở thành điều kiện DINH_CHI_HOAT_DONG_VINH_VIEN của Rule 343."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "342",
+          "row_id": 341,
+          "article_id": "79",
+          "legal_subject": "pháp nhân thương mại phạm tội",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+          "condition": "gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả",
+          "effect": "bị đình chỉ hoạt động vĩnh viễn",
+          "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "article_title": "Đình chỉ hoạt động vĩnh viễn",
+          "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+          "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN"
+        },
+        {
+          "rule_id": "343",
+          "row_id": 342,
+          "article_id": "79",
+          "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động vĩnh viễn",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "condition": "bị đình chỉ hoạt động vĩnh viễn",
+          "effect": "chấm dứt hoạt động trong một hoặc một số lĩnh vực",
+          "condition_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "effect_norm": "CHAM_DUT_HOAT_DONG",
+          "article_title": "Đình chỉ hoạt động vĩnh viễn",
+          "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+          "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+          "effect_event_id": "EVENT::CHAM_DUT_HOAT_DONG"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "339",
+      "rule_ids": [
+        "339",
+        "341"
+      ],
+      "event_node_ids": [
+        "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "EVENT::THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM"
+      ],
+      "event_chain": [
+        "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6682663559913635,
+      "score": 1.1282663559913635,
+      "steps": [
+        {
+          "from_rule_id": "339",
+          "to_rule_id": "341",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DINH_CHI_HOAT_DONG_CO_THOI_HAN của Rule 339 trở thành điều kiện DINH_CHI_HOAT_DONG_CO_THOI_HAN của Rule 341."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "339",
+          "row_id": 338,
+          "article_id": "78",
+          "legal_subject": "pháp nhân thương mại phạm tội",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+          "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
+          "effect": "bị đình chỉ hoạt động có thời hạn",
+          "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "article_title": "Đình chỉ hoạt động có thời hạn",
+          "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+          "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN"
+        },
+        {
+          "rule_id": "341",
+          "row_id": 340,
+          "article_id": "78",
+          "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG",
+          "condition": "bị đình chỉ hoạt động có thời hạn",
+          "effect": "thời hạn đình chỉ từ 06 tháng đến 03 năm",
+          "condition_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "effect_norm": "THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM",
+          "article_title": "Đình chỉ hoạt động có thời hạn",
+          "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+          "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "effect_event_id": "EVENT::THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "339",
+      "rule_ids": [
+        "339",
+        "340"
+      ],
+      "event_node_ids": [
+        "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "EVENT::TAM_DUNG_HOAT_DONG"
+      ],
+      "event_chain": [
+        "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+        "TAM_DUNG_HOAT_DONG"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6682663559913635,
+      "score": 1.1282663559913635,
+      "steps": [
+        {
+          "from_rule_id": "339",
+          "to_rule_id": "340",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả DINH_CHI_HOAT_DONG_CO_THOI_HAN của Rule 339 trở thành điều kiện DINH_CHI_HOAT_DONG_CO_THOI_HAN của Rule 340."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "339",
+          "row_id": 338,
+          "article_id": "78",
+          "legal_subject": "pháp nhân thương mại phạm tội",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+          "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
+          "effect": "bị đình chỉ hoạt động có thời hạn",
+          "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "article_title": "Đình chỉ hoạt động có thời hạn",
+          "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+          "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN"
+        },
+        {
+          "rule_id": "340",
+          "row_id": 339,
+          "article_id": "78",
+          "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động",
+          "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG",
+          "condition": "bị đình chỉ hoạt động có thời hạn",
+          "effect": "tạm dừng hoạt động trong một hoặc một số lĩnh vực",
+          "condition_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "effect_norm": "TAM_DUNG_HOAT_DONG",
+          "article_title": "Đình chỉ hoạt động có thời hạn",
+          "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+          "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+          "effect_event_id": "EVENT::TAM_DUNG_HOAT_DONG"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "rule_id": "343",
+      "row_id": 342,
+      "article_id": "79",
+      "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động vĩnh viễn",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "condition": "bị đình chỉ hoạt động vĩnh viễn",
+      "effect": "chấm dứt hoạt động trong một hoặc một số lĩnh vực",
+      "condition_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "effect_norm": "CHAM_DUT_HOAT_DONG",
+      "article_title": "Đình chỉ hoạt động vĩnh viễn",
+      "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+      "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "effect_event_id": "EVENT::CHAM_DUT_HOAT_DONG",
+      "semantic_score": 0.7111796140670776,
+      "evidence_score": 0.6075196313858032,
+      "path_count": 3
+    },
+    {
+      "rule_id": "383",
+      "row_id": 382,
+      "article_id": "86",
+      "legal_subject": "pháp nhân thương mại phạm nhiều tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_NHIEU_TOI",
+      "condition": "đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực",
+      "effect": "hình phạt chung là đình chỉ hoạt động vĩnh viễn",
+      "condition_norm": "DINH_CHI_CUNG_LINH_VUC",
+      "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "article_title": "Quyết định hình phạt trong trường hợp pháp nhân thương mại phạm nhiều tội",
+      "content": "Điều 86. Quyết định hình phạt trong trường hợp pháp nhân thương mại phạm nhiều tội\nKhi xét xử cùng 01 lần pháp nhân thương mại phạm nhiều tội, Tòa án quyết định hình phạt đối với từng tội và tổng hợp hình phạt theo quy định sau đây:\n1.[33] Đối với hình phạt chính:\na) Nếu các hình phạt đã tuyên cùng là phạt tiền thì các khoản tiền phạt được cộng lại thành hình phạt chung. Hình phạt tiền không tổng hợp với các hình phạt khác;\nb) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực hoặc hình phạt đã tuyên cùng là đình chỉ hoạt động vĩnh viễn trong cùng lĩnh vực thì hình phạt chung là đình chỉ hoạt động vĩnh viễn trong lĩnh vực đó;\nc) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn trong cùng lĩnh vực thì được tổng hợp thành hình phạt chung nhưng không vượt quá 04 năm;\nd) Nếu trong số các hình phạt đã tuyên có hình phạt đình chỉ hoạt động vĩnh viễn thuộc trường hợp quy định tại khoản 2 Điều 79 của Bộ luật này thì hình phạt chung là đình chỉ hoạt động vĩnh viễn đối với toàn bộ hoạt động;\nđ) Nếu các hình phạt đã tuyên là đình chỉ hoạt động có thời hạn trong các lĩnh vực khác nhau hoặc đình chỉ hoạt động vĩnh viễn trong các lĩnh vực khác nhau hoặc đình chỉ hoạt động có thời hạn và đình chỉ hoạt động vĩnh viễn trong các lĩnh vực khác nhau thì không tổng hợp.\n2. Đối với hình phạt bổ sung:\na) Nếu các hình phạt đã tuyên là cùng loại thì hình phạt chung được quyết định trong giới hạn do Bộ luật này quy định đối với hình phạt đó; riêng đối với hình phạt tiền thì các khoản tiền được cộng lại thành hình phạt chung;\nb) Nếu các hình phạt đã tuyên là khác loại thì pháp nhân thương mại bị kết án phải chấp hành tất cả các hình phạt đã tuyên.",
+      "condition_event_id": "EVENT::DINH_CHI_CUNG_LINH_VUC",
+      "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "semantic_score": 0.7050392627716064,
+      "evidence_score": 0.6075196313858032,
+      "path_count": 1
+    },
+    {
+      "rule_id": "106",
+      "row_id": 105,
+      "article_id": "33",
+      "legal_subject": "pháp nhân thương mại phạm tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+      "condition": "bị áp dụng hình phạt chính",
+      "effect": "đình chỉ hoạt động vĩnh viễn",
+      "condition_norm": "AP_DUNG_HINH_PHAT_CHINH",
+      "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "article_title": "Các hình phạt đối với pháp nhân thương mại phạm tội",
+      "content": "Điều 33. Các hình phạt đối với pháp nhân thương mại phạm tội\n1. Hình phạt chính bao gồm:\na) Phạt tiền;\nb) Đình chỉ hoạt động có thời hạn;\nc) Đình chỉ hoạt động vĩnh viễn.\n2. Hình phạt bổ sung bao gồm:\na) Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định;\nb) Cấm huy động vốn;\nc) Phạt tiền, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, pháp nhân thương mại phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung.",
+      "condition_event_id": "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+      "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "semantic_score": 0.6672581434249878,
+      "evidence_score": 0.5886290717124939,
+      "path_count": 1
+    },
+    {
+      "rule_id": "342",
+      "row_id": 341,
+      "article_id": "79",
+      "legal_subject": "pháp nhân thương mại phạm tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+      "condition": "gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả",
+      "effect": "bị đình chỉ hoạt động vĩnh viễn",
+      "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "effect_norm": "DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "article_title": "Đình chỉ hoạt động vĩnh viễn",
+      "content": "Điều 79. Đình chỉ hoạt động vĩnh viễn\n1. Đình chỉ hoạt động vĩnh viễn là chấm dứt hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại hoặc có khả năng thực tế gây thiệt hại đến tính mạng của nhiều người, gây sự cố môi trường hoặc gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội và không có khả năng khắc phục hậu quả gây ra.\n2. Pháp nhân thương mại được thành lập chỉ để thực hiện tội phạm thì bị đình chỉ vĩnh viễn toàn bộ hoạt động.",
+      "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_VINH_VIEN",
+      "semantic_score": 0.696709156036377,
+      "evidence_score": 0.5783545780181885,
+      "path_count": 1
+    },
+    {
+      "rule_id": "339",
+      "row_id": 338,
+      "article_id": "78",
+      "legal_subject": "pháp nhân thương mại phạm tội",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_PHAM_TOI",
+      "condition": "gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả có khả năng khắc phục",
+      "effect": "bị đình chỉ hoạt động có thời hạn",
+      "condition_norm": "DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "article_title": "Đình chỉ hoạt động có thời hạn",
+      "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+      "condition_event_id": "EVENT::DU_DIEU_KIEN_DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "semantic_score": 0.6682663559913635,
+      "evidence_score": 0.5641331779956817,
+      "path_count": 2
+    },
+    {
+      "rule_id": "340",
+      "row_id": 339,
+      "article_id": "78",
+      "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG",
+      "condition": "bị đình chỉ hoạt động có thời hạn",
+      "effect": "tạm dừng hoạt động trong một hoặc một số lĩnh vực",
+      "condition_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_norm": "TAM_DUNG_HOAT_DONG",
+      "article_title": "Đình chỉ hoạt động có thời hạn",
+      "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+      "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_event_id": "EVENT::TAM_DUNG_HOAT_DONG",
+      "semantic_score": 0.6692136526107788,
+      "evidence_score": 0.5641331779956817,
+      "path_count": 1
+    },
+    {
+      "rule_id": "341",
+      "row_id": 340,
+      "article_id": "78",
+      "legal_subject": "pháp nhân thương mại bị đình chỉ hoạt động",
+      "subject_norm": "PHAP_NHAN_THUONG_MAI_BI_DINH_CHI_HOAT_DONG",
+      "condition": "bị đình chỉ hoạt động có thời hạn",
+      "effect": "thời hạn đình chỉ từ 06 tháng đến 03 năm",
+      "condition_norm": "DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_norm": "THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM",
+      "article_title": "Đình chỉ hoạt động có thời hạn",
+      "content": "Điều 78. Đình chỉ hoạt động có thời hạn\n1. Đình chỉ hoạt động có thời hạn là tạm dừng hoạt động của pháp nhân thương mại trong một hoặc một số lĩnh vực mà pháp nhân thương mại phạm tội gây thiệt hại đến tính mạng, sức khỏe con người, môi trường hoặc an ninh, trật tự, an toàn xã hội và hậu quả gây ra có khả năng khắc phục trên thực tế.\n2. Thời hạn đình chỉ hoạt động từ 06 tháng đến 03 năm.",
+      "condition_event_id": "EVENT::DINH_CHI_HOAT_DONG_CO_THOI_HAN",
+      "effect_event_id": "EVENT::THOI_HAN_DINH_CHI_6_THANG_DEN_3_NAM",
+      "semantic_score": 0.6489498615264893,
+      "evidence_score": 0.5641331779956817,
+      "path_count": 1
+    }
+  ]
+}

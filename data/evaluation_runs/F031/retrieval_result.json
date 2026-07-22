@@ -1,0 +1,326 @@
+{
+  "query": "Nếu xảy ra trường hợp: phạm tội xâm phạm an ninh quốc gia, thì sau chuỗi suy luận pháp lý liên quan, hậu quả cuối cùng là gì?",
+  "config": {
+    "seed_top_k": 8,
+    "semantic_pool_size": 50,
+    "max_depth": 4,
+    "max_expansions_per_rule": 15,
+    "final_top_k": 12,
+    "causal_only": true,
+    "min_event_nodes": 3
+  },
+  "seed_rules": [
+    {
+      "rule_id": "408",
+      "row_id": 407,
+      "article_id": "111",
+      "legal_subject": "người tổ chức, người hoạt động đắc lực hoặc gây hậu quả nghiêm trọng",
+      "subject_norm": "NGUOI_TO_CHUC_NGUOI_HOAT_DONG_DAC_LUC_HOAC_GAY_HAU_QUA_NGHIEM_TRONG",
+      "condition": "xâm nhập lãnh thổ, làm sai lệch đường biên giới quốc gia hoặc có hành vi khác nhằm gây phương hại cho an ninh lãnh thổ",
+      "effect": "bị phạt tù từ 12 năm đến 20 năm hoặc tù chung thân",
+      "condition_norm": "XAM_PHAM_AN_NINH_LANH_THO_VAI_TRO_CHINH",
+      "effect_norm": "PHAT_TU_12_20_NAM_HOAC_CHUNG_THAN",
+      "article_title": "Tội xâm phạm an ninh lãnh thổ",
+      "content": "Điều 111. Tội xâm phạm an ninh lãnh thổ\nNgười nào xâm nhập lãnh thổ, có hành động làm sai lệch đường biên giới quốc gia hoặc có hành động khác nhằm gây phương hại cho an ninh lãnh thổ của nước Cộng hòa xã hội chủ nghĩa Việt Nam, thì bị phạt như sau:\n1. Người tổ chức, người hoạt động đắc lực hoặc gây hậu quả nghiêm trọng, thì bị phạt tù từ 12 năm đến 20 năm hoặc tù chung thân;\n2. Người đồng phạm khác, thì bị phạt tù từ 05 năm đến 15 năm;\n3. Người chuẩn bị phạm tội này, thì bị phạt tù từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::XAM_PHAM_AN_NINH_LANH_THO_VAI_TRO_CHINH",
+      "effect_event_id": "EVENT::PHAT_TU_12_20_NAM_HOAC_CHUNG_THAN",
+      "semantic_score": 0.6893371939659119
+    },
+    {
+      "rule_id": "409",
+      "row_id": 408,
+      "article_id": "111",
+      "legal_subject": "người đồng phạm",
+      "subject_norm": "NGUOI_DONG_PHAM",
+      "condition": "xâm nhập lãnh thổ, làm sai lệch đường biên giới quốc gia hoặc có hành vi khác nhằm gây phương hại cho an ninh lãnh thổ",
+      "effect": "bị phạt tù từ 05 năm đến 15 năm",
+      "condition_norm": "DONG_PHAM_XAM_PHAM_AN_NINH_LANH_THO",
+      "effect_norm": "PHAT_TU_5_15_NAM",
+      "article_title": "Tội xâm phạm an ninh lãnh thổ",
+      "content": "Điều 111. Tội xâm phạm an ninh lãnh thổ\nNgười nào xâm nhập lãnh thổ, có hành động làm sai lệch đường biên giới quốc gia hoặc có hành động khác nhằm gây phương hại cho an ninh lãnh thổ của nước Cộng hòa xã hội chủ nghĩa Việt Nam, thì bị phạt như sau:\n1. Người tổ chức, người hoạt động đắc lực hoặc gây hậu quả nghiêm trọng, thì bị phạt tù từ 12 năm đến 20 năm hoặc tù chung thân;\n2. Người đồng phạm khác, thì bị phạt tù từ 05 năm đến 15 năm;\n3. Người chuẩn bị phạm tội này, thì bị phạt tù từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::DONG_PHAM_XAM_PHAM_AN_NINH_LANH_THO",
+      "effect_event_id": "EVENT::PHAT_TU_5_15_NAM",
+      "semantic_score": 0.6730940937995911
+    },
+    {
+      "rule_id": "410",
+      "row_id": 409,
+      "article_id": "111",
+      "legal_subject": "người",
+      "subject_norm": "NGUOI",
+      "condition": "chuẩn bị phạm tội xâm phạm an ninh lãnh thổ",
+      "effect": "bị phạt tù từ 01 năm đến 05 năm",
+      "condition_norm": "CHUAN_BI_PHAM_TOI",
+      "effect_norm": "PHAT_TU_1_5_NAM",
+      "article_title": "Tội xâm phạm an ninh lãnh thổ",
+      "content": "Điều 111. Tội xâm phạm an ninh lãnh thổ\nNgười nào xâm nhập lãnh thổ, có hành động làm sai lệch đường biên giới quốc gia hoặc có hành động khác nhằm gây phương hại cho an ninh lãnh thổ của nước Cộng hòa xã hội chủ nghĩa Việt Nam, thì bị phạt như sau:\n1. Người tổ chức, người hoạt động đắc lực hoặc gây hậu quả nghiêm trọng, thì bị phạt tù từ 12 năm đến 20 năm hoặc tù chung thân;\n2. Người đồng phạm khác, thì bị phạt tù từ 05 năm đến 15 năm;\n3. Người chuẩn bị phạm tội này, thì bị phạt tù từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::CHUAN_BI_PHAM_TOI",
+      "effect_event_id": "EVENT::PHAT_TU_1_5_NAM",
+      "semantic_score": 0.6673123836517334
+    },
+    {
+      "rule_id": "1215",
+      "row_id": 1214,
+      "article_id": "337",
+      "legal_subject": "người",
+      "subject_norm": "NGUOI",
+      "condition": "gây tổn hại về quốc phòng, an ninh, đối ngoại, kinh tế hoặc văn hóa",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm",
+      "condition_norm": "GAY_TON_HAI_QUOC_PHONG_AN_NINH_KINH_TE",
+      "effect_norm": "PHAT_TU_5_10_NAM",
+      "article_title": "Tội cố ý làm lộ bí mật nhà nước; tội chiếm đoạt, mua bán hoặc tiêu hủy vật hoặc tài liệu bí mật nhà nước[324]",
+      "content": "Điều 337. Tội cố ý làm lộ bí mật nhà nước; tội chiếm đoạt, mua bán hoặc tiêu hủy vật hoặc tài liệu bí mật nhà nước[324]\n1.[325] Người nào cố ý làm lộ bí mật nhà nước, chiếm đoạt, mua bán hoặc tiêu hủy vật hoặc tài liệu bí mật nhà nước, nếu không thuộc trường hợp quy định tại Điều 110 của Bộ luật này, thì bị phạt tù từ 02 năm đến 07 năm.\n2.[326] Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 05 năm đến 10 năm:\na) Bí mật nhà nước thuộc độ tối mật;\nb) Lợi dụng chức vụ, quyền hạn;\nc) Gây tổn hại về quốc phòng, an ninh, đối ngoại, kinh tế, văn hóa.\n3.[327] Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 10 năm đến 15 năm:\na) Có tổ chức;\nb) Bí mật nhà nước thuộc độ tuyệt mật;\nc) Phạm tội 02 lần trở lên;\nd) Gây tổn hại về chế độ chính trị, độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ.\n4. Người phạm tội còn có thể bị phạt tiền từ 10.000.000 đồng đến 100.000.000 đồng, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::GAY_TON_HAI_QUOC_PHONG_AN_NINH_KINH_TE",
+      "effect_event_id": "EVENT::PHAT_TU_5_10_NAM",
+      "semantic_score": 0.6547333002090454
+    },
+    {
+      "rule_id": "1223",
+      "row_id": 1222,
+      "article_id": "338",
+      "legal_subject": "người",
+      "subject_norm": "NGUOI",
+      "condition": "gây tổn hại về quốc phòng, an ninh, đối ngoại, kinh tế, văn hóa, chế độ chính trị, độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ",
+      "effect": "bị phạt tù từ 02 năm đến 07 năm",
+      "condition_norm": "VO_Y_GAY_TON_HAI_LOI_ICH_QUOC_GIA",
+      "effect_norm": "PHAT_TU_2_7_NAM",
+      "article_title": "Tội vô ý làm lộ bí mật nhà nước; tội làm mất vật, tài liệu bí mật nhà nước",
+      "content": "Điều 338. Tội vô ý làm lộ bí mật nhà nước; tội làm mất vật, tài liệu bí mật nhà nước\n1. Người nào vô ý làm lộ bí mật nhà nước hoặc làm mất vật, tài liệu bí mật nhà nước, thì bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm.\n2. Phạm tội thuộc một trong các trường hợp sau đây[328], thì bị phạt tù từ 02 năm đến 07 năm:\na) Bí mật nhà nước thuộc độ tối mật, tuyệt mật;\nb) Gây tổn hại về quốc phòng, an ninh, đối ngoại, kinh tế, văn hóa,[329] chế độ chính trị, độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ.\n3. Người phạm tội còn có thể bị cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::VO_Y_GAY_TON_HAI_LOI_ICH_QUOC_GIA",
+      "effect_event_id": "EVENT::PHAT_TU_2_7_NAM",
+      "semantic_score": 0.6525135040283203
+    },
+    {
+      "rule_id": "1432",
+      "row_id": 1431,
+      "article_id": "368",
+      "legal_subject": "người có thẩm quyền",
+      "subject_norm": "NGUOI_CO_THAM_QUYEN",
+      "condition": "truy cứu trách nhiệm hình sự về tội xâm phạm an ninh quốc gia hoặc tội khác là tội phạm đặc biệt nghiêm trọng",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm",
+      "condition_norm": "TRUY_CUU_TOI_DAC_BIET_NGHIEM_TRONG",
+      "effect_norm": "PHAT_TU_5_10_NAM",
+      "article_title": "Tội truy cứu trách nhiệm hình sự người không có tội",
+      "content": "Điều 368. Tội truy cứu trách nhiệm hình sự người không có tội\n1. Người nào có thẩm quyền mà truy cứu trách nhiệm hình sự người mà mình biết rõ là không có tội, thì bị phạt tù từ 01 năm đến 05 năm.\n2. Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 05 năm đến 10 năm:\na) Truy cứu trách nhiệm hình sự về tội xâm phạm an ninh quốc gia hoặc tội khác là tội phạm đặc biệt nghiêm trọng;\nb) Đối với từ 02 người đến 05 người;\nc) Đối với người dưới 18 tuổi, phụ nữ mà biết là có thai, người già yếu;\nd) Gây rối loạn tâm thần và hành vi của nạn nhân mà tỷ lệ tổn thương cơ thể từ 31% đến 60%[363];\nđ) Dẫn đến việc kết án oan người vô tội về tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng;\ne) Gây ảnh hưởng xấu đến an ninh, trật tự, an toàn xã hội.\n3. Phạm tội thuộc một trong các trường hợp sau đây, thì bị phạt tù từ 10 năm đến 15 năm:\na) Đối với 06 người trở lên;\nb) Dẫn đến việc kết án oan người vô tội về tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng;\nc) Gây rối loạn tâm thần và hành vi của nạn nhân mà tỷ lệ tổn thương cơ thể 61% trở lên[364];\nd) Làm người bị truy cứu trách nhiệm hình sự oan tự sát.\n4. Người phạm tội còn bị cấm đảm nhiệm chức vụ nhất định từ 01 năm đến 05 năm.",
+      "condition_event_id": "EVENT::TRUY_CUU_TOI_DAC_BIET_NGHIEM_TRONG",
+      "effect_event_id": "EVENT::PHAT_TU_5_10_NAM",
+      "semantic_score": 0.652336597442627
+    },
+    {
+      "rule_id": "147",
+      "row_id": 146,
+      "article_id": "43",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "phạm tội xâm phạm an ninh quốc gia",
+      "effect": "bị áp dụng hình phạt quản chế",
+      "condition_norm": "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+      "effect_norm": "AP_DUNG_QUAN_CHE",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+      "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "semantic_score": 0.6489031314849854
+    },
+    {
+      "rule_id": "151",
+      "row_id": 150,
+      "article_id": "44",
+      "legal_subject": "công dân Việt Nam",
+      "subject_norm": "CONG_DAN_VIET_NAM",
+      "condition": "bị kết án phạt tù về tội xâm phạm an ninh quốc gia hoặc tội phạm khác do Bộ luật Hình sự quy định",
+      "effect": "bị tước quyền làm việc trong cơ quan nhà nước",
+      "condition_norm": "BI_KET_AN_PHAT_TU_THUOC_TRUONG_HOP_QUY_DINH",
+      "effect_norm": "TUOC_QUYEN_LAM_VIEC_TRONG_CO_QUAN_NHA_NUOC",
+      "article_title": "Tước một số quyền công dân",
+      "content": "Điều 44. Tước một số quyền công dân\n1. Công dân Việt Nam bị kết án phạt tù về tội xâm phạm an ninh quốc gia hoặc tội phạm khác trong những trường hợp do Bộ luật này quy định, thì bị tước một hoặc một số quyền công dân sau đây:\na) Quyền ứng cử đại biểu cơ quan quyền lực Nhà nước;\nb) Quyền làm việc trong các cơ quan nhà nước và quyền phục vụ trong lực lượng vũ trang nhân dân.\n2. Thời hạn tước một số quyền công dân là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù hoặc kể từ ngày bản án có hiệu lực pháp luật trong trường hợp người bị kết án được hưởng án treo.",
+      "condition_event_id": "EVENT::BI_KET_AN_PHAT_TU_THUOC_TRUONG_HOP_QUY_DINH",
+      "effect_event_id": "EVENT::TUOC_QUYEN_LAM_VIEC_TRONG_CO_QUAN_NHA_NUOC",
+      "semantic_score": 0.6470582485198975
+    }
+  ],
+  "paths": [
+    {
+      "seed_rule_id": "147",
+      "rule_ids": [
+        "147",
+        "143"
+      ],
+      "event_node_ids": [
+        "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+        "EVENT::AP_DUNG_QUAN_CHE",
+        "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+      ],
+      "event_chain": [
+        "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+        "AP_DUNG_QUAN_CHE",
+        "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6489031314849854,
+      "score": 1.1089031314849853,
+      "steps": [
+        {
+          "from_rule_id": "147",
+          "to_rule_id": "143",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả AP_DUNG_QUAN_CHE của Rule 147 trở thành điều kiện AP_DUNG_QUAN_CHE của Rule 143."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "147",
+          "row_id": 146,
+          "article_id": "43",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "phạm tội xâm phạm an ninh quốc gia",
+          "effect": "bị áp dụng hình phạt quản chế",
+          "condition_norm": "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+          "effect_norm": "AP_DUNG_QUAN_CHE",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+          "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE"
+        },
+        {
+          "rule_id": "143",
+          "row_id": 142,
+          "article_id": "43",
+          "legal_subject": "người bị kết án phạt tù",
+          "subject_norm": "NGUOI_BI_KET_AN_PHAT_TU",
+          "condition": "bị áp dụng hình phạt quản chế",
+          "effect": "phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương",
+          "condition_norm": "AP_DUNG_QUAN_CHE",
+          "effect_norm": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+          "effect_event_id": "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC"
+        }
+      ]
+    },
+    {
+      "seed_rule_id": "147",
+      "rule_ids": [
+        "147",
+        "149"
+      ],
+      "event_node_ids": [
+        "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+        "EVENT::AP_DUNG_QUAN_CHE",
+        "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+      ],
+      "event_chain": [
+        "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+        "AP_DUNG_QUAN_CHE",
+        "THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+      ],
+      "event_node_count": 3,
+      "causal_edge_count": 2,
+      "rule_count": 2,
+      "is_pure_causal": true,
+      "seed_similarity": 0.6489031314849854,
+      "score": 1.1089031314849853,
+      "steps": [
+        {
+          "from_rule_id": "147",
+          "to_rule_id": "149",
+          "relation": "EFFECT_TO_CONDITION",
+          "relation_score": 0.42,
+          "explanation": "Hậu quả AP_DUNG_QUAN_CHE của Rule 147 trở thành điều kiện AP_DUNG_QUAN_CHE của Rule 149."
+        }
+      ],
+      "rules": [
+        {
+          "rule_id": "147",
+          "row_id": 146,
+          "article_id": "43",
+          "legal_subject": "người phạm tội",
+          "subject_norm": "NGUOI_PHAM_TOI",
+          "condition": "phạm tội xâm phạm an ninh quốc gia",
+          "effect": "bị áp dụng hình phạt quản chế",
+          "condition_norm": "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+          "effect_norm": "AP_DUNG_QUAN_CHE",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+          "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE"
+        },
+        {
+          "rule_id": "149",
+          "row_id": 148,
+          "article_id": "43",
+          "legal_subject": "người bị quản chế",
+          "subject_norm": "NGUOI_BI_QUAN_CHE",
+          "condition": "bị áp dụng hình phạt quản chế",
+          "effect": "thời hạn quản chế từ 01 năm đến 05 năm",
+          "condition_norm": "AP_DUNG_QUAN_CHE",
+          "effect_norm": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+          "article_title": "Quản chế",
+          "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+          "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+          "effect_event_id": "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "rule_id": "147",
+      "row_id": 146,
+      "article_id": "43",
+      "legal_subject": "người phạm tội",
+      "subject_norm": "NGUOI_PHAM_TOI",
+      "condition": "phạm tội xâm phạm an ninh quốc gia",
+      "effect": "bị áp dụng hình phạt quản chế",
+      "condition_norm": "PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+      "effect_norm": "AP_DUNG_QUAN_CHE",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::PHAM_TOI_XAM_PHAM_AN_NINH_QUOC_GIA",
+      "effect_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "semantic_score": 0.6489031314849854,
+      "evidence_score": 0.5544515657424927,
+      "path_count": 2
+    },
+    {
+      "rule_id": "143",
+      "row_id": 142,
+      "article_id": "43",
+      "legal_subject": "người bị kết án phạt tù",
+      "subject_norm": "NGUOI_BI_KET_AN_PHAT_TU",
+      "condition": "bị áp dụng hình phạt quản chế",
+      "effect": "phải cư trú, làm ăn sinh sống và cải tạo tại một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương",
+      "condition_norm": "AP_DUNG_QUAN_CHE",
+      "effect_norm": "CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "effect_event_id": "EVENT::CU_TRU_DUOI_SU_KIEM_SOAT_GIAO_DUC",
+      "evidence_score": 0.5544515657424927,
+      "path_count": 1
+    },
+    {
+      "rule_id": "149",
+      "row_id": 148,
+      "article_id": "43",
+      "legal_subject": "người bị quản chế",
+      "subject_norm": "NGUOI_BI_QUAN_CHE",
+      "condition": "bị áp dụng hình phạt quản chế",
+      "effect": "thời hạn quản chế từ 01 năm đến 05 năm",
+      "condition_norm": "AP_DUNG_QUAN_CHE",
+      "effect_norm": "THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+      "article_title": "Quản chế",
+      "content": "Điều 43. Quản chế\nQuản chế là buộc người bị kết án phạt tù phải cư trú, làm ăn sinh sống và cải tạo ở một địa phương nhất định dưới sự kiểm soát, giáo dục của chính quyền và nhân dân địa phương. Trong thời gian quản chế, người bị kết án không được tự ý ra khỏi nơi cư trú, bị tước một số quyền công dân theo quy định tại Điều 44 của Bộ luật này và bị cấm hành nghề hoặc làm công việc nhất định.\nQuản chế được áp dụng đối với người phạm tội xâm phạm an ninh quốc gia, người tái phạm nguy hiểm hoặc trong những trường hợp khác do Bộ luật này quy định.\nThời hạn quản chế là từ 01 năm đến 05 năm, kể từ ngày chấp hành xong hình phạt tù.",
+      "condition_event_id": "EVENT::AP_DUNG_QUAN_CHE",
+      "effect_event_id": "EVENT::THOI_HAN_QUAN_CHE_01_DEN_05_NAM",
+      "evidence_score": 0.5544515657424927,
+      "path_count": 1
+    }
+  ]
+}

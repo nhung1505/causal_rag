@@ -1,0 +1,967 @@
+{
+  "original_query": "Giả sử điều kiện hoặc sự kiện “bị áp dụng hình phạt chính” không còn xảy ra hoặc không còn được thỏa mãn. Theo chuỗi đang xét, có còn đủ căn cứ để kết luận “phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam” hay không?",
+  "intervention": {
+    "intervention_type": "NEGATE",
+    "target_event_norm": "AP_DUNG_HINH_PHAT_CHINH",
+    "target_event_text": "bị áp dụng hình phạt chính",
+    "replacement_event_norm": null,
+    "replacement_event_text": null,
+    "description": "do(NOT AP_DUNG_HINH_PHAT_CHINH)"
+  },
+  "factual_path_count": 2,
+  "verification_paths": [
+    {
+      "path_id": 1,
+      "path_score": 1.1435042715072632,
+      "path_status": "CAUSAL_PATH_BROKEN",
+      "direct_intervention_status": "INPUT_EVENT_NEGATED",
+      "intervention_event_position": 0,
+      "blocked_from_rule_index": 0,
+      "factual_rule_ids": [
+        "98",
+        "122"
+      ],
+      "factual_event_chain": [
+        "AP_DUNG_HINH_PHAT_CHINH",
+        "AP_DUNG_TRUC_XUAT",
+        "ROI_KHOI_LANH_THO_VIET_NAM"
+      ],
+      "counterfactual_event_chain_prefix": [],
+      "surviving_rule_ids": [],
+      "removed_rule_ids": [
+        "98",
+        "122"
+      ],
+      "removed_events": [
+        "AP_DUNG_HINH_PHAT_CHINH",
+        "AP_DUNG_TRUC_XUAT",
+        "ROI_KHOI_LANH_THO_VIET_NAM"
+      ],
+      "factual_final_effect": "ROI_KHOI_LANH_THO_VIET_NAM",
+      "counterfactual_final_effect_reachable": false,
+      "rule_evaluations": [
+        {
+          "path_position": 0,
+          "rule": {
+            "rule_id": "98",
+            "row_id": 97,
+            "article_id": "32",
+            "legal_subject": "người phạm tội",
+            "subject_norm": "NGUOI_PHAM_TOI",
+            "condition": "bị áp dụng hình phạt chính",
+            "effect": "trục xuất",
+            "condition_norm": "AP_DUNG_HINH_PHAT_CHINH",
+            "effect_norm": "AP_DUNG_TRUC_XUAT",
+            "condition_event_id": "EVENT::AP_DUNG_HINH_PHAT_CHINH",
+            "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+            "article_title": "Các hình phạt đối với người phạm tội",
+            "content": "Điều 32. Các hình phạt đối với người phạm tội\n1. Hình phạt chính bao gồm:\na) Cảnh cáo;\nb) Phạt tiền;\nc) Cải tạo không giam giữ;\nd) Trục xuất;\nđ) Tù có thời hạn; \ne) Tù chung thân; \ng) Tử hình.\n2. Hình phạt bổ sung bao gồm:\na) Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định;\nb) Cấm cư trú;\nc) Quản chế;\nd) Tước một số quyền công dân;\nđ) Tịch thu tài sản;\ne) Phạt tiền, khi không áp dụng là hình phạt chính;\ng) Trục xuất, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, người phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung."
+          },
+          "input_event": "AP_DUNG_HINH_PHAT_CHINH",
+          "output_event": "AP_DUNG_TRUC_XUAT",
+          "counterfactual_status": "INVALIDATED",
+          "reason": "Input event AP_DUNG_HINH_PHAT_CHINH của Rule 98 đã bị phủ định trực tiếp."
+        },
+        {
+          "path_position": 1,
+          "rule": {
+            "rule_id": "122",
+            "row_id": 121,
+            "article_id": "37",
+            "legal_subject": "người nước ngoài bị kết án",
+            "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+            "condition": "bị áp dụng hình phạt trục xuất",
+            "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+            "condition_norm": "AP_DUNG_TRUC_XUAT",
+            "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+            "condition_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+            "effect_event_id": "EVENT::ROI_KHOI_LANH_THO_VIET_NAM",
+            "article_title": "Trục xuất",
+            "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể."
+          },
+          "input_event": "AP_DUNG_TRUC_XUAT",
+          "output_event": "ROI_KHOI_LANH_THO_VIET_NAM",
+          "counterfactual_status": "BLOCKED_BY_UPSTREAM",
+          "reason": "Rule 122 bị chặn vì event đầu vào AP_DUNG_TRUC_XUAT không còn reachable sau can thiệp ở bước trước."
+        }
+      ],
+      "alternative_rules": [
+        {
+          "rule_id": "122",
+          "score": 1.3877804006849015,
+          "relations": [
+            "CAUSES_TARGET_EFFECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.72294020652771,
+          "explanation": "Ứng viên được tìm qua: CAUSES_TARGET_EFFECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "122",
+            "row_id": 121,
+            "article_id": "37",
+            "legal_subject": "người nước ngoài bị kết án",
+            "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+            "condition": "bị áp dụng hình phạt trục xuất",
+            "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+            "condition_norm": "AP_DUNG_TRUC_XUAT",
+            "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+            "condition_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+            "effect_event_id": "EVENT::ROI_KHOI_LANH_THO_VIET_NAM",
+            "article_title": "Trục xuất",
+            "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể."
+          }
+        },
+        {
+          "rule_id": "93",
+          "score": 0.94,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SAME_SUBJECT"
+          ],
+          "semantic_score": null,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_SUBJECT.",
+          "rule": {
+            "rule_id": "93",
+            "row_id": 92,
+            "article_id": "32",
+            "legal_subject": "người phạm tội",
+            "subject_norm": "NGUOI_PHAM_TOI",
+            "condition": "thực hiện một tội phạm",
+            "effect": "chỉ bị áp dụng một hình phạt chính",
+            "condition_norm": "PHAM_MOT_TOI",
+            "effect_norm": "AP_DUNG_MOT_HINH_PHAT_CHINH",
+            "condition_event_id": "EVENT::PHAM_MOT_TOI",
+            "effect_event_id": "EVENT::AP_DUNG_MOT_HINH_PHAT_CHINH",
+            "article_title": "Các hình phạt đối với người phạm tội",
+            "content": "Điều 32. Các hình phạt đối với người phạm tội\n1. Hình phạt chính bao gồm:\na) Cảnh cáo;\nb) Phạt tiền;\nc) Cải tạo không giam giữ;\nd) Trục xuất;\nđ) Tù có thời hạn; \ne) Tù chung thân; \ng) Tử hình.\n2. Hình phạt bổ sung bao gồm:\na) Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định;\nb) Cấm cư trú;\nc) Quản chế;\nd) Tước một số quyền công dân;\nđ) Tịch thu tài sản;\ne) Phạt tiền, khi không áp dụng là hình phạt chính;\ng) Trục xuất, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, người phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung."
+          }
+        },
+        {
+          "rule_id": "94",
+          "score": 0.94,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SAME_SUBJECT"
+          ],
+          "semantic_score": null,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_SUBJECT.",
+          "rule": {
+            "rule_id": "94",
+            "row_id": 93,
+            "article_id": "32",
+            "legal_subject": "người phạm tội",
+            "subject_norm": "NGUOI_PHAM_TOI",
+            "condition": "thực hiện một tội phạm",
+            "effect": "có thể bị áp dụng một hoặc nhiều hình phạt bổ sung",
+            "condition_norm": "PHAM_MOT_TOI",
+            "effect_norm": "CO_THE_AP_DUNG_HINH_PHAT_BO_SUNG",
+            "condition_event_id": "EVENT::PHAM_MOT_TOI",
+            "effect_event_id": "EVENT::CO_THE_AP_DUNG_HINH_PHAT_BO_SUNG",
+            "article_title": "Các hình phạt đối với người phạm tội",
+            "content": "Điều 32. Các hình phạt đối với người phạm tội\n1. Hình phạt chính bao gồm:\na) Cảnh cáo;\nb) Phạt tiền;\nc) Cải tạo không giam giữ;\nd) Trục xuất;\nđ) Tù có thời hạn; \ne) Tù chung thân; \ng) Tử hình.\n2. Hình phạt bổ sung bao gồm:\na) Cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định;\nb) Cấm cư trú;\nc) Quản chế;\nd) Tước một số quyền công dân;\nđ) Tịch thu tài sản;\ne) Phạt tiền, khi không áp dụng là hình phạt chính;\ng) Trục xuất, khi không áp dụng là hình phạt chính.\n3. Đối với mỗi tội phạm, người phạm tội chỉ bị áp dụng một hình phạt chính và có thể bị áp dụng một hoặc một số hình phạt bổ sung."
+          }
+        },
+        {
+          "rule_id": "78",
+          "score": 0.7892080526351929,
+          "relations": [
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6471716165542603,
+          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "78",
+            "row_id": 77,
+            "article_id": "29",
+            "legal_subject": "người phạm tội",
+            "subject_norm": "NGUOI_PHAM_TOI",
+            "condition": "khi tiến hành điều tra, truy tố hoặc xét xử có sự thay đổi chính sách, pháp luật làm cho hành vi phạm tội không còn nguy hiểm cho xã hội",
+            "effect": "được miễn trách nhiệm hình sự",
+            "condition_norm": "THAY_DOI_CHINH_SACH_PHAP_LUAT",
+            "effect_norm": "MIEN_TRACH_NHIEM_HINH_SU",
+            "condition_event_id": "EVENT::THAY_DOI_CHINH_SACH_PHAP_LUAT",
+            "effect_event_id": "EVENT::MIEN_TRACH_NHIEM_HINH_SU",
+            "article_title": "Căn cứ miễn trách nhiệm hình sự",
+            "content": "Điều 29. Căn cứ miễn trách nhiệm hình sự\n1. Người phạm tội được miễn trách nhiệm hình sự khi có một trong những căn cứ sau đây:\na) Khi tiến hành điều tra, truy tố hoặc xét xử, do có sự thay đổi chính sách, pháp luật làm cho hành vi phạm tội không còn nguy hiểm cho xã hội nữa;\nb) Khi có quyết định đại xá.\n2. Người phạm tội có thể được miễn trách nhiệm hình sự khi có một trong các căn cứ sau đây:\na) Khi tiến hành điều tra, truy tố, xét xử do chuyển biến của tình hình mà người phạm tội không còn nguy hiểm cho xã hội nữa;\nb) Khi tiến hành điều tra, truy tố, xét xử, người phạm tội mắc bệnh hiểm nghèo dẫn đến không còn khả năng gây nguy hiểm cho xã hội nữa;\nc) Trước khi hành vi phạm tội bị phát giác,[9] người phạm tội tự thú, khai rõ sự việc, góp phần có hiệu quả vào việc phát hiện và điều tra tội phạm, cố gắng hạn chế đến mức thấp nhất hậu quả của tội phạm và lập công lớn hoặc có cống hiến đặc biệt, được Nhà nước và xã hội thừa nhận.\n3. Người thực hiện tội phạm nghiêm trọng do vô ý hoặc tội phạm ít nghiêm trọng[10] gây thiệt hại về tính mạng, sức khỏe, danh dự, nhân phẩm hoặc tài sản của người khác, đã tự nguyện sửa chữa, bồi thường thiệt hại hoặc khắc phục hậu quả[11] và được người bị hại hoặc người đại diện hợp pháp[12] của người bị hại tự nguyện hòa giải và đề nghị miễn trách nhiệm hình sự, thì có thể được miễn trách nhiệm hình sự.\nChương VI \nHÌNH PHẠT"
+          }
+        },
+        {
+          "rule_id": "108",
+          "score": 0.7833065986633301,
+          "relations": [
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6546664237976074,
+          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "108",
+            "row_id": 107,
+            "article_id": "35",
+            "legal_subject": "người phạm tội",
+            "subject_norm": "NGUOI_PHAM_TOI",
+            "condition": "phạm tội ít nghiêm trọng hoặc phạm tội nghiêm trọng do Bộ luật Hình sự quy định",
+            "effect": "có thể bị áp dụng hình phạt tiền là hình phạt chính",
+            "condition_norm": "PHAM_TOI_IT_HOAC_NGHIEM_TRONG",
+            "effect_norm": "CO_THE_PHAT_TIEN_HINH_PHAT_CHINH",
+            "condition_event_id": "EVENT::PHAM_TOI_IT_HOAC_NGHIEM_TRONG",
+            "effect_event_id": "EVENT::CO_THE_PHAT_TIEN_HINH_PHAT_CHINH",
+            "article_title": "Phạt tiền",
+            "content": "Điều 35. Phạt tiền\n1. Phạt tiền được áp dụng là hình phạt chính đối với các trường hợp sau đây:\na) Người phạm tội ít nghiêm trọng, phạm tội nghiêm trọng do Bộ luật này quy định;\nb) Người phạm tội rất nghiêm trọng xâm phạm trật tự quản lý kinh tế, môi trường, trật tự công cộng, an toàn công cộng và một số tội phạm khác do Bộ luật này quy định.\n2. Hình phạt tiền được áp dụng là hình phạt bổ sung đối với người phạm tội về tham nhũng, ma tuý hoặc những tội phạm khác do Bộ luật này quy định.\n3. Mức tiền phạt được quyết định căn cứ vào tính chất và mức độ nguy hiểm của tội phạm, đồng thời có xét đến tình hình tài sản của người phạm tội, sự biến động của giá cả, nhưng không được thấp hơn 1.000.000 đồng.\n4. Hình phạt tiền đối với pháp nhân thương mại phạm tội được quy định tại Điều 77 của Bộ luật này."
+          }
+        },
+        {
+          "rule_id": "112",
+          "score": 0.7810445809364319,
+          "relations": [
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6465877890586853,
+          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "112",
+            "row_id": 111,
+            "article_id": "36",
+            "legal_subject": "người phạm tội",
+            "subject_norm": "NGUOI_PHAM_TOI",
+            "condition": "phạm tội ít nghiêm trọng hoặc phạm tội nghiêm trọng, có nơi làm việc ổn định hoặc nơi cư trú rõ ràng và không cần thiết phải cách ly khỏi xã hội",
+            "effect": "bị áp dụng hình phạt cải tạo không giam giữ từ 06 tháng đến 03 năm",
+            "condition_norm": "DU_DIEU_KIEN_CAI_TAO_KHONG_GIAM_GIU",
+            "effect_norm": "CAI_TAO_KHONG_GIAM_GIU",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_CAI_TAO_KHONG_GIAM_GIU",
+            "effect_event_id": "EVENT::CAI_TAO_KHONG_GIAM_GIU",
+            "article_title": "Cải tạo không giam giữ",
+            "content": "Điều 36. Cải tạo không giam giữ\n1. Cải tạo không giam giữ được áp dụng từ 06 tháng đến 03 năm đối với người phạm tội ít nghiêm trọng, phạm tội nghiêm trọng do Bộ luật này quy định mà đang có nơi làm việc ổn định hoặc có nơi cư trú rõ ràng nếu xét thấy không cần thiết phải cách ly người phạm tội khỏi xã hội.\nNếu người bị kết án đã bị tạm giữ, tạm giam thì thời gian tạm giữ, tạm giam được trừ vào thời gian chấp hành hình phạt cải tạo không giam giữ, cứ 01 ngày tạm giữ, tạm giam bằng 03 ngày cải tạo không giam giữ.\n2. Tòa án giao người bị phạt cải tạo không giam giữ cho cơ quan, tổ chức nơi người đó làm việc, học tập hoặc Ủy ban nhân dân cấp xã nơi người đó cư trú để giám sát, giáo dục. Gia đình người bị kết án có trách nhiệm phối hợp với cơ quan, tổ chức hoặc Ủy ban nhân dân cấp xã trong việc giám sát, giáo dục người đó.\n3. Trong thời gian chấp hành án, người bị kết án phải thực hiện một số nghĩa vụ theo các quy định về cải tạo không giam giữ và bị khấu trừ một phần thu nhập từ 05% đến 20% để sung quỹ nhà nước. Việc khấu trừ thu nhập được thực hiện hằng tháng. Trong trường hợp đặc biệt, Tòa án có thể cho miễn việc khấu trừ thu nhập, nhưng phải ghi rõ lý do trong bản án.\nKhông khấu trừ thu nhập đối với người chấp hành án là người đang thực hiện nghĩa vụ quân sự.\n4. Trường hợp người bị phạt cải tạo không giam giữ không có việc làm hoặc bị mất việc làm trong thời gian chấp hành hình phạt này thì phải thực hiện một số công việc lao động phục vụ cộng đồng trong thời gian cải tạo không giam giữ.\nThời gian lao động phục vụ cộng đồng không quá 04 giờ trong một ngày và không quá 05 ngày trong 01 tuần.\nKhông áp dụng biện pháp lao động phục vụ cộng đồng đối với phụ nữ có thai hoặc đang nuôi con dưới 06 tháng tuổi, người già yếu, người bị bệnh hiểm nghèo, người khuyết tật nặng hoặc khuyết tật đặc biệt nặng.\nNgười bị kết án cải tạo không giam giữ phải thực hiện những nghĩa vụ quy định tại Luật Thi hành án hình sự."
+          }
+        },
+        {
+          "rule_id": "225",
+          "score": 0.780352509021759,
+          "relations": [
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6441161036491394,
+          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "225",
+            "row_id": 224,
+            "article_id": "59",
+            "legal_subject": "người phạm tội",
+            "subject_norm": "NGUOI_PHAM_TOI",
+            "condition": "thuộc trường hợp quy định tại khoản 1 hoặc khoản 2 Điều 54 và đáng được khoan hồng đặc biệt nhưng chưa đến mức miễn trách nhiệm hình sự",
+            "effect": "có thể được miễn hình phạt",
+            "condition_norm": "DU_DIEU_KIEN_KHOAN_HONG_DAC_BIET",
+            "effect_norm": "CO_THE_MIEN_HINH_PHAT",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_KHOAN_HONG_DAC_BIET",
+            "effect_event_id": "EVENT::CO_THE_MIEN_HINH_PHAT",
+            "article_title": "Miễn hình phạt",
+            "content": "Điều 59. Miễn hình phạt\nNgười phạm tội có thể được miễn hình phạt nếu thuộc trường hợp quy định tại khoản 1 và khoản 2 Điều 54 của Bộ luật này mà đáng được khoan hồng đặc biệt nhưng chưa đến mức được miễn trách nhiệm hình sự.\nChương IX\nTHỜI HIỆU THI HÀNH BẢN ÁN, MIỄN CHẤP HÀNH HÌNH PHẠT, GIẢM THỜI HẠN CHẤP HÀNH HÌNH PHẠT"
+          }
+        },
+        {
+          "rule_id": "80",
+          "score": 0.7802922940254211,
+          "relations": [
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6439010500907898,
+          "explanation": "Ứng viên được tìm qua: SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "80",
+            "row_id": 79,
+            "article_id": "29",
+            "legal_subject": "người phạm tội",
+            "subject_norm": "NGUOI_PHAM_TOI",
+            "condition": "khi tiến hành điều tra, truy tố, xét xử do chuyển biến của tình hình mà không còn nguy hiểm cho xã hội",
+            "effect": "có thể được miễn trách nhiệm hình sự",
+            "condition_norm": "KHONG_CON_NGUY_HIEM_CHO_XA_HOI",
+            "effect_norm": "CO_THE_MIEN_TNHS",
+            "condition_event_id": "EVENT::KHONG_CON_NGUY_HIEM_CHO_XA_HOI",
+            "effect_event_id": "EVENT::CO_THE_MIEN_TNHS",
+            "article_title": "Căn cứ miễn trách nhiệm hình sự",
+            "content": "Điều 29. Căn cứ miễn trách nhiệm hình sự\n1. Người phạm tội được miễn trách nhiệm hình sự khi có một trong những căn cứ sau đây:\na) Khi tiến hành điều tra, truy tố hoặc xét xử, do có sự thay đổi chính sách, pháp luật làm cho hành vi phạm tội không còn nguy hiểm cho xã hội nữa;\nb) Khi có quyết định đại xá.\n2. Người phạm tội có thể được miễn trách nhiệm hình sự khi có một trong các căn cứ sau đây:\na) Khi tiến hành điều tra, truy tố, xét xử do chuyển biến của tình hình mà người phạm tội không còn nguy hiểm cho xã hội nữa;\nb) Khi tiến hành điều tra, truy tố, xét xử, người phạm tội mắc bệnh hiểm nghèo dẫn đến không còn khả năng gây nguy hiểm cho xã hội nữa;\nc) Trước khi hành vi phạm tội bị phát giác,[9] người phạm tội tự thú, khai rõ sự việc, góp phần có hiệu quả vào việc phát hiện và điều tra tội phạm, cố gắng hạn chế đến mức thấp nhất hậu quả của tội phạm và lập công lớn hoặc có cống hiến đặc biệt, được Nhà nước và xã hội thừa nhận.\n3. Người thực hiện tội phạm nghiêm trọng do vô ý hoặc tội phạm ít nghiêm trọng[10] gây thiệt hại về tính mạng, sức khỏe, danh dự, nhân phẩm hoặc tài sản của người khác, đã tự nguyện sửa chữa, bồi thường thiệt hại hoặc khắc phục hậu quả[11] và được người bị hại hoặc người đại diện hợp pháp[12] của người bị hại tự nguyện hòa giải và đề nghị miễn trách nhiệm hình sự, thì có thể được miễn trách nhiệm hình sự.\nChương VI \nHÌNH PHẠT"
+          }
+        },
+        {
+          "rule_id": "123",
+          "score": 0.6327742147445679,
+          "relations": [
+            "SAME_EFFECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6795507669448853,
+          "explanation": "Ứng viên được tìm qua: SAME_EFFECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "123",
+            "row_id": 122,
+            "article_id": "37",
+            "legal_subject": "người nước ngoài bị kết án",
+            "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+            "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+            "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+            "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+            "effect_norm": "AP_DUNG_TRUC_XUAT",
+            "condition_event_id": "EVENT::TOA_AN_XET_THAY_CAN_THIET",
+            "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+            "article_title": "Trục xuất",
+            "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể."
+          }
+        },
+        {
+          "rule_id": "209",
+          "score": 0.5578066119280728,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6496340036392212,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "209",
+            "row_id": 208,
+            "article_id": "55",
+            "legal_subject": "người phạm nhiều tội",
+            "subject_norm": "NGUOI_PHAM_NHIEU_TOI",
+            "condition": "các hình phạt chính đều là cải tạo không giam giữ",
+            "effect": "các hình phạt được cộng lại thành hình phạt chung không quá 03 năm",
+            "condition_norm": "NHIEU_HINH_PHAT_CAI_TAO_KHONG_GIAM_GIU",
+            "effect_norm": "TONG_HOP_KHONG_QUA_03_NAM",
+            "condition_event_id": "EVENT::NHIEU_HINH_PHAT_CAI_TAO_KHONG_GIAM_GIU",
+            "effect_event_id": "EVENT::TONG_HOP_KHONG_QUA_03_NAM",
+            "article_title": "Quyết định hình phạt trong trường hợp phạm nhiều tội",
+            "content": "Điều 55. Quyết định hình phạt trong trường hợp phạm nhiều tội\nKhi xét xử cùng 01 lần một người phạm nhiều tội, Tòa án quyết định hình phạt đối với từng tội và tổng hợp hình phạt theo quy định sau đây:\n1. Đối với hình phạt chính:\na) Nếu các hình phạt đã tuyên cùng là cải tạo không giam giữ hoặc cùng là tù có thời hạn, thì các hình phạt đó được cộng lại thành hình phạt chung; hình phạt chung không được vượt quá 03 năm đối với hình phạt cải tạo không giam giữ, 30 năm đối với hình phạt tù có thời hạn;\nb) Nếu các hình phạt đã tuyên là cải tạo không giam giữ, tù có thời hạn, thì hình phạt cải tạo không giam giữ được chuyển đổi thành hình phạt tù theo tỷ lệ cứ 03 ngày cải tạo không giam giữ được chuyển đổi thành 01 ngày tù để tổng hợp thành hình phạt chung theo quy định tại điểm a khoản 1 Điều này;\nc) Nếu hình phạt nặng nhất trong số các hình phạt đã tuyên là tù chung thân thì hình phạt chung là tù chung thân;\nd) Nếu hình phạt nặng nhất trong số các hình phạt đã tuyên là tử hình thì hình phạt chung là tử hình;\nđ) Phạt tiền không tổng hợp với các loại hình phạt khác; các khoản tiền phạt được cộng lại thành hình phạt chung;\ne) Trục xuất không tổng hợp với các loại hình phạt khác.\n2. Đối với hình phạt bổ sung:\na) Nếu các hình phạt đã tuyên là cùng loại thì hình phạt chung được quyết định trong giới hạn do Bộ luật này quy định đối với loại hình phạt đó; riêng đối với hình phạt tiền thì các khoản tiền phạt được cộng lại thành hình phạt chung;\nb) Nếu các hình phạt đã tuyên là khác loại thì người bị kết án phải chấp hành tất cả các hình phạt đã tuyên."
+          }
+        }
+      ],
+      "effect_comparison": {
+        "target_effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+        "same_effect_rules": [
+          {
+            "rule_id": "122",
+            "article_id": "37",
+            "condition": "bị áp dụng hình phạt trục xuất",
+            "condition_norm": "AP_DUNG_TRUC_XUAT",
+            "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+            "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+            "score": 1.3877804006849015,
+            "relations": [
+              "CAUSES_TARGET_EFFECT",
+              "SEMANTIC"
+            ]
+          }
+        ],
+        "different_effect_rules": [
+          {
+            "rule_id": "93",
+            "article_id": "32",
+            "condition": "thực hiện một tội phạm",
+            "condition_norm": "PHAM_MOT_TOI",
+            "effect": "chỉ bị áp dụng một hình phạt chính",
+            "effect_norm": "AP_DUNG_MOT_HINH_PHAT_CHINH",
+            "score": 0.94,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SAME_SUBJECT"
+            ]
+          },
+          {
+            "rule_id": "94",
+            "article_id": "32",
+            "condition": "thực hiện một tội phạm",
+            "condition_norm": "PHAM_MOT_TOI",
+            "effect": "có thể bị áp dụng một hoặc nhiều hình phạt bổ sung",
+            "effect_norm": "CO_THE_AP_DUNG_HINH_PHAT_BO_SUNG",
+            "score": 0.94,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SAME_SUBJECT"
+            ]
+          },
+          {
+            "rule_id": "78",
+            "article_id": "29",
+            "condition": "khi tiến hành điều tra, truy tố hoặc xét xử có sự thay đổi chính sách, pháp luật làm cho hành vi phạm tội không còn nguy hiểm cho xã hội",
+            "condition_norm": "THAY_DOI_CHINH_SACH_PHAP_LUAT",
+            "effect": "được miễn trách nhiệm hình sự",
+            "effect_norm": "MIEN_TRACH_NHIEM_HINH_SU",
+            "score": 0.7892080526351929,
+            "relations": [
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "108",
+            "article_id": "35",
+            "condition": "phạm tội ít nghiêm trọng hoặc phạm tội nghiêm trọng do Bộ luật Hình sự quy định",
+            "condition_norm": "PHAM_TOI_IT_HOAC_NGHIEM_TRONG",
+            "effect": "có thể bị áp dụng hình phạt tiền là hình phạt chính",
+            "effect_norm": "CO_THE_PHAT_TIEN_HINH_PHAT_CHINH",
+            "score": 0.7833065986633301,
+            "relations": [
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "112",
+            "article_id": "36",
+            "condition": "phạm tội ít nghiêm trọng hoặc phạm tội nghiêm trọng, có nơi làm việc ổn định hoặc nơi cư trú rõ ràng và không cần thiết phải cách ly khỏi xã hội",
+            "condition_norm": "DU_DIEU_KIEN_CAI_TAO_KHONG_GIAM_GIU",
+            "effect": "bị áp dụng hình phạt cải tạo không giam giữ từ 06 tháng đến 03 năm",
+            "effect_norm": "CAI_TAO_KHONG_GIAM_GIU",
+            "score": 0.7810445809364319,
+            "relations": [
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "225",
+            "article_id": "59",
+            "condition": "thuộc trường hợp quy định tại khoản 1 hoặc khoản 2 Điều 54 và đáng được khoan hồng đặc biệt nhưng chưa đến mức miễn trách nhiệm hình sự",
+            "condition_norm": "DU_DIEU_KIEN_KHOAN_HONG_DAC_BIET",
+            "effect": "có thể được miễn hình phạt",
+            "effect_norm": "CO_THE_MIEN_HINH_PHAT",
+            "score": 0.780352509021759,
+            "relations": [
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "80",
+            "article_id": "29",
+            "condition": "khi tiến hành điều tra, truy tố, xét xử do chuyển biến của tình hình mà không còn nguy hiểm cho xã hội",
+            "condition_norm": "KHONG_CON_NGUY_HIEM_CHO_XA_HOI",
+            "effect": "có thể được miễn trách nhiệm hình sự",
+            "effect_norm": "CO_THE_MIEN_TNHS",
+            "score": 0.7802922940254211,
+            "relations": [
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "123",
+            "article_id": "37",
+            "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+            "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+            "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+            "effect_norm": "AP_DUNG_TRUC_XUAT",
+            "score": 0.6327742147445679,
+            "relations": [
+              "SAME_EFFECT",
+              "SEMANTIC"
+            ]
+          }
+        ],
+        "possibly_contradictory_rules": [
+          {
+            "rule_id": "209",
+            "article_id": "55",
+            "condition": "các hình phạt chính đều là cải tạo không giam giữ",
+            "condition_norm": "NHIEU_HINH_PHAT_CAI_TAO_KHONG_GIAM_GIU",
+            "effect": "các hình phạt được cộng lại thành hình phạt chung không quá 03 năm",
+            "effect_norm": "TONG_HOP_KHONG_QUA_03_NAM",
+            "score": 0.5578066119280728,
+            "relations": [
+              "SEMANTIC"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "label": "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND",
+        "conclusion": "Factual path đã bị phá vỡ.Hệ thống tìm thấy rule khác có thể liên quan đến cùng hệ quả cuối,nhưng chưa đủ căn cứ xác định hệ quả đó vẫn áp dụng trong tình huống phản thực."
+      }
+    },
+    {
+      "path_id": 2,
+      "path_score": 1.0984982466697693,
+      "path_status": "CAUSAL_PATH_PRESERVED",
+      "direct_intervention_status": "TARGET_EVENT_NOT_IN_PATH",
+      "intervention_event_position": null,
+      "blocked_from_rule_index": null,
+      "factual_rule_ids": [
+        "123",
+        "122"
+      ],
+      "factual_event_chain": [
+        "TOA_AN_XET_THAY_CAN_THIET",
+        "AP_DUNG_TRUC_XUAT",
+        "ROI_KHOI_LANH_THO_VIET_NAM"
+      ],
+      "counterfactual_event_chain_prefix": [
+        "TOA_AN_XET_THAY_CAN_THIET",
+        "AP_DUNG_TRUC_XUAT",
+        "ROI_KHOI_LANH_THO_VIET_NAM"
+      ],
+      "surviving_rule_ids": [
+        "123",
+        "122"
+      ],
+      "removed_rule_ids": [],
+      "removed_events": [],
+      "factual_final_effect": "ROI_KHOI_LANH_THO_VIET_NAM",
+      "counterfactual_final_effect_reachable": true,
+      "rule_evaluations": [
+        {
+          "path_position": 0,
+          "rule": {
+            "rule_id": "123",
+            "row_id": 122,
+            "article_id": "37",
+            "legal_subject": "người nước ngoài bị kết án",
+            "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+            "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+            "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+            "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+            "effect_norm": "AP_DUNG_TRUC_XUAT",
+            "condition_event_id": "EVENT::TOA_AN_XET_THAY_CAN_THIET",
+            "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+            "article_title": "Trục xuất",
+            "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể."
+          },
+          "input_event": "TOA_AN_XET_THAY_CAN_THIET",
+          "output_event": "AP_DUNG_TRUC_XUAT",
+          "counterfactual_status": "PRESERVED",
+          "reason": "Event bị can thiệp không xuất hiện trong causal path này."
+        },
+        {
+          "path_position": 1,
+          "rule": {
+            "rule_id": "122",
+            "row_id": 121,
+            "article_id": "37",
+            "legal_subject": "người nước ngoài bị kết án",
+            "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+            "condition": "bị áp dụng hình phạt trục xuất",
+            "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+            "condition_norm": "AP_DUNG_TRUC_XUAT",
+            "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+            "condition_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+            "effect_event_id": "EVENT::ROI_KHOI_LANH_THO_VIET_NAM",
+            "article_title": "Trục xuất",
+            "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể."
+          },
+          "input_event": "AP_DUNG_TRUC_XUAT",
+          "output_event": "ROI_KHOI_LANH_THO_VIET_NAM",
+          "counterfactual_status": "PRESERVED",
+          "reason": "Event bị can thiệp không xuất hiện trong causal path này."
+        }
+      ],
+      "alternative_rules": [
+        {
+          "rule_id": "122",
+          "score": 1.622423257827759,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "CAUSES_TARGET_EFFECT",
+            "SAME_ARTICLE",
+            "SAME_CONDITION",
+            "SAME_EFFECT",
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.72294020652771,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, CAUSES_TARGET_EFFECT, SAME_ARTICLE, SAME_CONDITION, SAME_EFFECT, SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "122",
+            "row_id": 121,
+            "article_id": "37",
+            "legal_subject": "người nước ngoài bị kết án",
+            "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+            "condition": "bị áp dụng hình phạt trục xuất",
+            "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+            "condition_norm": "AP_DUNG_TRUC_XUAT",
+            "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+            "condition_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+            "effect_event_id": "EVENT::ROI_KHOI_LANH_THO_VIET_NAM",
+            "article_title": "Trục xuất",
+            "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể."
+          }
+        },
+        {
+          "rule_id": "123",
+          "score": 1.4102742147445682,
+          "relations": [
+            "ARTICLE_REFERENCE",
+            "SAME_ARTICLE",
+            "SAME_SUBJECT",
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6795507669448853,
+          "explanation": "Ứng viên được tìm qua: ARTICLE_REFERENCE, SAME_ARTICLE, SAME_SUBJECT, SEMANTIC.",
+          "rule": {
+            "rule_id": "123",
+            "row_id": 122,
+            "article_id": "37",
+            "legal_subject": "người nước ngoài bị kết án",
+            "subject_norm": "NGUOI_NUOC_NGOAI_BI_KET_AN",
+            "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+            "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+            "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+            "effect_norm": "AP_DUNG_TRUC_XUAT",
+            "condition_event_id": "EVENT::TOA_AN_XET_THAY_CAN_THIET",
+            "effect_event_id": "EVENT::AP_DUNG_TRUC_XUAT",
+            "article_title": "Trục xuất",
+            "content": "Điều 37. Trục xuất\nTrục xuất là buộc người nước ngoài bị kết án phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nTrục xuất được Tòa án áp dụng là hình phạt chính hoặc hình phạt bổ sung trong từng trường hợp cụ thể."
+          }
+        },
+        {
+          "rule_id": "18",
+          "score": 0.5382606172561647,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6723593473434448,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "18",
+            "row_id": 17,
+            "article_id": "5",
+            "legal_subject": "người nước ngoài",
+            "subject_norm": "NGUOI_NUOC_NGOAI",
+            "condition": "điều ước quốc tế không quy định và không có tập quán quốc tế áp dụng",
+            "effect": "trách nhiệm hình sự được giải quyết bằng con đường ngoại giao",
+            "condition_norm": "KHONG_CO_DIEU_UOC_AP_DUNG",
+            "effect_norm": "GIAI_QUYET_NGOAI_GIAO",
+            "condition_event_id": "EVENT::KHONG_CO_DIEU_UOC_AP_DUNG",
+            "effect_event_id": "EVENT::GIAI_QUYET_NGOAI_GIAO",
+            "article_title": "Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+            "content": "Điều 5. Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\n1. Bộ luật Hình sự được áp dụng đối với mọi hành vi phạm tội thực hiện trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nQuy định này cũng được áp dụng đối với hành vi phạm tội hoặc hậu quả của hành vi phạm tội xảy ra trên tàu bay, tàu biển mang quốc tịch Việt Nam hoặc tại vùng đặc quyền kinh tế, thềm lục địa của Việt Nam.\n2. Đối với người nước ngoài phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam thuộc đối tượng được hưởng quyền miễn trừ ngoại giao hoặc lãnh sự theo pháp luật Việt Nam, theo điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên hoặc theo tập quán quốc tế, thì vấn đề trách nhiệm hình sự của họ được giải quyết theo quy định của điều ước quốc tế hoặc theo tập quán quốc tế đó; trường hợp điều ước quốc tế đó không quy định hoặc không có tập quán quốc tế thì trách nhiệm hình sự của họ được giải quyết bằng con đường ngoại giao."
+          }
+        },
+        {
+          "rule_id": "240",
+          "score": 0.5297436873118083,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6538465023040771,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "240",
+            "row_id": 239,
+            "article_id": "62",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "được đặc xá hoặc đại xá",
+            "effect": "được miễn chấp hành hình phạt",
+            "condition_norm": "DAC_XA_HOAC_DAI_XA",
+            "effect_norm": "MIEN_CHAP_HANH_HINH_PHAT",
+            "condition_event_id": "EVENT::DAC_XA_HOAC_DAI_XA",
+            "effect_event_id": "EVENT::MIEN_CHAP_HANH_HINH_PHAT",
+            "article_title": "Miễn chấp hành hình phạt",
+            "content": "Điều 62. Miễn chấp hành hình phạt\n1. Người bị kết án được miễn chấp hành hình phạt khi được đặc xá hoặc đại xá.\n2. Người bị kết án cải tạo không giam giữ hoặc tù có thời hạn đến 03 năm chưa chấp hành hình phạt thì theo đề nghị của Viện trưởng Viện kiểm sát, Tòa án có thể quyết định miễn chấp hành hình phạt, nếu thuộc một trong các trường hợp sau đây:\na) Sau khi bị kết án đã lập công;\nb) Mắc bệnh hiểm nghèo;\nc) Chấp hành tốt pháp luật, có hoàn cảnh gia đình đặc biệt khó khăn và xét thấy người đó không còn nguy hiểm cho xã hội nữa.\n3. Người bị kết án phạt tù có thời hạn trên 03 năm, chưa chấp hành hình phạt nếu đã lập công lớn hoặc mắc bệnh hiểm nghèo và người đó không còn nguy hiểm cho xã hội nữa, thì theo đề nghị của Viện trưởng Viện kiểm sát, Tòa án có thể quyết định miễn chấp hành toàn bộ hình phạt.\n4. Người bị kết án phạt tù đến 03 năm, đã được tạm đình chỉ chấp hành hình phạt, nếu trong thời gian được tạm đình chỉ mà đã lập công hoặc chấp hành tốt pháp luật, hoàn cảnh gia đình đặc biệt khó khăn và xét thấy người đó không còn nguy hiểm cho xã hội nữa, thì theo đề nghị của Viện trưởng Viện kiểm sát, Tòa án có thể quyết định miễn chấp hành phần hình phạt còn lại.\n5. Người bị kết án phạt tiền đã tích cực chấp hành được một phần hình phạt nhưng bị lâm vào hoàn cảnh kinh tế đặc biệt khó khăn kéo dài do thiên tai, hỏa hoạn, tai nạn hoặc ốm đau gây ra mà không thể tiếp tục chấp hành được phần hình phạt còn lại hoặc lập công lớn, thì theo đề nghị của Viện trưởng Viện kiểm sát, Tòa án có thể quyết định miễn chấp hành phần tiền phạt còn lại.\n6.[24] Người bị phạt cấm cư trú hoặc quản chế, nếu đã chấp hành được một phần hai thời hạn hình phạt và cải tạo tốt, thì theo đề nghị của cơ quan có thẩm quyền, Tòa án có thể quyết định miễn chấp hành phần hình phạt còn lại.\n7. Người được miễn chấp hành hình phạt theo quy định tại Điều này vẫn phải thực hiện đầy đủ các nghĩa vụ dân sự do Tòa án tuyên trong bản án."
+          }
+        },
+        {
+          "rule_id": "318",
+          "score": 0.5281009594599406,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6479796171188354,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "318",
+            "row_id": 317,
+            "article_id": "71",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "thời hạn chấp hành hình phạt bổ sung dài hơn thời hạn luật định",
+            "effect": "Tòa án quyết định xóa án tích sau khi chấp hành xong hình phạt bổ sung",
+            "condition_norm": "THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect_norm": "XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "condition_event_id": "EVENT::THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect_event_id": "EVENT::XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "article_title": "Xóa án tích theo quyết định của Tòa án[29]",
+            "content": "Điều 71. Xóa án tích theo quyết định của Tòa án[29]\n1. Xóa án tích theo quyết định của Tòa án được áp dụng đối với người bị kết án về một trong các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này. Tòa án quyết định việc xóa án tích đối với người bị kết án căn cứ vào tính chất của tội phạm đã thực hiện, thái độ chấp hành pháp luật, thái độ lao động của người bị kết án và các điều kiện quy định tại khoản 2 Điều này.\n2. Người bị kết án được Tòa án quyết định việc xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 03 năm trong trường hợp bị phạt tù đến 05 năm;\nc) 05 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 07 năm trong trường hợp bị phạt tù trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại điểm a, điểm b khoản này thì Tòa án quyết định việc xóa án tích từ khi người đó chấp hành xong hình phạt bổ sung.\n3. Người bị Tòa án bác đơn xin xóa án tích lần đầu, thì sau 01 năm kể từ ngày bị Tòa án bác đơn mới được xin xóa án tích; nếu bị bác đơn lần thứ hai trở đi, thì sau 02 năm kể từ ngày bị Tòa án bác đơn mới được xin xóa án tích."
+          }
+        },
+        {
+          "rule_id": "305",
+          "score": 0.5276212422053019,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6462663412094116,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "305",
+            "row_id": 304,
+            "article_id": "70",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không phạm tội mới trong 01 năm sau khi chấp hành xong hình phạt cảnh cáo, phạt tiền, cải tạo không giam giữ hoặc án treo",
+            "effect": "đương nhiên được xóa án tích",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_1_NAM",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "condition_event_id": "EVENT::DU_DIEU_KIEN_XOA_AN_TICH_1_NAM",
+            "effect_event_id": "EVENT::DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "article_title": "Đương nhiên được xóa án tích",
+            "content": "Điều 70. Đương nhiên được xóa án tích\n1. Đương nhiên được xóa án tích được áp dụng đối với người bị kết án không phải về các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này khi họ đã chấp hành xong hình phạt chính, thời gian thử thách án treo hoặc hết thời hiệu thi hành bản án và đáp ứng các điều kiện quy định tại khoản 2 và khoản 3 Điều này.\n2. Người bị kết án đương nhiên được xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt tiền, cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 02 năm trong trong trường hợp bị phạt tù đến 05 năm;\nc) 03 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 05 năm trong trường hợp bị phạt tù từ trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại các điểm a, b và c khoản này thì thời hạn đương nhiên được xóa án tích sẽ hết vào thời điểm người đó chấp hành xong hình phạt bổ sung.\n3. Người bị kết án đương nhiên được xóa án tích, nếu từ khi hết thời hiệu thi hành bản án, người đó không thực hiện hành vi phạm tội mới trong thời hạn quy định tại khoản 2 Điều này.\n4. Cơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cập nhật thông tin về tình hình án tích của người bị kết án và khi có yêu cầu thì cấp phiếu lý lịch tư pháp xác nhận không có án tích, nếu có đủ điều kiện quy định tại khoản 2 hoặc khoản 3 Điều này."
+          }
+        },
+        {
+          "rule_id": "309",
+          "score": 0.5272486035029094,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6449354887008667,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "309",
+            "row_id": 308,
+            "article_id": "70",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "thời hạn chấp hành hình phạt bổ sung dài hơn thời hạn quy định",
+            "effect": "thời hạn đương nhiên được xóa án tích kết thúc khi chấp hành xong hình phạt bổ sung",
+            "condition_norm": "THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect_norm": "XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "condition_event_id": "EVENT::THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect_event_id": "EVENT::XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "article_title": "Đương nhiên được xóa án tích",
+            "content": "Điều 70. Đương nhiên được xóa án tích\n1. Đương nhiên được xóa án tích được áp dụng đối với người bị kết án không phải về các tội quy định tại Chương XIII và Chương XXVI của Bộ luật này khi họ đã chấp hành xong hình phạt chính, thời gian thử thách án treo hoặc hết thời hiệu thi hành bản án và đáp ứng các điều kiện quy định tại khoản 2 và khoản 3 Điều này.\n2. Người bị kết án đương nhiên được xóa án tích, nếu từ khi chấp hành xong hình phạt chính hoặc hết thời gian thử thách án treo, người đó đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không thực hiện hành vi phạm tội mới trong thời hạn sau đây:\na) 01 năm trong trường hợp bị phạt cảnh cáo, phạt tiền, cải tạo không giam giữ, phạt tù nhưng được hưởng án treo;\nb) 02 năm trong trong trường hợp bị phạt tù đến 05 năm;\nc) 03 năm trong trường hợp bị phạt tù từ trên 05 năm đến 15 năm;\nd) 05 năm trong trường hợp bị phạt tù từ trên 15 năm, tù chung thân hoặc tử hình nhưng đã được giảm án.\nTrường hợp người bị kết án đang chấp hành hình phạt bổ sung là quản chế, cấm cư trú, cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định, tước một số quyền công dân mà thời hạn phải chấp hành dài hơn thời hạn quy định tại các điểm a, b và c khoản này thì thời hạn đương nhiên được xóa án tích sẽ hết vào thời điểm người đó chấp hành xong hình phạt bổ sung.\n3. Người bị kết án đương nhiên được xóa án tích, nếu từ khi hết thời hiệu thi hành bản án, người đó không thực hiện hành vi phạm tội mới trong thời hạn quy định tại khoản 2 Điều này.\n4. Cơ quan quản lý cơ sở dữ liệu lý lịch tư pháp có trách nhiệm cập nhật thông tin về tình hình án tích của người bị kết án và khi có yêu cầu thì cấp phiếu lý lịch tư pháp xác nhận không có án tích, nếu có đủ điều kiện quy định tại khoản 2 hoặc khoản 3 Điều này."
+          }
+        },
+        {
+          "rule_id": "302",
+          "score": 0.5263382355372112,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6416841745376587,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "302",
+            "row_id": 301,
+            "article_id": "69",
+            "legal_subject": "người bị kết án",
+            "subject_norm": "NGUOI_BI_KET_AN",
+            "condition": "bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+            "effect": "không bị coi là có án tích",
+            "condition_norm": "PHAM_TOI_VO_Y_IT_NGHIEM_TRONG_HOAC_NGHIEM_TRONG",
+            "effect_norm": "KHONG_CO_AN_TICH",
+            "condition_event_id": "EVENT::PHAM_TOI_VO_Y_IT_NGHIEM_TRONG_HOAC_NGHIEM_TRONG",
+            "effect_event_id": "EVENT::KHONG_CO_AN_TICH",
+            "article_title": "Xóa án tích",
+            "content": "Điều 69. Xóa án tích\n1. Người bị kết án được xóa án tích theo quy định tại các điều từ Điều 70 đến Điều 73 của Bộ luật này.\nNgười được xóa án tích coi như chưa bị kết án.\n2. Người bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng, tội phạm nghiêm trọng và người được miễn hình phạt không bị coi là có án tích."
+          }
+        },
+        {
+          "rule_id": "17",
+          "score": 0.519524531364441,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6768733263015747,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "17",
+            "row_id": 16,
+            "article_id": "5",
+            "legal_subject": "người nước ngoài",
+            "subject_norm": "NGUOI_NUOC_NGOAI",
+            "condition": "phạm tội trên lãnh thổ Việt Nam và thuộc đối tượng được hưởng quyền miễn trừ ngoại giao hoặc lãnh sự",
+            "effect": "trách nhiệm hình sự được giải quyết theo điều ước quốc tế hoặc tập quán quốc tế",
+            "condition_norm": "MIEN_TRU_NGOAI_GIAO",
+            "effect_norm": "GIAI_QUYET_THEO_DIEU_UOC_QUOC_TE",
+            "condition_event_id": "EVENT::MIEN_TRU_NGOAI_GIAO",
+            "effect_event_id": "EVENT::GIAI_QUYET_THEO_DIEU_UOC_QUOC_TE",
+            "article_title": "Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+            "content": "Điều 5. Hiệu lực của Bộ luật Hình sự đối với những hành vi phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam\n1. Bộ luật Hình sự được áp dụng đối với mọi hành vi phạm tội thực hiện trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam.\nQuy định này cũng được áp dụng đối với hành vi phạm tội hoặc hậu quả của hành vi phạm tội xảy ra trên tàu bay, tàu biển mang quốc tịch Việt Nam hoặc tại vùng đặc quyền kinh tế, thềm lục địa của Việt Nam.\n2. Đối với người nước ngoài phạm tội trên lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam thuộc đối tượng được hưởng quyền miễn trừ ngoại giao hoặc lãnh sự theo pháp luật Việt Nam, theo điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam là thành viên hoặc theo tập quán quốc tế, thì vấn đề trách nhiệm hình sự của họ được giải quyết theo quy định của điều ước quốc tế hoặc theo tập quán quốc tế đó; trường hợp điều ước quốc tế đó không quy định hoặc không có tập quán quốc tế thì trách nhiệm hình sự của họ được giải quyết bằng con đường ngoại giao."
+          }
+        },
+        {
+          "rule_id": "249",
+          "score": 0.5125331830978395,
+          "relations": [
+            "SEMANTIC"
+          ],
+          "semantic_score": 0.6519042253494263,
+          "explanation": "Ứng viên được tìm qua: SEMANTIC.",
+          "rule": {
+            "rule_id": "249",
+            "row_id": 248,
+            "article_id": "62",
+            "legal_subject": "người bị kết án phạt tiền",
+            "subject_norm": "NGUOI_BI_KET_AN_PHAT_TIEN",
+            "condition": "đã lập công lớn",
+            "effect": "có thể được miễn chấp hành phần tiền phạt còn lại",
+            "condition_norm": "LAP_CONG_LON",
+            "effect_norm": "MIEN_PHAN_TIEN_PHAT_CON_LAI",
+            "condition_event_id": "EVENT::LAP_CONG_LON",
+            "effect_event_id": "EVENT::MIEN_PHAN_TIEN_PHAT_CON_LAI",
+            "article_title": "Miễn chấp hành hình phạt",
+            "content": "Điều 62. Miễn chấp hành hình phạt\n1. Người bị kết án được miễn chấp hành hình phạt khi được đặc xá hoặc đại xá.\n2. Người bị kết án cải tạo không giam giữ hoặc tù có thời hạn đến 03 năm chưa chấp hành hình phạt thì theo đề nghị của Viện trưởng Viện kiểm sát, Tòa án có thể quyết định miễn chấp hành hình phạt, nếu thuộc một trong các trường hợp sau đây:\na) Sau khi bị kết án đã lập công;\nb) Mắc bệnh hiểm nghèo;\nc) Chấp hành tốt pháp luật, có hoàn cảnh gia đình đặc biệt khó khăn và xét thấy người đó không còn nguy hiểm cho xã hội nữa.\n3. Người bị kết án phạt tù có thời hạn trên 03 năm, chưa chấp hành hình phạt nếu đã lập công lớn hoặc mắc bệnh hiểm nghèo và người đó không còn nguy hiểm cho xã hội nữa, thì theo đề nghị của Viện trưởng Viện kiểm sát, Tòa án có thể quyết định miễn chấp hành toàn bộ hình phạt.\n4. Người bị kết án phạt tù đến 03 năm, đã được tạm đình chỉ chấp hành hình phạt, nếu trong thời gian được tạm đình chỉ mà đã lập công hoặc chấp hành tốt pháp luật, hoàn cảnh gia đình đặc biệt khó khăn và xét thấy người đó không còn nguy hiểm cho xã hội nữa, thì theo đề nghị của Viện trưởng Viện kiểm sát, Tòa án có thể quyết định miễn chấp hành phần hình phạt còn lại.\n5. Người bị kết án phạt tiền đã tích cực chấp hành được một phần hình phạt nhưng bị lâm vào hoàn cảnh kinh tế đặc biệt khó khăn kéo dài do thiên tai, hỏa hoạn, tai nạn hoặc ốm đau gây ra mà không thể tiếp tục chấp hành được phần hình phạt còn lại hoặc lập công lớn, thì theo đề nghị của Viện trưởng Viện kiểm sát, Tòa án có thể quyết định miễn chấp hành phần tiền phạt còn lại.\n6.[24] Người bị phạt cấm cư trú hoặc quản chế, nếu đã chấp hành được một phần hai thời hạn hình phạt và cải tạo tốt, thì theo đề nghị của cơ quan có thẩm quyền, Tòa án có thể quyết định miễn chấp hành phần hình phạt còn lại.\n7. Người được miễn chấp hành hình phạt theo quy định tại Điều này vẫn phải thực hiện đầy đủ các nghĩa vụ dân sự do Tòa án tuyên trong bản án."
+          }
+        }
+      ],
+      "effect_comparison": {
+        "target_effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+        "same_effect_rules": [
+          {
+            "rule_id": "122",
+            "article_id": "37",
+            "condition": "bị áp dụng hình phạt trục xuất",
+            "condition_norm": "AP_DUNG_TRUC_XUAT",
+            "effect": "phải rời khỏi lãnh thổ nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+            "effect_norm": "ROI_KHOI_LANH_THO_VIET_NAM",
+            "score": 1.622423257827759,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "CAUSES_TARGET_EFFECT",
+              "SAME_ARTICLE",
+              "SAME_CONDITION",
+              "SAME_EFFECT",
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          }
+        ],
+        "different_effect_rules": [
+          {
+            "rule_id": "123",
+            "article_id": "37",
+            "condition": "Tòa án xét thấy cần thiết trong từng trường hợp cụ thể",
+            "condition_norm": "TOA_AN_XET_THAY_CAN_THIET",
+            "effect": "bị áp dụng hình phạt trục xuất là hình phạt chính hoặc hình phạt bổ sung",
+            "effect_norm": "AP_DUNG_TRUC_XUAT",
+            "score": 1.4102742147445682,
+            "relations": [
+              "ARTICLE_REFERENCE",
+              "SAME_ARTICLE",
+              "SAME_SUBJECT",
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "18",
+            "article_id": "5",
+            "condition": "điều ước quốc tế không quy định và không có tập quán quốc tế áp dụng",
+            "condition_norm": "KHONG_CO_DIEU_UOC_AP_DUNG",
+            "effect": "trách nhiệm hình sự được giải quyết bằng con đường ngoại giao",
+            "effect_norm": "GIAI_QUYET_NGOAI_GIAO",
+            "score": 0.5382606172561647,
+            "relations": [
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "240",
+            "article_id": "62",
+            "condition": "được đặc xá hoặc đại xá",
+            "condition_norm": "DAC_XA_HOAC_DAI_XA",
+            "effect": "được miễn chấp hành hình phạt",
+            "effect_norm": "MIEN_CHAP_HANH_HINH_PHAT",
+            "score": 0.5297436873118083,
+            "relations": [
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "318",
+            "article_id": "71",
+            "condition": "thời hạn chấp hành hình phạt bổ sung dài hơn thời hạn luật định",
+            "condition_norm": "THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect": "Tòa án quyết định xóa án tích sau khi chấp hành xong hình phạt bổ sung",
+            "effect_norm": "XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "score": 0.5281009594599406,
+            "relations": [
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "305",
+            "article_id": "70",
+            "condition": "đã chấp hành xong hình phạt bổ sung, các quyết định khác của bản án và không phạm tội mới trong 01 năm sau khi chấp hành xong hình phạt cảnh cáo, phạt tiền, cải tạo không giam giữ hoặc án treo",
+            "condition_norm": "DU_DIEU_KIEN_XOA_AN_TICH_1_NAM",
+            "effect": "đương nhiên được xóa án tích",
+            "effect_norm": "DUOC_DUONG_NHIEN_XOA_AN_TICH",
+            "score": 0.5276212422053019,
+            "relations": [
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "309",
+            "article_id": "70",
+            "condition": "thời hạn chấp hành hình phạt bổ sung dài hơn thời hạn quy định",
+            "condition_norm": "THOI_HAN_HINH_PHAT_BO_SUNG_DAI_HON",
+            "effect": "thời hạn đương nhiên được xóa án tích kết thúc khi chấp hành xong hình phạt bổ sung",
+            "effect_norm": "XOA_AN_TICH_SAU_HINH_PHAT_BO_SUNG",
+            "score": 0.5272486035029094,
+            "relations": [
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "302",
+            "article_id": "69",
+            "condition": "bị kết án do lỗi vô ý về tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+            "condition_norm": "PHAM_TOI_VO_Y_IT_NGHIEM_TRONG_HOAC_NGHIEM_TRONG",
+            "effect": "không bị coi là có án tích",
+            "effect_norm": "KHONG_CO_AN_TICH",
+            "score": 0.5263382355372112,
+            "relations": [
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "17",
+            "article_id": "5",
+            "condition": "phạm tội trên lãnh thổ Việt Nam và thuộc đối tượng được hưởng quyền miễn trừ ngoại giao hoặc lãnh sự",
+            "condition_norm": "MIEN_TRU_NGOAI_GIAO",
+            "effect": "trách nhiệm hình sự được giải quyết theo điều ước quốc tế hoặc tập quán quốc tế",
+            "effect_norm": "GIAI_QUYET_THEO_DIEU_UOC_QUOC_TE",
+            "score": 0.519524531364441,
+            "relations": [
+              "SEMANTIC"
+            ]
+          },
+          {
+            "rule_id": "249",
+            "article_id": "62",
+            "condition": "đã lập công lớn",
+            "condition_norm": "LAP_CONG_LON",
+            "effect": "có thể được miễn chấp hành phần tiền phạt còn lại",
+            "effect_norm": "MIEN_PHAN_TIEN_PHAT_CON_LAI",
+            "score": 0.5125331830978395,
+            "relations": [
+              "SEMANTIC"
+            ]
+          }
+        ],
+        "possibly_contradictory_rules": []
+      },
+      "verification": {
+        "label": "FACTUAL_PATH_PRESERVED",
+        "conclusion": "Can thiệp không làm mất khả năng đạt tới hệ quả cuối của path này."
+      }
+    }
+  ],
+  "overall_verification": {
+    "label": "PARTIAL_PATH_EFFECT",
+    "conclusion": "Can thiệp phá vỡ một số path nhưng vẫn còn path factual khác được bảo toàn.",
+    "broken_path_count": 1,
+    "preserved_path_count": 1,
+    "reachable_final_effect_count": 1,
+    "alternative_supported_path_count": 1,
+    "verification_label_counts": {
+      "POTENTIAL_ALTERNATIVE_SUPPORT_FOUND": 1,
+      "FACTUAL_PATH_PRESERVED": 1
+    }
+  }
+}
