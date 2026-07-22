@@ -642,7 +642,7 @@ if __name__ == "__main__":
     main()
 
 
-# python test.py \
+# python print_long_causal_chains.py \
 #   --min-nodes 3 \
 #   --max-paths 50
 # ====================================================================================================
