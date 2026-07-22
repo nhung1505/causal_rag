@@ -23,16 +23,30 @@ DEFAULT_EMBEDDING_MODEL = "BAAI/bge-m3"
 
 
 def load_module(module_name: str, file_path: str):
+    import sys
+
     path = Path(file_path)
     if not path.exists():
         raise FileNotFoundError(f"Không tìm thấy script: {path}")
 
     spec = importlib.util.spec_from_file_location(module_name, path)
+
     if spec is None or spec.loader is None:
         raise ImportError(f"Không thể load module từ {path}")
 
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+
+    # Cần đăng ký module trước khi exec_module.
+    # Python 3.12 dataclass sử dụng sys.modules để đọc namespace.
+    sys.modules[module_name] = module
+
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        # Xóa module bị load dở nếu import thất bại.
+        sys.modules.pop(module_name, None)
+        raise
+
     return module
 
 
