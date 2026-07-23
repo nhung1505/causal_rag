@@ -17,7 +17,7 @@ import pandas as pd
 # DEFAULT CONFIG
 # ============================================================
 
-DEFAULT_INPUT_PATH = "data/4_blhs_merged.json"
+DEFAULT_INPUT_PATH = "data/blhs_rules_final_all_normalized.json"
 DEFAULT_GRAPHML_PATH = "data/legal_causal_knowledge_graph.graphml"
 DEFAULT_GEXF_PATH = "data/legal_causal_knowledge_graph.gexf"
 DEFAULT_STATS_PATH = "data/legal_causal_graph_stats.json"
@@ -245,6 +245,14 @@ def load_input_dataframe(input_path: str) -> pd.DataFrame:
         "condition_event_name": "",
         "effect_event_name": "",
         "normalization_metadata": "",
+        "rule_text": "",
+        "quality_status": "",
+        "source_scope": "",
+        "condition_event_original": "",
+        "effect_event_original": "",
+        "condition_event_modality": "",
+        "effect_event_modality": "",
+        "event_normalization_version": "",
     }
 
     for column_name, default_value in (
@@ -328,6 +336,14 @@ def add_or_update_rule_node(
     effect_event: str,
     article_title: str,
     causal_type: str,
+    rule_text: str,
+    quality_status: str,
+    source_scope: str,
+    condition_event_original: str,
+    effect_event_original: str,
+    condition_event_modality: str,
+    effect_event_modality: str,
+    event_normalization_version: str,
 ) -> str:
     node_id = make_rule_node_id(rule_id)
 
@@ -349,6 +365,14 @@ def add_or_update_rule_node(
         effect_event=effect_event,
         article_title=article_title,
         causal_type=causal_type,
+        rule_text=rule_text,
+        quality_status=quality_status,
+        source_scope=source_scope,
+        condition_event_original=condition_event_original,
+        effect_event_original=effect_event_original,
+        condition_event_modality=condition_event_modality,
+        effect_event_modality=effect_event_modality,
+        event_normalization_version=event_normalization_version,
         label=f"Rule {rule_id}",
     )
 
@@ -363,6 +387,8 @@ def add_or_update_event_node(
     role: str,
     rule_id: str,
     article_id: str,
+    original_event_id: str = "",
+    modality: str = "",
 ) -> str:
     """
     Tạo hoặc cập nhật EVENT node từ event_id đã chuẩn hóa ở bước 3.
@@ -399,6 +425,8 @@ def add_or_update_event_node(
             effect_count=1 if role == "EFFECT" else 0,
             rule_ids=rule_id,
             article_ids=article_id,
+            original_event_ids=original_event_id or event_id,
+            modalities=modality,
         )
         return node_id
 
@@ -408,6 +436,12 @@ def add_or_update_event_node(
     node["texts"] = merge_unique_text(node.get("texts", ""), event_text)
     node["rule_ids"] = increment_csv_attribute(node.get("rule_ids", ""), rule_id)
     node["article_ids"] = increment_csv_attribute(node.get("article_ids", ""), article_id)
+    node["original_event_ids"] = increment_csv_attribute(
+        node.get("original_event_ids", ""), original_event_id or event_id
+    )
+    node["modalities"] = increment_csv_attribute(
+        node.get("modalities", ""), modality
+    )
 
     if role == "CONDITION":
         node["is_condition"] = True
@@ -502,10 +536,11 @@ def build_legal_causal_graph(
     graph.graph["name"] = (
         "Vietnamese Legal Causal Knowledge Graph"
     )
-    graph.graph["version"] = "3.0"
+    graph.graph["version"] = "4.0"
     graph.graph["event_node_strategy"] = (
-        "condition_event_and_effect_event_share_event_nodes"
+        "canonical_normalized_condition_and_effect_events_share_nodes"
     )
+    graph.graph["input_schema"] = "blhs_rules_final_all_normalized"
 
     skipped_missing_norm = 0
     skipped_self_loop = 0
@@ -568,8 +603,24 @@ def build_legal_causal_graph(
             row.get("content")
         )
 
-        causal_type = safe_string(
-            row.get("causal_type")
+        causal_type = safe_string(row.get("causal_type"))
+        rule_text = safe_string(row.get("rule_text"))
+        quality_status = safe_string(row.get("quality_status"))
+        source_scope = safe_string(row.get("source_scope"))
+        condition_event_original = safe_string(
+            row.get("condition_event_original")
+        ) or condition_event
+        effect_event_original = safe_string(
+            row.get("effect_event_original")
+        ) or effect_event
+        condition_event_modality = safe_string(
+            row.get("condition_event_modality")
+        )
+        effect_event_modality = safe_string(
+            row.get("effect_event_modality")
+        )
+        event_normalization_version = safe_string(
+            row.get("event_normalization_version")
         )
 
         article_node = add_or_update_article_node(
@@ -590,6 +641,14 @@ def build_legal_causal_graph(
             effect_event=effect_event,
             article_title=article_title,
             causal_type=causal_type,
+            rule_text=rule_text,
+            quality_status=quality_status,
+            source_scope=source_scope,
+            condition_event_original=condition_event_original,
+            effect_event_original=effect_event_original,
+            condition_event_modality=condition_event_modality,
+            effect_event_modality=effect_event_modality,
+            event_normalization_version=event_normalization_version,
         )
 
         condition_node = add_or_update_event_node(
@@ -600,6 +659,8 @@ def build_legal_causal_graph(
             role="CONDITION",
             rule_id=rule_id,
             article_id=article_id,
+            original_event_id=condition_event_original,
+            modality=condition_event_modality,
         )
 
         effect_node = add_or_update_event_node(
@@ -610,6 +671,8 @@ def build_legal_causal_graph(
             role="EFFECT",
             rule_id=rule_id,
             article_id=article_id,
+            original_event_id=effect_event_original,
+            modality=effect_event_modality,
         )
 
         subject_node = None
@@ -683,6 +746,13 @@ def build_legal_causal_graph(
                 condition_event_name=condition_event_name,
                 effect_event=effect_event,
                 effect_event_name=effect_event_name,
+                condition_event_original=condition_event_original,
+                effect_event_original=effect_event_original,
+                condition_event_modality=condition_event_modality,
+                effect_event_modality=effect_event_modality,
+                event_normalization_version=event_normalization_version,
+                quality_status=quality_status,
+                source_scope=source_scope,
                 weight=1.0,
             )
 
@@ -818,8 +888,8 @@ def extract_two_hop_causal_chains(
                 chains.append({
                     "event_a_id": event_a,
                     "event_a_event_id": node_a.get(
-                        "event_norm",
-                        event_a,
+                        "event_id",
+                        event_a.replace("EVENT::", "", 1),
                     ),
                     "event_a_name": node_a.get(
                         "event_name",
@@ -827,8 +897,8 @@ def extract_two_hop_causal_chains(
                     ),
                     "event_b_id": event_b,
                     "event_b_event_id": node_b.get(
-                        "event_norm",
-                        event_b,
+                        "event_id",
+                        event_b.replace("EVENT::", "", 1),
                     ),
                     "event_b_name": node_b.get(
                         "event_name",
@@ -836,8 +906,8 @@ def extract_two_hop_causal_chains(
                     ),
                     "event_c_id": event_c,
                     "event_c_event_id": node_c.get(
-                        "event_norm",
-                        event_c,
+                        "event_id",
+                        event_c.replace("EVENT::", "", 1),
                     ),
                     "event_c_name": node_c.get(
                         "event_name",
@@ -978,6 +1048,22 @@ def calculate_graph_statistics(
         )
     )
 
+    bridge_events = []
+    for node_id, data in causal_graph.nodes(data=True):
+        if bool(data.get("is_condition", False)) and bool(data.get("is_effect", False)):
+            bridge_events.append({
+                "node_id": node_id,
+                "event_id": data.get("event_id", node_id.replace("EVENT::", "", 1)),
+                "event_name": data.get("event_name", data.get("label", "")),
+                "condition_count": int(data.get("condition_count", 0)),
+                "effect_count": int(data.get("effect_count", 0)),
+                "article_ids": data.get("article_ids", ""),
+                "rule_ids": data.get("rule_ids", ""),
+                "original_event_ids": data.get("original_event_ids", ""),
+                "modalities": data.get("modalities", ""),
+            })
+    bridge_events.sort(key=lambda item: (-(item["condition_count"] + item["effect_count"]), item["event_id"]))
+
     statistics = {
         **build_stats,
         "total_nodes": int(
@@ -999,9 +1085,8 @@ def calculate_graph_statistics(
         "causal_edges": int(
             causal_graph.number_of_edges()
         ),
-        "bridge_event_nodes": int(
-            bridge_event_count
-        ),
+        "bridge_event_nodes": int(bridge_event_count),
+        "bridge_events": bridge_events,
         "two_hop_causal_chains": int(
             two_hop_chain_count
         ),
