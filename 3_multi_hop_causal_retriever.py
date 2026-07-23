@@ -3,14 +3,12 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import re
-import unicodedata
-from collections import defaultdict, deque
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Iterable
 
 import faiss
+import networkx as nx
 import numpy as np
 import pandas as pd
 from sentence_transformers import SentenceTransformer
@@ -20,59 +18,41 @@ from sentence_transformers import SentenceTransformer
 # CONFIG
 # ============================================================
 
-DATA_PATH = "data/4_blhs_merged.json"
-
-FAISS_INDEX_PATH = "data/causal_memory.index"
-
-# File CSV này phải giữ đúng thứ tự các dòng đã dùng khi tạo FAISS.
+GRAPH_PATH = "data/legal_causal_knowledge_graph.graphml"
 MEMORY_PATH = "data/causal_memory.csv"
+FAISS_INDEX_PATH = "data/causal_memory.index"
+EMBEDDINGS_PATH = "data/causal_memory_embeddings.npy"
 
-EMBEDDING_MODEL = "BAAI/bge-m3"
-
-DEFAULT_SEED_TOP_K = 8
-DEFAULT_SEMANTIC_POOL_SIZE = 50
-
-DEFAULT_MAX_DEPTH = 4
-DEFAULT_MAX_EXPANSIONS_PER_RULE = 15
-DEFAULT_FINAL_TOP_K = 12
-DEFAULT_MIN_EVENT_NODES = 3
+MODEL_NAME = "BAAI/bge-m3"
 
 OUTPUT_PATH = "data/retrieval_result.json"
 
+DEFAULT_EVENT_TOP_K = 8
+DEFAULT_DIRECT_RULE_TOP_K = 8
+DEFAULT_SEMANTIC_POOL_SIZE = 100
 
-# ============================================================
-# RELATION WEIGHTS
-# ============================================================
+DEFAULT_MAX_HOPS = 2
+DEFAULT_MAX_PATHS_PER_EVENT = 30
+DEFAULT_MAX_CANDIDATE_RULES = 200
+DEFAULT_FINAL_TOP_K = 12
 
-RELATION_WEIGHTS = {
-    # Quan hệ causal bridge quan trọng nhất:
-    # effect của rule hiện tại trở thành condition của rule tiếp theo.
-    "EFFECT_TO_CONDITION": 0.42,
+DEFAULT_MIN_EVENT_SCORE = 0.20
+DEFAULT_MIN_RULE_SCORE = 0.15
 
-    # Hai rule tạo cùng hậu quả pháp lý.
-    "SAME_EFFECT": 0.30,
+# Trọng số xếp hạng cuối cùng.
+SEMANTIC_RULE_WEIGHT = 0.58
+GRAPH_PATH_WEIGHT = 0.24
+SEED_EVENT_WEIGHT = 0.12
+DIRECT_RULE_BONUS_WEIGHT = 0.06
 
-    # Hai rule dùng cùng điều kiện chuẩn hóa.
-    "SAME_CONDITION": 0.26,
+# Giảm dần đóng góp graph theo số hop.
+HOP_DECAY = 0.82
 
-    # Cùng điều luật thường có tính bổ sung rất cao.
-    "SAME_ARTICLE": 0.24,
+# Thưởng nhẹ cho bridge event vì thường nối được nhiều bước suy luận.
+BRIDGE_EVENT_BONUS = 0.05
 
-    # Cùng nhóm chủ thể pháp lý.
-    "SAME_SUBJECT": 0.18,
-
-    # Điều luật hiện tại tham chiếu trực tiếp đến điều luật khác.
-    "ARTICLE_REFERENCE": 0.34,
-
-    # Quan hệ semantic từ dense retrieval.
-    "SEMANTIC": 0.20,
-}
-
-DEPTH_PENALTY = 0.08
-
-# Giảm điểm khi các rule trong path lặp lại cùng condition/effect.
-REDUNDANCY_PENALTY = 0.05
-CAUSAL_HOP_BONUS = 0.12
+# Phạt các path quá dài hoặc quá nhiều nhánh.
+PATH_LENGTH_PENALTY = 0.03
 
 
 # ============================================================
@@ -80,48 +60,82 @@ CAUSAL_HOP_BONUS = 0.12
 # ============================================================
 
 @dataclass
-class Rule:
+class SemanticHit:
+    memory_id: int
+    score: float
+    memory_type: str
+    graph_node_id: str
+    event_id: str = ""
+    event_name: str = ""
+    event_role: str = ""
+    rule_id: str = ""
+    article_id: str = ""
+
+
+@dataclass
+class CausalPathStep:
+    hop: int
+    source_event_node: str
+    source_event_id: str
+    source_event_name: str
+    target_event_node: str
+    target_event_id: str
+    target_event_name: str
+    rule_ids: list[str]
+    article_ids: list[str]
+    support_count: int
+
+
+@dataclass
+class CausalPath:
+    seed_event_node: str
+    seed_event_id: str
+    seed_event_name: str
+    seed_similarity: float
+    direction: str
+    event_nodes: list[str]
+    rule_ids: list[str]
+    steps: list[CausalPathStep]
+    graph_score: float
+
+
+@dataclass
+class RuleEvidence:
+    rank: int
     rule_id: str
-    row_id: int
+    rule_node_id: str
     article_id: str
-
+    article_title: str
     legal_subject: str
-    subject_norm: str
-
     condition: str
     effect: str
-
-    condition_norm: str
-    effect_norm: str
-
-    article_title: str
-    content: str
-
-    condition_event_id: str
-    effect_event_id: str
-
-
-@dataclass
-class PathStep:
-    from_rule_id: str
-    to_rule_id: str
-    relation: str
-    relation_score: float
-    explanation: str
+    condition_event: str
+    condition_event_name: str
+    effect_event: str
+    effect_event_name: str
+    causal_type: str
+    semantic_score: float
+    graph_score: float
+    seed_event_score: float
+    direct_rule_score: float
+    final_score: float
+    matched_seed_events: list[str] = field(default_factory=list)
+    path_ids: list[int] = field(default_factory=list)
 
 
 @dataclass
-class RetrievalPath:
-    seed_rule_id: str
-    rule_ids: list[str]
-    steps: list[PathStep]
-
-    seed_similarity: float
-    score: float
+class RetrievalResult:
+    query: str
+    configuration: dict[str, Any]
+    retrieved_events: list[dict[str, Any]]
+    direct_rule_hits: list[dict[str, Any]]
+    causal_paths: list[dict[str, Any]]
+    evidence: list[dict[str, Any]]
+    statistics: dict[str, Any]
 
 
 # ============================================================
-# TEXT HELPERS
+# GENERAL HELPERS
 # ============================================================
 
 def safe_string(value: Any) -> str:
@@ -137,1443 +151,1556 @@ def safe_string(value: Any) -> str:
     return str(value).strip()
 
 
-def remove_vietnamese_accents(text: str) -> str:
-    text = safe_string(text)
+def safe_float(value: Any, default: float = 0.0) -> float:
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return default
 
-    text = text.replace("Đ", "D").replace("đ", "d")
+    if not math.isfinite(number):
+        return default
 
-    text = unicodedata.normalize("NFD", text)
-
-    return "".join(
-        char
-        for char in text
-        if unicodedata.category(char) != "Mn"
-    )
+    return number
 
 
-def normalize_identifier(text: str) -> str:
-    text = remove_vietnamese_accents(text).upper()
-
-    text = re.sub(r"[^A-Z0-9]+", "_", text)
-    text = re.sub(r"_+", "_", text)
-
-    return text.strip("_")
+def safe_int(value: Any, default: int = 0) -> int:
+    try:
+        return int(float(value))
+    except (TypeError, ValueError):
+        return default
 
 
-def normalize_norm_field(value: Any) -> str:
-    """
-    Chuẩn hóa condition_norm/effect_norm để so khớp ổn định.
+def safe_bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
 
-    Ví dụ:
-        "CHIU_TRACH_NHIEM_HINH_SU"
-        " chiu_trach_nhiem_hinh_su "
-    cùng trở thành:
-        CHIU_TRACH_NHIEM_HINH_SU
-    """
-    return normalize_identifier(safe_string(value))
+    return safe_string(value).lower() in {
+        "true", "1", "yes", "y"
+    }
 
 
-def normalize_article_id(value: Any) -> str:
+def split_csv_values(value: Any) -> list[str]:
     text = safe_string(value)
 
-    # Pandas đôi khi đọc 2 thành 2.0
-    if re.fullmatch(r"\d+\.0", text):
-        text = text[:-2]
+    if not text:
+        return []
 
-    return text
-
-
-def extract_article_references(text: str) -> set[str]:
-    """
-    Trích xuất các tham chiếu như:
-        Điều 76
-        Điều 123 của Bộ luật này
-        các điều 123, 124 và 125
-
-    Hàm ưu tiên độ chính xác, không cố bắt mọi cấu trúc pháp lý.
-    """
-    text = safe_string(text)
-
-    references: set[str] = set()
-
-    patterns = [
-        r"\bĐiều\s+(\d+)\b",
-        r"\bđiều\s+(\d+)\b",
+    return [
+        item.strip()
+        for item in text.split(",")
+        if item.strip()
     ]
 
-    for pattern in patterns:
-        for match in re.findall(pattern, text):
-            references.add(normalize_article_id(match))
 
-    return references
+def unique_preserve_order(values: Iterable[str]) -> list[str]:
+    result: list[str] = []
+    seen: set[str] = set()
+
+    for value in values:
+        value = safe_string(value)
+
+        if value and value not in seen:
+            seen.add(value)
+            result.append(value)
+
+    return result
 
 
-def build_embedding_text(rule: Rule) -> str:
-    """
-    Phải gần với định dạng đã dùng lúc xây FAISS index.
-    """
+def make_rule_node_id(rule_id: str) -> str:
+    return f"RULE::{rule_id}"
+
+
+def event_id_from_node(
+    graph: nx.Graph,
+    node_id: str,
+) -> str:
+    data = graph.nodes[node_id]
     return (
-        f"Legal Subject:\n{rule.legal_subject}\n\n"
-        f"Condition:\n{rule.condition}\n\n"
-        f"Effect:\n{rule.effect}\n\n"
-        f"Article:\n"
-        f"Điều {rule.article_id}. {rule.article_title}\n\n"
-        f"Normalized condition: {rule.condition_norm}\n"
-        f"Normalized effect: {rule.effect_norm}"
+        safe_string(data.get("event_id"))
+        or safe_string(node_id).removeprefix("EVENT::")
+    )
+
+
+def event_name_from_node(
+    graph: nx.Graph,
+    node_id: str,
+) -> str:
+    data = graph.nodes[node_id]
+    return (
+        safe_string(data.get("event_name"))
+        or safe_string(data.get("label"))
+        or event_id_from_node(graph, node_id)
     )
 
 
 # ============================================================
-# RULE REPOSITORY
+# RESOURCE STORE
 # ============================================================
 
-class RuleRepository:
-    def __init__(self, data_path: str):
-        self.data_path = Path(data_path)
+class CausalResourceStore:
+    """Load và kiểm tra toàn bộ tài nguyên retrieval.
 
-        if not self.data_path.exists():
+    File memory và embeddings phải giữ đúng thứ tự memory_id.
+    """
+
+    def __init__(
+        self,
+        *,
+        graph_path: str,
+        memory_path: str,
+        index_path: str,
+        embeddings_path: str,
+        model_name: str,
+    ) -> None:
+        self.graph_path = Path(graph_path)
+        self.memory_path = Path(memory_path)
+        self.index_path = Path(index_path)
+        self.embeddings_path = Path(embeddings_path)
+        self.model_name = model_name
+
+        self.graph = self._load_graph()
+        self.memory_df = self._load_memory()
+        self.index = self._load_index()
+        self.embeddings = self._load_embeddings()
+        self.model = self._load_model()
+
+        self._validate_resources()
+        self._build_lookup_tables()
+        self.causal_event_graph = self._build_causal_event_graph()
+
+    def _load_graph(self) -> nx.MultiDiGraph:
+        if not self.graph_path.exists():
             raise FileNotFoundError(
-                f"Không tìm thấy dữ liệu: {self.data_path}"
+                f"Không tìm thấy graph: {self.graph_path}"
             )
 
-        self.df = pd.read_json(self.data_path)
+        print(f"Loading graph: {self.graph_path}")
+        graph = nx.read_graphml(self.graph_path)
 
-        self._validate_columns()
+        if not graph.is_directed():
+            raise ValueError(
+                "Legal causal graph phải là đồ thị có hướng."
+            )
 
-        self.rules: dict[str, Rule] = {}
+        return graph
 
-        self.article_to_rules: dict[str, set[str]] = defaultdict(set)
-        self.subject_to_rules: dict[str, set[str]] = defaultdict(set)
-        self.condition_to_rules: dict[str, set[str]] = defaultdict(set)
-        self.effect_to_rules: dict[str, set[str]] = defaultdict(set)
+    def _load_memory(self) -> pd.DataFrame:
+        if not self.memory_path.exists():
+            raise FileNotFoundError(
+                f"Không tìm thấy memory CSV: {self.memory_path}"
+            )
 
-        # Cho causal chaining:
-        # effect_norm của rule A == condition_norm của rule B.
-        self.norm_as_condition_to_rules: dict[str, set[str]] = defaultdict(set)
-        self.norm_as_effect_to_rules: dict[str, set[str]] = defaultdict(set)
+        print(f"Loading memory: {self.memory_path}")
+        memory_df = pd.read_csv(
+            self.memory_path,
+            dtype={
+                "rule_id": str,
+                "article_id": str,
+                "event_id": str,
+                "graph_node_id": str,
+            },
+            keep_default_na=False,
+        )
 
-        self.article_reference_to_rules: dict[str, set[str]] = defaultdict(set)
-
-        self._build_repository()
-
-    def _validate_columns(self) -> None:
         required_columns = {
-            "index",
-            "article_id",
-            "legal_subject",
-            "condition",
-            "effect",
-            "condition_norm",
-            "effect_norm",
-            "article_title",
-            "content",
+            "memory_id",
+            "memory_type",
+            "graph_node_id",
+            "embedding_text",
         }
 
-        missing = required_columns - set(self.df.columns)
+        missing = required_columns - set(memory_df.columns)
 
         if missing:
             raise ValueError(
-                f"File dữ liệu thiếu các cột: {sorted(missing)}"
+                "Causal memory thiếu các cột bắt buộc: "
+                f"{sorted(missing)}"
             )
 
-    def _build_repository(self) -> None:
-        duplicate_rule_ids: dict[str, int] = defaultdict(int)
+        memory_df["memory_id"] = pd.to_numeric(
+            memory_df["memory_id"],
+            errors="raise",
+        ).astype(np.int64)
 
-        for row_position, row in self.df.iterrows():
-            original_rule_id = safe_string(row["index"])
+        return memory_df
 
-            if not original_rule_id:
-                original_rule_id = str(row_position + 1)
-
-            duplicate_rule_ids[original_rule_id] += 1
-
-            if duplicate_rule_ids[original_rule_id] == 1:
-                rule_id = original_rule_id
-            else:
-                rule_id = (
-                    f"{original_rule_id}_"
-                    f"{duplicate_rule_ids[original_rule_id]}"
-                )
-
-            article_id = normalize_article_id(row["article_id"])
-
-            legal_subject = safe_string(row["legal_subject"])
-            subject_norm = normalize_identifier(legal_subject)
-
-            condition_norm = normalize_norm_field(
-                row["condition_norm"]
-            )
-            effect_norm = normalize_norm_field(
-                row["effect_norm"]
-            )
-
-            if not condition_norm or not effect_norm:
-                continue
-
-            rule = Rule(
-                rule_id=rule_id,
-                row_id=int(row_position),
-                article_id=article_id,
-                legal_subject=legal_subject,
-                subject_norm=subject_norm,
-                condition=safe_string(row["condition"]),
-                effect=safe_string(row["effect"]),
-                condition_norm=condition_norm,
-                effect_norm=effect_norm,
-                article_title=safe_string(row["article_title"]),
-                content=safe_string(row["content"]),
-                condition_event_id=f"EVENT::{condition_norm}",
-                effect_event_id=f"EVENT::{effect_norm}",
-            )
-
-            self.rules[rule_id] = rule
-
-            self.article_to_rules[article_id].add(rule_id)
-            self.subject_to_rules[subject_norm].add(rule_id)
-            self.condition_to_rules[condition_norm].add(rule_id)
-            self.effect_to_rules[effect_norm].add(rule_id)
-
-            self.norm_as_condition_to_rules[condition_norm].add(
-                rule_id
-            )
-            self.norm_as_effect_to_rules[effect_norm].add(
-                rule_id
-            )
-
-            references = extract_article_references(
-                rule.condition + "\n" + rule.effect
-            )
-
-            references.discard(article_id)
-
-            for referenced_article_id in references:
-                self.article_reference_to_rules[
-                    referenced_article_id
-                ].add(rule_id)
-
-        print(f"Loaded rules: {len(self.rules)}")
-        print(
-            "Unique articles:",
-            len(self.article_to_rules),
-        )
-        print(
-            "Unique subjects:",
-            len(self.subject_to_rules),
-        )
-        print(
-            "Unique conditions:",
-            len(self.condition_to_rules),
-        )
-        print(
-            "Unique effects:",
-            len(self.effect_to_rules),
-        )
-
-    def get(self, rule_id: str) -> Rule:
-        return self.rules[rule_id]
-
-    def has(self, rule_id: str) -> bool:
-        return rule_id in self.rules
-
-
-# ============================================================
-# DENSE RETRIEVER
-# ============================================================
-
-class DenseRuleRetriever:
-    def __init__(
-        self,
-        repository: RuleRepository,
-        index_path: str,
-        memory_path: str,
-        model_name: str,
-    ):
-        self.repository = repository
-
-        self.index_path = Path(index_path)
-        self.memory_path = Path(memory_path)
-
+    def _load_index(self) -> faiss.Index:
         if not self.index_path.exists():
             raise FileNotFoundError(
                 f"Không tìm thấy FAISS index: {self.index_path}"
             )
 
-        if not self.memory_path.exists():
-            raise FileNotFoundError(
-                f"Không tìm thấy memory file: {self.memory_path}"
-            )
-
-        print(f"Loading embedding model: {model_name}")
-
-        self.model = SentenceTransformer(model_name)
-
         print(f"Loading FAISS index: {self.index_path}")
+        return faiss.read_index(str(self.index_path))
 
-        self.index = faiss.read_index(str(self.index_path))
+    def _load_embeddings(self) -> np.ndarray:
+        if not self.embeddings_path.exists():
+            raise FileNotFoundError(
+                "Không tìm thấy embeddings: "
+                f"{self.embeddings_path}"
+            )
 
-        self.memory_df = pd.read_csv(self.memory_path)
+        print(f"Loading embeddings: {self.embeddings_path}")
+        embeddings = np.load(self.embeddings_path)
 
-        if len(self.memory_df) != self.index.ntotal:
+        return np.asarray(
+            embeddings,
+            dtype=np.float32,
+        )
+
+    def _load_model(self) -> SentenceTransformer:
+        print(f"Loading embedding model: {self.model_name}")
+        return SentenceTransformer(self.model_name)
+
+    def _validate_resources(self) -> None:
+        expected_ids = np.arange(
+            len(self.memory_df),
+            dtype=np.int64,
+        )
+        actual_ids = self.memory_df[
+            "memory_id"
+        ].to_numpy(dtype=np.int64)
+
+        if not np.array_equal(expected_ids, actual_ids):
             raise ValueError(
-                "Số dòng causal_memory.csv không khớp FAISS index: "
-                f"memory={len(self.memory_df)}, "
-                f"index={self.index.ntotal}"
+                "memory_id phải đúng bằng vị trí vector trong FAISS."
             )
 
-        self.memory_position_to_rule_id = (
-            self._align_memory_with_repository()
+        if self.index.ntotal != len(self.memory_df):
+            raise ValueError(
+                "Số vector trong FAISS không khớp số dòng memory."
+            )
+
+        if self.embeddings.shape != (
+            self.index.ntotal,
+            self.index.d,
+        ):
+            raise ValueError(
+                "Shape embeddings không khớp FAISS index."
+            )
+
+        memory_types = set(
+            self.memory_df["memory_type"]
+            .astype(str)
+            .str.upper()
         )
 
-    def _align_memory_with_repository(
-        self,
-    ) -> dict[int, Optional[str]]:
-        """
-        Liên kết từng vector trong FAISS với rule_id trong repository.
-
-        Ưu tiên:
-        1. cột index/rule_id;
-        2. article + condition_norm + effect_norm;
-        3. vị trí dòng nếu memory và JSON cùng thứ tự.
-        """
-        mapping: dict[int, Optional[str]] = {}
-
-        memory_columns = set(self.memory_df.columns)
-
-        rule_key_to_ids: dict[
-            tuple[str, str, str], list[str]
-        ] = defaultdict(list)
-
-        for rule_id, rule in self.repository.rules.items():
-            key = (
-                rule.article_id,
-                rule.condition_norm,
-                rule.effect_norm,
+        if "RULE" not in memory_types:
+            raise ValueError(
+                "Causal memory không chứa RULE records."
             )
-            rule_key_to_ids[key].append(rule_id)
 
-        used_rule_ids: set[str] = set()
+        if "EVENT" not in memory_types:
+            raise ValueError(
+                "Causal memory không chứa EVENT records. "
+                "Hãy chạy lại file 2 không dùng --rule-only."
+            )
 
-        for position, row in self.memory_df.iterrows():
-            matched_rule_id: Optional[str] = None
-
-            # ------------------------------------------------
-            # Cách 1: khớp trực tiếp bằng index/rule_id
-            # ------------------------------------------------
-
-            for candidate_column in [
-                "rule_id",
-                "index",
-                "id",
-            ]:
-                if candidate_column not in memory_columns:
-                    continue
-
-                candidate_id = safe_string(row[candidate_column])
-
-                if self.repository.has(candidate_id):
-                    matched_rule_id = candidate_id
-                    break
-
-            # ------------------------------------------------
-            # Cách 2: khớp bằng bộ ba causal
-            # ------------------------------------------------
-
-            if matched_rule_id is None:
-                required = {
-                    "article_id",
-                    "condition_norm",
-                    "effect_norm",
-                }
-
-                if required.issubset(memory_columns):
-                    key = (
-                        normalize_article_id(row["article_id"]),
-                        normalize_norm_field(
-                            row["condition_norm"]
-                        ),
-                        normalize_norm_field(
-                            row["effect_norm"]
-                        ),
-                    )
-
-                    possible_ids = rule_key_to_ids.get(key, [])
-
-                    for possible_id in possible_ids:
-                        if possible_id not in used_rule_ids:
-                            matched_rule_id = possible_id
-                            break
-
-                    if matched_rule_id is None and possible_ids:
-                        matched_rule_id = possible_ids[0]
-
-            # ------------------------------------------------
-            # Cách 3: dựa vào thứ tự dòng
-            # ------------------------------------------------
-
-            if matched_rule_id is None:
-                for rule_id, rule in self.repository.rules.items():
-                    if rule.row_id == position:
-                        matched_rule_id = rule_id
-                        break
-
-            mapping[int(position)] = matched_rule_id
-
-            if matched_rule_id is not None:
-                used_rule_ids.add(matched_rule_id)
-
-        unmatched = sum(
-            rule_id is None
-            for rule_id in mapping.values()
+        graph_nodes = set(self.graph.nodes)
+        missing_nodes = (
+            set(self.memory_df["graph_node_id"]) - graph_nodes
         )
 
-        if unmatched:
-            print(
-                f"Warning: {unmatched} vectors không khớp được rule."
+        if missing_nodes:
+            raise ValueError(
+                "Một số graph_node_id trong memory không tồn tại "
+                f"trong graph. Ví dụ: {sorted(missing_nodes)[:10]}"
             )
 
-        return mapping
+        print("Resource validation: OK")
+        print("- Memory records:", len(self.memory_df))
+        print("- FAISS dimension:", self.index.d)
 
-    def retrieve(
-        self,
-        query: str,
-        top_k: int,
-    ) -> list[tuple[str, float]]:
+    def _build_lookup_tables(self) -> None:
+        self.memory_by_id = self.memory_df.set_index(
+            "memory_id",
+            drop=False,
+        )
+
+        rule_df = self.memory_df[
+            self.memory_df["memory_type"].str.upper() == "RULE"
+        ].copy()
+
+        event_df = self.memory_df[
+            self.memory_df["memory_type"].str.upper() == "EVENT"
+        ].copy()
+
+        self.rule_memory_ids = rule_df[
+            "memory_id"
+        ].to_numpy(dtype=np.int64)
+
+        self.event_memory_ids = event_df[
+            "memory_id"
+        ].to_numpy(dtype=np.int64)
+
+        self.rule_by_id: dict[str, pd.Series] = {}
+
+        for _, row in rule_df.iterrows():
+            rule_id = safe_string(row.get("rule_id"))
+
+            if rule_id:
+                self.rule_by_id[rule_id] = row
+
+        self.rule_memory_id_by_rule_id = {
+            rule_id: int(row["memory_id"])
+            for rule_id, row in self.rule_by_id.items()
+        }
+
+        self.event_memory_id_by_node = {
+            safe_string(row["graph_node_id"]): int(row["memory_id"])
+            for _, row in event_df.iterrows()
+        }
+
+    def _build_causal_event_graph(self) -> nx.DiGraph:
+        """Gộp các cạnh CAUSES song song thành một DiGraph event-level."""
+
+        causal_graph = nx.DiGraph()
+
+        for node_id, data in self.graph.nodes(data=True):
+            if safe_string(data.get("node_type")) == "EVENT":
+                causal_graph.add_node(
+                    node_id,
+                    **dict(data),
+                )
+
+        if self.graph.is_multigraph():
+            edge_iterator = self.graph.edges(
+                keys=True,
+                data=True,
+            )
+
+            for source, target, _, data in edge_iterator:
+                self._add_causal_edge(
+                    causal_graph,
+                    source,
+                    target,
+                    data,
+                )
+        else:
+            for source, target, data in self.graph.edges(
+                data=True
+            ):
+                self._add_causal_edge(
+                    causal_graph,
+                    source,
+                    target,
+                    data,
+                )
+
+        if causal_graph.number_of_edges() == 0:
+            raise ValueError(
+                "Không tìm thấy cạnh CAUSES trong graph."
+            )
+
+        print(
+            "Causal event graph:",
+            causal_graph.number_of_nodes(),
+            "events,",
+            causal_graph.number_of_edges(),
+            "causal edges",
+        )
+
+        return causal_graph
+
+    @staticmethod
+    def _add_causal_edge(
+        causal_graph: nx.DiGraph,
+        source: str,
+        target: str,
+        edge_data: dict[str, Any],
+    ) -> None:
+        if safe_string(edge_data.get("relation")) != "CAUSES":
+            return
+
+        rule_ids = split_csv_values(
+            edge_data.get("rule_ids")
+        )
+
+        if not rule_ids:
+            rule_id = safe_string(
+                edge_data.get("rule_id")
+            )
+            if rule_id:
+                rule_ids = [rule_id]
+
+        article_ids = split_csv_values(
+            edge_data.get("article_ids")
+        )
+
+        if not article_ids:
+            article_id = safe_string(
+                edge_data.get("article_id")
+            )
+            if article_id:
+                article_ids = [article_id]
+
+        support_count = max(
+            1,
+            safe_int(edge_data.get("support_count"), 1),
+        )
+
+        if causal_graph.has_edge(source, target):
+            existing = causal_graph[source][target]
+            existing["rule_ids"] = unique_preserve_order(
+                list(existing["rule_ids"]) + rule_ids
+            )
+            existing["article_ids"] = unique_preserve_order(
+                list(existing["article_ids"]) + article_ids
+            )
+            existing["support_count"] += support_count
+        else:
+            causal_graph.add_edge(
+                source,
+                target,
+                relation="CAUSES",
+                rule_ids=rule_ids,
+                article_ids=article_ids,
+                support_count=support_count,
+            )
+
+    def encode_query(self, query: str) -> np.ndarray:
         query = safe_string(query)
 
         if not query:
             raise ValueError("Query không được để trống.")
 
-        query_embedding = self.model.encode(
+        vector = self.model.encode(
             [query],
-            normalize_embeddings=True,
             convert_to_numpy=True,
+            normalize_embeddings=True,
             show_progress_bar=False,
-        ).astype("float32")
-
-        search_k = min(
-            max(top_k * 3, top_k),
-            self.index.ntotal,
         )
 
-        scores, positions = self.index.search(
-            query_embedding,
-            search_k,
-        )
-
-        results: list[tuple[str, float]] = []
-        seen_rule_ids: set[str] = set()
-
-        for score, position in zip(scores[0], positions[0]):
-            if position < 0:
-                continue
-
-            rule_id = self.memory_position_to_rule_id.get(
-                int(position)
-            )
-
-            if rule_id is None:
-                continue
-
-            if rule_id in seen_rule_ids:
-                continue
-
-            seen_rule_ids.add(rule_id)
-
-            # Với IndexFlatIP + normalized embeddings,
-            # score thường là cosine similarity.
-            normalized_score = float(score)
-
-            results.append((rule_id, normalized_score))
-
-            if len(results) >= top_k:
-                break
-
-        return results
+        return np.asarray(
+            vector,
+            dtype=np.float32,
+        )[0]
 
 
 # ============================================================
-# CAUSAL GRAPH EXPANSION
+# MULTI-HOP CAUSAL RETRIEVER
 # ============================================================
 
 class MultiHopCausalRetriever:
     def __init__(
         self,
-        repository: RuleRepository,
-        dense_retriever: DenseRuleRetriever,
-    ):
-        self.repo = repository
-        self.dense = dense_retriever
-
-    def _relation_explanation(
-        self,
-        source: Rule,
-        target: Rule,
-        relation: str,
-    ) -> str:
-        if relation == "EFFECT_TO_CONDITION":
-            return (
-                f"Hậu quả {source.effect_norm} của Rule "
-                f"{source.rule_id} trở thành điều kiện "
-                f"{target.condition_norm} của Rule "
-                f"{target.rule_id}."
-            )
-
-        if relation == "SAME_EFFECT":
-            return (
-                f"Hai rule cùng dẫn đến hậu quả pháp lý "
-                f"{source.effect_norm}."
-            )
-
-        if relation == "SAME_CONDITION":
-            return (
-                f"Hai rule có cùng điều kiện chuẩn hóa "
-                f"{source.condition_norm}."
-            )
-
-        if relation == "SAME_ARTICLE":
-            return (
-                f"Hai rule cùng thuộc Điều "
-                f"{source.article_id}."
-            )
-
-        if relation == "SAME_SUBJECT":
-            return (
-                f"Hai rule cùng áp dụng cho chủ thể "
-                f"{source.legal_subject}."
-            )
-
-        if relation == "ARTICLE_REFERENCE":
-            return (
-                f"Rule {source.rule_id} có tham chiếu đến "
-                f"Điều {target.article_id}."
-            )
-
-        if relation == "SEMANTIC":
-            return "Hai rule có nội dung gần nhau về ngữ nghĩa."
-
-        return relation
-
-    def _add_candidates(
-        self,
-        candidate_relations: dict[
-            str, tuple[str, float, str]
-        ],
-        source: Rule,
-        candidate_ids: set[str],
-        relation: str,
+        store: CausalResourceStore,
     ) -> None:
-        relation_score = RELATION_WEIGHTS[relation]
+        self.store = store
 
-        for candidate_id in candidate_ids:
-            if candidate_id == source.rule_id:
-                continue
+    # --------------------------------------------------------
+    # STAGE 1: SEMANTIC SEED RETRIEVAL
+    # --------------------------------------------------------
 
-            if not self.repo.has(candidate_id):
-                continue
-
-            target = self.repo.get(candidate_id)
-
-            explanation = self._relation_explanation(
-                source,
-                target,
-                relation,
-            )
-
-            current = candidate_relations.get(candidate_id)
-
-            # Nếu cùng candidate có nhiều quan hệ,
-            # giữ quan hệ có trọng số lớn hơn.
-            if current is None or relation_score > current[1]:
-                candidate_relations[candidate_id] = (
-                    relation,
-                    relation_score,
-                    explanation,
-                )
-
-    def expand_rule(
+    def semantic_search(
         self,
-        source_rule_id: str,
-        semantic_rule_ids: Optional[set[str]] = None,
-        max_candidates: int = DEFAULT_MAX_EXPANSIONS_PER_RULE,
-        causal_only: bool = True,
-    ) -> list[tuple[str, str, float, str]]:
-        source = self.repo.get(source_rule_id)
-
-        candidate_relations: dict[
-            str, tuple[str, float, str]
-        ] = {}
-
-        # ----------------------------------------------------
-        # 1. Causal bridge:
-        # effect của source trùng condition của target.
-        # ----------------------------------------------------
-
-        causal_targets = (
-            self.repo.norm_as_condition_to_rules.get(
-                source.effect_norm,
-                set(),
-            )
+        query_vector: np.ndarray,
+        *,
+        pool_size: int,
+    ) -> list[SemanticHit]:
+        pool_size = min(
+            max(1, pool_size),
+            self.store.index.ntotal,
         )
 
-        self._add_candidates(
-            candidate_relations,
-            source,
-            causal_targets,
-            "EFFECT_TO_CONDITION",
+        scores, indices = self.store.index.search(
+            query_vector.reshape(1, -1),
+            pool_size,
         )
 
-        # Trong chế độ causal thuần, chỉ mở rộng khi:
-        # effect_norm(rule hiện tại) == condition_norm(rule tiếp theo).
-        # Các quan hệ SAME_*, ARTICLE_REFERENCE và SEMANTIC chỉ là
-        # quan hệ hỗ trợ truy hồi, không phải cạnh nhân quả.
-        if causal_only:
-            sorted_candidates = sorted(
-                (
-                    (candidate_id, relation, relation_score, explanation)
-                    for candidate_id, (
-                        relation, relation_score, explanation
-                    ) in candidate_relations.items()
-                ),
-                key=lambda item: item[2],
-                reverse=True,
-            )
-            return sorted_candidates[:max_candidates]
+        hits: list[SemanticHit] = []
 
-        # ----------------------------------------------------
-        # 2. Các rule có cùng effect.
-        # ----------------------------------------------------
+        for score, memory_id in zip(
+            scores[0],
+            indices[0],
+        ):
+            if memory_id < 0:
+                continue
 
-        same_effect = self.repo.effect_to_rules.get(
-            source.effect_norm,
-            set(),
-        )
+            row = self.store.memory_by_id.loc[
+                int(memory_id)
+            ]
 
-        self._add_candidates(
-            candidate_relations,
-            source,
-            same_effect,
-            "SAME_EFFECT",
-        )
-
-        # ----------------------------------------------------
-        # 3. Các rule có cùng condition.
-        # ----------------------------------------------------
-
-        same_condition = self.repo.condition_to_rules.get(
-            source.condition_norm,
-            set(),
-        )
-
-        self._add_candidates(
-            candidate_relations,
-            source,
-            same_condition,
-            "SAME_CONDITION",
-        )
-
-        # ----------------------------------------------------
-        # 4. Các rule cùng article.
-        # ----------------------------------------------------
-
-        same_article = self.repo.article_to_rules.get(
-            source.article_id,
-            set(),
-        )
-
-        self._add_candidates(
-            candidate_relations,
-            source,
-            same_article,
-            "SAME_ARTICLE",
-        )
-
-        # ----------------------------------------------------
-        # 5. Các rule cùng subject.
-        # ----------------------------------------------------
-
-        same_subject = self.repo.subject_to_rules.get(
-            source.subject_norm,
-            set(),
-        )
-
-        self._add_candidates(
-            candidate_relations,
-            source,
-            same_subject,
-            "SAME_SUBJECT",
-        )
-
-        # ----------------------------------------------------
-        # 6. Điều luật được source tham chiếu.
-        # ----------------------------------------------------
-
-        referenced_articles = extract_article_references(
-            source.condition + "\n" + source.effect
-        )
-
-        for article_id in referenced_articles:
-            target_ids = self.repo.article_to_rules.get(
-                article_id,
-                set(),
-            )
-
-            self._add_candidates(
-                candidate_relations,
-                source,
-                target_ids,
-                "ARTICLE_REFERENCE",
-            )
-
-        # ----------------------------------------------------
-        # 7. Các rule semantic gần query.
-        # Chỉ thêm các seed/global semantic candidates đã lấy.
-        # ----------------------------------------------------
-
-        if semantic_rule_ids:
-            self._add_candidates(
-                candidate_relations,
-                source,
-                semantic_rule_ids,
-                "SEMANTIC",
-            )
-
-        sorted_candidates = sorted(
-            (
-                (
-                    candidate_id,
-                    relation,
-                    relation_score,
-                    explanation,
+            hits.append(
+                SemanticHit(
+                    memory_id=int(memory_id),
+                    score=float(score),
+                    memory_type=safe_string(
+                        row.get("memory_type")
+                    ).upper(),
+                    graph_node_id=safe_string(
+                        row.get("graph_node_id")
+                    ),
+                    event_id=safe_string(
+                        row.get("event_id")
+                    ),
+                    event_name=safe_string(
+                        row.get("event_name")
+                    ),
+                    event_role=safe_string(
+                        row.get("event_role")
+                    ),
+                    rule_id=safe_string(
+                        row.get("rule_id")
+                    ),
+                    article_id=safe_string(
+                        row.get("article_id")
+                    ),
                 )
-                for candidate_id, (
-                    relation,
-                    relation_score,
-                    explanation,
-                ) in candidate_relations.items()
-            ),
-            key=lambda item: item[2],
+            )
+
+        return hits
+
+    def select_event_seeds(
+        self,
+        hits: list[SemanticHit],
+        *,
+        top_k: int,
+        min_score: float,
+    ) -> list[SemanticHit]:
+        selected = [
+            hit
+            for hit in hits
+            if (
+                hit.memory_type == "EVENT"
+                and hit.score >= min_score
+            )
+        ][:top_k]
+
+        # Nếu combined search chưa trả đủ EVENT, tính trực tiếp
+        # cosine trên event vectors để bảo đảm recall.
+        if len(selected) < top_k:
+            selected_ids = {
+                hit.memory_id for hit in selected
+            }
+
+            # Query vector sẽ được gắn tạm bởi retrieve().
+            query_vector = self._active_query_vector
+
+            event_vectors = self.store.embeddings[
+                self.store.event_memory_ids
+            ]
+            scores = event_vectors @ query_vector
+
+            order = np.argsort(-scores)
+
+            for local_index in order:
+                memory_id = int(
+                    self.store.event_memory_ids[local_index]
+                )
+                score = float(scores[local_index])
+
+                if memory_id in selected_ids:
+                    continue
+                if score < min_score:
+                    break
+
+                row = self.store.memory_by_id.loc[memory_id]
+
+                selected.append(
+                    SemanticHit(
+                        memory_id=memory_id,
+                        score=score,
+                        memory_type="EVENT",
+                        graph_node_id=safe_string(
+                            row.get("graph_node_id")
+                        ),
+                        event_id=safe_string(
+                            row.get("event_id")
+                        ),
+                        event_name=safe_string(
+                            row.get("event_name")
+                        ),
+                        event_role=safe_string(
+                            row.get("event_role")
+                        ),
+                    )
+                )
+                selected_ids.add(memory_id)
+
+                if len(selected) >= top_k:
+                    break
+
+        return selected
+
+    def select_direct_rule_hits(
+        self,
+        hits: list[SemanticHit],
+        *,
+        top_k: int,
+        min_score: float,
+    ) -> list[SemanticHit]:
+        selected = [
+            hit
+            for hit in hits
+            if (
+                hit.memory_type == "RULE"
+                and hit.score >= min_score
+            )
+        ][:top_k]
+
+        if len(selected) < top_k:
+            selected_ids = {
+                hit.memory_id for hit in selected
+            }
+            query_vector = self._active_query_vector
+
+            rule_vectors = self.store.embeddings[
+                self.store.rule_memory_ids
+            ]
+            scores = rule_vectors @ query_vector
+            order = np.argsort(-scores)
+
+            for local_index in order:
+                memory_id = int(
+                    self.store.rule_memory_ids[local_index]
+                )
+                score = float(scores[local_index])
+
+                if memory_id in selected_ids:
+                    continue
+                if score < min_score:
+                    break
+
+                row = self.store.memory_by_id.loc[memory_id]
+
+                selected.append(
+                    SemanticHit(
+                        memory_id=memory_id,
+                        score=score,
+                        memory_type="RULE",
+                        graph_node_id=safe_string(
+                            row.get("graph_node_id")
+                        ),
+                        rule_id=safe_string(
+                            row.get("rule_id")
+                        ),
+                        article_id=safe_string(
+                            row.get("article_id")
+                        ),
+                    )
+                )
+                selected_ids.add(memory_id)
+
+                if len(selected) >= top_k:
+                    break
+
+        return selected
+
+    # --------------------------------------------------------
+    # STAGE 2: MULTI-HOP GRAPH EXPANSION
+    # --------------------------------------------------------
+
+    def expand_event_seed(
+        self,
+        seed: SemanticHit,
+        *,
+        max_hops: int,
+        max_paths: int,
+        direction: str,
+    ) -> list[CausalPath]:
+        graph = self.store.causal_event_graph
+        seed_node = seed.graph_node_id
+
+        if seed_node not in graph:
+            return []
+
+        directions = (
+            ["forward", "backward"]
+            if direction == "both"
+            else [direction]
+        )
+
+        all_paths: list[CausalPath] = []
+
+        for one_direction in directions:
+            all_paths.extend(
+                self._bounded_path_search(
+                    seed=seed,
+                    max_hops=max_hops,
+                    max_paths=max_paths,
+                    direction=one_direction,
+                )
+            )
+
+        all_paths.sort(
+            key=lambda path: path.graph_score,
             reverse=True,
         )
 
-        return sorted_candidates[:max_candidates]
+        return all_paths[:max_paths]
 
-    @staticmethod
-    def _compute_path_score(
+    def _bounded_path_search(
+        self,
+        *,
+        seed: SemanticHit,
+        max_hops: int,
+        max_paths: int,
+        direction: str,
+    ) -> list[CausalPath]:
+        graph = self.store.causal_event_graph
+        seed_node = seed.graph_node_id
+
+        # queue item:
+        # current node, event path, rule ids, steps
+        queue: list[
+            tuple[
+                str,
+                list[str],
+                list[str],
+                list[CausalPathStep],
+            ]
+        ] = [
+            (seed_node, [seed_node], [], [])
+        ]
+
+        completed_paths: list[CausalPath] = []
+        queue_index = 0
+
+        while (
+            queue_index < len(queue)
+            and len(completed_paths) < max_paths
+        ):
+            (
+                current_node,
+                event_nodes,
+                path_rule_ids,
+                steps,
+            ) = queue[queue_index]
+            queue_index += 1
+
+            hop = len(steps)
+
+            if hop >= max_hops:
+                continue
+
+            if direction == "forward":
+                neighbors = graph.successors(current_node)
+            elif direction == "backward":
+                neighbors = graph.predecessors(current_node)
+            else:
+                raise ValueError(
+                    "direction phải là forward, backward hoặc both."
+                )
+
+            for neighbor in neighbors:
+                if neighbor in event_nodes:
+                    continue
+
+                if direction == "forward":
+                    source = current_node
+                    target = neighbor
+                else:
+                    source = neighbor
+                    target = current_node
+
+                edge_data = graph[source][target]
+
+                edge_rule_ids = unique_preserve_order(
+                    edge_data.get("rule_ids", [])
+                )
+                edge_article_ids = unique_preserve_order(
+                    edge_data.get("article_ids", [])
+                )
+
+                next_step = CausalPathStep(
+                    hop=hop + 1,
+                    source_event_node=source,
+                    source_event_id=event_id_from_node(
+                        graph,
+                        source,
+                    ),
+                    source_event_name=event_name_from_node(
+                        graph,
+                        source,
+                    ),
+                    target_event_node=target,
+                    target_event_id=event_id_from_node(
+                        graph,
+                        target,
+                    ),
+                    target_event_name=event_name_from_node(
+                        graph,
+                        target,
+                    ),
+                    rule_ids=edge_rule_ids,
+                    article_ids=edge_article_ids,
+                    support_count=safe_int(
+                        edge_data.get("support_count"),
+                        1,
+                    ),
+                )
+
+                next_event_nodes = (
+                    event_nodes + [neighbor]
+                )
+                next_rule_ids = unique_preserve_order(
+                    path_rule_ids + edge_rule_ids
+                )
+                next_steps = steps + [next_step]
+
+                graph_score = self._score_path(
+                    seed_similarity=seed.score,
+                    event_nodes=next_event_nodes,
+                    steps=next_steps,
+                )
+
+                completed_paths.append(
+                    CausalPath(
+                        seed_event_node=seed_node,
+                        seed_event_id=seed.event_id,
+                        seed_event_name=(
+                            seed.event_name or seed.event_id
+                        ),
+                        seed_similarity=seed.score,
+                        direction=direction,
+                        event_nodes=next_event_nodes,
+                        rule_ids=next_rule_ids,
+                        steps=next_steps,
+                        graph_score=graph_score,
+                    )
+                )
+
+                if len(next_steps) < max_hops:
+                    queue.append(
+                        (
+                            neighbor,
+                            next_event_nodes,
+                            next_rule_ids,
+                            next_steps,
+                        )
+                    )
+
+                if len(completed_paths) >= max_paths:
+                    break
+
+        completed_paths.sort(
+            key=lambda path: path.graph_score,
+            reverse=True,
+        )
+        return completed_paths
+
+    def _score_path(
+        self,
+        *,
         seed_similarity: float,
-        rule_ids: list[str],
-        steps: list[PathStep],
-        repository: RuleRepository,
+        event_nodes: list[str],
+        steps: list[CausalPathStep],
     ) -> float:
-        score = seed_similarity
+        hop_count = len(steps)
 
-        for depth, step in enumerate(steps, start=1):
-            depth_discount = 1.0 / math.sqrt(depth)
+        if hop_count == 0:
+            return 0.0
 
-            score += (
-                step.relation_score
-                * depth_discount
+        support_score = sum(
+            math.log1p(max(1, step.support_count))
+            for step in steps
+        ) / hop_count
+
+        support_score = min(
+            1.0,
+            support_score / math.log(4.0),
+        )
+
+        bridge_count = 0
+
+        # Không tính seed và endpoint, chỉ tính event trung gian.
+        for node_id in event_nodes[1:-1]:
+            data = self.store.causal_event_graph.nodes[
+                node_id
+            ]
+
+            if (
+                safe_bool(data.get("is_condition"))
+                and safe_bool(data.get("is_effect"))
+            ):
+                bridge_count += 1
+
+        bridge_bonus = min(
+            0.15,
+            bridge_count * BRIDGE_EVENT_BONUS,
+        )
+
+        depth_factor = HOP_DECAY ** (hop_count - 1)
+        length_penalty = PATH_LENGTH_PENALTY * max(
+            0,
+            hop_count - 1,
+        )
+
+        score = (
+            0.62 * seed_similarity
+            + 0.28 * support_score
+            + bridge_bonus
+        )
+
+        score = score * depth_factor - length_penalty
+
+        return max(0.0, min(1.0, score))
+
+    # --------------------------------------------------------
+    # STAGE 3: CANDIDATE RULE GENERATION
+    # --------------------------------------------------------
+
+    def collect_candidate_rules(
+        self,
+        *,
+        event_seeds: list[SemanticHit],
+        direct_rule_hits: list[SemanticHit],
+        paths: list[CausalPath],
+        max_candidates: int,
+    ) -> tuple[
+        list[str],
+        dict[str, float],
+        dict[str, float],
+        dict[str, list[str]],
+        dict[str, list[int]],
+    ]:
+        graph_score_by_rule: dict[str, float] = {}
+        seed_score_by_rule: dict[str, float] = {}
+        seed_events_by_rule: dict[str, list[str]] = {}
+        path_ids_by_rule: dict[str, list[int]] = {}
+
+        event_seed_by_node = {
+            seed.graph_node_id: seed
+            for seed in event_seeds
+        }
+
+        # Rule trực tiếp nối với seed event, kể cả seed không sinh path.
+        for seed in event_seeds:
+            event_node = seed.graph_node_id
+
+            for rule_id in self._rules_touching_event(
+                event_node
+            ):
+                seed_score_by_rule[rule_id] = max(
+                    seed_score_by_rule.get(rule_id, 0.0),
+                    seed.score,
+                )
+                seed_events_by_rule.setdefault(
+                    rule_id,
+                    [],
+                ).append(
+                    seed.event_name or seed.event_id
+                )
+
+        # Rule xuất hiện trên causal path.
+        for path_id, path in enumerate(paths):
+            for rule_id in path.rule_ids:
+                graph_score_by_rule[rule_id] = max(
+                    graph_score_by_rule.get(rule_id, 0.0),
+                    path.graph_score,
+                )
+                seed_score_by_rule[rule_id] = max(
+                    seed_score_by_rule.get(rule_id, 0.0),
+                    path.seed_similarity,
+                )
+                seed_events_by_rule.setdefault(
+                    rule_id,
+                    [],
+                ).append(
+                    path.seed_event_name
+                    or path.seed_event_id
+                )
+                path_ids_by_rule.setdefault(
+                    rule_id,
+                    [],
+                ).append(path_id)
+
+        direct_rule_ids = [
+            hit.rule_id
+            for hit in direct_rule_hits
+            if hit.rule_id
+        ]
+
+        candidate_ids = unique_preserve_order(
+            list(graph_score_by_rule)
+            + list(seed_score_by_rule)
+            + direct_rule_ids
+        )
+
+        # Ưu tiên sơ bộ theo graph + seed trước khi semantic rerank.
+        candidate_ids.sort(
+            key=lambda rule_id: (
+                graph_score_by_rule.get(rule_id, 0.0)
+                + seed_score_by_rule.get(rule_id, 0.0)
+            ),
+            reverse=True,
+        )
+
+        candidate_ids = candidate_ids[:max_candidates]
+
+        for rule_id in seed_events_by_rule:
+            seed_events_by_rule[rule_id] = (
+                unique_preserve_order(
+                    seed_events_by_rule[rule_id]
+                )
             )
 
-            score -= DEPTH_PENALTY * depth
-
-            if step.relation == "EFFECT_TO_CONDITION":
-                score += CAUSAL_HOP_BONUS
-
-        rules = [
-            repository.get(rule_id)
-            for rule_id in rule_ids
-        ]
-
-        condition_norms = [
-            rule.condition_norm
-            for rule in rules
-        ]
-
-        effect_norms = [
-            rule.effect_norm
-            for rule in rules
-        ]
-
-        repeated_conditions = (
-            len(condition_norms)
-            - len(set(condition_norms))
-        )
-
-        repeated_effects = (
-            len(effect_norms)
-            - len(set(effect_norms))
-        )
-
-        score -= REDUNDANCY_PENALTY * (
-            repeated_conditions + repeated_effects
-        )
-
-        # Thưởng nhẹ nếu path đi qua nhiều article,
-        # vì có khả năng thực sự là multi-hop liên điều luật.
-        distinct_articles = len({
-            rule.article_id
-            for rule in rules
-        })
-
-        if distinct_articles > 1:
-            score += min(
-                0.05 * (distinct_articles - 1),
-                0.15,
+        for rule_id in path_ids_by_rule:
+            path_ids_by_rule[rule_id] = sorted(
+                set(path_ids_by_rule[rule_id])
             )
 
-        return float(score)
+        return (
+            candidate_ids,
+            graph_score_by_rule,
+            seed_score_by_rule,
+            seed_events_by_rule,
+            path_ids_by_rule,
+        )
+
+    def _rules_touching_event(
+        self,
+        event_node: str,
+    ) -> list[str]:
+        graph = self.store.causal_event_graph
+        rule_ids: list[str] = []
+
+        if event_node not in graph:
+            return []
+
+        for _, target, edge_data in graph.out_edges(
+            event_node,
+            data=True,
+        ):
+            rule_ids.extend(
+                edge_data.get("rule_ids", [])
+            )
+
+        for source, _, edge_data in graph.in_edges(
+            event_node,
+            data=True,
+        ):
+            rule_ids.extend(
+                edge_data.get("rule_ids", [])
+            )
+
+        return unique_preserve_order(rule_ids)
+
+    # --------------------------------------------------------
+    # STAGE 4: RULE SEMANTIC RE-RANKING
+    # --------------------------------------------------------
+
+    def rerank_rules(
+        self,
+        *,
+        query_vector: np.ndarray,
+        candidate_rule_ids: list[str],
+        direct_rule_hits: list[SemanticHit],
+        graph_score_by_rule: dict[str, float],
+        seed_score_by_rule: dict[str, float],
+        seed_events_by_rule: dict[str, list[str]],
+        path_ids_by_rule: dict[str, list[int]],
+        final_top_k: int,
+    ) -> list[RuleEvidence]:
+        direct_score_by_rule = {
+            hit.rule_id: hit.score
+            for hit in direct_rule_hits
+            if hit.rule_id
+        }
+
+        evidences: list[RuleEvidence] = []
+
+        for rule_id in candidate_rule_ids:
+            row = self.store.rule_by_id.get(rule_id)
+
+            if row is None:
+                continue
+
+            memory_id = int(row["memory_id"])
+            rule_vector = self.store.embeddings[
+                memory_id
+            ]
+
+            semantic_score = float(
+                np.dot(query_vector, rule_vector)
+            )
+            graph_score = graph_score_by_rule.get(
+                rule_id,
+                0.0,
+            )
+            seed_event_score = seed_score_by_rule.get(
+                rule_id,
+                0.0,
+            )
+            direct_rule_score = direct_score_by_rule.get(
+                rule_id,
+                0.0,
+            )
+
+            final_score = (
+                SEMANTIC_RULE_WEIGHT * semantic_score
+                + GRAPH_PATH_WEIGHT * graph_score
+                + SEED_EVENT_WEIGHT * seed_event_score
+                + DIRECT_RULE_BONUS_WEIGHT
+                * direct_rule_score
+            )
+
+            evidences.append(
+                RuleEvidence(
+                    rank=0,
+                    rule_id=rule_id,
+                    rule_node_id=safe_string(
+                        row.get("rule_node_id")
+                    )
+                    or make_rule_node_id(rule_id),
+                    article_id=safe_string(
+                        row.get("article_id")
+                    ),
+                    article_title=safe_string(
+                        row.get("article_title")
+                    ),
+                    legal_subject=safe_string(
+                        row.get("legal_subject")
+                    ),
+                    condition=safe_string(
+                        row.get("condition")
+                    ),
+                    effect=safe_string(
+                        row.get("effect")
+                    ),
+                    condition_event=safe_string(
+                        row.get("condition_event")
+                    ),
+                    condition_event_name=safe_string(
+                        row.get("condition_event_name")
+                    ),
+                    effect_event=safe_string(
+                        row.get("effect_event")
+                    ),
+                    effect_event_name=safe_string(
+                        row.get("effect_event_name")
+                    ),
+                    causal_type=safe_string(
+                        row.get("causal_type")
+                    ),
+                    semantic_score=semantic_score,
+                    graph_score=graph_score,
+                    seed_event_score=seed_event_score,
+                    direct_rule_score=direct_rule_score,
+                    final_score=final_score,
+                    matched_seed_events=seed_events_by_rule.get(
+                        rule_id,
+                        [],
+                    ),
+                    path_ids=path_ids_by_rule.get(
+                        rule_id,
+                        [],
+                    ),
+                )
+            )
+
+        evidences.sort(
+            key=lambda item: item.final_score,
+            reverse=True,
+        )
+
+        evidences = evidences[:final_top_k]
+
+        for rank, evidence in enumerate(
+            evidences,
+            start=1,
+        ):
+            evidence.rank = rank
+
+        return evidences
+
+    # --------------------------------------------------------
+    # END-TO-END RETRIEVAL
+    # --------------------------------------------------------
 
     def retrieve(
         self,
         query: str,
-        seed_top_k: int = DEFAULT_SEED_TOP_K,
+        *,
+        event_top_k: int = DEFAULT_EVENT_TOP_K,
+        direct_rule_top_k: int = DEFAULT_DIRECT_RULE_TOP_K,
         semantic_pool_size: int = DEFAULT_SEMANTIC_POOL_SIZE,
-        max_depth: int = DEFAULT_MAX_DEPTH,
-        max_expansions_per_rule: int = (
-            DEFAULT_MAX_EXPANSIONS_PER_RULE
-        ),
+        max_hops: int = DEFAULT_MAX_HOPS,
+        max_paths_per_event: int = DEFAULT_MAX_PATHS_PER_EVENT,
+        max_candidate_rules: int = DEFAULT_MAX_CANDIDATE_RULES,
         final_top_k: int = DEFAULT_FINAL_TOP_K,
-        causal_only: bool = True,
-        min_event_nodes: int = DEFAULT_MIN_EVENT_NODES,
-    ) -> dict[str, Any]:
-        # ----------------------------------------------------
-        # Dense retrieval pool
-        # ----------------------------------------------------
+        min_event_score: float = DEFAULT_MIN_EVENT_SCORE,
+        min_rule_score: float = DEFAULT_MIN_RULE_SCORE,
+        direction: str = "both",
+    ) -> RetrievalResult:
+        if event_top_k < 1:
+            raise ValueError("event_top_k phải lớn hơn 0.")
+        if direct_rule_top_k < 0:
+            raise ValueError(
+                "direct_rule_top_k không được âm."
+            )
+        if max_hops < 1:
+            raise ValueError("max_hops phải lớn hơn 0.")
+        if direction not in {
+            "forward",
+            "backward",
+            "both",
+        }:
+            raise ValueError(
+                "direction phải là forward, backward hoặc both."
+            )
 
-        semantic_results = self.dense.retrieve(
+        query = safe_string(query)
+        query_vector = self.store.encode_query(query)
+        self._active_query_vector = query_vector
+
+        semantic_hits = self.semantic_search(
+            query_vector,
+            pool_size=semantic_pool_size,
+        )
+
+        event_seeds = self.select_event_seeds(
+            semantic_hits,
+            top_k=event_top_k,
+            min_score=min_event_score,
+        )
+
+        direct_rule_hits = self.select_direct_rule_hits(
+            semantic_hits,
+            top_k=direct_rule_top_k,
+            min_score=min_rule_score,
+        )
+
+        all_paths: list[CausalPath] = []
+
+        for seed in event_seeds:
+            seed_paths = self.expand_event_seed(
+                seed,
+                max_hops=max_hops,
+                max_paths=max_paths_per_event,
+                direction=direction,
+            )
+            all_paths.extend(seed_paths)
+
+        # Xếp hạng toàn cục và loại path trùng.
+        all_paths = self._deduplicate_paths(all_paths)
+        all_paths.sort(
+            key=lambda path: path.graph_score,
+            reverse=True,
+        )
+
+        (
+            candidate_rule_ids,
+            graph_score_by_rule,
+            seed_score_by_rule,
+            seed_events_by_rule,
+            path_ids_by_rule,
+        ) = self.collect_candidate_rules(
+            event_seeds=event_seeds,
+            direct_rule_hits=direct_rule_hits,
+            paths=all_paths,
+            max_candidates=max_candidate_rules,
+        )
+
+        evidence = self.rerank_rules(
+            query_vector=query_vector,
+            candidate_rule_ids=candidate_rule_ids,
+            direct_rule_hits=direct_rule_hits,
+            graph_score_by_rule=graph_score_by_rule,
+            seed_score_by_rule=seed_score_by_rule,
+            seed_events_by_rule=seed_events_by_rule,
+            path_ids_by_rule=path_ids_by_rule,
+            final_top_k=final_top_k,
+        )
+
+        result = RetrievalResult(
             query=query,
-            top_k=semantic_pool_size,
-        )
-
-        semantic_scores = {
-            rule_id: score
-            for rule_id, score in semantic_results
-        }
-
-        semantic_rule_ids = set(semantic_scores)
-
-        seeds = semantic_results[:seed_top_k]
-
-        if not seeds:
-            return {
-                "query": query,
-                "paths": [],
-                "evidence": [],
-            }
-
-        all_paths: list[RetrievalPath] = []
-
-        # ----------------------------------------------------
-        # BFS từ mỗi seed rule
-        # ----------------------------------------------------
-
-        for seed_rule_id, seed_similarity in seeds:
-            initial_path = RetrievalPath(
-                seed_rule_id=seed_rule_id,
-                rule_ids=[seed_rule_id],
-                steps=[],
-                seed_similarity=seed_similarity,
-                score=seed_similarity,
-            )
-
-            all_paths.append(initial_path)
-
-            queue = deque([initial_path])
-
-            while queue:
-                current_path = queue.popleft()
-
-                current_depth = len(current_path.steps)
-
-                if current_depth >= max_depth:
-                    continue
-
-                current_rule_id = current_path.rule_ids[-1]
-
-                expansions = self.expand_rule(
-                    source_rule_id=current_rule_id,
-                    semantic_rule_ids=semantic_rule_ids,
-                    max_candidates=max_expansions_per_rule,
-                    causal_only=causal_only,
-                )
-
-                for (
-                    target_rule_id,
-                    relation,
-                    relation_score,
-                    explanation,
-                ) in expansions:
-                    # Tránh cycle ở path level.
-                    if target_rule_id in current_path.rule_ids:
-                        continue
-
-                    new_rule_ids = (
-                        current_path.rule_ids
-                        + [target_rule_id]
-                    )
-
-                    new_step = PathStep(
-                        from_rule_id=current_rule_id,
-                        to_rule_id=target_rule_id,
-                        relation=relation,
-                        relation_score=relation_score,
-                        explanation=explanation,
-                    )
-
-                    new_steps = (
-                        current_path.steps
-                        + [new_step]
-                    )
-
-                    new_score = self._compute_path_score(
-                        seed_similarity=seed_similarity,
-                        rule_ids=new_rule_ids,
-                        steps=new_steps,
-                        repository=self.repo,
-                    )
-
-                    new_path = RetrievalPath(
-                        seed_rule_id=seed_rule_id,
-                        rule_ids=new_rule_ids,
-                        steps=new_steps,
-                        seed_similarity=seed_similarity,
-                        score=new_score,
-                    )
-
-                    all_paths.append(new_path)
-                    queue.append(new_path)
-
-        # ----------------------------------------------------
-        # Loại path trùng
-        # ----------------------------------------------------
-
-        unique_paths: dict[
-            tuple[str, ...], RetrievalPath
-        ] = {}
-
-        for path in all_paths:
-            key = tuple(path.rule_ids)
-
-            current = unique_paths.get(key)
-
-            if current is None or path.score > current.score:
-                unique_paths[key] = path
-
-        ranked_paths = sorted(
-            unique_paths.values(),
-            key=lambda path: (
-                path.score,
-                len(path.rule_ids),
-            ),
-            reverse=True,
-        )
-
-        # Một path gồm N rule causal liên tục sẽ tương ứng N+1 EVENT.
-        # Ví dụ 3 rule liên tiếp biểu diễn chuỗi 4 EVENT / 3 causal edges.
-        eligible_paths = [
-            path
-            for path in ranked_paths
-            if self._event_node_count(path) >= min_event_nodes
-        ]
-
-        selected_paths = eligible_paths[:final_top_k]
-
-        # ----------------------------------------------------
-        # Gom evidence rule từ các path tốt nhất
-        # ----------------------------------------------------
-
-        evidence_scores: dict[str, float] = defaultdict(float)
-        evidence_path_count: dict[str, int] = defaultdict(int)
-
-        for path in selected_paths:
-            path_contribution = path.score / max(
-                len(path.rule_ids),
-                1,
-            )
-
-            for rule_id in path.rule_ids:
-                evidence_scores[rule_id] = max(
-                    evidence_scores[rule_id],
-                    path_contribution,
-                )
-
-                evidence_path_count[rule_id] += 1
-
-        ranked_evidence_ids = sorted(
-            evidence_scores,
-            key=lambda rule_id: (
-                evidence_scores[rule_id],
-                evidence_path_count[rule_id],
-                semantic_scores.get(rule_id, -1.0),
-            ),
-            reverse=True,
-        )
-
-        # Giữ evidence gọn để không làm tràn context LLM.
-        ranked_evidence_ids = ranked_evidence_ids[
-            :final_top_k
-        ]
-
-        return {
-            "query": query,
-            "config": {
-                "seed_top_k": seed_top_k,
+            configuration={
+                "event_top_k": event_top_k,
+                "direct_rule_top_k": direct_rule_top_k,
                 "semantic_pool_size": semantic_pool_size,
-                "max_depth": max_depth,
-                "max_expansions_per_rule": (
-                    max_expansions_per_rule
-                ),
+                "max_hops": max_hops,
+                "max_paths_per_event": max_paths_per_event,
+                "max_candidate_rules": max_candidate_rules,
                 "final_top_k": final_top_k,
-                "causal_only": causal_only,
-                "min_event_nodes": min_event_nodes,
-            },
-            "seed_rules": [
-                self._serialize_rule(
-                    rule_id,
-                    semantic_score=score,
-                )
-                for rule_id, score in seeds
-            ],
-            "paths": [
-                self._serialize_path(path)
-                for path in selected_paths
-            ],
-            "evidence": [
-                {
-                    **self._serialize_rule(
-                        rule_id,
-                        semantic_score=semantic_scores.get(
-                            rule_id
-                        ),
+                "min_event_score": min_event_score,
+                "min_rule_score": min_rule_score,
+                "direction": direction,
+                "model_name": self.store.model_name,
+                "score_weights": {
+                    "semantic_rule": SEMANTIC_RULE_WEIGHT,
+                    "graph_path": GRAPH_PATH_WEIGHT,
+                    "seed_event": SEED_EVENT_WEIGHT,
+                    "direct_rule_bonus": (
+                        DIRECT_RULE_BONUS_WEIGHT
                     ),
-                    "evidence_score": evidence_scores[
-                        rule_id
-                    ],
-                    "path_count": evidence_path_count[
-                        rule_id
-                    ],
-                }
-                for rule_id in ranked_evidence_ids
+                },
+            },
+            retrieved_events=[
+                asdict(hit) for hit in event_seeds
             ],
-        }
-
-    def _build_event_chain(
-        self,
-        path: RetrievalPath,
-    ) -> list[str]:
-        """
-        Chuyển một rule path liên tục thành chuỗi EVENT.
-
-        Rule A: EVENT X -> EVENT Y
-        Rule B: EVENT Y -> EVENT Z
-        Kết quả: [EVENT X, EVENT Y, EVENT Z]
-        """
-        if not path.rule_ids:
-            return []
-
-        first_rule = self.repo.get(path.rule_ids[0])
-        event_chain = [first_rule.condition_event_id]
-
-        for rule_id in path.rule_ids:
-            rule = self.repo.get(rule_id)
-
-            if event_chain[-1] != rule.condition_event_id:
-                # Path có quan hệ không-causal hoặc bị đứt mạch.
-                # Giữ cả condition để biểu diễn trung thực thay vì
-                # giả định đây là một causal chain liên tục.
-                event_chain.append(rule.condition_event_id)
-
-            event_chain.append(rule.effect_event_id)
-
-        return event_chain
-
-    def _event_node_count(
-        self,
-        path: RetrievalPath,
-    ) -> int:
-        return len(self._build_event_chain(path))
-
-    def _is_pure_causal_path(
-        self,
-        path: RetrievalPath,
-    ) -> bool:
-        return all(
-            step.relation == "EFFECT_TO_CONDITION"
-            for step in path.steps
+            direct_rule_hits=[
+                asdict(hit) for hit in direct_rule_hits
+            ],
+            causal_paths=[
+                asdict(path) for path in all_paths
+            ],
+            evidence=[
+                asdict(item) for item in evidence
+            ],
+            statistics={
+                "semantic_hits": len(semantic_hits),
+                "retrieved_event_seeds": len(event_seeds),
+                "direct_rule_hits": len(
+                    direct_rule_hits
+                ),
+                "causal_paths": len(all_paths),
+                "candidate_rules": len(
+                    candidate_rule_ids
+                ),
+                "final_evidence": len(evidence),
+                "unique_path_rules": len(
+                    {
+                        rule_id
+                        for path in all_paths
+                        for rule_id in path.rule_ids
+                    }
+                ),
+            },
         )
 
-    def _serialize_rule(
-        self,
-        rule_id: str,
-        semantic_score: Optional[float] = None,
-    ) -> dict[str, Any]:
-        rule = self.repo.get(rule_id)
-
-        result = asdict(rule)
-
-        if semantic_score is not None:
-            result["semantic_score"] = float(
-                semantic_score
-            )
-
+        del self._active_query_vector
         return result
 
-    def _serialize_path(
-        self,
-        path: RetrievalPath,
-    ) -> dict[str, Any]:
-        event_node_ids = self._build_event_chain(path)
+    @staticmethod
+    def _deduplicate_paths(
+        paths: list[CausalPath],
+    ) -> list[CausalPath]:
+        best_by_key: dict[
+            tuple[str, str, tuple[str, ...]],
+            CausalPath,
+        ] = {}
 
-        return {
-            "seed_rule_id": path.seed_rule_id,
-            "rule_ids": path.rule_ids,
-            "event_node_ids": event_node_ids,
-            "event_chain": [
-                event_id.replace("EVENT::", "", 1)
-                for event_id in event_node_ids
-            ],
-            "event_node_count": len(event_node_ids),
-            "causal_edge_count": max(len(event_node_ids) - 1, 0),
-            "rule_count": len(path.rule_ids),
-            "is_pure_causal": self._is_pure_causal_path(path),
-            "seed_similarity": path.seed_similarity,
-            "score": path.score,
-            "steps": [
-                asdict(step)
-                for step in path.steps
-            ],
-            "rules": [
-                self._serialize_rule(rule_id)
-                for rule_id in path.rule_ids
-            ],
-        }
+        for path in paths:
+            key = (
+                path.seed_event_node,
+                path.direction,
+                tuple(path.event_nodes),
+            )
+
+            existing = best_by_key.get(key)
+
+            if (
+                existing is None
+                or path.graph_score > existing.graph_score
+            ):
+                best_by_key[key] = path
+
+        return list(best_by_key.values())
 
 
 # ============================================================
-# LLM CONTEXT FORMATTER
+# OUTPUT HELPERS
 # ============================================================
 
-def format_context_for_llm(
-    retrieval_result: dict[str, Any],
-    max_evidence: int = 8,
-) -> str:
-    """
-    Biến retrieval result thành context gọn để truyền vào LLM.
-    """
-    query = retrieval_result["query"]
+def save_result(
+    result: RetrievalResult,
+    output_path: str,
+) -> None:
+    path = Path(output_path)
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
-    lines = [
-        "CÂU HỎI:",
-        query,
-        "",
-        "BẰNG CHỨNG PHÁP LUẬT:",
-    ]
-
-    evidence = retrieval_result.get(
-        "evidence",
-        [],
-    )[:max_evidence]
-
-    for position, item in enumerate(evidence, start=1):
-        lines.extend([
-            "",
-            f"[Bằng chứng {position}]",
-            (
-                f"Rule ID: {item['rule_id']} | "
-                f"Điều {item['article_id']}"
-            ),
-            f"Tên điều: {item['article_title']}",
-            f"Chủ thể: {item['legal_subject']}",
-            (
-                f"Điều kiện: {item['condition']} "
-                f"({item['condition_norm']})"
-            ),
-            (
-                f"Hệ quả: {item['effect']} "
-                f"({item['effect_norm']})"
-            ),
-        ])
-
-    lines.extend([
-        "",
-        "CÁC ĐƯỜNG SUY LUẬN ĐƯỢC TRUY HỒI:",
-    ])
-
-    for path_index, path in enumerate(
-        retrieval_result.get("paths", [])[:5],
-        start=1,
-    ):
-        lines.append("")
-        lines.append(
-            f"[Đường {path_index}] "
-            f"score={path['score']:.4f}"
+    with path.open(
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            asdict(result),
+            file,
+            ensure_ascii=False,
+            indent=2,
         )
 
-        for step in path["steps"]:
-            lines.append(
-                f"- Rule {step['from_rule_id']} "
-                f"--{step['relation']}--> "
-                f"Rule {step['to_rule_id']}"
-            )
-            lines.append(
-                f"  {step['explanation']}"
-            )
+    print(f"\nSaved retrieval result: {path}")
 
-    return "\n".join(lines)
-
-
-# ============================================================
-# DISPLAY
-# ============================================================
 
 def print_result_summary(
-    retrieval_result: dict[str, Any],
+    result: RetrievalResult,
 ) -> None:
-    print("\n" + "=" * 80)
-    print("MULTI-HOP CAUSAL RETRIEVAL")
-    print("=" * 80)
+    print("\n" + "=" * 72)
+    print("MULTI-HOP CAUSAL RETRIEVAL RESULT")
+    print("=" * 72)
+    print("Query:", result.query)
 
-    print("\nQuery:")
-    print(retrieval_result["query"])
-
-    print("\nTop paths:")
-
-    for index, path in enumerate(
-        retrieval_result.get("paths", [])[:10],
+    print("\nTop retrieved events:")
+    for index, event in enumerate(
+        result.retrieved_events,
         start=1,
     ):
         print(
-            f"\nPath {index}: "
-            f"score={path['score']:.4f}"
+            f"{index:>2}. "
+            f"{event.get('event_name') or event.get('event_id')} "
+            f"[{event.get('event_role')}] "
+            f"score={event.get('score', 0.0):.4f}"
         )
-
-        print(
-            "  Rules: "
-            + " -> ".join(path["rule_ids"])
-        )
-
-        if path.get("event_chain"):
-            print(
-                "  Events: "
-                + " -> ".join(path["event_chain"])
-            )
-
-        if not path["steps"]:
-            print("  Seed rule trực tiếp.")
-            continue
-
-        for step in path["steps"]:
-            print(
-                f"  [{step['relation']}] "
-                f"{step['from_rule_id']} "
-                f"-> {step['to_rule_id']}"
-            )
 
     print("\nTop evidence:")
+    for item in result.evidence:
+        print(
+            f"{item['rank']:>2}. "
+            f"Rule {item['rule_id']} - "
+            f"Điều {item['article_id']} | "
+            f"final={item['final_score']:.4f} | "
+            f"semantic={item['semantic_score']:.4f} | "
+            f"graph={item['graph_score']:.4f}"
+        )
+        print(
+            f"    Nếu: {item['condition']}"
+        )
+        print(
+            f"    Thì: {item['effect']}"
+        )
 
-    for index, item in enumerate(
-        retrieval_result.get("evidence", [])[:10],
-        start=1,
-    ):
-        print(
-            f"\n{index}. Rule {item['rule_id']} "
-            f"- Điều {item['article_id']}: "
-            f"{item['article_title']}"
+    print("\nStatistics:")
+    for key, value in result.statistics.items():
+        print(f"- {key}: {value}")
+
+
+# ============================================================
+# ARGUMENTS
+# ============================================================
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Two-stage multi-hop CausalRAG retriever: "
+            "Event semantic retrieval -> causal graph expansion "
+            "-> candidate rule generation -> rule re-ranking."
         )
-        print(
-            f"   Chủ thể: {item['legal_subject']}"
-        )
-        print(
-            f"   Condition: {item['condition']}"
-        )
-        print(
-            f"   Effect: {item['effect']}"
-        )
-        print(
-            f"   Evidence score: "
-            f"{item['evidence_score']:.4f}"
-        )
+    )
+
+    parser.add_argument(
+        "query",
+        nargs="?",
+        type=str,
+        help="Câu hỏi pháp lý cần truy hồi.",
+    )
+    parser.add_argument(
+        "--graph",
+        default=GRAPH_PATH,
+    )
+    parser.add_argument(
+        "--memory",
+        default=MEMORY_PATH,
+    )
+    parser.add_argument(
+        "--index",
+        default=FAISS_INDEX_PATH,
+    )
+    parser.add_argument(
+        "--embeddings",
+        default=EMBEDDINGS_PATH,
+    )
+    parser.add_argument(
+        "--model",
+        default=MODEL_NAME,
+    )
+    parser.add_argument(
+        "--output",
+        default=OUTPUT_PATH,
+    )
+    parser.add_argument(
+        "--event-top-k",
+        type=int,
+        default=DEFAULT_EVENT_TOP_K,
+    )
+    parser.add_argument(
+        "--direct-rule-top-k",
+        type=int,
+        default=DEFAULT_DIRECT_RULE_TOP_K,
+    )
+    parser.add_argument(
+        "--semantic-pool-size",
+        type=int,
+        default=DEFAULT_SEMANTIC_POOL_SIZE,
+    )
+    parser.add_argument(
+        "--max-hops",
+        type=int,
+        default=DEFAULT_MAX_HOPS,
+    )
+    parser.add_argument(
+        "--max-paths-per-event",
+        type=int,
+        default=DEFAULT_MAX_PATHS_PER_EVENT,
+    )
+    parser.add_argument(
+        "--max-candidate-rules",
+        type=int,
+        default=DEFAULT_MAX_CANDIDATE_RULES,
+    )
+    parser.add_argument(
+        "--final-top-k",
+        type=int,
+        default=DEFAULT_FINAL_TOP_K,
+    )
+    parser.add_argument(
+        "--min-event-score",
+        type=float,
+        default=DEFAULT_MIN_EVENT_SCORE,
+    )
+    parser.add_argument(
+        "--min-rule-score",
+        type=float,
+        default=DEFAULT_MIN_RULE_SCORE,
+    )
+    parser.add_argument(
+        "--direction",
+        choices=[
+            "forward",
+            "backward",
+            "both",
+        ],
+        default="both",
+    )
+
+    return parser.parse_args()
 
 
 # ============================================================
 # MAIN
 # ============================================================
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description=(
-            "Multi-hop Causal Retriever cho dữ liệu "
-            "Bộ luật Hình sự Việt Nam."
-        )
-    )
-
-    parser.add_argument(
-        "--query",
-        type=str,
-        required=True,
-        help="Câu hỏi pháp luật cần truy hồi.",
-    )
-
-    parser.add_argument(
-        "--data",
-        type=str,
-        default=DATA_PATH,
-    )
-
-    parser.add_argument(
-        "--index",
-        type=str,
-        default=FAISS_INDEX_PATH,
-    )
-
-    parser.add_argument(
-        "--memory",
-        type=str,
-        default=MEMORY_PATH,
-    )
-
-    parser.add_argument(
-        "--model",
-        type=str,
-        default=EMBEDDING_MODEL,
-    )
-
-    parser.add_argument(
-        "--seed-top-k",
-        type=int,
-        default=DEFAULT_SEED_TOP_K,
-    )
-
-    parser.add_argument(
-        "--semantic-pool-size",
-        type=int,
-        default=DEFAULT_SEMANTIC_POOL_SIZE,
-    )
-
-    parser.add_argument(
-        "--max-depth",
-        type=int,
-        default=DEFAULT_MAX_DEPTH,
-    )
-
-    parser.add_argument(
-        "--min-event-nodes",
-        type=int,
-        default=DEFAULT_MIN_EVENT_NODES,
-        help=(
-            "Số EVENT tối thiểu của path được trả về. "
-            "Dùng 4 để chỉ lấy chuỗi từ 4 EVENT trở lên."
-        ),
-    )
-
-    parser.add_argument(
-        "--allow-non-causal",
-        action="store_true",
-        help=(
-            "Cho phép mở rộng bằng SAME_EFFECT, SAME_CONDITION, "
-            "SAME_ARTICLE, SAME_SUBJECT, ARTICLE_REFERENCE và SEMANTIC. "
-            "Mặc định chỉ dùng EFFECT_TO_CONDITION."
-        ),
-    )
-
-    parser.add_argument(
-        "--max-expansions",
-        type=int,
-        default=DEFAULT_MAX_EXPANSIONS_PER_RULE,
-    )
-
-    parser.add_argument(
-        "--final-top-k",
-        type=int,
-        default=DEFAULT_FINAL_TOP_K,
-    )
-
-    parser.add_argument(
-        "--output",
-        type=str,
-        default=OUTPUT_PATH,
-    )
-
-    return parser.parse_args()
-
-
 def main() -> None:
     args = parse_args()
 
-    if args.max_depth < 0:
-        raise ValueError(
-            "--max-depth phải lớn hơn hoặc bằng 0."
-        )
+    query = args.query
 
-    if args.min_event_nodes < 2:
-        raise ValueError(
-            "--min-event-nodes phải lớn hơn hoặc bằng 2."
-        )
+    if not query:
+        query = input(
+            "Nhập câu hỏi pháp lý: "
+        ).strip()
 
-    repository = RuleRepository(
-        data_path=args.data
-    )
-
-    dense_retriever = DenseRuleRetriever(
-        repository=repository,
-        index_path=args.index,
+    store = CausalResourceStore(
+        graph_path=args.graph,
         memory_path=args.memory,
+        index_path=args.index,
+        embeddings_path=args.embeddings,
         model_name=args.model,
     )
 
-    retriever = MultiHopCausalRetriever(
-        repository=repository,
-        dense_retriever=dense_retriever,
-    )
+    retriever = MultiHopCausalRetriever(store)
 
     result = retriever.retrieve(
-        query=args.query,
-        seed_top_k=args.seed_top_k,
+        query,
+        event_top_k=args.event_top_k,
+        direct_rule_top_k=args.direct_rule_top_k,
         semantic_pool_size=args.semantic_pool_size,
-        max_depth=args.max_depth,
-        max_expansions_per_rule=args.max_expansions,
+        max_hops=args.max_hops,
+        max_paths_per_event=args.max_paths_per_event,
+        max_candidate_rules=args.max_candidate_rules,
         final_top_k=args.final_top_k,
-        causal_only=not args.allow_non_causal,
-        min_event_nodes=args.min_event_nodes,
+        min_event_score=args.min_event_score,
+        min_rule_score=args.min_rule_score,
+        direction=args.direction,
     )
-
-    output_path = Path(args.output)
-    output_path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    with output_path.open(
-        "w",
-        encoding="utf-8",
-    ) as file:
-        json.dump(
-            result,
-            file,
-            ensure_ascii=False,
-            indent=2,
-        )
 
     print_result_summary(result)
-
-    llm_context = format_context_for_llm(
-        result,
-        max_evidence=8,
-    )
-
-    context_output_path = output_path.with_name(
-        output_path.stem + "_context.txt"
-    )
-
-    context_output_path.write_text(
-        llm_context,
-        encoding="utf-8",
-    )
-
-    print("\n" + "=" * 80)
-    print(f"Saved retrieval JSON: {output_path}")
-    print(f"Saved LLM context: {context_output_path}")
-    print("=" * 80)
+    save_result(result, args.output)
 
 
 if __name__ == "__main__":
