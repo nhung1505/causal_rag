@@ -1402,3 +1402,22 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# python 3_normalize_events_fixed.py \
+#   --input data/2_blhs_rules_raw_test.json \
+#   --output data/4_blhs_merged_test_v2.json \
+#   --catalog data/3_event_catalog_test_v2.json \
+#   --model qwen3:8b \
+#   --limit 10 \
+#   --min-existing-score 0.60 \
+#   --overwrite
+
+
+# python 3_normalize_events_fixed.py \
+#   --input data/2_blhs_rules_raw.json \
+#   --output data/4_blhs_merged.json \
+#   --catalog data/3_event_catalog.json \
+#   --model qwen3:8b \
+#   --min-existing-score 0.60 \
+#   --overwrite

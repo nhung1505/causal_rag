@@ -71,7 +71,7 @@ def remove_vietnamese_accents(text: str) -> str:
 
 def normalize_identifier(text: Any) -> str:
     """
-    Chuẩn hóa condition_norm/effect_norm thành ID ổn định.
+    Chuẩn hóa condition_event/effect_event thành ID ổn định.
 
     Ví dụ:
         "Chịu trách nhiệm hình sự"
@@ -223,8 +223,8 @@ def load_input_dataframe(input_path: str) -> pd.DataFrame:
         "legal_subject",
         "condition",
         "effect",
-        "condition_norm",
-        "effect_norm",
+        "condition_event",
+        "effect_event",
     }
 
     missing_columns = (
@@ -242,6 +242,9 @@ def load_input_dataframe(input_path: str) -> pd.DataFrame:
         "article_title": "",
         "content": "",
         "causal_type": "",
+        "condition_event_name": "",
+        "effect_event_name": "",
+        "normalization_metadata": "",
     }
 
     for column_name, default_value in (
@@ -267,8 +270,8 @@ def make_rule_node_id(rule_id: str) -> str:
     return f"RULE::{rule_id}"
 
 
-def make_event_node_id(event_norm: str) -> str:
-    return f"EVENT::{event_norm}"
+def make_event_node_id(event_id: str) -> str:
+    return f"EVENT::{event_id}"
 
 
 def make_subject_node_id(subject_norm: str) -> str:
@@ -321,8 +324,8 @@ def add_or_update_rule_node(
     legal_subject: str,
     condition: str,
     effect: str,
-    condition_norm: str,
-    effect_norm: str,
+    condition_event: str,
+    effect_event: str,
     article_title: str,
     causal_type: str,
 ) -> str:
@@ -342,8 +345,8 @@ def add_or_update_rule_node(
         legal_subject=legal_subject,
         condition=condition,
         effect=effect,
-        condition_norm=condition_norm,
-        effect_norm=effect_norm,
+        condition_event=condition_event,
+        effect_event=effect_event,
         article_title=article_title,
         causal_type=causal_type,
         label=f"Rule {rule_id}",
@@ -354,100 +357,67 @@ def add_or_update_rule_node(
 
 def add_or_update_event_node(
     graph: nx.MultiDiGraph,
-    event_norm: str,
+    event_id: str,
+    event_name: str,
     event_text: str,
     role: str,
     rule_id: str,
     article_id: str,
 ) -> str:
     """
-    Tạo hoặc cập nhật một EVENT node.
+    Tạo hoặc cập nhật EVENT node từ event_id đã chuẩn hóa ở bước 3.
 
-    Điểm quan trọng:
-    - condition_norm và effect_norm dùng chung node ID.
-    - Một event có thể vừa là condition, vừa là effect.
+    condition_event và effect_event dùng chung một không gian định danh.
+    Nếu effect_event của rule trước bằng condition_event của rule sau,
+    hai rule tự động nối với nhau qua cùng một EVENT node.
     """
-
     if role not in {"CONDITION", "EFFECT"}:
-        raise ValueError(
-            f"Event role không hợp lệ: {role}"
-        )
+        raise ValueError(f"Event role không hợp lệ: {role}")
 
-    node_id = make_event_node_id(event_norm)
+    event_id = safe_string(event_id)
+    event_name = safe_string(event_name) or event_id
+    event_text = safe_string(event_text)
+
+    if not event_id:
+        raise ValueError("event_id không được để trống.")
+
+    node_id = make_event_node_id(event_id)
 
     if node_id not in graph:
         graph.add_node(
             node_id,
             node_type="EVENT",
-            event_norm=event_norm,
-            label=event_norm,
+            event_id=event_id,
+            event_name=event_name,
+            label=event_name,
             texts=event_text,
-            condition_texts=(
-                event_text
-                if role == "CONDITION"
-                else ""
-            ),
-            effect_texts=(
-                event_text
-                if role == "EFFECT"
-                else ""
-            ),
-            is_condition=(
-                role == "CONDITION"
-            ),
-            is_effect=(
-                role == "EFFECT"
-            ),
-            condition_count=(
-                1 if role == "CONDITION" else 0
-            ),
-            effect_count=(
-                1 if role == "EFFECT" else 0
-            ),
+            condition_texts=event_text if role == "CONDITION" else "",
+            effect_texts=event_text if role == "EFFECT" else "",
+            is_condition=role == "CONDITION",
+            is_effect=role == "EFFECT",
+            condition_count=1 if role == "CONDITION" else 0,
+            effect_count=1 if role == "EFFECT" else 0,
             rule_ids=rule_id,
             article_ids=article_id,
         )
-
         return node_id
 
     node = graph.nodes[node_id]
-
-    node["texts"] = merge_unique_text(
-        node.get("texts", ""),
-        event_text,
-    )
-
-    node["rule_ids"] = increment_csv_attribute(
-        node.get("rule_ids", ""),
-        rule_id,
-    )
-
-    node["article_ids"] = increment_csv_attribute(
-        node.get("article_ids", ""),
-        article_id,
-    )
+    node["event_name"] = merge_unique_text(node.get("event_name", ""), event_name)
+    node["label"] = node.get("event_name", event_name)
+    node["texts"] = merge_unique_text(node.get("texts", ""), event_text)
+    node["rule_ids"] = increment_csv_attribute(node.get("rule_ids", ""), rule_id)
+    node["article_ids"] = increment_csv_attribute(node.get("article_ids", ""), article_id)
 
     if role == "CONDITION":
         node["is_condition"] = True
-        node["condition_count"] = (
-            int(node.get("condition_count", 0)) + 1
-        )
-
-        node["condition_texts"] = merge_unique_text(
-            node.get("condition_texts", ""),
-            event_text,
-        )
+        node["condition_count"] = int(node.get("condition_count", 0)) + 1
+        node["condition_texts"] = merge_unique_text(node.get("condition_texts", ""), event_text)
 
     if role == "EFFECT":
         node["is_effect"] = True
-        node["effect_count"] = (
-            int(node.get("effect_count", 0)) + 1
-        )
-
-        node["effect_texts"] = merge_unique_text(
-            node.get("effect_texts", ""),
-            event_text,
-        )
+        node["effect_count"] = int(node.get("effect_count", 0)) + 1
+        node["effect_texts"] = merge_unique_text(node.get("effect_texts", ""), event_text)
 
     return node_id
 
@@ -519,11 +489,11 @@ def build_legal_causal_graph(
 
     Causal path thực tế nằm trên các EVENT node:
 
-        EVENT(condition_norm)
+        EVENT(condition_event)
             --CAUSES-->
-        EVENT(effect_norm)
+        EVENT(effect_event)
 
-    Nếu effect_norm của rule A bằng condition_norm của rule B,
+    Nếu effect_event của rule A bằng condition_event của rule B,
     cả hai tự động dùng chung EVENT node.
     """
 
@@ -532,9 +502,9 @@ def build_legal_causal_graph(
     graph.graph["name"] = (
         "Vietnamese Legal Causal Knowledge Graph"
     )
-    graph.graph["version"] = "2.0"
+    graph.graph["version"] = "3.0"
     graph.graph["event_node_strategy"] = (
-        "condition_norm_and_effect_norm_share_event_nodes"
+        "condition_event_and_effect_event_share_event_nodes"
     )
 
     skipped_missing_norm = 0
@@ -545,17 +515,15 @@ def build_legal_causal_graph(
     ] = defaultdict(int)
 
     for row_position, row in dataframe.iterrows():
-        condition_norm = normalize_identifier(
-            row.get("condition_norm")
-        )
+        condition_event = safe_string(row.get("condition_event"))
+        effect_event = safe_string(row.get("effect_event"))
 
-        effect_norm = normalize_identifier(
-            row.get("effect_norm")
-        )
-
-        if not condition_norm or not effect_norm:
+        if not condition_event or not effect_event:
             skipped_missing_norm += 1
             continue
+
+        condition_event_name = safe_string(row.get("condition_event_name")) or condition_event
+        effect_event_name = safe_string(row.get("effect_event_name")) or effect_event
 
         base_rule_id = normalize_rule_id(
             row.get("index"),
@@ -618,15 +586,16 @@ def build_legal_causal_graph(
             legal_subject=legal_subject,
             condition=condition,
             effect=effect,
-            condition_norm=condition_norm,
-            effect_norm=effect_norm,
+            condition_event=condition_event,
+            effect_event=effect_event,
             article_title=article_title,
             causal_type=causal_type,
         )
 
         condition_node = add_or_update_event_node(
             graph=graph,
-            event_norm=condition_norm,
+            event_id=condition_event,
+            event_name=condition_event_name,
             event_text=condition,
             role="CONDITION",
             rule_id=rule_id,
@@ -635,7 +604,8 @@ def build_legal_causal_graph(
 
         effect_node = add_or_update_event_node(
             graph=graph,
-            event_norm=effect_norm,
+            event_id=effect_event,
+            event_name=effect_event_name,
             event_text=effect,
             role="EFFECT",
             rule_id=rule_id,
@@ -709,6 +679,10 @@ def build_legal_causal_graph(
                 condition=condition,
                 effect=effect,
                 causal_type=causal_type,
+                condition_event=condition_event,
+                condition_event_name=condition_event_name,
+                effect_event=effect_event,
+                effect_event_name=effect_event_name,
                 weight=1.0,
             )
 
@@ -817,8 +791,8 @@ def extract_two_hop_causal_chains(
         Event A -> Event B -> Event C
 
     Event B chính là:
-        effect_norm của rule trước
-        và condition_norm của rule sau.
+        effect_event của rule trước
+        và condition_event của rule sau.
     """
 
     chains: list[dict[str, Any]] = []
@@ -843,31 +817,31 @@ def extract_two_hop_causal_chains(
 
                 chains.append({
                     "event_a_id": event_a,
-                    "event_a_norm": node_a.get(
+                    "event_a_event_id": node_a.get(
                         "event_norm",
                         event_a,
                     ),
-                    "event_a_texts": node_a.get(
-                        "texts",
-                        "",
+                    "event_a_name": node_a.get(
+                        "event_name",
+                        node_a.get("label", ""),
                     ),
                     "event_b_id": event_b,
-                    "event_b_norm": node_b.get(
+                    "event_b_event_id": node_b.get(
                         "event_norm",
                         event_b,
                     ),
-                    "event_b_texts": node_b.get(
-                        "texts",
-                        "",
+                    "event_b_name": node_b.get(
+                        "event_name",
+                        node_b.get("label", ""),
                     ),
                     "event_c_id": event_c,
-                    "event_c_norm": node_c.get(
+                    "event_c_event_id": node_c.get(
                         "event_norm",
                         event_c,
                     ),
-                    "event_c_texts": node_c.get(
-                        "texts",
-                        "",
+                    "event_c_name": node_c.get(
+                        "event_name",
+                        node_c.get("label", ""),
                     ),
                     "rule_ids_a_to_b": edge_ab.get(
                         "rule_ids",
@@ -902,9 +876,9 @@ def extract_two_hop_causal_chains(
 
     chain_df = chain_df.drop_duplicates(
         subset=[
-            "event_a_norm",
-            "event_b_norm",
-            "event_c_norm",
+            "event_a_event_id",
+            "event_b_event_id",
+            "event_c_event_id",
         ]
     )
 
@@ -912,7 +886,7 @@ def extract_two_hop_causal_chains(
         by=[
             "support_a_to_b",
             "support_b_to_c",
-            "event_a_norm",
+            "event_a_event_id",
         ],
         ascending=[
             False,
@@ -1202,8 +1176,8 @@ def print_graph_summary(
             "Event A -> Event B -> Event C."
         )
         print(
-            "Điều này nghĩa là chưa có effect_norm nào "
-            "trùng condition_norm của rule khác."
+            "Điều này nghĩa là chưa có effect_event nào "
+            "trùng condition_event của rule khác."
         )
         return
 
@@ -1219,11 +1193,11 @@ def print_graph_summary(
         print(f"Chain {index + 1}")
 
         print(
-            f"{row['event_a_norm']}"
+            f"{row['event_a_event_id']}"
             f"  -- Rule {row['rule_ids_a_to_b']} -->  "
-            f"{row['event_b_norm']}"
+            f"{row['event_b_event_id']}"
             f"  -- Rule {row['rule_ids_b_to_c']} -->  "
-            f"{row['event_c_norm']}"
+            f"{row['event_c_event_id']}"
         )
 
         print(
@@ -1242,8 +1216,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Xây dựng Vietnamese Legal Causal "
-            "Knowledge Graph từ condition_norm "
-            "và effect_norm."
+            "Knowledge Graph từ condition_event "
+            "và effect_event."
         )
     )
 
@@ -1377,9 +1351,12 @@ def main() -> None:
     if chain_df.empty:
         pd.DataFrame(
             columns=[
-                "event_a_norm",
-                "event_b_norm",
-                "event_c_norm",
+                "event_a_event_id",
+                "event_a_name",
+                "event_b_event_id",
+                "event_b_name",
+                "event_c_event_id",
+                "event_c_name",
                 "rule_ids_a_to_b",
                 "rule_ids_b_to_c",
                 "article_ids_a_to_b",
