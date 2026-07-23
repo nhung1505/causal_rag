@@ -24,11 +24,24 @@ python 2_build_causal_memory.py --rule-only
 ** chạy file 3
 python 3_multi_hop_causal_retriever.py \
   "Người phạm tội chưa đạt phải chịu trách nhiệm hình sự như thế nào?"
-  
+
 or
 
-python 3_multi_hop_causal_retriever_updated.py \
+python 3_multi_hop_causal_retriever.py \
   "Điều kiện để được xóa án tích là gì?" \
   --max-hops 2 \
   --event-top-k 8 \
   --final-top-k 12
+
+** chạy file 4
+python 4_counterfactual_verification.py
+
+or
+
+python 4_counterfactual_verification.py \
+  --retrieval-result data/retrieval_result.json \
+  --max-cf-hops 3 \
+  --cf-top-k 5 \
+  --mapping-threshold 0.42 \
+  --keep-threshold 0.52 \
+  --reject-threshold 0.34
