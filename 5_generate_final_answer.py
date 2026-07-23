@@ -2,47 +2,48 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
-import urllib.error
-import urllib.request
-from dataclasses import asdict, dataclass
+import sys
+import time
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Iterable, Optional
+from urllib import error, request
 
 
 # ============================================================
-# CONFIG
+# DEFAULT CONFIGURATION
 # ============================================================
 
-COUNTERFACTUAL_RESULT_PATH = "data/counterfactual_verification_result.json"
-OUTPUT_JSON_PATH = "data/final_answer.json"
-OUTPUT_TEXT_PATH = "data/final_answer.txt"
-PROMPT_OUTPUT_PATH = "data/final_answer_prompt.txt"
+VERIFICATION_RESULT_PATH = (
+    "data/counterfactual_verification_result.json"
+)
+RETRIEVAL_RESULT_PATH = "data/retrieval_result.json"
+OUTPUT_PATH = "data/final_answer_result.json"
 
-DEFAULT_GENERATOR = "template"
-DEFAULT_OLLAMA_MODEL = "qwen3:8b"
-DEFAULT_OLLAMA_URL = "http://localhost:11434/api/generate"
+DEFAULT_PROVIDER = "ollama"
+DEFAULT_MODEL = "qwen3:8b"
+DEFAULT_OLLAMA_URL = "http://localhost:11434"
+
+DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1"
+DEFAULT_OPENAI_MODEL = "gpt-4.1-mini"
+
+DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+
+DEFAULT_MAX_EVIDENCE = 8
+DEFAULT_MAX_PATHS = 6
+DEFAULT_MAX_CONTEXT_CHARS = 18000
+DEFAULT_MAX_TOKENS = 1200
+DEFAULT_TEMPERATURE = 0.1
 DEFAULT_TIMEOUT = 180
-DEFAULT_MAX_ALTERNATIVES = 3
-DEFAULT_MIN_ALTERNATIVE_SCORE = 0.80
 
-VALID_RULE_STATUSES = {"PRESERVED", "ACTIVATED"}
-INVALID_RULE_STATUSES = {
-    "INVALIDATED",
-    "BLOCKED_BY_UPSTREAM",
-    "OUTPUT_INTERVENED",
-    "OUTPUT_REPLACED",
-}
+DEFAULT_MIN_VERIFICATION_SCORE = 0.45
 
-# Các quan hệ đủ mạnh để alternative rule đáng được nêu như ứng viên.
-# Alternative vẫn KHÔNG được xem là bằng chứng hợp lệ nếu condition chưa được xác nhận.
-STRONG_ALTERNATIVE_RELATIONS = {
-    "SAME_EFFECT",
-    "CAUSES_TARGET_EFFECT",
-    "REPLACEMENT_CONDITION",
-    "SAME_ARTICLE",
-    "ARTICLE_REFERENCE",
-}
+# Trọng số xếp hạng evidence trước khi đưa vào LLM.
+FINAL_EVIDENCE_SCORE_WEIGHT = 0.55
+ORIGINAL_RETRIEVAL_SCORE_WEIGHT = 0.30
+COUNTERFACTUAL_SUPPORT_WEIGHT = 0.15
 
 
 # ============================================================
@@ -50,50 +51,64 @@ STRONG_ALTERNATIVE_RELATIONS = {
 # ============================================================
 
 @dataclass
-class EvidenceRule:
+class FinalEvidence:
+    evidence_index: int
     rule_id: str
     article_id: str
     article_title: str
     legal_subject: str
     condition: str
     effect: str
-    condition_norm: str
-    effect_norm: str
-    status: str
-    path_ids: list[int]
+    condition_event: str
+    condition_event_name: str
+    effect_event: str
+    effect_event_name: str
+    causal_type: str
+
+    verification_score: float
+    original_final_score: float
+    counterfactual_support_score: float
+    final_selection_score: float
+
+    decision: str
+    path_ids: list[int] = field(default_factory=list)
+    reasons: list[str] = field(default_factory=list)
 
 
 @dataclass
-class RemovedRule:
-    rule_id: str
-    article_id: str
-    article_title: str
-    condition: str
-    effect: str
-    condition_norm: str
-    effect_norm: str
+class FinalPath:
+    path_index: int
+    original_path_id: int
     status: str
-    reason: str
-    path_ids: list[int]
+    consistency_score: float
+    seed_event_id: str
+    seed_event_name: str
+    outcome_event_id: str
+    outcome_event_name: str
+    explanation: str
+    event_names: list[str] = field(default_factory=list)
+    rule_ids: list[str] = field(default_factory=list)
 
 
 @dataclass
-class AlternativeCandidate:
-    rule_id: str
-    article_id: str
-    article_title: str
-    condition: str
-    effect: str
-    condition_norm: str
-    effect_norm: str
-    score: float
-    relations: list[str]
-    path_ids: list[int]
-    validation_status: str = "CONDITION_NOT_VERIFIED"
+class GeneratedAnswer:
+    query: str
+    answer: str
+    provider: str
+    model: str
+
+    selected_evidence: list[dict[str, Any]]
+    selected_paths: list[dict[str, Any]]
+
+    citations_used: list[str]
+    confidence: float
+    consistency_score: float
+
+    generation_metadata: dict[str, Any]
 
 
 # ============================================================
-# HELPERS
+# GENERAL HELPERS
 # ============================================================
 
 def safe_string(value: Any) -> str:
@@ -102,719 +117,1579 @@ def safe_string(value: Any) -> str:
     return str(value).strip()
 
 
-def safe_int(value: Any, default: int = 0) -> int:
+def safe_float(
+    value: Any,
+    default: float = 0.0,
+) -> float:
     try:
-        return int(value)
+        number = float(value)
+    except (TypeError, ValueError):
+        return default
+
+    if number != number:
+        return default
+
+    return number
+
+
+def safe_int(
+    value: Any,
+    default: int = 0,
+) -> int:
+    try:
+        return int(float(value))
     except (TypeError, ValueError):
         return default
 
 
-def safe_float(value: Any, default: float = 0.0) -> float:
-    try:
-        return float(value)
-    except (TypeError, ValueError):
-        return default
+def clamp(
+    value: float,
+    lower: float = 0.0,
+    upper: float = 1.0,
+) -> float:
+    return max(lower, min(upper, value))
 
 
-def unique_preserve_order(values: list[str]) -> list[str]:
-    seen: set[str] = set()
+def unique_preserve_order(
+    values: Iterable[str],
+) -> list[str]:
     result: list[str] = []
+    seen: set[str] = set()
 
     for value in values:
-        value = safe_string(value)
-        if not value or value in seen:
-            continue
-        seen.add(value)
-        result.append(value)
+        text = safe_string(value)
+
+        if text and text not in seen:
+            seen.add(text)
+            result.append(text)
 
     return result
 
 
-def humanize_event(event_norm: str) -> str:
-    text = safe_string(event_norm)
-    if not text:
-        return ""
-    return text.replace("_", " ").lower()
-
-
-def clean_generated_text(text: str) -> str:
-    text = safe_string(text)
-    text = re.sub(r"^```(?:text|markdown)?\s*", "", text, flags=re.IGNORECASE)
-    text = re.sub(r"\s*```$", "", text)
-    return text.strip()
-
-
 def load_json(path: str) -> dict[str, Any]:
-    input_path = Path(path)
-    if not input_path.exists():
-        raise FileNotFoundError(f"Không tìm thấy file: {input_path}")
+    file_path = Path(path)
 
-    with input_path.open("r", encoding="utf-8") as file:
-        data = json.load(file)
-
-    required = {
-        "original_query",
-        "intervention",
-        "verification_paths",
-        "overall_verification",
-    }
-    missing = required - set(data)
-    if missing:
-        raise ValueError(
-            "counterfactual_result.json thiếu các trường: "
-            f"{sorted(missing)}"
+    if not file_path.exists():
+        raise FileNotFoundError(
+            f"Không tìm thấy file: {file_path}"
         )
 
-    if not isinstance(data.get("verification_paths"), list):
-        raise ValueError("verification_paths phải là một danh sách.")
+    with file_path.open(
+        "r",
+        encoding="utf-8",
+    ) as file:
+        return json.load(file)
 
-    return data
+
+def save_json(
+    data: dict[str, Any],
+    path: str,
+) -> None:
+    file_path = Path(path)
+    file_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    with file_path.open(
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            data,
+            file,
+            ensure_ascii=False,
+            indent=2,
+        )
+
+    print(f"Saved final answer: {file_path}")
+
+
+def truncate_text(
+    text: str,
+    max_chars: int,
+) -> str:
+    text = safe_string(text)
+
+    if len(text) <= max_chars:
+        return text
+
+    return text[:max_chars].rstrip() + "\n...[truncated]"
+
+
+def normalize_article_label(
+    article_id: str,
+    article_title: str,
+) -> str:
+    article_id = safe_string(article_id)
+    article_title = safe_string(article_title)
+
+    if article_id and article_title:
+        return f"Điều {article_id} – {article_title}"
+
+    if article_id:
+        return f"Điều {article_id}"
+
+    if article_title:
+        return article_title
+
+    return "Không xác định điều luật"
 
 
 # ============================================================
-# EVIDENCE REFINEMENT
+# INPUT STORE
 # ============================================================
 
-class EvidenceRefiner:
+class FinalAnswerInputStore:
     def __init__(
         self,
-        min_alternative_score: float,
-        max_alternatives: int,
+        *,
+        verification_result_path: str,
+        retrieval_result_path: str,
     ) -> None:
-        self.min_alternative_score = min_alternative_score
-        self.max_alternatives = max_alternatives
-
-    def collect_valid_evidence(
-        self,
-        result: dict[str, Any],
-    ) -> list[EvidenceRule]:
-        by_rule_id: dict[str, EvidenceRule] = {}
-
-        for path in result.get("verification_paths", []):
-            path_id = safe_int(path.get("path_id"))
-
-            for evaluation in path.get("rule_evaluations", []):
-                status = safe_string(
-                    evaluation.get("counterfactual_status")
-                ).upper()
-
-                if status not in VALID_RULE_STATUSES:
-                    continue
-
-                rule = evaluation.get("rule", {})
-                rule_id = safe_string(rule.get("rule_id"))
-                if not rule_id:
-                    continue
-
-                if rule_id not in by_rule_id:
-                    by_rule_id[rule_id] = EvidenceRule(
-                        rule_id=rule_id,
-                        article_id=safe_string(rule.get("article_id")),
-                        article_title=safe_string(rule.get("article_title")),
-                        legal_subject=safe_string(rule.get("legal_subject")),
-                        condition=safe_string(rule.get("condition")),
-                        effect=safe_string(rule.get("effect")),
-                        condition_norm=safe_string(rule.get("condition_norm")),
-                        effect_norm=safe_string(rule.get("effect_norm")),
-                        status=status,
-                        path_ids=[path_id],
-                    )
-                elif path_id not in by_rule_id[rule_id].path_ids:
-                    by_rule_id[rule_id].path_ids.append(path_id)
-
-        return list(by_rule_id.values())
-
-    def collect_removed_evidence(
-        self,
-        result: dict[str, Any],
-    ) -> list[RemovedRule]:
-        by_rule_id: dict[str, RemovedRule] = {}
-
-        for path in result.get("verification_paths", []):
-            path_id = safe_int(path.get("path_id"))
-
-            for evaluation in path.get("rule_evaluations", []):
-                status = safe_string(
-                    evaluation.get("counterfactual_status")
-                ).upper()
-
-                if status not in INVALID_RULE_STATUSES:
-                    continue
-
-                rule = evaluation.get("rule", {})
-                rule_id = safe_string(rule.get("rule_id"))
-                if not rule_id:
-                    continue
-
-                if rule_id not in by_rule_id:
-                    by_rule_id[rule_id] = RemovedRule(
-                        rule_id=rule_id,
-                        article_id=safe_string(rule.get("article_id")),
-                        article_title=safe_string(rule.get("article_title")),
-                        condition=safe_string(rule.get("condition")),
-                        effect=safe_string(rule.get("effect")),
-                        condition_norm=safe_string(rule.get("condition_norm")),
-                        effect_norm=safe_string(rule.get("effect_norm")),
-                        status=status,
-                        reason=safe_string(evaluation.get("reason")),
-                        path_ids=[path_id],
-                    )
-                else:
-                    existing = by_rule_id[rule_id]
-                    if path_id not in existing.path_ids:
-                        existing.path_ids.append(path_id)
-
-                    # Ưu tiên trạng thái tác động trực tiếp hơn BLOCKED_BY_UPSTREAM.
-                    if (
-                        existing.status == "BLOCKED_BY_UPSTREAM"
-                        and status != "BLOCKED_BY_UPSTREAM"
-                    ):
-                        existing.status = status
-                        existing.reason = safe_string(evaluation.get("reason"))
-
-        return list(by_rule_id.values())
-
-    def collect_alternative_candidates(
-        self,
-        result: dict[str, Any],
-        removed_rule_ids: set[str],
-        valid_rule_ids: set[str],
-    ) -> list[AlternativeCandidate]:
-        by_rule_id: dict[str, AlternativeCandidate] = {}
-
-        for path in result.get("verification_paths", []):
-            path_id = safe_int(path.get("path_id"))
-
-            for alternative in path.get("alternative_rules", []):
-                rule = alternative.get("rule", {})
-                rule_id = safe_string(
-                    alternative.get("rule_id", rule.get("rule_id"))
-                )
-
-                if not rule_id:
-                    continue
-
-                # Không gọi lại chính rule factual đã bị loại là alternative support.
-                if rule_id in removed_rule_ids or rule_id in valid_rule_ids:
-                    continue
-
-                score = safe_float(alternative.get("score"))
-                relations = unique_preserve_order(
-                    [safe_string(x) for x in alternative.get("relations", [])]
-                )
-
-                has_strong_relation = bool(
-                    set(relations) & STRONG_ALTERNATIVE_RELATIONS
-                )
-
-                if score < self.min_alternative_score or not has_strong_relation:
-                    continue
-
-                candidate = AlternativeCandidate(
-                    rule_id=rule_id,
-                    article_id=safe_string(rule.get("article_id")),
-                    article_title=safe_string(rule.get("article_title")),
-                    condition=safe_string(rule.get("condition")),
-                    effect=safe_string(rule.get("effect")),
-                    condition_norm=safe_string(rule.get("condition_norm")),
-                    effect_norm=safe_string(rule.get("effect_norm")),
-                    score=score,
-                    relations=relations,
-                    path_ids=[path_id],
-                )
-
-                if rule_id not in by_rule_id:
-                    by_rule_id[rule_id] = candidate
-                else:
-                    existing = by_rule_id[rule_id]
-                    existing.score = max(existing.score, score)
-                    existing.relations = unique_preserve_order(
-                        existing.relations + relations
-                    )
-                    if path_id not in existing.path_ids:
-                        existing.path_ids.append(path_id)
-
-        candidates = sorted(
-            by_rule_id.values(),
-            key=lambda item: item.score,
-            reverse=True,
+        self.verification_result_path = (
+            Path(verification_result_path)
         )
-        return candidates[: self.max_alternatives]
-
-    @staticmethod
-    def collect_path_summary(
-        result: dict[str, Any],
-    ) -> list[dict[str, Any]]:
-        summaries: list[dict[str, Any]] = []
-
-        for path in result.get("verification_paths", []):
-            summaries.append({
-                "path_id": safe_int(path.get("path_id")),
-                "path_score": safe_float(path.get("path_score")),
-                "path_status": safe_string(path.get("path_status")),
-                "factual_event_chain": path.get("factual_event_chain", []),
-                "counterfactual_event_chain_prefix": path.get(
-                    "counterfactual_event_chain_prefix", []
-                ),
-                "factual_final_effect": safe_string(
-                    path.get("factual_final_effect")
-                ),
-                "counterfactual_final_effect_reachable": bool(
-                    path.get("counterfactual_final_effect_reachable", False)
-                ),
-                "verification_label": safe_string(
-                    path.get("verification", {}).get("label")
-                ),
-            })
-
-        return summaries
-
-    def refine(self, result: dict[str, Any]) -> dict[str, Any]:
-        valid = self.collect_valid_evidence(result)
-        removed = self.collect_removed_evidence(result)
-
-        valid_ids = {item.rule_id for item in valid}
-        removed_ids = {item.rule_id for item in removed}
-
-        alternatives = self.collect_alternative_candidates(
-            result=result,
-            removed_rule_ids=removed_ids,
-            valid_rule_ids=valid_ids,
+        self.retrieval_result_path = (
+            Path(retrieval_result_path)
         )
 
-        return {
-            "valid_evidence": [asdict(item) for item in valid],
-            "removed_evidence": [asdict(item) for item in removed],
-            "alternative_candidates": [asdict(item) for item in alternatives],
-            "path_summary": self.collect_path_summary(result),
+        self.verification_result = (
+            self._load_verification_result()
+        )
+        self.retrieval_result = (
+            self._load_retrieval_result_optional()
+        )
+
+        self._validate()
+
+    def _load_verification_result(
+        self,
+    ) -> dict[str, Any]:
+        print(
+            "Loading verification result:",
+            self.verification_result_path,
+        )
+        return load_json(
+            str(self.verification_result_path)
+        )
+
+    def _load_retrieval_result_optional(
+        self,
+    ) -> dict[str, Any]:
+        if not self.retrieval_result_path.exists():
+            print(
+                "Warning: retrieval result không tồn tại. "
+                "Chỉ dùng dữ liệu trong verification result."
+            )
+            return {}
+
+        print(
+            "Loading retrieval result:",
+            self.retrieval_result_path,
+        )
+        return load_json(
+            str(self.retrieval_result_path)
+        )
+
+    def _validate(self) -> None:
+        required = {
+            "query",
+            "verified_evidence",
+            "uncertain_evidence",
+            "removed_evidence",
+            "path_verifications",
         }
 
+        missing = required - set(
+            self.verification_result
+        )
 
-# ============================================================
-# TEMPLATE ANSWER GENERATION
-# ============================================================
-
-class TemplateAnswerGenerator:
-    @staticmethod
-    def _article_citations(rules: list[dict[str, Any]]) -> list[str]:
-        citations: list[str] = []
-
-        for rule in rules:
-            article_id = safe_string(rule.get("article_id"))
-            title = safe_string(rule.get("article_title"))
-
-            if not article_id:
-                continue
-
-            citation = f"Điều {article_id}"
-            if title:
-                citation += f" ({title})"
-            citations.append(citation)
-
-        return unique_preserve_order(citations)
-
-    @staticmethod
-    def _removed_effects(removed: list[dict[str, Any]]) -> list[str]:
-        return unique_preserve_order([
-            safe_string(item.get("effect"))
-            for item in removed
-            if safe_string(item.get("effect"))
-        ])
-
-    @staticmethod
-    def _final_effects(
-        result: dict[str, Any],
-        reachable: bool,
-    ) -> list[str]:
-        effects: list[str] = []
-
-        for path in result.get("verification_paths", []):
-            is_reachable = bool(
-                path.get("counterfactual_final_effect_reachable", False)
+        if missing:
+            raise ValueError(
+                "Verification result thiếu trường: "
+                f"{sorted(missing)}"
             )
-            if is_reachable != reachable:
+
+    @property
+    def query(self) -> str:
+        return safe_string(
+            self.verification_result.get("query")
+        )
+
+    @property
+    def confidence(self) -> float:
+        return safe_float(
+            self.verification_result.get(
+                "confidence"
+            )
+        )
+
+    @property
+    def consistency_score(self) -> float:
+        return safe_float(
+            self.verification_result.get(
+                "consistency_score"
+            )
+        )
+
+
+# ============================================================
+# EVIDENCE AND PATH SELECTION
+# ============================================================
+
+class FinalContextSelector:
+    def __init__(
+        self,
+        store: FinalAnswerInputStore,
+    ) -> None:
+        self.store = store
+
+    def select_evidence(
+        self,
+        *,
+        max_evidence: int,
+        min_verification_score: float,
+        include_uncertain: bool,
+    ) -> list[FinalEvidence]:
+        candidates: list[FinalEvidence] = []
+
+        verified_items = (
+            self.store.verification_result.get(
+                "verified_evidence",
+                [],
+            )
+        )
+
+        uncertain_items = (
+            self.store.verification_result.get(
+                "uncertain_evidence",
+                [],
+            )
+            if include_uncertain
+            else []
+        )
+
+        for item in verified_items:
+            evidence = self._convert_evidence(
+                item,
+                default_decision="KEEP",
+            )
+
+            if (
+                evidence.verification_score
+                >= min_verification_score
+            ):
+                candidates.append(evidence)
+
+        for item in uncertain_items:
+            evidence = self._convert_evidence(
+                item,
+                default_decision="UNCERTAIN",
+            )
+
+            if (
+                evidence.verification_score
+                >= min_verification_score
+            ):
+                candidates.append(evidence)
+
+        # Fallback: nếu không có evidence đạt ngưỡng, lấy evidence
+        # có điểm cao nhất để LLM vẫn có ngữ cảnh nhưng prompt sẽ
+        # yêu cầu nêu rõ mức độ không chắc chắn.
+        if not candidates:
+            fallback_items = (
+                list(verified_items)
+                + list(uncertain_items)
+            )
+
+            if fallback_items:
+                fallback_items.sort(
+                    key=lambda item: safe_float(
+                        item.get(
+                            "verification_score"
+                        )
+                    ),
+                    reverse=True,
+                )
+                candidates.append(
+                    self._convert_evidence(
+                        fallback_items[0],
+                        default_decision=(
+                            safe_string(
+                                fallback_items[0].get(
+                                    "decision"
+                                )
+                            )
+                            or "UNCERTAIN"
+                        ),
+                    )
+                )
+
+        candidates.sort(
+            key=lambda item: (
+                item.final_selection_score,
+                item.verification_score,
+                item.original_final_score,
+            ),
+            reverse=True,
+        )
+
+        selected = candidates[:max_evidence]
+
+        for index, evidence in enumerate(
+            selected,
+            start=1,
+        ):
+            evidence.evidence_index = index
+
+        return selected
+
+    def _convert_evidence(
+        self,
+        item: dict[str, Any],
+        *,
+        default_decision: str,
+    ) -> FinalEvidence:
+        original = item.get(
+            "original_evidence",
+            {},
+        )
+
+        verification_score = safe_float(
+            item.get("verification_score")
+        )
+        original_final_score = safe_float(
+            item.get("original_final_score")
+        )
+        counterfactual_support_score = (
+            safe_float(
+                item.get(
+                    "counterfactual_support_score"
+                )
+            )
+        )
+
+        final_selection_score = clamp(
+            FINAL_EVIDENCE_SCORE_WEIGHT
+            * verification_score
+            + ORIGINAL_RETRIEVAL_SCORE_WEIGHT
+            * original_final_score
+            + COUNTERFACTUAL_SUPPORT_WEIGHT
+            * counterfactual_support_score
+        )
+
+        path_ids = unique_preserve_order(
+            [
+                str(path_id)
+                for path_id in (
+                    item.get(
+                        "verified_path_ids",
+                        [],
+                    )
+                    + item.get(
+                        "unresolved_path_ids",
+                        [],
+                    )
+                )
+            ]
+        )
+
+        return FinalEvidence(
+            evidence_index=0,
+            rule_id=safe_string(
+                item.get("rule_id")
+                or original.get("rule_id")
+            ),
+            article_id=safe_string(
+                item.get("article_id")
+                or original.get("article_id")
+            ),
+            article_title=safe_string(
+                original.get("article_title")
+            ),
+            legal_subject=safe_string(
+                original.get("legal_subject")
+            ),
+            condition=safe_string(
+                original.get("condition")
+            ),
+            effect=safe_string(
+                original.get("effect")
+            ),
+            condition_event=safe_string(
+                original.get("condition_event")
+            ),
+            condition_event_name=safe_string(
+                original.get(
+                    "condition_event_name"
+                )
+            ),
+            effect_event=safe_string(
+                original.get("effect_event")
+            ),
+            effect_event_name=safe_string(
+                original.get(
+                    "effect_event_name"
+                )
+            ),
+            causal_type=safe_string(
+                original.get("causal_type")
+            ),
+            verification_score=(
+                verification_score
+            ),
+            original_final_score=(
+                original_final_score
+            ),
+            counterfactual_support_score=(
+                counterfactual_support_score
+            ),
+            final_selection_score=(
+                final_selection_score
+            ),
+            decision=(
+                safe_string(
+                    item.get("decision")
+                )
+                or default_decision
+            ),
+            path_ids=[
+                safe_int(path_id)
+                for path_id in path_ids
+            ],
+            reasons=[
+                safe_string(reason)
+                for reason in item.get(
+                    "reasons",
+                    [],
+                )
+                if safe_string(reason)
+            ],
+        )
+
+    def select_paths(
+        self,
+        *,
+        selected_evidence: list[FinalEvidence],
+        max_paths: int,
+    ) -> list[FinalPath]:
+        relevant_path_ids = {
+            path_id
+            for evidence in selected_evidence
+            for path_id in evidence.path_ids
+        }
+
+        path_items = (
+            self.store.verification_result.get(
+                "path_verifications",
+                [],
+            )
+        )
+
+        retrieval_paths = {
+            index: path
+            for index, path in enumerate(
+                self.store.retrieval_result.get(
+                    "causal_paths",
+                    [],
+                )
+            )
+        }
+
+        selected: list[FinalPath] = []
+
+        for item in path_items:
+            path_id = safe_int(
+                item.get("original_path_id"),
+                -1,
+            )
+
+            if (
+                relevant_path_ids
+                and path_id not in relevant_path_ids
+            ):
                 continue
 
-            norm = safe_string(path.get("factual_final_effect"))
-            if norm:
-                effects.append(humanize_event(norm))
+            original_path = retrieval_paths.get(
+                path_id,
+                {},
+            )
 
-        return unique_preserve_order(effects)
+            event_names = self._extract_event_names(
+                original_path
+            )
+            rule_ids = [
+                safe_string(rule_id)
+                for rule_id in original_path.get(
+                    "rule_ids",
+                    [],
+                )
+                if safe_string(rule_id)
+            ]
+
+            selected.append(
+                FinalPath(
+                    path_index=0,
+                    original_path_id=path_id,
+                    status=safe_string(
+                        item.get("status")
+                    ),
+                    consistency_score=safe_float(
+                        item.get(
+                            "consistency_score"
+                        )
+                    ),
+                    seed_event_id=safe_string(
+                        item.get("seed_event_id")
+                    ),
+                    seed_event_name=safe_string(
+                        item.get(
+                            "seed_event_name"
+                        )
+                    ),
+                    outcome_event_id=safe_string(
+                        item.get(
+                            "original_outcome_event_id"
+                        )
+                    ),
+                    outcome_event_name=safe_string(
+                        item.get(
+                            "original_outcome_event_name"
+                        )
+                    ),
+                    explanation=safe_string(
+                        item.get("explanation")
+                    ),
+                    event_names=event_names,
+                    rule_ids=rule_ids,
+                )
+            )
+
+        selected.sort(
+            key=lambda item: (
+                item.status == "SUPPORTED",
+                item.consistency_score,
+            ),
+            reverse=True,
+        )
+
+        selected = selected[:max_paths]
+
+        for index, path in enumerate(
+            selected,
+            start=1,
+        ):
+            path.path_index = index
+
+        return selected
+
+    @staticmethod
+    def _extract_event_names(
+        original_path: dict[str, Any],
+    ) -> list[str]:
+        steps = original_path.get(
+            "steps",
+            [],
+        )
+
+        if not steps:
+            return []
+
+        names: list[str] = []
+
+        for step in steps:
+            source_name = safe_string(
+                step.get("source_event_name")
+            )
+            target_name = safe_string(
+                step.get("target_event_name")
+            )
+
+            if source_name:
+                names.append(source_name)
+
+            if target_name:
+                names.append(target_name)
+
+        return unique_preserve_order(names)
+
+
+# ============================================================
+# PROMPT BUILDER
+# ============================================================
+
+class LegalAnswerPromptBuilder:
+    SYSTEM_PROMPT = """Bạn là trợ lý hỏi đáp pháp luật Việt Nam.
+
+Nhiệm vụ của bạn là trả lời câu hỏi chỉ dựa trên evidence và causal path được cung cấp.
+
+Quy tắc bắt buộc:
+1. Không tự bổ sung điều luật, hình phạt, điều kiện hoặc ngoại lệ không có trong evidence.
+2. Không suy đoán vượt quá quan hệ điều kiện → hệ quả được cung cấp.
+3. Mỗi nhận định pháp lý quan trọng phải gắn trích dẫn dạng [E1], [E2], ...
+4. Chỉ sử dụng mã trích dẫn evidence có trong ngữ cảnh.
+5. Không trích dẫn causal path như nguồn luật độc lập; causal path chỉ hỗ trợ giải thích chuỗi suy luận.
+6. Nếu evidence không đủ để kết luận, phải nói rõ “Chưa đủ căn cứ từ dữ liệu được cung cấp”.
+7. Evidence có nhãn UNCERTAIN phải được diễn đạt thận trọng.
+8. Không khẳng định đây là tư vấn pháp lý chính thức.
+9. Trả lời bằng tiếng Việt, rõ ràng, trực tiếp, ưu tiên cấu trúc:
+   - Kết luận
+   - Căn cứ và lập luận
+   - Lưu ý về độ chắc chắn
+10. Không tạo danh mục tài liệu ngoài danh sách evidence."""
+
+    def build(
+        self,
+        *,
+        query: str,
+        evidence: list[FinalEvidence],
+        paths: list[FinalPath],
+        global_confidence: float,
+        consistency_score: float,
+        max_context_chars: int,
+    ) -> tuple[str, str]:
+        evidence_context = (
+            self._build_evidence_context(evidence)
+        )
+        path_context = (
+            self._build_path_context(paths)
+        )
+
+        user_prompt = f"""CÂU HỎI:
+{query}
+
+ĐỘ TIN CẬY TOÀN CỤC:
+- confidence = {global_confidence:.4f}
+- consistency_score = {consistency_score:.4f}
+
+EVIDENCE ĐÃ CHỌN:
+{evidence_context}
+
+CAUSAL PATH HỖ TRỢ:
+{path_context}
+
+YÊU CẦU TRẢ LỜI:
+- Trả lời trực tiếp câu hỏi.
+- Dùng đúng citation [E1], [E2], ... tương ứng với evidence.
+- Không dùng citation không tồn tại.
+- Nếu có nhiều điều kiện hoặc hệ quả, trình bày theo đúng thứ tự logic.
+- Nếu evidence mâu thuẫn hoặc chưa chắc chắn, nêu rõ giới hạn.
+- Không nhắc tới tên file, JSON, pipeline hoặc điểm số kỹ thuật trừ phần “Lưu ý về độ chắc chắn”.
+"""
+
+        return (
+            self.SYSTEM_PROMPT,
+            truncate_text(
+                user_prompt,
+                max_context_chars,
+            ),
+        )
+
+    @staticmethod
+    def _build_evidence_context(
+        evidence: list[FinalEvidence],
+    ) -> str:
+        if not evidence:
+            return (
+                "Không có evidence pháp lý đạt ngưỡng."
+            )
+
+        blocks: list[str] = []
+
+        for item in evidence:
+            citation = (
+                f"[E{item.evidence_index}]"
+            )
+            article_label = (
+                normalize_article_label(
+                    item.article_id,
+                    item.article_title,
+                )
+            )
+
+            block = f"""{citation}
+- Rule ID: {item.rule_id}
+- Căn cứ: {article_label}
+- Chủ thể pháp lý: {item.legal_subject or "Không nêu rõ"}
+- Điều kiện: {item.condition or "Không nêu rõ"}
+- Hệ quả pháp lý: {item.effect or "Không nêu rõ"}
+- Sự kiện điều kiện: {item.condition_event_name or item.condition_event or "Không nêu rõ"}
+- Sự kiện hệ quả: {item.effect_event_name or item.effect_event or "Không nêu rõ"}
+- Loại quan hệ: {item.causal_type or "Không nêu rõ"}
+- Trạng thái xác minh: {item.decision}
+- Verification score: {item.verification_score:.4f}
+"""
+
+            if item.reasons:
+                block += (
+                    "- Ghi chú xác minh: "
+                    + " | ".join(item.reasons)
+                    + "\n"
+                )
+
+            blocks.append(block.rstrip())
+
+        return "\n\n".join(blocks)
+
+    @staticmethod
+    def _build_path_context(
+        paths: list[FinalPath],
+    ) -> str:
+        if not paths:
+            return (
+                "Không có causal path phù hợp."
+            )
+
+        blocks: list[str] = []
+
+        for item in paths:
+            path_label = (
+                f"[P{item.path_index}]"
+            )
+
+            chain = (
+                " → ".join(item.event_names)
+                if item.event_names
+                else (
+                    f"{item.seed_event_name or item.seed_event_id}"
+                    " → "
+                    f"{item.outcome_event_name or item.outcome_event_id}"
+                )
+            )
+
+            blocks.append(
+                f"""{path_label}
+- Trạng thái: {item.status}
+- Consistency score: {item.consistency_score:.4f}
+- Chuỗi sự kiện: {chain}
+- Rule IDs trên path: {", ".join(item.rule_ids) or "Không nêu rõ"}
+- Giải thích xác minh: {item.explanation or "Không có"}
+""".rstrip()
+            )
+
+        return "\n\n".join(blocks)
+
+
+# ============================================================
+# LLM PROVIDERS
+# ============================================================
+
+class BaseLLMProvider:
+    provider_name = "base"
 
     def generate(
         self,
-        source: dict[str, Any],
-        refined: dict[str, Any],
+        *,
+        system_prompt: str,
+        user_prompt: str,
+        model: str,
+        temperature: float,
+        max_tokens: int,
+        timeout: int,
     ) -> str:
-        intervention = source.get("intervention", {})
-        intervention_type = safe_string(
-            intervention.get("intervention_type")
-        ).upper()
-        target_text = safe_string(
-            intervention.get("target_event_text")
-        ) or humanize_event(
-            safe_string(intervention.get("target_event_norm"))
+        raise NotImplementedError
+
+
+class OllamaProvider(BaseLLMProvider):
+    provider_name = "ollama"
+
+    def __init__(
+        self,
+        *,
+        base_url: str,
+    ) -> None:
+        self.base_url = base_url.rstrip("/")
+
+    def generate(
+        self,
+        *,
+        system_prompt: str,
+        user_prompt: str,
+        model: str,
+        temperature: float,
+        max_tokens: int,
+        timeout: int,
+    ) -> str:
+        url = f"{self.base_url}/api/chat"
+
+        payload = {
+            "model": model,
+            "stream": False,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": system_prompt,
+                },
+                {
+                    "role": "user",
+                    "content": user_prompt,
+                },
+            ],
+            "options": {
+                "temperature": temperature,
+                "num_predict": max_tokens,
+            },
+        }
+
+        response = _http_post_json(
+            url=url,
+            payload=payload,
+            timeout=timeout,
         )
-        replacement_text = safe_string(
-            intervention.get("replacement_event_text")
-        ) or humanize_event(
-            safe_string(intervention.get("replacement_event_norm"))
+
+        message = response.get("message", {})
+        answer = safe_string(
+            message.get("content")
         )
 
-        valid = refined["valid_evidence"]
-        removed = refined["removed_evidence"]
-        alternatives = refined["alternative_candidates"]
-
-        broken_paths = [
-            path for path in refined["path_summary"]
-            if path["path_status"] == "CAUSAL_PATH_BROKEN"
-        ]
-        preserved_paths = [
-            path for path in refined["path_summary"]
-            if path["path_status"] != "CAUSAL_PATH_BROKEN"
-        ]
-
-        lines: list[str] = []
-
-        if intervention_type == "NEGATE":
-            lines.append(
-                f"Trong giả định phản thực rằng “{target_text}” không xảy ra, "
-                "cần đánh giá lại chuỗi suy luận pháp lý ban đầu."
+        if not answer:
+            raise RuntimeError(
+                "Ollama không trả về nội dung."
             )
-        elif intervention_type == "REPLACE":
+
+        return answer
+
+
+class OpenAICompatibleProvider(
+    BaseLLMProvider
+):
+    provider_name = "openai"
+
+    def __init__(
+        self,
+        *,
+        base_url: str,
+        api_key: str,
+    ) -> None:
+        self.base_url = base_url.rstrip("/")
+        self.api_key = api_key
+
+    def generate(
+        self,
+        *,
+        system_prompt: str,
+        user_prompt: str,
+        model: str,
+        temperature: float,
+        max_tokens: int,
+        timeout: int,
+    ) -> str:
+        if not self.api_key:
+            raise ValueError(
+                "Thiếu OPENAI_API_KEY hoặc --api-key."
+            )
+
+        url = f"{self.base_url}/chat/completions"
+
+        payload = {
+            "model": model,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": system_prompt,
+                },
+                {
+                    "role": "user",
+                    "content": user_prompt,
+                },
+            ],
+        }
+
+        headers = {
+            "Authorization": (
+                f"Bearer {self.api_key}"
+            ),
+        }
+
+        response = _http_post_json(
+            url=url,
+            payload=payload,
+            headers=headers,
+            timeout=timeout,
+        )
+
+        choices = response.get("choices", [])
+
+        if not choices:
+            raise RuntimeError(
+                "OpenAI-compatible API không trả choices."
+            )
+
+        answer = safe_string(
+            choices[0]
+            .get("message", {})
+            .get("content")
+        )
+
+        if not answer:
+            raise RuntimeError(
+                "OpenAI-compatible API trả nội dung rỗng."
+            )
+
+        return answer
+
+
+class GeminiProvider(BaseLLMProvider):
+    provider_name = "gemini"
+
+    def __init__(
+        self,
+        *,
+        api_key: str,
+    ) -> None:
+        self.api_key = api_key
+
+    def generate(
+        self,
+        *,
+        system_prompt: str,
+        user_prompt: str,
+        model: str,
+        temperature: float,
+        max_tokens: int,
+        timeout: int,
+    ) -> str:
+        if not self.api_key:
+            raise ValueError(
+                "Thiếu GEMINI_API_KEY hoặc --api-key."
+            )
+
+        encoded_model = model.strip()
+        url = (
+            "https://generativelanguage.googleapis.com/"
+            f"v1beta/models/{encoded_model}:generateContent"
+            f"?key={self.api_key}"
+        )
+
+        payload = {
+            "system_instruction": {
+                "parts": [
+                    {
+                        "text": system_prompt,
+                    }
+                ]
+            },
+            "contents": [
+                {
+                    "role": "user",
+                    "parts": [
+                        {
+                            "text": user_prompt,
+                        }
+                    ],
+                }
+            ],
+            "generationConfig": {
+                "temperature": temperature,
+                "maxOutputTokens": max_tokens,
+            },
+        }
+
+        response = _http_post_json(
+            url=url,
+            payload=payload,
+            timeout=timeout,
+        )
+
+        candidates = response.get(
+            "candidates",
+            [],
+        )
+
+        if not candidates:
+            raise RuntimeError(
+                "Gemini không trả candidates."
+            )
+
+        parts = (
+            candidates[0]
+            .get("content", {})
+            .get("parts", [])
+        )
+
+        answer = "\n".join(
+            safe_string(part.get("text"))
+            for part in parts
+            if safe_string(part.get("text"))
+        )
+
+        if not answer:
+            raise RuntimeError(
+                "Gemini trả nội dung rỗng."
+            )
+
+        return answer
+
+
+class ExtractiveFallbackProvider(
+    BaseLLMProvider
+):
+    provider_name = "extractive"
+
+    def __init__(
+        self,
+        *,
+        evidence: list[FinalEvidence],
+        confidence: float,
+    ) -> None:
+        self.evidence = evidence
+        self.confidence = confidence
+
+    def generate(
+        self,
+        *,
+        system_prompt: str,
+        user_prompt: str,
+        model: str,
+        temperature: float,
+        max_tokens: int,
+        timeout: int,
+    ) -> str:
+        del (
+            system_prompt,
+            user_prompt,
+            model,
+            temperature,
+            max_tokens,
+            timeout,
+        )
+
+        if not self.evidence:
+            return (
+                "### Kết luận\n"
+                "Chưa đủ căn cứ từ dữ liệu được cung cấp "
+                "để trả lời câu hỏi.\n\n"
+                "### Lưu ý về độ chắc chắn\n"
+                "Hệ thống không tìm được evidence đã xác minh."
+            )
+
+        lines = [
+            "### Kết luận",
+        ]
+
+        first = self.evidence[0]
+
+        if first.condition and first.effect:
             lines.append(
-                f"Trong giả định phản thực thay sự kiện “{target_text}” "
-                f"bằng “{replacement_text}”, cần đánh giá lại chuỗi suy luận "
-                "pháp lý ban đầu."
+                f"Khi {first.condition}, hệ quả pháp lý là "
+                f"{first.effect} [E1]."
+            )
+        elif first.effect:
+            lines.append(
+                f"Hệ quả pháp lý được ghi nhận là "
+                f"{first.effect} [E1]."
             )
         else:
             lines.append(
-                "Sau can thiệp phản thực, cần đánh giá lại chuỗi suy luận "
-                "pháp lý ban đầu."
+                "Chưa đủ căn cứ từ dữ liệu được cung cấp "
+                "để đưa ra kết luận đầy đủ."
             )
 
-        if broken_paths:
-            lines.append(
-                f"Có {len(broken_paths)} causal path factual bị phá vỡ. "
-                "Các rule bị tác động trực tiếp hoặc bị chặn bởi sự kiện phía "
-                "trước không còn được sử dụng để duy trì kết luận ban đầu."
+        lines.extend(
+            [
+                "",
+                "### Căn cứ và lập luận",
+            ]
+        )
+
+        for item in self.evidence:
+            citation = (
+                f"[E{item.evidence_index}]"
+            )
+            article = normalize_article_label(
+                item.article_id,
+                item.article_title,
             )
 
-        if valid:
-            lines.append(
-                "Những bằng chứng vẫn còn hợp lệ sau can thiệp gồm:"
+            sentence = (
+                f"{citation} {article}: "
+                f"điều kiện “{item.condition or 'không nêu rõ'}” "
+                f"dẫn tới hệ quả “{item.effect or 'không nêu rõ'}”."
             )
-            for item in valid:
-                lines.append(
-                    f"- Điều {item['article_id']}: nếu {item['condition']} "
-                    f"thì {item['effect']} ({item['status']})."
-                )
+            lines.append(sentence)
 
-            reachable_effects = self._final_effects(source, reachable=True)
-            if reachable_effects:
-                lines.append(
-                    "Vì vậy, các hệ quả cuối vẫn còn reachable gồm: "
-                    + "; ".join(reachable_effects)
-                    + "."
-                )
-        else:
-            lines.append(
-                "Không còn rule nào trong các factual path được xác nhận là "
-                "PRESERVED hoặc ACTIVATED. Vì vậy, chưa đủ căn cứ từ các "
-                "bằng chứng đã truy hồi để giữ nguyên kết luận ban đầu."
-            )
+        lines.extend(
+            [
+                "",
+                "### Lưu ý về độ chắc chắn",
+                (
+                    "Câu trả lời được tổng hợp trực tiếp từ "
+                    "evidence đã truy hồi và xác minh. "
+                    f"Độ tin cậy toàn cục: {self.confidence:.2f}."
+                ),
+                (
+                    "Nội dung này không thay thế tư vấn pháp lý "
+                    "chính thức."
+                ),
+            ]
+        )
 
-            unreachable_effects = self._final_effects(source, reachable=False)
-            if unreachable_effects:
-                lines.append(
-                    "Cụ thể, hệ thống không còn suy ra được qua các path factual: "
-                    + "; ".join(unreachable_effects)
-                    + "."
-                )
-
-        if removed:
-            citations = self._article_citations(removed)
-            removed_effects = self._removed_effects(removed)
-
-            if citations:
-                lines.append(
-                    "Chuỗi bị loại trước đây dựa trên "
-                    + ", ".join(citations)
-                    + "."
-                )
-
-            if removed_effects:
-                lines.append(
-                    "Các kết luận không còn được hỗ trợ bởi chuỗi factual gồm: "
-                    + "; ".join(removed_effects)
-                    + "."
-                )
-
-        if alternatives:
-            lines.append(
-                "Hệ thống có tìm thấy một số căn cứ thay thế tiềm năng, nhưng "
-                "điều kiện của chúng chưa được xác nhận trong tình huống phản thực:"
-            )
-            for candidate in alternatives:
-                lines.append(
-                    f"- Điều {candidate['article_id']}: nếu "
-                    f"{candidate['condition']} thì {candidate['effect']}."
-                )
-
-            lines.append(
-                "Do đó, các rule thay thế này chỉ là ứng viên cần kiểm tra thêm, "
-                "không phải bằng chứng đủ để khẳng định hệ quả cuối vẫn áp dụng."
-            )
-
-        if not valid:
-            lines.append(
-                "Kết luận: chưa đủ căn cứ pháp lý từ tập bằng chứng hiện có để "
-                "xác định người này vẫn thuộc trường hợp tái phạm nguy hiểm, bị "
-                "áp dụng quản chế hoặc phải chịu các hệ quả tiếp theo. Việc phủ "
-                "định điều kiện ban đầu cũng không tự động chứng minh rằng mọi "
-                "hệ quả đó chắc chắn không thể phát sinh từ một căn cứ độc lập khác."
-            )
-        elif preserved_paths:
-            lines.append(
-                "Kết luận trên chỉ dựa vào những causal path còn hợp lệ sau can thiệp."
-            )
-
-        return "\n\n".join(lines)
+        return "\n".join(lines)
 
 
-# ============================================================
-# LLM PROMPT + OLLAMA
-# ============================================================
-
-def build_llm_prompt(
-    source: dict[str, Any],
-    refined: dict[str, Any],
-    template_answer: str,
-) -> str:
-    intervention = source.get("intervention", {})
-
-    lines = [
-        "Bạn là hệ thống hỏi đáp pháp luật hình sự Việt Nam.",
-        "Hãy viết lại câu trả lời cuối cùng bằng tiếng Việt rõ ràng, thận trọng và có căn cứ.",
-        "",
-        "QUY TẮC BẮT BUỘC:",
-        "1. Chỉ coi rule có trạng thái PRESERVED hoặc ACTIVATED là bằng chứng hợp lệ.",
-        "2. Không sử dụng rule INVALIDATED, BLOCKED_BY_UPSTREAM, OUTPUT_INTERVENED hoặc OUTPUT_REPLACED để khẳng định kết luận.",
-        "3. Alternative candidate chỉ là ứng viên; không coi là đúng nếu condition của nó chưa được xác nhận.",
-        "4. Không suy luận NOT condition đồng nghĩa với NOT effect.",
-        "5. Không thêm điều luật, sự kiện hoặc kết luận không có trong context.",
-        "6. Khi không còn bằng chứng hợp lệ, phải nói 'chưa đủ căn cứ' thay vì khẳng định chắc chắn không có hệ quả.",
-        "7. Trả lời trong 2-5 đoạn, không dùng markdown table.",
-        "",
-        "CÂU HỎI GỐC:",
-        safe_string(source.get("original_query")),
-        "",
-        "CAN THIỆP PHẢN THỰC:",
-        safe_string(intervention.get("description")),
-        "",
-        "KẾT QUẢ TỔNG THỂ:",
-        safe_string(source.get("overall_verification", {}).get("label")),
-        safe_string(source.get("overall_verification", {}).get("conclusion")),
-        "",
-        "BẰNG CHỨNG HỢP LỆ:",
-    ]
-
-    valid = refined.get("valid_evidence", [])
-    if not valid:
-        lines.append("Không có rule PRESERVED hoặc ACTIVATED.")
-    else:
-        for item in valid:
-            lines.extend([
-                f"- Rule {item['rule_id']} - Điều {item['article_id']}",
-                f"  Điều kiện: {item['condition']}",
-                f"  Hệ quả: {item['effect']}",
-                f"  Trạng thái: {item['status']}",
-            ])
-
-    lines.extend(["", "BẰNG CHỨNG BỊ LOẠI:"])
-    for item in refined.get("removed_evidence", []):
-        lines.extend([
-            f"- Rule {item['rule_id']} - Điều {item['article_id']}",
-            f"  Điều kiện: {item['condition']}",
-            f"  Hệ quả: {item['effect']}",
-            f"  Trạng thái: {item['status']}",
-            f"  Lý do: {item['reason']}",
-        ])
-
-    lines.extend(["", "ALTERNATIVE CANDIDATES CHƯA XÁC NHẬN:"])
-    alternatives = refined.get("alternative_candidates", [])
-    if not alternatives:
-        lines.append("Không có ứng viên đủ ngưỡng.")
-    else:
-        for item in alternatives:
-            lines.extend([
-                f"- Rule {item['rule_id']} - Điều {item['article_id']}",
-                f"  Điều kiện cần kiểm tra: {item['condition']}",
-                f"  Hệ quả: {item['effect']}",
-                f"  Trạng thái: {item['validation_status']}",
-            ])
-
-    lines.extend([
-        "",
-        "BẢN NHÁP DETERMINISTIC:",
-        template_answer,
-        "",
-        "Hãy trả về duy nhất câu trả lời hoàn chỉnh, không thêm tiêu đề như 'Câu trả lời'.",
-    ])
-
-    return "\n".join(lines)
-
-
-def call_ollama(
-    prompt: str,
-    model: str,
+def _http_post_json(
+    *,
     url: str,
+    payload: dict[str, Any],
     timeout: int,
-) -> str:
-    payload = {
-        "model": model,
-        "prompt": prompt,
-        "stream": False,
-        "options": {
-            "temperature": 0.1,
-            "top_p": 0.9,
-        },
+    headers: Optional[
+        dict[str, str]
+    ] = None,
+) -> dict[str, Any]:
+    request_headers = {
+        "Content-Type": "application/json",
     }
 
-    request = urllib.request.Request(
+    if headers:
+        request_headers.update(headers)
+
+    data = json.dumps(
+        payload,
+        ensure_ascii=False,
+    ).encode("utf-8")
+
+    http_request = request.Request(
         url=url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
+        data=data,
+        headers=request_headers,
         method="POST",
     )
 
     try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            response_data = json.loads(response.read().decode("utf-8"))
-    except urllib.error.URLError as exc:
+        with request.urlopen(
+            http_request,
+            timeout=timeout,
+        ) as response:
+            raw = response.read().decode(
+                "utf-8"
+            )
+    except error.HTTPError as exc:
+        body = exc.read().decode(
+            "utf-8",
+            errors="replace",
+        )
         raise RuntimeError(
-            "Không gọi được Ollama. Hãy kiểm tra `ollama serve`, URL và model. "
-            f"Chi tiết: {exc}"
+            f"HTTP {exc.code} từ {url}: {body}"
+        ) from exc
+    except error.URLError as exc:
+        raise RuntimeError(
+            f"Không kết nối được tới {url}: "
+            f"{exc.reason}"
         ) from exc
 
-    generated = clean_generated_text(response_data.get("response", ""))
-    if not generated:
-        raise RuntimeError("Ollama trả về nội dung rỗng.")
-
-    return generated
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(
+            "API trả response không phải JSON hợp lệ."
+        ) from exc
 
 
 # ============================================================
-# OUTPUT
+# ANSWER VALIDATION
 # ============================================================
 
-def build_output(
-    source: dict[str, Any],
-    refined: dict[str, Any],
-    template_answer: str,
-    final_answer: str,
-    generator: str,
-    model: Optional[str],
-) -> dict[str, Any]:
-    return {
-        "original_query": source.get("original_query", ""),
-        "intervention": source.get("intervention", {}),
-        "source_overall_verification": source.get(
-            "overall_verification", {}
-        ),
-        "evidence_summary": {
-            "valid_rule_count": len(refined["valid_evidence"]),
-            "removed_rule_count": len(refined["removed_evidence"]),
-            "alternative_candidate_count": len(
-                refined["alternative_candidates"]
-            ),
-            "valid_rule_ids": [
-                item["rule_id"] for item in refined["valid_evidence"]
-            ],
-            "removed_rule_ids": [
-                item["rule_id"] for item in refined["removed_evidence"]
-            ],
-            "alternative_candidate_rule_ids": [
-                item["rule_id"]
-                for item in refined["alternative_candidates"]
-            ],
-        },
-        "refined_evidence": refined,
-        "generation": {
-            "generator": generator,
-            "model": model,
-            "template_answer": template_answer,
-            "final_answer": final_answer,
-        },
-    }
-
-
-def save_outputs(
-    output: dict[str, Any],
-    prompt: str,
-    output_json: str,
-    output_text: str,
-    prompt_output: str,
-) -> None:
-    json_path = Path(output_json)
-    text_path = Path(output_text)
-    prompt_path = Path(prompt_output)
-
-    for path in (json_path, text_path, prompt_path):
-        path.parent.mkdir(parents=True, exist_ok=True)
-
-    with json_path.open("w", encoding="utf-8") as file:
-        json.dump(output, file, ensure_ascii=False, indent=2)
-
-    text_path.write_text(
-        safe_string(output["generation"]["final_answer"]) + "\n",
-        encoding="utf-8",
+class FinalAnswerValidator:
+    CITATION_PATTERN = re.compile(
+        r"\[E(\d+)\]"
     )
-    prompt_path.write_text(prompt + "\n", encoding="utf-8")
+
+    def validate_and_repair(
+        self,
+        *,
+        answer: str,
+        evidence: list[FinalEvidence],
+    ) -> tuple[str, list[str], list[str]]:
+        allowed_ids = {
+            item.evidence_index
+            for item in evidence
+        }
+
+        cited_ids = [
+            safe_int(match)
+            for match in self.CITATION_PATTERN.findall(
+                answer
+            )
+        ]
+
+        invalid_ids = sorted(
+            {
+                citation_id
+                for citation_id in cited_ids
+                if citation_id not in allowed_ids
+            }
+        )
+
+        warnings: list[str] = []
+
+        repaired = answer
+
+        if invalid_ids:
+            for citation_id in invalid_ids:
+                repaired = repaired.replace(
+                    f"[E{citation_id}]",
+                    "",
+                )
+
+            warnings.append(
+                "Đã loại citation không tồn tại: "
+                + ", ".join(
+                    f"E{citation_id}"
+                    for citation_id in invalid_ids
+                )
+            )
+
+        used_ids = sorted(
+            {
+                safe_int(match)
+                for match in (
+                    self.CITATION_PATTERN.findall(
+                        repaired
+                    )
+                )
+                if safe_int(match) in allowed_ids
+            }
+        )
+
+        if evidence and not used_ids:
+            warnings.append(
+                "LLM không tạo citation; đã thêm danh sách "
+                "căn cứ evidence ở cuối câu trả lời."
+            )
+
+            citations = ", ".join(
+                f"[E{item.evidence_index}]"
+                for item in evidence
+            )
+
+            repaired = (
+                repaired.rstrip()
+                + "\n\n"
+                + f"Căn cứ evidence: {citations}."
+            )
+
+            used_ids = [
+                item.evidence_index
+                for item in evidence
+            ]
+
+        if (
+            "không thay thế tư vấn pháp lý"
+            not in repaired.lower()
+        ):
+            repaired = (
+                repaired.rstrip()
+                + "\n\n"
+                + "Lưu ý: Nội dung này không thay thế "
+                "tư vấn pháp lý chính thức."
+            )
+
+        citations_used = [
+            f"E{citation_id}"
+            for citation_id in used_ids
+        ]
+
+        return (
+            repaired.strip(),
+            citations_used,
+            warnings,
+        )
+
+
+# ============================================================
+# PIPELINE
+# ============================================================
+
+class FinalAnswerPipeline:
+    def __init__(
+        self,
+        store: FinalAnswerInputStore,
+    ) -> None:
+        self.store = store
+        self.selector = FinalContextSelector(
+            store
+        )
+        self.prompt_builder = (
+            LegalAnswerPromptBuilder()
+        )
+        self.validator = FinalAnswerValidator()
+
+    def run(
+        self,
+        *,
+        provider_name: str,
+        model: str,
+        api_key: str,
+        base_url: str,
+        max_evidence: int,
+        max_paths: int,
+        max_context_chars: int,
+        max_tokens: int,
+        temperature: float,
+        timeout: int,
+        min_verification_score: float,
+        include_uncertain: bool,
+        fallback_to_extractive: bool,
+    ) -> GeneratedAnswer:
+        selected_evidence = (
+            self.selector.select_evidence(
+                max_evidence=max_evidence,
+                min_verification_score=(
+                    min_verification_score
+                ),
+                include_uncertain=(
+                    include_uncertain
+                ),
+            )
+        )
+
+        selected_paths = (
+            self.selector.select_paths(
+                selected_evidence=(
+                    selected_evidence
+                ),
+                max_paths=max_paths,
+            )
+        )
+
+        (
+            system_prompt,
+            user_prompt,
+        ) = self.prompt_builder.build(
+            query=self.store.query,
+            evidence=selected_evidence,
+            paths=selected_paths,
+            global_confidence=(
+                self.store.confidence
+            ),
+            consistency_score=(
+                self.store.consistency_score
+            ),
+            max_context_chars=(
+                max_context_chars
+            ),
+        )
+
+        provider = self._create_provider(
+            provider_name=provider_name,
+            api_key=api_key,
+            base_url=base_url,
+            evidence=selected_evidence,
+        )
+
+        started_at = time.time()
+        generation_error = ""
+
+        try:
+            raw_answer = provider.generate(
+                system_prompt=system_prompt,
+                user_prompt=user_prompt,
+                model=model,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                timeout=timeout,
+            )
+            actual_provider = (
+                provider.provider_name
+            )
+        except Exception as exc:
+            if not fallback_to_extractive:
+                raise
+
+            generation_error = str(exc)
+
+            print(
+                "Warning: LLM generation failed. "
+                "Đang dùng extractive fallback."
+            )
+            print("Reason:", generation_error)
+
+            fallback = ExtractiveFallbackProvider(
+                evidence=selected_evidence,
+                confidence=self.store.confidence,
+            )
+
+            raw_answer = fallback.generate(
+                system_prompt=system_prompt,
+                user_prompt=user_prompt,
+                model="extractive",
+                temperature=0.0,
+                max_tokens=max_tokens,
+                timeout=timeout,
+            )
+            actual_provider = (
+                fallback.provider_name
+            )
+
+        elapsed = time.time() - started_at
+
+        (
+            final_answer,
+            citations_used,
+            validation_warnings,
+        ) = self.validator.validate_and_repair(
+            answer=raw_answer,
+            evidence=selected_evidence,
+        )
+
+        return GeneratedAnswer(
+            query=self.store.query,
+            answer=final_answer,
+            provider=actual_provider,
+            model=(
+                model
+                if actual_provider
+                != "extractive"
+                else "extractive"
+            ),
+            selected_evidence=[
+                asdict(item)
+                for item in selected_evidence
+            ],
+            selected_paths=[
+                asdict(item)
+                for item in selected_paths
+            ],
+            citations_used=citations_used,
+            confidence=self.store.confidence,
+            consistency_score=(
+                self.store.consistency_score
+            ),
+            generation_metadata={
+                "requested_provider": (
+                    provider_name
+                ),
+                "requested_model": model,
+                "elapsed_seconds": round(
+                    elapsed,
+                    4,
+                ),
+                "max_evidence": max_evidence,
+                "max_paths": max_paths,
+                "max_context_chars": (
+                    max_context_chars
+                ),
+                "max_tokens": max_tokens,
+                "temperature": temperature,
+                "min_verification_score": (
+                    min_verification_score
+                ),
+                "include_uncertain": (
+                    include_uncertain
+                ),
+                "fallback_to_extractive": (
+                    fallback_to_extractive
+                ),
+                "generation_error": (
+                    generation_error
+                ),
+                "validation_warnings": (
+                    validation_warnings
+                ),
+                "system_prompt_chars": len(
+                    system_prompt
+                ),
+                "user_prompt_chars": len(
+                    user_prompt
+                ),
+            },
+        )
+
+    @staticmethod
+    def _create_provider(
+        *,
+        provider_name: str,
+        api_key: str,
+        base_url: str,
+        evidence: list[FinalEvidence],
+    ) -> BaseLLMProvider:
+        provider_name = provider_name.lower()
+
+        if provider_name == "ollama":
+            return OllamaProvider(
+                base_url=(
+                    base_url
+                    or DEFAULT_OLLAMA_URL
+                )
+            )
+
+        if provider_name == "openai":
+            return OpenAICompatibleProvider(
+                base_url=(
+                    base_url
+                    or DEFAULT_OPENAI_BASE_URL
+                ),
+                api_key=(
+                    api_key
+                    or os.getenv(
+                        "OPENAI_API_KEY",
+                        "",
+                    )
+                ),
+            )
+
+        if provider_name == "gemini":
+            return GeminiProvider(
+                api_key=(
+                    api_key
+                    or os.getenv(
+                        "GEMINI_API_KEY",
+                        ""
+                    )
+                )
+            )
+
+        if provider_name == "extractive":
+            return ExtractiveFallbackProvider(
+                evidence=evidence,
+                confidence=0.0,
+            )
+
+        raise ValueError(
+            "Provider không hợp lệ. "
+            "Chọn: ollama, openai, gemini, extractive."
+        )
 
 
 # ============================================================
 # DISPLAY
 # ============================================================
 
-def print_summary(output: dict[str, Any]) -> None:
-    evidence = output["evidence_summary"]
-    generation = output["generation"]
+def print_summary(
+    result: GeneratedAnswer,
+) -> None:
+    print("\n" + "=" * 76)
+    print("FINAL LEGAL ANSWER")
+    print("=" * 76)
 
-    print("\n" + "=" * 100)
-    print("FINAL ANSWER GENERATION")
-    print("=" * 100)
-
-    print("\nQuestion:")
-    print(output["original_query"])
-
-    print("\nIntervention:")
-    print(output["intervention"].get("description", ""))
-
-    print("\nEvidence refinement:")
-    print(f"  Valid rules: {evidence['valid_rule_count']}")
-    print(f"  Removed rules: {evidence['removed_rule_count']}")
+    print("Query:", result.query)
     print(
-        "  Unverified alternative candidates: "
-        f"{evidence['alternative_candidate_count']}"
+        "Provider:",
+        result.provider,
+        "| Model:",
+        result.model,
+    )
+    print(
+        "Confidence:",
+        f"{result.confidence:.4f}",
+        "| Consistency:",
+        f"{result.consistency_score:.4f}",
     )
 
-    if evidence["valid_rule_ids"]:
-        print("  Valid rule IDs:", ", ".join(evidence["valid_rule_ids"]))
-    if evidence["removed_rule_ids"]:
-        print("  Removed rule IDs:", ", ".join(evidence["removed_rule_ids"]))
-    if evidence["alternative_candidate_rule_ids"]:
+    print("\n" + result.answer)
+
+    print("\nSelected evidence:")
+    for item in result.selected_evidence:
         print(
-            "  Alternative IDs:",
-            ", ".join(evidence["alternative_candidate_rule_ids"]),
+            f"- [E{item['evidence_index']}] "
+            f"Rule {item['rule_id']} | "
+            f"Điều {item['article_id']} | "
+            f"verification="
+            f"{item['verification_score']:.4f}"
         )
-
-    print("\nGenerator:", generation["generator"])
-    if generation.get("model"):
-        print("Model:", generation["model"])
-
-    print("\nFinal answer:")
-    print(generation["final_answer"])
 
 
 # ============================================================
@@ -824,34 +1699,71 @@ def print_summary(output: dict[str, Any]) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Evidence refinement và sinh câu trả lời cuối cho "
-            "path-aware Counterfactual CausalRAG."
+            "Generate the final grounded legal answer from "
+            "counterfactually verified evidence."
         )
     )
 
     parser.add_argument(
-        "--counterfactual-result",
-        type=str,
-        default=COUNTERFACTUAL_RESULT_PATH,
+        "--verification-result",
+        default=VERIFICATION_RESULT_PATH,
     )
     parser.add_argument(
-        "--generator",
-        choices=["template", "ollama"],
-        default=DEFAULT_GENERATOR,
-        help=(
-            "template: deterministic, dễ đánh giá; "
-            "ollama: dùng LLM để viết lại bản template."
-        ),
+        "--retrieval-result",
+        default=RETRIEVAL_RESULT_PATH,
     )
     parser.add_argument(
-        "--ollama-model",
-        type=str,
-        default=DEFAULT_OLLAMA_MODEL,
+        "--output",
+        default=OUTPUT_PATH,
+    )
+
+    parser.add_argument(
+        "--provider",
+        choices=[
+            "ollama",
+            "openai",
+            "gemini",
+            "extractive",
+        ],
+        default=DEFAULT_PROVIDER,
     )
     parser.add_argument(
-        "--ollama-url",
-        type=str,
-        default=DEFAULT_OLLAMA_URL,
+        "--model",
+        default=DEFAULT_MODEL,
+    )
+    parser.add_argument(
+        "--api-key",
+        default="",
+    )
+    parser.add_argument(
+        "--base-url",
+        default="",
+    )
+
+    parser.add_argument(
+        "--max-evidence",
+        type=int,
+        default=DEFAULT_MAX_EVIDENCE,
+    )
+    parser.add_argument(
+        "--max-paths",
+        type=int,
+        default=DEFAULT_MAX_PATHS,
+    )
+    parser.add_argument(
+        "--max-context-chars",
+        type=int,
+        default=DEFAULT_MAX_CONTEXT_CHARS,
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=DEFAULT_MAX_TOKENS,
+    )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=DEFAULT_TEMPERATURE,
     )
     parser.add_argument(
         "--timeout",
@@ -859,29 +1771,26 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_TIMEOUT,
     )
     parser.add_argument(
-        "--max-alternatives",
-        type=int,
-        default=DEFAULT_MAX_ALTERNATIVES,
-    )
-    parser.add_argument(
-        "--min-alternative-score",
+        "--min-verification-score",
         type=float,
-        default=DEFAULT_MIN_ALTERNATIVE_SCORE,
+        default=DEFAULT_MIN_VERIFICATION_SCORE,
+    )
+
+    parser.add_argument(
+        "--include-uncertain",
+        action="store_true",
+        help=(
+            "Cho phép dùng evidence UNCERTAIN nếu đạt "
+            "min-verification-score."
+        ),
     )
     parser.add_argument(
-        "--output-json",
-        type=str,
-        default=OUTPUT_JSON_PATH,
-    )
-    parser.add_argument(
-        "--output-text",
-        type=str,
-        default=OUTPUT_TEXT_PATH,
-    )
-    parser.add_argument(
-        "--prompt-output",
-        type=str,
-        default=PROMPT_OUTPUT_PATH,
+        "--no-extractive-fallback",
+        action="store_true",
+        help=(
+            "Không fallback sang câu trả lời extractive "
+            "khi LLM bị lỗi."
+        ),
     )
 
     return parser.parse_args()
@@ -894,61 +1803,100 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
-    source = load_json(args.counterfactual_result)
-
-    refiner = EvidenceRefiner(
-        min_alternative_score=args.min_alternative_score,
-        max_alternatives=args.max_alternatives,
-    )
-    refined = refiner.refine(source)
-
-    template_generator = TemplateAnswerGenerator()
-    template_answer = template_generator.generate(
-        source=source,
-        refined=refined,
-    )
-
-    prompt = build_llm_prompt(
-        source=source,
-        refined=refined,
-        template_answer=template_answer,
-    )
-
-    if args.generator == "ollama":
-        final_answer = call_ollama(
-            prompt=prompt,
-            model=args.ollama_model,
-            url=args.ollama_url,
-            timeout=args.timeout,
+    if args.max_evidence < 1:
+        raise ValueError(
+            "--max-evidence phải lớn hơn 0."
         )
-        model: Optional[str] = args.ollama_model
-    else:
-        final_answer = template_answer
-        model = None
 
-    output = build_output(
-        source=source,
-        refined=refined,
-        template_answer=template_answer,
-        final_answer=final_answer,
-        generator=args.generator,
+    if args.max_paths < 0:
+        raise ValueError(
+            "--max-paths không được âm."
+        )
+
+    if args.max_tokens < 1:
+        raise ValueError(
+            "--max-tokens phải lớn hơn 0."
+        )
+
+    if not (
+        0.0
+        <= args.min_verification_score
+        <= 1.0
+    ):
+        raise ValueError(
+            "--min-verification-score phải "
+            "nằm trong [0, 1]."
+        )
+
+    model = args.model
+
+    if (
+        args.provider == "openai"
+        and model == DEFAULT_MODEL
+    ):
+        model = DEFAULT_OPENAI_MODEL
+
+    if (
+        args.provider == "gemini"
+        and model == DEFAULT_MODEL
+    ):
+        model = DEFAULT_GEMINI_MODEL
+
+    base_url = args.base_url
+
+    if (
+        args.provider == "ollama"
+        and not base_url
+    ):
+        base_url = DEFAULT_OLLAMA_URL
+
+    if (
+        args.provider == "openai"
+        and not base_url
+    ):
+        base_url = DEFAULT_OPENAI_BASE_URL
+
+    store = FinalAnswerInputStore(
+        verification_result_path=(
+            args.verification_result
+        ),
+        retrieval_result_path=(
+            args.retrieval_result
+        ),
+    )
+
+    pipeline = FinalAnswerPipeline(store)
+
+    result = pipeline.run(
+        provider_name=args.provider,
         model=model,
+        api_key=args.api_key,
+        base_url=base_url,
+        max_evidence=args.max_evidence,
+        max_paths=args.max_paths,
+        max_context_chars=(
+            args.max_context_chars
+        ),
+        max_tokens=args.max_tokens,
+        temperature=args.temperature,
+        timeout=args.timeout,
+        min_verification_score=(
+            args.min_verification_score
+        ),
+        include_uncertain=(
+            args.include_uncertain
+        ),
+        fallback_to_extractive=(
+            not args.no_extractive_fallback
+        ),
     )
 
-    save_outputs(
-        output=output,
-        prompt=prompt,
-        output_json=args.output_json,
-        output_text=args.output_text,
-        prompt_output=args.prompt_output,
+    print_summary(result)
+
+    save_json(
+        asdict(result),
+        args.output,
     )
-
-    print_summary(output)
-
-    print("\nSaved:")
-    print(f"- JSON: {args.output_json}")
-    print(f"- Text: {args.output_text}")
-    print(f"- Prompt: {args.prompt_output}")
 
 
 if __name__ == "__main__":
