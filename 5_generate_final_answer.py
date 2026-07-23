@@ -14,7 +14,7 @@ from typing import Any, Optional
 # CONFIG
 # ============================================================
 
-COUNTERFACTUAL_RESULT_PATH = "data/counterfactual_result.json"
+COUNTERFACTUAL_RESULT_PATH = "data/counterfactual_verification_result.json"
 OUTPUT_JSON_PATH = "data/final_answer.json"
 OUTPUT_TEXT_PATH = "data/final_answer.txt"
 PROMPT_OUTPUT_PATH = "data/final_answer_prompt.txt"
