@@ -20,7 +20,7 @@ OUTPUT_TEXT_PATH = "data/final_answer.txt"
 PROMPT_OUTPUT_PATH = "data/final_answer_prompt.txt"
 
 DEFAULT_GENERATOR = "template"
-DEFAULT_OLLAMA_MODEL = "qwen2.5:3b"
+DEFAULT_OLLAMA_MODEL = "qwen3:8b"
 DEFAULT_OLLAMA_URL = "http://localhost:11434/api/generate"
 DEFAULT_TIMEOUT = 180
 DEFAULT_MAX_ALTERNATIVES = 3
