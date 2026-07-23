@@ -1,0 +1,2603 @@
+{
+  "query": "Người phạm tội chưa đạt phải chịu trách nhiệm hình sự như thế nào?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "semantic_mapping_enabled": true,
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "path_support": 0.34,
+      "counterfactual_support": 0.3,
+      "semantic_evidence": 0.2,
+      "graph_evidence": 0.16
+    }
+  },
+  "statistics": {
+    "original_paths": 27,
+    "path_status_counts": {
+      "SUPPORTED": 2,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 25
+    },
+    "original_evidence": 12,
+    "verified_evidence": 1,
+    "uncertain_evidence": 11,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "original_outcome_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.40365,
+      "explanation": "Không tìm được opposite outcome trong graph; counterfactual seed cũng không dẫn tới outcome ban đầu."
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "pham_toi_chua_dat",
+      "seed_event_name": "Phạm tội chưa đạt",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.35,
+      "explanation": "Không map được counterfactual của seed event vào graph."
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "pham_toi_chua_dat",
+      "seed_event_name": "Phạm tội chưa đạt",
+      "original_outcome_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "original_outcome_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "counterfactual_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "counterfactual_event_node": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43949341773986816,
+          "confidence": 0.6107213797569275
+        },
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43276360630989075,
+          "confidence": 0.60701998347044
+        },
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "counterfactual_event_name": "Không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+          "counterfactual_event_node": "EVENT::khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43226027488708496,
+          "confidence": 0.6067431511878967
+        },
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "counterfactual_event_name": "Không hứa hẹn trước mà che giấu một trong các tội phạm quy định tại các điều sau đây của Bộ luật này, nếu không thuộc trường hợp quy định tại khoản 2 Điều 18 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4310387670993805,
+          "confidence": 0.6060713219046593
+        },
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "counterfactual_event_name": "Lợi dụng chức vụ, quyền hạn trực tiếp hoặc qua trung gian nhận hoặc sẽ nhận bất kỳ lợi ích nào sau đây cho chính bản thân người đó hoặc cho người hoặc tổ chức khác để làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "counterfactual_event_node": "EVENT::loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4266483187675476,
+          "confidence": 0.6036565753221512
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.35,
+      "explanation": "Không map được counterfactual của seed event vào graph."
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+      "seed_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+      "original_outcome_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+      "original_outcome_event_name": "Áp dụng không quá ba phần tư mức phạt",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+          "counterfactual_event_id": "khong_phai_chap_hanh_ban_an",
+          "counterfactual_event_name": "Không phải chấp hành bản án",
+          "counterfactual_event_node": "EVENT::khong_phai_chap_hanh_ban_an",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.45344412326812744,
+          "confidence": 0.6183942677974701
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+          "counterfactual_event_id": "khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "counterfactual_event_name": "Không hứa hẹn trước mà che giấu một trong các tội phạm quy định tại các điều sau đây của Bộ luật này, nếu không thuộc trường hợp quy định tại khoản 2 Điều 18 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.45157304406166077,
+          "confidence": 0.6173651742339135
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4507083296775818,
+          "confidence": 0.61688958132267
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+          "counterfactual_event_id": "phap_nhan_chua_gay_thiet_hai_hoac_thiet_hai_khong_lon",
+          "counterfactual_event_name": "Pháp nhân chưa gây thiệt hại hoặc thiệt hại không lớn",
+          "counterfactual_event_node": "EVENT::phap_nhan_chua_gay_thiet_hai_hoac_thiet_hai_khong_lon",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.44332262873649597,
+          "confidence": 0.6128274458050729
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+          "counterfactual_event_id": "dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "counterfactual_event_name": "Đưa 5.000 kilôgam trở lên chất thải nguy hại có thành phần nguy hại đặc biệt vượt ngưỡng chất thải nguy hại theo quy định của pháp luật hoặc có chứa chất phải loại trừ theo Phụ lục A Công ước Stockholm về các chất ô nhiễm hữu cơ khó phân hủy hoặc 50.000 kilôgam trở lên chất thải nguy hại khác",
+          "counterfactual_event_node": "EVENT::dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43333402276039124,
+          "confidence": 0.6073337125182152
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "source_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "source_event_name": "Áp dụng không quá ba phần tư mức phạt",
+          "counterfactual_event_id": "mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "counterfactual_event_name": "Mua chuộc hoặc cưỡng ép người làm chứng, người bị hại, đương sự trong các vụ án hình sự, hành chính, dân sự khai báo gian dối, cung cấp tài liệu sai sự thật hoặc không khai báo, không cung cấp tài liệu; mua chuộc hoặc cưỡng ép người giám định, người định giá tài sản kết luận gian dối, người phiên dịch, người dịch thuật dịch xuyên tạc",
+          "counterfactual_event_node": "EVENT::mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.44026851654052734,
+          "confidence": 0.61114768409729
+        },
+        {
+          "source_event_node": "EVENT::ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "source_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "source_event_name": "Áp dụng không quá ba phần tư mức phạt",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43541309237480164,
+          "confidence": 0.6084772008061409
+        },
+        {
+          "source_event_node": "EVENT::ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "source_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "source_event_name": "Áp dụng không quá ba phần tư mức phạt",
+          "counterfactual_event_id": "lua_gat_mua_chuoc_cuong_ep_hoac_dung_thu_doan_khac_can_tro_cong_dan_thuc_hien_quyen_bau_cu_quyen_ung_cu_hoac_quyen_bieu_quyet_khi_nha_nuoc_trung_cau_y_dan",
+          "counterfactual_event_name": "Lừa gạt, mua chuộc, cưỡng ép hoặc dùng thủ đoạn khác cản trở công dân thực hiện quyền bầu cử, quyền ứng cử hoặc quyền biểu quyết khi Nhà nước trưng cầu ý dân",
+          "counterfactual_event_node": "EVENT::lua_gat_mua_chuoc_cuong_ep_hoac_dung_thu_doan_khac_can_tro_cong_dan_thuc_hien_quyen_bau_cu_quyen_ung_cu_hoac_quyen_bieu_quyet_khi_nha_nuoc_trung_cau_y_dan",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4270252585411072,
+          "confidence": 0.6038638921976089
+        },
+        {
+          "source_event_node": "EVENT::ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "source_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "source_event_name": "Áp dụng không quá ba phần tư mức phạt",
+          "counterfactual_event_id": "khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "counterfactual_event_name": "Không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+          "counterfactual_event_node": "EVENT::khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4227684736251831,
+          "confidence": 0.6015226604938507
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.35459856694936753,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+      "original_outcome_event_name": "Phạm tội được Bộ luật Hình sự quy định",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+          "source_event_id": "pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+          "source_event_name": "Phạm tội được Bộ luật Hình sự quy định",
+          "counterfactual_event_id": "khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "counterfactual_event_name": "Không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+          "counterfactual_event_node": "EVENT::khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4423549771308899,
+          "confidence": 0.6122952374219894
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+      "original_outcome_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+          "counterfactual_event_id": "du_18_tuoi_tro_len_ma_co_hanh_vi_dam_o_doi_voi_nguoi_duoi_16_tuoi_khong_nham_muc_dich_giao_cau_hoac_khong_nham_thuc_hien_cac_hanh_vi_quan_he_tinh_duc_khac",
+          "counterfactual_event_name": "Đủ 18 tuổi trở lên mà có hành vi dâm ô đối với người dưới 16 tuổi không nhằm mục đích giao cấu hoặc không nhằm thực hiện các hành vi quan hệ tình dục khác",
+          "counterfactual_event_node": "EVENT::du_18_tuoi_tro_len_ma_co_hanh_vi_dam_o_doi_voi_nguoi_duoi_16_tuoi_khong_nham_muc_dich_giao_cau_hoac_khong_nham_thuc_hien_cac_hanh_vi_quan_he_tinh_duc_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5203742980957031,
+          "confidence": 0.6552058639526368
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+          "counterfactual_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "counterfactual_event_name": "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+          "counterfactual_event_node": "EVENT::pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.49312636256217957,
+          "confidence": 0.6402194994091988
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+          "counterfactual_event_id": "pham_toi_doi_voi_nguoi_duoi_16_tuoi_phu_nu_ma_biet_la_co_thai_nguoi_gia_yeu_hoac_nguoi_khong_co_kha_nang_tu_ve",
+          "counterfactual_event_name": "Phạm tội đối với người dưới 16 tuổi, phụ nữ mà biết là có thai, người già yếu hoặc người không có khả năng tự vệ",
+          "counterfactual_event_node": "EVENT::pham_toi_doi_voi_nguoi_duoi_16_tuoi_phu_nu_ma_biet_la_co_thai_nguoi_gia_yeu_hoac_nguoi_khong_co_kha_nang_tu_ve",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.48959827423095703,
+          "confidence": 0.6382790508270264
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+          "counterfactual_event_id": "chuyen_giao_hoac_tiep_nhan_nguoi_duoi_16_tuoi_de_boc_lot_tinh_duc_cuong_buc_lao_dong_lay_bo_phan_co_the_hoac_vi_muc_dich_vo_nhan_dao_khac",
+          "counterfactual_event_name": "Chuyển giao hoặc tiếp nhận người dưới 16 tuổi để bóc lột tình dục, cưỡng bức lao động, lấy bộ phận cơ thể hoặc vì mục đích vô nhân đạo khác",
+          "counterfactual_event_node": "EVENT::chuyen_giao_hoac_tiep_nhan_nguoi_duoi_16_tuoi_de_boc_lot_tinh_duc_cuong_buc_lao_dong_lay_bo_phan_co_the_hoac_vi_muc_dich_vo_nhan_dao_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.484153687953949,
+          "confidence": 0.635284528374672
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+          "counterfactual_event_id": "doi_voi_nguoi_duoi_16_tuoi_phu_nu_ma_biet_la_co_thai_nguoi_gia_yeu_om_dau_hoac_nguoi_khac_khong_co_kha_nang_tu_ve",
+          "counterfactual_event_name": "Đối với người dưới 16 tuổi, phụ nữ mà biết là có thai, người già yếu, ốm đau hoặc người khác không có khả năng tự vệ",
+          "counterfactual_event_node": "EVENT::doi_voi_nguoi_duoi_16_tuoi_phu_nu_ma_biet_la_co_thai_nguoi_gia_yeu_om_dau_hoac_nguoi_khac_khong_co_kha_nang_tu_ve",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4768229126930237,
+          "confidence": 0.6312526019811631
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+      "original_outcome_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+          "counterfactual_event_name": "Đủ 18 tuổi trở lên mà giao cấu hoặc thực hiện hành vi quan hệ tình dục khác với người từ đủ 13 tuổi đến dưới 16 tuổi, nếu không thuộc trường hợp quy định tại Điều 142 và Điều 144 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5312785506248474,
+          "confidence": 0.6612032028436661
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "doi_voi_nguoi_duoi_18_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_145_cua_bo_luat_nay",
+          "counterfactual_event_name": "Đối với người dưới 18 tuổi, nếu không thuộc trường hợp quy định tại Điều 142 và Điều 145 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::doi_voi_nguoi_duoi_18_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_145_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5248923301696777,
+          "confidence": 0.6576907815933228
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "du_18_tuoi_tro_len_ma_co_hanh_vi_dam_o_doi_voi_nguoi_duoi_16_tuoi_khong_nham_muc_dich_giao_cau_hoac_khong_nham_thuc_hien_cac_hanh_vi_quan_he_tinh_duc_khac",
+          "counterfactual_event_name": "Đủ 18 tuổi trở lên mà có hành vi dâm ô đối với người dưới 16 tuổi không nhằm mục đích giao cấu hoặc không nhằm thực hiện các hành vi quan hệ tình dục khác",
+          "counterfactual_event_node": "EVENT::du_18_tuoi_tro_len_ma_co_hanh_vi_dam_o_doi_voi_nguoi_duoi_16_tuoi_khong_nham_muc_dich_giao_cau_hoac_khong_nham_thuc_hien_cac_hanh_vi_quan_he_tinh_duc_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5173249244689941,
+          "confidence": 0.6535287084579469
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "doi_voi_02_nguoi_tro_len_tu_du_13_tuoi_den_duoi_16_tuoi",
+          "counterfactual_event_name": "Đối với 02 người trở lên từ đủ 13 tuổi đến dưới 16 tuổi",
+          "counterfactual_event_node": "EVENT::doi_voi_02_nguoi_tro_len_tu_du_13_tuoi_den_duoi_16_tuoi",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5080199241638184,
+          "confidence": 0.6484109582901001
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "su_dung_nguoi_duoi_16_tuoi_vao_viec_pham_toi_hoac_ban_ma_tuy_cho_nguoi_duoi_16_tuoi",
+          "counterfactual_event_name": "Sử dụng người dưới 16 tuổi vào việc phạm tội hoặc bán ma túy cho người dưới 16 tuổi",
+          "counterfactual_event_node": "EVENT::su_dung_nguoi_duoi_16_tuoi_vao_viec_pham_toi_hoac_ban_ma_tuy_cho_nguoi_duoi_16_tuoi",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.48592862486839294,
+          "confidence": 0.6362607436776162
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+      "original_outcome_event_name": "Mất khả năng nhận thức do tự sử dụng chất kích thích",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+          "source_event_id": "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+          "source_event_name": "Mất khả năng nhận thức do tự sử dụng chất kích thích",
+          "counterfactual_event_id": "mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "counterfactual_event_name": "Mua chuộc hoặc cưỡng ép người làm chứng, người bị hại, đương sự trong các vụ án hình sự, hành chính, dân sự khai báo gian dối, cung cấp tài liệu sai sự thật hoặc không khai báo, không cung cấp tài liệu; mua chuộc hoặc cưỡng ép người giám định, người định giá tài sản kết luận gian dối, người phiên dịch, người dịch thuật dịch xuyên tạc",
+          "counterfactual_event_node": "EVENT::mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43492671847343445,
+          "confidence": 0.6082096951603889
+        },
+        {
+          "source_event_node": "EVENT::mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+          "source_event_id": "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+          "source_event_name": "Mất khả năng nhận thức do tự sử dụng chất kích thích",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4234512448310852,
+          "confidence": 0.6018981846570969
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+      "original_outcome_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+          "source_event_id": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+          "source_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4268229007720947,
+          "confidence": 0.6037525954246521
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "pham_toi_chua_dat",
+      "original_outcome_event_name": "Phạm tội chưa đạt",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.40365,
+      "explanation": "Không tìm được opposite outcome trong graph; counterfactual seed cũng không dẫn tới outcome ban đầu."
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+      "original_outcome_event_name": "Hành vi đã thực hiện cấu thành tội khác",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+          "source_event_id": "hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+          "source_event_name": "Hành vi đã thực hiện cấu thành tội khác",
+          "counterfactual_event_id": "dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "counterfactual_event_name": "Đưa 5.000 kilôgam trở lên chất thải nguy hại có thành phần nguy hại đặc biệt vượt ngưỡng chất thải nguy hại theo quy định của pháp luật hoặc có chứa chất phải loại trừ theo Phụ lục A Công ước Stockholm về các chất ô nhiễm hữu cơ khó phân hủy hoặc 50.000 kilôgam trở lên chất thải nguy hại khác",
+          "counterfactual_event_node": "EVENT::dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4292553663253784,
+          "confidence": 0.6050904514789581
+        },
+        {
+          "source_event_node": "EVENT::hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+          "source_event_id": "hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+          "source_event_name": "Hành vi đã thực hiện cấu thành tội khác",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4291383922100067,
+          "confidence": 0.6050261157155037
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+      "original_outcome_event_name": "Che giấu tội phạm sau khi tội phạm được thực hiện",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.40365,
+      "explanation": "Không tìm được opposite outcome trong graph; counterfactual seed cũng không dẫn tới outcome ban đầu."
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "biet_ro_toi_pham_nhung_khong_to_giac",
+      "original_outcome_event_name": "Biết rõ tội phạm nhưng không tố giác",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::biet_ro_toi_pham_nhung_khong_to_giac",
+          "source_event_id": "biet_ro_toi_pham_nhung_khong_to_giac",
+          "source_event_name": "Biết rõ tội phạm nhưng không tố giác",
+          "counterfactual_event_id": "mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "counterfactual_event_name": "Mua chuộc hoặc cưỡng ép người làm chứng, người bị hại, đương sự trong các vụ án hình sự, hành chính, dân sự khai báo gian dối, cung cấp tài liệu sai sự thật hoặc không khai báo, không cung cấp tài liệu; mua chuộc hoặc cưỡng ép người giám định, người định giá tài sản kết luận gian dối, người phiên dịch, người dịch thuật dịch xuyên tạc",
+          "counterfactual_event_node": "EVENT::mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.42898085713386536,
+          "confidence": 0.6049394714236259
+        },
+        {
+          "source_event_node": "EVENT::biet_ro_toi_pham_nhung_khong_to_giac",
+          "source_event_id": "biet_ro_toi_pham_nhung_khong_to_giac",
+          "source_event_name": "Biết rõ tội phạm nhưng không tố giác",
+          "counterfactual_event_id": "giao_cho_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "counterfactual_event_name": "Giao cho người không có bằng, giấy chứng nhận khả năng chuyên môn, chứng chỉ chuyên môn theo quy định hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "counterfactual_event_node": "EVENT::giao_cho_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.42428141832351685,
+          "confidence": 0.6023547800779343
+        },
+        {
+          "source_event_node": "EVENT::biet_ro_toi_pham_nhung_khong_to_giac",
+          "source_event_id": "biet_ro_toi_pham_nhung_khong_to_giac",
+          "source_event_name": "Biết rõ tội phạm nhưng không tố giác",
+          "counterfactual_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "counterfactual_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "counterfactual_event_node": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.42280083894729614,
+          "confidence": 0.6015404614210129
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "original_outcome_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "source_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "source_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+          "counterfactual_event_id": "khong_chap_hanh_quy_dinh_ve_tuan_tra_canh_gac_ap_tai_ho_tong_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "counterfactual_event_name": "Không chấp hành quy định về tuần tra, canh gác, áp tải, hộ tống thuộc một trong các trường hợp sau đây",
+          "counterfactual_event_node": "EVENT::khong_chap_hanh_quy_dinh_ve_tuan_tra_canh_gac_ap_tai_ho_tong_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43438810110092163,
+          "confidence": 0.6079134556055069
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "source_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "source_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.42197662591934204,
+          "confidence": 0.6010871442556381
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+      "original_outcome_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+          "counterfactual_event_id": "khong_chap_hanh_quy_dinh_ve_tuan_tra_canh_gac_ap_tai_ho_tong_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "counterfactual_event_name": "Không chấp hành quy định về tuần tra, canh gác, áp tải, hộ tống thuộc một trong các trường hợp sau đây",
+          "counterfactual_event_node": "EVENT::khong_chap_hanh_quy_dinh_ve_tuan_tra_canh_gac_ap_tai_ho_tong_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.45393386483192444,
+          "confidence": 0.6186636256575584
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+          "counterfactual_event_id": "tu_03_ca_the_voi_te_giac_tro_len_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_03_ca_the_voi_te_giac_tro_len_06_ca_the_gau_ho_tro_len_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_06_ca_the_gau_ho_tro_len",
+          "counterfactual_event_name": "Từ 03 cá thể voi, tê giác trở lên hoặc bộ phận cơ thể không thể tách rời sự sống của 03 cá thể voi, tê giác trở lên; 06 cá thể gấu, hổ trở lên hoặc bộ phận cơ thể không thể tách rời sự sống của 06 cá thể gấu, hổ trở lên",
+          "counterfactual_event_node": "EVENT::tu_03_ca_the_voi_te_giac_tro_len_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_03_ca_the_voi_te_giac_tro_len_06_ca_the_gau_ho_tro_len_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_06_ca_the_gau_ho_tro_len",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43901756405830383,
+          "confidence": 0.6104596602320671
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+          "counterfactual_event_id": "tu_01_ca_the_den_02_ca_the_voi_te_giac_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_01_ca_the_den_02_ca_the_voi_te_giac_tu_03_ca_the_den_05_ca_the_gau_ho_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_03_ca_the_den_05_ca_the_gau_ho",
+          "counterfactual_event_name": "Từ 01 cá thể đến 02 cá thể voi, tê giác hoặc bộ phận cơ thể không thể tách rời sự sống của từ 01 cá thể đến 02 cá thể voi, tê giác; từ 03 cá thể đến 05 cá thể gấu, hổ hoặc bộ phận cơ thể không thể tách rời sự sống của từ 03 cá thể đến 05 cá thể gấu, hổ",
+          "counterfactual_event_node": "EVENT::tu_01_ca_the_den_02_ca_the_voi_te_giac_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_01_ca_the_den_02_ca_the_voi_te_giac_tu_03_ca_the_den_05_ca_the_gau_ho_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_03_ca_the_den_05_ca_the_gau_ho",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43388092517852783,
+          "confidence": 0.6076345088481903
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43155401945114136,
+          "confidence": 0.6063547106981277
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+          "counterfactual_event_id": "khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "counterfactual_event_name": "Không hứa hẹn trước mà che giấu một trong các tội phạm quy định tại các điều sau đây của Bộ luật này, nếu không thuộc trường hợp quy định tại khoản 2 Điều 18 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.42436864972114563,
+          "confidence": 0.6024027573466301
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 15,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+      "original_outcome_event_name": "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_name": "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+          "counterfactual_event_id": "mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "counterfactual_event_name": "Mua chuộc hoặc cưỡng ép người làm chứng, người bị hại, đương sự trong các vụ án hình sự, hành chính, dân sự khai báo gian dối, cung cấp tài liệu sai sự thật hoặc không khai báo, không cung cấp tài liệu; mua chuộc hoặc cưỡng ép người giám định, người định giá tài sản kết luận gian dối, người phiên dịch, người dịch thuật dịch xuyên tạc",
+          "counterfactual_event_node": "EVENT::mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.46407249569892883,
+          "confidence": 0.6242398726344109
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_name": "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+          "counterfactual_event_id": "tu_01_ca_the_den_02_ca_the_voi_te_giac_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_01_ca_the_den_02_ca_the_voi_te_giac_tu_03_ca_the_den_05_ca_the_gau_ho_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_03_ca_the_den_05_ca_the_gau_ho",
+          "counterfactual_event_name": "Từ 01 cá thể đến 02 cá thể voi, tê giác hoặc bộ phận cơ thể không thể tách rời sự sống của từ 01 cá thể đến 02 cá thể voi, tê giác; từ 03 cá thể đến 05 cá thể gấu, hổ hoặc bộ phận cơ thể không thể tách rời sự sống của từ 03 cá thể đến 05 cá thể gấu, hổ",
+          "counterfactual_event_node": "EVENT::tu_01_ca_the_den_02_ca_the_voi_te_giac_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_01_ca_the_den_02_ca_the_voi_te_giac_tu_03_ca_the_den_05_ca_the_gau_ho_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_03_ca_the_den_05_ca_the_gau_ho",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.46312159299850464,
+          "confidence": 0.6237168761491776
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_name": "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+          "counterfactual_event_id": "khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "counterfactual_event_name": "Không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+          "counterfactual_event_node": "EVENT::khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.46139460802078247,
+          "confidence": 0.6227670344114304
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_name": "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+          "counterfactual_event_id": "dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "counterfactual_event_name": "Đưa 5.000 kilôgam trở lên chất thải nguy hại có thành phần nguy hại đặc biệt vượt ngưỡng chất thải nguy hại theo quy định của pháp luật hoặc có chứa chất phải loại trừ theo Phụ lục A Công ước Stockholm về các chất ô nhiễm hữu cơ khó phân hủy hoặc 50.000 kilôgam trở lên chất thải nguy hại khác",
+          "counterfactual_event_node": "EVENT::dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4586273431777954,
+          "confidence": 0.6212450387477875
+        },
+        {
+          "source_event_node": "EVENT::vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_name": "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+          "counterfactual_event_id": "tai_phien_toa_phien_hop_ma_thoa_ma_xuc_pham_nghiem_trong_danh_du_nhan_pham_cua_tham_phan_hoi_tham_nguoi_co_tham_quyen_tien_hanh_to_tung_khac_hoac_nguoi_tham_gia_phien_toa_phien_hop_hoac_co_hanh_vi_dap_pha_tai_san_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_178_cua_bo_luat_nay",
+          "counterfactual_event_name": "Tại phiên tòa, phiên họp mà thóa mạ, xúc phạm nghiêm trọng danh dự, nhân phẩm của Thẩm phán, Hội thẩm, người có thẩm quyền tiến hành tố tụng khác hoặc người tham gia phiên tòa, phiên họp hoặc có hành vi đập phá tài sản, nếu không thuộc trường hợp quy định tại Điều 178 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::tai_phien_toa_phien_hop_ma_thoa_ma_xuc_pham_nghiem_trong_danh_du_nhan_pham_cua_tham_phan_hoi_tham_nguoi_co_tham_quyen_tien_hanh_to_tung_khac_hoac_nguoi_tham_gia_phien_toa_phien_hop_hoac_co_hanh_vi_dap_pha_tai_san_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_178_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4475014805793762,
+          "confidence": 0.6151258143186569
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 16,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai",
+      "original_outcome_event_name": "Vi phạm quy trình phòng ngừa và gây thiệt hại",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.40365,
+      "explanation": "Không tìm được opposite outcome trong graph; counterfactual seed cũng không dẫn tới outcome ban đầu."
+    },
+    {
+      "original_path_id": 17,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+      "original_outcome_event_name": "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_name": "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+          "counterfactual_event_id": "giao_cho_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+          "counterfactual_event_name": "Giao cho người không có giấy phép lái tàu hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường sắt gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật hoặc xử phạt vi phạm hành chính về hành vi này mà còn vi phạm",
+          "counterfactual_event_node": "EVENT::giao_cho_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.44575992226600647,
+          "confidence": 0.6141679572463036
+        },
+        {
+          "source_event_node": "EVENT::duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_name": "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+          "counterfactual_event_id": "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_01_nguoi_ma_ty_le_ton_thuong_co_the_61_tro_len_hoac_gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_31_tro_len",
+          "counterfactual_event_name": "Gây thương tích hoặc gây tổn hại cho sức khỏe của 01 người mà tỷ lệ tổn thương cơ thể 61% trở lên hoặc gây thương tích hoặc gây tổn hại cho sức khỏe của 02 người trở lên mà tỷ lệ tổn thương cơ thể của mỗi người 31% trở lên",
+          "counterfactual_event_node": "EVENT::gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_01_nguoi_ma_ty_le_ton_thuong_co_the_61_tro_len_hoac_gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_31_tro_len",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.44019433856010437,
+          "confidence": 0.6111068862080574
+        },
+        {
+          "source_event_node": "EVENT::duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_name": "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+          "counterfactual_event_id": "giao_cho_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "counterfactual_event_name": "Giao cho người không có bằng, giấy chứng nhận khả năng chuyên môn, chứng chỉ chuyên môn theo quy định hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "counterfactual_event_node": "EVENT::giao_cho_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43957722187042236,
+          "confidence": 0.6107674720287324
+        },
+        {
+          "source_event_node": "EVENT::duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_name": "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+          "counterfactual_event_id": "giao_cho_nguoi_ma_biet_ro_nguoi_do_khong_co_giay_phep_lai_xe_hoac_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_tham_gia_giao_thong_duong_bo_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "counterfactual_event_name": "Giao cho người mà biết rõ người đó không có giấy phép lái xe hoặc đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện tham gia giao thông đường bộ gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+          "counterfactual_event_node": "EVENT::giao_cho_nguoi_ma_biet_ro_nguoi_do_khong_co_giay_phep_lai_xe_hoac_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_tham_gia_giao_thong_duong_bo_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43806126713752747,
+          "confidence": 0.6099336969256401
+        },
+        {
+          "source_event_node": "EVENT::duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_name": "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+          "counterfactual_event_id": "dieu_dong_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+          "counterfactual_event_name": "Điều động người không có giấy phép lái tàu hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường sắt gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật hoặc xử phạt vi phạm hành chính về hành vi này mà còn vi phạm",
+          "counterfactual_event_node": "EVENT::dieu_dong_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.430784672498703,
+          "confidence": 0.6059315698742866
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 18,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "phap_nhan_thuong_mai_pham_toi",
+      "original_outcome_event_name": "Pháp nhân thương mại phạm tội",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.40365,
+      "explanation": "Không tìm được opposite outcome trong graph; counterfactual seed cũng không dẫn tới outcome ban đầu."
+    },
+    {
+      "original_path_id": 19,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+      "original_outcome_event_name": "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.40365,
+      "explanation": "Không tìm được opposite outcome trong graph; counterfactual seed cũng không dẫn tới outcome ban đầu."
+    },
+    {
+      "original_path_id": 20,
+      "seed_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+      "seed_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+      "original_outcome_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+      "original_outcome_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.45813146233558655,
+          "confidence": 0.6209723042845726
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+          "counterfactual_event_id": "chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_tu_5_000_kilogam_den_duoi_10_000_kilogam_chat_thai_co_chua_chat_phong_xa_gay_nhiem_xa_moi_truong_thuoc_nguon_phong_xa_loai_co_muc_do_nguy_hiem_trung_binh_theo_quy_chuan_ky_thuat_quoc_gia_ve_an_toan_buc_xa_phan_nhom_va_phan_loai_nguon_phong_xa_vuot_quy_chuan_cho_phep",
+          "counterfactual_event_name": "Chất thải nguy hại có thành phần nguy hại đặc biệt vượt ngưỡng chất thải nguy hại theo quy định của pháp luật hoặc có chứa chất phải loại trừ theo Phụ lục A Công ước Stockholm về các chất ô nhiễm hữu cơ khó phân hủy từ 5.000 kilôgam đến dưới 10.000 kilôgam; chất thải có chứa chất phóng xạ, gây nhiễm xạ môi trường thuộc nguồn phóng xạ loại có mức độ nguy hiểm trung bình theo Quy chuẩn kỹ thuật quốc gia về an toàn bức xạ - phân nhóm và phân loại nguồn phóng xạ vượt quy chuẩn cho phép",
+          "counterfactual_event_node": "EVENT::chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_tu_5_000_kilogam_den_duoi_10_000_kilogam_chat_thai_co_chua_chat_phong_xa_gay_nhiem_xa_moi_truong_thuoc_nguon_phong_xa_loai_co_muc_do_nguy_hiem_trung_binh_theo_quy_chuan_ky_thuat_quoc_gia_ve_an_toan_buc_xa_phan_nhom_va_phan_loai_nguon_phong_xa_vuot_quy_chuan_cho_phep",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.45076417922973633,
+          "confidence": 0.616920298576355
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+          "counterfactual_event_id": "dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "counterfactual_event_name": "Đưa 5.000 kilôgam trở lên chất thải nguy hại có thành phần nguy hại đặc biệt vượt ngưỡng chất thải nguy hại theo quy định của pháp luật hoặc có chứa chất phải loại trừ theo Phụ lục A Công ước Stockholm về các chất ô nhiễm hữu cơ khó phân hủy hoặc 50.000 kilôgam trở lên chất thải nguy hại khác",
+          "counterfactual_event_node": "EVENT::dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4499203562736511,
+          "confidence": 0.6164561959505082
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+          "counterfactual_event_id": "khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "counterfactual_event_name": "Không hứa hẹn trước mà che giấu một trong các tội phạm quy định tại các điều sau đây của Bộ luật này, nếu không thuộc trường hợp quy định tại khoản 2 Điều 18 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4425462484359741,
+          "confidence": 0.6124004366397857
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+          "counterfactual_event_id": "co_to_chuc",
+          "counterfactual_event_name": "Có tổ chức",
+          "counterfactual_event_node": "EVENT::co_to_chuc",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4333794414997101,
+          "confidence": 0.6073586928248406
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+          "counterfactual_event_id": "phat_tien_tu_20_000_000_dong_den_duoi_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "counterfactual_event_name": "Phạt tiền từ 20.000.000 đồng đến dưới 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "counterfactual_event_node": "EVENT::phat_tien_tu_20_000_000_dong_den_duoi_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.45492637157440186,
+          "confidence": 0.619209504365921
+        },
+        {
+          "source_event_node": "EVENT::ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+          "counterfactual_event_id": "phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "counterfactual_event_name": "Phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+          "counterfactual_event_node": "EVENT::phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4514995515346527,
+          "confidence": 0.617324753344059
+        },
+        {
+          "source_event_node": "EVENT::ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+          "counterfactual_event_id": "phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "counterfactual_event_name": "Phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "counterfactual_event_node": "EVENT::phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.44673478603363037,
+          "confidence": 0.6147041323184967
+        },
+        {
+          "source_event_node": "EVENT::ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+          "counterfactual_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+          "counterfactual_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+          "counterfactual_event_node": "EVENT::phat_tu_20_nam_hoac_tu_chung_than",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.44660431146621704,
+          "confidence": 0.6146323713064195
+        },
+        {
+          "source_event_node": "EVENT::ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+          "source_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+          "counterfactual_event_id": "phat_tien_tu_200_000_000_dong_den_2_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "counterfactual_event_name": "Phạt tiền từ 200.000.000 đồng đến 2.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:",
+          "counterfactual_event_node": "EVENT::phat_tien_tu_200_000_000_dong_den_2_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43523406982421875,
+          "confidence": 0.6083787384033204
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.35524307607114314,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 21,
+      "seed_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+      "seed_event_name": "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_name": "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+          "counterfactual_event_id": "du_18_tuoi_tro_len_ma_co_hanh_vi_dam_o_doi_voi_nguoi_duoi_16_tuoi_khong_nham_muc_dich_giao_cau_hoac_khong_nham_thuc_hien_cac_hanh_vi_quan_he_tinh_duc_khac",
+          "counterfactual_event_name": "Đủ 18 tuổi trở lên mà có hành vi dâm ô đối với người dưới 16 tuổi không nhằm mục đích giao cấu hoặc không nhằm thực hiện các hành vi quan hệ tình dục khác",
+          "counterfactual_event_node": "EVENT::du_18_tuoi_tro_len_ma_co_hanh_vi_dam_o_doi_voi_nguoi_duoi_16_tuoi_khong_nham_muc_dich_giao_cau_hoac_khong_nham_thuc_hien_cac_hanh_vi_quan_he_tinh_duc_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5460213422775269,
+          "confidence": 0.6693117382526398
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_name": "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+          "counterfactual_event_id": "du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+          "counterfactual_event_name": "Đủ 18 tuổi trở lên mà giao cấu hoặc thực hiện hành vi quan hệ tình dục khác với người từ đủ 13 tuổi đến dưới 16 tuổi, nếu không thuộc trường hợp quy định tại Điều 142 và Điều 144 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5344122648239136,
+          "confidence": 0.6629267456531525
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_name": "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+          "counterfactual_event_id": "doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "counterfactual_event_name": "Đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+          "counterfactual_event_node": "EVENT::doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5299868583679199,
+          "confidence": 0.6604927721023559
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_name": "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+          "counterfactual_event_id": "du_18_tuoi_tro_len_ma_loi_keo_du_do_ep_buoc_nguoi_duoi_16_tuoi_trinh_dien_khieu_dam_hoac_truc_tiep_chung_kien_viec_trinh_dien_khieu_dam_duoi_moi_hinh_thuc",
+          "counterfactual_event_name": "Đủ 18 tuổi trở lên mà lôi kéo, dụ dỗ, ép buộc người dưới 16 tuổi trình diễn khiêu dâm hoặc trực tiếp chứng kiến việc trình diễn khiêu dâm dưới mọi hình thức",
+          "counterfactual_event_node": "EVENT::du_18_tuoi_tro_len_ma_loi_keo_du_do_ep_buoc_nguoi_duoi_16_tuoi_trinh_dien_khieu_dam_hoac_truc_tiep_chung_kien_viec_trinh_dien_khieu_dam_duoi_moi_hinh_thuc",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5232739448547363,
+          "confidence": 0.656800669670105
+        },
+        {
+          "source_event_node": "EVENT::pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "source_event_name": "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+          "counterfactual_event_id": "doi_voi_02_nguoi_tro_len_tu_du_13_tuoi_den_duoi_16_tuoi",
+          "counterfactual_event_name": "Đối với 02 người trở lên từ đủ 13 tuổi đến dưới 16 tuổi",
+          "counterfactual_event_node": "EVENT::doi_voi_02_nguoi_tro_len_tu_du_13_tuoi_den_duoi_16_tuoi",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5041763186454773,
+          "confidence": 0.6462969752550125
+        }
+      ],
+      "counterfactual_to_same_outcome": [
+        {
+          "start_event_node": "EVENT::doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "start_event_id": "doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+          "start_event_name": "Đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+          "end_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "end_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "end_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "event_nodes": [
+            "EVENT::doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+            "EVENT::phat_tu_tu_05_nam_den_10_nam"
+          ],
+          "event_ids": [
+            "doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+            "phat_tu_tu_05_nam_den_10_nam"
+          ],
+          "event_names": [
+            "Đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+            "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+          ],
+          "rule_ids": [
+            "2333"
+          ],
+          "article_ids": [
+            "327"
+          ],
+          "hop_count": 1,
+          "path_score": 0.5
+        }
+      ],
+      "counterfactual_to_opposite_outcome": [
+        {
+          "start_event_node": "EVENT::du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+          "start_event_id": "du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+          "start_event_name": "Đủ 18 tuổi trở lên mà giao cấu hoặc thực hiện hành vi quan hệ tình dục khác với người từ đủ 13 tuổi đến dưới 16 tuổi, nếu không thuộc trường hợp quy định tại Điều 142 và Điều 144 của Bộ luật này",
+          "end_event_node": "EVENT::phat_tu_tu_01_nam_den_05_nam",
+          "end_event_id": "phat_tu_tu_01_nam_den_05_nam",
+          "end_event_name": "Phạt tù từ 01 năm đến 05 năm || Phạt tù từ 01 năm đến 05 năm:",
+          "event_nodes": [
+            "EVENT::du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+            "EVENT::phat_tu_tu_01_nam_den_05_nam"
+          ],
+          "event_ids": [
+            "du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+            "phat_tu_tu_01_nam_den_05_nam"
+          ],
+          "event_names": [
+            "Đủ 18 tuổi trở lên mà giao cấu hoặc thực hiện hành vi quan hệ tình dục khác với người từ đủ 13 tuổi đến dưới 16 tuổi, nếu không thuộc trường hợp quy định tại Điều 142 và Điều 144 của Bộ luật này",
+            "Phạt tù từ 01 năm đến 05 năm || Phạt tù từ 01 năm đến 05 năm:"
+          ],
+          "rule_ids": [
+            "420"
+          ],
+          "article_ids": [
+            "145"
+          ],
+          "hop_count": 1,
+          "path_score": 0.5
+        }
+      ],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "source_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "source_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "counterfactual_event_id": "phat_tu_tu_05_nam_den_15_nam",
+          "counterfactual_event_name": "Phạt tù từ 05 năm đến 15 năm || Phạt tù từ 05 năm đến 15 năm:",
+          "counterfactual_event_node": "EVENT::phat_tu_tu_05_nam_den_15_nam",
+          "generation_method": "name_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.7191160917282104,
+          "confidence": 0.7105138504505157
+        },
+        {
+          "source_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "source_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "source_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "counterfactual_event_id": "phat_tu_tu_10_nam_den_15_nam",
+          "counterfactual_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+          "counterfactual_event_node": "EVENT::phat_tu_tu_10_nam_den_15_nam",
+          "generation_method": "name_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.7188951969146729,
+          "confidence": 0.7103923583030701
+        },
+        {
+          "source_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "source_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "source_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "counterfactual_event_id": "phat_tu_tu_05_nam_den_12_nam",
+          "counterfactual_event_name": "Phạt tù từ 05 năm đến 12 năm || Phạt tù từ 05 năm đến 12 năm:",
+          "counterfactual_event_node": "EVENT::phat_tu_tu_05_nam_den_12_nam",
+          "generation_method": "name_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.7186721563339233,
+          "confidence": 0.7102696859836579
+        },
+        {
+          "source_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "source_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "source_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "counterfactual_event_id": "phat_tu_tu_01_nam_den_05_nam",
+          "counterfactual_event_name": "Phạt tù từ 01 năm đến 05 năm || Phạt tù từ 01 năm đến 05 năm:",
+          "counterfactual_event_node": "EVENT::phat_tu_tu_01_nam_den_05_nam",
+          "generation_method": "name_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.7118210792541504,
+          "confidence": 0.7065015935897827
+        },
+        {
+          "source_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "source_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "source_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "counterfactual_event_id": "doi_voi_tu_05_nguoi_den_10_nguoi",
+          "counterfactual_event_name": "Đối với từ 05 người đến 10 người",
+          "counterfactual_event_node": "EVENT::doi_voi_tu_05_nguoi_den_10_nguoi",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4547084867954254,
+          "confidence": 0.619089667737484
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.4173279345631601,
+      "explanation": "Counterfactual seed dẫn tới opposite outcome và không ưu thế hơn đối với outcome ban đầu."
+    },
+    {
+      "original_path_id": 22,
+      "seed_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+      "seed_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+          "counterfactual_event_name": "Đủ 18 tuổi trở lên mà giao cấu hoặc thực hiện hành vi quan hệ tình dục khác với người từ đủ 13 tuổi đến dưới 16 tuổi, nếu không thuộc trường hợp quy định tại Điều 142 và Điều 144 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::du_18_tuoi_tro_len_ma_giao_cau_hoac_thuc_hien_hanh_vi_quan_he_tinh_duc_khac_voi_nguoi_tu_du_13_tuoi_den_duoi_16_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_144_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5312785506248474,
+          "confidence": 0.6612032028436661
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "doi_voi_nguoi_duoi_18_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_145_cua_bo_luat_nay",
+          "counterfactual_event_name": "Đối với người dưới 18 tuổi, nếu không thuộc trường hợp quy định tại Điều 142 và Điều 145 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::doi_voi_nguoi_duoi_18_tuoi_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_142_va_dieu_145_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5248923301696777,
+          "confidence": 0.6576907815933228
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "du_18_tuoi_tro_len_ma_co_hanh_vi_dam_o_doi_voi_nguoi_duoi_16_tuoi_khong_nham_muc_dich_giao_cau_hoac_khong_nham_thuc_hien_cac_hanh_vi_quan_he_tinh_duc_khac",
+          "counterfactual_event_name": "Đủ 18 tuổi trở lên mà có hành vi dâm ô đối với người dưới 16 tuổi không nhằm mục đích giao cấu hoặc không nhằm thực hiện các hành vi quan hệ tình dục khác",
+          "counterfactual_event_node": "EVENT::du_18_tuoi_tro_len_ma_co_hanh_vi_dam_o_doi_voi_nguoi_duoi_16_tuoi_khong_nham_muc_dich_giao_cau_hoac_khong_nham_thuc_hien_cac_hanh_vi_quan_he_tinh_duc_khac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5173249244689941,
+          "confidence": 0.6535287084579469
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "doi_voi_02_nguoi_tro_len_tu_du_13_tuoi_den_duoi_16_tuoi",
+          "counterfactual_event_name": "Đối với 02 người trở lên từ đủ 13 tuổi đến dưới 16 tuổi",
+          "counterfactual_event_node": "EVENT::doi_voi_02_nguoi_tro_len_tu_du_13_tuoi_den_duoi_16_tuoi",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.5080199241638184,
+          "confidence": 0.6484109582901001
+        },
+        {
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "counterfactual_event_id": "su_dung_nguoi_duoi_16_tuoi_vao_viec_pham_toi_hoac_ban_ma_tuy_cho_nguoi_duoi_16_tuoi",
+          "counterfactual_event_name": "Sử dụng người dưới 16 tuổi vào việc phạm tội hoặc bán ma túy cho người dưới 16 tuổi",
+          "counterfactual_event_node": "EVENT::su_dung_nguoi_duoi_16_tuoi_vao_viec_pham_toi_hoac_ban_ma_tuy_cho_nguoi_duoi_16_tuoi",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.48592862486839294,
+          "confidence": 0.6362607436776162
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.36530080071091653,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 23,
+      "seed_event_id": "nguoi_pham_toi_du_70_tuoi_tro_len",
+      "seed_event_name": "Người phạm tội đủ 70 tuổi trở lên",
+      "original_outcome_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_id": "nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_name": "Người phạm tội đủ 70 tuổi trở lên",
+          "counterfactual_event_id": "doi_voi_nguoi_duoi_18_tuoi_phu_nu_ma_biet_la_co_thai_nguoi_du_70_tuoi_tro_len",
+          "counterfactual_event_name": "Đối với người dưới 18 tuổi, phụ nữ mà biết là có thai, người đủ 70 tuổi trở lên",
+          "counterfactual_event_node": "EVENT::doi_voi_nguoi_duoi_18_tuoi_phu_nu_ma_biet_la_co_thai_nguoi_du_70_tuoi_tro_len",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.465322345495224,
+          "confidence": 0.6249272900223732
+        },
+        {
+          "source_event_node": "EVENT::nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_id": "nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_name": "Người phạm tội đủ 70 tuổi trở lên",
+          "counterfactual_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+          "counterfactual_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+          "counterfactual_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4513285160064697,
+          "confidence": 0.6172306838035584
+        },
+        {
+          "source_event_node": "EVENT::nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_id": "nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_name": "Người phạm tội đủ 70 tuổi trở lên",
+          "counterfactual_event_id": "dat_trong_lua_co_dien_tich_70_000_met_vuong_m2_tro_len_dat_rung_dac_dung_rung_phong_ho_rung_san_xuat_co_dien_tich_100_000_met_vuong_m2_tro_len_dat_nong_nghiep_khac_va_dat_phi_nong_nghiep_co_dien_tich_80_000_met_vuong_m2_tro_len",
+          "counterfactual_event_name": "Đất trồng lúa có diện tích 70.000 mét vuông (m2) trở lên; đất rừng đặc dụng, rừng phòng hộ, rừng sản xuất có diện tích 100.000 mét vuông (m2) trở lên; đất nông nghiệp khác và đất phi nông nghiệp có diện tích 80.000 mét vuông (m2) trở lên",
+          "counterfactual_event_node": "EVENT::dat_trong_lua_co_dien_tich_70_000_met_vuong_m2_tro_len_dat_rung_dac_dung_rung_phong_ho_rung_san_xuat_co_dien_tich_100_000_met_vuong_m2_tro_len_dat_nong_nghiep_khac_va_dat_phi_nong_nghiep_co_dien_tich_80_000_met_vuong_m2_tro_len",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.44448554515838623,
+          "confidence": 0.6134670498371124
+        },
+        {
+          "source_event_node": "EVENT::nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_id": "nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_name": "Người phạm tội đủ 70 tuổi trở lên",
+          "counterfactual_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+          "counterfactual_event_name": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+          "counterfactual_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4412945806980133,
+          "confidence": 0.6117120193839074
+        },
+        {
+          "source_event_node": "EVENT::nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_id": "nguoi_pham_toi_du_70_tuoi_tro_len",
+          "source_event_name": "Người phạm tội đủ 70 tuổi trở lên",
+          "counterfactual_event_id": "khai_thac_trai_phep_rung_phong_ho_la_rung_trong_60_met_khoi_m3_tro_len_go_loai_thuc_vat_thong_thuong_hoac_40_met_khoi_m3_tro_len_go_thuoc_danh_muc_thuc_vat_rung_dong_vat_rung_nguy_cap_quy_hiem_nhom_iia",
+          "counterfactual_event_name": "Khai thác trái phép rừng phòng hộ là rừng trồng 60 mét khối (m3) trở lên gỗ loài thực vật thông thường hoặc 40 mét khối (m3) trở lên gỗ thuộc Danh mục thực vật rừng, động vật rừng nguy cấp, quý, hiếm Nhóm IIA",
+          "counterfactual_event_node": "EVENT::khai_thac_trai_phep_rung_phong_ho_la_rung_trong_60_met_khoi_m3_tro_len_go_loai_thuc_vat_thong_thuong_hoac_40_met_khoi_m3_tro_len_go_thuoc_danh_muc_thuc_vat_rung_dong_vat_rung_nguy_cap_quy_hiem_nhom_iia",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43440482020378113,
+          "confidence": 0.6079226511120797
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.47239062190055847,
+          "confidence": 0.6288148420453072
+        },
+        {
+          "source_event_node": "EVENT::co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "counterfactual_event_name": "Không hứa hẹn trước mà che giấu một trong các tội phạm quy định tại các điều sau đây của Bộ luật này, nếu không thuộc trường hợp quy định tại khoản 2 Điều 18 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.45830780267715454,
+          "confidence": 0.621069291472435
+        },
+        {
+          "source_event_node": "EVENT::co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chap_hanh_quy_dinh_ve_tuan_tra_canh_gac_ap_tai_ho_tong_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "counterfactual_event_name": "Không chấp hành quy định về tuần tra, canh gác, áp tải, hộ tống thuộc một trong các trường hợp sau đây",
+          "counterfactual_event_node": "EVENT::khong_chap_hanh_quy_dinh_ve_tuan_tra_canh_gac_ap_tai_ho_tong_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4424823820590973,
+          "confidence": 0.6123653101325035
+        },
+        {
+          "source_event_node": "EVENT::co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+          "counterfactual_event_id": "bat_giu_hoac_giam_nguoi_khac_lam_con_tin_nham_cuong_ep_mot_quoc_gia_vung_lanh_tho_to_chuc_quoc_te_hoac_co_quan_to_chuc_ca_nhan_lam_hoac_khong_lam_mot_viec_nhu_mot_dieu_kien_de_tha_con_tin_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_113_va_dieu_299_cua_bo_luat_nay",
+          "counterfactual_event_name": "Bắt, giữ hoặc giam người khác làm con tin nhằm cưỡng ép một quốc gia, vùng lãnh thổ, tổ chức quốc tế hoặc cơ quan, tổ chức, cá nhân làm hoặc không làm một việc như một điều kiện để thả con tin, nếu không thuộc trường hợp quy định tại Điều 113 và Điều 299 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::bat_giu_hoac_giam_nguoi_khac_lam_con_tin_nham_cuong_ep_mot_quoc_gia_vung_lanh_tho_to_chuc_quoc_te_hoac_co_quan_to_chuc_ca_nhan_lam_hoac_khong_lam_mot_viec_nhu_mot_dieu_kien_de_tha_con_tin_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_113_va_dieu_299_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4415230453014374,
+          "confidence": 0.6118376749157906
+        },
+        {
+          "source_event_node": "EVENT::co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+          "source_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.439831405878067,
+          "confidence": 0.6109072732329368
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.3562318225055933,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 24,
+      "seed_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_12_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "counterfactual_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "counterfactual_event_node": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4800490140914917,
+          "confidence": 0.6330269577503205
+        },
+        {
+          "source_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_id": "khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "counterfactual_event_name": "Không hứa hẹn trước mà che giấu một trong các tội phạm quy định tại các điều sau đây của Bộ luật này, nếu không thuộc trường hợp quy định tại khoản 2 Điều 18 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.47618454694747925,
+          "confidence": 0.6309015008211136
+        },
+        {
+          "source_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_id": "tai_phien_toa_phien_hop_ma_thoa_ma_xuc_pham_nghiem_trong_danh_du_nhan_pham_cua_tham_phan_hoi_tham_nguoi_co_tham_quyen_tien_hanh_to_tung_khac_hoac_nguoi_tham_gia_phien_toa_phien_hop_hoac_co_hanh_vi_dap_pha_tai_san_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_178_cua_bo_luat_nay",
+          "counterfactual_event_name": "Tại phiên tòa, phiên họp mà thóa mạ, xúc phạm nghiêm trọng danh dự, nhân phẩm của Thẩm phán, Hội thẩm, người có thẩm quyền tiến hành tố tụng khác hoặc người tham gia phiên tòa, phiên họp hoặc có hành vi đập phá tài sản, nếu không thuộc trường hợp quy định tại Điều 178 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::tai_phien_toa_phien_hop_ma_thoa_ma_xuc_pham_nghiem_trong_danh_du_nhan_pham_cua_tham_phan_hoi_tham_nguoi_co_tham_quyen_tien_hanh_to_tung_khac_hoac_nguoi_tham_gia_phien_toa_phien_hop_hoac_co_hanh_vi_dap_pha_tai_san_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_178_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.47322380542755127,
+          "confidence": 0.6292730929851532
+        },
+        {
+          "source_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_id": "mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "counterfactual_event_name": "Mua chuộc hoặc cưỡng ép người làm chứng, người bị hại, đương sự trong các vụ án hình sự, hành chính, dân sự khai báo gian dối, cung cấp tài liệu sai sự thật hoặc không khai báo, không cung cấp tài liệu; mua chuộc hoặc cưỡng ép người giám định, người định giá tài sản kết luận gian dối, người phiên dịch, người dịch thuật dịch xuyên tạc",
+          "counterfactual_event_node": "EVENT::mua_chuoc_hoac_cuong_ep_nguoi_lam_chung_nguoi_bi_hai_duong_su_trong_cac_vu_an_hinh_su_hanh_chinh_dan_su_khai_bao_gian_doi_cung_cap_tai_lieu_sai_su_that_hoac_khong_khai_bao_khong_cung_cap_tai_lieu_mua_chuoc_hoac_cuong_ep_nguoi_giam_dinh_nguoi_dinh_gia_tai_san_ket_luan_gian_doi_nguoi_phien_dich_nguoi_dich_thuat_dich_xuyen_tac",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4725792407989502,
+          "confidence": 0.6289185824394226
+        },
+        {
+          "source_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_id": "loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "counterfactual_event_name": "Lợi dụng chức vụ, quyền hạn trực tiếp hoặc qua trung gian nhận hoặc sẽ nhận bất kỳ lợi ích nào sau đây cho chính bản thân người đó hoặc cho người hoặc tổ chức khác để làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "counterfactual_event_node": "EVENT::loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.46876055002212524,
+          "confidence": 0.626818302512169
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [
+        {
+          "start_event_node": "EVENT::loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "start_event_id": "loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "start_event_name": "Lợi dụng chức vụ, quyền hạn trực tiếp hoặc qua trung gian nhận hoặc sẽ nhận bất kỳ lợi ích nào sau đây cho chính bản thân người đó hoặc cho người hoặc tổ chức khác để làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "end_event_node": "EVENT::phat_tu_tu_02_nam_den_07_nam",
+          "end_event_id": "phat_tu_tu_02_nam_den_07_nam",
+          "end_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+          "event_nodes": [
+            "EVENT::loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+            "EVENT::phat_tu_tu_02_nam_den_07_nam"
+          ],
+          "event_ids": [
+            "loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+            "phat_tu_tu_02_nam_den_07_nam"
+          ],
+          "event_names": [
+            "Lợi dụng chức vụ, quyền hạn trực tiếp hoặc qua trung gian nhận hoặc sẽ nhận bất kỳ lợi ích nào sau đây cho chính bản thân người đó hoặc cho người hoặc tổ chức khác để làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+            "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:"
+          ],
+          "rule_ids": [
+            "2463"
+          ],
+          "article_ids": [
+            "354"
+          ],
+          "hop_count": 1,
+          "path_score": 0.5
+        }
+      ],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "source_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "source_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "counterfactual_event_id": "phat_tu_tu_07_nam_den_15_nam",
+          "counterfactual_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+          "counterfactual_event_node": "EVENT::phat_tu_tu_07_nam_den_15_nam",
+          "generation_method": "name_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.7403064966201782,
+          "confidence": 0.7221685731410981
+        },
+        {
+          "source_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "source_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "source_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "counterfactual_event_id": "phat_tu_tu_02_nam_den_07_nam",
+          "counterfactual_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+          "counterfactual_event_node": "EVENT::phat_tu_tu_02_nam_den_07_nam",
+          "generation_method": "name_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.7255355715751648,
+          "confidence": 0.7140445643663407
+        },
+        {
+          "source_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "source_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "source_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "counterfactual_event_id": "phat_tu_tu_03_nam_den_07_nam",
+          "counterfactual_event_name": "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:",
+          "counterfactual_event_node": "EVENT::phat_tu_tu_03_nam_den_07_nam",
+          "generation_method": "name_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.7202026844024658,
+          "confidence": 0.7111114764213562
+        },
+        {
+          "source_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "source_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "source_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "counterfactual_event_id": "phat_tu_tu_12_nam_den_20_nam",
+          "counterfactual_event_name": "Phạt tù từ 12 năm đến 20 năm || Phạt tù từ 12 năm đến 20 năm:",
+          "counterfactual_event_node": "EVENT::phat_tu_tu_12_nam_den_20_nam",
+          "generation_method": "name_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.71112459897995,
+          "confidence": 0.7061185294389725
+        },
+        {
+          "source_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "source_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "source_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "counterfactual_event_id": "so_luong_dong_vat_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_03_ca_the_den_07_ca_the_lop_thu_tu_07_ca_the_den_10_ca_the_lop_chim_bo_sat_hoac_tu_10_ca_the_den_15_ca_the_dong_vat_lop_khac_quy_dinh_tai_diem_a_khoan_1_dieu_nay",
+          "counterfactual_event_name": "Số lượng động vật hoặc bộ phận cơ thể không thể tách rời sự sống của từ 03 cá thể đến 07 cá thể lớp thú, từ 07 cá thể đến 10 cá thể lớp chim, bò sát hoặc từ 10 cá thể đến 15 cá thể động vật lớp khác quy định tại điểm a khoản 1 Điều này",
+          "counterfactual_event_node": "EVENT::so_luong_dong_vat_hoac_bo_phan_co_the_khong_the_tach_roi_su_song_cua_tu_03_ca_the_den_07_ca_the_lop_thu_tu_07_ca_the_den_10_ca_the_lop_chim_bo_sat_hoac_tu_10_ca_the_den_15_ca_the_dong_vat_lop_khac_quy_dinh_tai_diem_a_khoan_1_dieu_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4629071354866028,
+          "confidence": 0.6235989245176315
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6332567394375802,
+      "explanation": "Counterfactual seed dẫn tới opposite outcome và không ưu thế hơn đối với outcome ban đầu."
+    },
+    {
+      "original_path_id": 25,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "original_outcome_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "counterfactual_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "counterfactual_event_node": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43949341773986816,
+          "confidence": 0.6107213797569275
+        },
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43276360630989075,
+          "confidence": 0.60701998347044
+        },
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "counterfactual_event_name": "Không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+          "counterfactual_event_node": "EVENT::khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.43226027488708496,
+          "confidence": 0.6067431511878967
+        },
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "counterfactual_event_name": "Không hứa hẹn trước mà che giấu một trong các tội phạm quy định tại các điều sau đây của Bộ luật này, nếu không thuộc trường hợp quy định tại khoản 2 Điều 18 của Bộ luật này",
+          "counterfactual_event_node": "EVENT::khong_hua_hen_truoc_ma_che_giau_mot_trong_cac_toi_pham_quy_dinh_tai_cac_dieu_sau_day_cua_bo_luat_nay_neu_khong_thuoc_truong_hop_quy_dinh_tai_khoan_2_dieu_18_cua_bo_luat_nay",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4310387670993805,
+          "confidence": 0.6060713219046593
+        },
+        {
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "counterfactual_event_id": "loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "counterfactual_event_name": "Lợi dụng chức vụ, quyền hạn trực tiếp hoặc qua trung gian nhận hoặc sẽ nhận bất kỳ lợi ích nào sau đây cho chính bản thân người đó hoặc cho người hoặc tổ chức khác để làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "counterfactual_event_node": "EVENT::loi_dung_chuc_vu_quyen_han_truc_tiep_hoac_qua_trung_gian_nhan_hoac_se_nhan_bat_ky_loi_ich_nao_sau_day_cho_chinh_ban_than_nguoi_do_hoac_cho_nguoi_hoac_to_chuc_khac_de_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4266483187675476,
+          "confidence": 0.6036565753221512
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    },
+    {
+      "original_path_id": 26,
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "original_outcome_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "original_outcome_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "counterfactual_candidates": [
+        {
+          "source_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "source_event_id": "chiu_trach_nhiem_hinh_su",
+          "source_event_name": "Chịu trách nhiệm hình sự",
+          "counterfactual_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "counterfactual_event_name": "Không chịu trách nhiệm hình sự",
+          "counterfactual_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "generation_method": "id_negation",
+          "mapping_method": "normalized_event_id",
+          "mapping_score": 0.96,
+          "confidence": 0.897
+        }
+      ],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [
+        {
+          "source_event_node": "EVENT::chong_tra_ro_rang_qua_muc_can_thiet",
+          "source_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+          "source_event_name": "Chống trả rõ ràng quá mức cần thiết",
+          "counterfactual_event_id": "khong_chap_hanh_quy_dinh_ve_tuan_tra_canh_gac_ap_tai_ho_tong_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "counterfactual_event_name": "Không chấp hành quy định về tuần tra, canh gác, áp tải, hộ tống thuộc một trong các trường hợp sau đây",
+          "counterfactual_event_node": "EVENT::khong_chap_hanh_quy_dinh_ve_tuan_tra_canh_gac_ap_tai_ho_tong_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.44817429780960083,
+          "confidence": 0.6154958637952805
+        },
+        {
+          "source_event_node": "EVENT::chong_tra_ro_rang_qua_muc_can_thiet",
+          "source_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+          "source_event_name": "Chống trả rõ ràng quá mức cần thiết",
+          "counterfactual_event_id": "chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "counterfactual_event_name": "Chứa chấp, rủ rê, lôi kéo, mua chuộc, kích động, xúi giục, đe dọa, uy hiếp, dùng vũ lực hoặc có hành vi khác ép buộc người dưới 18 tuổi thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "counterfactual_event_node": "EVENT::chua_chap_ru_re_loi_keo_mua_chuoc_kich_dong_xui_giuc_de_doa_uy_hiep_dung_vu_luc_hoac_co_hanh_vi_khac_ep_buoc_nguoi_duoi_18_tuoi_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "generation_method": "id_negation",
+          "mapping_method": "semantic_event_mapping",
+          "mapping_score": 0.4348214268684387,
+          "confidence": 0.6081517847776413
+        }
+      ],
+      "status": "UNRESOLVED",
+      "consistency_score": 0.42425,
+      "explanation": "Không tìm được causal path đủ rõ để kết luận phản thực tế."
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 4,
+      "rule_id": "2586",
+      "article_id": "369",
+      "original_final_score": 0.6029646418094634,
+      "semantic_score": 0.6458461880683899,
+      "graph_score": 0.4998746752738953,
+      "path_support_score": 0.6332567394375802,
+      "counterfactual_support_score": 0.6332567394375802,
+      "verification_score": 0.6144334988975526,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        24
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Evidence đạt ngưỡng xác minh và có causal path được counterfactual support."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "2586",
+        "rule_node_id": "RULE::2586",
+        "article_id": "369",
+        "article_title": "Tội không truy cứu trách nhiệm hình sự người có tội",
+        "legal_subject": "Người phạm tội",
+        "condition": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 07 năm đến 12 năm:",
+        "condition_event": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "condition_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_07_nam_den_12_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 12 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6458461880683899,
+        "graph_score": 0.4998746752738953,
+        "seed_event_score": 0.5804430246353149,
+        "direct_rule_score": 0.6458461284637451,
+        "final_score": 0.6029646418094634,
+        "matched_seed_events": [
+          "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          24
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [
+    {
+      "original_rank": 2,
+      "rule_id": "26",
+      "article_id": "12",
+      "original_final_score": 0.6285383407592774,
+      "semantic_score": 0.6739784479141235,
+      "graph_score": 0.5173330473899842,
+      "path_support_score": 0.42425,
+      "counterfactual_support_score": 0.42425,
+      "verification_score": 0.4890889771652222,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        5
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "1 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "26",
+        "rule_node_id": "RULE::26",
+        "article_id": "12",
+        "article_title": "Tuổi chịu trách nhiệm hình sự",
+        "legal_subject": "Người từ đủ 16 tuổi trở lên",
+        "condition": "thực hiện tội phạm",
+        "effect": "phải chịu trách nhiệm hình sự về mọi tội phạm, trừ trường hợp luật quy định khác",
+        "condition_event": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+        "condition_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.6739784479141235,
+        "graph_score": 0.5173330473899842,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.6739784479141235,
+        "final_score": 0.6285383407592774,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          5
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "30",
+      "article_id": "14",
+      "original_final_score": 0.5999825851440429,
+      "semantic_score": 0.6293600797653198,
+      "graph_score": 0.5173330473899842,
+      "path_support_score": 0.42425,
+      "counterfactual_support_score": 0.42425,
+      "verification_score": 0.48016530353546144,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        8
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "1 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "30",
+        "rule_node_id": "RULE::30",
+        "article_id": "14",
+        "article_title": "Chuẩn bị phạm tội[7]",
+        "legal_subject": "Người chuẩn bị phạm tội",
+        "condition": "chuẩn bị phạm một trong các tội được liệt kê tại khoản 2 Điều 14",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+        "condition_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.6293600797653198,
+        "graph_score": 0.5173330473899842,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.6293600797653198,
+        "final_score": 0.5999825851440429,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          8
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "41",
+      "article_id": "19",
+      "original_final_score": 0.5504294697761536,
+      "semantic_score": 0.6090298891067505,
+      "graph_score": 0.5173330473899842,
+      "path_support_score": 0.42425,
+      "counterfactual_support_score": 0.42425,
+      "verification_score": 0.4760992654037476,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        12
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "1 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "41",
+        "rule_node_id": "RULE::41",
+        "article_id": "19",
+        "article_title": "Không tố giác tội phạm[8]",
+        "legal_subject": "Người biết rõ tội phạm",
+        "condition": "biết tội phạm đang chuẩn bị, đang thực hiện hoặc đã thực hiện mà không tố giác",
+        "effect": "phải chịu trách nhiệm hình sự về tội không tố giác tội phạm",
+        "condition_event": "biet_ro_toi_pham_nhung_khong_to_giac",
+        "condition_event_name": "Biết rõ tội phạm nhưng không tố giác",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.6090298891067505,
+        "graph_score": 0.5173330473899842,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5504294697761536,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          12
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "32",
+      "article_id": "15",
+      "original_final_score": 0.6400865107059479,
+      "semantic_score": 0.6865041851997375,
+      "graph_score": 0.5254790854454041,
+      "path_support_score": 0.39263333333333333,
+      "counterfactual_support_score": 0.39263333333333333,
+      "verification_score": 0.47266282404454557,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        1,
+        9,
+        25
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "3 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "32",
+        "rule_node_id": "RULE::32",
+        "article_id": "15",
+        "article_title": "Phạm tội chưa đạt",
+        "legal_subject": "Người phạm tội",
+        "condition": "phạm tội chưa đạt",
+        "effect": "phải chịu trách nhiệm hình sự về tội phạm chưa đạt",
+        "condition_event": "pham_toi_chua_dat",
+        "condition_event_name": "Phạm tội chưa đạt",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.6865041851997375,
+        "graph_score": 0.5254790854454041,
+        "seed_event_score": 0.621740460395813,
+        "direct_rule_score": 0.6865041255950928,
+        "final_score": 0.6400865107059479,
+        "matched_seed_events": [
+          "Phạm tội chưa đạt",
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          1,
+          9,
+          25
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "207",
+      "article_id": "76",
+      "original_final_score": 0.5533506456619719,
+      "semantic_score": 0.5801789164543152,
+      "graph_score": 0.599227797490946,
+      "path_support_score": 0.40365,
+      "counterfactual_support_score": 0.40365,
+      "verification_score": 0.4702482308894144,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        0
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "1 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "207",
+        "rule_node_id": "RULE::207",
+        "article_id": "76",
+        "article_title": "Phạm vi chịu trách nhiệm hình sự của pháp nhân thương mại[30]",
+        "legal_subject": "Pháp nhân thương mại",
+        "condition": "phạm một trong các tội thuộc phạm vi Điều 76",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+        "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "LIABILITY",
+        "semantic_score": 0.5801789164543152,
+        "graph_score": 0.599227797490946,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5533506456619719,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "27",
+      "article_id": "12",
+      "original_final_score": 0.6246574966430664,
+      "semantic_score": 0.667914628982544,
+      "graph_score": 0.5173330473899842,
+      "path_support_score": 0.3947754003554583,
+      "counterfactual_support_score": 0.3947754003554583,
+      "verification_score": 0.4690124696063996,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        6,
+        22
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "2 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "27",
+        "rule_node_id": "RULE::27",
+        "article_id": "12",
+        "article_title": "Tuổi chịu trách nhiệm hình sự",
+        "legal_subject": "Người từ đủ 14 đến dưới 16 tuổi",
+        "condition": "thực hiện tội phạm rất nghiêm trọng hoặc đặc biệt nghiêm trọng thuộc danh mục luật định",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+        "condition_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.667914628982544,
+        "graph_score": 0.5173330473899842,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.667914628982544,
+        "final_score": 0.6246574966430664,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự",
+          "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục"
+        ],
+        "path_ids": [
+          6,
+          22
+        ]
+      }
+    },
+    {
+      "original_rank": 12,
+      "rule_id": "2",
+      "article_id": "2",
+      "original_final_score": 0.5455689553028562,
+      "semantic_score": 0.5667622089385986,
+      "graph_score": 0.599227797490946,
+      "path_support_score": 0.40365,
+      "counterfactual_support_score": 0.40365,
+      "verification_score": 0.4675648893862711,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        0
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "1 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 12,
+        "rule_id": "2",
+        "rule_node_id": "RULE::2",
+        "article_id": "2",
+        "article_title": "Cơ sở của trách nhiệm hình sự",
+        "legal_subject": "Pháp nhân thương mại",
+        "condition": "phạm một tội được quy định tại Điều 76 Bộ luật Hình sự",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+        "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.5667622089385986,
+        "graph_score": 0.599227797490946,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5455689553028562,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "31",
+      "article_id": "15",
+      "original_final_score": 0.5645160882949829,
+      "semantic_score": 0.6272280216217041,
+      "graph_score": 0.5254790854454041,
+      "path_support_score": 0.387125,
+      "counterfactual_support_score": 0.387125,
+      "verification_score": 0.45728225799560546,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        2,
+        25
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "2 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "31",
+        "rule_node_id": "RULE::31",
+        "article_id": "15",
+        "article_title": "Phạm tội chưa đạt",
+        "legal_subject": "Người phạm tội",
+        "condition": "cố ý thực hiện tội phạm nhưng không thực hiện được đến cùng vì nguyên nhân ngoài ý muốn",
+        "effect": "được xác định là phạm tội chưa đạt",
+        "condition_event": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "condition_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "effect_event": "pham_toi_chua_dat",
+        "effect_event_name": "Phạm tội chưa đạt",
+        "causal_type": "",
+        "semantic_score": 0.6272280216217041,
+        "graph_score": 0.5254790854454041,
+        "seed_event_score": 0.621740460395813,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5645160882949829,
+        "matched_seed_events": [
+          "Phạm tội chưa đạt",
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          2,
+          25
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "158",
+      "article_id": "57",
+      "original_final_score": 0.5569595290184021,
+      "semantic_score": 0.6149009466171265,
+      "graph_score": 0.5245406532287598,
+      "path_support_score": 0.35459856694936753,
+      "counterfactual_support_score": 0.35459856694936753,
+      "verification_score": 0.4338497766876221,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        3
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "1 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "158",
+        "rule_node_id": "RULE::158",
+        "article_id": "57",
+        "article_title": "Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt",
+        "legal_subject": "Tòa án",
+        "condition": "người phạm tội chưa đạt và khung hình phạt là tù có thời hạn",
+        "effect": "áp dụng mức phạt không quá ba phần tư mức luật định",
+        "condition_event": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "condition_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+        "effect_event": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+        "effect_event_name": "Áp dụng không quá ba phần tư mức phạt",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6149009466171265,
+        "graph_score": 0.5245406532287598,
+        "seed_event_score": 0.6202268600463867,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5569595290184021,
+        "matched_seed_events": [
+          "Phạm tội chưa đạt có khung tù có thời hạn"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "157",
+      "article_id": "57",
+      "original_final_score": 0.5498091909885406,
+      "semantic_score": 0.6104941964149475,
+      "graph_score": 0.5139433979988098,
+      "path_support_score": 0.35524307607114314,
+      "counterfactual_support_score": 0.35524307607114314,
+      "verification_score": 0.43168535164833066,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        20
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "1 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "157",
+        "rule_node_id": "RULE::157",
+        "article_id": "57",
+        "article_title": "Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt",
+        "legal_subject": "Tòa án",
+        "condition": "người phạm tội chưa đạt và khung cao nhất là tù chung thân hoặc tử hình",
+        "effect": "áp dụng hình phạt tù không quá 20 năm",
+        "condition_event": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+        "condition_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+        "effect_event": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+        "effect_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6104941964149475,
+        "graph_score": 0.5139433979988098,
+        "seed_event_score": 0.6031345129013062,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5498091909885406,
+        "matched_seed_events": [
+          "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình"
+        ],
+        "path_ids": [
+          20
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "117",
+      "article_id": "51",
+      "original_final_score": 0.5474031946182251,
+      "semantic_score": 0.6145975589752197,
+      "graph_score": 0.5029043841362,
+      "path_support_score": 0.3562318225055933,
+      "counterfactual_support_score": 0.3562318225055933,
+      "verification_score": 0.43137257966041564,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [
+        23
+      ],
+      "reasons": [
+        "Evidence chưa đủ mạnh để giữ nhưng cũng chưa đủ bằng chứng để loại.",
+        "1 path chưa xác định được phản thực tế."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "117",
+        "rule_node_id": "RULE::117",
+        "article_id": "51",
+        "article_title": "Các tình tiết giảm nhẹ trách nhiệm hình sự",
+        "legal_subject": "Tòa án",
+        "condition": "người phạm tội là người đủ 70 tuổi trở lên",
+        "effect": "xác định đây là tình tiết giảm nhẹ trách nhiệm hình sự",
+        "condition_event": "nguoi_pham_toi_du_70_tuoi_tro_len",
+        "condition_event_name": "Người phạm tội đủ 70 tuổi trở lên",
+        "effect_event": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+        "effect_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+        "causal_type": "MITIGATION",
+        "semantic_score": 0.6145975589752197,
+        "graph_score": 0.5029043841362,
+        "seed_event_score": 0.5853296518325806,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5474031946182251,
+        "matched_seed_events": [
+          "Người phạm tội đủ 70 tuổi trở lên"
+        ],
+        "path_ids": [
+          23
+        ]
+      }
+    }
+  ],
+  "removed_evidence": [],
+  "consistency_score": 0.41181884963843557,
+  "confidence": 0.2389596792988954
+}
