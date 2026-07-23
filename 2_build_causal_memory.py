@@ -18,7 +18,7 @@ from sentence_transformers import SentenceTransformer
 # CONFIG
 # ============================================================
 
-INPUT_PATH = "data/4_blhs_merged.json"
+INPUT_PATH = "data/blhs_rules_final_all_normalized.json"
 GRAPH_PATH = "data/legal_causal_knowledge_graph.graphml"
 
 MEMORY_OUTPUT_PATH = "data/causal_memory.csv"
@@ -92,33 +92,80 @@ def make_rule_node_id(rule_id: str) -> str:
     return f"RULE::{rule_id}"
 
 
-def make_event_node_id(event_norm: str) -> str:
-    return f"EVENT::{event_norm}"
+def make_event_node_id(event_id: str) -> str:
+    return f"EVENT::{event_id}"
 
 
-def build_embedding_text(
+def build_rule_embedding_text(
     *,
     article_id: str,
     legal_subject: str,
     condition: str,
     effect: str,
-    condition_norm: str,
-    effect_norm: str,
+    condition_event: str,
+    condition_event_name: str,
+    condition_event_modality: str,
+    effect_event: str,
+    effect_event_name: str,
+    effect_event_modality: str,
     article_title: str,
+    causal_type: str,
+    rule_text: str,
 ) -> str:
-    """Văn bản embedding của một causal rule.
+    """Tạo văn bản embedding cho một rule pháp lý."""
 
-    Memory vẫn được xây theo RULE. Hai trường *_event_id cho phép
-    retriever chuyển từ kết quả semantic search sang graph EVENT mới.
-    """
+    parts = [
+        "Loại bộ nhớ: Quy tắc pháp lý",
+        f"Chủ thể pháp lý: {legal_subject}",
+        f"Điều kiện pháp lý: {condition}",
+        f"Hệ quả pháp lý: {effect}",
+        f"Sự kiện điều kiện: {condition_event_name}",
+        f"Mã sự kiện điều kiện: {condition_event}",
+        f"Tình thái điều kiện: {condition_event_modality}",
+        f"Sự kiện hệ quả: {effect_event_name}",
+        f"Mã sự kiện hệ quả: {effect_event}",
+        f"Tình thái hệ quả: {effect_event_modality}",
+        f"Loại quan hệ nhân quả: {causal_type}",
+        f"Điều luật: Điều {article_id}. {article_title}",
+    ]
+
+    if rule_text:
+        parts.append(f"Diễn đạt quy tắc: {rule_text}")
+
+    return "\n".join(parts)
+
+
+def build_event_embedding_text(
+    *,
+    event_id: str,
+    event_name: str,
+    event_role: str,
+    event_texts: str,
+    condition_texts: str,
+    effect_texts: str,
+    condition_count: int,
+    effect_count: int,
+    article_ids: str,
+) -> str:
+    """Tạo văn bản embedding cho một EVENT node trong causal graph."""
+
+    role_label = {
+        "CONDITION": "Sự kiện điều kiện",
+        "EFFECT": "Sự kiện hệ quả",
+        "BRIDGE": "Sự kiện cầu nối",
+    }.get(event_role, "Sự kiện pháp lý")
 
     return (
-        f"Chủ thể pháp lý:\n{legal_subject}\n\n"
-        f"Điều kiện pháp lý:\n{condition}\n\n"
-        f"Hệ quả pháp lý:\n{effect}\n\n"
-        f"Điều luật:\nĐiều {article_id}. {article_title}\n\n"
-        f"Sự kiện điều kiện chuẩn hóa:\n{condition_norm}\n\n"
-        f"Sự kiện hệ quả chuẩn hóa:\n{effect_norm}"
+        f"Loại bộ nhớ: {role_label}\n"
+        f"Tên sự kiện: {event_name}\n"
+        f"Mã sự kiện: {event_id}\n"
+        f"Vai trò trong đồ thị: {event_role}\n"
+        f"Các cách diễn đạt: {event_texts}\n"
+        f"Ngữ cảnh điều kiện: {condition_texts}\n"
+        f"Ngữ cảnh hệ quả: {effect_texts}\n"
+        f"Số lần làm điều kiện: {condition_count}\n"
+        f"Số lần làm hệ quả: {effect_count}\n"
+        f"Các điều luật liên quan: {article_ids}"
     )
 
 
@@ -150,8 +197,8 @@ def validate_dataframe(df: pd.DataFrame) -> None:
         "legal_subject",
         "condition",
         "effect",
-        "condition_norm",
-        "effect_norm",
+        "condition_event",
+        "effect_event",
         "article_title",
         "content",
     }
@@ -164,37 +211,49 @@ def validate_dataframe(df: pd.DataFrame) -> None:
             f"{sorted(missing_columns)}"
         )
 
+    optional_columns = {
+        "condition_event_name": "",
+        "effect_event_name": "",
+        "condition_event_original": "",
+        "effect_event_original": "",
+        "condition_event_modality": "",
+        "effect_event_modality": "",
+        "event_normalization_version": "",
+        "causal_type": "",
+        "rule_text": "",
+        "quality_status": "",
+        "source_scope": "",
+    }
+
+    for column_name, default_value in optional_columns.items():
+        if column_name not in df.columns:
+            df[column_name] = default_value
+
 
 # ============================================================
 # BUILD RULE MEMORY
 # ============================================================
 
-def build_memory_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """Tạo một memory record cho mỗi RULE hợp lệ.
-
-    Quan trọng:
-    - Không tạo memory riêng cho CONDITION/EFFECT cũ.
-    - condition_event_id và effect_event_id trỏ thẳng tới EVENT node.
-    - Cách xử lý rule_id trùng được giữ giống file build graph.
-    """
+def build_rule_memory_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    """Tạo một memory record cho mỗi RULE hợp lệ."""
 
     records: list[dict[str, Any]] = []
     duplicate_rule_counts: defaultdict[str, int] = defaultdict(int)
     skipped_rows = 0
 
     for row_position, row in df.iterrows():
-        condition_norm = normalize_identifier(
-            row.get("condition_norm")
+        condition_event = safe_string(
+            row.get("condition_event")
         )
-        effect_norm = normalize_identifier(
-            row.get("effect_norm")
+        effect_event = safe_string(
+            row.get("effect_event")
         )
 
-        if not condition_norm or not effect_norm:
+        if not condition_event or not effect_event:
             skipped_rows += 1
             print(
                 f"Skip row {row_position}: "
-                "condition_norm/effect_norm bị thiếu"
+                "condition_event/effect_event bị thiếu"
             )
             continue
 
@@ -225,27 +284,61 @@ def build_memory_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         )
         content = safe_string(row.get("content"))
         causal_type = safe_string(row.get("causal_type"))
+        rule_text = safe_string(row.get("rule_text"))
+
+        condition_event_name = (
+            safe_string(row.get("condition_event_name"))
+            or condition_event
+        )
+        effect_event_name = (
+            safe_string(row.get("effect_event_name"))
+            or effect_event
+        )
+
+        condition_event_original = (
+            safe_string(row.get("condition_event_original"))
+            or condition_event
+        )
+        effect_event_original = (
+            safe_string(row.get("effect_event_original"))
+            or effect_event
+        )
+
+        condition_event_modality = safe_string(
+            row.get("condition_event_modality")
+        )
+        effect_event_modality = safe_string(
+            row.get("effect_event_modality")
+        )
 
         condition_event_id = make_event_node_id(
-            condition_norm
+            condition_event
         )
-        effect_event_id = make_event_node_id(effect_norm)
+        effect_event_id = make_event_node_id(
+            effect_event
+        )
         rule_node_id = make_rule_node_id(rule_id)
 
-        embedding_text = build_embedding_text(
+        embedding_text = build_rule_embedding_text(
             article_id=article_id,
             legal_subject=legal_subject,
             condition=condition,
             effect=effect,
-            condition_norm=condition_norm,
-            effect_norm=effect_norm,
+            condition_event=condition_event,
+            condition_event_name=condition_event_name,
+            condition_event_modality=condition_event_modality,
+            effect_event=effect_event,
+            effect_event_name=effect_event_name,
+            effect_event_modality=effect_event_modality,
             article_title=article_title,
+            causal_type=causal_type,
+            rule_text=rule_text,
         )
 
         records.append({
-            # FAISS position is the DataFrame row after reset_index.
-            "memory_id": len(records),
+            "memory_id": -1,
             "memory_type": "RULE",
+            "graph_node_id": rule_node_id,
             "rule_id": rule_id,
             "rule_node_id": rule_node_id,
             "source_row_id": int(row_position),
@@ -256,74 +349,271 @@ def build_memory_dataframe(df: pd.DataFrame) -> pd.DataFrame:
             ),
             "condition": condition,
             "effect": effect,
-            "condition_norm": condition_norm,
-            "effect_norm": effect_norm,
+            "condition_event": condition_event,
+            "effect_event": effect_event,
+            "condition_event_name": condition_event_name,
+            "effect_event_name": effect_event_name,
+            "condition_event_original": condition_event_original,
+            "effect_event_original": effect_event_original,
+            "condition_event_modality": condition_event_modality,
+            "effect_event_modality": effect_event_modality,
+            "event_normalization_version": safe_string(
+                row.get("event_normalization_version")
+            ),
             "condition_event_id": condition_event_id,
             "effect_event_id": effect_event_id,
             "article_title": article_title,
             "content": content,
             "causal_type": causal_type,
+            "rule_text": rule_text,
+            "quality_status": safe_string(
+                row.get("quality_status")
+            ),
+            "source_scope": safe_string(
+                row.get("source_scope")
+            ),
+            "event_role": "",
+            "event_id": "",
+            "event_name": "",
+            "is_bridge_event": False,
+            "condition_count": 0,
+            "effect_count": 0,
+            "rule_ids": rule_id,
+            "article_ids": article_id,
             "embedding_text": embedding_text,
         })
 
-    memory_df = pd.DataFrame(records).reset_index(drop=True)
+    memory_df = pd.DataFrame(records)
 
     if memory_df.empty:
         raise ValueError(
-            "Không có rule hợp lệ để tạo causal memory."
+            "Không có rule hợp lệ để tạo rule memory."
         )
-
-    # Đảm bảo memory_id luôn đúng bằng vị trí vector trong FAISS.
-    memory_df["memory_id"] = np.arange(
-        len(memory_df),
-        dtype=np.int64,
-    )
 
     if memory_df["rule_id"].duplicated().any():
         raise ValueError(
             "rule_id vẫn bị trùng sau khi chuẩn hóa."
         )
 
-    print("Skipped rows:", skipped_rows)
+    print("Skipped rule rows:", skipped_rows)
     return memory_df
 
 
 # ============================================================
-# GRAPH CONSISTENCY CHECK
+# BUILD EVENT MEMORY
 # ============================================================
 
-def validate_memory_against_graph(
-    memory_df: pd.DataFrame,
-    graph_path: str,
-) -> None:
-    """Kiểm tra metadata memory có trỏ đúng node trong GraphML mới."""
-
+def load_graph(graph_path: str) -> nx.Graph:
     path = Path(graph_path)
 
     if not path.exists():
         raise FileNotFoundError(
-            f"Không tìm thấy GraphML để kiểm tra: {path}"
+            f"Không tìm thấy GraphML: {path}"
         )
 
-    print(f"Reading graph for validation: {path}")
-    graph = nx.read_graphml(path)
+    print(f"Reading graph: {path}")
+    return nx.read_graphml(path)
+
+
+def to_int(value: Any, default: int = 0) -> int:
+    text = safe_string(value)
+    try:
+        return int(float(text))
+    except (TypeError, ValueError):
+        return default
+
+
+def to_bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+
+    return safe_string(value).lower() in {
+        "true", "1", "yes", "y"
+    }
+
+
+def build_event_memory_dataframe(
+    graph: nx.Graph,
+) -> pd.DataFrame:
+    """Tạo memory record cho từng EVENT node trong causal graph."""
+
+    records: list[dict[str, Any]] = []
+
+    for node_id, data in graph.nodes(data=True):
+        if safe_string(data.get("node_type")) != "EVENT":
+            continue
+
+        event_id = (
+            safe_string(data.get("event_id"))
+            or safe_string(node_id).removeprefix("EVENT::")
+        )
+        event_name = (
+            safe_string(data.get("event_name"))
+            or safe_string(data.get("label"))
+            or event_id
+        )
+
+        is_condition = to_bool(data.get("is_condition"))
+        is_effect = to_bool(data.get("is_effect"))
+
+        if is_condition and is_effect:
+            event_role = "BRIDGE"
+        elif is_condition:
+            event_role = "CONDITION"
+        elif is_effect:
+            event_role = "EFFECT"
+        else:
+            event_role = "EVENT"
+
+        condition_count = to_int(
+            data.get("condition_count")
+        )
+        effect_count = to_int(
+            data.get("effect_count")
+        )
+
+        texts = safe_string(data.get("texts"))
+        condition_texts = safe_string(
+            data.get("condition_texts")
+        )
+        effect_texts = safe_string(
+            data.get("effect_texts")
+        )
+        rule_ids = safe_string(data.get("rule_ids"))
+        article_ids = safe_string(
+            data.get("article_ids")
+        )
+
+        embedding_text = build_event_embedding_text(
+            event_id=event_id,
+            event_name=event_name,
+            event_role=event_role,
+            event_texts=texts,
+            condition_texts=condition_texts,
+            effect_texts=effect_texts,
+            condition_count=condition_count,
+            effect_count=effect_count,
+            article_ids=article_ids,
+        )
+
+        records.append({
+            "memory_id": -1,
+            "memory_type": "EVENT",
+            "graph_node_id": safe_string(node_id),
+            "rule_id": "",
+            "rule_node_id": "",
+            "source_row_id": -1,
+            "article_id": "",
+            "legal_subject": "",
+            "subject_norm": "",
+            "condition": "",
+            "effect": "",
+            "condition_event": "",
+            "effect_event": "",
+            "condition_event_name": "",
+            "effect_event_name": "",
+            "condition_event_original": "",
+            "effect_event_original": "",
+            "condition_event_modality": "",
+            "effect_event_modality": "",
+            "event_normalization_version": "",
+            "condition_event_id": "",
+            "effect_event_id": "",
+            "article_title": "",
+            "content": "",
+            "causal_type": "",
+            "rule_text": "",
+            "quality_status": "",
+            "source_scope": "",
+            "event_role": event_role,
+            "event_id": event_id,
+            "event_name": event_name,
+            "is_bridge_event": event_role == "BRIDGE",
+            "condition_count": condition_count,
+            "effect_count": effect_count,
+            "rule_ids": rule_ids,
+            "article_ids": article_ids,
+            "embedding_text": embedding_text,
+        })
+
+    event_df = pd.DataFrame(records)
+
+    if event_df.empty:
+        raise ValueError(
+            "Không tìm thấy EVENT node để tạo event memory."
+        )
+
+    if event_df["graph_node_id"].duplicated().any():
+        raise ValueError(
+            "graph_node_id của event memory bị trùng."
+        )
+
+    return event_df
+
+
+# ============================================================
+# COMBINE + GRAPH CONSISTENCY CHECK
+# ============================================================
+
+def combine_memory_dataframes(
+    rule_df: pd.DataFrame,
+    event_df: pd.DataFrame,
+) -> pd.DataFrame:
+    """Hợp nhất RULE memory và EVENT memory vào một FAISS index."""
+
+    all_columns = sorted(
+        set(rule_df.columns) | set(event_df.columns)
+    )
+
+    rule_df = rule_df.reindex(columns=all_columns)
+    event_df = event_df.reindex(columns=all_columns)
+
+    memory_df = pd.concat(
+        [rule_df, event_df],
+        ignore_index=True,
+    )
+
+    memory_df["memory_id"] = np.arange(
+        len(memory_df),
+        dtype=np.int64,
+    )
+
+    if memory_df["graph_node_id"].isna().any():
+        raise ValueError(
+            "Có graph_node_id bị thiếu trong causal memory."
+        )
+
+    return memory_df
+
+
+def validate_memory_against_graph(
+    memory_df: pd.DataFrame,
+    graph: nx.Graph,
+) -> None:
+    """Kiểm tra mọi graph_node_id và event reference trong memory."""
+
     graph_nodes = set(graph.nodes)
 
-    missing_rule_nodes = sorted(
-        set(memory_df["rule_node_id"]) - graph_nodes
-    )
-    missing_condition_events = sorted(
-        set(memory_df["condition_event_id"]) - graph_nodes
-    )
-    missing_effect_events = sorted(
-        set(memory_df["effect_event_id"]) - graph_nodes
+    missing_graph_nodes = sorted(
+        set(memory_df["graph_node_id"]) - graph_nodes
     )
 
-    if missing_rule_nodes:
+    if missing_graph_nodes:
         raise ValueError(
-            "Có rule_node_id không tồn tại trong GraphML. "
-            f"Ví dụ: {missing_rule_nodes[:10]}"
+            "Có graph_node_id không tồn tại trong GraphML. "
+            f"Ví dụ: {missing_graph_nodes[:10]}"
         )
+
+    rule_df = memory_df[
+        memory_df["memory_type"] == "RULE"
+    ]
+
+    missing_condition_events = sorted(
+        set(rule_df["condition_event_id"]) - graph_nodes
+    )
+    missing_effect_events = sorted(
+        set(rule_df["effect_event_id"]) - graph_nodes
+    )
 
     if missing_condition_events:
         raise ValueError(
@@ -337,29 +627,31 @@ def validate_memory_against_graph(
             f"Ví dụ: {missing_effect_events[:10]}"
         )
 
-    invalid_node_types: list[str] = []
+    invalid_event_nodes = []
 
-    for event_id in set(
-        memory_df["condition_event_id"]
-    ).union(memory_df["effect_event_id"]):
-        if graph.nodes[event_id].get("node_type") != "EVENT":
-            invalid_node_types.append(event_id)
+    event_node_ids = set(
+        rule_df["condition_event_id"]
+    ).union(rule_df["effect_event_id"])
 
-    if invalid_node_types:
+    for event_node_id in event_node_ids:
+        if graph.nodes[event_node_id].get("node_type") != "EVENT":
+            invalid_event_nodes.append(event_node_id)
+
+    if invalid_event_nodes:
         raise ValueError(
-            "Một số *_event_id không phải EVENT node: "
-            f"{invalid_node_types[:10]}"
+            "Một số event reference không phải EVENT node: "
+            f"{invalid_event_nodes[:10]}"
         )
 
     print("Graph consistency check: OK")
-    print("- Rule nodes matched:", len(memory_df))
+    print("- Rule memories:", len(rule_df))
     print(
-        "- Unique condition events:",
-        memory_df["condition_event_id"].nunique(),
+        "- Event memories:",
+        int((memory_df["memory_type"] == "EVENT").sum()),
     )
     print(
-        "- Unique effect events:",
-        memory_df["effect_event_id"].nunique(),
+        "- Bridge event memories:",
+        int(memory_df["is_bridge_event"].fillna(False).sum()),
     )
 
 
@@ -375,8 +667,8 @@ def build_faiss_index(
     print(f"Loading model: {model_name}")
     model = SentenceTransformer(model_name)
 
-    texts = memory_df["embedding_text"].tolist()
-    print(f"Encoding {len(texts)} rules...")
+    texts = memory_df["embedding_text"].fillna("").tolist()
+    print(f"Encoding {len(texts)} memory records...")
 
     embeddings = model.encode(
         texts,
@@ -407,7 +699,6 @@ def build_faiss_index(
     print("Embedding shape:", embeddings.shape)
     print("Embedding dimension:", dimension)
 
-    # Vector đã normalize + inner product = cosine similarity.
     index = faiss.IndexFlatIP(dimension)
     index.add(embeddings)
 
@@ -465,6 +756,25 @@ def verify_outputs(
 
     print("\nVerification:")
     print("Memory rows:", len(memory_df))
+    print(
+        "Rule memories:",
+        int((memory_df["memory_type"] == "RULE").sum()),
+    )
+    print(
+        "Event memories:",
+        int((memory_df["memory_type"] == "EVENT").sum()),
+    )
+    print(
+        "Bridge events:",
+        int(
+            memory_df["is_bridge_event"]
+            .fillna(False)
+            .astype(str)
+            .str.lower()
+            .isin(["true", "1"])
+            .sum()
+        ),
+    )
     print("FAISS vectors:", index.ntotal)
     print("FAISS dimension:", index.d)
     print("Embeddings shape:", embeddings.shape)
@@ -501,8 +811,9 @@ def verify_outputs(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Tạo rule-level causal memory và FAISS index, "
-            "liên kết với EVENT nodes trong legal causal graph."
+            "Tạo combined causal memory gồm RULE và EVENT, "
+            "sau đó xây một FAISS index dùng cho semantic retrieval "
+            "và graph expansion."
         )
     )
 
@@ -542,9 +853,14 @@ def parse_args() -> argparse.Namespace:
         default=BATCH_SIZE,
     )
     parser.add_argument(
+        "--rule-only",
+        action="store_true",
+        help="Chỉ tạo RULE memory, không thêm EVENT memory.",
+    )
+    parser.add_argument(
         "--skip-graph-validation",
         action="store_true",
-        help="Bỏ qua kiểm tra ID memory với GraphML.",
+        help="Bỏ qua kiểm tra memory với GraphML.",
     )
 
     return parser.parse_args()
@@ -565,13 +881,35 @@ def main() -> None:
     validate_dataframe(df)
     print("Input rows:", len(df))
 
-    memory_df = build_memory_dataframe(df)
-    print("Valid memory rows:", len(memory_df))
+    rule_df = build_rule_memory_dataframe(df)
+    print("Rule memory rows:", len(rule_df))
+
+    graph = load_graph(args.graph)
+
+    if args.rule_only:
+        memory_df = rule_df.copy()
+        memory_df["memory_id"] = np.arange(
+            len(memory_df),
+            dtype=np.int64,
+        )
+    else:
+        event_df = build_event_memory_dataframe(graph)
+        print("Event memory rows:", len(event_df))
+        print(
+            "Bridge event rows:",
+            int(event_df["is_bridge_event"].sum()),
+        )
+        memory_df = combine_memory_dataframes(
+            rule_df=rule_df,
+            event_df=event_df,
+        )
+
+    print("Total memory rows:", len(memory_df))
 
     if not args.skip_graph_validation:
         validate_memory_against_graph(
             memory_df=memory_df,
-            graph_path=args.graph,
+            graph=graph,
         )
 
     index, embeddings = build_faiss_index(
