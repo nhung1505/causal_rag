@@ -47,6 +47,27 @@ python 4_counterfactual_verification.py \
   --reject-threshold 0.34
 
 
+rm -f data/pipeline_predictions.json
+rm -f data/pipeline_predictions.jsonl
+rm -f data/pipeline_errors.json
+rm -f data/pipeline_run_log.json
+rm -rf data/pipeline_intermediate
+
+python 5_5_generate_pipeline_predictions.py \
+  --benchmark data/blhs_multihop_benchmark_250.json \
+  --verifier-script 4_counterfactual_verification.py \
+  --provider extractive \
+  --disable-semantic-mapping \
+  --limit 5
+
+  python 5_5_generate_pipeline_predictions.py \
+  --benchmark data/blhs_multihop_benchmark_250.json \
+  --provider ollama \
+  --answer-model qwen3:8b \
+  --disable-semantic-mapping \
+  --resume
+
+
   python 6_run_evaluation_pipeline.py \
   --benchmark data/blhs_multihop_benchmark_250.json \
   --oracle \
