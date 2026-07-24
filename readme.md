@@ -45,3 +45,14 @@ python 4_counterfactual_verification.py \
   --mapping-threshold 0.42 \
   --keep-threshold 0.52 \
   --reject-threshold 0.34
+
+
+  python 6_run_evaluation_pipeline.py \
+  --benchmark data/blhs_multihop_benchmark_250.json \
+  --oracle \
+  --output-dir evaluation_results_oracle
+
+  python 6_run_evaluation_pipeline.py \
+  --benchmark data/blhs_multihop_benchmark_250.json \
+  --predictions data/pipeline_predictions.json \
+  --output-dir evaluation_results
