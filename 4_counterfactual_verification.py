@@ -3,8 +3,6 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import re
-import unicodedata
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Iterable, Optional
@@ -13,11 +11,6 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
-try:
-    from sentence_transformers import SentenceTransformer
-except ImportError:
-    SentenceTransformer = None
-
 
 # ============================================================
 # DEFAULT CONFIGURATION
@@ -25,50 +18,50 @@ except ImportError:
 
 GRAPH_PATH = "data/legal_causal_knowledge_graph.graphml"
 MEMORY_PATH = "data/causal_memory.csv"
-EMBEDDINGS_PATH = "data/causal_memory_embeddings.npy"
 RETRIEVAL_RESULT_PATH = "data/retrieval_result.json"
-
-# File ánh xạ phản thực tế do người dùng tự xây dựng.
-#
-# Ví dụ:
-# {
-#   "PHAM_TOI_CHUA_DAT": ["KHONG_PHAM_TOI_CHUA_DAT"],
-#   "CO_AN_TICH": ["KHONG_CO_AN_TICH"]
-# }
-COUNTERFACTUAL_MAP_PATH = "data/counterfactual_event_map.json"
-
 OUTPUT_PATH = "data/counterfactual_verification_result.json"
 
-MODEL_NAME = "BAAI/bge-m3"
-
-DEFAULT_CF_TOP_K = 5
-DEFAULT_MAPPING_TOP_K = 5
-DEFAULT_MAPPING_THRESHOLD = 0.42
+# Số hop tối đa khi tìm đường thay thế sau intervention.
 DEFAULT_MAX_CF_HOPS = 3
+
+# Số đường thay thế tối đa được lưu cho mỗi intervention.
 DEFAULT_MAX_CF_PATHS = 30
+
+# Số evidence KEEP tối đa trả về.
 DEFAULT_VERIFIED_TOP_K = 10
 
-# Ngưỡng dùng để giữ hoặc loại evidence.
+# Ngưỡng phân loại evidence.
 DEFAULT_KEEP_THRESHOLD = 0.52
 DEFAULT_REJECT_THRESHOLD = 0.34
 
-# Trọng số điểm xác minh cuối cùng.
-PATH_SUPPORT_WEIGHT = 0.34
-COUNTERFACTUAL_SUPPORT_WEIGHT = 0.30
-SEMANTIC_EVIDENCE_WEIGHT = 0.20
-GRAPH_EVIDENCE_WEIGHT = 0.16
+# Ngưỡng dùng để kết luận mediator có cần thiết hay không.
+#
+# Nếu điểm đường thay thế >= ngưỡng này:
+#   mediator không cần thiết hoàn toàn -> CONTRADICTED
+#
+# Nếu không tồn tại đường thay thế:
+#   mediator cần thiết trong graph -> SUPPORTED
+DEFAULT_ALTERNATIVE_PATH_THRESHOLD = 0.35
 
-# Thành phần đánh giá counterfactual.
-OPPOSITE_OUTCOME_BONUS = 0.55
-SAME_OUTCOME_PENALTY = 0.45
-NO_PATH_BASE_SCORE = 0.45
-UNRESOLVED_BASE_SCORE = 0.35
+# Giới hạn số mediator được kiểm tra trên một path.
+# Với graph hiện tại chủ yếu là path hai hop nên giá trị 5 là đủ.
+DEFAULT_MAX_MEDIATORS_PER_PATH = 5
 
-# Phạt khi counterfactual event chỉ được map bằng semantic similarity thấp.
-CF_MAPPING_UNCERTAINTY_WEIGHT = 0.25
-
-# Giảm điểm theo độ dài path.
+# Hệ số giảm điểm theo số hop.
 HOP_DECAY = 0.84
+
+# Trọng số đánh giá evidence.
+PATH_SUPPORT_WEIGHT = 0.38
+COUNTERFACTUAL_SUPPORT_WEIGHT = 0.32
+SEMANTIC_EVIDENCE_WEIGHT = 0.16
+GRAPH_EVIDENCE_WEIGHT = 0.14
+
+# Điểm cơ sở cho các trường hợp intervention.
+NECESSARY_MEDIATOR_SCORE = 0.85
+PARTIALLY_NECESSARY_SCORE = 0.60
+NON_NECESSARY_SCORE = 0.25
+DIRECT_PATH_SUPPORT_SCORE = 0.70
+UNRESOLVED_BASE_SCORE = 0.35
 
 
 # ============================================================
@@ -76,24 +69,23 @@ HOP_DECAY = 0.84
 # ============================================================
 
 @dataclass
-class CounterfactualCandidate:
-    source_event_node: str
-    source_event_id: str
-    source_event_name: str
+class AlternativeCausalPath:
+    """
+    Một causal path thay thế được tìm thấy sau khi loại mediator.
 
-    counterfactual_event_id: str
-    counterfactual_event_name: str
-    counterfactual_event_node: str
+    Ví dụ original path:
 
-    generation_method: str
-    mapping_method: str
-    mapping_score: float
+        A -> B -> C
 
-    confidence: float
+    Intervention:
 
+        remove(B)
 
-@dataclass
-class CounterfactualPath:
+    Alternative path có thể là:
+
+        A -> D -> C
+    """
+
     start_event_node: str
     start_event_id: str
     start_event_name: str
@@ -114,23 +106,93 @@ class CounterfactualPath:
 
 
 @dataclass
+class MediatorIntervention:
+    """
+    Kết quả một phép can thiệp do(remove mediator).
+
+    intervention_status:
+        NECESSARY:
+            Sau khi loại mediator không còn đường từ seed đến outcome.
+
+        PARTIALLY_NECESSARY:
+            Có đường thay thế nhưng yếu hơn đáng kể so với original path.
+
+        NON_NECESSARY:
+            Có đường thay thế đủ mạnh; mediator không phải mắt xích bắt buộc.
+
+        UNRESOLVED:
+            Không đủ dữ liệu để thực hiện intervention.
+    """
+
+    mediator_index: int
+
+    mediator_event_node: str
+    mediator_event_id: str
+    mediator_event_name: str
+
+    removed_nodes: list[str]
+
+    alternative_paths: list[dict[str, Any]]
+    best_alternative_path_score: float
+
+    intervention_status: str
+    necessity_score: float
+    explanation: str
+
+
+@dataclass
 class PathVerification:
+    """
+    Kết quả xác minh một causal path từ Step 3.
+
+    Giữ các trường cũ như:
+        seed_event_id
+        original_outcome_event_id
+        status
+        consistency_score
+
+    để Step 5 và Step 5.5 tiếp tục sử dụng được.
+    """
+
     original_path_id: int
 
     seed_event_id: str
     seed_event_name: str
+
     original_outcome_event_id: str
     original_outcome_event_name: str
 
-    counterfactual_candidates: list[dict[str, Any]]
-    counterfactual_to_same_outcome: list[dict[str, Any]]
-    counterfactual_to_opposite_outcome: list[dict[str, Any]]
+    original_event_nodes: list[str]
+    original_event_ids: list[str]
+    original_event_names: list[str]
 
-    opposite_outcome_candidates: list[dict[str, Any]]
+    original_rule_ids: list[str]
+    original_article_ids: list[str]
+
+    original_path_score: float
+    original_hop_count: int
+
+    intervention_type: str
+    mediator_interventions: list[dict[str, Any]]
 
     status: str
     consistency_score: float
     explanation: str
+
+    # Các trường tương thích với output cũ.
+    # Bản mới không sinh counterfactual event phủ định.
+    counterfactual_candidates: list[dict[str, Any]] = field(
+        default_factory=list
+    )
+    counterfactual_to_same_outcome: list[dict[str, Any]] = field(
+        default_factory=list
+    )
+    counterfactual_to_opposite_outcome: list[dict[str, Any]] = field(
+        default_factory=list
+    )
+    opposite_outcome_candidates: list[dict[str, Any]] = field(
+        default_factory=list
+    )
 
 
 @dataclass
@@ -149,12 +211,23 @@ class EvidenceVerification:
     verification_score: float
     decision: str
 
-    verified_path_ids: list[int] = field(default_factory=list)
-    rejected_path_ids: list[int] = field(default_factory=list)
-    unresolved_path_ids: list[int] = field(default_factory=list)
+    verified_path_ids: list[int] = field(
+        default_factory=list
+    )
+    rejected_path_ids: list[int] = field(
+        default_factory=list
+    )
+    unresolved_path_ids: list[int] = field(
+        default_factory=list
+    )
 
-    reasons: list[str] = field(default_factory=list)
-    original_evidence: dict[str, Any] = field(default_factory=dict)
+    reasons: list[str] = field(
+        default_factory=list
+    )
+
+    original_evidence: dict[str, Any] = field(
+        default_factory=dict
+    )
 
 
 @dataclass
@@ -173,12 +246,18 @@ class VerificationResult:
     consistency_score: float
     confidence: float
 
+    verification_method: str = (
+        "graph_intervention_remove_mediator"
+    )
+
 
 # ============================================================
 # GENERAL HELPERS
 # ============================================================
 
 def safe_string(value: Any) -> str:
+    """Chuyển giá trị sang chuỗi và xử lý NaN/None."""
+
     if value is None:
         return ""
 
@@ -191,7 +270,12 @@ def safe_string(value: Any) -> str:
     return str(value).strip()
 
 
-def safe_float(value: Any, default: float = 0.0) -> float:
+def safe_float(
+    value: Any,
+    default: float = 0.0,
+) -> float:
+    """Chuyển giá trị sang float an toàn."""
+
     try:
         number = float(value)
     except (TypeError, ValueError):
@@ -203,26 +287,26 @@ def safe_float(value: Any, default: float = 0.0) -> float:
     return number
 
 
-def safe_int(value: Any, default: int = 0) -> int:
+def safe_int(
+    value: Any,
+    default: int = 0,
+) -> int:
+    """Chuyển giá trị sang int an toàn."""
+
     try:
         return int(float(value))
     except (TypeError, ValueError):
         return default
 
 
-def safe_bool(value: Any) -> bool:
-    if isinstance(value, bool):
-        return value
-
-    return safe_string(value).lower() in {
-        "true",
-        "1",
-        "yes",
-        "y",
-    }
-
-
 def split_csv_values(value: Any) -> list[str]:
+    """
+    Chuyển chuỗi phân cách bằng dấu phẩy thành list.
+
+    Ví dụ:
+        "R1,R2,R3" -> ["R1", "R2", "R3"]
+    """
+
     text = safe_string(value)
 
     if not text:
@@ -235,9 +319,59 @@ def split_csv_values(value: Any) -> list[str]:
     ]
 
 
+def ensure_string_list(value: Any) -> list[str]:
+    """
+    Chuẩn hóa dữ liệu về list[str].
+
+    Chấp nhận:
+        - list
+        - tuple
+        - set
+        - chuỗi CSV
+        - chuỗi JSON list
+        - None
+    """
+
+    if value is None:
+        return []
+
+    if isinstance(value, list):
+        return unique_preserve_order(
+            safe_string(item)
+            for item in value
+        )
+
+    if isinstance(value, (tuple, set)):
+        return unique_preserve_order(
+            safe_string(item)
+            for item in value
+        )
+
+    text = safe_string(value)
+
+    if not text:
+        return []
+
+    if text.startswith("[") and text.endswith("]"):
+        try:
+            parsed = json.loads(text)
+
+            if isinstance(parsed, list):
+                return unique_preserve_order(
+                    safe_string(item)
+                    for item in parsed
+                )
+        except json.JSONDecodeError:
+            pass
+
+    return split_csv_values(text)
+
+
 def unique_preserve_order(
-    values: Iterable[str],
+    values: Iterable[Any],
 ) -> list[str]:
+    """Loại trùng nhưng giữ nguyên thứ tự xuất hiện."""
+
     result: list[str] = []
     seen: set[str] = set()
 
@@ -256,47 +390,32 @@ def clamp(
     lower: float = 0.0,
     upper: float = 1.0,
 ) -> float:
-    return max(lower, min(upper, value))
+    """Đưa giá trị vào đoạn [lower, upper]."""
 
-
-def remove_vietnamese_accents(text: str) -> str:
-    normalized = unicodedata.normalize(
-        "NFD",
-        safe_string(text),
+    return max(
+        lower,
+        min(upper, value),
     )
-
-    result = "".join(
-        character
-        for character in normalized
-        if unicodedata.category(character) != "Mn"
-    )
-
-    return result.replace("đ", "d").replace("Đ", "D")
-
-
-def normalize_event_token(text: str) -> str:
-    text = remove_vietnamese_accents(text).upper()
-    text = re.sub(r"[^A-Z0-9]+", "_", text)
-    text = re.sub(r"_+", "_", text)
-    return text.strip("_")
-
-
-def normalize_text_for_match(text: str) -> str:
-    text = remove_vietnamese_accents(text).lower()
-    text = re.sub(r"[^a-z0-9\s]+", " ", text)
-    text = re.sub(r"\s+", " ", text)
-    return text.strip()
 
 
 def event_id_from_node(
     graph: nx.Graph,
     node_id: str,
 ) -> str:
+    """Lấy event_id từ EVENT node."""
+
+    if node_id not in graph:
+        return safe_string(node_id).removeprefix(
+            "EVENT::"
+        )
+
     data = graph.nodes[node_id]
 
     return (
         safe_string(data.get("event_id"))
-        or safe_string(node_id).removeprefix("EVENT::")
+        or safe_string(node_id).removeprefix(
+            "EVENT::"
+        )
     )
 
 
@@ -304,30 +423,62 @@ def event_name_from_node(
     graph: nx.Graph,
     node_id: str,
 ) -> str:
+    """Lấy event_name hiển thị của EVENT node."""
+
+    if node_id not in graph:
+        return event_id_from_node(
+            graph,
+            node_id,
+        )
+
     data = graph.nodes[node_id]
 
     return (
         safe_string(data.get("event_name"))
         or safe_string(data.get("label"))
-        or event_id_from_node(graph, node_id)
+        or safe_string(data.get("name"))
+        or event_id_from_node(
+            graph,
+            node_id,
+        )
     )
 
 
-def make_event_node_id(event_id: str) -> str:
-    return f"EVENT::{safe_string(event_id)}"
+def is_event_node(
+    graph: nx.Graph,
+    node_id: str,
+) -> bool:
+    """Kiểm tra node có phải EVENT hay không."""
+
+    if node_id not in graph:
+        return False
+
+    node_type = safe_string(
+        graph.nodes[node_id].get("node_type")
+    ).upper()
+
+    return (
+        node_type == "EVENT"
+        or safe_string(node_id).startswith("EVENT::")
+    )
 
 
 def json_serializable(data: Any) -> Any:
+    """Chuyển numpy và các object lồng nhau sang JSON-compatible."""
+
     if isinstance(data, np.generic):
         return data.item()
 
+    if isinstance(data, Path):
+        return str(data)
+
     if isinstance(data, dict):
         return {
-            key: json_serializable(value)
+            str(key): json_serializable(value)
             for key, value in data.items()
         }
 
-    if isinstance(data, list):
+    if isinstance(data, (list, tuple, set)):
         return [
             json_serializable(value)
             for value in data
@@ -341,84 +492,116 @@ def json_serializable(data: Any) -> Any:
 # ============================================================
 
 class CounterfactualResourceStore:
-    """Nạp graph, causal memory, embeddings và kết quả retrieval."""
+    """
+    Nạp dữ liệu cần thiết cho graph intervention.
+
+    Bản v2 chỉ cần:
+        - legal causal graph
+        - causal memory
+        - retrieval result của Step 3
+
+    Không còn cần:
+        - sentence-transformers
+        - embeddings
+        - counterfactual_event_map.json
+        - semantic mapping
+    """
 
     def __init__(
         self,
         *,
         graph_path: str,
         memory_path: str,
-        embeddings_path: str,
         retrieval_result_path: str,
-        counterfactual_map_path: str,
-        model_name: str,
-        enable_semantic_mapping: bool,
+
+        # Giữ lại các tham số dưới đây để tương thích với
+        # 5_5_generate_pipeline_predictions.py và CLI cũ.
+        embeddings_path: Optional[str] = None,
+        counterfactual_map_path: Optional[str] = None,
+        model_name: Optional[str] = None,
+        enable_semantic_mapping: bool = False,
+        **_: Any,
     ) -> None:
         self.graph_path = Path(graph_path)
         self.memory_path = Path(memory_path)
-        self.embeddings_path = Path(embeddings_path)
         self.retrieval_result_path = Path(
             retrieval_result_path
         )
-        self.counterfactual_map_path = Path(
-            counterfactual_map_path
-        )
 
-        self.model_name = model_name
-        self.enable_semantic_mapping = (
-            enable_semantic_mapping
+        # Chỉ lưu để compatibility, không dùng trong thuật toán.
+        self.embeddings_path = (
+            Path(embeddings_path)
+            if embeddings_path
+            else None
         )
+        self.counterfactual_map_path = (
+            Path(counterfactual_map_path)
+            if counterfactual_map_path
+            else None
+        )
+        self.model_name = safe_string(model_name)
+        self.enable_semantic_mapping = False
 
         self.graph = self._load_graph()
         self.memory_df = self._load_memory()
-        self.embeddings = self._load_embeddings()
         self.retrieval_result = (
             self._load_retrieval_result()
         )
-        self.counterfactual_map = (
-            self._load_counterfactual_map()
-        )
-
-        self.model = self._load_model()
 
         self._validate_resources()
         self._build_lookup_tables()
+
         self.causal_event_graph = (
             self._build_causal_event_graph()
         )
 
-    def _load_graph(self) -> nx.MultiDiGraph:
+        self._validate_retrieval_result()
+
+    # --------------------------------------------------------
+    # LOADERS
+    # --------------------------------------------------------
+
+    def _load_graph(
+        self,
+    ) -> nx.MultiDiGraph | nx.DiGraph:
         if not self.graph_path.exists():
             raise FileNotFoundError(
-                f"Không tìm thấy graph: {self.graph_path}"
+                f"Không tìm thấy graph: "
+                f"{self.graph_path}"
             )
 
-        print(f"Loading graph: {self.graph_path}")
-        graph = nx.read_graphml(self.graph_path)
+        print(
+            f"Loading graph: {self.graph_path}"
+        )
+
+        graph = nx.read_graphml(
+            self.graph_path
+        )
 
         if not graph.is_directed():
             raise ValueError(
-                "Legal causal graph phải là đồ thị có hướng."
+                "Legal causal graph phải là đồ thị "
+                "có hướng."
             )
 
         return graph
 
-    def _load_memory(self) -> pd.DataFrame:
+    def _load_memory(
+        self,
+    ) -> pd.DataFrame:
         if not self.memory_path.exists():
             raise FileNotFoundError(
-                f"Không tìm thấy memory: {self.memory_path}"
+                f"Không tìm thấy memory: "
+                f"{self.memory_path}"
             )
 
-        print(f"Loading memory: {self.memory_path}")
+        print(
+            f"Loading memory: {self.memory_path}"
+        )
 
         memory_df = pd.read_csv(
             self.memory_path,
-            dtype={
-                "rule_id": str,
-                "article_id": str,
-                "event_id": str,
-                "graph_node_id": str,
-            },
+            dtype=str,
             keep_default_na=False,
         )
 
@@ -428,14 +611,15 @@ class CounterfactualResourceStore:
             "graph_node_id",
         }
 
-        missing = required_columns - set(
-            memory_df.columns
+        missing_columns = (
+            required_columns
+            - set(memory_df.columns)
         )
 
-        if missing:
+        if missing_columns:
             raise ValueError(
                 "Causal memory thiếu cột: "
-                f"{sorted(missing)}"
+                f"{sorted(missing_columns)}"
             )
 
         memory_df["memory_id"] = pd.to_numeric(
@@ -443,30 +627,20 @@ class CounterfactualResourceStore:
             errors="raise",
         ).astype(np.int64)
 
+        memory_df["memory_type"] = (
+            memory_df["memory_type"]
+            .astype(str)
+            .str.strip()
+            .str.upper()
+        )
+
+        memory_df["graph_node_id"] = (
+            memory_df["graph_node_id"]
+            .astype(str)
+            .str.strip()
+        )
+
         return memory_df
-
-    def _load_embeddings(
-        self,
-    ) -> Optional[np.ndarray]:
-        if not self.enable_semantic_mapping:
-            return None
-
-        if not self.embeddings_path.exists():
-            print(
-                "Warning: không tìm thấy embeddings. "
-                "Semantic mapping sẽ bị tắt."
-            )
-            self.enable_semantic_mapping = False
-            return None
-
-        print(
-            f"Loading embeddings: {self.embeddings_path}"
-        )
-
-        return np.asarray(
-            np.load(self.embeddings_path),
-            dtype=np.float32,
-        )
 
     def _load_retrieval_result(
         self,
@@ -488,203 +662,249 @@ class CounterfactualResourceStore:
         ) as file:
             result = json.load(file)
 
+        if not isinstance(result, dict):
+            raise ValueError(
+                "Retrieval result phải là một JSON object."
+            )
+
         required_keys = {
             "query",
             "causal_paths",
             "evidence",
         }
 
-        missing = required_keys - set(result)
+        missing_keys = (
+            required_keys
+            - set(result.keys())
+        )
 
-        if missing:
+        if missing_keys:
             raise ValueError(
                 "Retrieval result thiếu trường: "
-                f"{sorted(missing)}"
+                f"{sorted(missing_keys)}"
+            )
+
+        if not isinstance(
+            result.get("causal_paths"),
+            list,
+        ):
+            raise ValueError(
+                "`causal_paths` phải là list."
+            )
+
+        if not isinstance(
+            result.get("evidence"),
+            list,
+        ):
+            raise ValueError(
+                "`evidence` phải là list."
             )
 
         return result
 
-    def _load_counterfactual_map(
+    # --------------------------------------------------------
+    # RESOURCE VALIDATION
+    # --------------------------------------------------------
+
+    def _validate_resources(
         self,
-    ) -> dict[str, list[str]]:
-        if not self.counterfactual_map_path.exists():
-            print(
-                "Counterfactual map không tồn tại; "
-                "sử dụng bộ sinh heuristic."
-            )
-            return {}
-
-        print(
-            "Loading counterfactual map: "
-            f"{self.counterfactual_map_path}"
+    ) -> None:
+        graph_nodes = set(
+            self.graph.nodes
         )
 
-        with self.counterfactual_map_path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
-            raw_map = json.load(file)
+        memory_nodes = {
+            node_id
+            for node_id in self.memory_df[
+                "graph_node_id"
+            ].tolist()
+            if node_id
+        }
 
-        normalized_map: dict[str, list[str]] = {}
-
-        for source, targets in raw_map.items():
-            source_id = safe_string(source)
-
-            if isinstance(targets, str):
-                targets = [targets]
-
-            normalized_map[source_id] = (
-                unique_preserve_order(targets)
-            )
-
-        return normalized_map
-
-    def _load_model(
-        self,
-    ) -> Optional[SentenceTransformer]:
-        if not self.enable_semantic_mapping:
-            return None
-
-        if SentenceTransformer is None:
-            print(
-                "Warning: sentence-transformers chưa được "
-                "cài đặt. Semantic mapping sẽ bị tắt."
-            )
-            self.enable_semantic_mapping = False
-            return None
-
-        print(
-            "Loading embedding model: "
-            f"{self.model_name}"
+        missing_nodes = (
+            memory_nodes - graph_nodes
         )
-
-        return SentenceTransformer(self.model_name)
-
-    def _validate_resources(self) -> None:
-        graph_nodes = set(self.graph.nodes)
-
-        memory_nodes = set(
-            self.memory_df["graph_node_id"]
-        )
-
-        missing_nodes = memory_nodes - graph_nodes
 
         if missing_nodes:
+            examples = sorted(
+                missing_nodes
+            )[:10]
+
             raise ValueError(
                 "Memory chứa graph_node_id không tồn tại "
-                f"trong graph. Ví dụ: "
-                f"{sorted(missing_nodes)[:10]}"
+                "trong graph. Ví dụ: "
+                f"{examples}"
             )
 
-        if self.embeddings is not None:
-            if len(self.embeddings) != len(
-                self.memory_df
-            ):
-                raise ValueError(
-                    "Số embedding không khớp số dòng memory."
-                )
-
         memory_types = set(
-            self.memory_df["memory_type"]
-            .astype(str)
-            .str.upper()
+            self.memory_df[
+                "memory_type"
+            ].tolist()
         )
 
         if "EVENT" not in memory_types:
             raise ValueError(
-                "Memory không có EVENT record."
+                "Causal memory không có EVENT record."
             )
 
         if "RULE" not in memory_types:
             raise ValueError(
-                "Memory không có RULE record."
+                "Causal memory không có RULE record."
+            )
+
+        event_nodes = [
+            node_id
+            for node_id in self.graph.nodes
+            if is_event_node(
+                self.graph,
+                node_id,
+            )
+        ]
+
+        if not event_nodes:
+            raise ValueError(
+                "Graph không chứa EVENT node."
             )
 
         print("Resource validation: OK")
 
-    def _build_lookup_tables(self) -> None:
-        self.memory_by_id = self.memory_df.set_index(
-            "memory_id",
-            drop=False,
+    def _validate_retrieval_result(
+        self,
+    ) -> None:
+        """
+        Kiểm tra nhẹ retrieval result.
+
+        Không dừng toàn bộ pipeline nếu có một số path lỗi;
+        PathVerifier sẽ đánh dấu các path đó là UNRESOLVED.
+        """
+
+        causal_paths = (
+            self.retrieval_result.get(
+                "causal_paths",
+                [],
+            )
         )
 
-        event_df = self.memory_df[
-            self.memory_df["memory_type"].str.upper()
+        invalid_count = 0
+
+        for path in causal_paths:
+            if not isinstance(path, dict):
+                invalid_count += 1
+                continue
+
+            event_nodes = self.get_path_event_nodes(
+                path
+            )
+
+            if len(event_nodes) < 2:
+                invalid_count += 1
+
+        if invalid_count:
+            print(
+                "Warning:",
+                invalid_count,
+                "causal path không có đủ hai EVENT node."
+            )
+
+    # --------------------------------------------------------
+    # LOOKUP TABLES
+    # --------------------------------------------------------
+
+    def _build_lookup_tables(
+        self,
+    ) -> None:
+        self.memory_by_id = (
+            self.memory_df.set_index(
+                "memory_id",
+                drop=False,
+            )
+        )
+
+        self.event_df = self.memory_df[
+            self.memory_df["memory_type"]
             == "EVENT"
         ].copy()
 
-        rule_df = self.memory_df[
-            self.memory_df["memory_type"].str.upper()
+        self.rule_df = self.memory_df[
+            self.memory_df["memory_type"]
             == "RULE"
         ].copy()
 
-        self.event_df = event_df
-        self.rule_df = rule_df
-
-        self.event_memory_ids = event_df[
-            "memory_id"
-        ].to_numpy(dtype=np.int64)
-
-        self.event_by_node: dict[str, pd.Series] = {}
-        self.event_node_by_id: dict[str, str] = {}
-        self.event_nodes_by_normalized_name: dict[
+        self.event_by_node: dict[
             str,
-            list[str],
+            pd.Series,
         ] = {}
 
-        for _, row in event_df.iterrows():
+        self.event_node_by_id: dict[
+            str,
+            str,
+        ] = {}
+
+        self.rule_by_id: dict[
+            str,
+            pd.Series,
+        ] = {}
+
+        for _, row in self.event_df.iterrows():
             node_id = safe_string(
                 row.get("graph_node_id")
             )
+
+            if not node_id:
+                continue
+
             event_id = (
-                safe_string(row.get("event_id"))
-                or event_id_from_node(
-                    self.graph,
-                    node_id,
+                safe_string(
+                    row.get("event_id")
                 )
-            )
-            event_name = (
-                safe_string(row.get("event_name"))
-                or event_name_from_node(
+                or event_id_from_node(
                     self.graph,
                     node_id,
                 )
             )
 
             self.event_by_node[node_id] = row
-            self.event_node_by_id[event_id] = node_id
 
-            normalized_name = normalize_text_for_match(
-                event_name
-            )
+            if event_id:
+                self.event_node_by_id[
+                    event_id
+                ] = node_id
 
-            if normalized_name:
-                self.event_nodes_by_normalized_name.setdefault(
-                    normalized_name,
-                    [],
-                ).append(node_id)
-
-        self.rule_by_id: dict[str, pd.Series] = {}
-
-        for _, row in rule_df.iterrows():
+        for _, row in self.rule_df.iterrows():
             rule_id = safe_string(
                 row.get("rule_id")
             )
 
             if rule_id:
-                self.rule_by_id[rule_id] = row
+                self.rule_by_id[
+                    rule_id
+                ] = row
+
+    # --------------------------------------------------------
+    # EVENT GRAPH
+    # --------------------------------------------------------
 
     def _build_causal_event_graph(
         self,
     ) -> nx.DiGraph:
+        """
+        Tạo graph chỉ gồm EVENT node và CAUSES edge.
+
+        Multi-edge giữa cùng hai event được gộp thành một edge,
+        đồng thời hợp nhất:
+            - rule_ids
+            - article_ids
+            - support_count
+        """
+
         causal_graph = nx.DiGraph()
 
         for node_id, data in self.graph.nodes(
             data=True
         ):
-            if (
-                safe_string(data.get("node_type"))
-                == "EVENT"
+            if is_event_node(
+                self.graph,
+                node_id,
             ):
                 causal_graph.add_node(
                     node_id,
@@ -697,24 +917,31 @@ class CounterfactualResourceStore:
                 data=True,
             )
 
-            for source, target, _, data in (
-                edge_iterator
-            ):
+            for (
+                source,
+                target,
+                _,
+                edge_data,
+            ) in edge_iterator:
                 self._merge_causal_edge(
-                    causal_graph,
-                    source,
-                    target,
-                    data,
+                    graph=causal_graph,
+                    source=source,
+                    target=target,
+                    data=edge_data,
                 )
         else:
-            for source, target, data in (
-                self.graph.edges(data=True)
+            for (
+                source,
+                target,
+                edge_data,
+            ) in self.graph.edges(
+                data=True
             ):
                 self._merge_causal_edge(
-                    causal_graph,
-                    source,
-                    target,
-                    data,
+                    graph=causal_graph,
+                    source=source,
+                    target=target,
+                    data=edge_data,
                 )
 
         print(
@@ -729,15 +956,26 @@ class CounterfactualResourceStore:
 
     @staticmethod
     def _merge_causal_edge(
+        *,
         graph: nx.DiGraph,
         source: str,
         target: str,
         data: dict[str, Any],
     ) -> None:
-        if safe_string(data.get("relation")) != "CAUSES":
+        relation = safe_string(
+            data.get("relation")
+        ).upper()
+
+        if relation != "CAUSES":
             return
 
-        rule_ids = split_csv_values(
+        if (
+            source not in graph
+            or target not in graph
+        ):
+            return
+
+        rule_ids = ensure_string_list(
             data.get("rule_ids")
         )
 
@@ -745,10 +983,11 @@ class CounterfactualResourceStore:
             rule_id = safe_string(
                 data.get("rule_id")
             )
+
             if rule_id:
                 rule_ids = [rule_id]
 
-        article_ids = split_csv_values(
+        article_ids = ensure_string_list(
             data.get("article_ids")
         )
 
@@ -756,6 +995,7 @@ class CounterfactualResourceStore:
             article_id = safe_string(
                 data.get("article_id")
             )
+
             if article_id:
                 article_ids = [article_id]
 
@@ -763,29 +1003,50 @@ class CounterfactualResourceStore:
             1,
             safe_int(
                 data.get("support_count"),
-                1,
+                default=1,
             ),
         )
 
-        if graph.has_edge(source, target):
-            existing = graph[source][target]
+        if graph.has_edge(
+            source,
+            target,
+        ):
+            existing = graph[
+                source
+            ][target]
 
             existing["rule_ids"] = (
                 unique_preserve_order(
-                    list(existing["rule_ids"])
+                    list(
+                        existing.get(
+                            "rule_ids",
+                            [],
+                        )
+                    )
                     + rule_ids
                 )
             )
 
             existing["article_ids"] = (
                 unique_preserve_order(
-                    list(existing["article_ids"])
+                    list(
+                        existing.get(
+                            "article_ids",
+                            [],
+                        )
+                    )
                     + article_ids
                 )
             )
 
-            existing["support_count"] += (
-                support_count
+            existing["support_count"] = (
+                safe_int(
+                    existing.get(
+                        "support_count"
+                    ),
+                    default=0,
+                )
+                + support_count
             )
         else:
             graph.add_edge(
@@ -797,860 +1058,420 @@ class CounterfactualResourceStore:
                 support_count=support_count,
             )
 
-    def encode_texts(
+    # --------------------------------------------------------
+    # PATH NORMALIZATION
+    # --------------------------------------------------------
+
+    def get_path_event_nodes(
         self,
-        texts: list[str],
-    ) -> Optional[np.ndarray]:
-        if (
-            not self.enable_semantic_mapping
-            or self.model is None
-        ):
-            return None
+        path: dict[str, Any],
+    ) -> list[str]:
+        """
+        Chuẩn hóa EVENT node từ causal path của Step 3.
 
-        vectors = self.model.encode(
-            texts,
-            convert_to_numpy=True,
-            normalize_embeddings=True,
-            show_progress_bar=False,
+        Ưu tiên:
+            1. path["event_nodes"]
+            2. path["event_ids"]
+            3. path["events"]
+
+        Chỉ giữ node thực sự tồn tại trong causal_event_graph.
+        """
+
+        raw_event_nodes = ensure_string_list(
+            path.get("event_nodes")
         )
 
-        return np.asarray(
-            vectors,
-            dtype=np.float32,
+        valid_event_nodes = [
+            node_id
+            for node_id in raw_event_nodes
+            if node_id in self.causal_event_graph
+        ]
+
+        if len(valid_event_nodes) >= 2:
+            return self._orient_path_event_nodes(
+                path,
+                valid_event_nodes,
+            )
+
+        raw_event_ids = ensure_string_list(
+            path.get("event_ids")
         )
 
+        mapped_nodes = [
+            self.event_node_by_id[event_id]
+            for event_id in raw_event_ids
+            if event_id in self.event_node_by_id
+        ]
 
-# ============================================================
-# COUNTERFACTUAL GENERATION
-# ============================================================
+        mapped_nodes = [
+            node_id
+            for node_id in mapped_nodes
+            if node_id in self.causal_event_graph
+        ]
 
-class CounterfactualEventGenerator:
-    """Sinh counterfactual event bằng map tường minh và heuristic."""
-
-    NEGATIVE_PREFIXES = (
-        "NOT_",
-        "NO_",
-        "WITHOUT_",
-        "KHONG_",
-        "CHUA_",
-    )
-
-    POSITIVE_NEGATIVE_PAIRS = (
-        ("CO_", "KHONG_CO_"),
-        ("DA_", "CHUA_"),
-        ("DUOC_", "KHONG_DUOC_"),
-        ("PHAI_", "KHONG_PHAI_"),
-        ("BI_", "KHONG_BI_"),
-    )
-
-    VIETNAMESE_NEGATION_PATTERNS = (
-        (r"^không\s+", ""),
-        (r"^chưa\s+", "đã "),
-        (r"^được\s+", "không được "),
-        (r"^bị\s+", "không bị "),
-        (r"^phải\s+", "không phải "),
-        (r"^có\s+", "không có "),
-    )
-
-    def __init__(
-        self,
-        store: CounterfactualResourceStore,
-    ) -> None:
-        self.store = store
-
-    def generate_raw_candidates(
-        self,
-        *,
-        event_id: str,
-        event_name: str,
-    ) -> list[tuple[str, str, str]]:
-        """Trả về (candidate_id, candidate_name, method)."""
-
-        candidates: list[
-            tuple[str, str, str]
-        ] = []
-
-        explicit_targets = (
-            self.store.counterfactual_map.get(
-                event_id,
-                [],
+        if len(mapped_nodes) >= 2:
+            return self._orient_path_event_nodes(
+                path,
+                mapped_nodes,
             )
-        )
 
-        for target_id in explicit_targets:
-            node_id = (
-                self.store.event_node_by_id.get(
-                    target_id
+        raw_events = path.get("events")
+
+        if isinstance(raw_events, list):
+            fallback_nodes: list[str] = []
+
+            for event in raw_events:
+                if not isinstance(event, dict):
+                    continue
+
+                node_id = safe_string(
+                    event.get("event_node")
+                    or event.get("node_id")
+                    or event.get("graph_node_id")
                 )
-            )
 
-            target_name = (
-                event_name_from_node(
-                    self.store.graph,
-                    node_id,
+                if (
+                    node_id
+                    and node_id
+                    in self.causal_event_graph
+                ):
+                    fallback_nodes.append(
+                        node_id
+                    )
+                    continue
+
+                event_id = safe_string(
+                    event.get("event_id")
                 )
-                if node_id
-                else target_id
-            )
 
-            candidates.append(
-                (
-                    target_id,
-                    target_name,
-                    "explicit_map",
+                mapped_node = (
+                    self.event_node_by_id.get(
+                        event_id
+                    )
                 )
-            )
 
-        normalized_id = normalize_event_token(
-            event_id
-        )
+                if (
+                    mapped_node
+                    and mapped_node
+                    in self.causal_event_graph
+                ):
+                    fallback_nodes.append(
+                        mapped_node
+                    )
 
-        for candidate_id in self._toggle_event_id(
-            normalized_id
-        ):
-            candidates.append(
-                (
-                    candidate_id,
-                    self._event_id_to_name(
-                        candidate_id
-                    ),
-                    "id_negation",
-                )
-            )
-
-        for candidate_name in self._negate_name(
-            event_name
-        ):
-            candidate_id = normalize_event_token(
-                candidate_name
-            )
-
-            candidates.append(
-                (
-                    candidate_id,
-                    candidate_name,
-                    "name_negation",
-                )
-            )
-
-        # Loại chính event ban đầu và loại trùng.
-        deduplicated: list[
-            tuple[str, str, str]
-        ] = []
-        seen: set[tuple[str, str]] = set()
-
-        for candidate_id, candidate_name, method in (
-            candidates
-        ):
-            if candidate_id == normalized_id:
-                continue
-
-            key = (
-                normalize_event_token(candidate_id),
-                normalize_text_for_match(
-                    candidate_name
+            return self._orient_path_event_nodes(
+                path,
+                unique_preserve_order(
+                    fallback_nodes
                 ),
             )
 
-            if key in seen:
-                continue
+        return self._orient_path_event_nodes(
+            path,
+            valid_event_nodes,
+        )
 
-            seen.add(key)
-            deduplicated.append(
-                (
-                    candidate_id,
-                    candidate_name,
-                    method,
-                )
-            )
-
-        return deduplicated
-
-    def _toggle_event_id(
+    def _orient_path_event_nodes(
         self,
-        event_id: str,
-    ) -> list[str]:
-        candidates: list[str] = []
-
-        for prefix in self.NEGATIVE_PREFIXES:
-            if event_id.startswith(prefix):
-                positive = event_id[len(prefix):]
-
-                if positive:
-                    candidates.append(positive)
-
-        for positive, negative in (
-            self.POSITIVE_NEGATIVE_PAIRS
-        ):
-            if event_id.startswith(negative):
-                remainder = event_id[
-                    len(negative):
-                ]
-                candidates.append(
-                    positive + remainder
-                )
-            elif event_id.startswith(positive):
-                remainder = event_id[
-                    len(positive):
-                ]
-                candidates.append(
-                    negative + remainder
-                )
-
-        if not any(
-            event_id.startswith(prefix)
-            for prefix in self.NEGATIVE_PREFIXES
-        ):
-            candidates.extend(
-                [
-                    f"KHONG_{event_id}",
-                    f"NOT_{event_id}",
-                ]
-            )
-
-        return unique_preserve_order(candidates)
-
-    def _negate_name(
-        self,
-        event_name: str,
-    ) -> list[str]:
-        name = safe_string(event_name)
-        lowered = name.lower()
-
-        if not name:
-            return []
-
-        candidates: list[str] = []
-
-        if lowered.startswith("không "):
-            candidates.append(name[6:].strip())
-        elif lowered.startswith("chưa "):
-            candidates.append(
-                "đã " + name[5:].strip()
-            )
-        else:
-            candidates.append(
-                "không " + name
-            )
-
-        for pattern, replacement in (
-            self.VIETNAMESE_NEGATION_PATTERNS
-        ):
-            if re.search(
-                pattern,
-                lowered,
-                flags=re.IGNORECASE,
-            ):
-                candidate = re.sub(
-                    pattern,
-                    replacement,
-                    name,
-                    count=1,
-                    flags=re.IGNORECASE,
-                ).strip()
-
-                if candidate:
-                    candidates.append(candidate)
-
-        return unique_preserve_order(candidates)
-
-    @staticmethod
-    def _event_id_to_name(
-        event_id: str,
-    ) -> str:
-        text = event_id.lower().replace(
-            "_",
-            " ",
-        )
-        return text.strip()
-
-
-# ============================================================
-# COUNTERFACTUAL EVENT MAPPING
-# ============================================================
-
-class CounterfactualEventMapper:
-    def __init__(
-        self,
-        store: CounterfactualResourceStore,
-    ) -> None:
-        self.store = store
-
-    def map_candidates(
-        self,
-        *,
-        source_event_node: str,
-        source_event_id: str,
-        source_event_name: str,
-        raw_candidates: list[
-            tuple[str, str, str]
-        ],
-        top_k: int,
-        min_score: float,
-    ) -> list[CounterfactualCandidate]:
-        mapped: list[CounterfactualCandidate] = []
-
-        for (
-            candidate_id,
-            candidate_name,
-            generation_method,
-        ) in raw_candidates:
-            exact = self._exact_match(
-                candidate_id,
-                candidate_name,
-            )
-
-            for (
-                node_id,
-                mapping_method,
-                mapping_score,
-            ) in exact:
-                mapped.append(
-                    self._make_candidate(
-                        source_event_node=(
-                            source_event_node
-                        ),
-                        source_event_id=(
-                            source_event_id
-                        ),
-                        source_event_name=(
-                            source_event_name
-                        ),
-                        candidate_id=candidate_id,
-                        candidate_name=candidate_name,
-                        node_id=node_id,
-                        generation_method=(
-                            generation_method
-                        ),
-                        mapping_method=mapping_method,
-                        mapping_score=mapping_score,
-                    )
-                )
-
-        if (
-            len(mapped) < top_k
-            and self.store.enable_semantic_mapping
-        ):
-            semantic_candidates = (
-                self._semantic_map(
-                    source_event_node=(
-                        source_event_node
-                    ),
-                    source_event_id=(
-                        source_event_id
-                    ),
-                    source_event_name=(
-                        source_event_name
-                    ),
-                    raw_candidates=raw_candidates,
-                    top_k=top_k,
-                    min_score=min_score,
-                )
-            )
-            mapped.extend(semantic_candidates)
-
-        # Không cho phép map ngược lại chính event nguồn.
-        mapped = [
-            candidate
-            for candidate in mapped
-            if (
-                candidate.counterfactual_event_node
-                != source_event_node
-            )
-        ]
-
-        best_by_node: dict[
-            str,
-            CounterfactualCandidate,
-        ] = {}
-
-        for candidate in mapped:
-            node_id = (
-                candidate.counterfactual_event_node
-            )
-
-            existing = best_by_node.get(node_id)
-
-            if (
-                existing is None
-                or candidate.confidence
-                > existing.confidence
-            ):
-                best_by_node[node_id] = candidate
-
-        result = list(best_by_node.values())
-        result.sort(
-            key=lambda item: item.confidence,
-            reverse=True,
-        )
-
-        return result[:top_k]
-
-    def _exact_match(
-        self,
-        candidate_id: str,
-        candidate_name: str,
-    ) -> list[tuple[str, str, float]]:
-        matches: list[
-            tuple[str, str, float]
-        ] = []
-
-        node_id = self.store.event_node_by_id.get(
-            candidate_id
-        )
-
-        if node_id:
-            matches.append(
-                (
-                    node_id,
-                    "exact_event_id",
-                    1.0,
-                )
-            )
-
-        normalized_candidate_id = (
-            normalize_event_token(candidate_id)
-        )
-
-        for event_id, event_node in (
-            self.store.event_node_by_id.items()
-        ):
-            if (
-                normalize_event_token(event_id)
-                == normalized_candidate_id
-            ):
-                matches.append(
-                    (
-                        event_node,
-                        "normalized_event_id",
-                        0.96,
-                    )
-                )
-
-        normalized_name = normalize_text_for_match(
-            candidate_name
-        )
-
-        for event_node in (
-            self.store
-            .event_nodes_by_normalized_name
-            .get(normalized_name, [])
-        ):
-            matches.append(
-                (
-                    event_node,
-                    "exact_event_name",
-                    0.94,
-                )
-            )
-
-        deduplicated: dict[
-            str,
-            tuple[str, str, float],
-        ] = {}
-
-        for match in matches:
-            node_id = match[0]
-            existing = deduplicated.get(node_id)
-
-            if (
-                existing is None
-                or match[2] > existing[2]
-            ):
-                deduplicated[node_id] = match
-
-        return list(deduplicated.values())
-
-    def _semantic_map(
-        self,
-        *,
-        source_event_node: str,
-        source_event_id: str,
-        source_event_name: str,
-        raw_candidates: list[
-            tuple[str, str, str]
-        ],
-        top_k: int,
-        min_score: float,
-    ) -> list[CounterfactualCandidate]:
-        texts = [
-            candidate_name
-            for _, candidate_name, _ in raw_candidates
-        ]
-
-        if not texts:
-            return []
-
-        query_vectors = self.store.encode_texts(
-            texts
-        )
-
-        if query_vectors is None:
-            return []
-
-        event_vectors = self.store.embeddings[
-            self.store.event_memory_ids
-        ]
-
-        candidates: list[
-            CounterfactualCandidate
-        ] = []
-
-        for raw_index, query_vector in enumerate(
-            query_vectors
-        ):
-            scores = event_vectors @ query_vector
-            order = np.argsort(-scores)
-
-            (
-                candidate_id,
-                candidate_name,
-                generation_method,
-            ) = raw_candidates[raw_index]
-
-            for local_index in order[:top_k]:
-                memory_id = int(
-                    self.store.event_memory_ids[
-                        local_index
-                    ]
-                )
-                score = float(
-                    scores[local_index]
-                )
-
-                if score < min_score:
-                    continue
-
-                row = self.store.memory_by_id.loc[
-                    memory_id
-                ]
-                node_id = safe_string(
-                    row.get("graph_node_id")
-                )
-
-                if node_id == source_event_node:
-                    continue
-
-                candidates.append(
-                    self._make_candidate(
-                        source_event_node=(
-                            source_event_node
-                        ),
-                        source_event_id=(
-                            source_event_id
-                        ),
-                        source_event_name=(
-                            source_event_name
-                        ),
-                        candidate_id=candidate_id,
-                        candidate_name=candidate_name,
-                        node_id=node_id,
-                        generation_method=(
-                            generation_method
-                        ),
-                        mapping_method=(
-                            "semantic_event_mapping"
-                        ),
-                        mapping_score=score,
-                    )
-                )
-
-        return candidates
-
-    def _make_candidate(
-        self,
-        *,
-        source_event_node: str,
-        source_event_id: str,
-        source_event_name: str,
-        candidate_id: str,
-        candidate_name: str,
-        node_id: str,
-        generation_method: str,
-        mapping_method: str,
-        mapping_score: float,
-    ) -> CounterfactualCandidate:
-        mapped_id = event_id_from_node(
-            self.store.graph,
-            node_id,
-        )
-        mapped_name = event_name_from_node(
-            self.store.graph,
-            node_id,
-        )
-
-        generation_reliability = {
-            "explicit_map": 1.0,
-            "id_negation": 0.82,
-            "name_negation": 0.70,
-        }.get(
-            generation_method,
-            0.60,
-        )
-
-        confidence = clamp(
-            0.55 * mapping_score
-            + 0.45 * generation_reliability
-        )
-
-        return CounterfactualCandidate(
-            source_event_node=source_event_node,
-            source_event_id=source_event_id,
-            source_event_name=source_event_name,
-            counterfactual_event_id=mapped_id,
-            counterfactual_event_name=mapped_name,
-            counterfactual_event_node=node_id,
-            generation_method=generation_method,
-            mapping_method=mapping_method,
-            mapping_score=mapping_score,
-            confidence=confidence,
-        )
-
-
-# ============================================================
-# GRAPH SEARCH
-# ============================================================
-
-class CounterfactualGraphSearcher:
-    def __init__(
-        self,
-        store: CounterfactualResourceStore,
-    ) -> None:
-        self.store = store
-
-    def find_paths(
-        self,
-        *,
-        start_node: str,
-        target_nodes: set[str],
-        max_hops: int,
-        max_paths: int,
-    ) -> list[CounterfactualPath]:
-        graph = self.store.causal_event_graph
-
-        if start_node not in graph:
-            return []
-
-        if not target_nodes:
-            return []
-
-        queue: list[
-            tuple[
-                str,
-                list[str],
-                list[str],
-                list[str],
-            ]
-        ] = [
-            (
-                start_node,
-                [start_node],
-                [],
-                [],
-            )
-        ]
-
-        queue_index = 0
-        results: list[
-            CounterfactualPath
-        ] = []
-
-        while (
-            queue_index < len(queue)
-            and len(results) < max_paths
-        ):
-            (
-                current_node,
-                event_nodes,
-                rule_ids,
-                article_ids,
-            ) = queue[queue_index]
-            queue_index += 1
-
-            hop_count = len(event_nodes) - 1
-
-            if hop_count >= max_hops:
-                continue
-
-            for neighbor in graph.successors(
-                current_node
-            ):
-                if neighbor in event_nodes:
-                    continue
-
-                edge_data = graph[
-                    current_node
-                ][neighbor]
-
-                next_event_nodes = (
-                    event_nodes + [neighbor]
-                )
-
-                next_rule_ids = (
-                    unique_preserve_order(
-                        rule_ids
-                        + edge_data.get(
-                            "rule_ids",
-                            [],
-                        )
-                    )
-                )
-
-                next_article_ids = (
-                    unique_preserve_order(
-                        article_ids
-                        + edge_data.get(
-                            "article_ids",
-                            [],
-                        )
-                    )
-                )
-
-                next_hop_count = (
-                    len(next_event_nodes) - 1
-                )
-
-                if neighbor in target_nodes:
-                    results.append(
-                        self._build_path(
-                            event_nodes=(
-                                next_event_nodes
-                            ),
-                            rule_ids=next_rule_ids,
-                            article_ids=(
-                                next_article_ids
-                            ),
-                        )
-                    )
-
-                    if len(results) >= max_paths:
-                        break
-
-                if next_hop_count < max_hops:
-                    queue.append(
-                        (
-                            neighbor,
-                            next_event_nodes,
-                            next_rule_ids,
-                            next_article_ids,
-                        )
-                    )
-
-        results.sort(
-            key=lambda item: item.path_score,
-            reverse=True,
-        )
-
-        return results[:max_paths]
-
-    def reachable_nodes(
-        self,
-        *,
-        start_node: str,
-        max_hops: int,
-    ) -> dict[str, int]:
-        graph = self.store.causal_event_graph
-
-        if start_node not in graph:
-            return {}
-
-        distances = nx.single_source_shortest_path_length(
-            graph,
-            start_node,
-            cutoff=max_hops,
-        )
-
-        return {
-            node_id: distance
-            for node_id, distance in distances.items()
-            if distance > 0
-        }
-
-    def _build_path(
-        self,
-        *,
+        path: dict[str, Any],
         event_nodes: list[str],
-        rule_ids: list[str],
-        article_ids: list[str],
-    ) -> CounterfactualPath:
-        graph = self.store.causal_event_graph
+    ) -> list[str]:
+        """Đưa path về đúng chiều nhân quả: cause -> ... -> effect.
 
-        hop_count = len(event_nodes) - 1
+        Step 3 lưu path backward theo thứ tự seed -> predecessor. Vì vậy
+        ``event_nodes`` của path backward cần được đảo trước khi Step 4 dùng
+        node đầu làm seed/cause và node cuối làm outcome/effect.
 
-        support_values: list[float] = []
+        Hàm cũng tự kiểm tra hai chiều để tương thích với retrieval result cũ
+        hoặc dữ liệu được tạo từ phiên bản khác của Step 3.
+        """
+
+        nodes = unique_preserve_order(event_nodes)
+
+        if len(nodes) < 2:
+            return nodes
+
+        direction = safe_string(
+            path.get("direction")
+        ).lower()
+
+        preferred = (
+            list(reversed(nodes))
+            if direction == "backward"
+            else list(nodes)
+        )
+
+        def is_valid_chain(candidate: list[str]) -> bool:
+            return all(
+                self.causal_event_graph.has_edge(source, target)
+                for source, target in zip(
+                    candidate[:-1],
+                    candidate[1:],
+                )
+            )
+
+        if is_valid_chain(preferred):
+            return preferred
+
+        reversed_preferred = list(reversed(preferred))
+
+        if is_valid_chain(reversed_preferred):
+            return reversed_preferred
+
+        # Giữ thứ tự ưu tiên để verifier có thể đánh dấu path sai cấu trúc.
+        return preferred
+
+    def get_path_rule_ids(
+        self,
+        path: dict[str, Any],
+        event_nodes: Optional[list[str]] = None,
+    ) -> list[str]:
+        """
+        Lấy rule_ids từ path.
+
+        Nếu Step 3 không cung cấp rule_ids, suy ra từ các CAUSES edge.
+        """
+
+        rule_ids = ensure_string_list(
+            path.get("rule_ids")
+        )
+
+        if rule_ids:
+            return rule_ids
+
+        nodes = (
+            event_nodes
+            if event_nodes is not None
+            else self.get_path_event_nodes(path)
+        )
+
+        inferred_rule_ids: list[str] = []
+
+        for source, target in zip(
+            nodes[:-1],
+            nodes[1:],
+        ):
+            if self.causal_event_graph.has_edge(
+                source,
+                target,
+            ):
+                edge_data = (
+                    self.causal_event_graph[
+                        source
+                    ][target]
+                )
+
+                inferred_rule_ids.extend(
+                    ensure_string_list(
+                        edge_data.get(
+                            "rule_ids"
+                        )
+                    )
+                )
+
+        return unique_preserve_order(
+            inferred_rule_ids
+        )
+
+    def get_path_article_ids(
+        self,
+        path: dict[str, Any],
+        event_nodes: Optional[list[str]] = None,
+    ) -> list[str]:
+        """
+        Lấy article_ids từ path.
+
+        Nếu Step 3 không cung cấp, suy ra từ các CAUSES edge.
+        """
+
+        article_ids = ensure_string_list(
+            path.get("article_ids")
+        )
+
+        if article_ids:
+            return article_ids
+
+        nodes = (
+            event_nodes
+            if event_nodes is not None
+            else self.get_path_event_nodes(path)
+        )
+
+        inferred_article_ids: list[str] = []
+
+        for source, target in zip(
+            nodes[:-1],
+            nodes[1:],
+        ):
+            if self.causal_event_graph.has_edge(
+                source,
+                target,
+            ):
+                edge_data = (
+                    self.causal_event_graph[
+                        source
+                    ][target]
+                )
+
+                inferred_article_ids.extend(
+                    ensure_string_list(
+                        edge_data.get(
+                            "article_ids"
+                        )
+                    )
+                )
+
+        return unique_preserve_order(
+            inferred_article_ids
+        )
+
+    def calculate_path_score(
+        self,
+        event_nodes: list[str],
+    ) -> float:
+        """
+        Tính điểm structural support của path.
+
+        Điểm dựa trên:
+            - support_count của từng CAUSES edge
+            - độ dài path
+        """
+
+        if len(event_nodes) < 2:
+            return 0.0
+
+        edge_support_scores: list[float] = []
 
         for source, target in zip(
             event_nodes[:-1],
             event_nodes[1:],
         ):
+            if not self.causal_event_graph.has_edge(
+                source,
+                target,
+            ):
+                return 0.0
+
+            edge_data = (
+                self.causal_event_graph[
+                    source
+                ][target]
+            )
+
             support_count = max(
                 1,
                 safe_int(
-                    graph[source][target].get(
+                    edge_data.get(
                         "support_count"
                     ),
-                    1,
+                    default=1,
                 ),
             )
-            support_values.append(
-                math.log1p(support_count)
+
+            normalized_support = min(
+                1.0,
+                math.log1p(
+                    support_count
+                )
+                / math.log(4.0),
+            )
+
+            edge_support_scores.append(
+                normalized_support
             )
 
         average_support = (
-            sum(support_values)
-            / len(support_values)
-            if support_values
-            else 0.0
+            sum(edge_support_scores)
+            / len(edge_support_scores)
         )
 
-        normalized_support = min(
-            1.0,
-            average_support / math.log(4.0),
+        hop_count = len(event_nodes) - 1
+
+        return clamp(
+            average_support
+            * (
+                HOP_DECAY
+                ** max(
+                    0,
+                    hop_count - 1,
+                )
+            )
+        )   
+
+# ============================================================
+# MEDIATOR INTERVENTION SEARCH
+# ============================================================
+
+class CounterfactualGraphSearcher:
+    """Tìm đường thay thế từ seed tới outcome sau do(remove mediator)."""
+
+    def __init__(self, store: CounterfactualResourceStore) -> None:
+        self.store = store
+
+    def find_alternative_paths(
+        self,
+        *,
+        start_node: str,
+        end_node: str,
+        removed_nodes: Iterable[str],
+        max_hops: int,
+        max_paths: int,
+    ) -> list[AlternativeCausalPath]:
+        graph = self.store.causal_event_graph
+        removed = {safe_string(node) for node in removed_nodes if safe_string(node)}
+
+        if start_node not in graph or end_node not in graph:
+            return []
+        if start_node in removed or end_node in removed:
+            return []
+
+        view = nx.subgraph_view(
+            graph,
+            filter_node=lambda node: node not in removed,
         )
 
-        path_score = clamp(
-            normalized_support
-            * (HOP_DECAY ** max(0, hop_count - 1))
-        )
+        results: list[AlternativeCausalPath] = []
+        try:
+            paths = nx.all_simple_paths(
+                view,
+                source=start_node,
+                target=end_node,
+                cutoff=max_hops,
+            )
+            for event_nodes in paths:
+                results.append(self._build_path(list(event_nodes)))
+                if len(results) >= max_paths:
+                    break
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            return []
 
-        return CounterfactualPath(
+        results.sort(key=lambda item: item.path_score, reverse=True)
+        return results[:max_paths]
+
+    def _build_path(self, event_nodes: list[str]) -> AlternativeCausalPath:
+        graph = self.store.causal_event_graph
+        rule_ids: list[str] = []
+        article_ids: list[str] = []
+
+        for source, target in zip(event_nodes[:-1], event_nodes[1:]):
+            edge = graph[source][target]
+            rule_ids.extend(ensure_string_list(edge.get("rule_ids")))
+            article_ids.extend(ensure_string_list(edge.get("article_ids")))
+
+        return AlternativeCausalPath(
             start_event_node=event_nodes[0],
-            start_event_id=event_id_from_node(
-                graph,
-                event_nodes[0],
-            ),
-            start_event_name=event_name_from_node(
-                graph,
-                event_nodes[0],
-            ),
+            start_event_id=event_id_from_node(graph, event_nodes[0]),
+            start_event_name=event_name_from_node(graph, event_nodes[0]),
             end_event_node=event_nodes[-1],
-            end_event_id=event_id_from_node(
-                graph,
-                event_nodes[-1],
-            ),
-            end_event_name=event_name_from_node(
-                graph,
-                event_nodes[-1],
-            ),
+            end_event_id=event_id_from_node(graph, event_nodes[-1]),
+            end_event_name=event_name_from_node(graph, event_nodes[-1]),
             event_nodes=event_nodes,
-            event_ids=[
-                event_id_from_node(
-                    graph,
-                    node_id,
-                )
-                for node_id in event_nodes
-            ],
-            event_names=[
-                event_name_from_node(
-                    graph,
-                    node_id,
-                )
-                for node_id in event_nodes
-            ],
-            rule_ids=rule_ids,
-            article_ids=article_ids,
-            hop_count=hop_count,
-            path_score=path_score,
+            event_ids=[event_id_from_node(graph, node) for node in event_nodes],
+            event_names=[event_name_from_node(graph, node) for node in event_nodes],
+            rule_ids=unique_preserve_order(rule_ids),
+            article_ids=unique_preserve_order(article_ids),
+            hop_count=len(event_nodes) - 1,
+            path_score=self.store.calculate_path_score(event_nodes),
         )
 
 
@@ -1659,347 +1480,254 @@ class CounterfactualGraphSearcher:
 # ============================================================
 
 class CounterfactualPathVerifier:
+    """
+    Xác minh path bằng can thiệp cấu trúc.
+
+    Điểm sửa quan trọng: path hai node (một hop) là path hợp lệ và được
+    SUPPORTED trực tiếp; không còn bị đánh UNRESOLVED chỉ vì không có mediator.
+    """
+
     def __init__(
         self,
         *,
         store: CounterfactualResourceStore,
-        generator: CounterfactualEventGenerator,
-        mapper: CounterfactualEventMapper,
-        searcher: CounterfactualGraphSearcher,
+        searcher: Optional[CounterfactualGraphSearcher] = None,
+        **_: Any,
     ) -> None:
         self.store = store
-        self.generator = generator
-        self.mapper = mapper
-        self.searcher = searcher
+        self.searcher = searcher or CounterfactualGraphSearcher(store)
 
     def verify_path(
         self,
         *,
         path_id: int,
         original_path: dict[str, Any],
-        cf_top_k: int,
-        mapping_top_k: int,
-        mapping_threshold: float,
-        max_hops: int,
-        max_paths: int,
+        max_hops: int = DEFAULT_MAX_CF_HOPS,
+        max_paths: int = DEFAULT_MAX_CF_PATHS,
+        max_mediators: int = DEFAULT_MAX_MEDIATORS_PER_PATH,
+        alternative_path_threshold: float = DEFAULT_ALTERNATIVE_PATH_THRESHOLD,
+        **_: Any,
     ) -> PathVerification:
-        event_nodes = [
-            safe_string(node_id)
-            for node_id in original_path.get(
-                "event_nodes",
-                [],
-            )
-            if safe_string(node_id)
-        ]
+        event_nodes = self.store.get_path_event_nodes(original_path)
+        rule_ids = self.store.get_path_rule_ids(original_path, event_nodes)
+        article_ids = self.store.get_path_article_ids(original_path, event_nodes)
 
         if len(event_nodes) < 2:
-            return PathVerification(
-                original_path_id=path_id,
-                seed_event_id="",
-                seed_event_name="",
-                original_outcome_event_id="",
-                original_outcome_event_name="",
-                counterfactual_candidates=[],
-                counterfactual_to_same_outcome=[],
-                counterfactual_to_opposite_outcome=[],
-                opposite_outcome_candidates=[],
-                status="UNRESOLVED",
-                consistency_score=0.0,
+            return self._unresolved(
+                path_id=path_id,
                 explanation=(
-                    "Original path không đủ hai event."
+                    "Không chuẩn hóa được ít nhất hai EVENT node từ path. "
+                    "Hãy kiểm tra event_nodes/event_ids/events trong retrieval_result.json."
                 ),
             )
 
         seed_node = event_nodes[0]
         outcome_node = event_nodes[-1]
-
-        seed_id = event_id_from_node(
-            self.store.graph,
-            seed_node,
-        )
-        seed_name = event_name_from_node(
-            self.store.graph,
-            seed_node,
-        )
-
-        outcome_id = event_id_from_node(
-            self.store.graph,
-            outcome_node,
-        )
-        outcome_name = event_name_from_node(
-            self.store.graph,
-            outcome_node,
-        )
-
-        raw_seed_counterfactuals = (
-            self.generator.generate_raw_candidates(
-                event_id=seed_id,
-                event_name=seed_name,
-            )
-        )
-
-        seed_counterfactuals = (
-            self.mapper.map_candidates(
-                source_event_node=seed_node,
-                source_event_id=seed_id,
-                source_event_name=seed_name,
-                raw_candidates=(
-                    raw_seed_counterfactuals
+        path_score = safe_float(
+            original_path.get(
+                "graph_score",
+                original_path.get(
+                    "path_score",
+                    original_path.get("score"),
                 ),
-                top_k=mapping_top_k,
-                min_score=mapping_threshold,
-            )
-        )[:cf_top_k]
-
-        raw_outcome_counterfactuals = (
-            self.generator.generate_raw_candidates(
-                event_id=outcome_id,
-                event_name=outcome_name,
-            )
+            ),
+            default=self.store.calculate_path_score(event_nodes),
+        )
+        structural_path_score = self.store.calculate_path_score(
+            event_nodes
         )
 
-        outcome_counterfactuals = (
-            self.mapper.map_candidates(
-                source_event_node=outcome_node,
-                source_event_id=outcome_id,
-                source_event_name=outcome_name,
-                raw_candidates=(
-                    raw_outcome_counterfactuals
+        if structural_path_score <= 0.0:
+            return PathVerification(
+                original_path_id=path_id,
+                seed_event_id=event_id_from_node(
+                    self.store.graph,
+                    event_nodes[0],
                 ),
-                top_k=mapping_top_k,
-                min_score=mapping_threshold,
-            )
-        )[:cf_top_k]
-
-        opposite_outcome_nodes = {
-            candidate.counterfactual_event_node
-            for candidate in outcome_counterfactuals
-        }
-
-        same_outcome_paths: list[
-            CounterfactualPath
-        ] = []
-
-        opposite_outcome_paths: list[
-            CounterfactualPath
-        ] = []
-
-        best_mapping_confidence = 0.0
-
-        for candidate in seed_counterfactuals:
-            best_mapping_confidence = max(
-                best_mapping_confidence,
-                candidate.confidence,
-            )
-
-            same_paths = self.searcher.find_paths(
-                start_node=(
-                    candidate
-                    .counterfactual_event_node
+                seed_event_name=event_name_from_node(
+                    self.store.graph,
+                    event_nodes[0],
                 ),
-                target_nodes={outcome_node},
+                original_outcome_event_id=event_id_from_node(
+                    self.store.graph,
+                    event_nodes[-1],
+                ),
+                original_outcome_event_name=event_name_from_node(
+                    self.store.graph,
+                    event_nodes[-1],
+                ),
+                original_event_nodes=event_nodes,
+                original_event_ids=[
+                    event_id_from_node(self.store.graph, node)
+                    for node in event_nodes
+                ],
+                original_event_names=[
+                    event_name_from_node(self.store.graph, node)
+                    for node in event_nodes
+                ],
+                original_rule_ids=rule_ids,
+                original_article_ids=article_ids,
+                original_path_score=0.0,
+                original_hop_count=len(event_nodes) - 1,
+                intervention_type="STRUCTURAL_PATH_VALIDATION",
+                mediator_interventions=[],
+                status="CONTRADICTED",
+                consistency_score=0.10,
+                explanation=(
+                    "Chuỗi EVENT không tạo thành các CAUSES edge liên tiếp "
+                    "trong causal event graph, kể cả sau khi chuẩn hóa hướng."
+                ),
+            )
+
+        if path_score <= 0.0:
+            path_score = structural_path_score
+        else:
+            # graph_score của Step 3 có chứa semantic seed score. Giữ lại tín
+            # hiệu đó nhưng không cho phép nó vượt qua kiểm tra cấu trúc.
+            path_score = clamp(
+                0.55 * path_score
+                + 0.45 * structural_path_score
+            )
+
+        base_kwargs = dict(
+            original_path_id=path_id,
+            seed_event_id=event_id_from_node(self.store.graph, seed_node),
+            seed_event_name=event_name_from_node(self.store.graph, seed_node),
+            original_outcome_event_id=event_id_from_node(self.store.graph, outcome_node),
+            original_outcome_event_name=event_name_from_node(self.store.graph, outcome_node),
+            original_event_nodes=event_nodes,
+            original_event_ids=[event_id_from_node(self.store.graph, n) for n in event_nodes],
+            original_event_names=[event_name_from_node(self.store.graph, n) for n in event_nodes],
+            original_rule_ids=rule_ids,
+            original_article_ids=article_ids,
+            original_path_score=path_score,
+            original_hop_count=len(event_nodes) - 1,
+        )
+
+        # Một hop không có mediator để loại, nhưng đây vẫn là causal edge hợp lệ.
+        if len(event_nodes) == 2:
+            edge_exists = self.store.causal_event_graph.has_edge(seed_node, outcome_node)
+            score = clamp(max(DIRECT_PATH_SUPPORT_SCORE, path_score)) if edge_exists else 0.10
+            return PathVerification(
+                **base_kwargs,
+                intervention_type="DIRECT_EDGE_VALIDATION",
+                mediator_interventions=[],
+                status="SUPPORTED" if edge_exists else "CONTRADICTED",
+                consistency_score=score,
+                explanation=(
+                    "Path trực tiếp một hop; không có mediator để can thiệp. "
+                    "CAUSES edge tồn tại trong causal event graph."
+                    if edge_exists else
+                    "Path có hai EVENT node nhưng không tồn tại CAUSES edge tương ứng."
+                ),
+            )
+
+        mediator_nodes = event_nodes[1:-1][:max_mediators]
+        interventions: list[MediatorIntervention] = []
+
+        for mediator_index, mediator_node in enumerate(mediator_nodes, start=1):
+            alternatives = self.searcher.find_alternative_paths(
+                start_node=seed_node,
+                end_node=outcome_node,
+                removed_nodes=[mediator_node],
                 max_hops=max_hops,
                 max_paths=max_paths,
             )
-            same_outcome_paths.extend(same_paths)
+            best_score = alternatives[0].path_score if alternatives else 0.0
 
-            opposite_paths = self.searcher.find_paths(
-                start_node=(
-                    candidate
-                    .counterfactual_event_node
-                ),
-                target_nodes=(
-                    opposite_outcome_nodes
-                ),
-                max_hops=max_hops,
-                max_paths=max_paths,
-            )
-            opposite_outcome_paths.extend(
-                opposite_paths
+            if not alternatives:
+                status = "NECESSARY"
+                necessity_score = NECESSARY_MEDIATOR_SCORE
+                explanation = "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+            elif best_score >= alternative_path_threshold:
+                status = "NON_NECESSARY"
+                necessity_score = NON_NECESSARY_SCORE
+                explanation = "Tồn tại đường thay thế đủ mạnh sau khi loại mediator."
+            else:
+                status = "PARTIALLY_NECESSARY"
+                necessity_score = PARTIALLY_NECESSARY_SCORE
+                explanation = "Có đường thay thế nhưng structural support thấp hơn ngưỡng."
+
+            interventions.append(MediatorIntervention(
+                mediator_index=mediator_index,
+                mediator_event_node=mediator_node,
+                mediator_event_id=event_id_from_node(self.store.graph, mediator_node),
+                mediator_event_name=event_name_from_node(self.store.graph, mediator_node),
+                removed_nodes=[mediator_node],
+                alternative_paths=[asdict(path) for path in alternatives],
+                best_alternative_path_score=best_score,
+                intervention_status=status,
+                necessity_score=necessity_score,
+                explanation=explanation,
+            ))
+
+        if not interventions:
+            return PathVerification(
+                **base_kwargs,
+                intervention_type="REMOVE_MEDIATOR",
+                mediator_interventions=[],
+                status="UNRESOLVED",
+                consistency_score=UNRESOLVED_BASE_SCORE,
+                explanation="Không tìm được mediator hợp lệ để thực hiện intervention.",
             )
 
-        (
-            status,
-            score,
-            explanation,
-        ) = self._classify_counterfactual_result(
-            seed_counterfactuals=(
-                seed_counterfactuals
-            ),
-            outcome_counterfactuals=(
-                outcome_counterfactuals
-            ),
-            same_outcome_paths=same_outcome_paths,
-            opposite_outcome_paths=(
-                opposite_outcome_paths
-            ),
-            best_mapping_confidence=(
-                best_mapping_confidence
-            ),
-        )
+        non_necessary = sum(item.intervention_status == "NON_NECESSARY" for item in interventions)
+        partially = sum(item.intervention_status == "PARTIALLY_NECESSARY" for item in interventions)
+        necessary = sum(item.intervention_status == "NECESSARY" for item in interventions)
+        average_necessity = sum(item.necessity_score for item in interventions) / len(interventions)
+        consistency = clamp(0.55 * average_necessity + 0.45 * path_score)
+
+        # Đường thay thế không chứng minh path gốc sai; nó chỉ cho thấy mediator
+        # không phải điều kiện cần duy nhất. Vì vậy trường hợp này là UNCERTAIN,
+        # không phải contradiction cứng. CONTRADICTED chỉ dành cho path sai cấu
+        # trúc ở phần kiểm tra phía trên.
+        if non_necessary > len(interventions) / 2:
+            status = "UNRESOLVED"
+            explanation = (
+                f"{non_necessary}/{len(interventions)} mediator không cần thiết; "
+                "tồn tại đường nhân quả thay thế nên chưa thể kết luận path gốc "
+                "là chuỗi bắt buộc, nhưng điều này không phủ định path gốc."
+            )
+        elif necessary > 0 or partially > 0:
+            status = "SUPPORTED"
+            explanation = (
+                f"Intervention cho thấy {necessary} mediator cần thiết và "
+                f"{partially} mediator cần thiết một phần."
+            )
+        else:
+            status = "UNRESOLVED"
+            consistency = UNRESOLVED_BASE_SCORE
+            explanation = "Không đủ tín hiệu cấu trúc để kết luận."
 
         return PathVerification(
-            original_path_id=path_id,
-            seed_event_id=seed_id,
-            seed_event_name=seed_name,
-            original_outcome_event_id=outcome_id,
-            original_outcome_event_name=outcome_name,
-            counterfactual_candidates=[
-                asdict(candidate)
-                for candidate in seed_counterfactuals
-            ],
-            counterfactual_to_same_outcome=[
-                asdict(path)
-                for path in same_outcome_paths
-            ],
-            counterfactual_to_opposite_outcome=[
-                asdict(path)
-                for path in opposite_outcome_paths
-            ],
-            opposite_outcome_candidates=[
-                asdict(candidate)
-                for candidate in outcome_counterfactuals
-            ],
+            **base_kwargs,
+            intervention_type="REMOVE_MEDIATOR",
+            mediator_interventions=[asdict(item) for item in interventions],
             status=status,
-            consistency_score=score,
+            consistency_score=consistency,
             explanation=explanation,
         )
 
-    def _classify_counterfactual_result(
-        self,
-        *,
-        seed_counterfactuals: list[
-            CounterfactualCandidate
-        ],
-        outcome_counterfactuals: list[
-            CounterfactualCandidate
-        ],
-        same_outcome_paths: list[
-            CounterfactualPath
-        ],
-        opposite_outcome_paths: list[
-            CounterfactualPath
-        ],
-        best_mapping_confidence: float,
-    ) -> tuple[str, float, str]:
-        if not seed_counterfactuals:
-            return (
-                "UNRESOLVED",
-                UNRESOLVED_BASE_SCORE,
-                (
-                    "Không map được counterfactual của "
-                    "seed event vào graph."
-                ),
-            )
-
-        if not outcome_counterfactuals:
-            if same_outcome_paths:
-                best_same_score = max(
-                    path.path_score
-                    for path in same_outcome_paths
-                )
-
-                score = clamp(
-                    NO_PATH_BASE_SCORE
-                    - SAME_OUTCOME_PENALTY
-                    * best_same_score
-                )
-
-                return (
-                    "CONTRADICTED",
-                    score,
-                    (
-                        "Counterfactual seed vẫn dẫn tới "
-                        "outcome ban đầu; chưa tìm được "
-                        "opposite outcome rõ ràng."
-                    ),
-                )
-
-            score = clamp(
-                NO_PATH_BASE_SCORE
-                * best_mapping_confidence
-            )
-
-            return (
-                "UNRESOLVED",
-                score,
-                (
-                    "Không tìm được opposite outcome trong "
-                    "graph; counterfactual seed cũng không "
-                    "dẫn tới outcome ban đầu."
-                ),
-            )
-
-        best_same_score = (
-            max(
-                path.path_score
-                for path in same_outcome_paths
-            )
-            if same_outcome_paths
-            else 0.0
-        )
-
-        best_opposite_score = (
-            max(
-                path.path_score
-                for path in opposite_outcome_paths
-            )
-            if opposite_outcome_paths
-            else 0.0
-        )
-
-        uncertainty_penalty = (
-            CF_MAPPING_UNCERTAINTY_WEIGHT
-            * (1.0 - best_mapping_confidence)
-        )
-
-        score = (
-            NO_PATH_BASE_SCORE
-            + OPPOSITE_OUTCOME_BONUS
-            * best_opposite_score
-            - SAME_OUTCOME_PENALTY
-            * best_same_score
-            - uncertainty_penalty
-        )
-
-        score = clamp(score)
-
-        if (
-            best_opposite_score > 0.0
-            and best_opposite_score
-            >= best_same_score
-        ):
-            return (
-                "SUPPORTED",
-                score,
-                (
-                    "Counterfactual seed dẫn tới opposite "
-                    "outcome và không ưu thế hơn đối với "
-                    "outcome ban đầu."
-                ),
-            )
-
-        if (
-            best_same_score > 0.0
-            and best_same_score
-            > best_opposite_score
-        ):
-            return (
-                "CONTRADICTED",
-                score,
-                (
-                    "Counterfactual seed vẫn dẫn tới outcome "
-                    "ban đầu mạnh hơn opposite outcome."
-                ),
-            )
-
-        return (
-            "UNRESOLVED",
-            score,
-            (
-                "Không tìm được causal path đủ rõ để kết luận "
-                "phản thực tế."
-            ),
+    @staticmethod
+    def _unresolved(*, path_id: int, explanation: str) -> PathVerification:
+        return PathVerification(
+            original_path_id=path_id,
+            seed_event_id="",
+            seed_event_name="",
+            original_outcome_event_id="",
+            original_outcome_event_name="",
+            original_event_nodes=[],
+            original_event_ids=[],
+            original_event_names=[],
+            original_rule_ids=[],
+            original_article_ids=[],
+            original_path_score=0.0,
+            original_hop_count=0,
+            intervention_type="REMOVE_MEDIATOR",
+            mediator_interventions=[],
+            status="UNRESOLVED",
+            consistency_score=UNRESOLVED_BASE_SCORE,
+            explanation=explanation,
         )
 
 
@@ -2008,840 +1736,317 @@ class CounterfactualPathVerifier:
 # ============================================================
 
 class EvidenceVerifier:
-    def __init__(
-        self,
-        store: CounterfactualResourceStore,
-    ) -> None:
+    def __init__(self, store: CounterfactualResourceStore) -> None:
         self.store = store
 
     def verify_all(
         self,
         *,
-        path_verifications: list[
-            PathVerification
-        ],
+        path_verifications: list[PathVerification],
         keep_threshold: float,
         reject_threshold: float,
         verified_top_k: int,
-    ) -> tuple[
-        list[EvidenceVerification],
-        list[EvidenceVerification],
-        list[EvidenceVerification],
-    ]:
-        evidence_items = (
-            self.store.retrieval_result.get(
-                "evidence",
-                [],
-            )
-        )
+    ) -> tuple[list[EvidenceVerification], list[EvidenceVerification], list[EvidenceVerification]]:
+        verified: list[EvidenceVerification] = []
+        uncertain: list[EvidenceVerification] = []
+        removed: list[EvidenceVerification] = []
 
-        path_verification_by_id = {
-            item.original_path_id: item
-            for item in path_verifications
-        }
-
-        verified: list[
-            EvidenceVerification
-        ] = []
-        uncertain: list[
-            EvidenceVerification
-        ] = []
-        removed: list[
-            EvidenceVerification
-        ] = []
-
-        for evidence in evidence_items:
-            verification = self._verify_one(
-                evidence=evidence,
-                path_verification_by_id=(
-                    path_verification_by_id
-                ),
-                keep_threshold=keep_threshold,
-                reject_threshold=reject_threshold,
-            )
-
-            if verification.decision == "KEEP":
-                verified.append(verification)
-            elif verification.decision == "REMOVE":
-                removed.append(verification)
+        for index, evidence in enumerate(self.store.retrieval_result.get("evidence", []), start=1):
+            result = self._verify_one(index, evidence, path_verifications, keep_threshold, reject_threshold)
+            if result.decision == "KEEP":
+                verified.append(result)
+            elif result.decision == "REMOVE":
+                removed.append(result)
             else:
-                uncertain.append(verification)
+                uncertain.append(result)
 
-        verified.sort(
-            key=lambda item: item.verification_score,
-            reverse=True,
-        )
-        uncertain.sort(
-            key=lambda item: item.verification_score,
-            reverse=True,
-        )
-        removed.sort(
-            key=lambda item: item.verification_score,
-        )
-
-        return (
-            verified[:verified_top_k],
-            uncertain,
-            removed,
-        )
+        verified.sort(key=lambda item: item.verification_score, reverse=True)
+        uncertain.sort(key=lambda item: item.verification_score, reverse=True)
+        removed.sort(key=lambda item: item.verification_score)
+        return verified[:verified_top_k], uncertain, removed
 
     def _verify_one(
         self,
-        *,
+        rank: int,
         evidence: dict[str, Any],
-        path_verification_by_id: dict[
-            int,
-            PathVerification,
-        ],
+        paths: list[PathVerification],
         keep_threshold: float,
         reject_threshold: float,
     ) -> EvidenceVerification:
-        path_ids = [
-            safe_int(path_id)
-            for path_id in evidence.get(
-                "path_ids",
-                [],
-            )
-        ]
+        rule_id = safe_string(evidence.get("rule_id"))
+        related = [p for p in paths if rule_id and rule_id in p.original_rule_ids]
+        if not related:
+            raw_path_ids = {safe_int(x, -1) for x in ensure_string_list(evidence.get("path_ids"))}
+            related = [p for p in paths if p.original_path_id in raw_path_ids]
 
-        supported_path_ids: list[int] = []
-        rejected_path_ids: list[int] = []
-        unresolved_path_ids: list[int] = []
+        supported = [p.original_path_id for p in related if p.status == "SUPPORTED"]
+        contradicted = [p.original_path_id for p in related if p.status == "CONTRADICTED"]
+        unresolved = [p.original_path_id for p in related if p.status == "UNRESOLVED"]
 
-        path_scores: list[float] = []
-        counterfactual_scores: list[float] = []
+        path_support = (
+            sum(p.original_path_score for p in related) / len(related)
+            if related else safe_float(evidence.get("path_score", evidence.get("graph_score")), 0.0)
+        )
+        cf_support = (
+            sum(p.consistency_score for p in related) / len(related)
+            if related else UNRESOLVED_BASE_SCORE
+        )
+        semantic = safe_float(evidence.get("semantic_score", evidence.get("similarity_score")), 0.0)
+        graph_score = safe_float(evidence.get("graph_score", evidence.get("causal_score")), 0.0)
+        original_final = safe_float(evidence.get("final_score", evidence.get("evidence_score")), 0.0)
+
+        score = clamp(
+            PATH_SUPPORT_WEIGHT * path_support
+            + COUNTERFACTUAL_SUPPORT_WEIGHT * cf_support
+            + SEMANTIC_EVIDENCE_WEIGHT * semantic
+            + GRAPH_EVIDENCE_WEIGHT * graph_score
+        )
 
         reasons: list[str] = []
-
-        for path_id in path_ids:
-            verification = (
-                path_verification_by_id.get(
-                    path_id
-                )
-            )
-
-            if verification is None:
-                continue
-
-            path_scores.append(
-                verification.consistency_score
-            )
-
-            if verification.status == "SUPPORTED":
-                supported_path_ids.append(path_id)
-                counterfactual_scores.append(
-                    verification.consistency_score
-                )
-            elif (
-                verification.status
-                == "CONTRADICTED"
-            ):
-                rejected_path_ids.append(path_id)
-                counterfactual_scores.append(
-                    verification.consistency_score
-                )
-            else:
-                unresolved_path_ids.append(
-                    path_id
-                )
-                counterfactual_scores.append(
-                    verification.consistency_score
-                )
-
-        semantic_score = safe_float(
-            evidence.get("semantic_score")
-        )
-        graph_score = safe_float(
-            evidence.get("graph_score")
-        )
-        original_final_score = safe_float(
-            evidence.get("final_score")
-        )
-
-        if path_scores:
-            path_support_score = (
-                sum(path_scores)
-                / len(path_scores)
-            )
-        else:
-            # Evidence được semantic retrieval trực tiếp nhưng
-            # không nằm trên path vẫn được giữ một mức cơ sở.
-            path_support_score = 0.40
-
-        if counterfactual_scores:
-            counterfactual_support_score = (
-                sum(counterfactual_scores)
-                / len(counterfactual_scores)
-            )
-        else:
-            counterfactual_support_score = (
-                UNRESOLVED_BASE_SCORE
-            )
-
-        verification_score = clamp(
-            PATH_SUPPORT_WEIGHT
-            * path_support_score
-            + COUNTERFACTUAL_SUPPORT_WEIGHT
-            * counterfactual_support_score
-            + SEMANTIC_EVIDENCE_WEIGHT
-            * semantic_score
-            + GRAPH_EVIDENCE_WEIGHT
-            * graph_score
-        )
-
-        contradicted_ratio = (
-            len(rejected_path_ids)
-            / len(path_ids)
-            if path_ids
-            else 0.0
-        )
-
-        supported_ratio = (
-            len(supported_path_ids)
-            / len(path_ids)
-            if path_ids
-            else 0.0
-        )
-
-        if contradicted_ratio >= 0.5:
+        if related and len(contradicted) / len(related) >= 0.5:
             decision = "REMOVE"
-            reasons.append(
-                "Ít nhất một nửa causal path liên quan bị "
-                "counterfactual contradiction."
-            )
-        elif (
-            verification_score >= keep_threshold
-            and (
-                supported_ratio > 0.0
-                or not path_ids
-            )
-        ):
+            reasons.append("Ít nhất một nửa path liên quan bị CONTRADICTED.")
+        elif supported and score >= keep_threshold:
             decision = "KEEP"
-            reasons.append(
-                "Evidence đạt ngưỡng xác minh và có causal "
-                "path được counterfactual support."
-            )
-        elif verification_score < reject_threshold:
+            reasons.append("Có path SUPPORTED và verification score đạt keep threshold.")
+        elif score < reject_threshold and not supported:
             decision = "REMOVE"
-            reasons.append(
-                "Điểm xác minh thấp hơn reject threshold."
-            )
+            reasons.append("Verification score thấp hơn reject threshold và không có path SUPPORTED.")
         else:
             decision = "UNCERTAIN"
-            reasons.append(
-                "Evidence chưa đủ mạnh để giữ nhưng cũng "
-                "chưa đủ bằng chứng để loại."
-            )
+            reasons.append("Chưa đủ điều kiện KEEP hoặc REMOVE.")
 
-        if not path_ids:
-            reasons.append(
-                "Evidence không gắn với causal path; quyết "
-                "định chủ yếu dựa vào semantic và graph score."
-            )
-
-        if unresolved_path_ids:
-            reasons.append(
-                f"{len(unresolved_path_ids)} path chưa xác "
-                "định được phản thực tế."
-            )
+        if not related:
+            reasons.append("Evidence không ánh xạ được tới causal path bằng rule_id/path_ids.")
 
         return EvidenceVerification(
-            original_rank=safe_int(
-                evidence.get("rank")
-            ),
-            rule_id=safe_string(
-                evidence.get("rule_id")
-            ),
-            article_id=safe_string(
-                evidence.get("article_id")
-            ),
-            original_final_score=(
-                original_final_score
-            ),
-            semantic_score=semantic_score,
+            original_rank=safe_int(evidence.get("rank"), rank),
+            rule_id=rule_id,
+            article_id=safe_string(evidence.get("article_id")),
+            original_final_score=original_final,
+            semantic_score=semantic,
             graph_score=graph_score,
-            path_support_score=(
-                path_support_score
-            ),
-            counterfactual_support_score=(
-                counterfactual_support_score
-            ),
-            verification_score=verification_score,
+            path_support_score=path_support,
+            counterfactual_support_score=cf_support,
+            verification_score=score,
             decision=decision,
-            verified_path_ids=(
-                supported_path_ids
-            ),
-            rejected_path_ids=(
-                rejected_path_ids
-            ),
-            unresolved_path_ids=(
-                unresolved_path_ids
-            ),
+            verified_path_ids=supported,
+            rejected_path_ids=contradicted,
+            unresolved_path_ids=unresolved,
             reasons=reasons,
             original_evidence=evidence,
         )
 
 
 # ============================================================
-# END-TO-END VERIFICATION PIPELINE
+# END-TO-END PIPELINE
 # ============================================================
 
 class CounterfactualVerificationPipeline:
-    def __init__(
-        self,
-        store: CounterfactualResourceStore,
-    ) -> None:
+    def __init__(self, store: CounterfactualResourceStore) -> None:
         self.store = store
-
-        self.generator = (
-            CounterfactualEventGenerator(store)
-        )
-        self.mapper = CounterfactualEventMapper(
-            store
-        )
-        self.searcher = (
-            CounterfactualGraphSearcher(store)
-        )
-
-        self.path_verifier = (
-            CounterfactualPathVerifier(
-                store=store,
-                generator=self.generator,
-                mapper=self.mapper,
-                searcher=self.searcher,
-            )
-        )
-
-        self.evidence_verifier = (
-            EvidenceVerifier(store)
-        )
+        self.searcher = CounterfactualGraphSearcher(store)
+        self.path_verifier = CounterfactualPathVerifier(store=store, searcher=self.searcher)
+        self.evidence_verifier = EvidenceVerifier(store)
 
     def run(
         self,
         *,
-        cf_top_k: int,
-        mapping_top_k: int,
-        mapping_threshold: float,
-        max_cf_hops: int,
-        max_cf_paths: int,
-        verified_top_k: int,
-        keep_threshold: float,
-        reject_threshold: float,
+        max_cf_hops: int = DEFAULT_MAX_CF_HOPS,
+        max_cf_paths: int = DEFAULT_MAX_CF_PATHS,
+        verified_top_k: int = DEFAULT_VERIFIED_TOP_K,
+        keep_threshold: float = DEFAULT_KEEP_THRESHOLD,
+        reject_threshold: float = DEFAULT_REJECT_THRESHOLD,
+        cf_top_k: int = 5,
+        mapping_top_k: int = 5,
+        mapping_threshold: float = 0.42,
+        **_: Any,
     ) -> VerificationResult:
-        original_paths = (
-            self.store.retrieval_result.get(
-                "causal_paths",
-                [],
-            )
-        )
+        original_paths = self.store.retrieval_result.get("causal_paths", [])
+        path_results: list[PathVerification] = []
+        print(f"\nVerifying {len(original_paths)} causal paths...")
 
-        path_verifications: list[
-            PathVerification
-        ] = []
-
-        print(
-            "\nVerifying",
-            len(original_paths),
-            "causal paths...",
-        )
-
-        for path_id, path in enumerate(
-            original_paths
-        ):
-            verification = (
-                self.path_verifier.verify_path(
+        for path_id, path in enumerate(original_paths):
+            if not isinstance(path, dict):
+                verification = self.path_verifier._unresolved(
+                    path_id=path_id,
+                    explanation="Causal path không phải JSON object.",
+                )
+            else:
+                verification = self.path_verifier.verify_path(
                     path_id=path_id,
                     original_path=path,
-                    cf_top_k=cf_top_k,
-                    mapping_top_k=(
-                        mapping_top_k
-                    ),
-                    mapping_threshold=(
-                        mapping_threshold
-                    ),
                     max_hops=max_cf_hops,
                     max_paths=max_cf_paths,
                 )
-            )
+            path_results.append(verification)
+            print(f"- Path {path_id}: {verification.status} score={verification.consistency_score:.4f}")
 
-            path_verifications.append(
-                verification
-            )
-
-            print(
-                f"- Path {path_id}: "
-                f"{verification.status} "
-                f"score="
-                f"{verification.consistency_score:.4f}"
-            )
-
-        (
-            verified_evidence,
-            uncertain_evidence,
-            removed_evidence,
-        ) = self.evidence_verifier.verify_all(
-            path_verifications=(
-                path_verifications
-            ),
+        verified, uncertain, removed = self.evidence_verifier.verify_all(
+            path_verifications=path_results,
             keep_threshold=keep_threshold,
             reject_threshold=reject_threshold,
             verified_top_k=verified_top_k,
         )
 
-        consistency_score = (
-            self._calculate_global_consistency(
-                path_verifications
-            )
-        )
-
-        confidence = (
-            self._calculate_global_confidence(
-                path_verifications=(
-                    path_verifications
-                ),
-                verified_evidence=(
-                    verified_evidence
-                ),
-                uncertain_evidence=(
-                    uncertain_evidence
-                ),
-                removed_evidence=(
-                    removed_evidence
-                ),
-            )
-        )
-
         status_counts = {
-            "SUPPORTED": sum(
-                item.status == "SUPPORTED"
-                for item in path_verifications
-            ),
-            "CONTRADICTED": sum(
-                item.status == "CONTRADICTED"
-                for item in path_verifications
-            ),
-            "UNRESOLVED": sum(
-                item.status == "UNRESOLVED"
-                for item in path_verifications
-            ),
+            status: sum(item.status == status for item in path_results)
+            for status in ("SUPPORTED", "CONTRADICTED", "UNRESOLVED")
         }
+        consistency = (
+            sum(item.consistency_score for item in path_results) / len(path_results)
+            if path_results else 0.0
+        )
+        resolved_ratio = (
+            (status_counts["SUPPORTED"] + status_counts["CONTRADICTED"]) / len(path_results)
+            if path_results else 0.0
+        )
+        confidence = clamp(0.65 * resolved_ratio + 0.35 * consistency)
 
         return VerificationResult(
-            query=safe_string(
-                self.store.retrieval_result.get(
-                    "query"
-                )
-            ),
+            query=safe_string(self.store.retrieval_result.get("query")),
             configuration={
                 "cf_top_k": cf_top_k,
                 "mapping_top_k": mapping_top_k,
-                "mapping_threshold": (
-                    mapping_threshold
-                ),
+                "mapping_threshold": mapping_threshold,
                 "max_cf_hops": max_cf_hops,
                 "max_cf_paths": max_cf_paths,
                 "verified_top_k": verified_top_k,
                 "keep_threshold": keep_threshold,
-                "reject_threshold": (
-                    reject_threshold
-                ),
-                "semantic_mapping_enabled": (
-                    self.store
-                    .enable_semantic_mapping
-                ),
-                "model_name": (
-                    self.store.model_name
-                ),
-                "score_weights": {
-                    "path_support": (
-                        PATH_SUPPORT_WEIGHT
-                    ),
-                    "counterfactual_support": (
-                        COUNTERFACTUAL_SUPPORT_WEIGHT
-                    ),
-                    "semantic_evidence": (
-                        SEMANTIC_EVIDENCE_WEIGHT
-                    ),
-                    "graph_evidence": (
-                        GRAPH_EVIDENCE_WEIGHT
-                    ),
-                },
+                "reject_threshold": reject_threshold,
+                "alternative_path_threshold": DEFAULT_ALTERNATIVE_PATH_THRESHOLD,
+                "verification_method": "graph_intervention_remove_mediator",
+                "semantic_mapping_enabled": False,
+                "model_name": self.store.model_name,
             },
             statistics={
-                "original_paths": len(
-                    original_paths
-                ),
+                # Giữ cả tên trường cũ và mới để tương thích với Step 5/5.5.
+                "original_paths": len(path_results),
+                "total_paths": len(path_results),
                 "path_status_counts": status_counts,
-                "original_evidence": len(
-                    self.store.retrieval_result.get(
-                        "evidence",
-                        [],
-                    )
-                ),
-                "verified_evidence": len(
-                    verified_evidence
-                ),
-                "uncertain_evidence": len(
-                    uncertain_evidence
-                ),
-                "removed_evidence": len(
-                    removed_evidence
-                ),
+                "status_counts": status_counts,
+                "original_evidence": len(self.store.retrieval_result.get("evidence", [])),
+                "total_evidence": len(self.store.retrieval_result.get("evidence", [])),
+                "verified_evidence": len(verified),
+                "uncertain_evidence": len(uncertain),
+                "removed_evidence": len(removed),
             },
-            path_verifications=[
-                asdict(item)
-                for item in path_verifications
-            ],
-            verified_evidence=[
-                asdict(item)
-                for item in verified_evidence
-            ],
-            uncertain_evidence=[
-                asdict(item)
-                for item in uncertain_evidence
-            ],
-            removed_evidence=[
-                asdict(item)
-                for item in removed_evidence
-            ],
-            consistency_score=consistency_score,
+            path_verifications=[asdict(item) for item in path_results],
+            verified_evidence=[asdict(item) for item in verified],
+            uncertain_evidence=[asdict(item) for item in uncertain],
+            removed_evidence=[asdict(item) for item in removed],
+            consistency_score=consistency,
             confidence=confidence,
         )
 
-    @staticmethod
-    def _calculate_global_consistency(
-        path_verifications: list[
-            PathVerification
-        ],
-    ) -> float:
-        if not path_verifications:
-            return 0.0
 
-        return clamp(
-            sum(
-                item.consistency_score
-                for item in path_verifications
-            )
-            / len(path_verifications)
-        )
-
-    @staticmethod
-    def _calculate_global_confidence(
-        *,
-        path_verifications: list[
-            PathVerification
-        ],
-        verified_evidence: list[
-            EvidenceVerification
-        ],
-        uncertain_evidence: list[
-            EvidenceVerification
-        ],
-        removed_evidence: list[
-            EvidenceVerification
-        ],
-    ) -> float:
-        total_paths = len(path_verifications)
-
-        if total_paths:
-            resolved_ratio = (
-                sum(
-                    item.status != "UNRESOLVED"
-                    for item in path_verifications
-                )
-                / total_paths
-            )
-        else:
-            resolved_ratio = 0.0
-
-        total_evidence = (
-            len(verified_evidence)
-            + len(uncertain_evidence)
-            + len(removed_evidence)
-        )
-
-        if total_evidence:
-            evidence_decision_ratio = (
-                len(verified_evidence)
-                + len(removed_evidence)
-            ) / total_evidence
-        else:
-            evidence_decision_ratio = 0.0
-
-        verified_score = (
-            sum(
-                item.verification_score
-                for item in verified_evidence
-            )
-            / len(verified_evidence)
-            if verified_evidence
-            else 0.0
-        )
-
-        return clamp(
-            0.40 * resolved_ratio
-            + 0.30 * evidence_decision_ratio
-            + 0.30 * verified_score
-        )
-
-
-# ============================================================
-# OUTPUT
-# ============================================================
-
-def save_result(
-    result: VerificationResult,
-    output_path: str,
-) -> None:
+def run_counterfactual_verification(
+    *,
+    graph_path: str = GRAPH_PATH,
+    memory_path: str = MEMORY_PATH,
+    retrieval_result_path: str = RETRIEVAL_RESULT_PATH,
+    output_path: str = OUTPUT_PATH,
+    embeddings_path: Optional[str] = None,
+    counterfactual_map_path: Optional[str] = None,
+    model_name: Optional[str] = None,
+    enable_semantic_mapping: bool = False,
+    max_cf_hops: int = DEFAULT_MAX_CF_HOPS,
+    max_cf_paths: int = DEFAULT_MAX_CF_PATHS,
+    verified_top_k: int = DEFAULT_VERIFIED_TOP_K,
+    keep_threshold: float = DEFAULT_KEEP_THRESHOLD,
+    reject_threshold: float = DEFAULT_REJECT_THRESHOLD,
+    **kwargs: Any,
+) -> dict[str, Any]:
+    store = CounterfactualResourceStore(
+        graph_path=graph_path,
+        memory_path=memory_path,
+        retrieval_result_path=retrieval_result_path,
+        embeddings_path=embeddings_path,
+        counterfactual_map_path=counterfactual_map_path,
+        model_name=model_name,
+        enable_semantic_mapping=enable_semantic_mapping,
+    )
+    result = CounterfactualVerificationPipeline(store).run(
+        max_cf_hops=max_cf_hops,
+        max_cf_paths=max_cf_paths,
+        verified_top_k=verified_top_k,
+        keep_threshold=keep_threshold,
+        reject_threshold=reject_threshold,
+        **kwargs,
+    )
+    payload = json_serializable(asdict(result))
     path = Path(output_path)
-    path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    with path.open(
-        "w",
-        encoding="utf-8",
-    ) as file:
-        json.dump(
-            json_serializable(asdict(result)),
-            file,
-            ensure_ascii=False,
-            indent=2,
-        )
-
-    print(
-        "\nSaved verification result:",
-        path,
-    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    temporary.replace(path)
+    return payload
 
 
-def print_summary(
-    result: VerificationResult,
-) -> None:
-    print("\n" + "=" * 76)
-    print("COUNTERFACTUAL VERIFICATION RESULT")
-    print("=" * 76)
-
-    print("Query:", result.query)
-
-    print(
-        "\nGlobal consistency score:",
-        f"{result.consistency_score:.4f}",
-    )
-    print(
-        "Global confidence:",
-        f"{result.confidence:.4f}",
-    )
-
-    print("\nPath verification:")
-    counts = result.statistics[
-        "path_status_counts"
-    ]
-
-    for status, count in counts.items():
-        print(f"- {status}: {count}")
-
-    print("\nVerified evidence:")
-
-    for item in result.verified_evidence:
-        original = item["original_evidence"]
-
-        print(
-            f"- Rule {item['rule_id']} | "
-            f"Điều {item['article_id']} | "
-            f"verification="
-            f"{item['verification_score']:.4f}"
-        )
-        print(
-            "  Nếu:",
-            original.get("condition", ""),
-        )
-        print(
-            "  Thì:",
-            original.get("effect", ""),
-        )
-
-    if not result.verified_evidence:
-        print("- Không có evidence đạt KEEP threshold.")
-
-    print("\nRemoved evidence:")
-
-    for item in result.removed_evidence:
-        print(
-            f"- Rule {item['rule_id']} | "
-            f"Điều {item['article_id']} | "
-            f"verification="
-            f"{item['verification_score']:.4f}"
-        )
+def save_result(result: VerificationResult | dict[str, Any], output_path: str) -> None:
+    payload = asdict(result) if isinstance(result, VerificationResult) else result
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(json_serializable(payload), ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Saved verification result: {path}")
 
 
-# ============================================================
-# ARGUMENTS
-# ============================================================
+def print_summary(result: VerificationResult | dict[str, Any]) -> None:
+    payload = asdict(result) if isinstance(result, VerificationResult) else result
+    stats = payload.get("statistics", {})
+    print("\n" + "=" * 80)
+    print("COUNTERFACTUAL VERIFICATION - MEDIATOR INTERVENTION")
+    print("=" * 80)
+    print("Query:", payload.get("query", ""))
+    print("Path status:", stats.get("status_counts", {}))
+    print("Consistency:", f"{safe_float(payload.get('consistency_score')):.4f}")
+    print("Confidence:", f"{safe_float(payload.get('confidence')):.4f}")
+
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description=(
-            "Graph-based counterfactual verification for "
-            "Counterfactual-Aware CausalRAG."
-        )
-    )
-
-    parser.add_argument(
-        "--graph",
-        default=GRAPH_PATH,
-    )
-    parser.add_argument(
-        "--memory",
-        default=MEMORY_PATH,
-    )
-    parser.add_argument(
-        "--embeddings",
-        default=EMBEDDINGS_PATH,
-    )
-    parser.add_argument(
-        "--retrieval-result",
-        default=RETRIEVAL_RESULT_PATH,
-    )
-    parser.add_argument(
-        "--counterfactual-map",
-        default=COUNTERFACTUAL_MAP_PATH,
-    )
-    parser.add_argument(
-        "--model",
-        default=MODEL_NAME,
-    )
-    parser.add_argument(
-        "--output",
-        default=OUTPUT_PATH,
-    )
-
-    parser.add_argument(
-        "--cf-top-k",
-        type=int,
-        default=DEFAULT_CF_TOP_K,
-    )
-    parser.add_argument(
-        "--mapping-top-k",
-        type=int,
-        default=DEFAULT_MAPPING_TOP_K,
-    )
-    parser.add_argument(
-        "--mapping-threshold",
-        type=float,
-        default=DEFAULT_MAPPING_THRESHOLD,
-    )
-    parser.add_argument(
-        "--max-cf-hops",
-        type=int,
-        default=DEFAULT_MAX_CF_HOPS,
-    )
-    parser.add_argument(
-        "--max-cf-paths",
-        type=int,
-        default=DEFAULT_MAX_CF_PATHS,
-    )
-    parser.add_argument(
-        "--verified-top-k",
-        type=int,
-        default=DEFAULT_VERIFIED_TOP_K,
-    )
-    parser.add_argument(
-        "--keep-threshold",
-        type=float,
-        default=DEFAULT_KEEP_THRESHOLD,
-    )
-    parser.add_argument(
-        "--reject-threshold",
-        type=float,
-        default=DEFAULT_REJECT_THRESHOLD,
-    )
-
-    parser.add_argument(
-        "--disable-semantic-mapping",
-        action="store_true",
-        help=(
-            "Chỉ dùng exact/heuristic mapping, không load "
-            "SentenceTransformer và embeddings."
-        ),
-    )
-
+    parser = argparse.ArgumentParser(description="Counterfactual verification bằng do(remove mediator).")
+    parser.add_argument("--graph", default=GRAPH_PATH)
+    parser.add_argument("--memory", default=MEMORY_PATH)
+    parser.add_argument("--retrieval-result", default=RETRIEVAL_RESULT_PATH)
+    parser.add_argument("--output", default=OUTPUT_PATH)
+    parser.add_argument("--max-cf-hops", type=int, default=DEFAULT_MAX_CF_HOPS)
+    parser.add_argument("--max-cf-paths", type=int, default=DEFAULT_MAX_CF_PATHS)
+    parser.add_argument("--verified-top-k", type=int, default=DEFAULT_VERIFIED_TOP_K)
+    parser.add_argument("--keep-threshold", type=float, default=DEFAULT_KEEP_THRESHOLD)
+    parser.add_argument("--reject-threshold", type=float, default=DEFAULT_REJECT_THRESHOLD)
+    # Tham số cũ được giữ để script gọi ngoài không bị vỡ.
+    parser.add_argument("--embeddings", default=None)
+    parser.add_argument("--counterfactual-map", default=None)
+    parser.add_argument("--model", default=None)
+    parser.add_argument("--disable-semantic-mapping", action="store_true")
+    parser.add_argument("--cf-top-k", type=int, default=5)
+    parser.add_argument("--mapping-top-k", type=int, default=5)
+    parser.add_argument("--mapping-threshold", type=float, default=0.42)
     return parser.parse_args()
 
 
-# ============================================================
-# MAIN
-# ============================================================
-
 def main() -> None:
     args = parse_args()
+    if args.max_cf_hops < 1 or args.max_cf_paths < 1:
+        raise ValueError("max-cf-hops và max-cf-paths phải lớn hơn 0.")
+    if not 0.0 <= args.reject_threshold <= args.keep_threshold <= 1.0:
+        raise ValueError("Cần thỏa mãn 0 <= reject-threshold <= keep-threshold <= 1.")
 
-    if args.cf_top_k < 1:
-        raise ValueError(
-            "--cf-top-k phải lớn hơn 0."
-        )
-
-    if args.mapping_top_k < 1:
-        raise ValueError(
-            "--mapping-top-k phải lớn hơn 0."
-        )
-
-    if args.max_cf_hops < 1:
-        raise ValueError(
-            "--max-cf-hops phải lớn hơn 0."
-        )
-
-    if not (
-        0.0 <= args.reject_threshold
-        <= args.keep_threshold
-        <= 1.0
-    ):
-        raise ValueError(
-            "Cần thỏa mãn: 0 <= reject-threshold "
-            "<= keep-threshold <= 1."
-        )
-
-    store = CounterfactualResourceStore(
+    payload = run_counterfactual_verification(
         graph_path=args.graph,
         memory_path=args.memory,
-        embeddings_path=args.embeddings,
-        retrieval_result_path=(
-            args.retrieval_result
-        ),
-        counterfactual_map_path=(
-            args.counterfactual_map
-        ),
-        model_name=args.model,
-        enable_semantic_mapping=(
-            not args.disable_semantic_mapping
-        ),
-    )
-
-    pipeline = (
-        CounterfactualVerificationPipeline(store)
-    )
-
-    result = pipeline.run(
-        cf_top_k=args.cf_top_k,
-        mapping_top_k=args.mapping_top_k,
-        mapping_threshold=(
-            args.mapping_threshold
-        ),
+        retrieval_result_path=args.retrieval_result,
+        output_path=args.output,
         max_cf_hops=args.max_cf_hops,
         max_cf_paths=args.max_cf_paths,
         verified_top_k=args.verified_top_k,
         keep_threshold=args.keep_threshold,
-        reject_threshold=(
-            args.reject_threshold
-        ),
+        reject_threshold=args.reject_threshold,
+        cf_top_k=args.cf_top_k,
+        mapping_top_k=args.mapping_top_k,
+        mapping_threshold=args.mapping_threshold,
     )
-
-    print_summary(result)
-    save_result(
-        result,
-        args.output,
-    )
+    print_summary(payload)
 
 
 if __name__ == "__main__":
