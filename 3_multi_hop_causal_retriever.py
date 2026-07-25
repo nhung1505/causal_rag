@@ -39,20 +39,31 @@ DEFAULT_FINAL_TOP_K = 12
 DEFAULT_MIN_EVENT_SCORE = 0.20
 DEFAULT_MIN_RULE_SCORE = 0.15
 
-# Trọng số xếp hạng cuối cùng.
-SEMANTIC_RULE_WEIGHT = 0.58
-GRAPH_PATH_WEIGHT = 0.24
-SEED_EVENT_WEIGHT = 0.12
-DIRECT_RULE_BONUS_WEIGHT = 0.06
+# Trọng số xếp hạng rule cuối cùng.
+#
+# Phiên bản cũ để semantic similarity chiếm 58%, khiến rule ở hop thứ hai
+# thường bị tụt hạng vì nội dung câu hỏi chủ yếu nhắc tới event đầu chuỗi.
+# Phiên bản này tăng vai trò của causal path và thêm tín hiệu ưu tiên các
+# rule thuộc những path multi-hop đứng đầu. Tổng các trọng số bằng 1.0.
+SEMANTIC_RULE_WEIGHT = 0.32
+GRAPH_PATH_WEIGHT = 0.36
+SEED_EVENT_WEIGHT = 0.10
+DIRECT_RULE_BONUS_WEIGHT = 0.07
+PREFERRED_PATH_RULE_WEIGHT = 0.15
 
-# Giảm dần đóng góp graph theo số hop.
-HOP_DECAY = 0.82
+# Thưởng cho path đạt đúng độ sâu yêu cầu. Với benchmark hiện tại,
+# max_hops=2 nên path hai bước phải được ưu tiên hơn path một bước.
+FULL_HOP_COMPLETION_BONUS = 0.18
+PARTIAL_HOP_COMPLETION_BONUS = 0.03
 
-# Thưởng nhẹ cho bridge event vì thường nối được nhiều bước suy luận.
-BRIDGE_EVENT_BONUS = 0.05
+# Thưởng cho bridge event vì event trung gian vừa là effect của rule trước,
+# vừa là condition của rule sau.
+BRIDGE_EVENT_BONUS = 0.06
 
-# Phạt các path quá dài hoặc quá nhiều nhánh.
-PATH_LENGTH_PENALTY = 0.03
+# Giới hạn an toàn số path thô được sinh trước khi xếp hạng và cắt top-k.
+# Không cắt ngay sau khi gặp đủ path một hop vì như vậy có thể chưa kịp
+# mở rộng tới path hai hop.
+PATH_SEARCH_CANDIDATE_MULTIPLIER = 20
 
 
 # ============================================================
@@ -118,6 +129,7 @@ class RuleEvidence:
     graph_score: float
     seed_event_score: float
     direct_rule_score: float
+    path_priority_score: float
     final_score: float
     matched_seed_events: list[str] = field(default_factory=list)
     path_ids: list[int] = field(default_factory=list)
@@ -588,6 +600,109 @@ class MultiHopCausalRetriever:
     ) -> None:
         self.store = store
 
+    @staticmethod
+    def _resolve_direction(
+        query: str,
+        requested_direction: str,
+    ) -> str:
+        """Suy ra hướng mở rộng graph khi người gọi truyền ``both``.
+
+        Các câu hỏi hỏi hệ quả/kết quả của một sự kiện nên mở rộng forward.
+        Các câu hỏi hỏi nguyên nhân/điều kiện dẫn đến một kết quả nên mở rộng
+        backward. Nếu không nhận diện chắc chắn, giữ nguyên ``both``.
+        """
+
+        if requested_direction != "both":
+            return requested_direction
+
+        normalized_query = safe_string(query).lower()
+
+        backward_markers = (
+            "nguyên nhân",
+            "do đâu",
+            "vì sao",
+            "điều kiện nào",
+            "sự kiện nào dẫn",
+            "bắt nguồn từ",
+        )
+        forward_markers = (
+            "hệ quả",
+            "kết quả",
+            "hậu quả",
+            "dẫn tới",
+            "dẫn đến",
+            "chuỗi bắt đầu",
+            "chuỗi hai bước",
+            "xảy ra",
+            "sẽ bị",
+        )
+
+        if any(marker in normalized_query for marker in backward_markers):
+            return "backward"
+
+        if any(marker in normalized_query for marker in forward_markers):
+            return "forward"
+
+        return requested_direction
+
+    @staticmethod
+    def _canonicalize_steps(
+        steps: list[CausalPathStep],
+        direction: str,
+    ) -> list[CausalPathStep]:
+        """Đưa danh sách step về thứ tự cause -> ... -> effect.
+
+        Khi duyệt backward, Step 3 phát hiện cạnh gần seed trước nên thứ tự
+        ban đầu có dạng ``B -> C, A -> B``. Hàm này đảo lại thành
+        ``A -> B, B -> C`` và đánh số hop từ 1.
+
+        ``event_nodes`` vẫn giữ thứ tự traversal để tương thích với Step 4
+        hiện tại, vốn tự đảo path có ``direction=backward``.
+        """
+
+        ordered_steps = (
+            list(reversed(steps))
+            if direction == "backward"
+            else list(steps)
+        )
+
+        return [
+            CausalPathStep(
+                hop=index,
+                source_event_node=step.source_event_node,
+                source_event_id=step.source_event_id,
+                source_event_name=step.source_event_name,
+                target_event_node=step.target_event_node,
+                target_event_id=step.target_event_id,
+                target_event_name=step.target_event_name,
+                rule_ids=list(step.rule_ids),
+                article_ids=list(step.article_ids),
+                support_count=step.support_count,
+            )
+            for index, step in enumerate(ordered_steps, start=1)
+        ]
+
+    @staticmethod
+    def _path_sort_key(
+        path: CausalPath,
+        preferred_hops: int,
+    ) -> tuple[int, float, float, float]:
+        """Khóa xếp hạng ưu tiên path đạt đủ số hop yêu cầu."""
+
+        hop_count = len(path.steps)
+        exact_hop_match = int(hop_count == preferred_hops)
+        completion_ratio = min(
+            1.0,
+            hop_count / max(1, preferred_hops),
+        )
+
+        return (
+            exact_hop_match,
+            completion_ratio,
+            path.graph_score,
+            path.seed_similarity,
+        )
+
     # --------------------------------------------------------
     # STAGE 1: SEMANTIC SEED RETRIEVAL
     # --------------------------------------------------------
@@ -824,7 +939,10 @@ class MultiHopCausalRetriever:
             )
 
         all_paths.sort(
-            key=lambda path: path.graph_score,
+            key=lambda path: self._path_sort_key(
+                path,
+                max_hops,
+            ),
             reverse=True,
         )
 
@@ -838,11 +956,18 @@ class MultiHopCausalRetriever:
         max_paths: int,
         direction: str,
     ) -> list[CausalPath]:
+        """Tìm path có giới hạn nhưng không cắt mất path multi-hop.
+
+        Phiên bản cũ dừng ngay khi ``completed_paths`` đạt ``max_paths``.
+        Vì BFS sinh toàn bộ path một hop trước, một seed có nhiều láng giềng
+        có thể làm bộ tìm kiếm dừng trước khi mở rộng được bất kỳ path hai
+        hop nào. Phiên bản này thu thập một candidate pool lớn hơn, sau đó
+        ưu tiên path đạt ``max_hops`` và mới cắt top-k.
+        """
+
         graph = self.store.causal_event_graph
         seed_node = seed.graph_node_id
 
-        # queue item:
-        # current node, event path, rule ids, steps
         queue: list[
             tuple[
                 str,
@@ -856,10 +981,14 @@ class MultiHopCausalRetriever:
 
         completed_paths: list[CausalPath] = []
         queue_index = 0
+        candidate_limit = max(
+            max_paths,
+            max_paths * PATH_SEARCH_CANDIDATE_MULTIPLIER,
+        )
 
         while (
             queue_index < len(queue)
-            and len(completed_paths) < max_paths
+            and len(completed_paths) < candidate_limit
         ):
             (
                 current_node,
@@ -875,13 +1004,35 @@ class MultiHopCausalRetriever:
                 continue
 
             if direction == "forward":
-                neighbors = graph.successors(current_node)
+                neighbors = list(
+                    graph.successors(current_node)
+                )
             elif direction == "backward":
-                neighbors = graph.predecessors(current_node)
+                neighbors = list(
+                    graph.predecessors(current_node)
+                )
             else:
                 raise ValueError(
                     "direction phải là forward, backward hoặc both."
                 )
+
+            # Duyệt cạnh có support mạnh trước. Điều này giúp candidate pool
+            # ưu tiên các quan hệ được nhiều rule cùng hỗ trợ.
+            def neighbor_support(neighbor: str) -> int:
+                if direction == "forward":
+                    edge_data = graph[current_node][neighbor]
+                else:
+                    edge_data = graph[neighbor][current_node]
+
+                return safe_int(
+                    edge_data.get("support_count"),
+                    1,
+                )
+
+            neighbors.sort(
+                key=neighbor_support,
+                reverse=True,
+            )
 
             for neighbor in neighbors:
                 if neighbor in event_nodes:
@@ -931,18 +1082,27 @@ class MultiHopCausalRetriever:
                     ),
                 )
 
-                next_event_nodes = (
-                    event_nodes + [neighbor]
-                )
-                next_rule_ids = unique_preserve_order(
+                next_event_nodes = event_nodes + [neighbor]
+                traversal_rule_ids = unique_preserve_order(
                     path_rule_ids + edge_rule_ids
                 )
-                next_steps = steps + [next_step]
+                traversal_steps = steps + [next_step]
+
+                canonical_steps = self._canonicalize_steps(
+                    traversal_steps,
+                    direction,
+                )
+                canonical_rule_ids = unique_preserve_order(
+                    rule_id
+                    for step in canonical_steps
+                    for rule_id in step.rule_ids
+                )
 
                 graph_score = self._score_path(
                     seed_similarity=seed.score,
                     event_nodes=next_event_nodes,
-                    steps=next_steps,
+                    steps=canonical_steps,
+                    target_hops=max_hops,
                 )
 
                 completed_paths.append(
@@ -955,30 +1115,34 @@ class MultiHopCausalRetriever:
                         seed_similarity=seed.score,
                         direction=direction,
                         event_nodes=next_event_nodes,
-                        rule_ids=next_rule_ids,
-                        steps=next_steps,
+                        rule_ids=canonical_rule_ids,
+                        steps=canonical_steps,
                         graph_score=graph_score,
                     )
                 )
 
-                if len(next_steps) < max_hops:
+                if len(traversal_steps) < max_hops:
                     queue.append(
                         (
                             neighbor,
                             next_event_nodes,
-                            next_rule_ids,
-                            next_steps,
+                            traversal_rule_ids,
+                            traversal_steps,
                         )
                     )
 
-                if len(completed_paths) >= max_paths:
+                if len(completed_paths) >= candidate_limit:
                     break
 
         completed_paths.sort(
-            key=lambda path: path.graph_score,
+            key=lambda path: self._path_sort_key(
+                path,
+                max_hops,
+            ),
             reverse=True,
         )
-        return completed_paths
+
+        return completed_paths[:max_paths]
 
     def _score_path(
         self,
@@ -986,7 +1150,14 @@ class MultiHopCausalRetriever:
         seed_similarity: float,
         event_nodes: list[str],
         steps: list[CausalPathStep],
+        target_hops: int,
     ) -> float:
+        """Chấm path theo semantic seed, graph support và độ hoàn chỉnh.
+
+        Không còn nhân ``HOP_DECAY`` hay phạt path dài. Với bài toán
+        multi-hop, path đạt đúng ``target_hops`` được thưởng rõ ràng.
+        """
+
         hop_count = len(steps)
 
         if hop_count == 0:
@@ -1017,23 +1188,27 @@ class MultiHopCausalRetriever:
                 bridge_count += 1
 
         bridge_bonus = min(
-            0.15,
+            0.18,
             bridge_count * BRIDGE_EVENT_BONUS,
         )
 
-        depth_factor = HOP_DECAY ** (hop_count - 1)
-        length_penalty = PATH_LENGTH_PENALTY * max(
-            0,
-            hop_count - 1,
+        completion_ratio = min(
+            1.0,
+            hop_count / max(1, target_hops),
+        )
+        completion_bonus = (
+            FULL_HOP_COMPLETION_BONUS
+            if hop_count == target_hops
+            else PARTIAL_HOP_COMPLETION_BONUS
+            * completion_ratio
         )
 
         score = (
-            0.62 * seed_similarity
+            0.54 * seed_similarity
             + 0.28 * support_score
             + bridge_bonus
+            + completion_bonus
         )
-
-        score = score * depth_factor - length_penalty
 
         return max(0.0, min(1.0, score))
 
@@ -1052,18 +1227,15 @@ class MultiHopCausalRetriever:
         list[str],
         dict[str, float],
         dict[str, float],
+        dict[str, float],
         dict[str, list[str]],
         dict[str, list[int]],
     ]:
         graph_score_by_rule: dict[str, float] = {}
         seed_score_by_rule: dict[str, float] = {}
+        path_priority_by_rule: dict[str, float] = {}
         seed_events_by_rule: dict[str, list[str]] = {}
         path_ids_by_rule: dict[str, list[int]] = {}
-
-        event_seed_by_node = {
-            seed.graph_node_id: seed
-            for seed in event_seeds
-        }
 
         # Rule trực tiếp nối với seed event, kể cả seed không sinh path.
         for seed in event_seeds:
@@ -1083,8 +1255,13 @@ class MultiHopCausalRetriever:
                     seed.event_name or seed.event_id
                 )
 
-        # Rule xuất hiện trên causal path.
+        # ``paths`` đã được xếp hạng multi-hop trước. Các rule thuộc path
+        # đứng đầu nhận path-priority cao hơn, giúp giữ đủ rule ở cả hai hop.
         for path_id, path in enumerate(paths):
+            path_priority = 1.0 / math.log2(
+                path_id + 2.0
+            )
+
             for rule_id in path.rule_ids:
                 graph_score_by_rule[rule_id] = max(
                     graph_score_by_rule.get(rule_id, 0.0),
@@ -1093,6 +1270,10 @@ class MultiHopCausalRetriever:
                 seed_score_by_rule[rule_id] = max(
                     seed_score_by_rule.get(rule_id, 0.0),
                     path.seed_similarity,
+                )
+                path_priority_by_rule[rule_id] = max(
+                    path_priority_by_rule.get(rule_id, 0.0),
+                    path_priority,
                 )
                 seed_events_by_rule.setdefault(
                     rule_id,
@@ -1118,11 +1299,12 @@ class MultiHopCausalRetriever:
             + direct_rule_ids
         )
 
-        # Ưu tiên sơ bộ theo graph + seed trước khi semantic rerank.
+        # Ưu tiên sơ bộ rule thuộc path đầu, rồi mới tới graph và seed.
         candidate_ids.sort(
             key=lambda rule_id: (
-                graph_score_by_rule.get(rule_id, 0.0)
-                + seed_score_by_rule.get(rule_id, 0.0)
+                path_priority_by_rule.get(rule_id, 0.0),
+                graph_score_by_rule.get(rule_id, 0.0),
+                seed_score_by_rule.get(rule_id, 0.0),
             ),
             reverse=True,
         )
@@ -1145,6 +1327,7 @@ class MultiHopCausalRetriever:
             candidate_ids,
             graph_score_by_rule,
             seed_score_by_rule,
+            path_priority_by_rule,
             seed_events_by_rule,
             path_ids_by_rule,
         )
@@ -1189,6 +1372,7 @@ class MultiHopCausalRetriever:
         direct_rule_hits: list[SemanticHit],
         graph_score_by_rule: dict[str, float],
         seed_score_by_rule: dict[str, float],
+        path_priority_by_rule: dict[str, float],
         seed_events_by_rule: dict[str, list[str]],
         path_ids_by_rule: dict[str, list[int]],
         final_top_k: int,
@@ -1227,6 +1411,10 @@ class MultiHopCausalRetriever:
                 rule_id,
                 0.0,
             )
+            path_priority_score = path_priority_by_rule.get(
+                rule_id,
+                0.0,
+            )
 
             final_score = (
                 SEMANTIC_RULE_WEIGHT * semantic_score
@@ -1234,6 +1422,8 @@ class MultiHopCausalRetriever:
                 + SEED_EVENT_WEIGHT * seed_event_score
                 + DIRECT_RULE_BONUS_WEIGHT
                 * direct_rule_score
+                + PREFERRED_PATH_RULE_WEIGHT
+                * path_priority_score
             )
 
             evidences.append(
@@ -1278,6 +1468,7 @@ class MultiHopCausalRetriever:
                     graph_score=graph_score,
                     seed_event_score=seed_event_score,
                     direct_rule_score=direct_rule_score,
+                    path_priority_score=path_priority_score,
                     final_score=final_score,
                     matched_seed_events=seed_events_by_rule.get(
                         rule_id,
@@ -1304,6 +1495,125 @@ class MultiHopCausalRetriever:
             evidence.rank = rank
 
         return evidences
+
+    def build_ranked_event_results(
+        self,
+        *,
+        event_seeds: list[SemanticHit],
+        paths: list[CausalPath],
+        top_k: int,
+    ) -> list[dict[str, Any]]:
+        """Đưa event của path tốt nhất lên trước semantic seed.
+
+        Điều này giúp ``retrieved_event_ids`` phản ánh graph expansion thực
+        tế thay vì chỉ chứa các seed semantic. Output vẫn giữ schema của
+        ``SemanticHit`` để Step 5.5 tương thích.
+        """
+
+        results: list[dict[str, Any]] = []
+        seen_nodes: set[str] = set()
+        seed_by_node = {
+            seed.graph_node_id: seed
+            for seed in event_seeds
+        }
+
+        def add_event(
+            node_id: str,
+            score: float,
+            retrieval_method: str,
+        ) -> None:
+            if (
+                not node_id
+                or node_id in seen_nodes
+                or len(results) >= top_k
+            ):
+                return
+
+            seen_nodes.add(node_id)
+            seed = seed_by_node.get(node_id)
+            memory_id = self.store.event_memory_id_by_node.get(
+                node_id,
+                -1,
+            )
+
+            if seed is not None:
+                payload = asdict(seed)
+                payload["score"] = max(
+                    safe_float(payload.get("score")),
+                    score,
+                )
+            else:
+                node_data = self.store.causal_event_graph.nodes.get(
+                    node_id,
+                    {},
+                )
+                is_condition = safe_bool(
+                    node_data.get("is_condition")
+                )
+                is_effect = safe_bool(
+                    node_data.get("is_effect")
+                )
+
+                if is_condition and is_effect:
+                    event_role = "BRIDGE"
+                elif is_condition:
+                    event_role = "CONDITION"
+                elif is_effect:
+                    event_role = "EFFECT"
+                else:
+                    event_role = "EVENT"
+
+                payload = {
+                    "memory_id": memory_id,
+                    "score": score,
+                    "memory_type": "EVENT",
+                    "graph_node_id": node_id,
+                    "event_id": event_id_from_node(
+                        self.store.causal_event_graph,
+                        node_id,
+                    ),
+                    "event_name": event_name_from_node(
+                        self.store.causal_event_graph,
+                        node_id,
+                    ),
+                    "event_role": event_role,
+                    "rule_id": "",
+                    "article_id": "",
+                }
+
+            payload["retrieval_method"] = retrieval_method
+            results.append(payload)
+
+        # Các step đã được chuẩn hóa cause -> effect, vì vậy event của path
+        # đầu tiên xuất hiện đúng thứ tự suy luận.
+        for path in paths:
+            if not path.steps:
+                continue
+
+            add_event(
+                path.steps[0].source_event_node,
+                path.graph_score,
+                "causal_path",
+            )
+
+            for step in path.steps:
+                add_event(
+                    step.target_event_node,
+                    path.graph_score,
+                    "causal_path",
+                )
+
+            if len(results) >= top_k:
+                break
+
+        for seed in event_seeds:
+            add_event(
+                seed.graph_node_id,
+                seed.score,
+                "semantic_seed",
+            )
+
+        return results
 
     # --------------------------------------------------------
     # END-TO-END RETRIEVAL
@@ -1342,6 +1652,10 @@ class MultiHopCausalRetriever:
             )
 
         query = safe_string(query)
+        effective_direction = self._resolve_direction(
+            query,
+            direction,
+        )
         query_vector = self.store.encode_query(query)
         self._active_query_vector = query_vector
 
@@ -1369,14 +1683,17 @@ class MultiHopCausalRetriever:
                 seed,
                 max_hops=max_hops,
                 max_paths=max_paths_per_event,
-                direction=direction,
+                direction=effective_direction,
             )
             all_paths.extend(seed_paths)
 
         # Xếp hạng toàn cục và loại path trùng.
         all_paths = self._deduplicate_paths(all_paths)
         all_paths.sort(
-            key=lambda path: path.graph_score,
+            key=lambda path: self._path_sort_key(
+                path,
+                max_hops,
+            ),
             reverse=True,
         )
 
@@ -1384,6 +1701,7 @@ class MultiHopCausalRetriever:
             candidate_rule_ids,
             graph_score_by_rule,
             seed_score_by_rule,
+            path_priority_by_rule,
             seed_events_by_rule,
             path_ids_by_rule,
         ) = self.collect_candidate_rules(
@@ -1399,9 +1717,16 @@ class MultiHopCausalRetriever:
             direct_rule_hits=direct_rule_hits,
             graph_score_by_rule=graph_score_by_rule,
             seed_score_by_rule=seed_score_by_rule,
+            path_priority_by_rule=path_priority_by_rule,
             seed_events_by_rule=seed_events_by_rule,
             path_ids_by_rule=path_ids_by_rule,
             final_top_k=final_top_k,
+        )
+
+        ranked_events = self.build_ranked_event_results(
+            event_seeds=event_seeds,
+            paths=all_paths,
+            top_k=event_top_k,
         )
 
         result = RetrievalResult(
@@ -1416,7 +1741,9 @@ class MultiHopCausalRetriever:
                 "final_top_k": final_top_k,
                 "min_event_score": min_event_score,
                 "min_rule_score": min_rule_score,
-                "direction": direction,
+                "requested_direction": direction,
+                "direction": effective_direction,
+                "preferred_hops": max_hops,
                 "model_name": self.store.model_name,
                 "score_weights": {
                     "semantic_rule": SEMANTIC_RULE_WEIGHT,
@@ -1425,11 +1752,12 @@ class MultiHopCausalRetriever:
                     "direct_rule_bonus": (
                         DIRECT_RULE_BONUS_WEIGHT
                     ),
+                    "preferred_path_rule": (
+                        PREFERRED_PATH_RULE_WEIGHT
+                    ),
                 },
             },
-            retrieved_events=[
-                asdict(hit) for hit in event_seeds
-            ],
+            retrieved_events=ranked_events,
             direct_rule_hits=[
                 asdict(hit) for hit in direct_rule_hits
             ],
@@ -1442,6 +1770,12 @@ class MultiHopCausalRetriever:
             statistics={
                 "semantic_hits": len(semantic_hits),
                 "retrieved_event_seeds": len(event_seeds),
+                "ranked_retrieved_events": len(ranked_events),
+                "effective_direction": effective_direction,
+                "preferred_hop_paths": sum(
+                    len(path.steps) == max_hops
+                    for path in all_paths
+                ),
                 "direct_rule_hits": len(
                     direct_rule_hits
                 ),
@@ -1537,6 +1871,31 @@ def print_result_summary(
             f"[{event.get('event_role')}] "
             f"score={event.get('score', 0.0):.4f}"
         )
+
+    print("\nTop causal paths:")
+    for index, path in enumerate(
+        result.causal_paths[:5],
+        start=1,
+    ):
+        steps = path.get("steps") or []
+        chain = []
+        if steps:
+            chain.append(
+                steps[0].get("source_event_name")
+                or steps[0].get("source_event_id")
+            )
+            chain.extend(
+                step.get("target_event_name")
+                or step.get("target_event_id")
+                for step in steps
+            )
+        print(
+            f"{index:>2}. hops={len(steps)} "
+            f"direction={path.get('direction')} "
+            f"score={path.get('graph_score', 0.0):.4f}"
+        )
+        if chain:
+            print("    " + " -> ".join(chain))
 
     print("\nTop evidence:")
     for item in result.evidence:

@@ -55,10 +55,10 @@ rm -rf data/pipeline_intermediate
 
 python 5_5_generate_pipeline_predictions.py \
   --benchmark data/blhs_multihop_benchmark_250.json \
-  --verifier-script 4_counterfactual_verification.py \
   --provider extractive \
+  --limit 5 \
   --disable-semantic-mapping \
-  --limit 5
+  --keep-intermediate
 
   python 5_5_generate_pipeline_predictions.py \
   --benchmark data/blhs_multihop_benchmark_250.json \
