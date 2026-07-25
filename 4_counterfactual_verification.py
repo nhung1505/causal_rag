@@ -1,3 +1,15 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Step 4 v3.1 - Query-aware counterfactual verification.
+
+Khác bản cũ ở ba điểm cốt lõi:
+1. Chọn primary multi-hop path thay vì lấy trung bình mọi path.
+2. Tách path validity khỏi mediator necessity.
+3. Xuất final_decision theo claim cụ thể trong query.
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -20,6 +32,15 @@ GRAPH_PATH = "data/legal_causal_knowledge_graph.graphml"
 MEMORY_PATH = "data/causal_memory.csv"
 RETRIEVAL_RESULT_PATH = "data/retrieval_result.json"
 OUTPUT_PATH = "data/counterfactual_verification_result.json"
+
+# Phiên bản mới để phân biệt rõ với file Step 4 cũ.
+STEP4_VERSION = "3.1-query-aware-primary-path"
+
+# Điểm thưởng cho evidence thuộc primary path.
+PRIMARY_PATH_EVIDENCE_BONUS = 0.12
+
+# Mục tiêu của benchmark hiện tại chủ yếu là chuỗi hai hop.
+DEFAULT_TARGET_HOPS = 2
 
 # Số hop tối đa khi tìm đường thay thế sau intervention.
 DEFAULT_MAX_CF_HOPS = 3
@@ -246,8 +267,19 @@ class VerificationResult:
     consistency_score: float
     confidence: float
 
+    # Kết luận toàn cục ở cấp độ claim/câu hỏi.
+    final_decision: str = "UNCERTAIN"
+    decision_score: float = 0.0
+    decision_explanation: str = ""
+
+    # Path đại diện được Step 5 và Step 5.5 ưu tiên sử dụng.
+    primary_path_ids: list[int] = field(default_factory=list)
+
+    # Kết quả phân tích câu hỏi phản thực tế.
+    query_analysis: dict[str, Any] = field(default_factory=dict)
+
     verification_method: str = (
-        "graph_intervention_remove_mediator"
+        "query_aware_graph_intervention_v3"
     )
 
 
@@ -1677,27 +1709,31 @@ class CounterfactualPathVerifier:
         average_necessity = sum(item.necessity_score for item in interventions) / len(interventions)
         consistency = clamp(0.55 * average_necessity + 0.45 * path_score)
 
-        # Đường thay thế không chứng minh path gốc sai; nó chỉ cho thấy mediator
-        # không phải điều kiện cần duy nhất. Vì vậy trường hợp này là UNCERTAIN,
-        # không phải contradiction cứng. CONTRADICTED chỉ dành cho path sai cấu
-        # trúc ở phần kiểm tra phía trên.
-        if non_necessary > len(interventions) / 2:
-            status = "UNRESOLVED"
+        # Một đường thay thế không phủ định sự tồn tại của path gốc.
+        # Vì vậy path có các CAUSES edge hợp lệ luôn được xem là SUPPORTED.
+        # Trạng thái NECESSARY/NON_NECESSARY chỉ được dùng ở tầng claim-aware
+        # để đánh giá phát biểu như “mediator là bắt buộc” hoặc
+        # “bỏ mediator nhưng outcome vẫn xảy ra”.
+        status = "SUPPORTED"
+
+        if non_necessary > 0:
             explanation = (
-                f"{non_necessary}/{len(interventions)} mediator không cần thiết; "
-                "tồn tại đường nhân quả thay thế nên chưa thể kết luận path gốc "
-                "là chuỗi bắt buộc, nhưng điều này không phủ định path gốc."
+                f"Path gốc hợp lệ; {non_necessary}/{len(interventions)} mediator "
+                "không phải mắt xích duy nhất vì tồn tại đường thay thế."
             )
         elif necessary > 0 or partially > 0:
-            status = "SUPPORTED"
             explanation = (
-                f"Intervention cho thấy {necessary} mediator cần thiết và "
-                f"{partially} mediator cần thiết một phần."
+                f"Path gốc hợp lệ; intervention cho thấy {necessary} mediator "
+                f"cần thiết và {partially} mediator cần thiết một phần."
             )
         else:
-            status = "UNRESOLVED"
-            consistency = UNRESOLVED_BASE_SCORE
-            explanation = "Không đủ tín hiệu cấu trúc để kết luận."
+            explanation = (
+                "Path gốc hợp lệ nhưng tín hiệu về tính cần thiết của mediator "
+                "không đủ mạnh."
+            )
+
+        # Không để đường thay thế kéo consistency của một path hợp lệ xuống quá thấp.
+        consistency = clamp(max(0.52, consistency))
 
         return PathVerification(
             **base_kwargs,
@@ -1839,6 +1875,448 @@ class EvidenceVerifier:
 
 
 # ============================================================
+# PRIMARY PATH SELECTION + QUERY-AWARE CLAIM VERIFICATION
+# ============================================================
+
+class PrimaryPathSelector:
+    """Chọn path đại diện thay vì lấy trung bình mọi candidate path."""
+
+    def __init__(
+        self,
+        store: CounterfactualResourceStore,
+    ) -> None:
+        self.store = store
+
+    def select(
+        self,
+        path_results: list[PathVerification],
+        *,
+        target_hops: int = DEFAULT_TARGET_HOPS,
+        top_k: int = 1,
+    ) -> list[int]:
+        if not path_results:
+            return []
+
+        def status_priority(item: PathVerification) -> int:
+            return {
+                "SUPPORTED": 2,
+                "UNRESOLVED": 1,
+                "CONTRADICTED": 0,
+            }.get(item.status, 0)
+
+        ranked = sorted(
+            path_results,
+            key=lambda item: (
+                status_priority(item),
+                item.original_hop_count == target_hops,
+                min(item.original_hop_count, target_hops),
+                item.consistency_score,
+                item.original_path_score,
+                -item.original_path_id,
+            ),
+            reverse=True,
+        )
+
+        selected = [
+            item.original_path_id
+            for item in ranked
+            if item.status != "CONTRADICTED"
+        ][:max(1, top_k)]
+
+        if selected:
+            return selected
+
+        return [ranked[0].original_path_id]
+
+
+class QueryAwareClaimVerifier:
+    """Đánh giá claim của câu hỏi dựa trên primary path và intervention.
+
+    Đây là tầng còn thiếu trong bản cũ. Path verification chỉ trả lời
+    “chuỗi edge có hợp lệ không”; lớp này trả lời phát biểu cụ thể trong query.
+    """
+
+    DIRECT_TERMS = (
+        "trực tiếp",
+        "không qua trung gian",
+        "không cần qua",
+        "ngay lập tức dẫn",
+    )
+    REMOVE_TERMS = (
+        "nếu loại bỏ",
+        "nếu loại",
+        "nếu bỏ",
+        "khi loại bỏ",
+        "khi bỏ",
+        "giả sử không có",
+        "trong trường hợp không có",
+        "nếu không xảy ra",
+    )
+    REMAINS_TERMS = (
+        "vẫn xảy ra",
+        "vẫn dẫn đến",
+        "vẫn xuất hiện",
+        "vẫn có",
+        "còn xảy ra",
+        "có còn xảy ra",
+        "tiếp tục xảy ra",
+    )
+    DISAPPEARS_TERMS = (
+        "không còn xảy ra",
+        "không xảy ra nữa",
+        "sẽ không xảy ra",
+        "không còn",
+        "biến mất",
+        "chấm dứt",
+    )
+    NECESSARY_TERMS = (
+        "cần thiết",
+        "bắt buộc",
+        "không thể thiếu",
+        "mắt xích duy nhất",
+        "điều kiện duy nhất",
+    )
+    COUNTERFACTUAL_TERMS = (
+        "nếu",
+        "giả sử",
+        "phản thực tế",
+        "counterfactual",
+    )
+
+    def __init__(
+        self,
+        store: CounterfactualResourceStore,
+    ) -> None:
+        self.store = store
+
+    @staticmethod
+    def _normalize(text: Any) -> str:
+        value = safe_string(text).lower()
+        return " ".join(value.split())
+
+    @staticmethod
+    def _contains_any(text: str, terms: Iterable[str]) -> bool:
+        return any(term in text for term in terms)
+
+    def analyze_query(
+        self,
+        query: str,
+    ) -> dict[str, Any]:
+        normalized = self._normalize(query)
+
+        has_direct = self._contains_any(normalized, self.DIRECT_TERMS)
+        has_remove = self._contains_any(normalized, self.REMOVE_TERMS)
+        has_remains = self._contains_any(normalized, self.REMAINS_TERMS)
+        has_disappears = self._contains_any(normalized, self.DISAPPEARS_TERMS)
+        has_necessary = self._contains_any(normalized, self.NECESSARY_TERMS)
+        has_counterfactual = self._contains_any(
+            normalized,
+            self.COUNTERFACTUAL_TERMS,
+        )
+
+        if has_direct:
+            claim_type = "DIRECT_CAUSAL_CLAIM"
+        elif has_remove and has_remains:
+            claim_type = "REMOVE_MEDIATOR_OUTCOME_REMAINS"
+        elif has_remove and has_disappears:
+            claim_type = "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS"
+        elif has_necessary:
+            claim_type = "MEDIATOR_NECESSARY_CLAIM"
+        elif has_counterfactual:
+            claim_type = "COUNTERFACTUAL_UNSPECIFIED"
+        else:
+            claim_type = "STANDARD_CAUSAL"
+
+        return {
+            "normalized_query": normalized,
+            "claim_type": claim_type,
+            "has_direct_indicator": has_direct,
+            "has_remove_indicator": has_remove,
+            "has_remains_indicator": has_remains,
+            "has_disappears_indicator": has_disappears,
+            "has_necessary_indicator": has_necessary,
+        }
+
+    def _select_mediator_intervention(
+        self,
+        query: str,
+        primary: PathVerification,
+    ) -> Optional[dict[str, Any]]:
+        interventions = primary.mediator_interventions or []
+        if not interventions:
+            return None
+
+        normalized_query = self._normalize(query)
+
+        for item in interventions:
+            mediator_name = self._normalize(
+                item.get("mediator_event_name")
+            )
+            mediator_id = self._normalize(
+                item.get("mediator_event_id")
+            )
+
+            if (
+                mediator_name
+                and mediator_name in normalized_query
+            ) or (
+                mediator_id
+                and mediator_id in normalized_query
+            ):
+                return item
+
+        # Benchmark hai hop thường chỉ có một mediator.
+        return interventions[0]
+
+    def verify(
+        self,
+        *,
+        query: str,
+        path_results: list[PathVerification],
+        primary_path_ids: list[int],
+    ) -> tuple[str, float, str, dict[str, Any]]:
+        analysis = self.analyze_query(query)
+        claim_type = analysis["claim_type"]
+
+        by_id = {
+            item.original_path_id: item
+            for item in path_results
+        }
+        primary = next(
+            (
+                by_id[path_id]
+                for path_id in primary_path_ids
+                if path_id in by_id
+            ),
+            None,
+        )
+
+        if primary is None:
+            explanation = (
+                "Không chọn được primary path hợp lệ để xác minh claim."
+            )
+            analysis.update({
+                "matched_mediator_id": "",
+                "matched_mediator_name": "",
+            })
+            return "UNCERTAIN", UNRESOLVED_BASE_SCORE, explanation, analysis
+
+        base_score = clamp(
+            max(primary.consistency_score, primary.original_path_score)
+        )
+
+        if primary.status == "CONTRADICTED":
+            explanation = (
+                "Primary path không tạo thành chuỗi CAUSES hợp lệ trong graph."
+            )
+            return "REJECT_DIRECT_CLAIM", max(0.60, 1.0 - base_score), explanation, analysis
+
+        if claim_type == "STANDARD_CAUSAL":
+            if primary.status == "SUPPORTED":
+                explanation = (
+                    "Primary multi-hop path hợp lệ và hỗ trợ quan hệ "
+                    "nguyên nhân → hệ quả được hỏi."
+                )
+                return "SUPPORTED", max(0.55, base_score), explanation, analysis
+
+            return (
+                "UNCERTAIN",
+                max(UNRESOLVED_BASE_SCORE, base_score),
+                "Primary path chưa được xác minh đầy đủ.",
+                analysis,
+            )
+
+        if claim_type == "DIRECT_CAUSAL_CLAIM":
+            start_node = (
+                primary.original_event_nodes[0]
+                if primary.original_event_nodes
+                else ""
+            )
+            end_node = (
+                primary.original_event_nodes[-1]
+                if primary.original_event_nodes
+                else ""
+            )
+            direct_edge = bool(
+                start_node
+                and end_node
+                and self.store.causal_event_graph.has_edge(
+                    start_node,
+                    end_node,
+                )
+            )
+
+            if direct_edge:
+                return (
+                    "SUPPORTED",
+                    max(0.65, base_score),
+                    "Graph có CAUSES edge trực tiếp giữa nguyên nhân và hệ quả.",
+                    analysis,
+                )
+
+            return (
+                "REJECT_DIRECT_CLAIM",
+                max(0.65, base_score),
+                "Graph chỉ hỗ trợ chuỗi qua mediator, không hỗ trợ quan hệ trực tiếp.",
+                analysis,
+            )
+
+        intervention = self._select_mediator_intervention(
+            query,
+            primary,
+        )
+
+        if intervention is None:
+            analysis.update({
+                "matched_mediator_id": "",
+                "matched_mediator_name": "",
+            })
+            return (
+                "UNCERTAIN",
+                UNRESOLVED_BASE_SCORE,
+                "Không xác định được mediator để thực hiện counterfactual intervention.",
+                analysis,
+            )
+
+        intervention_status = safe_string(
+            intervention.get("intervention_status")
+        ).upper()
+        alternative_paths = intervention.get("alternative_paths") or []
+        has_alternative = bool(alternative_paths)
+
+        analysis.update({
+            "matched_mediator_id": safe_string(
+                intervention.get("mediator_event_id")
+            ),
+            "matched_mediator_name": safe_string(
+                intervention.get("mediator_event_name")
+            ),
+            "intervention_status": intervention_status,
+            "alternative_path_count": len(alternative_paths),
+            "best_alternative_path_score": safe_float(
+                intervention.get("best_alternative_path_score")
+            ),
+        })
+
+        if claim_type == "REMOVE_MEDIATOR_OUTCOME_REMAINS":
+            if has_alternative or intervention_status == "NON_NECESSARY":
+                return (
+                    "SUPPORTED",
+                    max(0.65, base_score),
+                    "Sau khi loại mediator vẫn tồn tại causal path thay thế tới outcome.",
+                    analysis,
+                )
+            if intervention_status == "NECESSARY":
+                return (
+                    "REJECT_DIRECT_CLAIM",
+                    max(0.65, base_score),
+                    "Sau khi loại mediator, outcome không còn reachable trong giới hạn tìm kiếm.",
+                    analysis,
+                )
+
+        if claim_type in {
+            "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS",
+            "MEDIATOR_NECESSARY_CLAIM",
+        }:
+            if intervention_status == "NECESSARY" and not has_alternative:
+                return (
+                    "SUPPORTED",
+                    max(0.65, base_score),
+                    "Intervention cho thấy mediator cần thiết để duy trì đường tới outcome.",
+                    analysis,
+                )
+            if has_alternative or intervention_status == "NON_NECESSARY":
+                return (
+                    "REJECT_DIRECT_CLAIM",
+                    max(0.65, base_score),
+                    "Tồn tại đường thay thế nên mediator không phải mắt xích bắt buộc.",
+                    analysis,
+                )
+
+        return (
+            "UNCERTAIN",
+            max(UNRESOLVED_BASE_SCORE, 0.5 * base_score),
+            "Câu hỏi có yếu tố phản thực tế nhưng chưa đủ tín hiệu để kết luận nhị phân.",
+            analysis,
+        )
+
+
+def promote_primary_path_evidence(
+    *,
+    verified: list[EvidenceVerification],
+    uncertain: list[EvidenceVerification],
+    removed: list[EvidenceVerification],
+    primary_path_ids: list[int],
+    verified_top_k: int,
+) -> tuple[
+    list[EvidenceVerification],
+    list[EvidenceVerification],
+    list[EvidenceVerification],
+]:
+    """Ưu tiên KEEP các rule thuộc primary path sau khi xác minh cấu trúc."""
+
+    primary_set = set(primary_path_ids)
+    if not primary_set:
+        return verified, uncertain, removed
+
+    all_items = verified + uncertain + removed
+    new_verified: list[EvidenceVerification] = []
+    new_uncertain: list[EvidenceVerification] = []
+    new_removed: list[EvidenceVerification] = []
+
+    for item in all_items:
+        related_ids = set(
+            item.verified_path_ids
+            + item.unresolved_path_ids
+            + item.rejected_path_ids
+        )
+        belongs_to_primary = bool(related_ids & primary_set)
+
+        if belongs_to_primary and not item.rejected_path_ids:
+            item.verification_score = clamp(
+                item.verification_score
+                + PRIMARY_PATH_EVIDENCE_BONUS
+            )
+            item.decision = "KEEP"
+            item.reasons.append(
+                "Evidence thuộc primary multi-hop path."
+            )
+            new_verified.append(item)
+        elif item.decision == "KEEP":
+            new_verified.append(item)
+        elif item.decision == "REMOVE":
+            new_removed.append(item)
+        else:
+            new_uncertain.append(item)
+
+    def sort_key(item: EvidenceVerification) -> tuple[float, float, int]:
+        belongs = bool(
+            set(item.verified_path_ids + item.unresolved_path_ids)
+            & primary_set
+        )
+        return (
+            float(belongs),
+            item.verification_score,
+            -item.original_rank,
+        )
+
+    new_verified.sort(key=sort_key, reverse=True)
+    new_uncertain.sort(
+        key=lambda item: item.verification_score,
+        reverse=True,
+    )
+    new_removed.sort(
+        key=lambda item: item.verification_score,
+    )
+
+    return (
+        new_verified[:verified_top_k],
+        new_uncertain,
+        new_removed,
+    )
+
+
+# ============================================================
 # END-TO-END PIPELINE
 # ============================================================
 
@@ -1846,8 +2324,13 @@ class CounterfactualVerificationPipeline:
     def __init__(self, store: CounterfactualResourceStore) -> None:
         self.store = store
         self.searcher = CounterfactualGraphSearcher(store)
-        self.path_verifier = CounterfactualPathVerifier(store=store, searcher=self.searcher)
+        self.path_verifier = CounterfactualPathVerifier(
+            store=store,
+            searcher=self.searcher,
+        )
         self.evidence_verifier = EvidenceVerifier(store)
+        self.primary_path_selector = PrimaryPathSelector(store)
+        self.claim_verifier = QueryAwareClaimVerifier(store)
 
     def run(
         self,
@@ -1882,29 +2365,87 @@ class CounterfactualVerificationPipeline:
             path_results.append(verification)
             print(f"- Path {path_id}: {verification.status} score={verification.consistency_score:.4f}")
 
+        primary_path_ids = self.primary_path_selector.select(
+            path_results,
+            target_hops=safe_int(
+                self.store.retrieval_result
+                .get("configuration", {})
+                .get("max_hops"),
+                DEFAULT_TARGET_HOPS,
+            ),
+            top_k=1,
+        )
+
         verified, uncertain, removed = self.evidence_verifier.verify_all(
             path_verifications=path_results,
             keep_threshold=keep_threshold,
             reject_threshold=reject_threshold,
+            verified_top_k=max(verified_top_k, 1),
+        )
+
+        verified, uncertain, removed = promote_primary_path_evidence(
+            verified=verified,
+            uncertain=uncertain,
+            removed=removed,
+            primary_path_ids=primary_path_ids,
             verified_top_k=verified_top_k,
+        )
+
+        query = safe_string(
+            self.store.retrieval_result.get("query")
+        )
+        (
+            final_decision,
+            decision_score,
+            decision_explanation,
+            query_analysis,
+        ) = self.claim_verifier.verify(
+            query=query,
+            path_results=path_results,
+            primary_path_ids=primary_path_ids,
         )
 
         status_counts = {
             status: sum(item.status == status for item in path_results)
             for status in ("SUPPORTED", "CONTRADICTED", "UNRESOLVED")
         }
+
+        primary_results = [
+            item
+            for item in path_results
+            if item.original_path_id in set(primary_path_ids)
+        ]
         consistency = (
-            sum(item.consistency_score for item in path_results) / len(path_results)
-            if path_results else 0.0
+            sum(item.consistency_score for item in primary_results)
+            / len(primary_results)
+            if primary_results
+            else (
+                sum(item.consistency_score for item in path_results)
+                / len(path_results)
+                if path_results
+                else 0.0
+            )
         )
-        resolved_ratio = (
-            (status_counts["SUPPORTED"] + status_counts["CONTRADICTED"]) / len(path_results)
-            if path_results else 0.0
+
+        # Confidence bám theo quyết định claim và primary path, không còn bị
+        # làm loãng bởi hàng chục path phụ.
+        confidence = clamp(
+            0.65 * decision_score
+            + 0.35 * consistency
         )
-        confidence = clamp(0.65 * resolved_ratio + 0.35 * consistency)
+
+        print(
+            "Primary path IDs:",
+            primary_path_ids,
+        )
+        print(
+            "Final decision:",
+            final_decision,
+            f"score={decision_score:.4f}",
+        )
 
         return VerificationResult(
-            query=safe_string(self.store.retrieval_result.get("query")),
+            query=query,
             configuration={
                 "cf_top_k": cf_top_k,
                 "mapping_top_k": mapping_top_k,
@@ -1915,7 +2456,8 @@ class CounterfactualVerificationPipeline:
                 "keep_threshold": keep_threshold,
                 "reject_threshold": reject_threshold,
                 "alternative_path_threshold": DEFAULT_ALTERNATIVE_PATH_THRESHOLD,
-                "verification_method": "graph_intervention_remove_mediator",
+                "verification_method": "query_aware_graph_intervention_v3",
+                "step4_version": STEP4_VERSION,
                 "semantic_mapping_enabled": False,
                 "model_name": self.store.model_name,
             },
@@ -1930,6 +2472,9 @@ class CounterfactualVerificationPipeline:
                 "verified_evidence": len(verified),
                 "uncertain_evidence": len(uncertain),
                 "removed_evidence": len(removed),
+                "primary_path_ids": primary_path_ids,
+                "final_decision": final_decision,
+                "decision_score": decision_score,
             },
             path_verifications=[asdict(item) for item in path_results],
             verified_evidence=[asdict(item) for item in verified],
@@ -1937,6 +2482,14 @@ class CounterfactualVerificationPipeline:
             removed_evidence=[asdict(item) for item in removed],
             consistency_score=consistency,
             confidence=confidence,
+            final_decision=final_decision,
+            decision_score=decision_score,
+            decision_explanation=decision_explanation,
+            primary_path_ids=primary_path_ids,
+            query_analysis=query_analysis,
+            verification_method=(
+                "query_aware_graph_intervention_v3"
+            ),
         )
 
 
@@ -1998,7 +2551,12 @@ def print_summary(result: VerificationResult | dict[str, Any]) -> None:
     print("COUNTERFACTUAL VERIFICATION - MEDIATOR INTERVENTION")
     print("=" * 80)
     print("Query:", payload.get("query", ""))
+    print("Step 4 version:", payload.get("configuration", {}).get("step4_version", ""))
     print("Path status:", stats.get("status_counts", {}))
+    print("Primary path IDs:", payload.get("primary_path_ids", []))
+    print("Final decision:", payload.get("final_decision", "UNCERTAIN"))
+    print("Decision score:", f"{safe_float(payload.get('decision_score')):.4f}")
+    print("Decision explanation:", payload.get("decision_explanation", ""))
     print("Consistency:", f"{safe_float(payload.get('consistency_score')):.4f}")
     print("Confidence:", f"{safe_float(payload.get('confidence')):.4f}")
 
