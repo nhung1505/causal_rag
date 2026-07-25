@@ -91,6 +91,8 @@ DEFAULT_VERIFIER_MODEL = "BAAI/bge-m3"
 DEFAULT_PROVIDER = "extractive"
 DEFAULT_ANSWER_MODEL = "qwen3:8b"
 
+PIPELINE_RUNNER_VERSION = "2.0-primary-path-aware"
+
 
 # ============================================================
 # GENERAL HELPERS
@@ -377,125 +379,445 @@ def rewrite_jsonl(
 # PREDICTION EXTRACTION
 # ============================================================
 
+SUPPORTED = "SUPPORTED"
+REJECT_DIRECT_CLAIM = "REJECT_DIRECT_CLAIM"
+UNCERTAIN = "UNCERTAIN"
+
+
+def normalize_decision(value: Any) -> str:
+    text = safe_string(value).upper().replace("-", "_").replace(" ", "_")
+
+    aliases = {
+        "SUPPORTED": SUPPORTED,
+        "SUPPORT": SUPPORTED,
+        "KEEP": SUPPORTED,
+        "TRUE": SUPPORTED,
+        "ENTAILED": SUPPORTED,
+        "REJECT_DIRECT_CLAIM": REJECT_DIRECT_CLAIM,
+        "REJECT": REJECT_DIRECT_CLAIM,
+        "CONTRADICTED": REJECT_DIRECT_CLAIM,
+        "CONTRADICTION": REJECT_DIRECT_CLAIM,
+        "FALSE": REJECT_DIRECT_CLAIM,
+        "REFUTED": REJECT_DIRECT_CLAIM,
+        "UNCERTAIN": UNCERTAIN,
+        "UNRESOLVED": UNCERTAIN,
+        "UNKNOWN": UNCERTAIN,
+    }
+
+    return aliases.get(text, UNCERTAIN)
+
+
+def unique_ints(values: Iterable[Any]) -> list[int]:
+    result: list[int] = []
+    seen: set[int] = set()
+
+    for value in values:
+        number = safe_int(value, -1)
+        if number >= 0 and number not in seen:
+            seen.add(number)
+            result.append(number)
+
+    return result
+
+
 def derive_verification_decision(
     verification: Mapping[str, Any],
+    final_answer: Optional[Mapping[str, Any]] = None,
 ) -> str:
+    """Lấy quyết định claim-level do Step 4 query-aware sinh ra.
+
+    Chỉ dùng logic thống kê cũ như fallback để tương thích dữ liệu đã sinh từ
+    phiên bản cũ. Khi Step 4 mới hoạt động đúng, nhánh fallback không được dùng.
     """
-    Bước 4 không xuất trực tiếp decision toàn cục nên runner suy ra:
-    - CONTRADICTED chiếm ưu thế và không có SUPPORTED -> REJECT_DIRECT_CLAIM
-    - Có SUPPORTED hoặc có verified evidence -> SUPPORTED
-    - Còn lại -> UNCERTAIN
-    """
+
+    final_answer = final_answer or {}
     statistics = verification.get("statistics") or {}
-    status_counts = statistics.get("path_status_counts") or {}
+    query_analysis = verification.get("query_analysis") or {}
+
+    explicit_candidates = (
+        verification.get("final_decision"),
+        final_answer.get("final_decision"),
+        query_analysis.get("decision"),
+        statistics.get("final_decision"),
+    )
+
+    for candidate in explicit_candidates:
+        if safe_string(candidate):
+            return normalize_decision(candidate)
+
+    # Legacy fallback.
+    status_counts = (
+        statistics.get("path_status_counts")
+        or statistics.get("status_counts")
+        or {}
+    )
 
     supported = safe_int(status_counts.get("SUPPORTED"))
     contradicted = safe_int(status_counts.get("CONTRADICTED"))
     unresolved = safe_int(status_counts.get("UNRESOLVED"))
 
-    verified_evidence = verification.get("verified_evidence") or []
-    removed_evidence = verification.get("removed_evidence") or []
+    if contradicted > 0 and supported == 0 and contradicted >= unresolved:
+        return REJECT_DIRECT_CLAIM
+    if supported > 0:
+        return SUPPORTED
+    return UNCERTAIN
 
-    if (
-        contradicted > 0
-        and supported == 0
-        and contradicted >= unresolved
-    ):
-        return "REJECT_DIRECT_CLAIM"
 
-    if supported > 0 or len(verified_evidence) > 0:
-        return "SUPPORTED"
+def extract_primary_path_ids(
+    verification: Mapping[str, Any],
+    final_answer: Optional[Mapping[str, Any]] = None,
+) -> list[int]:
+    final_answer = final_answer or {}
+    statistics = verification.get("statistics") or {}
+    query_analysis = verification.get("query_analysis") or {}
 
-    if contradicted > 0 and len(removed_evidence) > 0:
-        return "REJECT_DIRECT_CLAIM"
+    candidates: list[Any] = []
+    candidates.extend(verification.get("primary_path_ids") or [])
+    candidates.extend(final_answer.get("primary_path_ids") or [])
+    candidates.extend(statistics.get("primary_path_ids") or [])
+    candidates.extend(query_analysis.get("primary_path_ids") or [])
 
-    return "UNCERTAIN"
+    for path in final_answer.get("selected_paths") or []:
+        if not isinstance(path, Mapping):
+            continue
+        if path.get("is_primary") or not candidates:
+            candidates.append(path.get("original_path_id"))
+
+    primary_ids = unique_ints(candidates)
+    if primary_ids:
+        return primary_ids
+
+    # Legacy fallback: ưu tiên path SUPPORTED đúng 2 hop.
+    path_items = verification.get("path_verifications") or []
+    ranked: list[tuple[tuple[int, int, float, float], int]] = []
+
+    for item in path_items:
+        if not isinstance(item, Mapping):
+            continue
+        path_id = safe_int(item.get("original_path_id"), -1)
+        if path_id < 0:
+            continue
+        status = safe_string(item.get("status")).upper()
+        hop_count = safe_int(item.get("original_hop_count"), 0)
+        consistency = safe_float(item.get("consistency_score"))
+        path_score = safe_float(item.get("original_path_score"))
+        key = (
+            int(status == "SUPPORTED"),
+            int(hop_count == 2),
+            consistency,
+            path_score,
+        )
+        ranked.append((key, path_id))
+
+    ranked.sort(reverse=True)
+    return [ranked[0][1]] if ranked else []
+
+
+def _normalize_step(step: Mapping[str, Any], fallback_hop: int) -> dict[str, Any]:
+    return {
+        "hop": safe_int(step.get("hop"), fallback_hop),
+        "source_event_id": safe_string(
+            step.get("source_event_id") or step.get("source_event_node")
+        ).removeprefix("EVENT::"),
+        "source_event_name": safe_string(step.get("source_event_name")),
+        "target_event_id": safe_string(
+            step.get("target_event_id") or step.get("target_event_node")
+        ).removeprefix("EVENT::"),
+        "target_event_name": safe_string(step.get("target_event_name")),
+        "rule_ids": unique_preserve_order(step.get("rule_ids") or []),
+        "article_ids": unique_preserve_order(step.get("article_ids") or []),
+    }
+
+
+def _order_steps_by_event_chain(
+    steps: list[dict[str, Any]],
+    preferred_event_ids: list[str],
+) -> list[dict[str, Any]]:
+    """Đưa các edge về đúng thứ tự cause -> ... -> effect."""
+
+    if not steps:
+        return []
+
+    # Tin cậy thứ tự đã chuẩn hóa của Step 4 trước tiên.
+    preferred = [safe_string(x).removeprefix("EVENT::") for x in preferred_event_ids]
+    preferred = unique_preserve_order(preferred)
+
+    if len(preferred) >= 2:
+        ordered: list[dict[str, Any]] = []
+        used: set[int] = set()
+
+        for source, target in zip(preferred[:-1], preferred[1:]):
+            for index, step in enumerate(steps):
+                if index in used:
+                    continue
+                if (
+                    step["source_event_id"] == source
+                    and step["target_event_id"] == target
+                ):
+                    ordered.append(dict(step))
+                    used.add(index)
+                    break
+
+        if len(ordered) == len(preferred) - 1:
+            for hop, step in enumerate(ordered, start=1):
+                step["hop"] = hop
+            return ordered
+
+    # Fallback: dựng chuỗi từ chính các directed edges.
+    by_source: dict[str, list[tuple[int, dict[str, Any]]]] = {}
+    targets: set[str] = set()
+
+    for index, step in enumerate(steps):
+        source = step["source_event_id"]
+        target = step["target_event_id"]
+        if not source or not target:
+            continue
+        by_source.setdefault(source, []).append((index, step))
+        targets.add(target)
+
+    starts = [source for source in by_source if source not in targets]
+    if len(starts) == 1:
+        current = starts[0]
+        ordered = []
+        used: set[int] = set()
+
+        while current in by_source:
+            candidates = [item for item in by_source[current] if item[0] not in used]
+            if len(candidates) != 1:
+                break
+            index, step = candidates[0]
+            ordered.append(dict(step))
+            used.add(index)
+            current = step["target_event_id"]
+
+        if len(ordered) == len(steps):
+            for hop, step in enumerate(ordered, start=1):
+                step["hop"] = hop
+            return ordered
+
+    ordered = sorted(steps, key=lambda item: safe_int(item.get("hop"), 0))
+    for hop, step in enumerate(ordered, start=1):
+        step["hop"] = hop
+    return ordered
+
+
+def extract_reasoning_path_payload(
+    retrieval: Mapping[str, Any],
+    verification: Mapping[str, Any],
+    final_answer: Optional[Mapping[str, Any]] = None,
+) -> dict[str, Any]:
+    """Chọn đúng primary path và chuẩn hóa output cho evaluator."""
+
+    final_answer = final_answer or {}
+    causal_paths = retrieval.get("causal_paths") or []
+    path_verifications = verification.get("path_verifications") or []
+    primary_ids = extract_primary_path_ids(verification, final_answer)
+
+    selected_path_id = primary_ids[0] if primary_ids else -1
+
+    if not (0 <= selected_path_id < len(causal_paths)):
+        # Ưu tiên selected path của Step 5 nếu index hợp lệ.
+        for item in final_answer.get("selected_paths") or []:
+            if not isinstance(item, Mapping):
+                continue
+            candidate = safe_int(item.get("original_path_id"), -1)
+            if 0 <= candidate < len(causal_paths):
+                selected_path_id = candidate
+                break
+
+    if not (0 <= selected_path_id < len(causal_paths)):
+        selected_path_id = 0 if causal_paths else -1
+
+    selected_path = (
+        causal_paths[selected_path_id]
+        if 0 <= selected_path_id < len(causal_paths)
+        and isinstance(causal_paths[selected_path_id], Mapping)
+        else {}
+    )
+
+    verification_path: Mapping[str, Any] = {}
+    for item in path_verifications:
+        if not isinstance(item, Mapping):
+            continue
+        if safe_int(item.get("original_path_id"), -1) == selected_path_id:
+            verification_path = item
+            break
+
+    preferred_event_ids = unique_preserve_order(
+        verification_path.get("original_event_ids") or []
+    )
+
+    raw_steps = [
+        _normalize_step(step, index)
+        for index, step in enumerate(selected_path.get("steps") or [], start=1)
+        if isinstance(step, Mapping)
+    ]
+    raw_steps = [
+        step
+        for step in raw_steps
+        if step["source_event_id"] and step["target_event_id"]
+    ]
+
+    steps = _order_steps_by_event_chain(raw_steps, preferred_event_ids)
+
+    if not steps and len(preferred_event_ids) >= 2:
+        names = unique_preserve_order(
+            verification_path.get("original_event_names") or []
+        )
+        name_by_id = {
+            event_id: names[index]
+            for index, event_id in enumerate(preferred_event_ids)
+            if index < len(names)
+        }
+        for hop, (source, target) in enumerate(
+            zip(preferred_event_ids[:-1], preferred_event_ids[1:]),
+            start=1,
+        ):
+            steps.append({
+                "hop": hop,
+                "source_event_id": safe_string(source).removeprefix("EVENT::"),
+                "source_event_name": name_by_id.get(source, ""),
+                "target_event_id": safe_string(target).removeprefix("EVENT::"),
+                "target_event_name": name_by_id.get(target, ""),
+                "rule_ids": [],
+                "article_ids": [],
+            })
+
+    event_ids: list[str] = []
+    if steps:
+        event_ids.append(steps[0]["source_event_id"])
+        event_ids.extend(step["target_event_id"] for step in steps)
+    else:
+        event_ids.extend(preferred_event_ids)
+
+    rule_ids = unique_preserve_order(
+        rule_id
+        for step in steps
+        for rule_id in step.get("rule_ids") or []
+    )
+    if not rule_ids:
+        rule_ids = unique_preserve_order(
+            verification_path.get("original_rule_ids")
+            or selected_path.get("rule_ids")
+            or []
+        )
+
+    article_ids = unique_preserve_order(
+        article_id
+        for step in steps
+        for article_id in step.get("article_ids") or []
+    )
+    if not article_ids:
+        article_ids = unique_preserve_order(
+            verification_path.get("original_article_ids")
+            or selected_path.get("article_ids")
+            or []
+        )
+
+    return {
+        "path_id": selected_path_id,
+        "primary_path_ids": primary_ids or ([selected_path_id] if selected_path_id >= 0 else []),
+        "steps": steps,
+        "event_ids": unique_preserve_order(event_ids),
+        "rule_ids": rule_ids,
+        "article_ids": article_ids,
+    }
 
 
 def extract_reasoning_path(
     retrieval: Mapping[str, Any],
+    verification: Optional[Mapping[str, Any]] = None,
+    final_answer: Optional[Mapping[str, Any]] = None,
 ) -> list[dict[str, Any]]:
-    causal_paths = retrieval.get("causal_paths") or []
+    return extract_reasoning_path_payload(
+        retrieval,
+        verification or {},
+        final_answer or {},
+    )["steps"]
 
-    if not causal_paths:
-        return []
 
-    # Bước 3 đã sắp xếp path theo graph_score giảm dần.
-    best_path = causal_paths[0]
-
-    if not isinstance(best_path, Mapping):
-        return []
-
-    result: list[dict[str, Any]] = []
-
-    for step in best_path.get("steps") or []:
-        if not isinstance(step, Mapping):
-            continue
-
-        source_id = safe_string(
-            step.get("source_event_id")
-            or step.get("source_event_node")
-        )
-        target_id = safe_string(
-            step.get("target_event_id")
-            or step.get("target_event_node")
-        )
-
-        if not source_id or not target_id:
-            continue
-
-        result.append(
-            {
-                "hop": safe_int(step.get("hop"), len(result) + 1),
-                "source_event_id": source_id,
-                "source_event_name": safe_string(
-                    step.get("source_event_name")
-                ),
-                "target_event_id": target_id,
-                "target_event_name": safe_string(
-                    step.get("target_event_name")
-                ),
-                "rule_ids": unique_preserve_order(
-                    step.get("rule_ids") or []
-                ),
-                "article_ids": unique_preserve_order(
-                    step.get("article_ids") or []
-                ),
-            }
-        )
-
-    return result
+def _citation_evidence_index(value: Any) -> int:
+    text = safe_string(value).upper().strip("[] ")
+    if text.startswith("E"):
+        text = text[1:]
+    return safe_int(text, -1)
 
 
 def extract_citations(
     final_answer: Mapping[str, Any],
     verification: Mapping[str, Any],
+    path_payload: Optional[Mapping[str, Any]] = None,
 ) -> list[str]:
-    citations: list[str] = []
+    """Ánh xạ đúng citations_used của Step 5 sang nhãn Điều X."""
 
-    # Citation phục vụ evaluator phải là "Điều X", không chỉ E1/E2.
-    for evidence in final_answer.get("selected_evidence") or []:
-        if not isinstance(evidence, Mapping):
+    path_payload = path_payload or {}
+    selected_evidence = [
+        item
+        for item in final_answer.get("selected_evidence") or []
+        if isinstance(item, Mapping)
+    ]
+
+    by_index: dict[int, Mapping[str, Any]] = {}
+    for position, evidence in enumerate(selected_evidence, start=1):
+        index = safe_int(evidence.get("evidence_index"), position)
+        by_index[index] = evidence
+
+    citations: list[str] = []
+    used_ids = final_answer.get("citations_used") or []
+
+    for used in used_ids:
+        raw = safe_string(used)
+        if raw.lower().startswith("điều "):
+            citations.append(raw)
+            continue
+        evidence_index = _citation_evidence_index(used)
+        evidence = by_index.get(evidence_index)
+        if evidence:
+            article_id = safe_string(evidence.get("article_id"))
+            if article_id:
+                citations.append(f"Điều {article_id}")
+
+    if citations:
+        return unique_preserve_order(citations)
+
+    # Fallback chỉ dùng evidence thuộc primary reasoning path.
+    primary_ids = set(unique_ints(path_payload.get("primary_path_ids") or []))
+    path_rule_ids = set(unique_preserve_order(path_payload.get("rule_ids") or []))
+
+    for evidence in selected_evidence:
+        evidence_path_ids = set(unique_ints(evidence.get("path_ids") or []))
+        rule_id = safe_string(evidence.get("rule_id"))
+        is_relevant = bool(primary_ids & evidence_path_ids) or rule_id in path_rule_ids
+        if not is_relevant:
             continue
         article_id = safe_string(evidence.get("article_id"))
         if article_id:
             citations.append(f"Điều {article_id}")
 
     if not citations:
-        for group_name in ("verified_evidence", "uncertain_evidence"):
-            for evidence in verification.get(group_name) or []:
-                if not isinstance(evidence, Mapping):
-                    continue
-                article_id = safe_string(
-                    evidence.get("article_id")
-                    or (evidence.get("original_evidence") or {}).get(
-                        "article_id"
-                    )
-                )
-                if article_id:
-                    citations.append(f"Điều {article_id}")
+        citations.extend(
+            f"Điều {article_id}"
+            for article_id in path_payload.get("article_ids") or []
+            if safe_string(article_id)
+        )
 
     return unique_preserve_order(citations)
+
+
+def _selected_evidence_rule_ids(final_answer: Mapping[str, Any]) -> list[str]:
+    return unique_preserve_order(
+        item.get("rule_id")
+        for item in final_answer.get("selected_evidence") or []
+        if isinstance(item, Mapping)
+    )
+
+
+def _selected_evidence_article_ids(final_answer: Mapping[str, Any]) -> list[str]:
+    return unique_preserve_order(
+        item.get("article_id")
+        for item in final_answer.get("selected_evidence") or []
+        if isinstance(item, Mapping)
+    )
 
 
 def build_prediction(
@@ -508,26 +830,48 @@ def build_prediction(
     retrieved_events = retrieval.get("retrieved_events") or []
     evidence = retrieval.get("evidence") or []
 
+    path_payload = extract_reasoning_path_payload(
+        retrieval,
+        verification,
+        final_answer,
+    )
+    reasoning_path = path_payload["steps"]
+
+    # Primary path phải đứng trước semantic seeds để Recall@5 phản ánh path
+    # thực sự được hệ thống chọn.
     retrieved_event_ids = unique_preserve_order(
-        item.get("event_id") or item.get("graph_node_id")
-        for item in retrieved_events
-        if isinstance(item, Mapping)
+        list(path_payload["event_ids"])
+        + [
+            item.get("event_id") or item.get("graph_node_id")
+            for item in retrieved_events
+            if isinstance(item, Mapping)
+        ]
     )
 
     retrieved_rule_ids = unique_preserve_order(
-        item.get("rule_id")
-        for item in evidence
-        if isinstance(item, Mapping)
+        list(path_payload["rule_ids"])
+        + _selected_evidence_rule_ids(final_answer)
+        + [
+            item.get("rule_id")
+            for item in evidence
+            if isinstance(item, Mapping)
+        ]
     )
 
     retrieved_article_ids = unique_preserve_order(
-        item.get("article_id")
-        for item in evidence
-        if isinstance(item, Mapping)
+        list(path_payload["article_ids"])
+        + _selected_evidence_article_ids(final_answer)
+        + [
+            item.get("article_id")
+            for item in evidence
+            if isinstance(item, Mapping)
+        ]
     )
 
-    reasoning_path = extract_reasoning_path(retrieval)
-    decision = derive_verification_decision(verification)
+    decision = derive_verification_decision(
+        verification,
+        final_answer,
+    )
     answer_text = safe_string(
         final_answer.get("answer")
         or final_answer.get("final_answer")
@@ -535,6 +879,21 @@ def build_prediction(
     citations = extract_citations(
         final_answer,
         verification,
+        path_payload,
+    )
+
+    decision_score = safe_float(
+        verification.get("decision_score"),
+        safe_float(final_answer.get("decision_score")),
+    )
+    decision_explanation = safe_string(
+        verification.get("decision_explanation")
+        or final_answer.get("decision_explanation")
+    )
+    query_analysis = (
+        verification.get("query_analysis")
+        or final_answer.get("query_analysis")
+        or {}
     )
 
     return {
@@ -545,7 +904,10 @@ def build_prediction(
         "retrieved_event_ids": retrieved_event_ids,
         "retrieved_article_ids": retrieved_article_ids,
         "reasoning_path": reasoning_path,
+        "reasoning_path_id": path_payload["path_id"],
+        "primary_path_ids": path_payload["primary_path_ids"],
         "verification_decision": decision,
+        "decision_score": decision_score,
         "final_answer": answer_text,
         "citations": citations,
         "retrieval": {
@@ -553,11 +915,21 @@ def build_prediction(
             "direct_rule_hits": retrieval.get("direct_rule_hits") or [],
             "retrieved_rules": evidence,
             "causal_paths": retrieval.get("causal_paths") or [],
+            "selected_path_id": path_payload["path_id"],
+            "selected_path_event_ids": path_payload["event_ids"],
+            "selected_path_rule_ids": path_payload["rule_ids"],
             "statistics": retrieval.get("statistics") or {},
             "configuration": retrieval.get("configuration") or {},
         },
         "verification": {
             "final_decision": decision,
+            "decision_score": decision_score,
+            "decision_explanation": decision_explanation,
+            "primary_path_ids": path_payload["primary_path_ids"],
+            "query_analysis": query_analysis,
+            "verification_method": safe_string(
+                verification.get("verification_method")
+            ),
             "confidence": safe_float(verification.get("confidence")),
             "consistency_score": safe_float(
                 verification.get("consistency_score")
@@ -590,6 +962,25 @@ def build_prediction(
             "selected_paths": (
                 final_answer.get("selected_paths") or []
             ),
+            "final_decision": normalize_decision(
+                final_answer.get("final_decision") or decision
+            ),
+            "decision_score": safe_float(
+                final_answer.get("decision_score"),
+                decision_score,
+            ),
+            "decision_explanation": safe_string(
+                final_answer.get("decision_explanation")
+                or decision_explanation
+            ),
+            "primary_path_ids": unique_ints(
+                final_answer.get("primary_path_ids")
+                or path_payload["primary_path_ids"]
+            ),
+            "query_analysis": (
+                final_answer.get("query_analysis")
+                or query_analysis
+            ),
             "confidence": safe_float(final_answer.get("confidence")),
             "consistency_score": safe_float(
                 final_answer.get("consistency_score")
@@ -600,6 +991,7 @@ def build_prediction(
         },
         "pipeline_metadata": {
             "status": "SUCCESS",
+            "runner_version": PIPELINE_RUNNER_VERSION,
             "elapsed_seconds": round(elapsed_seconds, 4),
             "completed_at_utc": now_iso(),
         },
@@ -630,10 +1022,53 @@ class BatchPipelineRunner:
             Path(args.answer_script),
         )
 
+        self._validate_module_compatibility()
+
         self.work_dir = Path(args.work_dir)
         self.work_dir.mkdir(parents=True, exist_ok=True)
 
         self._initialize_retriever()
+
+    def _validate_module_compatibility(self) -> None:
+        verifier_version = safe_string(
+            getattr(self.verifier_module, "STEP4_VERSION", "")
+        )
+
+        if (
+            not self.args.allow_legacy_verifier
+            and "query-aware" not in verifier_version.lower()
+        ):
+            raise RuntimeError(
+                "File Step 4 đang nạp không phải bản query-aware. "
+                f"STEP4_VERSION={verifier_version or 'missing'}. "
+                "Hãy dùng --verifier-script "
+                "4_counterfactual_verification.py "
+                "hoặc thêm --allow-legacy-verifier nếu thực sự cần chạy bản cũ."
+            )
+
+        required_answer_symbols = {
+            "FinalAnswerInputStore",
+            "FinalAnswerPipeline",
+        }
+        missing = [
+            name
+            for name in required_answer_symbols
+            if not hasattr(self.answer_module, name)
+        ]
+        if missing:
+            raise RuntimeError(
+                "File Step 5 thiếu thành phần bắt buộc: "
+                + ", ".join(sorted(missing))
+            )
+
+        print(
+            "Step 4 version:",
+            verifier_version or "legacy/unknown",
+        )
+        print(
+            "Pipeline runner version:",
+            PIPELINE_RUNNER_VERSION,
+        )
 
     def _initialize_retriever(self) -> None:
         print("\nKhởi tạo tài nguyên bước 3...")
@@ -726,6 +1161,21 @@ class BatchPipelineRunner:
         verification_data = to_serializable(
             verification_result
         )
+
+        if not self.args.allow_legacy_verifier:
+            required_fields = {
+                "final_decision",
+                "decision_score",
+                "primary_path_ids",
+                "query_analysis",
+            }
+            missing_fields = required_fields - set(verification_data)
+            if missing_fields:
+                raise RuntimeError(
+                    "Output Step 4 không phải schema query-aware; thiếu: "
+                    f"{sorted(missing_fields)}"
+                )
+
         write_json(verification_path, verification_data)
 
         # ---------------- STEP 5 ----------------
@@ -880,6 +1330,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--answer-script",
         default=DEFAULT_ANSWER_SCRIPT,
+    )
+    parser.add_argument(
+        "--allow-legacy-verifier",
+        action="store_true",
+        help=(
+            "Cho phép chạy Step 4 cũ không có final_decision/primary_path_ids. "
+            "Mặc định runner từ chối để tránh đánh giá sai theo majority path."
+        ),
     )
 
     # Shared resources.
@@ -1038,7 +1496,7 @@ def save_predictions(
     payload = {
         "metadata": {
             "name": "BLHS CausalRAG Pipeline Predictions",
-            "version": "1.0",
+            "version": "2.0-primary-path-aware",
             "created_at_utc": now_iso(),
             "run_started_at_utc": run_started_at,
             "benchmark": str(benchmark_path),
@@ -1046,6 +1504,7 @@ def save_predictions(
             "successful_predictions": len(ordered_predictions),
             "failed_questions": len(errors),
             "evaluation_compatible": True,
+            "runner_version": PIPELINE_RUNNER_VERSION,
         },
         "predictions": ordered_predictions,
     }
