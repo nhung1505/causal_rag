@@ -3,6 +3,9 @@ conda activate nhungnt
 cd workspace/nhungnt/causal_rag/
 ollama serve
 
+python -m py_compile 3_multi_hop_causal_retriever.py
+python -m py_compile 4_counterfactual_verification.py
+
 ** chạy file 1
 python 1_build_legal_causal_graph.py \
   --input data/blhs_rules_final_all_normalized.json
