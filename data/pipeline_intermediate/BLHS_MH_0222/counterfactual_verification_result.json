@@ -1,0 +1,1418 @@
+{
+  "query": "Theo dữ liệu, có một cạnh CAUSES trực tiếp từ “Chống trả cần thiết để bảo vệ lợi ích chính đáng” đến “Không bị coi là tội phạm” không?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 22,
+    "total_paths": 22,
+    "path_status_counts": {
+      "SUPPORTED": 22,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 22,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+      "seed_event_name": "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+      "original_outcome_event_id": "phong_ve_chinh_dang",
+      "original_outcome_event_name": "Phòng vệ chính đáng",
+      "original_event_nodes": [
+        "EVENT::chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "EVENT::phong_ve_chinh_dang"
+      ],
+      "original_event_ids": [
+        "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "phong_ve_chinh_dang"
+      ],
+      "original_event_names": [
+        "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+        "Phòng vệ chính đáng"
+      ],
+      "original_rule_ids": [
+        "45"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.5243331009745599,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "seed_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "original_outcome_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "original_outcome_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "original_event_nodes": [
+        "EVENT::chong_tra_ro_rang_qua_muc_can_thiet",
+        "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang"
+      ],
+      "original_event_ids": [
+        "chong_tra_ro_rang_qua_muc_can_thiet",
+        "vuot_qua_gioi_han_phong_ve_chinh_dang"
+      ],
+      "original_event_names": [
+        "Chống trả rõ ràng quá mức cần thiết",
+        "Vượt quá giới hạn phòng vệ chính đáng"
+      ],
+      "original_rule_ids": [
+        "47"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.5093419770598412,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "hanh_vi_co_muc_do_nguy_hiem_cho_xa_hoi_khong_dang_ke",
+      "seed_event_name": "Hành vi có mức độ nguy hiểm cho xã hội không đáng kể",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::hanh_vi_co_muc_do_nguy_hiem_cho_xa_hoi_khong_dang_ke",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "hanh_vi_co_muc_do_nguy_hiem_cho_xa_hoi_khong_dang_ke",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Hành vi có mức độ nguy hiểm cho xã hội không đáng kể",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "17"
+      ],
+      "original_article_ids": [
+        "8"
+      ],
+      "original_path_score": 0.504632022202015,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "phong_ve_chinh_dang",
+      "seed_event_name": "Phòng vệ chính đáng",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::phong_ve_chinh_dang",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "phong_ve_chinh_dang",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Phòng vệ chính đáng",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "46"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.504632022202015,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "tinh_the_cap_thiet",
+      "seed_event_name": "Tình thế cấp thiết",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::tinh_the_cap_thiet",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "tinh_the_cap_thiet",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Tình thế cấp thiết",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "50"
+      ],
+      "original_article_ids": [
+        "23"
+      ],
+      "original_path_score": 0.504632022202015,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+      "seed_event_name": "Sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "52"
+      ],
+      "original_article_ids": [
+        "24"
+      ],
+      "original_path_score": 0.504632022202015,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "rui_ro_khoa_hoc_ky_thuat_du_da_tuan_thu_day_du_quy_trinh",
+      "seed_event_name": "Rủi ro khoa học kỹ thuật dù đã tuân thủ đầy đủ quy trình",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::rui_ro_khoa_hoc_ky_thuat_du_da_tuan_thu_day_du_quy_trinh",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "rui_ro_khoa_hoc_ky_thuat_du_da_tuan_thu_day_du_quy_trinh",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Rủi ro khoa học kỹ thuật dù đã tuân thủ đầy đủ quy trình",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "54"
+      ],
+      "original_article_ids": [
+        "25"
+      ],
+      "original_path_score": 0.504632022202015,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "dan_den_viec_nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tra_thu_nguoi_to_giac_bao_tin_ve_toi_pham_nguoi_bi_hai_nhan_chung",
+      "seed_event_name": "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng",
+      "original_outcome_event_id": "phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::dan_den_viec_nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tra_thu_nguoi_to_giac_bao_tin_ve_toi_pham_nguoi_bi_hai_nhan_chung",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "dan_den_viec_nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tra_thu_nguoi_to_giac_bao_tin_ve_toi_pham_nguoi_bi_hai_nhan_chung",
+        "phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng",
+        "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "2582"
+      ],
+      "original_article_ids": [
+        "369"
+      ],
+      "original_path_score": 0.5026141582727432,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "than_thich_che_giau_toi_pham_khong_thuoc_ngoai_le",
+      "seed_event_name": "Thân thích che giấu tội phạm không thuộc ngoại lệ",
+      "original_outcome_event_id": "khong_chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Không chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::than_thich_che_giau_toi_pham_khong_thuoc_ngoai_le",
+        "EVENT::khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "than_thich_che_giau_toi_pham_khong_thuoc_ngoai_le",
+        "khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Thân thích che giấu tội phạm không thuộc ngoại lệ",
+        "Không chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "40"
+      ],
+      "original_article_ids": [
+        "18"
+      ],
+      "original_path_score": 0.5007396072149277,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+      "seed_event_name": "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+      "original_outcome_event_id": "khong_chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Không chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+        "EVENT::khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+        "khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+        "Không chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "42"
+      ],
+      "original_article_ids": [
+        "19"
+      ],
+      "original_path_score": 0.5007396072149277,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "gay_hau_qua_trong_su_kien_bat_ngo",
+      "seed_event_name": "Gây hậu quả trong sự kiện bất ngờ",
+      "original_outcome_event_id": "khong_chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Không chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::gay_hau_qua_trong_su_kien_bat_ngo",
+        "EVENT::khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "gay_hau_qua_trong_su_kien_bat_ngo",
+        "khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Gây hậu quả trong sự kiện bất ngờ",
+        "Không chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "43"
+      ],
+      "original_article_ids": [
+        "20"
+      ],
+      "original_path_score": 0.5007396072149277,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "mat_nang_luc_trach_nhiem_hinh_su_khi_thuc_hien_hanh_vi",
+      "seed_event_name": "Mất năng lực trách nhiệm hình sự khi thực hiện hành vi",
+      "original_outcome_event_id": "khong_chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Không chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::mat_nang_luc_trach_nhiem_hinh_su_khi_thuc_hien_hanh_vi",
+        "EVENT::khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "mat_nang_luc_trach_nhiem_hinh_su_khi_thuc_hien_hanh_vi",
+        "khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Mất năng lực trách nhiệm hình sự khi thực hiện hành vi",
+        "Không chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "44"
+      ],
+      "original_article_ids": [
+        "21"
+      ],
+      "original_path_score": 0.5007396072149277,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "thi_hanh_menh_lenh_sau_khi_da_bao_cao_nhung_van_bi_yeu_cau_chap_hanh",
+      "seed_event_name": "Thi hành mệnh lệnh sau khi đã báo cáo nhưng vẫn bị yêu cầu chấp hành",
+      "original_outcome_event_id": "khong_chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Không chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::thi_hanh_menh_lenh_sau_khi_da_bao_cao_nhung_van_bi_yeu_cau_chap_hanh",
+        "EVENT::khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "thi_hanh_menh_lenh_sau_khi_da_bao_cao_nhung_van_bi_yeu_cau_chap_hanh",
+        "khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Thi hành mệnh lệnh sau khi đã báo cáo nhưng vẫn bị yêu cầu chấp hành",
+        "Không chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "56"
+      ],
+      "original_article_ids": [
+        "26"
+      ],
+      "original_path_score": 0.5007396072149277,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+      "seed_event_name": "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+      "original_outcome_event_id": "khong_chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Không chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+        "EVENT::khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+        "khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+        "Không chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "42"
+      ],
+      "original_article_ids": [
+        "19"
+      ],
+      "original_path_score": 0.49992773807048796,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "phong_ve_chinh_dang",
+      "seed_event_name": "Phòng vệ chính đáng",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::phong_ve_chinh_dang",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "phong_ve_chinh_dang",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Phòng vệ chính đáng",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "46"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.4978809920549393,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 15,
+      "seed_event_id": "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+      "seed_event_name": "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+      "original_outcome_event_id": "phong_ve_chinh_dang",
+      "original_outcome_event_name": "Phòng vệ chính đáng",
+      "original_event_nodes": [
+        "EVENT::chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "EVENT::phong_ve_chinh_dang"
+      ],
+      "original_event_ids": [
+        "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "phong_ve_chinh_dang"
+      ],
+      "original_event_names": [
+        "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+        "Phòng vệ chính đáng"
+      ],
+      "original_rule_ids": [
+        "45"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.4978809920549393,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 16,
+      "seed_event_id": "nguoi_bi_ep_buoc_dua_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+      "seed_event_name": "Người bị ép buộc đưa hối lộ mà chủ động khai báo trước khi bị phát giác",
+      "original_outcome_event_id": "duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "original_outcome_event_name": "Được coi là không có tội và được trả lại toàn bộ của đã dùng để đưa hối lộ",
+      "original_event_nodes": [
+        "EVENT::nguoi_bi_ep_buoc_dua_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+        "EVENT::duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo"
+      ],
+      "original_event_ids": [
+        "nguoi_bi_ep_buoc_dua_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+        "duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo"
+      ],
+      "original_event_names": [
+        "Người bị ép buộc đưa hối lộ mà chủ động khai báo trước khi bị phát giác",
+        "Được coi là không có tội và được trả lại toàn bộ của đã dùng để đưa hối lộ"
+      ],
+      "original_rule_ids": [
+        "2549"
+      ],
+      "original_article_ids": [
+        "364"
+      ],
+      "original_path_score": 0.49764452886581423,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 17,
+      "seed_event_id": "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+      "seed_event_name": "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "EVENT::phong_ve_chinh_dang",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "phong_ve_chinh_dang",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+        "Phòng vệ chính đáng",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "45",
+        "46"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.4405031427991391,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::phong_ve_chinh_dang",
+          "mediator_event_id": "phong_ve_chinh_dang",
+          "mediator_event_name": "Phòng vệ chính đáng",
+          "removed_nodes": [
+            "EVENT::phong_ve_chinh_dang"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6657264142596127,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 18,
+      "seed_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "seed_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::chong_tra_ro_rang_qua_muc_can_thiet",
+        "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "chong_tra_ro_rang_qua_muc_can_thiet",
+        "vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Chống trả rõ ràng quá mức cần thiết",
+        "Vượt quá giới hạn phòng vệ chính đáng",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "47",
+        "48"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.4282104211890698,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "mediator_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "mediator_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+          "removed_nodes": [
+            "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6601946895350814,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 19,
+      "seed_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "seed_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "original_outcome_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::chong_tra_ro_rang_qua_muc_can_thiet",
+        "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "EVENT::co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "chong_tra_ro_rang_qua_muc_can_thiet",
+        "vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Chống trả rõ ràng quá mức cần thiết",
+        "Vượt quá giới hạn phòng vệ chính đáng",
+        "Có tình tiết giảm nhẹ trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "47",
+        "106"
+      ],
+      "original_article_ids": [
+        "22",
+        "51"
+      ],
+      "original_path_score": 0.4282104211890698,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "mediator_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "mediator_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+          "removed_nodes": [
+            "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6601946895350814,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 20,
+      "seed_event_id": "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+      "seed_event_name": "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "EVENT::phong_ve_chinh_dang",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "phong_ve_chinh_dang",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+        "Phòng vệ chính đáng",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "46",
+        "45"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.42434825820565225,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::phong_ve_chinh_dang",
+          "mediator_event_id": "phong_ve_chinh_dang",
+          "mediator_event_name": "Phòng vệ chính đáng",
+          "removed_nodes": [
+            "EVENT::phong_ve_chinh_dang"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6584567161925435,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 21,
+      "seed_event_id": "gay_thiet_hai_nho_hon_de_tranh_thiet_hai_lon_hon",
+      "seed_event_name": "Gây thiệt hại nhỏ hơn để tránh thiệt hại lớn hơn",
+      "original_outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "original_outcome_event_name": "Không bị coi là tội phạm",
+      "original_event_nodes": [
+        "EVENT::gay_thiet_hai_nho_hon_de_tranh_thiet_hai_lon_hon",
+        "EVENT::tinh_the_cap_thiet",
+        "EVENT::khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_ids": [
+        "gay_thiet_hai_nho_hon_de_tranh_thiet_hai_lon_hon",
+        "tinh_the_cap_thiet",
+        "khong_bi_coi_la_toi_pham"
+      ],
+      "original_event_names": [
+        "Gây thiệt hại nhỏ hơn để tránh thiệt hại lớn hơn",
+        "Tình thế cấp thiết",
+        "Không bị coi là tội phạm"
+      ],
+      "original_rule_ids": [
+        "50",
+        "49"
+      ],
+      "original_article_ids": [
+        "23"
+      ],
+      "original_path_score": 0.42434825820565225,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tinh_the_cap_thiet",
+          "mediator_event_id": "tinh_the_cap_thiet",
+          "mediator_event_name": "Tình thế cấp thiết",
+          "removed_nodes": [
+            "EVENT::tinh_the_cap_thiet"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6584567161925435,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 4,
+      "rule_id": "42",
+      "article_id": "19",
+      "original_final_score": 0.5726014363765717,
+      "semantic_score": 0.5974078178405762,
+      "graph_score": 0.5013447403907776,
+      "path_support_score": 0.5003336726427079,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.57990031011343,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        9,
+        13
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "42",
+        "rule_node_id": "RULE::42",
+        "article_id": "19",
+        "article_title": "Không tố giác tội phạm[8]",
+        "legal_subject": "Thân thích của người phạm tội",
+        "condition": "không tố giác và không thuộc tội xâm phạm an ninh quốc gia hoặc tội đặc biệt nghiêm trọng",
+        "effect": "không phải chịu trách nhiệm hình sự về tội không tố giác",
+        "condition_event": "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+        "condition_event_name": "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+        "effect_event": "khong_chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Không chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.5974078178405762,
+        "graph_score": 0.5013447403907776,
+        "seed_event_score": 0.58281409740448,
+        "direct_rule_score": 0.597407877445221,
+        "final_score": 0.5726014363765717,
+        "matched_seed_events": [
+          "Không chịu trách nhiệm hình sự",
+          "Thân thích không tố giác tội phạm không thuộc ngoại lệ"
+        ],
+        "path_ids": [
+          9,
+          13
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "52",
+      "article_id": "24",
+      "original_final_score": 0.5621859754085541,
+      "semantic_score": 0.5763394832611084,
+      "graph_score": 0.508421858549118,
+      "path_support_score": 0.504632022202015,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5791535459554196,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        5
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "52",
+        "rule_node_id": "RULE::52",
+        "article_id": "24",
+        "article_title": "Gây thiệt hại trong khi bắt giữ người phạm tội",
+        "legal_subject": "Người bắt giữ",
+        "condition": "không còn cách nào khác và sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+        "effect": "không bị coi là phạm tội",
+        "condition_event": "su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+        "condition_event_name": "Sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+        "effect_event": "khong_bi_coi_la_toi_pham",
+        "effect_event_name": "Không bị coi là tội phạm",
+        "causal_type": "",
+        "semantic_score": 0.5763394832611084,
+        "graph_score": 0.508421858549118,
+        "seed_event_score": 0.5942288041114807,
+        "direct_rule_score": 0.5763395428657532,
+        "final_score": 0.5621859754085541,
+        "matched_seed_events": [
+          "Không bị coi là tội phạm"
+        ],
+        "path_ids": [
+          5
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "2582",
+      "article_id": "369",
+      "original_final_score": 0.5171950296401977,
+      "semantic_score": 0.5611326694488525,
+      "graph_score": 0.5047530150413513,
+      "path_support_score": 0.5026141582727432,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.575440029361248,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "2582",
+        "rule_node_id": "RULE::2582",
+        "article_id": "369",
+        "article_title": "Tội không truy cứu trách nhiệm hình sự người có tội",
+        "legal_subject": "Người phạm tội",
+        "condition": "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng",
+        "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+        "condition_event": "dan_den_viec_nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tra_thu_nguoi_to_giac_bao_tin_ve_toi_pham_nguoi_bi_hai_nhan_chung",
+        "condition_event_name": "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng",
+        "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+        "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5611326694488525,
+        "graph_score": 0.5047530150413513,
+        "seed_event_score": 0.5883113145828247,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5171950296401977,
+        "matched_seed_events": [
+          "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "17",
+      "article_id": "8",
+      "original_final_score": 0.5110626615047454,
+      "semantic_score": 0.5478171706199646,
+      "graph_score": 0.508421858549118,
+      "path_support_score": 0.504632022202015,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5745899759328366,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "17",
+        "rule_node_id": "RULE::17",
+        "article_id": "8",
+        "article_title": "Khái niệm tội phạm",
+        "legal_subject": "Người thực hiện hành vi",
+        "condition": "hành vi tuy có dấu hiệu tội phạm nhưng tính chất nguy hiểm cho xã hội không đáng kể",
+        "effect": "không bị coi là tội phạm và được xử lý bằng biện pháp khác",
+        "condition_event": "hanh_vi_co_muc_do_nguy_hiem_cho_xa_hoi_khong_dang_ke",
+        "condition_event_name": "Hành vi có mức độ nguy hiểm cho xã hội không đáng kể",
+        "effect_event": "khong_bi_coi_la_toi_pham",
+        "effect_event_name": "Không bị coi là tội phạm",
+        "causal_type": "",
+        "semantic_score": 0.5478171706199646,
+        "graph_score": 0.508421858549118,
+        "seed_event_score": 0.5942288041114807,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5110626615047454,
+        "matched_seed_events": [
+          "Không bị coi là tội phạm"
+        ],
+        "path_ids": [
+          2
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "40",
+      "article_id": "18",
+      "original_final_score": 0.516409033536911,
+      "semantic_score": 0.5623251795768738,
+      "graph_score": 0.5013447403907776,
+      "path_support_score": 0.5007396072149277,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5744413431286812,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        8
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "40",
+        "rule_node_id": "RULE::40",
+        "article_id": "18",
+        "article_title": "Che giấu tội phạm",
+        "legal_subject": "Thân thích của người phạm tội",
+        "condition": "che giấu tội phạm và không thuộc trường hợp tội xâm phạm an ninh quốc gia hoặc tội đặc biệt nghiêm trọng theo Điều 389",
+        "effect": "không phải chịu trách nhiệm hình sự về tội che giấu tội phạm",
+        "condition_event": "than_thich_che_giau_toi_pham_khong_thuoc_ngoai_le",
+        "condition_event_name": "Thân thích che giấu tội phạm không thuộc ngoại lệ",
+        "effect_event": "khong_chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Không chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.5623251795768738,
+        "graph_score": 0.5013447403907776,
+        "seed_event_score": 0.58281409740448,
+        "direct_rule_score": 0.0,
+        "final_score": 0.516409033536911,
+        "matched_seed_events": [
+          "Không chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          8
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "45",
+      "article_id": "22",
+      "original_final_score": 0.6089446800231932,
+      "semantic_score": 0.6251347064971924,
+      "graph_score": 0.5442420017719269,
+      "path_support_score": 0.47176637350857265,
+      "counterfactual_support_score": 0.681045782613039,
+      "verification_score": 0.5734213056570507,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0,
+        15,
+        17,
+        20
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "45",
+        "rule_node_id": "RULE::45",
+        "article_id": "22",
+        "article_title": "Phòng vệ chính đáng",
+        "legal_subject": "Người phòng vệ",
+        "condition": "chống trả cần thiết để bảo vệ quyền, lợi ích chính đáng trước hành vi xâm phạm",
+        "effect": "được xác định là phòng vệ chính đáng",
+        "condition_event": "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+        "condition_event_name": "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+        "effect_event": "phong_ve_chinh_dang",
+        "effect_event_name": "Phòng vệ chính đáng",
+        "causal_type": "",
+        "semantic_score": 0.6251347064971924,
+        "graph_score": 0.5442420017719269,
+        "seed_event_score": 0.6520032286643982,
+        "direct_rule_score": 0.6251347064971924,
+        "final_score": 0.6089446800231932,
+        "matched_seed_events": [
+          "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+          "Phòng vệ chính đáng",
+          "Không bị coi là tội phạm"
+        ],
+        "path_ids": [
+          0,
+          15,
+          17,
+          20
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "56",
+      "article_id": "26",
+      "original_final_score": 0.5102172493934631,
+      "semantic_score": 0.5516496896743774,
+      "graph_score": 0.5013447403907776,
+      "path_support_score": 0.5007396072149277,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5727332647442818,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        12
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "56",
+        "rule_node_id": "RULE::56",
+        "article_id": "26",
+        "article_title": "Thi hành mệnh lệnh của người chỉ huy hoặc của cấp trên",
+        "legal_subject": "Người chấp hành mệnh lệnh",
+        "condition": "gây thiệt hại khi thi hành mệnh lệnh quốc phòng, an ninh, đã báo cáo đầy đủ nhưng cấp trên vẫn yêu cầu chấp hành",
+        "effect": "không phải chịu trách nhiệm hình sự, trừ các trường hợp luật định",
+        "condition_event": "thi_hanh_menh_lenh_sau_khi_da_bao_cao_nhung_van_bi_yeu_cau_chap_hanh",
+        "condition_event_name": "Thi hành mệnh lệnh sau khi đã báo cáo nhưng vẫn bị yêu cầu chấp hành",
+        "effect_event": "khong_chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Không chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.5516496896743774,
+        "graph_score": 0.5013447403907776,
+        "seed_event_score": 0.58281409740448,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5102172493934631,
+        "matched_seed_events": [
+          "Không chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          12
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "46",
+      "article_id": "22",
+      "original_final_score": 0.5919989992141723,
+      "semantic_score": 0.6120896339416504,
+      "graph_score": 0.508421858549118,
+      "path_support_score": 0.4668411038154364,
+      "counterfactual_support_score": 0.681045782613039,
+      "verification_score": 0.5644476715135789,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3,
+        14,
+        17,
+        20
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "46",
+        "rule_node_id": "RULE::46",
+        "article_id": "22",
+        "article_title": "Phòng vệ chính đáng",
+        "legal_subject": "Người phòng vệ",
+        "condition": "thực hiện hành vi phòng vệ chính đáng",
+        "effect": "không bị coi là phạm tội",
+        "condition_event": "phong_ve_chinh_dang",
+        "condition_event_name": "Phòng vệ chính đáng",
+        "effect_event": "khong_bi_coi_la_toi_pham",
+        "effect_event_name": "Không bị coi là tội phạm",
+        "causal_type": "",
+        "semantic_score": 0.6120896339416504,
+        "graph_score": 0.508421858549118,
+        "seed_event_score": 0.6520032286643982,
+        "direct_rule_score": 0.6120896339416504,
+        "final_score": 0.5919989992141723,
+        "matched_seed_events": [
+          "Không bị coi là tội phạm",
+          "Phòng vệ chính đáng",
+          "Chống trả cần thiết để bảo vệ lợi ích chính đáng"
+        ],
+        "path_ids": [
+          3,
+          14,
+          17,
+          20
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "47",
+      "article_id": "22",
+      "original_final_score": 0.5951924756526946,
+      "semantic_score": 0.6221110224723816,
+      "graph_score": 0.5169854128360749,
+      "path_support_score": 0.4552542731459936,
+      "counterfactual_support_score": 0.6734631263567209,
+      "verification_score": 0.5604205456222598,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1,
+        18,
+        19
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "47",
+        "rule_node_id": "RULE::47",
+        "article_id": "22",
+        "article_title": "Phòng vệ chính đáng",
+        "legal_subject": "Người phòng vệ",
+        "condition": "chống trả rõ ràng quá mức cần thiết và không phù hợp với tính chất, mức độ nguy hiểm của hành vi xâm hại",
+        "effect": "được xác định là vượt quá giới hạn phòng vệ chính đáng",
+        "condition_event": "chong_tra_ro_rang_qua_muc_can_thiet",
+        "condition_event_name": "Chống trả rõ ràng quá mức cần thiết",
+        "effect_event": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "effect_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+        "causal_type": "",
+        "semantic_score": 0.6221110224723816,
+        "graph_score": 0.5169854128360749,
+        "seed_event_score": 0.608040988445282,
+        "direct_rule_score": 0.6221110820770264,
+        "final_score": 0.5951924756526946,
+        "matched_seed_events": [
+          "Chống trả rõ ràng quá mức cần thiết"
+        ],
+        "path_ids": [
+          1,
+          18,
+          19
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "50",
+      "article_id": "23",
+      "original_final_score": 0.5650497413635254,
+      "semantic_score": 0.5808141231536865,
+      "graph_score": 0.508421858549118,
+      "path_support_score": 0.4644901402038336,
+      "counterfactual_support_score": 0.6792283580962717,
+      "verification_score": 0.5579686477697301,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        4,
+        21
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "50",
+        "rule_node_id": "RULE::50",
+        "article_id": "23",
+        "article_title": "Tình thế cấp thiết",
+        "legal_subject": "Người gây thiệt hại",
+        "condition": "gây thiệt hại trong tình thế cấp thiết",
+        "effect": "không bị coi là phạm tội",
+        "condition_event": "tinh_the_cap_thiet",
+        "condition_event_name": "Tình thế cấp thiết",
+        "effect_event": "khong_bi_coi_la_toi_pham",
+        "effect_event_name": "Không bị coi là tội phạm",
+        "causal_type": "",
+        "semantic_score": 0.5808141231536865,
+        "graph_score": 0.508421858549118,
+        "seed_event_score": 0.5942288041114807,
+        "direct_rule_score": 0.5808141231536865,
+        "final_score": 0.5650497413635254,
+        "matched_seed_events": [
+          "Không bị coi là tội phạm"
+        ],
+        "path_ids": [
+          4,
+          21
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.6910467829870391,
+  "confidence": 0.8918663740454638,
+  "verification_method": "graph_intervention_remove_mediator"
+}

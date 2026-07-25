@@ -1,0 +1,957 @@
+{
+  "query": "Từ sự kiện “Thực hiện hành vi chuẩn bị cho tội phạm”, sau khi trải qua bước trung gian, kết quả pháp lý cuối cùng nào có thể phát sinh?",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 2933,
+      "score": 0.5887542963027954,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::chuan_bi_pham_toi",
+      "event_id": "chuan_bi_pham_toi",
+      "event_name": "Chuẩn bị phạm tội",
+      "event_role": "BRIDGE",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2938,
+      "score": 0.5878151655197144,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "event_role": "BRIDGE",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3204,
+      "score": 0.580903172492981,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+      "event_id": "phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+      "event_name": "Pháp nhân cố ý thực hiện tội phạm đến cùng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2932,
+      "score": 0.5774654150009155,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "event_id": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3073,
+      "score": 0.5657761096954346,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+      "event_id": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2935,
+      "score": 0.5510274171829224,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2947,
+      "score": 0.5460464954376221,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+      "event_id": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+      "event_name": "Che giấu tội phạm sau khi tội phạm được thực hiện",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4506,
+      "score": 0.545282244682312,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 28,
+      "score": 0.6033996343612671,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::29",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "29",
+      "article_id": "14"
+    },
+    {
+      "memory_id": 32,
+      "score": 0.5795323252677917,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::33",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "33",
+      "article_id": "16"
+    },
+    {
+      "memory_id": 29,
+      "score": 0.5792192220687866,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::30",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "30",
+      "article_id": "14"
+    },
+    {
+      "memory_id": 22,
+      "score": 0.5753318071365356,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::23",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "23",
+      "article_id": "10"
+    },
+    {
+      "memory_id": 33,
+      "score": 0.5728713870048523,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::34",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "34",
+      "article_id": "16"
+    },
+    {
+      "memory_id": 155,
+      "score": 0.5652115345001221,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::156",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "156",
+      "article_id": "57"
+    },
+    {
+      "memory_id": 221,
+      "score": 0.5571210384368896,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::222",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "222",
+      "article_id": "85"
+    },
+    {
+      "memory_id": 2342,
+      "score": 0.5490632057189941,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2343",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2343",
+      "article_id": "328"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::chuan_bi_pham_toi",
+      "seed_event_id": "chuan_bi_pham_toi",
+      "seed_event_name": "Chuẩn bị phạm tội",
+      "seed_similarity": 0.5887542963027954,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::chuan_bi_pham_toi",
+        "EVENT::quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi"
+      ],
+      "rule_ids": [
+        "156"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::chuan_bi_pham_toi",
+          "source_event_id": "chuan_bi_pham_toi",
+          "source_event_name": "Chuẩn bị phạm tội",
+          "target_event_node": "EVENT::quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi",
+          "target_event_id": "quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi",
+          "target_event_name": "Quyết định hình phạt đối với chuẩn bị phạm tội",
+          "rule_ids": [
+            "156"
+          ],
+          "article_ids": [
+            "57"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5050276637077331
+    },
+    {
+      "seed_event_node": "EVENT::chuan_bi_pham_toi",
+      "seed_event_id": "chuan_bi_pham_toi",
+      "seed_event_name": "Chuẩn bị phạm tội",
+      "seed_similarity": 0.5887542963027954,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chuan_bi_pham_toi",
+        "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham"
+      ],
+      "rule_ids": [
+        "29"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+          "source_event_id": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+          "source_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+          "target_event_node": "EVENT::chuan_bi_pham_toi",
+          "target_event_id": "chuan_bi_pham_toi",
+          "target_event_name": "Chuẩn bị phạm tội",
+          "rule_ids": [
+            "29"
+          ],
+          "article_ids": [
+            "14"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5050276637077331
+    },
+    {
+      "seed_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "seed_similarity": 0.5878151655197144,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "EVENT::mien_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "34"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "34"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5044454026222229
+    },
+    {
+      "seed_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "seed_similarity": 0.5878151655197144,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "EVENT::tu_nguyen_dung_thuc_hien_toi_pham"
+      ],
+      "rule_ids": [
+        "33"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_name": "Tự nguyện dừng thực hiện tội phạm",
+          "target_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "rule_ids": [
+            "33"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5044454026222229
+    },
+    {
+      "seed_event_node": "EVENT::phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+      "seed_event_id": "phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+      "seed_event_name": "Pháp nhân cố ý thực hiện tội phạm đến cùng",
+      "seed_similarity": 0.580903172492981,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+        "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "222"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+          "source_event_id": "phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+          "source_event_name": "Pháp nhân cố ý thực hiện tội phạm đến cùng",
+          "target_event_node": "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+          "rule_ids": [
+            "222"
+          ],
+          "article_ids": [
+            "85"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5001599669456482
+    },
+    {
+      "seed_event_node": "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "seed_event_id": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "seed_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+      "seed_similarity": 0.5774654150009155,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+        "EVENT::chuan_bi_pham_toi"
+      ],
+      "rule_ids": [
+        "29"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+          "source_event_id": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+          "source_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+          "target_event_node": "EVENT::chuan_bi_pham_toi",
+          "target_event_id": "chuan_bi_pham_toi",
+          "target_event_name": "Chuẩn bị phạm tội",
+          "rule_ids": [
+            "29"
+          ],
+          "article_ids": [
+            "14"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.49802855730056766
+    },
+    {
+      "seed_event_node": "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+      "seed_event_id": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "seed_event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "seed_similarity": 0.5657761096954346,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+        "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "133"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+          "source_event_id": "co_tinh_thuc_hien_toi_pham_den_cung",
+          "source_event_name": "Cố tình thực hiện tội phạm đến cùng",
+          "target_event_node": "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+          "rule_ids": [
+            "133"
+          ],
+          "article_ids": [
+            "52"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.49078118801116943
+    },
+    {
+      "seed_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "seed_similarity": 0.5510274171829224,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat"
+      ],
+      "rule_ids": [
+        "31"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "target_event_node": "EVENT::pham_toi_chua_dat",
+          "target_event_id": "pham_toi_chua_dat",
+          "target_event_name": "Phạm tội chưa đạt",
+          "rule_ids": [
+            "31"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.48163699865341186
+    },
+    {
+      "seed_event_node": "EVENT::che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+      "seed_event_id": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+      "seed_event_name": "Che giấu tội phạm sau khi tội phạm được thực hiện",
+      "seed_similarity": 0.5460464954376221,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "39"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+          "source_event_id": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+          "source_event_name": "Che giấu tội phạm sau khi tội phạm được thực hiện",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "39"
+          ],
+          "article_ids": [
+            "18"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4785488271713257
+    },
+    {
+      "seed_event_node": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "seed_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "seed_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "seed_similarity": 0.545282244682312,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+        "EVENT::phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "rule_ids": [
+        "2540"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "source_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "source_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "target_event_node": "EVENT::phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "rule_ids": [
+            "2540"
+          ],
+          "article_ids": [
+            "364"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.47807499170303347
+    },
+    {
+      "seed_event_node": "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "seed_event_id": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "seed_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+      "seed_similarity": 0.5774654150009155,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+        "EVENT::chuan_bi_pham_toi",
+        "EVENT::quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi"
+      ],
+      "rule_ids": [
+        "29",
+        "156"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+          "source_event_id": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+          "source_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+          "target_event_node": "EVENT::chuan_bi_pham_toi",
+          "target_event_id": "chuan_bi_pham_toi",
+          "target_event_name": "Chuẩn bị phạm tội",
+          "rule_ids": [
+            "29"
+          ],
+          "article_ids": [
+            "14"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::chuan_bi_pham_toi",
+          "source_event_id": "chuan_bi_pham_toi",
+          "source_event_name": "Chuẩn bị phạm tội",
+          "target_event_node": "EVENT::quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi",
+          "target_event_id": "quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi",
+          "target_event_name": "Quyết định hình phạt đối với chuẩn bị phạm tội",
+          "rule_ids": [
+            "156"
+          ],
+          "article_ids": [
+            "57"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4193834169864654
+    },
+    {
+      "seed_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "seed_similarity": 0.5510274171829224,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "31",
+        "32"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "target_event_node": "EVENT::pham_toi_chua_dat",
+          "target_event_id": "pham_toi_chua_dat",
+          "target_event_name": "Phạm tội chưa đạt",
+          "rule_ids": [
+            "31"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::pham_toi_chua_dat",
+          "source_event_id": "pham_toi_chua_dat",
+          "source_event_name": "Phạm tội chưa đạt",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "32"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.40594233889579767
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "29",
+      "rule_node_id": "RULE::29",
+      "article_id": "14",
+      "article_title": "Chuẩn bị phạm tội[7]",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tìm kiếm, sửa soạn công cụ, phương tiện, tạo điều kiện hoặc thành lập, tham gia nhóm để thực hiện tội phạm",
+      "effect": "được xác định là chuẩn bị phạm tội",
+      "condition_event": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "condition_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+      "effect_event": "chuan_bi_pham_toi",
+      "effect_event_name": "Chuẩn bị phạm tội",
+      "causal_type": "",
+      "semantic_score": 0.6033996343612671,
+      "graph_score": 0.5050276637077331,
+      "seed_event_score": 0.5887542963027954,
+      "direct_rule_score": 0.6033996343612671,
+      "final_score": 0.5780329208374022,
+      "matched_seed_events": [
+        "Chuẩn bị phạm tội",
+        "Thực hiện hành vi chuẩn bị cho tội phạm"
+      ],
+      "path_ids": [
+        1,
+        5,
+        10
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "33",
+      "rule_node_id": "RULE::33",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tự mình không thực hiện tội phạm đến cùng mặc dù không có gì ngăn cản",
+      "effect": "được xác định là tự ý nửa chừng chấm dứt việc phạm tội",
+      "condition_event": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "condition_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "effect_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "effect_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "causal_type": "",
+      "semantic_score": 0.5795323252677917,
+      "graph_score": 0.5044454026222229,
+      "seed_event_score": 0.5878151655197144,
+      "direct_rule_score": 0.5795323252677917,
+      "final_score": 0.5625054046630859,
+      "matched_seed_events": [
+        "Tự ý nửa chừng chấm dứt việc phạm tội"
+      ],
+      "path_ids": [
+        3
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "34",
+      "rule_node_id": "RULE::34",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tự ý nửa chừng chấm dứt việc phạm tội",
+      "effect": "được miễn trách nhiệm hình sự về tội định phạm",
+      "condition_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "condition_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5728713870048523,
+      "graph_score": 0.5044454026222229,
+      "seed_event_score": 0.5878151655197144,
+      "direct_rule_score": 0.5728713870048523,
+      "final_score": 0.5582424041748048,
+      "matched_seed_events": [
+        "Tự ý nửa chừng chấm dứt việc phạm tội"
+      ],
+      "path_ids": [
+        2
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "156",
+      "rule_node_id": "RULE::156",
+      "article_id": "57",
+      "article_title": "Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt",
+      "legal_subject": "Tòa án",
+      "condition": "người thực hiện hành vi chuẩn bị phạm tội",
+      "effect": "quyết định hình phạt trong phạm vi khung hình phạt của tội tương ứng",
+      "condition_event": "chuan_bi_pham_toi",
+      "condition_event_name": "Chuẩn bị phạm tội",
+      "effect_event": "quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi",
+      "effect_event_name": "Quyết định hình phạt đối với chuẩn bị phạm tội",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5652115345001221,
+      "graph_score": 0.5050276637077331,
+      "seed_event_score": 0.5887542963027954,
+      "direct_rule_score": 0.5652115345001221,
+      "final_score": 0.5535925369262695,
+      "matched_seed_events": [
+        "Chuẩn bị phạm tội",
+        "Thực hiện hành vi chuẩn bị cho tội phạm"
+      ],
+      "path_ids": [
+        0,
+        10
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "222",
+      "rule_node_id": "RULE::222",
+      "article_id": "85",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự áp dụng đối với pháp nhân thương mại",
+      "legal_subject": "Tòa án",
+      "condition": "pháp nhân thương mại cố ý thực hiện tội phạm đến cùng",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+      "condition_event_name": "Pháp nhân cố ý thực hiện tội phạm đến cùng",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "semantic_score": 0.5571210384368896,
+      "graph_score": 0.5001599669456482,
+      "seed_event_score": 0.580903172492981,
+      "direct_rule_score": 0.5571210384368896,
+      "final_score": 0.5463042373657226,
+      "matched_seed_events": [
+        "Pháp nhân cố ý thực hiện tội phạm đến cùng"
+      ],
+      "path_ids": [
+        4
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "133",
+      "rule_node_id": "RULE::133",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội cố tình thực hiện tội phạm đến cùng",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "condition_event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "semantic_score": 0.5459591150283813,
+      "graph_score": 0.49078118801116943,
+      "seed_event_score": 0.5657761096954346,
+      "direct_rule_score": 0.0,
+      "final_score": 0.502336905002594,
+      "matched_seed_events": [
+        "Cố tình thực hiện tội phạm đến cùng"
+      ],
+      "path_ids": [
+        6
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "31",
+      "rule_node_id": "RULE::31",
+      "article_id": "15",
+      "article_title": "Phạm tội chưa đạt",
+      "legal_subject": "Người phạm tội",
+      "condition": "cố ý thực hiện tội phạm nhưng không thực hiện được đến cùng vì nguyên nhân ngoài ý muốn",
+      "effect": "được xác định là phạm tội chưa đạt",
+      "condition_event": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "condition_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "effect_event": "pham_toi_chua_dat",
+      "effect_event_name": "Phạm tội chưa đạt",
+      "causal_type": "",
+      "semantic_score": 0.548246443271637,
+      "graph_score": 0.48163699865341186,
+      "seed_event_score": 0.5510274171829224,
+      "direct_rule_score": 0.0,
+      "final_score": 0.49969910683631896,
+      "matched_seed_events": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn"
+      ],
+      "path_ids": [
+        7,
+        11
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "39",
+      "rule_node_id": "RULE::39",
+      "article_id": "18",
+      "article_title": "Che giấu tội phạm",
+      "legal_subject": "Người che giấu tội phạm",
+      "condition": "không hứa hẹn trước nhưng sau khi biết tội phạm đã che giấu người phạm tội, dấu vết, tang vật hoặc cản trở phát hiện, điều tra, xử lý",
+      "effect": "phải chịu trách nhiệm hình sự về tội che giấu tội phạm trong trường hợp luật định",
+      "condition_event": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+      "condition_event_name": "Che giấu tội phạm sau khi tội phạm được thực hiện",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5454866886138916,
+      "graph_score": 0.4785488271713257,
+      "seed_event_score": 0.5460464954376221,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4967595773696899,
+      "matched_seed_events": [
+        "Che giấu tội phạm sau khi tội phạm được thực hiện"
+      ],
+      "path_ids": [
+        8
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "2540",
+      "rule_node_id": "RULE::2540",
+      "article_id": "364",
+      "article_title": "Tội đưa hối lộ",
+      "legal_subject": "Người phạm tội",
+      "condition": "trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "effect": "bị phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "condition_event": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "condition_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "effect_event": "phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "effect_event_name": "Phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5388596057891846,
+      "graph_score": 0.47807499170303347,
+      "seed_event_score": 0.545282244682312,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4927104387283325,
+      "matched_seed_events": [
+        "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ"
+      ],
+      "path_ids": [
+        9
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "32",
+      "rule_node_id": "RULE::32",
+      "article_id": "15",
+      "article_title": "Phạm tội chưa đạt",
+      "legal_subject": "Người phạm tội",
+      "condition": "phạm tội chưa đạt",
+      "effect": "phải chịu trách nhiệm hình sự về tội phạm chưa đạt",
+      "condition_event": "pham_toi_chua_dat",
+      "condition_event_name": "Phạm tội chưa đạt",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5184927582740784,
+      "graph_score": 0.40594233889579767,
+      "seed_event_score": 0.5510274171829224,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4642752511959075,
+      "matched_seed_events": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn"
+      ],
+      "path_ids": [
+        11
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "30",
+      "rule_node_id": "RULE::30",
+      "article_id": "14",
+      "article_title": "Chuẩn bị phạm tội[7]",
+      "legal_subject": "Người chuẩn bị phạm tội",
+      "condition": "chuẩn bị phạm một trong các tội được liệt kê tại khoản 2 Điều 14",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+      "condition_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5792192220687866,
+      "graph_score": 0.0,
+      "seed_event_score": 0.0,
+      "direct_rule_score": 0.5792192220687866,
+      "final_score": 0.37070030212402344,
+      "matched_seed_events": [],
+      "path_ids": []
+    },
+    {
+      "rank": 12,
+      "rule_id": "23",
+      "rule_node_id": "RULE::23",
+      "article_id": "10",
+      "article_title": "Cố ý phạm tội",
+      "legal_subject": "Người phạm tội",
+      "condition": "nhận thức rõ hành vi nguy hiểm, thấy trước hậu quả có thể xảy ra và có ý thức để mặc",
+      "effect": "được xác định là cố ý phạm tội",
+      "condition_event": "nhan_thuc_va_de_mac_hau_qua_xay_ra",
+      "condition_event_name": "Nhận thức và để mặc hậu quả xảy ra",
+      "effect_event": "co_y_pham_toi",
+      "effect_event_name": "Cố ý phạm tội",
+      "causal_type": "",
+      "semantic_score": 0.5753318071365356,
+      "graph_score": 0.0,
+      "seed_event_score": 0.0,
+      "direct_rule_score": 0.5753318071365356,
+      "final_score": 0.36821235656738277,
+      "matched_seed_events": [],
+      "path_ids": []
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 12,
+    "candidate_rules": 13,
+    "final_evidence": 12,
+    "unique_path_rules": 10
+  }
+}

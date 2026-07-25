@@ -1,0 +1,979 @@
+{
+  "query": "Để nối “Các chất ma túy khác ở thể lỏng có thể tích 22 lít trở lên” với “Thời hiệu thi hành bản án 20 năm”, graph sử dụng sự kiện trung gian nào?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 12,
+    "total_paths": 12,
+    "path_status_counts": {
+      "SUPPORTED": 12,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 12,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+      "seed_event_name": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "1475",
+        "1538",
+        "1571"
+      ],
+      "original_article_ids": [
+        "248",
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.8177553042769432,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.8177553042769432,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích 22 lít trở lên",
+      "original_outcome_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích 22 lít trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "1493",
+        "1597"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.7042212040068326,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7042212040068326,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_750_mililit_den_duoi_22_lit",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_750_mililit_den_duoi_22_lit",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_750_mililit_den_duoi_22_lit",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1488",
+        "1589"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.695081802153748,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+      "seed_event_name": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "1506",
+        "1610"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6924139794947324,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_250_mililit",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 100 mililít đến dưới 250 mililít",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_250_mililit",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_250_mililit",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích từ 100 mililít đến dưới 250 mililít",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "1507",
+        "1611"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6861560383083043,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_250_mililit",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 100 mililít đến dưới 250 mililít",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_250_mililit",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_250_mililit",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích từ 100 mililít đến dưới 250 mililít",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "1539",
+        "1572"
+      ],
+      "original_article_ids": [
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.6861560383083043,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_250_mililit_den_duoi_750_mililit",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_250_mililit_den_duoi_750_mililit",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_250_mililit_den_duoi_750_mililit",
+        "phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít",
+        "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm"
+      ],
+      "original_rule_ids": [
+        "1516",
+        "1620"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6856341688872991,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_250_mililit_den_duoi_750_mililit",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_250_mililit_den_duoi_750_mililit",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_250_mililit_den_duoi_750_mililit",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít",
+        "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm"
+      ],
+      "original_rule_ids": [
+        "1548",
+        "1581"
+      ],
+      "original_article_ids": [
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.6856341688872991,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_200_mililit_den_duoi_750_mililit",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 200 mililít đến dưới 750 mililít",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_200_mililit_den_duoi_750_mililit",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_200_mililit_den_duoi_750_mililit",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích từ 200 mililít đến dưới 750 mililít",
+        "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm"
+      ],
+      "original_rule_ids": [
+        "1483"
+      ],
+      "original_article_ids": [
+        "248"
+      ],
+      "original_path_score": 0.5119017103910447,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+      "seed_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+      "original_outcome_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+      "original_outcome_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+      "original_event_nodes": [
+        "EVENT::pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+        "EVENT::ap_dung_hinh_phat_tu_khong_qua_20_nam"
+      ],
+      "original_event_ids": [
+        "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+        "ap_dung_hinh_phat_tu_khong_qua_20_nam"
+      ],
+      "original_event_names": [
+        "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+        "Áp dụng hình phạt tù không quá 20 năm"
+      ],
+      "original_rule_ids": [
+        "157"
+      ],
+      "original_article_ids": [
+        "57"
+      ],
+      "original_path_score": 0.5104209394454956,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_200_mililit",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 100 mililít đến dưới 200 mililít",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_200_mililit",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_100_mililit_den_duoi_200_mililit",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích từ 100 mililít đến dưới 200 mililít",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "1476"
+      ],
+      "original_article_ids": [
+        "248"
+      ],
+      "original_path_score": 0.5103346387147905,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích 22 lít trở lên",
+      "original_outcome_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+      "original_outcome_event_name": "Thời hiệu thi hành bản án 20 năm",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+        "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích 22 lít trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+        "Thời hiệu thi hành bản án 20 năm"
+      ],
+      "original_rule_ids": [
+        "1493",
+        "1597",
+        "166"
+      ],
+      "original_article_ids": [
+        "248",
+        "251",
+        "60"
+      ],
+      "original_path_score": 0.5168974960729318,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "removed_nodes": [
+            "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7001038732328193,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 6,
+      "rule_id": "1538",
+      "article_id": "250",
+      "original_final_score": 0.5852686548233031,
+      "semantic_score": 0.6027100086212158,
+      "graph_score": 0.6686460077762604,
+      "path_support_score": 0.8177553042769432,
+      "counterfactual_support_score": 0.8177553042769432,
+      "verification_score": 0.7624727554619313,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "1538",
+        "rule_node_id": "RULE::1538",
+        "article_id": "250",
+        "article_title": "Tội vận chuyển trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "condition_event_name": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6027100086212158,
+        "graph_score": 0.6686460077762604,
+        "seed_event_score": 0.6268483996391296,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5852686548233031,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "1475",
+      "article_id": "248",
+      "original_final_score": 0.5801496684551238,
+      "semantic_score": 0.5938841700553894,
+      "graph_score": 0.6686460077762604,
+      "path_support_score": 0.8177553042769432,
+      "counterfactual_support_score": 0.8177553042769432,
+      "verification_score": 0.7610606212913991,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "1475",
+        "rule_node_id": "RULE::1475",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "condition_event_name": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5938841700553894,
+        "graph_score": 0.6686460077762604,
+        "seed_event_score": 0.6268483996391296,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5801496684551238,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "1571",
+      "article_id": "251",
+      "original_final_score": 0.5796283078193664,
+      "semantic_score": 0.5929852724075317,
+      "graph_score": 0.6686460077762604,
+      "path_support_score": 0.8177553042769432,
+      "counterfactual_support_score": 0.8177553042769432,
+      "verification_score": 0.7609167976677419,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "1571",
+        "rule_node_id": "RULE::1571",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "condition_event_name": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5929852724075317,
+        "graph_score": 0.6686460077762604,
+        "seed_event_score": 0.6268483996391296,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5796283078193664,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "1488",
+      "article_id": "248",
+      "original_final_score": 0.6228063441997984,
+      "semantic_score": 0.6233621835708618,
+      "graph_score": 0.615391344529978,
+      "path_support_score": 0.695081802153748,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6740238224239591,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "1488",
+        "rule_node_id": "RULE::1488",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít",
+        "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_750_mililit_den_duoi_22_lit",
+        "condition_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít",
+        "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6233621835708618,
+        "graph_score": 0.615391344529978,
+        "seed_event_score": 0.6346719264984131,
+        "direct_rule_score": 0.6233620643615723,
+        "final_score": 0.6228063441997984,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít"
+        ],
+        "path_ids": [
+          2
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "1589",
+      "article_id": "251",
+      "original_final_score": 0.6214406170135953,
+      "semantic_score": 0.6212282180786133,
+      "graph_score": 0.615391344529978,
+      "path_support_score": 0.695081802153748,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6736823879451993,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "1589",
+        "rule_node_id": "RULE::1589",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít",
+        "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_750_mililit_den_duoi_22_lit",
+        "condition_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít",
+        "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6212282180786133,
+        "graph_score": 0.615391344529978,
+        "seed_event_score": 0.6346719264984131,
+        "direct_rule_score": 0.6212282776832581,
+        "final_score": 0.6214406170135953,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít"
+        ],
+        "path_ids": [
+          2
+        ]
+      }
+    },
+    {
+      "original_rank": 4,
+      "rule_id": "1610",
+      "article_id": "252",
+      "original_final_score": 0.6107623589760283,
+      "semantic_score": 0.6078293323516846,
+      "graph_score": 0.6105407578772222,
+      "path_support_score": 0.6924139794947324,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6698457114870789,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "1610",
+        "rule_node_id": "RULE::1610",
+        "article_id": "252",
+        "article_title": "Tội chiếm đoạt chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "condition_event_name": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+        "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6078293323516846,
+        "graph_score": 0.6105407578772222,
+        "seed_event_score": 0.6268483996391296,
+        "direct_rule_score": 0.6078292727470398,
+        "final_score": 0.6107623589760283,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "1548",
+      "article_id": "250",
+      "original_final_score": 0.614363507724426,
+      "semantic_score": 0.6218066215515137,
+      "graph_score": 0.5982138295000707,
+      "path_support_score": 0.6856341688872991,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6677799797554257,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "1548",
+        "rule_node_id": "RULE::1548",
+        "article_id": "250",
+        "article_title": "Tội vận chuyển trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_250_mililit_den_duoi_750_mililit",
+        "condition_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6218066215515137,
+        "graph_score": 0.5982138295000707,
+        "seed_event_score": 0.6069662570953369,
+        "direct_rule_score": 0.6218066215515137,
+        "final_score": 0.614363507724426,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "1506",
+      "article_id": "249",
+      "original_final_score": 0.565803284717224,
+      "semantic_score": 0.5931925773620605,
+      "graph_score": 0.6105407578772222,
+      "path_support_score": 0.6924139794947324,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6675038306887391,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "1506",
+        "rule_node_id": "RULE::1506",
+        "article_id": "249",
+        "article_title": "Tội tàng trữ trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_20_gam_den_duoi_100_gam",
+        "condition_event_name": "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam",
+        "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+        "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5931925773620605,
+        "graph_score": 0.6105407578772222,
+        "seed_event_score": 0.6268483996391296,
+        "direct_rule_score": 0.0,
+        "final_score": 0.565803284717224,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể rắn có khối lượng từ 20 gam đến dưới 100 gam"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "1581",
+      "article_id": "251",
+      "original_final_score": 0.5688428075081328,
+      "semantic_score": 0.6076474785804749,
+      "graph_score": 0.5982138295000707,
+      "path_support_score": 0.6856341688872991,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6655145168800595,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "1581",
+        "rule_node_id": "RULE::1581",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_250_mililit_den_duoi_750_mililit",
+        "condition_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6076474785804749,
+        "graph_score": 0.5982138295000707,
+        "seed_event_score": 0.6069662570953369,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5688428075081328,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể lỏng có thể tích từ 250 mililít đến dưới 750 mililít"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "1597",
+      "article_id": "251",
+      "original_final_score": 0.566984272123001,
+      "semantic_score": 0.5791817307472229,
+      "graph_score": 0.6320084388083136,
+      "path_support_score": 0.6105593500398823,
+      "counterfactual_support_score": 0.702162538619826,
+      "verification_score": 0.6378548237262192,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1,
+        11
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "1597",
+        "rule_node_id": "RULE::1597",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Các chất ma túy khác ở thể lỏng có thể tích 22 lít trở lên",
+        "effect": "bị phạt tù chung thân hoặc tử hình:",
+        "condition_event": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+        "condition_event_name": "Các chất ma túy khác ở thể lỏng có thể tích 22 lít trở lên",
+        "effect_event": "phat_tu_chung_than_hoac_tu_hinh",
+        "effect_event_name": "Phạt tù chung thân hoặc tử hình:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5791817307472229,
+        "graph_score": 0.6320084388083136,
+        "seed_event_score": 0.6614736914634705,
+        "direct_rule_score": 0.0,
+        "final_score": 0.566984272123001,
+        "matched_seed_events": [
+          "Các chất ma túy khác ở thể lỏng có thể tích 22 lít trở lên"
+        ],
+        "path_ids": [
+          1,
+          11
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.710173365126383,
+  "confidence": 0.8985606777942341,
+  "verification_method": "graph_intervention_remove_mediator"
+}

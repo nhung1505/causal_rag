@@ -1,0 +1,351 @@
+{
+  "query": "Kết quả “Chịu trách nhiệm hình sự” trong chain này bắt nguồn từ sự kiện nào trước khi đi qua bước “Vượt quá giới hạn phòng vệ chính đáng”?",
+  "answer": "**Kết luận**  \nKết quả “Chịu trách nhiệm hình sự” trong chuỗi này bắt nguồn từ sự kiện **“Pháp nhân thương mại phạm tội thuộc Điều 76”** trước bước “Vượt quá giới hạn phòng vệ chính đáng”.  \n\n**Căn cứ và lập luận**  \n- Theo **[E1]** và **[E2]**, nếu pháp nhân thương mại phạm tội thuộc Điều 76 Bộ luật Hình sự, thì hệ quả pháp lý là phải chịu trách nhiệm hình sự. Đây là điều kiện trực tiếp dẫn đến kết quả “Chịu trách nhiệm hình sự” trước khi xảy ra sự kiện “Vượt quá giới hạn phòng vệ chính đáng”.  \n- Các quy tắc khác như **[E3]**, **[E4]**, **[E5]**, **[E6]**, **[E7]**, **[E8]** liên quan đến các điều kiện khác (ví dụ: vượt quá giới hạn phòng vệ, chuẩn bị phạm tội, tình thế cấp thiết) nhưng không phải tiền đề trực tiếp cho kết quả “Chịu trách nhiệm hình sự” trong trường hợp này.  \n\n**Lưu ý về độ chắc chắn**  \n- Dữ liệu xác minh cho thấy mối quan hệ này có độ tin cậy **confidence = 0.8930** và **consistency_score = 0.6943**, cho thấy mức độ liên kết giữa sự kiện và hệ quả là **trung bình đến cao**, nhưng chưa đạt mức chắc chắn tuyệt đối.  \n- Các quy tắc **[E1]** và **[E2]** đều được xác minh là **KEEP** (được hỗ trợ bởi path SUPPORTED), nhưng không có thông tin cụ thể về mối quan hệ giữa sự kiện “Pháp nhân thương mại phạm tội thuộc Điều 76” và “Vượt quá giới hạn phòng vệ chính đáng” trong chuỗi logic.  \n\n**Giới hạn**  \n- Không có bằng chứng trực tiếp cho thấy sự kiện “Pháp nhân thương mại phạm tội thuộc Điều 76” có liên quan trực tiếp đến “Vượt quá giới hạn phòng vệ chính đáng” trong chuỗi này. Chỉ có thể khẳng định rằng “Pháp nhân thương mại phạm tội thuộc Điều 76” là tiền đề dẫn đến “Chịu trách nhiệm hình sự” trước bước “Vượt quá giới hạn phòng vệ chính đáng”.\n\nLưu ý: Nội dung này không thay thế tư vấn pháp lý chính thức.",
+  "provider": "ollama",
+  "model": "qwen3:8b",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "207",
+      "article_id": "76",
+      "article_title": "Phạm vi chịu trách nhiệm hình sự của pháp nhân thương mại[30]",
+      "legal_subject": "Pháp nhân thương mại",
+      "condition": "phạm một trong các tội thuộc phạm vi Điều 76",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "LIABILITY",
+      "verification_score": 0.6342467068166974,
+      "original_final_score": 0.48572861843170917,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5995542742786963,
+      "decision": "KEEP",
+      "path_ids": [
+        0
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "2",
+      "article_id": "2",
+      "article_title": "Cơ sở của trách nhiệm hình sự",
+      "legal_subject": "Pháp nhân thương mại",
+      "condition": "phạm một tội được quy định tại Điều 76 Bộ luật Hình sự",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.6322728203268292,
+      "original_final_score": 0.47857327990593707,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5963220351515373,
+      "decision": "KEEP",
+      "path_ids": [
+        0
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "48",
+      "article_id": "22",
+      "article_title": "Phòng vệ chính đáng",
+      "legal_subject": "Người phòng vệ",
+      "condition": "vượt quá giới hạn phòng vệ chính đáng",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "condition_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5574357782614637,
+      "original_final_score": 0.5773284973144531,
+      "counterfactual_support_score": 0.6764749232221544,
+      "final_selection_score": 0.5812594657214643,
+      "decision": "KEEP",
+      "path_ids": [
+        1,
+        17,
+        29,
+        32
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "292",
+      "article_id": "126",
+      "article_title": "Tội giết người do vượt quá giới hạn phòng vệ chính đáng hoặc do vượt quá mức cần thiết khi bắt giữ người phạm tội",
+      "legal_subject": "Người phạm tội",
+      "condition": "giết người trong trường hợp vượt quá giới hạn phòng vệ chính đáng hoặc trong trường hợp vượt quá mức cần thiết khi bắt giữ người phạm tội",
+      "effect": "bị phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "condition_event": "giet_nguoi_trong_truong_hop_vuot_qua_gioi_han_phong_ve_chinh_dang_hoac_trong_truong_hop_vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+      "condition_event_name": "Giết người trong trường hợp vượt quá giới hạn phòng vệ chính đáng hoặc trong trường hợp vượt quá mức cần thiết khi bắt giữ người phạm tội",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "causal_type": "SANCTION",
+      "verification_score": 0.5652983433711529,
+      "original_final_score": 0.5256299100399017,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5736030618661047,
+      "decision": "KEEP",
+      "path_ids": [
+        4
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "30",
+      "article_id": "14",
+      "article_title": "Chuẩn bị phạm tội[7]",
+      "legal_subject": "Người chuẩn bị phạm tội",
+      "condition": "chuẩn bị phạm một trong các tội được liệt kê tại khoản 2 Điều 14",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+      "condition_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5621116831302643,
+      "original_final_score": 0.5214073598384856,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5705836336731911,
+      "decision": "KEEP",
+      "path_ids": [
+        12
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "51",
+      "article_id": "23",
+      "article_title": "Tình thế cấp thiết",
+      "legal_subject": "Người gây thiệt hại",
+      "condition": "thiệt hại gây ra rõ ràng vượt quá yêu cầu của tình thế cấp thiết",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+      "condition_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5600089647769928,
+      "original_final_score": 0.48187097430229187,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5575662229180336,
+      "decision": "KEEP",
+      "path_ids": [
+        18
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "98",
+      "article_id": "49",
+      "article_title": "Bắt buộc chữa bệnh[15]",
+      "legal_subject": "Người đã được bắt buộc chữa bệnh",
+      "condition": "được kết luận khỏi bệnh hoặc đủ khả năng nhận thức và điều khiển hành vi",
+      "effect": "có thể phải chịu trách nhiệm hình sự",
+      "condition_event": "khoi_benh_hoac_phuc_hoi_kha_nang_nhan_thuc",
+      "condition_event_name": "Khỏi bệnh hoặc phục hồi khả năng nhận thức",
+      "effect_event": "truy_cuu_trach_nhiem_hinh_su",
+      "effect_event_name": "Có thể bị truy cứu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5594223372590542,
+      "original_final_score": 0.482196491909027,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5573412330651879,
+      "decision": "KEEP",
+      "path_ids": [
+        28
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "55",
+      "article_id": "25",
+      "article_title": "Rủi ro trong nghiên cứu, thử nghiệm, áp dụng tiến bộ khoa học, kỹ thuật và công nghệ",
+      "legal_subject": "Người nghiên cứu, thử nghiệm hoặc áp dụng công nghệ",
+      "condition": "không tuân thủ đúng quy trình hoặc không áp dụng đầy đủ biện pháp phòng ngừa và gây thiệt hại",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai",
+      "condition_event_name": "Vi phạm quy trình phòng ngừa và gây thiệt hại",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5583068087100983,
+      "original_final_score": 0.47570065855979915,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5547789423584938,
+      "decision": "KEEP",
+      "path_ids": [
+        20
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 0,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "seed_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Pháp nhân thương mại phạm tội thuộc Điều 76",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "2",
+        "207"
+      ]
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 1,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "seed_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Vượt quá giới hạn phòng vệ chính đáng",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "48"
+      ]
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 4,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "giet_nguoi_trong_truong_hop_vuot_qua_gioi_han_phong_ve_chinh_dang_hoac_trong_truong_hop_vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+      "seed_event_name": "Giết người trong trường hợp vượt quá giới hạn phòng vệ chính đáng hoặc trong trường hợp vượt quá mức cần thiết khi bắt giữ người phạm tội",
+      "outcome_event_id": "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "outcome_event_name": "Phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Giết người trong trường hợp vượt quá giới hạn phòng vệ chính đáng hoặc trong trường hợp vượt quá mức cần thiết khi bắt giữ người phạm tội",
+        "Phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm:"
+      ],
+      "rule_ids": [
+        "292"
+      ]
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 12,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+      "seed_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "30"
+      ]
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 17,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "seed_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Vượt quá giới hạn phòng vệ chính đáng",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "48"
+      ]
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 18,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+      "seed_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Vượt quá yêu cầu của tình thế cấp thiết",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "51"
+      ]
+    }
+  ],
+  "citations_used": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8"
+  ],
+  "confidence": 0.8930039328794555,
+  "consistency_score": 0.6942969510841586,
+  "generation_metadata": {
+    "requested_provider": "ollama",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 13.7217,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [],
+    "system_prompt_chars": 943,
+    "user_prompt_chars": 7147
+  }
+}

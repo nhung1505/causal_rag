@@ -1,0 +1,1287 @@
+{
+  "query": "Hãy truy ngược chuỗi pháp lý dẫn đến “Không bị coi là tội phạm”: sự kiện đầu tiên là gì?",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 2914,
+      "score": 0.5830396413803101,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::khong_bi_coi_la_toi_pham",
+      "event_id": "khong_bi_coi_la_toi_pham",
+      "event_name": "Không bị coi là tội phạm",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4513,
+      "score": 0.5640115141868591,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "event_id": "duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "event_name": "Được coi là không có tội và được trả lại toàn bộ của đã dùng để đưa hối lộ",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2968,
+      "score": 0.5487571954727173,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::khong_bi_truy_cuu_trach_nhiem_hinh_su",
+      "event_id": "khong_bi_truy_cuu_trach_nhiem_hinh_su",
+      "event_name": "Không bị truy cứu trách nhiệm hình sự",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4534,
+      "score": 0.5414361953735352,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_bo_tron_hoac_thuc_hien_hanh_vi_can_tro_dieu_tra_truy_to_xet_xu_hoac_tiep_tuc_thuc_hien_toi_pham_it_nghiem_trong_hoac_toi_pham_nghiem_trong",
+      "event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_bo_tron_hoac_thuc_hien_hanh_vi_can_tro_dieu_tra_truy_to_xet_xu_hoac_tiep_tuc_thuc_hien_toi_pham_it_nghiem_trong_hoac_toi_pham_nghiem_trong",
+      "event_name": "Người không bị truy cứu trách nhiệm hình sự bỏ trốn hoặc thực hiện hành vi cản trở điều tra, truy tố, xét xử hoặc tiếp tục thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4536,
+      "score": 0.514470100402832,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::khong_truy_cuu_trach_nhiem_hinh_su_nguoi_pham_toi_xam_pham_an_ninh_quoc_gia_hoac_toi_khac_la_toi_pham_dac_biet_nghiem_trong",
+      "event_id": "khong_truy_cuu_trach_nhiem_hinh_su_nguoi_pham_toi_xam_pham_an_ninh_quoc_gia_hoac_toi_khac_la_toi_pham_dac_biet_nghiem_trong",
+      "event_name": "Không truy cứu trách nhiệm hình sự người phạm tội xâm phạm an ninh quốc gia hoặc tội khác là tội phạm đặc biệt nghiêm trọng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3172,
+      "score": 0.5086988806724548,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "event_name": "Được coi như chưa bị kết án",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2951,
+      "score": 0.5073637962341309,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+      "event_id": "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+      "event_name": "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4532,
+      "score": 0.5049026012420654,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::khong_truy_cuu_trach_nhiem_hinh_su_nguoi_thuc_hien_toi_pham_rat_nghiem_trong",
+      "event_id": "khong_truy_cuu_trach_nhiem_hinh_su_nguoi_thuc_hien_toi_pham_rat_nghiem_trong",
+      "event_name": "Không truy cứu trách nhiệm hình sự người thực hiện tội phạm rất nghiêm trọng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 2566,
+      "score": 0.5224885940551758,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2567",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2567",
+      "article_id": "368"
+    },
+    {
+      "memory_id": 2580,
+      "score": 0.5101898312568665,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2581",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2581",
+      "article_id": "369"
+    },
+    {
+      "memory_id": 2581,
+      "score": 0.5067087411880493,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2582",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2582",
+      "article_id": "369"
+    },
+    {
+      "memory_id": 2577,
+      "score": 0.5044417381286621,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2578",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2578",
+      "article_id": "369"
+    },
+    {
+      "memory_id": 2706,
+      "score": 0.5031050443649292,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2707",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2707",
+      "article_id": "390"
+    },
+    {
+      "memory_id": 41,
+      "score": 0.49788179993629456,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::42",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "42",
+      "article_id": "19"
+    },
+    {
+      "memory_id": 2578,
+      "score": 0.494038462638855,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2579",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2579",
+      "article_id": "369"
+    },
+    {
+      "memory_id": 2585,
+      "score": 0.4910767376422882,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2586",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2586",
+      "article_id": "369"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+      "seed_event_id": "khong_bi_coi_la_toi_pham",
+      "seed_event_name": "Không bị coi là tội phạm",
+      "seed_similarity": 0.5830396413803101,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::khong_bi_coi_la_toi_pham",
+        "EVENT::hanh_vi_co_muc_do_nguy_hiem_cho_xa_hoi_khong_dang_ke"
+      ],
+      "rule_ids": [
+        "17"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::hanh_vi_co_muc_do_nguy_hiem_cho_xa_hoi_khong_dang_ke",
+          "source_event_id": "hanh_vi_co_muc_do_nguy_hiem_cho_xa_hoi_khong_dang_ke",
+          "source_event_name": "Hành vi có mức độ nguy hiểm cho xã hội không đáng kể",
+          "target_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+          "target_event_id": "khong_bi_coi_la_toi_pham",
+          "target_event_name": "Không bị coi là tội phạm",
+          "rule_ids": [
+            "17"
+          ],
+          "article_ids": [
+            "8"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5014845776557922
+    },
+    {
+      "seed_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+      "seed_event_id": "khong_bi_coi_la_toi_pham",
+      "seed_event_name": "Không bị coi là tội phạm",
+      "seed_similarity": 0.5830396413803101,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::khong_bi_coi_la_toi_pham",
+        "EVENT::phong_ve_chinh_dang"
+      ],
+      "rule_ids": [
+        "46"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::phong_ve_chinh_dang",
+          "source_event_id": "phong_ve_chinh_dang",
+          "source_event_name": "Phòng vệ chính đáng",
+          "target_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+          "target_event_id": "khong_bi_coi_la_toi_pham",
+          "target_event_name": "Không bị coi là tội phạm",
+          "rule_ids": [
+            "46"
+          ],
+          "article_ids": [
+            "22"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5014845776557922
+    },
+    {
+      "seed_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+      "seed_event_id": "khong_bi_coi_la_toi_pham",
+      "seed_event_name": "Không bị coi là tội phạm",
+      "seed_similarity": 0.5830396413803101,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::khong_bi_coi_la_toi_pham",
+        "EVENT::tinh_the_cap_thiet"
+      ],
+      "rule_ids": [
+        "50"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tinh_the_cap_thiet",
+          "source_event_id": "tinh_the_cap_thiet",
+          "source_event_name": "Tình thế cấp thiết",
+          "target_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+          "target_event_id": "khong_bi_coi_la_toi_pham",
+          "target_event_name": "Không bị coi là tội phạm",
+          "rule_ids": [
+            "50"
+          ],
+          "article_ids": [
+            "23"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5014845776557922
+    },
+    {
+      "seed_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+      "seed_event_id": "khong_bi_coi_la_toi_pham",
+      "seed_event_name": "Không bị coi là tội phạm",
+      "seed_similarity": 0.5830396413803101,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::khong_bi_coi_la_toi_pham",
+        "EVENT::su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi"
+      ],
+      "rule_ids": [
+        "52"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+          "source_event_id": "su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+          "source_event_name": "Sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+          "target_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+          "target_event_id": "khong_bi_coi_la_toi_pham",
+          "target_event_name": "Không bị coi là tội phạm",
+          "rule_ids": [
+            "52"
+          ],
+          "article_ids": [
+            "24"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5014845776557922
+    },
+    {
+      "seed_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+      "seed_event_id": "khong_bi_coi_la_toi_pham",
+      "seed_event_name": "Không bị coi là tội phạm",
+      "seed_similarity": 0.5830396413803101,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::khong_bi_coi_la_toi_pham",
+        "EVENT::rui_ro_khoa_hoc_ky_thuat_du_da_tuan_thu_day_du_quy_trinh"
+      ],
+      "rule_ids": [
+        "54"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::rui_ro_khoa_hoc_ky_thuat_du_da_tuan_thu_day_du_quy_trinh",
+          "source_event_id": "rui_ro_khoa_hoc_ky_thuat_du_da_tuan_thu_day_du_quy_trinh",
+          "source_event_name": "Rủi ro khoa học kỹ thuật dù đã tuân thủ đầy đủ quy trình",
+          "target_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+          "target_event_id": "khong_bi_coi_la_toi_pham",
+          "target_event_name": "Không bị coi là tội phạm",
+          "rule_ids": [
+            "54"
+          ],
+          "article_ids": [
+            "25"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5014845776557922
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "seed_event_id": "duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "seed_event_name": "Được coi là không có tội và được trả lại toàn bộ của đã dùng để đưa hối lộ",
+      "seed_similarity": 0.5640115141868591,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+        "EVENT::nguoi_bi_ep_buoc_dua_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac"
+      ],
+      "rule_ids": [
+        "2549"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_bi_ep_buoc_dua_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+          "source_event_id": "nguoi_bi_ep_buoc_dua_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+          "source_event_name": "Người bị ép buộc đưa hối lộ mà chủ động khai báo trước khi bị phát giác",
+          "target_event_node": "EVENT::duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+          "target_event_id": "duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+          "target_event_name": "Được coi là không có tội và được trả lại toàn bộ của đã dùng để đưa hối lộ",
+          "rule_ids": [
+            "2549"
+          ],
+          "article_ids": [
+            "364"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4896871387958527
+    },
+    {
+      "seed_event_node": "EVENT::khong_bi_truy_cuu_trach_nhiem_hinh_su",
+      "seed_event_id": "khong_bi_truy_cuu_trach_nhiem_hinh_su",
+      "seed_event_name": "Không bị truy cứu trách nhiệm hình sự",
+      "seed_similarity": 0.5487571954727173,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::khong_bi_truy_cuu_trach_nhiem_hinh_su",
+        "EVENT::het_thoi_hieu_truy_cuu_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "58"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::het_thoi_hieu_truy_cuu_trach_nhiem_hinh_su",
+          "source_event_id": "het_thoi_hieu_truy_cuu_trach_nhiem_hinh_su",
+          "source_event_name": "Hết thời hiệu truy cứu trách nhiệm hình sự",
+          "target_event_node": "EVENT::khong_bi_truy_cuu_trach_nhiem_hinh_su",
+          "target_event_id": "khong_bi_truy_cuu_trach_nhiem_hinh_su",
+          "target_event_name": "Không bị truy cứu trách nhiệm hình sự",
+          "rule_ids": [
+            "58"
+          ],
+          "article_ids": [
+            "27"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.48022946119308474
+    },
+    {
+      "seed_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_bo_tron_hoac_thuc_hien_hanh_vi_can_tro_dieu_tra_truy_to_xet_xu_hoac_tiep_tuc_thuc_hien_toi_pham_it_nghiem_trong_hoac_toi_pham_nghiem_trong",
+      "seed_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_bo_tron_hoac_thuc_hien_hanh_vi_can_tro_dieu_tra_truy_to_xet_xu_hoac_tiep_tuc_thuc_hien_toi_pham_it_nghiem_trong_hoac_toi_pham_nghiem_trong",
+      "seed_event_name": "Người không bị truy cứu trách nhiệm hình sự bỏ trốn hoặc thực hiện hành vi cản trở điều tra, truy tố, xét xử hoặc tiếp tục thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+      "seed_similarity": 0.5414361953735352,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_bo_tron_hoac_thuc_hien_hanh_vi_can_tro_dieu_tra_truy_to_xet_xu_hoac_tiep_tuc_thuc_hien_toi_pham_it_nghiem_trong_hoac_toi_pham_nghiem_trong",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "2581"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_bo_tron_hoac_thuc_hien_hanh_vi_can_tro_dieu_tra_truy_to_xet_xu_hoac_tiep_tuc_thuc_hien_toi_pham_it_nghiem_trong_hoac_toi_pham_nghiem_trong",
+          "source_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_bo_tron_hoac_thuc_hien_hanh_vi_can_tro_dieu_tra_truy_to_xet_xu_hoac_tiep_tuc_thuc_hien_toi_pham_it_nghiem_trong_hoac_toi_pham_nghiem_trong",
+          "source_event_name": "Người không bị truy cứu trách nhiệm hình sự bỏ trốn hoặc thực hiện hành vi cản trở điều tra, truy tố, xét xử hoặc tiếp tục thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "2581"
+          ],
+          "article_ids": [
+            "369"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4756904411315918
+    },
+    {
+      "seed_event_node": "EVENT::khong_truy_cuu_trach_nhiem_hinh_su_nguoi_pham_toi_xam_pham_an_ninh_quoc_gia_hoac_toi_khac_la_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_id": "khong_truy_cuu_trach_nhiem_hinh_su_nguoi_pham_toi_xam_pham_an_ninh_quoc_gia_hoac_toi_khac_la_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_name": "Không truy cứu trách nhiệm hình sự người phạm tội xâm phạm an ninh quốc gia hoặc tội khác là tội phạm đặc biệt nghiêm trọng",
+      "seed_similarity": 0.514470100402832,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::khong_truy_cuu_trach_nhiem_hinh_su_nguoi_pham_toi_xam_pham_an_ninh_quoc_gia_hoac_toi_khac_la_toi_pham_dac_biet_nghiem_trong",
+        "EVENT::phat_tu_tu_07_nam_den_12_nam"
+      ],
+      "rule_ids": [
+        "2585"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khong_truy_cuu_trach_nhiem_hinh_su_nguoi_pham_toi_xam_pham_an_ninh_quoc_gia_hoac_toi_khac_la_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "khong_truy_cuu_trach_nhiem_hinh_su_nguoi_pham_toi_xam_pham_an_ninh_quoc_gia_hoac_toi_khac_la_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Không truy cứu trách nhiệm hình sự người phạm tội xâm phạm an ninh quốc gia hoặc tội khác là tội phạm đặc biệt nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "target_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "target_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "rule_ids": [
+            "2585"
+          ],
+          "article_ids": [
+            "369"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4589714622497559
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.5086988806724548,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich"
+      ],
+      "rule_ids": [
+        "197"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.455393306016922
+    },
+    {
+      "seed_event_node": "EVENT::than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+      "seed_event_id": "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+      "seed_event_name": "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+      "seed_similarity": 0.5073637962341309,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+        "EVENT::khong_chiu_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "42"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+          "source_event_id": "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+          "source_event_name": "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+          "target_event_node": "EVENT::khong_chiu_trach_nhiem_hinh_su",
+          "target_event_id": "khong_chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Không chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "42"
+          ],
+          "article_ids": [
+            "19"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.45456555366516116
+    },
+    {
+      "seed_event_node": "EVENT::khong_truy_cuu_trach_nhiem_hinh_su_nguoi_thuc_hien_toi_pham_rat_nghiem_trong",
+      "seed_event_id": "khong_truy_cuu_trach_nhiem_hinh_su_nguoi_thuc_hien_toi_pham_rat_nghiem_trong",
+      "seed_event_name": "Không truy cứu trách nhiệm hình sự người thực hiện tội phạm rất nghiêm trọng",
+      "seed_similarity": 0.5049026012420654,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::khong_truy_cuu_trach_nhiem_hinh_su_nguoi_thuc_hien_toi_pham_rat_nghiem_trong",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "2579"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khong_truy_cuu_trach_nhiem_hinh_su_nguoi_thuc_hien_toi_pham_rat_nghiem_trong",
+          "source_event_id": "khong_truy_cuu_trach_nhiem_hinh_su_nguoi_thuc_hien_toi_pham_rat_nghiem_trong",
+          "source_event_name": "Không truy cứu trách nhiệm hình sự người thực hiện tội phạm rất nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "2579"
+          ],
+          "article_ids": [
+            "369"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4530396127700806
+    },
+    {
+      "seed_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+      "seed_event_id": "khong_bi_coi_la_toi_pham",
+      "seed_event_name": "Không bị coi là tội phạm",
+      "seed_similarity": 0.5830396413803101,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::khong_bi_coi_la_toi_pham",
+        "EVENT::phong_ve_chinh_dang",
+        "EVENT::chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang"
+      ],
+      "rule_ids": [
+        "46",
+        "45"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::phong_ve_chinh_dang",
+          "source_event_id": "phong_ve_chinh_dang",
+          "source_event_name": "Phòng vệ chính đáng",
+          "target_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+          "target_event_id": "khong_bi_coi_la_toi_pham",
+          "target_event_name": "Không bị coi là tội phạm",
+          "rule_ids": [
+            "46"
+          ],
+          "article_ids": [
+            "22"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+          "source_event_id": "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+          "source_event_name": "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+          "target_event_node": "EVENT::phong_ve_chinh_dang",
+          "target_event_id": "phong_ve_chinh_dang",
+          "target_event_name": "Phòng vệ chính đáng",
+          "rule_ids": [
+            "45"
+          ],
+          "article_ids": [
+            "22"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4222173536777496
+    },
+    {
+      "seed_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+      "seed_event_id": "khong_bi_coi_la_toi_pham",
+      "seed_event_name": "Không bị coi là tội phạm",
+      "seed_similarity": 0.5830396413803101,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::khong_bi_coi_la_toi_pham",
+        "EVENT::tinh_the_cap_thiet",
+        "EVENT::gay_thiet_hai_nho_hon_de_tranh_thiet_hai_lon_hon"
+      ],
+      "rule_ids": [
+        "50",
+        "49"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tinh_the_cap_thiet",
+          "source_event_id": "tinh_the_cap_thiet",
+          "source_event_name": "Tình thế cấp thiết",
+          "target_event_node": "EVENT::khong_bi_coi_la_toi_pham",
+          "target_event_id": "khong_bi_coi_la_toi_pham",
+          "target_event_name": "Không bị coi là tội phạm",
+          "rule_ids": [
+            "50"
+          ],
+          "article_ids": [
+            "23"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::gay_thiet_hai_nho_hon_de_tranh_thiet_hai_lon_hon",
+          "source_event_id": "gay_thiet_hai_nho_hon_de_tranh_thiet_hai_lon_hon",
+          "source_event_name": "Gây thiệt hại nhỏ hơn để tránh thiệt hại lớn hơn",
+          "target_event_node": "EVENT::tinh_the_cap_thiet",
+          "target_event_id": "tinh_the_cap_thiet",
+          "target_event_name": "Tình thế cấp thiết",
+          "rule_ids": [
+            "49"
+          ],
+          "article_ids": [
+            "23"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4222173536777496
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.5086988806724548,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::du_dieu_kien_xoa_an_tich"
+      ],
+      "rule_ids": [
+        "197",
+        "8"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::du_dieu_kien_xoa_an_tich",
+          "source_event_id": "du_dieu_kien_xoa_an_tich",
+          "source_event_name": "Đủ điều kiện xóa án tích",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "8"
+          ],
+          "article_ids": [
+            "3"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.384422510933876
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.5086988806724548,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::du_dieu_kien_duong_nhien_xoa_an_tich"
+      ],
+      "rule_ids": [
+        "197",
+        "199"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::du_dieu_kien_duong_nhien_xoa_an_tich",
+          "source_event_id": "du_dieu_kien_duong_nhien_xoa_an_tich",
+          "source_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "199"
+          ],
+          "article_ids": [
+            "70"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.384422510933876
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.5086988806724548,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an"
+      ],
+      "rule_ids": [
+        "197",
+        "200"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+          "source_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+          "source_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "200"
+          ],
+          "article_ids": [
+            "71"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.384422510933876
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.5086988806724548,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::du_dieu_kien_xoa_an_tich_dac_biet"
+      ],
+      "rule_ids": [
+        "197",
+        "201"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::du_dieu_kien_xoa_an_tich_dac_biet",
+          "source_event_id": "du_dieu_kien_xoa_an_tich_dac_biet",
+          "source_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "201"
+          ],
+          "article_ids": [
+            "72"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.384422510933876
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.5086988806724548,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::phap_nhan_du_dieu_kien_xoa_an_tich"
+      ],
+      "rule_ids": [
+        "197",
+        "230"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::phap_nhan_du_dieu_kien_xoa_an_tich",
+          "source_event_id": "phap_nhan_du_dieu_kien_xoa_an_tich",
+          "source_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "230"
+          ],
+          "article_ids": [
+            "89"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.384422510933876
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "2581",
+      "rule_node_id": "RULE::2581",
+      "article_id": "369",
+      "article_title": "Tội không truy cứu trách nhiệm hình sự người có tội",
+      "legal_subject": "Người phạm tội",
+      "condition": "Người không bị truy cứu trách nhiệm hình sự bỏ trốn hoặc thực hiện hành vi cản trở điều tra, truy tố, xét xử hoặc tiếp tục thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+      "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+      "condition_event": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_bo_tron_hoac_thuc_hien_hanh_vi_can_tro_dieu_tra_truy_to_xet_xu_hoac_tiep_tuc_thuc_hien_toi_pham_it_nghiem_trong_hoac_toi_pham_nghiem_trong",
+      "condition_event_name": "Người không bị truy cứu trách nhiệm hình sự bỏ trốn hoặc thực hiện hành vi cản trở điều tra, truy tố, xét xử hoặc tiếp tục thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng",
+      "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+      "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5101898312568665,
+      "graph_score": 0.4756904411315918,
+      "seed_event_score": 0.5414361953735352,
+      "direct_rule_score": 0.5101898312568665,
+      "final_score": 0.5056595413208007,
+      "matched_seed_events": [
+        "Người không bị truy cứu trách nhiệm hình sự bỏ trốn hoặc thực hiện hành vi cản trở điều tra, truy tố, xét xử hoặc tiếp tục thực hiện tội phạm ít nghiêm trọng hoặc tội phạm nghiêm trọng"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "42",
+      "rule_node_id": "RULE::42",
+      "article_id": "19",
+      "article_title": "Không tố giác tội phạm[8]",
+      "legal_subject": "Thân thích của người phạm tội",
+      "condition": "không tố giác và không thuộc tội xâm phạm an ninh quốc gia hoặc tội đặc biệt nghiêm trọng",
+      "effect": "không phải chịu trách nhiệm hình sự về tội không tố giác",
+      "condition_event": "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+      "condition_event_name": "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+      "effect_event": "khong_chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Không chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.49788177013397217,
+      "graph_score": 0.45456555366516116,
+      "seed_event_score": 0.5073637962341309,
+      "direct_rule_score": 0.49788179993629456,
+      "final_score": 0.48862372310161595,
+      "matched_seed_events": [
+        "Thân thích không tố giác tội phạm không thuộc ngoại lệ"
+      ],
+      "path_ids": [
+        10
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "2579",
+      "rule_node_id": "RULE::2579",
+      "article_id": "369",
+      "article_title": "Tội không truy cứu trách nhiệm hình sự người có tội",
+      "legal_subject": "Người phạm tội",
+      "condition": "Không truy cứu trách nhiệm hình sự người thực hiện tội phạm rất nghiêm trọng",
+      "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+      "condition_event": "khong_truy_cuu_trach_nhiem_hinh_su_nguoi_thuc_hien_toi_pham_rat_nghiem_trong",
+      "condition_event_name": "Không truy cứu trách nhiệm hình sự người thực hiện tội phạm rất nghiêm trọng",
+      "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+      "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.49403849244117737,
+      "graph_score": 0.4530396127700806,
+      "seed_event_score": 0.5049026012420654,
+      "direct_rule_score": 0.494038462638855,
+      "final_score": 0.48550245258808133,
+      "matched_seed_events": [
+        "Không truy cứu trách nhiệm hình sự người thực hiện tội phạm rất nghiêm trọng"
+      ],
+      "path_ids": [
+        11
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "46",
+      "rule_node_id": "RULE::46",
+      "article_id": "22",
+      "article_title": "Phòng vệ chính đáng",
+      "legal_subject": "Người phòng vệ",
+      "condition": "thực hiện hành vi phòng vệ chính đáng",
+      "effect": "không bị coi là phạm tội",
+      "condition_event": "phong_ve_chinh_dang",
+      "condition_event_name": "Phòng vệ chính đáng",
+      "effect_event": "khong_bi_coi_la_toi_pham",
+      "effect_event_name": "Không bị coi là tội phạm",
+      "causal_type": "",
+      "semantic_score": 0.4863744378089905,
+      "graph_score": 0.5014845776557922,
+      "seed_event_score": 0.5830396413803101,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4724182295322418,
+      "matched_seed_events": [
+        "Không bị coi là tội phạm"
+      ],
+      "path_ids": [
+        1,
+        12
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "17",
+      "rule_node_id": "RULE::17",
+      "article_id": "8",
+      "article_title": "Khái niệm tội phạm",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "hành vi tuy có dấu hiệu tội phạm nhưng tính chất nguy hiểm cho xã hội không đáng kể",
+      "effect": "không bị coi là tội phạm và được xử lý bằng biện pháp khác",
+      "condition_event": "hanh_vi_co_muc_do_nguy_hiem_cho_xa_hoi_khong_dang_ke",
+      "condition_event_name": "Hành vi có mức độ nguy hiểm cho xã hội không đáng kể",
+      "effect_event": "khong_bi_coi_la_toi_pham",
+      "effect_event_name": "Không bị coi là tội phạm",
+      "causal_type": "",
+      "semantic_score": 0.48176923394203186,
+      "graph_score": 0.5014845776557922,
+      "seed_event_score": 0.5830396413803101,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4697472112894058,
+      "matched_seed_events": [
+        "Không bị coi là tội phạm"
+      ],
+      "path_ids": [
+        0
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "52",
+      "rule_node_id": "RULE::52",
+      "article_id": "24",
+      "article_title": "Gây thiệt hại trong khi bắt giữ người phạm tội",
+      "legal_subject": "Người bắt giữ",
+      "condition": "không còn cách nào khác và sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+      "effect": "không bị coi là phạm tội",
+      "condition_event": "su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+      "condition_event_name": "Sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+      "effect_event": "khong_bi_coi_la_toi_pham",
+      "effect_event_name": "Không bị coi là tội phạm",
+      "causal_type": "",
+      "semantic_score": 0.4785817265510559,
+      "graph_score": 0.5014845776557922,
+      "seed_event_score": 0.5830396413803101,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4678984570026397,
+      "matched_seed_events": [
+        "Không bị coi là tội phạm"
+      ],
+      "path_ids": [
+        3
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "58",
+      "rule_node_id": "RULE::58",
+      "article_id": "27",
+      "article_title": "Thời hiệu truy cứu trách nhiệm hình sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "hết thời hiệu truy cứu trách nhiệm hình sự",
+      "effect": "không bị truy cứu trách nhiệm hình sự",
+      "condition_event": "het_thoi_hieu_truy_cuu_trach_nhiem_hinh_su",
+      "condition_event_name": "Hết thời hiệu truy cứu trách nhiệm hình sự",
+      "effect_event": "khong_bi_truy_cuu_trach_nhiem_hinh_su",
+      "effect_event_name": "Không bị truy cứu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.4826161861419678,
+      "graph_score": 0.48022946119308474,
+      "seed_event_score": 0.5487571954727173,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4610233221054077,
+      "matched_seed_events": [
+        "Không bị truy cứu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        6
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "54",
+      "rule_node_id": "RULE::54",
+      "article_id": "25",
+      "article_title": "Rủi ro trong nghiên cứu, thử nghiệm, áp dụng tiến bộ khoa học, kỹ thuật và công nghệ",
+      "legal_subject": "Người nghiên cứu, thử nghiệm hoặc áp dụng công nghệ",
+      "condition": "gây thiệt hại dù đã tuân thủ đúng quy trình và áp dụng đầy đủ biện pháp phòng ngừa",
+      "effect": "không bị coi là phạm tội",
+      "condition_event": "rui_ro_khoa_hoc_ky_thuat_du_da_tuan_thu_day_du_quy_trinh",
+      "condition_event_name": "Rủi ro khoa học kỹ thuật dù đã tuân thủ đầy đủ quy trình",
+      "effect_event": "khong_bi_coi_la_toi_pham",
+      "effect_event_name": "Không bị coi là tội phạm",
+      "causal_type": "",
+      "semantic_score": 0.4649580717086792,
+      "graph_score": 0.5014845776557922,
+      "seed_event_score": 0.5830396413803101,
+      "direct_rule_score": 0.0,
+      "final_score": 0.45999673719406126,
+      "matched_seed_events": [
+        "Không bị coi là tội phạm"
+      ],
+      "path_ids": [
+        4
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "50",
+      "rule_node_id": "RULE::50",
+      "article_id": "23",
+      "article_title": "Tình thế cấp thiết",
+      "legal_subject": "Người gây thiệt hại",
+      "condition": "gây thiệt hại trong tình thế cấp thiết",
+      "effect": "không bị coi là phạm tội",
+      "condition_event": "tinh_the_cap_thiet",
+      "condition_event_name": "Tình thế cấp thiết",
+      "effect_event": "khong_bi_coi_la_toi_pham",
+      "effect_event_name": "Không bị coi là tội phạm",
+      "causal_type": "",
+      "semantic_score": 0.4581693410873413,
+      "graph_score": 0.5014845776557922,
+      "seed_event_score": 0.5830396413803101,
+      "direct_rule_score": 0.0,
+      "final_score": 0.45605927343368524,
+      "matched_seed_events": [
+        "Không bị coi là tội phạm"
+      ],
+      "path_ids": [
+        2,
+        13
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "2585",
+      "rule_node_id": "RULE::2585",
+      "article_id": "369",
+      "article_title": "Tội không truy cứu trách nhiệm hình sự người có tội",
+      "legal_subject": "Người phạm tội",
+      "condition": "Không truy cứu trách nhiệm hình sự người phạm tội xâm phạm an ninh quốc gia hoặc tội khác là tội phạm đặc biệt nghiêm trọng",
+      "effect": "bị phạt tù từ 07 năm đến 12 năm:",
+      "condition_event": "khong_truy_cuu_trach_nhiem_hinh_su_nguoi_pham_toi_xam_pham_an_ninh_quoc_gia_hoac_toi_khac_la_toi_pham_dac_biet_nghiem_trong",
+      "condition_event_name": "Không truy cứu trách nhiệm hình sự người phạm tội xâm phạm an ninh quốc gia hoặc tội khác là tội phạm đặc biệt nghiêm trọng",
+      "effect_event": "phat_tu_tu_07_nam_den_12_nam",
+      "effect_event_name": "Phạt tù từ 07 năm đến 12 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.48988407850265503,
+      "graph_score": 0.4589714622497559,
+      "seed_event_score": 0.514470100402832,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4560223285198211,
+      "matched_seed_events": [
+        "Không truy cứu trách nhiệm hình sự người phạm tội xâm phạm an ninh quốc gia hoặc tội khác là tội phạm đặc biệt nghiêm trọng"
+      ],
+      "path_ids": [
+        8
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "2549",
+      "rule_node_id": "RULE::2549",
+      "article_id": "364",
+      "article_title": "Tội đưa hối lộ",
+      "legal_subject": "Người phạm tội",
+      "condition": "Người bị ép buộc đưa hối lộ mà chủ động khai báo trước khi bị phát giác",
+      "effect": "được coi là không có tội và được trả lại toàn bộ của đã dùng để đưa hối lộ",
+      "condition_event": "nguoi_bi_ep_buoc_dua_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+      "condition_event_name": "Người bị ép buộc đưa hối lộ mà chủ động khai báo trước khi bị phát giác",
+      "effect_event": "duoc_coi_la_khong_co_toi_va_duoc_tra_lai_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "effect_event_name": "Được coi là không có tội và được trả lại toàn bộ của đã dùng để đưa hối lộ",
+      "causal_type": "LEGAL_EFFECT",
+      "semantic_score": 0.4454423785209656,
+      "graph_score": 0.4896871387958527,
+      "seed_event_score": 0.5640115141868591,
+      "direct_rule_score": 0.0,
+      "final_score": 0.44356287455558774,
+      "matched_seed_events": [
+        "Được coi là không có tội và được trả lại toàn bộ của đã dùng để đưa hối lộ"
+      ],
+      "path_ids": [
+        5
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "197",
+      "rule_node_id": "RULE::197",
+      "article_id": "69",
+      "article_title": "Xóa án tích",
+      "legal_subject": "Người bị kết án",
+      "condition": "được xóa án tích",
+      "effect": "được coi như chưa bị kết án",
+      "condition_event": "xoa_an_tich",
+      "condition_event_name": "Được xóa án tích",
+      "effect_event": "duoc_coi_nhu_chua_bi_ket_an",
+      "effect_event_name": "Được coi như chưa bị kết án",
+      "causal_type": "LEGAL_STATUS",
+      "semantic_score": 0.4660559594631195,
+      "graph_score": 0.455393306016922,
+      "seed_event_score": 0.5086988806724548,
+      "direct_rule_score": 0.0,
+      "final_score": 0.44065071561336516,
+      "matched_seed_events": [
+        "Được coi như chưa bị kết án"
+      ],
+      "path_ids": [
+        9,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 19,
+    "candidate_rules": 24,
+    "final_evidence": 12,
+    "unique_path_rules": 19
+  }
+}

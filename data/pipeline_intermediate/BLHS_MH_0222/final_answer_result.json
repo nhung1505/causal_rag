@@ -1,0 +1,351 @@
+{
+  "query": "Theo dữ liệu, có một cạnh CAUSES trực tiếp từ “Chống trả cần thiết để bảo vệ lợi ích chính đáng” đến “Không bị coi là tội phạm” không?",
+  "answer": "**Kết luận:**  \nKhông có cạnh CAUSES trực tiếp từ \"Chống trả cần thiết để bảo vệ lợi ích chính đáng\" đến \"Không bị coi là tội phạm\". Tuy nhiên, tồn tại một chuỗi quan hệ gián tiếp thông qua \"Phòng vệ chính đáng\" [E4].  \n\n**Căn cứ và lập luận:**  \n1. **E1** và **P1** xác định rằng \"Chống trả cần thiết để bảo vệ lợi ích chính đáng\" dẫn đến \"Phòng vệ chính đáng\" [E1].  \n2. **E4** và **P3** khẳng định rằng \"Phòng vệ chính đáng\" trực tiếp dẫn đến \"Không bị coi là tội phạm\" [E4].  \n3. Do đó, mối quan hệ gián tiếp từ \"Chống trả cần thiết...\" đến \"Không bị coi là tội phạm\" tồn tại qua \"Phòng vệ chính đáng\", nhưng không có cạnh CAUSES trực tiếp giữa hai sự kiện này.  \n\n**Lưu ý về độ chắc chắn:**  \n- Các quy tắc và causal path đều được xác minh với trạng thái **KEEP** và **SUPPORTED**, nhưng không có dữ liệu trực tiếp chứng minh cạnh CAUSES trực tiếp từ điều kiện ban đầu đến hệ quả cuối cùng.  \n- Cần phân biệt giữa \"Chống trả cần thiết\" (điều kiện để đạt \"Phòng vệ chính đáng\") và \"Phòng vệ chính đáng\" (điều kiện để đạt \"Không bị coi là tội phạm\").  \n\n**Trích dẫn:**  \n[E1], [E4], [P1], [P3]\n\nLưu ý: Nội dung này không thay thế tư vấn pháp lý chính thức.",
+  "provider": "ollama",
+  "model": "qwen3:8b",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "45",
+      "article_id": "22",
+      "article_title": "Phòng vệ chính đáng",
+      "legal_subject": "Người phòng vệ",
+      "condition": "chống trả cần thiết để bảo vệ quyền, lợi ích chính đáng trước hành vi xâm phạm",
+      "effect": "được xác định là phòng vệ chính đáng",
+      "condition_event": "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+      "condition_event_name": "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+      "effect_event": "phong_ve_chinh_dang",
+      "effect_event_name": "Phòng vệ chính đáng",
+      "causal_type": "",
+      "verification_score": 0.5734213056570507,
+      "original_final_score": 0.6089446800231932,
+      "counterfactual_support_score": 0.681045782613039,
+      "final_selection_score": 0.6002219895102917,
+      "decision": "KEEP",
+      "path_ids": [
+        0,
+        15,
+        17,
+        20
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "42",
+      "article_id": "19",
+      "article_title": "Không tố giác tội phạm[8]",
+      "legal_subject": "Thân thích của người phạm tội",
+      "condition": "không tố giác và không thuộc tội xâm phạm an ninh quốc gia hoặc tội đặc biệt nghiêm trọng",
+      "effect": "không phải chịu trách nhiệm hình sự về tội không tố giác",
+      "condition_event": "than_thich_khong_to_giac_toi_pham_khong_thuoc_ngoai_le",
+      "condition_event_name": "Thân thích không tố giác tội phạm không thuộc ngoại lệ",
+      "effect_event": "khong_chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Không chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.57990031011343,
+      "original_final_score": 0.5726014363765717,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.595725601475358,
+      "decision": "KEEP",
+      "path_ids": [
+        9,
+        13
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "52",
+      "article_id": "24",
+      "article_title": "Gây thiệt hại trong khi bắt giữ người phạm tội",
+      "legal_subject": "Người bắt giữ",
+      "condition": "không còn cách nào khác và sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+      "effect": "không bị coi là phạm tội",
+      "condition_event": "su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+      "condition_event_name": "Sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+      "effect_event": "khong_bi_coi_la_toi_pham",
+      "effect_event_name": "Không bị coi là tội phạm",
+      "causal_type": "",
+      "verification_score": 0.5791535459554196,
+      "original_final_score": 0.5621859754085541,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.592190242898047,
+      "decision": "KEEP",
+      "path_ids": [
+        5
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "46",
+      "article_id": "22",
+      "article_title": "Phòng vệ chính đáng",
+      "legal_subject": "Người phòng vệ",
+      "condition": "thực hiện hành vi phòng vệ chính đáng",
+      "effect": "không bị coi là phạm tội",
+      "condition_event": "phong_ve_chinh_dang",
+      "condition_event_name": "Phòng vệ chính đáng",
+      "effect_event": "khong_bi_coi_la_toi_pham",
+      "effect_event_name": "Không bị coi là tội phạm",
+      "causal_type": "",
+      "verification_score": 0.5644476715135789,
+      "original_final_score": 0.5919989992141723,
+      "counterfactual_support_score": 0.681045782613039,
+      "final_selection_score": 0.590202786488676,
+      "decision": "KEEP",
+      "path_ids": [
+        3,
+        14,
+        17,
+        20
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "47",
+      "article_id": "22",
+      "article_title": "Phòng vệ chính đáng",
+      "legal_subject": "Người phòng vệ",
+      "condition": "chống trả rõ ràng quá mức cần thiết và không phù hợp với tính chất, mức độ nguy hiểm của hành vi xâm hại",
+      "effect": "được xác định là vượt quá giới hạn phòng vệ chính đáng",
+      "condition_event": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "condition_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "effect_event": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "effect_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "causal_type": "",
+      "verification_score": 0.5604205456222598,
+      "original_final_score": 0.5951924756526946,
+      "counterfactual_support_score": 0.6734631263567209,
+      "final_selection_score": 0.5878085117415595,
+      "decision": "KEEP",
+      "path_ids": [
+        1,
+        18,
+        19
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "50",
+      "article_id": "23",
+      "article_title": "Tình thế cấp thiết",
+      "legal_subject": "Người gây thiệt hại",
+      "condition": "gây thiệt hại trong tình thế cấp thiết",
+      "effect": "không bị coi là phạm tội",
+      "condition_event": "tinh_the_cap_thiet",
+      "condition_event_name": "Tình thế cấp thiết",
+      "effect_event": "khong_bi_coi_la_toi_pham",
+      "effect_event_name": "Không bị coi là tội phạm",
+      "causal_type": "",
+      "verification_score": 0.5579686477697301,
+      "original_final_score": 0.5650497413635254,
+      "counterfactual_support_score": 0.6792283580962717,
+      "final_selection_score": 0.57828193239685,
+      "decision": "KEEP",
+      "path_ids": [
+        4,
+        21
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "2582",
+      "article_id": "369",
+      "article_title": "Tội không truy cứu trách nhiệm hình sự người có tội",
+      "legal_subject": "Người phạm tội",
+      "condition": "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng",
+      "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+      "condition_event": "dan_den_viec_nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tra_thu_nguoi_to_giac_bao_tin_ve_toi_pham_nguoi_bi_hai_nhan_chung",
+      "condition_event_name": "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng",
+      "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+      "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.575440029361248,
+      "original_final_score": 0.5171950296401977,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5766505250407458,
+      "decision": "KEEP",
+      "path_ids": [
+        7
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "40",
+      "article_id": "18",
+      "article_title": "Che giấu tội phạm",
+      "legal_subject": "Thân thích của người phạm tội",
+      "condition": "che giấu tội phạm và không thuộc trường hợp tội xâm phạm an ninh quốc gia hoặc tội đặc biệt nghiêm trọng theo Điều 389",
+      "effect": "không phải chịu trách nhiệm hình sự về tội che giấu tội phạm",
+      "condition_event": "than_thich_che_giau_toi_pham_khong_thuoc_ngoai_le",
+      "condition_event_name": "Thân thích che giấu tội phạm không thuộc ngoại lệ",
+      "effect_event": "khong_chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Không chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5744413431286812,
+      "original_final_score": 0.516409033536911,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.575865448781848,
+      "decision": "KEEP",
+      "path_ids": [
+        8
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 0,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "chong_tra_can_thiet_de_bao_ve_loi_ich_chinh_dang",
+      "seed_event_name": "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+      "outcome_event_id": "phong_ve_chinh_dang",
+      "outcome_event_name": "Phòng vệ chính đáng",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Chống trả cần thiết để bảo vệ lợi ích chính đáng",
+        "Phòng vệ chính đáng"
+      ],
+      "rule_ids": [
+        "45"
+      ]
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 1,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "seed_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "outcome_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "outcome_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Chống trả rõ ràng quá mức cần thiết",
+        "Vượt quá giới hạn phòng vệ chính đáng"
+      ],
+      "rule_ids": [
+        "47"
+      ]
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 3,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "phong_ve_chinh_dang",
+      "seed_event_name": "Phòng vệ chính đáng",
+      "outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "outcome_event_name": "Không bị coi là tội phạm",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Phòng vệ chính đáng",
+        "Không bị coi là tội phạm"
+      ],
+      "rule_ids": [
+        "46"
+      ]
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 4,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "tinh_the_cap_thiet",
+      "seed_event_name": "Tình thế cấp thiết",
+      "outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "outcome_event_name": "Không bị coi là tội phạm",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Tình thế cấp thiết",
+        "Không bị coi là tội phạm"
+      ],
+      "rule_ids": [
+        "50"
+      ]
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 5,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "su_dung_vu_luc_can_thiet_de_bat_giu_nguoi_pham_toi",
+      "seed_event_name": "Sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+      "outcome_event_id": "khong_bi_coi_la_toi_pham",
+      "outcome_event_name": "Không bị coi là tội phạm",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Sử dụng vũ lực cần thiết để bắt giữ người phạm tội",
+        "Không bị coi là tội phạm"
+      ],
+      "rule_ids": [
+        "52"
+      ]
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 7,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "dan_den_viec_nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tra_thu_nguoi_to_giac_bao_tin_ve_toi_pham_nguoi_bi_hai_nhan_chung",
+      "seed_event_name": "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng",
+      "outcome_event_id": "phat_tu_tu_02_nam_den_07_nam",
+      "outcome_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Dẫn đến việc người không bị truy cứu trách nhiệm hình sự trả thù người tố giác, báo tin về tội phạm, người bị hại, nhân chứng",
+        "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "rule_ids": [
+        "2582"
+      ]
+    }
+  ],
+  "citations_used": [
+    "E1",
+    "E4"
+  ],
+  "confidence": 0.8918663740454638,
+  "consistency_score": 0.6910467829870391,
+  "generation_metadata": {
+    "requested_provider": "ollama",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 10.8288,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [],
+    "system_prompt_chars": 943,
+    "user_prompt_chars": 6850
+  }
+}

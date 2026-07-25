@@ -1,0 +1,348 @@
+{
+  "query": "Để nối “Thực hiện hành vi chuẩn bị cho tội phạm” với “Quyết định hình phạt đối với chuẩn bị phạm tội”, graph sử dụng sự kiện trung gian nào?",
+  "answer": "**Kết luận**  \nSự kiện trung gian nối \"Thực hiện hành vi chuẩn bị cho tội phạm\" với \"Quyết định hình phạt đối với chuẩn bị phạm tội\" là **\"Chuẩn bị phạm tội\"**.\n\n---\n\n**Căn cứ và lập luận**  \n1. **E2** xác định:  \n   - Điều kiện: \"Thực hiện hành vi chuẩn bị cho tội phạm\" → Hệ quả: \"Chuẩn bị phạm tội\" [E2].  \n   - Đây là sự kiện trung gian trực tiếp kết nối hành vi chuẩn bị với trạng thái \"chuẩn bị phạm tội\".  \n\n2. **E3** xác định:  \n   - Điều kiện: \"Chuẩn bị phạm tội\" → Hệ quả: \"Quyết định hình phạt đối với chuẩn bị phạm tội\" [E3].  \n   - Đây là bước kế tiếp trong chuỗi pháp lý, dẫn đến quyết định hình phạt.  \n\n3. **Causal path P1 và P4** hỗ trợ:  \n   - Chuỗi sự kiện: \"Chuẩn bị phạm tội\" → \"Quyết định hình phạt đối với chuẩn bị phạm tội\" (Rule ID: 156) [P1], [P4].  \n   - Xác minh: Quan hệ trực tiếp, không có sự kiện trung gian khác can thiệp.  \n\n---\n\n**Lưu ý về độ chắc chắn**  \n- Các nguồn E2, E3 và causal path P1/P4 đều đạt verification score ≥ 0.575, phù hợp với ngưỡng \"keep\" [E1], [E2], [E3].  \n- Không có mâu thuẫn hoặc thiếu sót trong chuỗi logic.  \n- Kết luận dựa trên mối quan hệ trực tiếp giữa các sự kiện được xác minh.\n\nLưu ý: Nội dung này không thay thế tư vấn pháp lý chính thức.",
+  "provider": "ollama",
+  "model": "qwen3:8b",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "30",
+      "article_id": "14",
+      "article_title": "Chuẩn bị phạm tội[7]",
+      "legal_subject": "Người chuẩn bị phạm tội",
+      "condition": "chuẩn bị phạm một trong các tội được liệt kê tại khoản 2 Điều 14",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+      "condition_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5895909538555145,
+      "original_final_score": 0.5853823247432708,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6048897220435142,
+      "decision": "KEEP",
+      "path_ids": [
+        6
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "29",
+      "article_id": "14",
+      "article_title": "Chuẩn bị phạm tội[7]",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tìm kiếm, sửa soạn công cụ, phương tiện, tạo điều kiện hoặc thành lập, tham gia nhóm để thực hiện tội phạm",
+      "effect": "được xác định là chuẩn bị phạm tội",
+      "condition_event": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "condition_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+      "effect_event": "chuan_bi_pham_toi",
+      "effect_event_name": "Chuẩn bị phạm tội",
+      "causal_type": "",
+      "verification_score": 0.5795466658886052,
+      "original_final_score": 0.6079579078674316,
+      "counterfactual_support_score": 0.6831482743579447,
+      "final_selection_score": 0.603610279752654,
+      "decision": "KEEP",
+      "path_ids": [
+        1,
+        2,
+        10,
+        11
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "156",
+      "article_id": "57",
+      "article_title": "Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt",
+      "legal_subject": "Tòa án",
+      "condition": "người thực hiện hành vi chuẩn bị phạm tội",
+      "effect": "quyết định hình phạt trong phạm vi khung hình phạt của tội tương ứng",
+      "condition_event": "chuan_bi_pham_toi",
+      "condition_event_name": "Chuẩn bị phạm tội",
+      "effect_event": "quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi",
+      "effect_event_name": "Quyết định hình phạt đối với chuẩn bị phạm tội",
+      "causal_type": "SANCTION",
+      "verification_score": 0.5760699177922582,
+      "original_final_score": 0.5941606056213379,
+      "counterfactual_support_score": 0.6831482743579447,
+      "final_selection_score": 0.5975588776258351,
+      "decision": "KEEP",
+      "path_ids": [
+        0,
+        3,
+        10,
+        11
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "34",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tự ý nửa chừng chấm dứt việc phạm tội",
+      "effect": "được miễn trách nhiệm hình sự về tội định phạm",
+      "condition_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "condition_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5833375191700458,
+      "original_final_score": 0.5212326023101806,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5822054162365794,
+      "decision": "KEEP",
+      "path_ids": [
+        4
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "33",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tự mình không thực hiện tội phạm đến cùng mặc dù không có gì ngăn cản",
+      "effect": "được xác định là tự ý nửa chừng chấm dứt việc phạm tội",
+      "condition_event": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "condition_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "effect_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "effect_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "causal_type": "",
+      "verification_score": 0.5819203686726093,
+      "original_final_score": 0.5160954317569733,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5798848322970271,
+      "decision": "KEEP",
+      "path_ids": [
+        5
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "130",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội lợi dụng chức vụ, quyền hạn để phạm tội",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "loi_dung_chuc_vu_quyen_han_de_pham_toi",
+      "condition_event_name": "Lợi dụng chức vụ quyền hạn để phạm tội",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.5788641168022156,
+      "original_final_score": 0.5147130431175232,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5777891771764755,
+      "decision": "KEEP",
+      "path_ids": [
+        8
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "68",
+      "article_id": "32",
+      "article_title": "Các hình phạt đối với người phạm tội",
+      "legal_subject": "Tòa án",
+      "condition": "quyết định hình phạt đối với mỗi tội phạm của một người",
+      "effect": "chỉ áp dụng một hình phạt chính và có thể áp dụng một hoặc nhiều hình phạt bổ sung",
+      "condition_event": "quyet_dinh_hinh_phat_doi_voi_mot_toi_pham",
+      "condition_event_name": "Quyết định hình phạt đối với một tội phạm",
+      "effect_event": "ap_dung_mot_hinh_phat_chinh_va_hinh_phat_bo_sung_phu_hop",
+      "effect_event_name": "Áp dụng một hình phạt chính và hình phạt bổ sung phù hợp",
+      "causal_type": "",
+      "verification_score": 0.5771061971020699,
+      "original_final_score": 0.5089660791873931,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5750982321623564,
+      "decision": "KEEP",
+      "path_ids": [
+        9
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "2409",
+      "article_id": "342",
+      "article_title": "Tội chiếm đoạt, mua bán, tiêu hủy con dấu, tài liệu của cơ quan, tổ chức",
+      "legal_subject": "Người phạm tội",
+      "condition": "Để thực hiện hành vi trái pháp luật",
+      "effect": "bị phạt tù từ 02 năm đến 05 năm:",
+      "condition_event": "de_thuc_hien_hanh_vi_trai_phap_luat",
+      "condition_event_name": "Để thực hiện hành vi trái pháp luật",
+      "effect_event": "phat_tu_tu_02_nam_den_05_nam",
+      "effect_event_name": "Phạt tù từ 02 năm đến 05 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.5750650423169136,
+      "original_final_score": 0.4986580371856689,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5708831844300032,
+      "decision": "KEEP",
+      "path_ids": [
+        7
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 0,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "chuan_bi_pham_toi",
+      "seed_event_name": "Chuẩn bị phạm tội",
+      "outcome_event_id": "quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi",
+      "outcome_event_name": "Quyết định hình phạt đối với chuẩn bị phạm tội",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Chuẩn bị phạm tội",
+        "Quyết định hình phạt đối với chuẩn bị phạm tội"
+      ],
+      "rule_ids": [
+        "156"
+      ]
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 1,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "seed_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+      "outcome_event_id": "chuan_bi_pham_toi",
+      "outcome_event_name": "Chuẩn bị phạm tội",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Thực hiện hành vi chuẩn bị cho tội phạm",
+        "Chuẩn bị phạm tội"
+      ],
+      "rule_ids": [
+        "29"
+      ]
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 2,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "thuc_hien_hanh_vi_chuan_bi_cho_toi_pham",
+      "seed_event_name": "Thực hiện hành vi chuẩn bị cho tội phạm",
+      "outcome_event_id": "chuan_bi_pham_toi",
+      "outcome_event_name": "Chuẩn bị phạm tội",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Thực hiện hành vi chuẩn bị cho tội phạm",
+        "Chuẩn bị phạm tội"
+      ],
+      "rule_ids": [
+        "29"
+      ]
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 3,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "chuan_bi_pham_toi",
+      "seed_event_name": "Chuẩn bị phạm tội",
+      "outcome_event_id": "quyet_dinh_hinh_phat_doi_voi_chuan_bi_pham_toi",
+      "outcome_event_name": "Quyết định hình phạt đối với chuẩn bị phạm tội",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Chuẩn bị phạm tội",
+        "Quyết định hình phạt đối với chuẩn bị phạm tội"
+      ],
+      "rule_ids": [
+        "156"
+      ]
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 4,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "outcome_event_id": "mien_trach_nhiem_hinh_su",
+      "outcome_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "34"
+      ]
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 5,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "seed_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "outcome_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "outcome_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Tự nguyện dừng thực hiện tội phạm",
+        "Tự ý nửa chừng chấm dứt việc phạm tội"
+      ],
+      "rule_ids": [
+        "33"
+      ]
+    }
+  ],
+  "citations_used": [
+    "E1",
+    "E2",
+    "E3"
+  ],
+  "confidence": 0.8930339653417603,
+  "consistency_score": 0.6943827581193149,
+  "generation_metadata": {
+    "requested_provider": "ollama",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 10.9907,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [],
+    "system_prompt_chars": 943,
+    "user_prompt_chars": 6730
+  }
+}

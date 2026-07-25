@@ -1,0 +1,346 @@
+{
+  "query": "Từ sự kiện “Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm”, sau khi trải qua bước trung gian, kết quả pháp lý cuối cùng nào có thể phát sinh?",
+  "answer": "**Kết luận**  \nSau khi trải qua bước trung gian, kết quả pháp lý cuối cùng có thể phát sinh là **\"Có thể được miễn chấp hành hình phạt\"** [E1].  \n\n**Căn cứ và lập luận**  \n- Điều kiện trong sự kiện (bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm) chính xác khớp với điều kiện trong **Rule 173** (Điều 62 – Miễn chấp hành hình phạt) [E1].  \n- Causal path **P1** xác nhận mối quan hệ trực tiếp giữa điều kiện và hệ quả: \"Bị kết án... → Có thể được miễn chấp hành hình phạt\" [P1].  \n- Các rule khác (E2, E3, E4) có điều kiện không trùng khớp (ví dụ: \"chưa chấp hành\", \"mắc bệnh hiểm nghèo\", \"tù trên 03 năm\") nên không áp dụng [E2], [E3], [E4].  \n\n**Lưu ý về độ chắc chắn**  \n- Dữ liệu xác minh cho thấy **Rule 173** và causal path **P1** có độ tin cậy cao (verification score 0.6269 và consistency score 0.7000).  \n- Không có mâu thuẫn giữa các evidence.  \n- Kết luận dựa trên điều kiện và hệ quả được xác minh trực tiếp.  \n\n**Giới hạn**  \n- Không có thông tin về thời điểm cụ thể hoặc hồ sơ cá nhân, nên không thể khẳng định kết quả pháp lý chắc chắn xảy ra.\n\nLưu ý: Nội dung này không thay thế tư vấn pháp lý chính thức.",
+  "provider": "ollama",
+  "model": "qwen3:8b",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "173",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "verification_score": 0.6268982666186811,
+      "original_final_score": 0.7287188644409179,
+      "counterfactual_support_score": 0.6904074086850882,
+      "final_selection_score": 0.6669708172753133,
+      "decision": "KEEP",
+      "path_ids": [
+        0,
+        10
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "172",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "verification_score": 0.60001726467381,
+      "original_final_score": 0.676261686182022,
+      "counterfactual_support_score": 0.6849134464245439,
+      "final_selection_score": 0.6356250183888836,
+      "decision": "KEEP",
+      "path_ids": [
+        1,
+        11
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "174",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+      "effect": "có thể được miễn toàn bộ hình phạt",
+      "condition_event": "ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+      "condition_event_name": "Bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+      "effect_event": "mien_toan_bo_hinh_phat",
+      "effect_event_name": "Có thể được miễn toàn bộ hình phạt",
+      "causal_type": "EXEMPTION",
+      "verification_score": 0.6102273878741264,
+      "original_final_score": 0.6488124206542968,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6352687895270586,
+      "decision": "KEEP",
+      "path_ids": [
+        3
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "171",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "verification_score": 0.5943605531703973,
+      "original_final_score": 0.6622535331726074,
+      "counterfactual_support_score": 0.6840535684945881,
+      "final_selection_score": 0.6281823994696889,
+      "decision": "KEEP",
+      "path_ids": [
+        2,
+        12
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "163",
+      "article_id": "60",
+      "article_title": "Thời hiệu thi hành bản án",
+      "legal_subject": "Cơ quan thi hành án",
+      "condition": "bị phạt tiền, cải tạo không giam giữ hoặc tù đến 03 năm",
+      "effect": "xác định thời hiệu thi hành bản án là 05 năm",
+      "condition_event": "phat_tien_cai_tao_khong_giam_giu_hoac_tu_den_03_nam",
+      "condition_event_name": "Bị phạt tiền, cải tạo không giam giữ hoặc tù đến 03 năm",
+      "effect_event": "thoi_hieu_thi_hanh_ban_an_05_nam",
+      "effect_event_name": "Thời hiệu thi hành bản án 05 năm",
+      "causal_type": "TIME_LIMIT",
+      "verification_score": 0.6023121005487443,
+      "original_final_score": 0.5851850368499755,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.611827166356802,
+      "decision": "KEEP",
+      "path_ids": [
+        6
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "1085",
+      "article_id": "207",
+      "article_title": "Tội làm, tàng trữ, vận chuyển, lưu hành tiền giả",
+      "legal_subject": "Người phạm tội",
+      "condition": "Người chuẩn bị phạm tội này",
+      "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 03 năm",
+      "condition_event": "nguoi_chuan_bi_pham_toi_nay",
+      "condition_event_name": "Người chuẩn bị phạm tội này",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_03_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 03 năm",
+      "causal_type": "SANCTION",
+      "verification_score": 0.6004680167937279,
+      "original_final_score": 0.5800412606239318,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6092697874237298,
+      "decision": "KEEP",
+      "path_ids": [
+        7
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "2223",
+      "article_id": "316",
+      "article_title": "Tội phá thai trái phép",
+      "legal_subject": "Người phạm tội",
+      "condition": "thực hiện việc phá thai trái phép cho người khác thuộc một trong các trường hợp sau đây",
+      "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 03 năm:",
+      "condition_event": "thuc_hien_viec_pha_thai_trai_phep_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+      "condition_event_name": "Thực hiện việc phá thai trái phép cho người khác thuộc một trong các trường hợp sau đây",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_03_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 03 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.5974625503325461,
+      "original_final_score": 0.5691464447021484,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6043483360935449,
+      "decision": "KEEP",
+      "path_ids": [
+        8
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "2736",
+      "article_id": "396",
+      "article_title": "Tội cản trở đồng đội thực hiện nhiệm vụ",
+      "legal_subject": "Người phạm tội",
+      "condition": "cản trở đồng đội thực hiện nhiệm vụ dẫn đến người đó không thực hiện được hoặc thực hiện không đầy đủ nhiệm vụ được giao",
+      "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 03 năm",
+      "condition_event": "can_tro_dong_doi_thuc_hien_nhiem_vu_dan_den_nguoi_do_khong_thuc_hien_duoc_hoac_thuc_hien_khong_day_du_nhiem_vu_duoc_giao",
+      "condition_event_name": "Cản trở đồng đội thực hiện nhiệm vụ dẫn đến người đó không thực hiện được hoặc thực hiện không đầy đủ nhiệm vụ được giao",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_03_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 03 năm",
+      "causal_type": "SANCTION",
+      "verification_score": 0.5969924537777902,
+      "original_final_score": 0.5654936423301696,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6029939422768354,
+      "decision": "KEEP",
+      "path_ids": [
+        5
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 0,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+      "outcome_event_id": "mien_chap_hanh_hinh_phat",
+      "outcome_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt"
+      ],
+      "rule_ids": [
+        "173"
+      ]
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 1,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "outcome_event_id": "mien_chap_hanh_hinh_phat",
+      "outcome_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt"
+      ],
+      "rule_ids": [
+        "172"
+      ]
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 2,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "outcome_event_id": "mien_chap_hanh_hinh_phat",
+      "outcome_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt"
+      ],
+      "rule_ids": [
+        "171"
+      ]
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 3,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+      "seed_event_name": "Bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+      "outcome_event_id": "mien_toan_bo_hinh_phat",
+      "outcome_event_name": "Có thể được miễn toàn bộ hình phạt",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+        "Có thể được miễn toàn bộ hình phạt"
+      ],
+      "rule_ids": [
+        "174"
+      ]
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 5,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "can_tro_dong_doi_thuc_hien_nhiem_vu_dan_den_nguoi_do_khong_thuc_hien_duoc_hoac_thuc_hien_khong_day_du_nhiem_vu_duoc_giao",
+      "seed_event_name": "Cản trở đồng đội thực hiện nhiệm vụ dẫn đến người đó không thực hiện được hoặc thực hiện không đầy đủ nhiệm vụ được giao",
+      "outcome_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_03_nam",
+      "outcome_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 03 năm",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Cản trở đồng đội thực hiện nhiệm vụ dẫn đến người đó không thực hiện được hoặc thực hiện không đầy đủ nhiệm vụ được giao",
+        "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 03 năm"
+      ],
+      "rule_ids": [
+        "2736"
+      ]
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 6,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "phat_tien_cai_tao_khong_giam_giu_hoac_tu_den_03_nam",
+      "seed_event_name": "Bị phạt tiền, cải tạo không giam giữ hoặc tù đến 03 năm",
+      "outcome_event_id": "thoi_hieu_thi_hanh_ban_an_05_nam",
+      "outcome_event_name": "Thời hiệu thi hành bản án 05 năm",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Bị phạt tiền, cải tạo không giam giữ hoặc tù đến 03 năm",
+        "Thời hiệu thi hành bản án 05 năm"
+      ],
+      "rule_ids": [
+        "163"
+      ]
+    }
+  ],
+  "citations_used": [
+    "E1",
+    "E2",
+    "E3",
+    "E4"
+  ],
+  "confidence": 0.8928124689633041,
+  "consistency_score": 0.6937499113237262,
+  "generation_metadata": {
+    "requested_provider": "ollama",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 9.8579,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [],
+    "system_prompt_chars": 943,
+    "user_prompt_chars": 7996
+  }
+}

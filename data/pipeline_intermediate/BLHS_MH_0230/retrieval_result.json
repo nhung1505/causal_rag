@@ -1,0 +1,999 @@
+{
+  "query": "Nhận định “Được đặc xá hoặc đại xá” trực tiếp gây ra “Vẫn phải thực hiện nghĩa vụ dân sự” mà không cần sự kiện trung gian là đúng hay sai?",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 3143,
+      "score": 0.5565398931503296,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+      "event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4506,
+      "score": 0.5553392171859741,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4523,
+      "score": 0.5458068251609802,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::truc_tiep_hoac_qua_trung_gian_nhan_bat_ky_loi_ich_nao_sau_day_de_dung_anh_huong_cua_minh_thuc_day_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_thuoc_trach_nhiem_cua_ho_hoac_lam_mot_viec_khong_duoc_phep_lam",
+      "event_id": "truc_tiep_hoac_qua_trung_gian_nhan_bat_ky_loi_ich_nao_sau_day_de_dung_anh_huong_cua_minh_thuc_day_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_thuoc_trach_nhiem_cua_ho_hoac_lam_mot_viec_khong_duoc_phep_lam",
+      "event_name": "Trực tiếp hoặc qua trung gian nhận bất kỳ lợi ích nào sau đây để dùng ảnh hưởng của mình thúc đẩy người có chức vụ, quyền hạn làm hoặc không làm một việc thuộc trách nhiệm của họ hoặc làm một việc không được phép làm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4537,
+      "score": 0.5447968244552612,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4658,
+      "score": 0.5418331623077393,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+      "event_id": "roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+      "event_name": "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4598,
+      "score": 0.5392587184906006,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "event_id": "nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "event_name": "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4399,
+      "score": 0.5373164415359497,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::khong_chap_hanh_dung_quy_dinh_cua_phap_luat_ve_dang_ky_nghia_vu_quan_su_khong_chap_hanh_lenh_goi_nhap_ngu_lenh_goi_tap_trung_huan_luyen_da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_id": "khong_chap_hanh_dung_quy_dinh_cua_phap_luat_ve_dang_ky_nghia_vu_quan_su_khong_chap_hanh_lenh_goi_nhap_ngu_lenh_goi_tap_trung_huan_luyen_da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_name": "Không chấp hành đúng quy định của pháp luật về đăng ký nghĩa vụ quân sự, không chấp hành lệnh gọi nhập ngũ, lệnh gọi tập trung huấn luyện, đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4695,
+      "score": 0.5369470119476318,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+      "event_id": "trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+      "event_name": "Trong thời kỳ chiến tranh mà ra lệnh hoặc trực tiếp tiến hành việc giết hại dân thường, người bị thương, tù binh, cướp phá tài sản, tàn phá các nơi dân cư, sử dụng các phương tiện hoặc phương pháp chiến tranh bị cấm hoặc thực hiện hành vi khác vi phạm nghiêm trọng pháp luật quốc tế hoặc các điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam ký kết hoặc tham gia",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 62,
+      "score": 0.5804855227470398,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::63",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "63",
+      "article_id": "29"
+    },
+    {
+      "memory_id": 169,
+      "score": 0.5692295432090759,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::170",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "170",
+      "article_id": "62"
+    },
+    {
+      "memory_id": 2373,
+      "score": 0.544793963432312,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2374",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2374",
+      "article_id": "334"
+    },
+    {
+      "memory_id": 176,
+      "score": 0.5429940223693848,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::177",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "177",
+      "article_id": "62"
+    },
+    {
+      "memory_id": 2561,
+      "score": 0.5381491184234619,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2562",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2562",
+      "article_id": "366"
+    },
+    {
+      "memory_id": 2366,
+      "score": 0.5368736982345581,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2367",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2367",
+      "article_id": "332"
+    },
+    {
+      "memory_id": 2781,
+      "score": 0.53028404712677,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2782",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2782",
+      "article_id": "402"
+    },
+    {
+      "memory_id": 55,
+      "score": 0.5273830890655518,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::56",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "56",
+      "article_id": "26"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "seed_similarity": 0.5565398931503296,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+        "EVENT::mien_chap_hanh_hinh_phat"
+      ],
+      "rule_ids": [
+        "177"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "source_event_id": "mien_chap_hanh_hinh_phat",
+          "source_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "target_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "rule_ids": [
+            "177"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.48505473375320435
+    },
+    {
+      "seed_event_node": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "seed_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "seed_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "seed_similarity": 0.5553392171859741,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+        "EVENT::phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "rule_ids": [
+        "2540"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "source_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+          "source_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+          "target_event_node": "EVENT::phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "rule_ids": [
+            "2540"
+          ],
+          "article_ids": [
+            "364"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.48431031465530394
+    },
+    {
+      "seed_event_node": "EVENT::truc_tiep_hoac_qua_trung_gian_nhan_bat_ky_loi_ich_nao_sau_day_de_dung_anh_huong_cua_minh_thuc_day_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_thuoc_trach_nhiem_cua_ho_hoac_lam_mot_viec_khong_duoc_phep_lam",
+      "seed_event_id": "truc_tiep_hoac_qua_trung_gian_nhan_bat_ky_loi_ich_nao_sau_day_de_dung_anh_huong_cua_minh_thuc_day_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_thuoc_trach_nhiem_cua_ho_hoac_lam_mot_viec_khong_duoc_phep_lam",
+      "seed_event_name": "Trực tiếp hoặc qua trung gian nhận bất kỳ lợi ích nào sau đây để dùng ảnh hưởng của mình thúc đẩy người có chức vụ, quyền hạn làm hoặc không làm một việc thuộc trách nhiệm của họ hoặc làm một việc không được phép làm",
+      "seed_similarity": 0.5458068251609802,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::truc_tiep_hoac_qua_trung_gian_nhan_bat_ky_loi_ich_nao_sau_day_de_dung_anh_huong_cua_minh_thuc_day_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_thuoc_trach_nhiem_cua_ho_hoac_lam_mot_viec_khong_duoc_phep_lam",
+        "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "rule_ids": [
+        "2562"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::truc_tiep_hoac_qua_trung_gian_nhan_bat_ky_loi_ich_nao_sau_day_de_dung_anh_huong_cua_minh_thuc_day_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_thuoc_trach_nhiem_cua_ho_hoac_lam_mot_viec_khong_duoc_phep_lam",
+          "source_event_id": "truc_tiep_hoac_qua_trung_gian_nhan_bat_ky_loi_ich_nao_sau_day_de_dung_anh_huong_cua_minh_thuc_day_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_thuoc_trach_nhiem_cua_ho_hoac_lam_mot_viec_khong_duoc_phep_lam",
+          "source_event_name": "Trực tiếp hoặc qua trung gian nhận bất kỳ lợi ích nào sau đây để dùng ảnh hưởng của mình thúc đẩy người có chức vụ, quyền hạn làm hoặc không làm một việc thuộc trách nhiệm của họ hoặc làm một việc không được phép làm",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+          "rule_ids": [
+            "2562"
+          ],
+          "article_ids": [
+            "366"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.47840023159980777
+    },
+    {
+      "seed_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "seed_similarity": 0.5447968244552612,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "EVENT::phat_tu_tu_07_nam_den_12_nam"
+      ],
+      "rule_ids": [
+        "2586"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "target_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "target_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "rule_ids": [
+            "2586"
+          ],
+          "article_ids": [
+            "369"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.47777403116226197
+    },
+    {
+      "seed_event_node": "EVENT::roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+      "seed_event_id": "roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+      "seed_event_name": "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+      "seed_similarity": 0.5418331623077393,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+        "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "rule_ids": [
+        "2782"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+          "source_event_id": "roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+          "source_event_name": "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+          "rule_ids": [
+            "2782"
+          ],
+          "article_ids": [
+            "402"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.47593656063079837
+    },
+    {
+      "seed_event_node": "EVENT::nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_id": "nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_name": "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "seed_similarity": 0.5392587184906006,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "rule_ids": [
+        "2668"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "2668"
+          ],
+          "article_ids": [
+            "378"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4743404054641724
+    },
+    {
+      "seed_event_node": "EVENT::khong_chap_hanh_dung_quy_dinh_cua_phap_luat_ve_dang_ky_nghia_vu_quan_su_khong_chap_hanh_lenh_goi_nhap_ngu_lenh_goi_tap_trung_huan_luyen_da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_id": "khong_chap_hanh_dung_quy_dinh_cua_phap_luat_ve_dang_ky_nghia_vu_quan_su_khong_chap_hanh_lenh_goi_nhap_ngu_lenh_goi_tap_trung_huan_luyen_da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Không chấp hành đúng quy định của pháp luật về đăng ký nghĩa vụ quân sự, không chấp hành lệnh gọi nhập ngũ, lệnh gọi tập trung huấn luyện, đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "seed_similarity": 0.5373164415359497,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::khong_chap_hanh_dung_quy_dinh_cua_phap_luat_ve_dang_ky_nghia_vu_quan_su_khong_chap_hanh_lenh_goi_nhap_ngu_lenh_goi_tap_trung_huan_luyen_da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam"
+      ],
+      "rule_ids": [
+        "2367"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khong_chap_hanh_dung_quy_dinh_cua_phap_luat_ve_dang_ky_nghia_vu_quan_su_khong_chap_hanh_lenh_goi_nhap_ngu_lenh_goi_tap_trung_huan_luyen_da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_id": "khong_chap_hanh_dung_quy_dinh_cua_phap_luat_ve_dang_ky_nghia_vu_quan_su_khong_chap_hanh_lenh_goi_nhap_ngu_lenh_goi_tap_trung_huan_luyen_da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_name": "Không chấp hành đúng quy định của pháp luật về đăng ký nghĩa vụ quân sự, không chấp hành lệnh gọi nhập ngũ, lệnh gọi tập trung huấn luyện, đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+          "rule_ids": [
+            "2367"
+          ],
+          "article_ids": [
+            "332"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4731361937522888
+    },
+    {
+      "seed_event_node": "EVENT::trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+      "seed_event_id": "trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+      "seed_event_name": "Trong thời kỳ chiến tranh mà ra lệnh hoặc trực tiếp tiến hành việc giết hại dân thường, người bị thương, tù binh, cướp phá tài sản, tàn phá các nơi dân cư, sử dụng các phương tiện hoặc phương pháp chiến tranh bị cấm hoặc thực hiện hành vi khác vi phạm nghiêm trọng pháp luật quốc tế hoặc các điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam ký kết hoặc tham gia",
+      "seed_similarity": 0.5369470119476318,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+        "EVENT::phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "rule_ids": [
+        "2881"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+          "source_event_id": "trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+          "source_event_name": "Trong thời kỳ chiến tranh mà ra lệnh hoặc trực tiếp tiến hành việc giết hại dân thường, người bị thương, tù binh, cướp phá tài sản, tàn phá các nơi dân cư, sử dụng các phương tiện hoặc phương pháp chiến tranh bị cấm hoặc thực hiện hành vi khác vi phạm nghiêm trọng pháp luật quốc tế hoặc các điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam ký kết hoặc tham gia",
+          "target_event_node": "EVENT::phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình",
+          "rule_ids": [
+            "2881"
+          ],
+          "article_ids": [
+            "423"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.47290714740753176
+    },
+    {
+      "seed_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "seed_similarity": 0.5565398931503296,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::duoc_dac_xa_hoac_dai_xa"
+      ],
+      "rule_ids": [
+        "177",
+        "170"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "source_event_id": "mien_chap_hanh_hinh_phat",
+          "source_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "target_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "rule_ids": [
+            "177"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::duoc_dac_xa_hoac_dai_xa",
+          "source_event_id": "duoc_dac_xa_hoac_dai_xa",
+          "source_event_name": "Được đặc xá hoặc đại xá",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "170"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.40874488167762757
+    },
+    {
+      "seed_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "seed_similarity": 0.5565398931503296,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong"
+      ],
+      "rule_ids": [
+        "177",
+        "171"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "source_event_id": "mien_chap_hanh_hinh_phat",
+          "source_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "target_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "rule_ids": [
+            "177"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "171"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.40874488167762757
+    },
+    {
+      "seed_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "seed_similarity": 0.5565398931503296,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo"
+      ],
+      "rule_ids": [
+        "177",
+        "172"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "source_event_id": "mien_chap_hanh_hinh_phat",
+          "source_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "target_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "rule_ids": [
+            "177"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "172"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.40874488167762757
+    },
+    {
+      "seed_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "seed_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "seed_similarity": 0.5565398931503296,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem"
+      ],
+      "rule_ids": [
+        "177",
+        "173"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "source_event_id": "mien_chap_hanh_hinh_phat",
+          "source_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "target_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "rule_ids": [
+            "177"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "173"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.40874488167762757
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "177",
+      "rule_node_id": "RULE::177",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Người được miễn chấp hành hình phạt",
+      "condition": "được miễn chấp hành hình phạt",
+      "effect": "vẫn phải thực hiện đầy đủ nghĩa vụ dân sự trong bản án",
+      "condition_event": "mien_chap_hanh_hinh_phat",
+      "condition_event_name": "Được miễn chấp hành hình phạt",
+      "effect_event": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "effect_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "causal_type": "OBLIGATION",
+      "semantic_score": 0.5429940223693848,
+      "graph_score": 0.48505473375320435,
+      "seed_event_score": 0.5565398931503296,
+      "direct_rule_score": 0.5429940223693848,
+      "final_score": 0.5307140975952148,
+      "matched_seed_events": [
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "path_ids": [
+        0,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "170",
+      "rule_node_id": "RULE::170",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án được đặc xá hoặc đại xá",
+      "effect": "được miễn chấp hành hình phạt",
+      "condition_event": "duoc_dac_xa_hoac_dai_xa",
+      "condition_event_name": "Được đặc xá hoặc đại xá",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "semantic_score": 0.5692296028137207,
+      "graph_score": 0.40874488167762757,
+      "seed_event_score": 0.5565398931503296,
+      "direct_rule_score": 0.5692295432090759,
+      "final_score": 0.5291905010051727,
+      "matched_seed_events": [
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "path_ids": [
+        8
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "2562",
+      "rule_node_id": "RULE::2562",
+      "article_id": "366",
+      "article_title": "Tội lợi dụng ảnh hưởng đối với người có chức vụ, quyền hạn để trục lợi",
+      "legal_subject": "Người phạm tội",
+      "condition": "trực tiếp hoặc qua trung gian nhận bất kỳ lợi ích nào sau đây để dùng ảnh hưởng của mình thúc đẩy người có chức vụ, quyền hạn làm hoặc không làm một việc thuộc trách nhiệm của họ hoặc làm một việc không được phép làm",
+      "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "condition_event": "truc_tiep_hoac_qua_trung_gian_nhan_bat_ky_loi_ich_nao_sau_day_de_dung_anh_huong_cua_minh_thuc_day_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_thuoc_trach_nhiem_cua_ho_hoac_lam_mot_viec_khong_duoc_phep_lam",
+      "condition_event_name": "Trực tiếp hoặc qua trung gian nhận bất kỳ lợi ích nào sau đây để dùng ảnh hưởng của mình thúc đẩy người có chức vụ, quyền hạn làm hoặc không làm một việc thuộc trách nhiệm của họ hoặc làm một việc không được phép làm",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5381491184234619,
+      "graph_score": 0.47840023159980777,
+      "seed_event_score": 0.5458068251609802,
+      "direct_rule_score": 0.5381491184234619,
+      "final_score": 0.5247283103942871,
+      "matched_seed_events": [
+        "Trực tiếp hoặc qua trung gian nhận bất kỳ lợi ích nào sau đây để dùng ảnh hưởng của mình thúc đẩy người có chức vụ, quyền hạn làm hoặc không làm một việc thuộc trách nhiệm của họ hoặc làm một việc không được phép làm"
+      ],
+      "path_ids": [
+        2
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "2367",
+      "rule_node_id": "RULE::2367",
+      "article_id": "332",
+      "article_title": "Tội trốn tránh nghĩa vụ quân sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "không chấp hành đúng quy định của pháp luật về đăng ký nghĩa vụ quân sự, không chấp hành lệnh gọi nhập ngũ, lệnh gọi tập trung huấn luyện, đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "effect": "bị phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "condition_event": "khong_chap_hanh_dung_quy_dinh_cua_phap_luat_ve_dang_ky_nghia_vu_quan_su_khong_chap_hanh_lenh_goi_nhap_ngu_lenh_goi_tap_trung_huan_luyen_da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "condition_event_name": "Không chấp hành đúng quy định của pháp luật về đăng ký nghĩa vụ quân sự, không chấp hành lệnh gọi nhập ngũ, lệnh gọi tập trung huấn luyện, đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5368736982345581,
+      "graph_score": 0.4731361937522888,
+      "seed_event_score": 0.5373164415359497,
+      "direct_rule_score": 0.5368736982345581,
+      "final_score": 0.5216298263549805,
+      "matched_seed_events": [
+        "Không chấp hành đúng quy định của pháp luật về đăng ký nghĩa vụ quân sự, không chấp hành lệnh gọi nhập ngũ, lệnh gọi tập trung huấn luyện, đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm"
+      ],
+      "path_ids": [
+        6
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "2782",
+      "rule_node_id": "RULE::2782",
+      "article_id": "402",
+      "article_title": "Tội đào ngũ",
+      "legal_subject": "Người phạm tội",
+      "condition": "rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+      "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+      "condition_event": "roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+      "condition_event_name": "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5302841067314148,
+      "graph_score": 0.47593656063079837,
+      "seed_event_score": 0.5418331623077393,
+      "direct_rule_score": 0.53028404712677,
+      "final_score": 0.5186265787601471,
+      "matched_seed_events": [
+        "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng"
+      ],
+      "path_ids": [
+        4
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "2881",
+      "rule_node_id": "RULE::2881",
+      "article_id": "423",
+      "article_title": "Tội phạm chiến tranh",
+      "legal_subject": "Người phạm tội",
+      "condition": "trong thời kỳ chiến tranh mà ra lệnh hoặc trực tiếp tiến hành việc giết hại dân thường, người bị thương, tù binh, cướp phá tài sản, tàn phá các nơi dân cư, sử dụng các phương tiện hoặc phương pháp chiến tranh bị cấm hoặc thực hiện hành vi khác vi phạm nghiêm trọng pháp luật quốc tế hoặc các điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam ký kết hoặc tham gia",
+      "effect": "bị phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình",
+      "condition_event": "trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+      "condition_event_name": "Trong thời kỳ chiến tranh mà ra lệnh hoặc trực tiếp tiến hành việc giết hại dân thường, người bị thương, tù binh, cướp phá tài sản, tàn phá các nơi dân cư, sử dụng các phương tiện hoặc phương pháp chiến tranh bị cấm hoặc thực hiện hành vi khác vi phạm nghiêm trọng pháp luật quốc tế hoặc các điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam ký kết hoặc tham gia",
+      "effect_event": "phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh",
+      "effect_event_name": "Phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5246396064758301,
+      "graph_score": 0.47290714740753176,
+      "seed_event_score": 0.5369470119476318,
+      "direct_rule_score": 0.0,
+      "final_score": 0.48222232856750485,
+      "matched_seed_events": [
+        "Trong thời kỳ chiến tranh mà ra lệnh hoặc trực tiếp tiến hành việc giết hại dân thường, người bị thương, tù binh, cướp phá tài sản, tàn phá các nơi dân cư, sử dụng các phương tiện hoặc phương pháp chiến tranh bị cấm hoặc thực hiện hành vi khác vi phạm nghiêm trọng pháp luật quốc tế hoặc các điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam ký kết hoặc tham gia"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "2540",
+      "rule_node_id": "RULE::2540",
+      "article_id": "364",
+      "article_title": "Tội đưa hối lộ",
+      "legal_subject": "Người phạm tội",
+      "condition": "trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "effect": "bị phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "condition_event": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "condition_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "effect_event": "phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "effect_event_name": "Phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.49583131074905396,
+      "graph_score": 0.48431031465530394,
+      "seed_event_score": 0.5553392171859741,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4704573418140411,
+      "matched_seed_events": [
+        "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ"
+      ],
+      "path_ids": [
+        1
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "2586",
+      "rule_node_id": "RULE::2586",
+      "article_id": "369",
+      "article_title": "Tội không truy cứu trách nhiệm hình sự người có tội",
+      "legal_subject": "Người phạm tội",
+      "condition": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "effect": "bị phạt tù từ 07 năm đến 12 năm:",
+      "condition_event": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "condition_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "effect_event": "phat_tu_tu_07_nam_den_12_nam",
+      "effect_event_name": "Phạt tù từ 07 năm đến 12 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.4944862723350525,
+      "graph_score": 0.47777403116226197,
+      "seed_event_score": 0.5447968244552612,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4668434243679046,
+      "matched_seed_events": [
+        "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng"
+      ],
+      "path_ids": [
+        3
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "173",
+      "rule_node_id": "RULE::173",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "semantic_score": 0.5161882638931274,
+      "graph_score": 0.40874488167762757,
+      "seed_event_score": 0.5565398931503296,
+      "direct_rule_score": 0.0,
+      "final_score": 0.46427275183868405,
+      "matched_seed_events": [
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "path_ids": [
+        11
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "171",
+      "rule_node_id": "RULE::171",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "semantic_score": 0.509196937084198,
+      "graph_score": 0.40874488167762757,
+      "seed_event_score": 0.5565398931503296,
+      "direct_rule_score": 0.0,
+      "final_score": 0.460217782289505,
+      "matched_seed_events": [
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "path_ids": [
+        9
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "172",
+      "rule_node_id": "RULE::172",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "semantic_score": 0.5032956600189209,
+      "graph_score": 0.40874488167762757,
+      "seed_event_score": 0.5565398931503296,
+      "direct_rule_score": 0.0,
+      "final_score": 0.45679504159164425,
+      "matched_seed_events": [
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "path_ids": [
+        10
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "2668",
+      "rule_node_id": "RULE::2668",
+      "article_id": "378",
+      "article_title": "Tội tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+      "legal_subject": "Người phạm tội",
+      "condition": "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "condition_event_name": "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.4738912880420685,
+      "graph_score": 0.4743404054641724,
+      "seed_event_score": 0.5392587184906006,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4534096905946732,
+      "matched_seed_events": [
+        "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng"
+      ],
+      "path_ids": [
+        5
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 12,
+    "candidate_rules": 15,
+    "final_evidence": 12,
+    "unique_path_rules": 12
+  }
+}

@@ -1,0 +1,881 @@
+{
+  "query": "Để nối “Đủ điều kiện tha tù trước thời hạn” với “Phải thực hiện nghĩa vụ trong thời gian thử thách”, graph sử dụng sự kiện trung gian nào?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 10,
+    "total_paths": 10,
+    "path_status_counts": {
+      "SUPPORTED": 10,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 10,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 10,
+    "total_evidence": 10,
+    "verified_evidence": 7,
+    "uncertain_evidence": 0,
+    "removed_evidence": 3
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "du_dieu_kien_rut_ngan_thoi_gian_thu_thach_tha_tu",
+      "seed_event_name": "Đủ điều kiện rút ngắn thời gian thử thách tha tù",
+      "original_outcome_event_id": "co_the_duoc_rut_ngan_thoi_gian_thu_thach",
+      "original_outcome_event_name": "Có thể được rút ngắn thời gian thử thách",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_rut_ngan_thoi_gian_thu_thach_tha_tu",
+        "EVENT::co_the_duoc_rut_ngan_thoi_gian_thu_thach"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_rut_ngan_thoi_gian_thu_thach_tha_tu",
+        "co_the_duoc_rut_ngan_thoi_gian_thu_thach"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện rút ngắn thời gian thử thách tha tù",
+        "Có thể được rút ngắn thời gian thử thách"
+      ],
+      "original_rule_ids": [
+        "189"
+      ],
+      "original_article_ids": [
+        "66"
+      ],
+      "original_path_score": 0.5312609602212907,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "tha_tu_truoc_thoi_han_co_dieu_kien",
+      "seed_event_name": "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện",
+      "original_outcome_event_id": "phai_thuc_hien_nghia_vu_trong_thoi_gian_thu_thach",
+      "original_outcome_event_name": "Phải thực hiện nghĩa vụ trong thời gian thử thách",
+      "original_event_nodes": [
+        "EVENT::tha_tu_truoc_thoi_han_co_dieu_kien",
+        "EVENT::phai_thuc_hien_nghia_vu_trong_thoi_gian_thu_thach"
+      ],
+      "original_event_ids": [
+        "tha_tu_truoc_thoi_han_co_dieu_kien",
+        "phai_thuc_hien_nghia_vu_trong_thoi_gian_thu_thach"
+      ],
+      "original_event_names": [
+        "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện",
+        "Phải thực hiện nghĩa vụ trong thời gian thử thách"
+      ],
+      "original_rule_ids": [
+        "186"
+      ],
+      "original_article_ids": [
+        "66"
+      ],
+      "original_path_score": 0.5310002287626266,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "du_dieu_kien_tha_tu_truoc_thoi_han",
+      "seed_event_name": "Đủ điều kiện tha tù trước thời hạn",
+      "original_outcome_event_id": "tha_tu_truoc_thoi_han_co_dieu_kien",
+      "original_outcome_event_name": "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_tha_tu_truoc_thoi_han",
+        "EVENT::tha_tu_truoc_thoi_han_co_dieu_kien"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_tha_tu_truoc_thoi_han",
+        "tha_tu_truoc_thoi_han_co_dieu_kien"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện tha tù trước thời hạn",
+        "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện"
+      ],
+      "original_rule_ids": [
+        "185"
+      ],
+      "original_article_ids": [
+        "66"
+      ],
+      "original_path_score": 0.5310002287626266,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "du_dieu_kien_tha_tu_truoc_thoi_han",
+      "seed_event_name": "Đủ điều kiện tha tù trước thời hạn",
+      "original_outcome_event_id": "tha_tu_truoc_thoi_han_co_dieu_kien",
+      "original_outcome_event_name": "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_tha_tu_truoc_thoi_han",
+        "EVENT::tha_tu_truoc_thoi_han_co_dieu_kien"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_tha_tu_truoc_thoi_han",
+        "tha_tu_truoc_thoi_han_co_dieu_kien"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện tha tù trước thời hạn",
+        "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện"
+      ],
+      "original_rule_ids": [
+        "185"
+      ],
+      "original_article_ids": [
+        "66"
+      ],
+      "original_path_score": 0.5309236028194428,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "pham_toi_moi_trong_thoi_gian_thu_thach_tha_tu",
+      "seed_event_name": "Phạm tội mới trong thời gian thử thách tha tù",
+      "original_outcome_event_id": "tong_hop_hinh_phat_cua_nhieu_ban_an",
+      "original_outcome_event_name": "Tổng hợp hình phạt của nhiều bản án",
+      "original_event_nodes": [
+        "EVENT::pham_toi_moi_trong_thoi_gian_thu_thach_tha_tu",
+        "EVENT::tong_hop_hinh_phat_cua_nhieu_ban_an"
+      ],
+      "original_event_ids": [
+        "pham_toi_moi_trong_thoi_gian_thu_thach_tha_tu",
+        "tong_hop_hinh_phat_cua_nhieu_ban_an"
+      ],
+      "original_event_names": [
+        "Phạm tội mới trong thời gian thử thách tha tù",
+        "Tổng hợp hình phạt của nhiều bản án"
+      ],
+      "original_rule_ids": [
+        "188"
+      ],
+      "original_article_ids": [
+        "66"
+      ],
+      "original_path_score": 0.5302753920555116,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "du_dieu_kien_giam_an_hoac_tha_tu_truoc_thoi_han",
+      "seed_event_name": "Đủ điều kiện giảm án hoặc tha tù trước thời hạn",
+      "original_outcome_event_id": "giam_an_hoac_tha_tu_truoc_thoi_han",
+      "original_outcome_event_name": "Có thể được giảm án hoặc tha tù trước thời hạn",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_giam_an_hoac_tha_tu_truoc_thoi_han",
+        "EVENT::giam_an_hoac_tha_tu_truoc_thoi_han"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_giam_an_hoac_tha_tu_truoc_thoi_han",
+        "giam_an_hoac_tha_tu_truoc_thoi_han"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện giảm án hoặc tha tù trước thời hạn",
+        "Có thể được giảm án hoặc tha tù trước thời hạn"
+      ],
+      "original_rule_ids": [
+        "7"
+      ],
+      "original_article_ids": [
+        "3"
+      ],
+      "original_path_score": 0.524962632894516,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "du_dieu_kien_giam_an_hoac_tha_tu_truoc_thoi_han",
+      "seed_event_name": "Đủ điều kiện giảm án hoặc tha tù trước thời hạn",
+      "original_outcome_event_id": "giam_an_hoac_tha_tu_truoc_thoi_han",
+      "original_outcome_event_name": "Có thể được giảm án hoặc tha tù trước thời hạn",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_giam_an_hoac_tha_tu_truoc_thoi_han",
+        "EVENT::giam_an_hoac_tha_tu_truoc_thoi_han"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_giam_an_hoac_tha_tu_truoc_thoi_han",
+        "giam_an_hoac_tha_tu_truoc_thoi_han"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện giảm án hoặc tha tù trước thời hạn",
+        "Có thể được giảm án hoặc tha tù trước thời hạn"
+      ],
+      "original_rule_ids": [
+        "7"
+      ],
+      "original_article_ids": [
+        "3"
+      ],
+      "original_path_score": 0.5229102568030358,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "loi_dung_chuc_vu_quyen_han_hoac_lam_quyen_tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu",
+      "seed_event_name": "Lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+      "original_outcome_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "original_outcome_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+      "original_event_nodes": [
+        "EVENT::loi_dung_chuc_vu_quyen_han_hoac_lam_quyen_tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu",
+        "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_ids": [
+        "loi_dung_chuc_vu_quyen_han_hoac_lam_quyen_tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu",
+        "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_names": [
+        "Lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm"
+      ],
+      "original_rule_ids": [
+        "2662"
+      ],
+      "original_article_ids": [
+        "378"
+      ],
+      "original_path_score": 0.5201701374650002,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+      "seed_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+      "original_outcome_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+      "original_outcome_event_name": "Áp dụng không quá ba phần tư mức phạt",
+      "original_event_nodes": [
+        "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "EVENT::ap_dung_khong_qua_ba_phan_tu_muc_phat"
+      ],
+      "original_event_ids": [
+        "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "ap_dung_khong_qua_ba_phan_tu_muc_phat"
+      ],
+      "original_event_names": [
+        "Phạm tội chưa đạt có khung tù có thời hạn",
+        "Áp dụng không quá ba phần tư mức phạt"
+      ],
+      "original_rule_ids": [
+        "158"
+      ],
+      "original_article_ids": [
+        "57"
+      ],
+      "original_path_score": 0.5181844279766084,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "du_dieu_kien_tha_tu_truoc_thoi_han",
+      "seed_event_name": "Đủ điều kiện tha tù trước thời hạn",
+      "original_outcome_event_id": "phai_thuc_hien_nghia_vu_trong_thoi_gian_thu_thach",
+      "original_outcome_event_name": "Phải thực hiện nghĩa vụ trong thời gian thử thách",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_tha_tu_truoc_thoi_han",
+        "EVENT::tha_tu_truoc_thoi_han_co_dieu_kien",
+        "EVENT::phai_thuc_hien_nghia_vu_trong_thoi_gian_thu_thach"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_tha_tu_truoc_thoi_han",
+        "tha_tu_truoc_thoi_han_co_dieu_kien",
+        "phai_thuc_hien_nghia_vu_trong_thoi_gian_thu_thach"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện tha tù trước thời hạn",
+        "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện",
+        "Phải thực hiện nghĩa vụ trong thời gian thử thách"
+      ],
+      "original_rule_ids": [
+        "185",
+        "186"
+      ],
+      "original_article_ids": [
+        "66"
+      ],
+      "original_path_score": 0.4459073543119431,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tha_tu_truoc_thoi_han_co_dieu_kien",
+          "mediator_event_id": "tha_tu_truoc_thoi_han_co_dieu_kien",
+          "mediator_event_name": "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện",
+          "removed_nodes": [
+            "EVENT::tha_tu_truoc_thoi_han_co_dieu_kien"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6681583094403745,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 3,
+      "rule_id": "189",
+      "article_id": "66",
+      "original_final_score": 0.6066986368656159,
+      "semantic_score": 0.6130924224853516,
+      "graph_score": 0.5568381094932556,
+      "path_support_score": 0.5312609602212907,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6019312878108024,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "189",
+        "rule_node_id": "RULE::189",
+        "article_id": "66",
+        "article_title": "Tha tù trước thời hạn có điều kiện",
+        "legal_subject": "Tòa án",
+        "condition": "người được tha tù đã chấp hành ít nhất một nửa thời gian thử thách và có nhiều tiến bộ",
+        "effect": "có thể rút ngắn thời gian thử thách",
+        "condition_event": "du_dieu_kien_rut_ngan_thoi_gian_thu_thach_tha_tu",
+        "condition_event_name": "Đủ điều kiện rút ngắn thời gian thử thách tha tù",
+        "effect_event": "co_the_duoc_rut_ngan_thoi_gian_thu_thach",
+        "effect_event_name": "Có thể được rút ngắn thời gian thử thách",
+        "causal_type": "MITIGATION",
+        "semantic_score": 0.6130924224853516,
+        "graph_score": 0.5568381094932556,
+        "seed_event_score": 0.6723195314407349,
+        "direct_rule_score": 0.6130923628807068,
+        "final_score": 0.6066986368656159,
+        "matched_seed_events": [
+          "Đủ điều kiện rút ngắn thời gian thử thách tha tù"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "188",
+      "article_id": "66",
+      "original_final_score": 0.6072506311893463,
+      "semantic_score": 0.6151688098907471,
+      "graph_score": 0.5550461673736573,
+      "path_support_score": 0.5302753920555116,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6016381219959259,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        4
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "188",
+        "rule_node_id": "RULE::188",
+        "article_id": "66",
+        "article_title": "Tha tù trước thời hạn có điều kiện",
+        "legal_subject": "Tòa án",
+        "condition": "người được tha tù trước thời hạn phạm tội mới trong thời gian thử thách",
+        "effect": "tổng hợp hình phạt mới với phần hình phạt chưa chấp hành",
+        "condition_event": "pham_toi_moi_trong_thoi_gian_thu_thach_tha_tu",
+        "condition_event_name": "Phạm tội mới trong thời gian thử thách tha tù",
+        "effect_event": "tong_hop_hinh_phat_cua_nhieu_ban_an",
+        "effect_event_name": "Tổng hợp hình phạt của nhiều bản án",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6151688098907471,
+        "graph_score": 0.5550461673736573,
+        "seed_event_score": 0.6694293022155762,
+        "direct_rule_score": 0.6151687502861023,
+        "final_score": 0.6072506311893463,
+        "matched_seed_events": [
+          "Phạm tội mới trong thời gian thử thách tha tù"
+        ],
+        "path_ids": [
+          4
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "7",
+      "article_id": "3",
+      "original_final_score": 0.582801901769638,
+      "semantic_score": 0.583511233329773,
+      "graph_score": 0.5453866052627563,
+      "path_support_score": 0.5239364448487759,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5928117711120845,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        5,
+        6
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "7",
+        "rule_node_id": "RULE::7",
+        "article_id": "3",
+        "article_title": "Nguyên tắc xử lý",
+        "legal_subject": "Người bị phạt tù",
+        "condition": "có đủ điều kiện theo Bộ luật Hình sự",
+        "effect": "có thể được xét giảm thời hạn chấp hành hình phạt hoặc tha tù trước thời hạn có điều kiện",
+        "condition_event": "du_dieu_kien_giam_an_hoac_tha_tu_truoc_thoi_han",
+        "condition_event_name": "Đủ điều kiện giảm án hoặc tha tù trước thời hạn",
+        "effect_event": "giam_an_hoac_tha_tu_truoc_thoi_han",
+        "effect_event_name": "Có thể được giảm án hoặc tha tù trước thời hạn",
+        "causal_type": "",
+        "semantic_score": 0.583511233329773,
+        "graph_score": 0.5453866052627563,
+        "seed_event_score": 0.6538493633270264,
+        "direct_rule_score": 0.5835112929344177,
+        "final_score": 0.582801901769638,
+        "matched_seed_events": [
+          "Đủ điều kiện giảm án hoặc tha tù trước thời hạn",
+          "Có thể được giảm án hoặc tha tù trước thời hạn"
+        ],
+        "path_ids": [
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "186",
+      "article_id": "66",
+      "original_final_score": 0.6297388107299804,
+      "semantic_score": 0.6494138240814209,
+      "graph_score": 0.5563640522956848,
+      "path_support_score": 0.48845379153728485,
+      "counterfactual_support_score": 0.6840791547201872,
+      "verification_score": 0.5863149494690514,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1,
+        9
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "186",
+        "rule_node_id": "RULE::186",
+        "article_id": "66",
+        "article_title": "Tha tù trước thời hạn có điều kiện",
+        "legal_subject": "Người được tha tù trước thời hạn",
+        "condition": "được tha tù trước thời hạn có điều kiện",
+        "effect": "phải thực hiện nghĩa vụ trong thời gian thử thách",
+        "condition_event": "tha_tu_truoc_thoi_han_co_dieu_kien",
+        "condition_event_name": "Được tha tù trước thời hạn có điều kiện",
+        "effect_event": "phai_thuc_hien_nghia_vu_trong_thoi_gian_thu_thach",
+        "effect_event_name": "Phải thực hiện nghĩa vụ trong thời gian thử thách",
+        "causal_type": "OBLIGATION",
+        "semantic_score": 0.6494138240814209,
+        "graph_score": 0.5563640522956848,
+        "seed_event_score": 0.6715549230575562,
+        "direct_rule_score": 0.6494138240814209,
+        "final_score": 0.6297388107299804,
+        "matched_seed_events": [
+          "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện",
+          "Đủ điều kiện tha tù trước thời hạn"
+        ],
+        "path_ids": [
+          1,
+          9
+        ]
+      }
+    },
+    {
+      "original_rank": 4,
+      "rule_id": "185",
+      "article_id": "66",
+      "original_final_score": 0.5884523839473724,
+      "semantic_score": 0.5849037766456604,
+      "graph_score": 0.5563640522956848,
+      "path_support_score": 0.5026103952980042,
+      "counterfactual_support_score": 0.6893861031467914,
+      "verification_score": 0.5830710748049164,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2,
+        3,
+        9
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "185",
+        "rule_node_id": "RULE::185",
+        "article_id": "66",
+        "article_title": "Tha tù trước thời hạn có điều kiện",
+        "legal_subject": "Tòa án",
+        "condition": "người đang chấp hành án tù đáp ứng đầy đủ điều kiện tại khoản 1 Điều 66 và không thuộc trường hợp loại trừ",
+        "effect": "có thể được tha tù trước thời hạn có điều kiện",
+        "condition_event": "du_dieu_kien_tha_tu_truoc_thoi_han",
+        "condition_event_name": "Đủ điều kiện tha tù trước thời hạn",
+        "effect_event": "tha_tu_truoc_thoi_han_co_dieu_kien",
+        "effect_event_name": "Có thể được tha tù trước thời hạn có điều kiện",
+        "causal_type": "MITIGATION",
+        "semantic_score": 0.5849037766456604,
+        "graph_score": 0.5563640522956848,
+        "seed_event_score": 0.6715549230575562,
+        "direct_rule_score": 0.5849038362503052,
+        "final_score": 0.5884523839473724,
+        "matched_seed_events": [
+          "Có thể được tha tù trước thời hạn có điều kiện || Được tha tù trước thời hạn có điều kiện",
+          "Đủ điều kiện tha tù trước thời hạn"
+        ],
+        "path_ids": [
+          2,
+          3,
+          9
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "2662",
+      "article_id": "378",
+      "original_final_score": 0.5133789009094238,
+      "semantic_score": 0.5306930541992188,
+      "graph_score": 0.5366729772090912,
+      "path_support_score": 0.5201701374650002,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5817097577178478,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "2662",
+        "rule_node_id": "RULE::2662",
+        "article_id": "378",
+        "article_title": "Tội tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "legal_subject": "Người phạm tội",
+        "condition": "lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+        "condition_event": "loi_dung_chuc_vu_quyen_han_hoac_lam_quyen_tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu",
+        "condition_event_name": "Lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5306930541992188,
+        "graph_score": 0.5366729772090912,
+        "seed_event_score": 0.6397951245307922,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5133789009094238,
+        "matched_seed_events": [
+          "Lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "158",
+      "article_id": "57",
+      "original_final_score": 0.5045586894035339,
+      "semantic_score": 0.5181845426559448,
+      "graph_score": 0.533062596321106,
+      "path_support_score": 0.5181844279766084,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5784483729410171,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        8
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "158",
+        "rule_node_id": "RULE::158",
+        "article_id": "57",
+        "article_title": "Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt",
+        "legal_subject": "Tòa án",
+        "condition": "người phạm tội chưa đạt và khung hình phạt là tù có thời hạn",
+        "effect": "áp dụng mức phạt không quá ba phần tư mức luật định",
+        "condition_event": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "condition_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+        "effect_event": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+        "effect_event_name": "Áp dụng không quá ba phần tư mức phạt",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5181845426559448,
+        "graph_score": 0.533062596321106,
+        "seed_event_score": 0.6339719295501709,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5045586894035339,
+        "matched_seed_events": [
+          "Phạm tội chưa đạt có khung tù có thời hạn"
+        ],
+        "path_ids": [
+          8
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [
+    {
+      "original_rank": 10,
+      "rule_id": "182",
+      "article_id": "65",
+      "original_final_score": 0.35757057189941405,
+      "semantic_score": 0.5587040185928345,
+      "graph_score": 0.0,
+      "path_support_score": 0.0,
+      "counterfactual_support_score": 0.35,
+      "verification_score": 0.2013926429748535,
+      "decision": "REMOVE",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Verification score thấp hơn reject threshold và không có path SUPPORTED.",
+        "Evidence không ánh xạ được tới causal path bằng rule_id/path_ids."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "182",
+        "rule_node_id": "RULE::182",
+        "article_id": "65",
+        "article_title": "Án treo",
+        "legal_subject": "Tòa án",
+        "condition": "người hưởng án treo đã chấp hành một nửa thời gian thử thách và có nhiều tiến bộ",
+        "effect": "có thể rút ngắn thời gian thử thách",
+        "condition_event": "du_dieu_kien_rut_ngan_thoi_gian_thu_thach_an_treo",
+        "condition_event_name": "Đủ điều kiện rút ngắn thời gian thử thách án treo",
+        "effect_event": "co_the_duoc_rut_ngan_thoi_gian_thu_thach",
+        "effect_event_name": "Có thể được rút ngắn thời gian thử thách",
+        "causal_type": "MITIGATION",
+        "semantic_score": 0.5587040185928345,
+        "graph_score": 0.0,
+        "seed_event_score": 0.0,
+        "direct_rule_score": 0.5587040185928345,
+        "final_score": 0.35757057189941405,
+        "matched_seed_events": [],
+        "path_ids": []
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "181",
+      "article_id": "65",
+      "original_final_score": 0.3588593292236328,
+      "semantic_score": 0.5607177019119263,
+      "graph_score": 0.0,
+      "path_support_score": 0.0,
+      "counterfactual_support_score": 0.35,
+      "verification_score": 0.2017148323059082,
+      "decision": "REMOVE",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Verification score thấp hơn reject threshold và không có path SUPPORTED.",
+        "Evidence không ánh xạ được tới causal path bằng rule_id/path_ids."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "181",
+        "rule_node_id": "RULE::181",
+        "article_id": "65",
+        "article_title": "Án treo",
+        "legal_subject": "Tòa án",
+        "condition": "người bị phạt tù không quá 03 năm, có nhân thân và tình tiết giảm nhẹ cho thấy không cần chấp hành tù",
+        "effect": "có thể cho hưởng án treo và ấn định thời gian thử thách",
+        "condition_event": "du_dieu_kien_huong_an_treo",
+        "condition_event_name": "Đủ điều kiện hưởng án treo",
+        "effect_event": "co_the_duoc_huong_an_treo",
+        "effect_event_name": "Có thể được hưởng án treo",
+        "causal_type": "MITIGATION",
+        "semantic_score": 0.5607177019119263,
+        "graph_score": 0.0,
+        "seed_event_score": 0.0,
+        "direct_rule_score": 0.5607177019119263,
+        "final_score": 0.3588593292236328,
+        "matched_seed_events": [],
+        "path_ids": []
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "187",
+      "article_id": "66",
+      "original_final_score": 0.37006038665771485,
+      "semantic_score": 0.5782193541526794,
+      "graph_score": 0.0,
+      "path_support_score": 0.0,
+      "counterfactual_support_score": 0.35,
+      "verification_score": 0.20451509666442869,
+      "decision": "REMOVE",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Verification score thấp hơn reject threshold và không có path SUPPORTED.",
+        "Evidence không ánh xạ được tới causal path bằng rule_id/path_ids."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "187",
+        "rule_node_id": "RULE::187",
+        "article_id": "66",
+        "article_title": "Tha tù trước thời hạn có điều kiện",
+        "legal_subject": "Tòa án",
+        "condition": "người được tha tù trước thời hạn vi phạm nghĩa vụ hoặc bị xử phạt hành chính từ hai lần trở lên",
+        "effect": "có thể hủy quyết định tha tù và buộc chấp hành phần tù còn lại",
+        "condition_event": "vi_pham_dieu_kien_tha_tu_tu_hai_lan_tro_len",
+        "condition_event_name": "Vi phạm điều kiện tha tù từ hai lần trở lên",
+        "effect_event": "co_the_bi_huy_quyet_dinh_tha_tu_truoc_thoi_han",
+        "effect_event_name": "Có thể bị hủy quyết định tha tù trước thời hạn",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5782193541526794,
+        "graph_score": 0.0,
+        "seed_event_score": 0.0,
+        "direct_rule_score": 0.5782193541526794,
+        "final_score": 0.37006038665771485,
+        "matched_seed_events": [],
+        "path_ids": []
+      }
+    }
+  ],
+  "consistency_score": 0.6968158309440374,
+  "confidence": 0.8938855408304132,
+  "verification_method": "graph_intervention_remove_mediator"
+}

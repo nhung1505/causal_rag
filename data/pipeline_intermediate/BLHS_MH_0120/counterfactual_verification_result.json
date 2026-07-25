@@ -1,0 +1,1085 @@
+{
+  "query": "Sự kiện nào là cầu nối giữa “Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên” và “Thời hiệu thi hành bản án 20 năm”?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 15,
+    "total_paths": 15,
+    "path_status_counts": {
+      "SUPPORTED": 15,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 15,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+        "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1522",
+        "1626"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6960679394246754,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm"
+      ],
+      "original_rule_ids": [
+        "1513",
+        "1617"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6941146689297376,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm"
+      ],
+      "original_rule_ids": [
+        "1545",
+        "1578"
+      ],
+      "original_article_ids": [
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.6941146689297376,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "1504",
+        "1608"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6919599758626638,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "1536",
+        "1569"
+      ],
+      "original_article_ids": [
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.6919599758626638,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+        "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+        "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1521",
+        "1625"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6918888783694921,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+        "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm"
+      ],
+      "original_rule_ids": [
+        "1514",
+        "1618"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6918023337365804,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+        "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm"
+      ],
+      "original_rule_ids": [
+        "1546",
+        "1579"
+      ],
+      "original_article_ids": [
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.6918023337365804,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_10_kilogam_den_duoi_50_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 10 kilôgam đến dưới 50 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_10_kilogam_den_duoi_50_kilogam",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_tu_10_kilogam_den_duoi_50_kilogam",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng từ 10 kilôgam đến dưới 50 kilôgam",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "1505",
+        "1609"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.690250871801537,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_10_kilogam_den_duoi_50_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 10 kilôgam đến dưới 50 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_10_kilogam_den_duoi_50_kilogam",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_tu_10_kilogam_den_duoi_50_kilogam",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng từ 10 kilôgam đến dưới 50 kilôgam",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "1537",
+        "1570"
+      ],
+      "original_article_ids": [
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.690250871801537,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "1595"
+      ],
+      "original_article_ids": [
+        "251"
+      ],
+      "original_path_score": 0.5245095845460892,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1587"
+      ],
+      "original_article_ids": [
+        "251"
+      ],
+      "original_path_score": 0.5196296095252038,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1554"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5194092642068863,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1553"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.515230203151703,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+      "original_outcome_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+      "original_outcome_event_name": "Thời hiệu thi hành bản án 20 năm",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+        "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+        "Thời hiệu thi hành bản án 20 năm"
+      ],
+      "original_rule_ids": [
+        "1595",
+        "166"
+      ],
+      "original_article_ids": [
+        "251",
+        "60"
+      ],
+      "original_path_score": 0.44064785932779316,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "removed_nodes": [
+            "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6657915366975069,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 5,
+      "rule_id": "1522",
+      "article_id": "249",
+      "original_final_score": 0.6559219158417203,
+      "semantic_score": 0.6738906502723694,
+      "graph_score": 0.6171843213862096,
+      "path_support_score": 0.6960679394246754,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6827341260190251,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "1522",
+        "rule_node_id": "RULE::1522",
+        "article_id": "249",
+        "article_title": "Tội tàng trữ trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "condition_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6738906502723694,
+        "graph_score": 0.6171843213862096,
+        "seed_event_score": 0.6375638246536255,
+        "direct_rule_score": 0.6738907098770142,
+        "final_score": 0.6559219158417203,
+        "matched_seed_events": [
+          "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "1545",
+      "article_id": "250",
+      "original_final_score": 0.6588073296791533,
+      "semantic_score": 0.6808049082756042,
+      "graph_score": 0.6136329204863227,
+      "path_support_score": 0.6941146689297376,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6826009683854821,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "1545",
+        "rule_node_id": "RULE::1545",
+        "article_id": "250",
+        "article_title": "Tội vận chuyển trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "condition_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6808049082756042,
+        "graph_score": 0.6136329204863227,
+        "seed_event_score": 0.6318357586860657,
+        "direct_rule_score": 0.6808048486709595,
+        "final_score": 0.6588073296791533,
+        "matched_seed_events": [
+          "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam"
+        ],
+        "path_ids": [
+          2
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "1626",
+      "article_id": "252",
+      "original_final_score": 0.6149383497959593,
+      "semantic_score": 0.6729421615600586,
+      "graph_score": 0.6171843213862096,
+      "path_support_score": 0.6960679394246754,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6825823678250553,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "1626",
+        "rule_node_id": "RULE::1626",
+        "article_id": "252",
+        "article_title": "Tội chiếm đoạt chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "condition_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6729421615600586,
+        "graph_score": 0.6171843213862096,
+        "seed_event_score": 0.6375638246536255,
+        "direct_rule_score": 0.0,
+        "final_score": 0.6149383497959593,
+        "matched_seed_events": [
+          "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "1546",
+      "article_id": "250",
+      "original_final_score": 0.6609756817108611,
+      "semantic_score": 0.6870409846305847,
+      "graph_score": 0.6094286746805823,
+      "path_support_score": 0.6918023337365804,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6821314588160756,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "1546",
+        "rule_node_id": "RULE::1546",
+        "article_id": "250",
+        "article_title": "Tội vận chuyển trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "condition_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6870409846305847,
+        "graph_score": 0.6094286746805823,
+        "seed_event_score": 0.6250547170639038,
+        "direct_rule_score": 0.6870410442352295,
+        "final_score": 0.6609756817108611,
+        "matched_seed_events": [
+          "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 4,
+      "rule_id": "1578",
+      "article_id": "251",
+      "original_final_score": 0.6564810164219359,
+      "semantic_score": 0.6771700382232666,
+      "graph_score": 0.6136329204863227,
+      "path_support_score": 0.6941146689297376,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6820193891771081,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "1578",
+        "rule_node_id": "RULE::1578",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "condition_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6771700382232666,
+        "graph_score": 0.6136329204863227,
+        "seed_event_score": 0.6318357586860657,
+        "direct_rule_score": 0.6771700382232666,
+        "final_score": 0.6564810164219359,
+        "matched_seed_events": [
+          "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam"
+        ],
+        "path_ids": [
+          2
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "1579",
+      "article_id": "251",
+      "original_final_score": 0.6584805609470823,
+      "semantic_score": 0.683142364025116,
+      "graph_score": 0.6094286746805823,
+      "path_support_score": 0.6918023337365804,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6815076795192005,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "1579",
+        "rule_node_id": "RULE::1579",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "condition_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.683142364025116,
+        "graph_score": 0.6094286746805823,
+        "seed_event_score": 0.6250547170639038,
+        "direct_rule_score": 0.683142364025116,
+        "final_score": 0.6584805609470823,
+        "matched_seed_events": [
+          "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "1513",
+      "article_id": "249",
+      "original_final_score": 0.6074118657356719,
+      "semantic_score": 0.6626201272010803,
+      "graph_score": 0.6136329204863227,
+      "path_support_score": 0.6941146689297376,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6796914034135583,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "1513",
+        "rule_node_id": "RULE::1513",
+        "article_id": "249",
+        "article_title": "Tội tàng trữ trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "effect": "bị phạt tù từ 10 năm đến 15 năm:",
+        "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "condition_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "effect_event": "phat_tu_tu_10_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 10 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6626201272010803,
+        "graph_score": 0.6136329204863227,
+        "seed_event_score": 0.6318357586860657,
+        "direct_rule_score": 0.0,
+        "final_score": 0.6074118657356719,
+        "matched_seed_events": [
+          "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 12,
+      "rule_id": "1617",
+      "article_id": "252",
+      "original_final_score": 0.6069579525238494,
+      "semantic_score": 0.6618375182151794,
+      "graph_score": 0.6136329204863227,
+      "path_support_score": 0.6941146689297376,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6795661859758142,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 12,
+        "rule_id": "1617",
+        "rule_node_id": "RULE::1617",
+        "article_id": "252",
+        "article_title": "Tội chiếm đoạt chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "effect": "bị phạt tù từ 10 năm đến 15 năm:",
+        "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "condition_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+        "effect_event": "phat_tu_tu_10_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 10 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6618375182151794,
+        "graph_score": 0.6136329204863227,
+        "seed_event_score": 0.6318357586860657,
+        "direct_rule_score": 0.0,
+        "final_score": 0.6069579525238494,
+        "matched_seed_events": [
+          "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "1514",
+      "article_id": "249",
+      "original_final_score": 0.6089440001732329,
+      "semantic_score": 0.6684044003486633,
+      "graph_score": 0.6094286746805823,
+      "path_support_score": 0.6918023337365804,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6791496053309681,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        6
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "1514",
+        "rule_node_id": "RULE::1514",
+        "article_id": "249",
+        "article_title": "Tội tàng trữ trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+        "effect": "bị phạt tù từ 10 năm đến 15 năm:",
+        "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "condition_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+        "effect_event": "phat_tu_tu_10_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 10 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6684044003486633,
+        "graph_score": 0.6094286746805823,
+        "seed_event_score": 0.6250547170639038,
+        "direct_rule_score": 0.0,
+        "final_score": 0.6089440001732329,
+        "matched_seed_events": [
+          "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam"
+        ],
+        "path_ids": [
+          6
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "1587",
+      "article_id": "251",
+      "original_final_score": 0.6459609403133393,
+      "semantic_score": 0.6887657642364502,
+      "graph_score": 0.535690199136734,
+      "path_support_score": 0.5196296095252038,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6066584017765522,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        11
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "1587",
+        "rule_node_id": "RULE::1587",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+        "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+        "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+        "condition_event_name": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+        "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6887657642364502,
+        "graph_score": 0.535690199136734,
+        "seed_event_score": 0.6382099986076355,
+        "direct_rule_score": 0.688765823841095,
+        "final_score": 0.6459609403133393,
+        "matched_seed_events": [
+          "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam"
+        ],
+        "path_ids": [
+          11
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.6977194357798336,
+  "confidence": 0.8942018025229418,
+  "verification_method": "graph_intervention_remove_mediator"
+}

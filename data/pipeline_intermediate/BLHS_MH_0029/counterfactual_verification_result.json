@@ -1,0 +1,2697 @@
+{
+  "query": "Hãy xác định hệ quả cuối cùng của chuỗi bắt đầu từ “Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn”.",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 41,
+    "total_paths": 41,
+    "path_status_counts": {
+      "SUPPORTED": 41,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 41,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "original_outcome_event_id": "pham_toi_chua_dat",
+      "original_outcome_event_name": "Phạm tội chưa đạt",
+      "original_event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat"
+      ],
+      "original_event_ids": [
+        "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "pham_toi_chua_dat"
+      ],
+      "original_event_names": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "Phạm tội chưa đạt"
+      ],
+      "original_rule_ids": [
+        "31"
+      ],
+      "original_article_ids": [
+        "15"
+      ],
+      "original_path_score": 0.5344409571886063,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "372",
+        "414",
+        "646",
+        "1477",
+        "1541",
+        "1574",
+        "1662",
+        "1674",
+        "1687"
+      ],
+      "original_article_ids": [
+        "53",
+        "141",
+        "144",
+        "168",
+        "248",
+        "250",
+        "251",
+        "255",
+        "256",
+        "257"
+      ],
+      "original_path_score": 0.5707216856169701,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7243247585276367,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_03_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "436",
+        "447",
+        "1408",
+        "1449",
+        "1459",
+        "1466",
+        "2270",
+        "2281",
+        "2314",
+        "2350"
+      ],
+      "original_article_ids": [
+        "53",
+        "146",
+        "147",
+        "243",
+        "245",
+        "246",
+        "247",
+        "321",
+        "323",
+        "325",
+        "328"
+      ],
+      "original_path_score": 0.5707216856169701,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7243247585276367,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "709",
+        "730",
+        "743",
+        "759",
+        "784",
+        "1995",
+        "2033",
+        "2256",
+        "2364",
+        "2565",
+        "2704"
+      ],
+      "original_article_ids": [
+        "53",
+        "172",
+        "173",
+        "174",
+        "175",
+        "178",
+        "290",
+        "297",
+        "318",
+        "330",
+        "366",
+        "388"
+      ],
+      "original_path_score": 0.5707216856169701,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7243247585276367,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "908",
+        "923",
+        "981",
+        "1434",
+        "1509",
+        "1613",
+        "1653",
+        "1702",
+        "1710",
+        "2275",
+        "2297",
+        "2336",
+        "2427",
+        "2437"
+      ],
+      "original_article_ids": [
+        "53",
+        "192",
+        "193",
+        "195",
+        "244",
+        "249",
+        "252",
+        "254",
+        "258",
+        "259",
+        "322",
+        "324",
+        "327",
+        "348",
+        "349"
+      ],
+      "original_path_score": 0.5707216856169701,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7243247585276367,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "seed_event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "original_outcome_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+        "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "co_tinh_thuc_hien_toi_pham_den_cung",
+        "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Cố tình thực hiện tội phạm đến cùng",
+        "Có tình tiết tăng nặng trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "133"
+      ],
+      "original_article_ids": [
+        "52"
+      ],
+      "original_path_score": 0.5109331340789796,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_03_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 03 năm đến 10 năm || Phạt tù từ 03 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_03_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_03_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 03 năm đến 10 năm || Phạt tù từ 03 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "402",
+        "679",
+        "694",
+        "2115",
+        "2184",
+        "2323"
+      ],
+      "original_article_ids": [
+        "53",
+        "143",
+        "170",
+        "171",
+        "305",
+        "311",
+        "326"
+      ],
+      "original_path_score": 0.5646398805063286,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7215879462278479,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+      "seed_event_name": "Pháp nhân cố ý thực hiện tội phạm đến cùng",
+      "original_outcome_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+        "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+        "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Pháp nhân cố ý thực hiện tội phạm đến cùng",
+        "Có tình tiết tăng nặng trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "222"
+      ],
+      "original_article_ids": [
+        "85"
+      ],
+      "original_path_score": 0.5054295214414597,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "nhan_thuc_va_mong_muon_hau_qua_xay_ra",
+      "seed_event_name": "Nhận thức và mong muốn hậu quả xảy ra",
+      "original_outcome_event_id": "co_y_pham_toi",
+      "original_outcome_event_name": "Cố ý phạm tội",
+      "original_event_nodes": [
+        "EVENT::nhan_thuc_va_mong_muon_hau_qua_xay_ra",
+        "EVENT::co_y_pham_toi"
+      ],
+      "original_event_ids": [
+        "nhan_thuc_va_mong_muon_hau_qua_xay_ra",
+        "co_y_pham_toi"
+      ],
+      "original_event_names": [
+        "Nhận thức và mong muốn hậu quả xảy ra",
+        "Cố ý phạm tội"
+      ],
+      "original_rule_ids": [
+        "22"
+      ],
+      "original_article_ids": [
+        "10"
+      ],
+      "original_path_score": 0.5021545652151108,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "nhan_thuc_va_de_mac_hau_qua_xay_ra",
+      "seed_event_name": "Nhận thức và để mặc hậu quả xảy ra",
+      "original_outcome_event_id": "co_y_pham_toi",
+      "original_outcome_event_name": "Cố ý phạm tội",
+      "original_event_nodes": [
+        "EVENT::nhan_thuc_va_de_mac_hau_qua_xay_ra",
+        "EVENT::co_y_pham_toi"
+      ],
+      "original_event_ids": [
+        "nhan_thuc_va_de_mac_hau_qua_xay_ra",
+        "co_y_pham_toi"
+      ],
+      "original_event_names": [
+        "Nhận thức và để mặc hậu quả xảy ra",
+        "Cố ý phạm tội"
+      ],
+      "original_rule_ids": [
+        "23"
+      ],
+      "original_article_ids": [
+        "10"
+      ],
+      "original_path_score": 0.5021545652151108,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_12_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 12 năm || Phạt tù từ 05 năm đến 12 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_05_nam_den_12_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_05_nam_den_12_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 05 năm đến 12 năm || Phạt tù từ 05 năm đến 12 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "665",
+        "951",
+        "2097",
+        "2161",
+        "2446"
+      ],
+      "original_article_ids": [
+        "53",
+        "169",
+        "194",
+        "304",
+        "309",
+        "350"
+      ],
+      "original_path_score": 0.557618951764737,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7184285282941316,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "original_outcome_event_id": "mien_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "EVENT::mien_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "mien_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "34"
+      ],
+      "original_article_ids": [
+        "16"
+      ],
+      "original_path_score": 0.49327067124843604,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "seed_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "original_outcome_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "original_outcome_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "original_event_nodes": [
+        "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi"
+      ],
+      "original_event_ids": [
+        "tu_nguyen_dung_thuc_hien_toi_pham",
+        "tu_y_nua_chung_cham_dut_viec_pham_toi"
+      ],
+      "original_event_names": [
+        "Tự nguyện dừng thực hiện tội phạm",
+        "Tự ý nửa chừng chấm dứt việc phạm tội"
+      ],
+      "original_rule_ids": [
+        "33"
+      ],
+      "original_article_ids": [
+        "16"
+      ],
+      "original_path_score": 0.49327067124843604,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "pham_toi_chua_dat",
+      "seed_event_name": "Phạm tội chưa đạt",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "pham_toi_chua_dat",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Phạm tội chưa đạt",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "32"
+      ],
+      "original_article_ids": [
+        "15"
+      ],
+      "original_path_score": 0.49249916791915893,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "original_outcome_event_id": "pham_toi_chua_dat",
+      "original_outcome_event_name": "Phạm tội chưa đạt",
+      "original_event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat"
+      ],
+      "original_event_ids": [
+        "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "pham_toi_chua_dat"
+      ],
+      "original_event_names": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "Phạm tội chưa đạt"
+      ],
+      "original_rule_ids": [
+        "31"
+      ],
+      "original_article_ids": [
+        "15"
+      ],
+      "original_path_score": 0.49249916791915893,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 15,
+      "seed_event_id": "hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+      "seed_event_name": "Hai người trở lên cố ý cùng thực hiện tội phạm",
+      "original_outcome_event_id": "dong_pham",
+      "original_outcome_event_name": "Đồng phạm",
+      "original_event_nodes": [
+        "EVENT::hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+        "EVENT::dong_pham"
+      ],
+      "original_event_ids": [
+        "hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+        "dong_pham"
+      ],
+      "original_event_names": [
+        "Hai người trở lên cố ý cùng thực hiện tội phạm",
+        "Đồng phạm"
+      ],
+      "original_rule_ids": [
+        "36"
+      ],
+      "original_article_ids": [
+        "17"
+      ],
+      "original_path_score": 0.4914081526994706,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 16,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "tai_pham_nguy_hiem",
+      "original_outcome_event_name": "Tái phạm nguy hiểm",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm"
+      ],
+      "original_rule_ids": [
+        "146"
+      ],
+      "original_article_ids": [
+        "53"
+      ],
+      "original_path_score": 0.4908922995328904,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 17,
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "pham_toi_chua_dat",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "Phạm tội chưa đạt",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "31",
+        "32"
+      ],
+      "original_article_ids": [
+        "15"
+      ],
+      "original_path_score": 0.4487915848946572,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::pham_toi_chua_dat",
+          "mediator_event_id": "pham_toi_chua_dat",
+          "mediator_event_name": "Phạm tội chưa đạt",
+          "removed_nodes": [
+            "EVENT::pham_toi_chua_dat"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6694562132025957,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 18,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_12_nam_den_20_nam",
+      "original_outcome_event_name": "Phạt tù từ 12 năm đến 20 năm || Phạt tù từ 12 năm đến 20 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_12_nam_den_20_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_12_nam_den_20_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 12 năm đến 20 năm || Phạt tù từ 12 năm đến 20 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "387",
+        "483",
+        "1924"
+      ],
+      "original_article_ids": [
+        "53",
+        "142",
+        "150",
+        "282"
+      ],
+      "original_path_score": 0.53915168561697,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7101182585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 19,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tù từ 01 năm đến 05 năm || Phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 01 năm đến 05 năm || Phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "809",
+        "2008",
+        "2134"
+      ],
+      "original_article_ids": [
+        "53",
+        "187",
+        "293",
+        "306"
+      ],
+      "original_path_score": 0.53915168561697,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7101182585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 20,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_03_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 03 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 300.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 03 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "821",
+        "1306"
+      ],
+      "original_article_ids": [
+        "53",
+        "188",
+        "234"
+      ],
+      "original_path_score": 0.4868279080828862,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6865725586372988,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 21,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_2_000_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tiền từ 2.000.000.000 đồng đến 5.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_2_000_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_2_000_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 2.000.000.000 đồng đến 5.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1102",
+        "1119"
+      ],
+      "original_article_ids": [
+        "53",
+        "210",
+        "212"
+      ],
+      "original_path_score": 0.4868279080828862,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6865725586372988,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 22,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_100_000_000_dong_den_200_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 100.000.000 đồng đến 200.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_100_000_000_dong_den_200_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_100_000_000_dong_den_200_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 100.000.000 đồng đến 200.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1138",
+        "1147"
+      ],
+      "original_article_ids": [
+        "53",
+        "214",
+        "215"
+      ],
+      "original_path_score": 0.4868279080828862,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6865725586372988,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 23,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_02_nam_den_06_nam",
+      "original_outcome_event_name": "Phạt tù từ 02 năm đến 06 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_02_nam_den_06_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_02_nam_den_06_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 02 năm đến 06 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "324"
+      ],
+      "original_article_ids": [
+        "53",
+        "134"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 24,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_18_nam_den_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù từ 18 năm đến 20 năm hoặc tù chung thân:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_18_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_18_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 18 năm đến 20 năm hoặc tù chung thân:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "502"
+      ],
+      "original_article_ids": [
+        "53",
+        "151"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 25,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_12_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_07_nam_den_12_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_07_nam_den_12_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm"
+      ],
+      "original_rule_ids": [
+        "146",
+        "510"
+      ],
+      "original_article_ids": [
+        "53",
+        "152"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 26,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm"
+      ],
+      "original_rule_ids": [
+        "146",
+        "523"
+      ],
+      "original_article_ids": [
+        "53",
+        "153"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 27,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tu_tu_12_nam_den_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù từ 12 năm đến 20 năm hoặc tù chung thân || Phạt tù từ 12 năm đến 20 năm hoặc tù chung thân:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_12_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tu_tu_12_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 12 năm đến 20 năm hoặc tù chung thân || Phạt tù từ 12 năm đến 20 năm hoặc tù chung thân:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "536"
+      ],
+      "original_article_ids": [
+        "53",
+        "154"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 28,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_50_000_000_dong_den_100_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 50.000.000 đồng đến 100.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_100_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_50_000_000_dong_den_100_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 50.000.000 đồng đến 100.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "770"
+      ],
+      "original_article_ids": [
+        "53",
+        "177"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 29,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_200_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 200.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_200_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_200_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 200.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "842"
+      ],
+      "original_article_ids": [
+        "53",
+        "189"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 30,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "861"
+      ],
+      "original_article_ids": [
+        "53",
+        "190"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 31,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "884"
+      ],
+      "original_article_ids": [
+        "53",
+        "191"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 32,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_1_500_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tiền từ 1.500.000.000 đồng đến 5.000.000.000 đồng hoặc phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_1_500_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_1_500_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 1.500.000.000 đồng đến 5.000.000.000 đồng hoặc phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1010"
+      ],
+      "original_article_ids": [
+        "53",
+        "196"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 33,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_500_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam",
+      "original_outcome_event_name": "Phạt tiền từ 500.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 01 năm đến 03 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_500_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_500_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 500.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 01 năm đến 03 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1041"
+      ],
+      "original_article_ids": [
+        "53",
+        "200"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 34,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_100_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tiền từ 100.000.000 đồng đến 500.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_100_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_100_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 100.000.000 đồng đến 500.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1057"
+      ],
+      "original_article_ids": [
+        "53",
+        "202"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 35,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_200_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 200.000.000 đồng đến 500.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_200_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_200_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 200.000.000 đồng đến 500.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1065"
+      ],
+      "original_article_ids": [
+        "53",
+        "203"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 36,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 500.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 500.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1094"
+      ],
+      "original_article_ids": [
+        "53",
+        "209"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 37,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_2_000_000_000_dong_den_4_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tiền từ 2.000.000.000 đồng đến 4.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_2_000_000_000_dong_den_4_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_2_000_000_000_dong_den_4_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 2.000.000.000 đồng đến 4.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1110"
+      ],
+      "original_article_ids": [
+        "53",
+        "211"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 38,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_100_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam",
+      "original_outcome_event_name": "Phạt tiền từ 100.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 03 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_100_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_100_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 100.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 03 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1125"
+      ],
+      "original_article_ids": [
+        "53",
+        "213"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 39,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tiền từ 500.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 500.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1239"
+      ],
+      "original_article_ids": [
+        "53",
+        "228"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 40,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 300.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "146",
+        "1269"
+      ],
+      "original_article_ids": [
+        "53",
+        "232"
+      ],
+      "original_path_score": 0.41308168561697006,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6533867585276365,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 10,
+      "rule_id": "743",
+      "article_id": "174",
+      "original_final_score": 0.480054958275795,
+      "semantic_score": 0.4969818890094757,
+      "graph_score": 0.5222212465763092,
+      "path_support_score": 0.5707216856169701,
+      "counterfactual_support_score": 0.7243247585276367,
+      "verification_score": 0.6012862400254918,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "743",
+        "rule_node_id": "RULE::743",
+        "article_id": "174",
+        "article_title": "Tội lừa đảo chiếm đoạt tài sản",
+        "legal_subject": "Người phạm tội",
+        "condition": "Tái phạm nguy hiểm",
+        "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+        "condition_event": "tai_pham_nguy_hiem",
+        "condition_event_name": "Tái phạm nguy hiểm",
+        "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+        "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.4969818890094757,
+        "graph_score": 0.5222212465763092,
+        "seed_event_score": 0.5539363622665405,
+        "direct_rule_score": 0.0,
+        "final_score": 0.480054958275795,
+        "matched_seed_events": [
+          "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "759",
+      "article_id": "175",
+      "original_final_score": 0.4795014296092987,
+      "semantic_score": 0.49602752923965454,
+      "graph_score": 0.5222212465763092,
+      "path_support_score": 0.5707216856169701,
+      "counterfactual_support_score": 0.7243247585276367,
+      "verification_score": 0.6011335424623204,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "759",
+        "rule_node_id": "RULE::759",
+        "article_id": "175",
+        "article_title": "Tội lạm dụng tín nhiệm chiếm đoạt tài sản",
+        "legal_subject": "Người phạm tội",
+        "condition": "Tái phạm nguy hiểm",
+        "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+        "condition_event": "tai_pham_nguy_hiem",
+        "condition_event_name": "Tái phạm nguy hiểm",
+        "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+        "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.49602752923965454,
+        "graph_score": 0.5222212465763092,
+        "seed_event_score": 0.5539363622665405,
+        "direct_rule_score": 0.0,
+        "final_score": 0.4795014296092987,
+        "matched_seed_events": [
+          "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 12,
+      "rule_id": "1477",
+      "article_id": "248",
+      "original_final_score": 0.4791277722635269,
+      "semantic_score": 0.49538329243659973,
+      "graph_score": 0.5222212465763092,
+      "path_support_score": 0.5707216856169701,
+      "counterfactual_support_score": 0.7243247585276367,
+      "verification_score": 0.6010304645738316,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 12,
+        "rule_id": "1477",
+        "rule_node_id": "RULE::1477",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Tái phạm nguy hiểm",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "tai_pham_nguy_hiem",
+        "condition_event_name": "Tái phạm nguy hiểm",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.49538329243659973,
+        "graph_score": 0.5222212465763092,
+        "seed_event_score": 0.5539363622665405,
+        "direct_rule_score": 0.0,
+        "final_score": 0.4791277722635269,
+        "matched_seed_events": [
+          "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "31",
+      "article_id": "15",
+      "original_final_score": 0.614862303161621,
+      "semantic_score": 0.6219314336776733,
+      "graph_score": 0.5626199221611023,
+      "path_support_score": 0.49191057000080746,
+      "counterfactual_support_score": 0.6898187377341986,
+      "verification_score": 0.5859438311662324,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0,
+        14,
+        17
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "31",
+        "rule_node_id": "RULE::31",
+        "article_id": "15",
+        "article_title": "Phạm tội chưa đạt",
+        "legal_subject": "Người phạm tội",
+        "condition": "cố ý thực hiện tội phạm nhưng không thực hiện được đến cùng vì nguyên nhân ngoài ý muốn",
+        "effect": "được xác định là phạm tội chưa đạt",
+        "condition_event": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "condition_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "effect_event": "pham_toi_chua_dat",
+        "effect_event_name": "Phạm tội chưa đạt",
+        "causal_type": "",
+        "semantic_score": 0.6219314336776733,
+        "graph_score": 0.5626199221611023,
+        "seed_event_score": 0.6816450357437134,
+        "direct_rule_score": 0.6219314336776733,
+        "final_score": 0.614862303161621,
+        "matched_seed_events": [
+          "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "Phạm tội chưa đạt"
+        ],
+        "path_ids": [
+          0,
+          14,
+          17
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "133",
+      "article_id": "52",
+      "original_final_score": 0.5412539001464843,
+      "semantic_score": 0.535872220993042,
+      "graph_score": 0.5198784255981446,
+      "path_support_score": 0.5109331340789796,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5766771258926391,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        5
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "133",
+        "rule_node_id": "RULE::133",
+        "article_id": "52",
+        "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+        "legal_subject": "Tòa án",
+        "condition": "người phạm tội cố tình thực hiện tội phạm đến cùng",
+        "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+        "condition_event": "co_tinh_thuc_hien_toi_pham_den_cung",
+        "condition_event_name": "Cố tình thực hiện tội phạm đến cùng",
+        "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+        "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+        "causal_type": "AGGRAVATION",
+        "semantic_score": 0.535872220993042,
+        "graph_score": 0.5198784255981446,
+        "seed_event_score": 0.6127071380615234,
+        "direct_rule_score": 0.535872220993042,
+        "final_score": 0.5412539001464843,
+        "matched_seed_events": [
+          "Cố tình thực hiện tội phạm đến cùng"
+        ],
+        "path_ids": [
+          5
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "23",
+      "article_id": "10",
+      "original_final_score": 0.5514335906982422,
+      "semantic_score": 0.5625903010368347,
+      "graph_score": 0.5039173913002014,
+      "path_support_score": 0.5021545652151108,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5753816177296639,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        9
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "23",
+        "rule_node_id": "RULE::23",
+        "article_id": "10",
+        "article_title": "Cố ý phạm tội",
+        "legal_subject": "Người phạm tội",
+        "condition": "nhận thức rõ hành vi nguy hiểm, thấy trước hậu quả có thể xảy ra và có ý thức để mặc",
+        "effect": "được xác định là cố ý phạm tội",
+        "condition_event": "nhan_thuc_va_de_mac_hau_qua_xay_ra",
+        "condition_event_name": "Nhận thức và để mặc hậu quả xảy ra",
+        "effect_event": "co_y_pham_toi",
+        "effect_event_name": "Cố ý phạm tội",
+        "causal_type": "",
+        "semantic_score": 0.5625903010368347,
+        "graph_score": 0.5039173913002014,
+        "seed_event_score": 0.5869635343551636,
+        "direct_rule_score": 0.5625903010368347,
+        "final_score": 0.5514335906982422,
+        "matched_seed_events": [
+          "Cố ý phạm tội"
+        ],
+        "path_ids": [
+          9
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "22",
+      "article_id": "10",
+      "original_final_score": 0.5483022618770599,
+      "semantic_score": 0.557697594165802,
+      "graph_score": 0.5039173913002014,
+      "path_support_score": 0.5021545652151108,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5745987846302987,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        8
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "22",
+        "rule_node_id": "RULE::22",
+        "article_id": "10",
+        "article_title": "Cố ý phạm tội",
+        "legal_subject": "Người phạm tội",
+        "condition": "nhận thức rõ hành vi nguy hiểm, thấy trước và mong muốn hậu quả xảy ra",
+        "effect": "được xác định là cố ý phạm tội",
+        "condition_event": "nhan_thuc_va_mong_muon_hau_qua_xay_ra",
+        "condition_event_name": "Nhận thức và mong muốn hậu quả xảy ra",
+        "effect_event": "co_y_pham_toi",
+        "effect_event_name": "Cố ý phạm tội",
+        "causal_type": "",
+        "semantic_score": 0.557697594165802,
+        "graph_score": 0.5039173913002014,
+        "seed_event_score": 0.5869635343551636,
+        "direct_rule_score": 0.5576976537704468,
+        "final_score": 0.5483022618770599,
+        "matched_seed_events": [
+          "Cố ý phạm tội"
+        ],
+        "path_ids": [
+          8
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "222",
+      "article_id": "85",
+      "original_final_score": 0.49515548629760736,
+      "semantic_score": 0.5193071365356445,
+      "graph_score": 0.5098718571662904,
+      "path_support_score": 0.5054295214414597,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5705344199967384,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "222",
+        "rule_node_id": "RULE::222",
+        "article_id": "85",
+        "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự áp dụng đối với pháp nhân thương mại",
+        "legal_subject": "Tòa án",
+        "condition": "pháp nhân thương mại cố ý thực hiện tội phạm đến cùng",
+        "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+        "condition_event": "phap_nhan_co_y_thuc_hien_toi_pham_den_cung",
+        "condition_event_name": "Pháp nhân cố ý thực hiện tội phạm đến cùng",
+        "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+        "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+        "causal_type": "AGGRAVATION",
+        "semantic_score": 0.5193071365356445,
+        "graph_score": 0.5098718571662904,
+        "seed_event_score": 0.5965675115585327,
+        "direct_rule_score": 0.0,
+        "final_score": 0.49515548629760736,
+        "matched_seed_events": [
+          "Pháp nhân cố ý thực hiện tội phạm đến cùng"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "33",
+      "article_id": "16",
+      "original_final_score": 0.5366602615356444,
+      "semantic_score": 0.550449013710022,
+      "graph_score": 0.48776485681533815,
+      "path_support_score": 0.49327067124843604,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5678017772221566,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        12
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "33",
+        "rule_node_id": "RULE::33",
+        "article_id": "16",
+        "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "legal_subject": "Người thực hiện hành vi",
+        "condition": "tự mình không thực hiện tội phạm đến cùng mặc dù không có gì ngăn cản",
+        "effect": "được xác định là tự ý nửa chừng chấm dứt việc phạm tội",
+        "condition_event": "tu_nguyen_dung_thuc_hien_toi_pham",
+        "condition_event_name": "Tự nguyện dừng thực hiện tội phạm",
+        "effect_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "effect_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "causal_type": "",
+        "semantic_score": 0.550449013710022,
+        "graph_score": 0.48776485681533815,
+        "seed_event_score": 0.5609110593795776,
+        "direct_rule_score": 0.550449013710022,
+        "final_score": 0.5366602615356444,
+        "matched_seed_events": [
+          "Tự ý nửa chừng chấm dứt việc phạm tội"
+        ],
+        "path_ids": [
+          12
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "34",
+      "article_id": "16",
+      "original_final_score": 0.4885944465637207,
+      "semantic_score": 0.5245199203491211,
+      "graph_score": 0.48776485681533815,
+      "path_support_score": 0.49327067124843604,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5636531222844123,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        11
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "34",
+        "rule_node_id": "RULE::34",
+        "article_id": "16",
+        "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "legal_subject": "Người thực hiện hành vi",
+        "condition": "tự ý nửa chừng chấm dứt việc phạm tội",
+        "effect": "được miễn trách nhiệm hình sự về tội định phạm",
+        "condition_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "condition_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "effect_event": "mien_trach_nhiem_hinh_su",
+        "effect_event_name": "Được miễn trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.5245199203491211,
+        "graph_score": 0.48776485681533815,
+        "seed_event_score": 0.5609110593795776,
+        "direct_rule_score": 0.0,
+        "final_score": 0.4885944465637207,
+        "matched_seed_events": [
+          "Tự ý nửa chừng chấm dứt việc phạm tội"
+        ],
+        "path_ids": [
+          11
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.6816509162999939,
+  "confidence": 0.8885778207049979,
+  "verification_method": "graph_intervention_remove_mediator"
+}

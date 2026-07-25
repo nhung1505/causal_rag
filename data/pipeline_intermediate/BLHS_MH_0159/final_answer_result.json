@@ -1,0 +1,350 @@
+{
+  "query": "Mô tả đường suy luận pháp lý gồm hai hop bắt đầu từ “Đồng phạm có sự câu kết chặt chẽ” và kết thúc tại “Có tình tiết tăng nặng trách nhiệm hình sự”.",
+  "answer": "**Kết luận**  \nKhông có đường suy luận pháp lý từ \"Đồng phạm có sự câu kết chặt chẽ\" đến \"Có tình tiết tăng nặng trách nhiệm hình sự\" được hỗ trợ bởi các evidence và causal path cung cấp.  \n\n**Căn cứ và lập luận**  \n- Các evidence (E1–E8) đều liên quan đến các tình tiết tăng nặng trách nhiệm hình sự theo Điều 52, nhưng **không có điều kiện nào đề cập đến \"đồng phạm có sự câu kết chặt chẽ\"** như một yếu tố khởi đầu.  \n- Các causal path (P1–P6) chỉ xác lập mối quan hệ trực tiếp giữa các điều kiện cụ thể (ví dụ: phạm tội từ hai lần trở lên, tính chất côn đồ, tái phạm nguy hiểm...) với hệ quả \"Có tình tiết tăng nặng trách nhiệm hình sự\", **không bao gồm yếu tố đồng phạm hoặc câu kết**.  \n- Do đó, không có chuỗi suy luận pháp lý nào bắt đầu từ \"Đồng phạm có sự câu kết chặt chẽ\" và kết thúc tại \"Có tình tiết tăng nặng trách nhiệm hình sự\" trong dữ liệu được cung cấp.  \n\n**Lưu ý về độ chắc chắn**  \n- Các evidence và causal path đều có trạng thái \"SUPPORTED\" nhưng **không liên quan đến yếu tố đồng phạm**.  \n- Đường suy luận yêu cầu từ \"Đồng phạm có sự câu kết chặt chẽ\" đến \"Có tình tiết tăng nặng trách nhiệm hình sự\" **không được xác minh** trong dữ liệu hiện có.  \n- Chưa đủ căn cứ từ dữ liệu được cung cấp để khẳng định mối quan hệ này.\n\nCăn cứ evidence: [E1], [E2], [E3], [E4], [E5], [E6], [E7], [E8].\n\nLưu ý: Nội dung này không thay thế tư vấn pháp lý chính thức.",
+  "provider": "ollama",
+  "model": "qwen3:8b",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "134",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội phạm tội từ hai lần trở lên",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "pham_toi_tu_hai_lan_tro_len",
+      "condition_event_name": "Phạm tội từ hai lần trở lên",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.605320121319294,
+      "original_final_score": 0.6461806747436524,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6317802691487074,
+      "decision": "KEEP",
+      "path_ids": [
+        7
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "131",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội phạm tội có tính chất côn đồ",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "pham_toi_co_tinh_chat_con_do",
+      "condition_event_name": "Phạm tội có tính chất côn đồ",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.6028885665249825,
+      "original_final_score": 0.6364544519901276,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6275250471857786,
+      "decision": "KEEP",
+      "path_ids": [
+        4
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "133",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội cố tình thực hiện tội phạm đến cùng",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "condition_event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.6027749839138985,
+      "original_final_score": 0.6360001251220703,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6273262786892653,
+      "decision": "KEEP",
+      "path_ids": [
+        6
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "221",
+      "article_id": "85",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự áp dụng đối với pháp nhân thương mại",
+      "legal_subject": "Tòa án",
+      "condition": "pháp nhân thương mại câu kết với pháp nhân khác để phạm tội",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "phap_nhan_cau_ket_de_pham_toi",
+      "condition_event_name": "Pháp nhân câu kết để phạm tội",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.6013094308793545,
+      "original_final_score": 0.636345473241806,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6266238289561868,
+      "decision": "KEEP",
+      "path_ids": [
+        16,
+        29
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "135",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội tái phạm hoặc tái phạm nguy hiểm",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "tai_pham_hoac_tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm hoặc tái phạm nguy hiểm",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.6016436496090889,
+      "original_final_score": 0.631474787902832,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6253464436558485,
+      "decision": "KEEP",
+      "path_ids": [
+        8
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "129",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội phạm tội có tính chất chuyên nghiệp",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "pham_toi_co_tinh_chat_chuyen_nghiep",
+      "condition_event_name": "Phạm tội có tính chất chuyên nghiệp",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.6016147532773019,
+      "original_final_score": 0.6313592025756836,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6252958750752211,
+      "decision": "KEEP",
+      "path_ids": [
+        2
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "140",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội dùng phương tiện có khả năng gây nguy hại cho nhiều người",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "dung_phuong_tien_co_kha_nang_gay_nguy_hai_cho_nhieu_nguoi",
+      "condition_event_name": "Dùng phương tiện có khả năng gây nguy hại cho nhiều người",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.6006253829312325,
+      "original_final_score": 0.5875803551197052,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6116180671480894,
+      "decision": "KEEP",
+      "path_ids": [
+        13
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "139",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội dùng thủ đoạn tinh vi, xảo quyệt hoặc tàn ác",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "dung_thu_doan_tinh_vi_xao_quyet_hoac_tan_ac",
+      "condition_event_name": "Dùng thủ đoạn tinh vi xảo quyệt hoặc tàn ác",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "verification_score": 0.6005054583859444,
+      "original_final_score": 0.5871456286430359,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6114216907051802,
+      "decision": "KEEP",
+      "path_ids": [
+        12
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 2,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "pham_toi_co_tinh_chat_chuyen_nghiep",
+      "seed_event_name": "Phạm tội có tính chất chuyên nghiệp || Phạm tội có tính chất chuyên nghiệp",
+      "outcome_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "outcome_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Phạm tội có tính chất chuyên nghiệp || Phạm tội có tính chất chuyên nghiệp",
+        "Có tình tiết tăng nặng trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "129"
+      ]
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 4,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "pham_toi_co_tinh_chat_con_do",
+      "seed_event_name": "Phạm tội có tính chất côn đồ",
+      "outcome_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "outcome_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Phạm tội có tính chất côn đồ",
+        "Có tình tiết tăng nặng trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "131"
+      ]
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 6,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "seed_event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "outcome_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "outcome_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Cố tình thực hiện tội phạm đến cùng",
+        "Có tình tiết tăng nặng trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "133"
+      ]
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 7,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "pham_toi_tu_hai_lan_tro_len",
+      "seed_event_name": "Phạm tội từ hai lần trở lên",
+      "outcome_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "outcome_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Phạm tội từ hai lần trở lên",
+        "Có tình tiết tăng nặng trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "134"
+      ]
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 8,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "tai_pham_hoac_tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm hoặc tái phạm nguy hiểm",
+      "outcome_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "outcome_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Tái phạm hoặc tái phạm nguy hiểm",
+        "Có tình tiết tăng nặng trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "135"
+      ]
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 12,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "dung_thu_doan_tinh_vi_xao_quyet_hoac_tan_ac",
+      "seed_event_name": "Dùng thủ đoạn tinh vi xảo quyệt hoặc tàn ác",
+      "outcome_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "outcome_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Dùng thủ đoạn tinh vi xảo quyệt hoặc tàn ác",
+        "Có tình tiết tăng nặng trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "139"
+      ]
+    }
+  ],
+  "citations_used": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8"
+  ],
+  "confidence": 0.8942440232480102,
+  "consistency_score": 0.6978400664228862,
+  "generation_metadata": {
+    "requested_provider": "ollama",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 9.2527,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [
+      "LLM không tạo citation; đã thêm danh sách căn cứ evidence ở cuối câu trả lời."
+    ],
+    "system_prompt_chars": 943,
+    "user_prompt_chars": 6839
+  }
+}

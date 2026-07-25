@@ -1,0 +1,1510 @@
+{
+  "query": "Trình bày hai bước nhân quả nối “Đủ điều kiện xóa án tích” với “Được coi như chưa bị kết án”.",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 21,
+    "total_paths": 21,
+    "path_status_counts": {
+      "SUPPORTED": 21,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 21,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 11,
+    "total_evidence": 11,
+    "verified_evidence": 9,
+    "uncertain_evidence": 0,
+    "removed_evidence": 2
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "200"
+      ],
+      "original_article_ids": [
+        "71"
+      ],
+      "original_path_score": 0.5312313667535782,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "xoa_an_tich",
+      "seed_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "197"
+      ],
+      "original_article_ids": [
+        "69"
+      ],
+      "original_path_score": 0.5284640523195268,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "phap_nhan_du_dieu_kien_xoa_an_tich",
+      "seed_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::phap_nhan_du_dieu_kien_xoa_an_tich",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "phap_nhan_du_dieu_kien_xoa_an_tich",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Pháp nhân đủ điều kiện xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "230"
+      ],
+      "original_article_ids": [
+        "89"
+      ],
+      "original_path_score": 0.5283061053156853,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+      "seed_event_name": "Phạm tội mới khi chưa được xóa án tích",
+      "original_outcome_event_id": "tinh_lai_thoi_han_xoa_an_tich",
+      "original_outcome_event_name": "Tính lại thời hạn xóa án tích",
+      "original_event_nodes": [
+        "EVENT::pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+        "EVENT::tinh_lai_thoi_han_xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+        "tinh_lai_thoi_han_xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Phạm tội mới khi chưa được xóa án tích",
+        "Tính lại thời hạn xóa án tích"
+      ],
+      "original_rule_ids": [
+        "202"
+      ],
+      "original_article_ids": [
+        "73"
+      ],
+      "original_path_score": 0.5265483630895614,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "original_outcome_event_id": "phat_tien_tu_10_000_000_dong_den_50_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "original_outcome_event_name": "Phạt tiền từ 10.000.000 đồng đến 50.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "original_event_nodes": [
+        "EVENT::da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_tien_tu_10_000_000_dong_den_50_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_ids": [
+        "da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "phat_tien_tu_10_000_000_dong_den_50_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_names": [
+        "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+        "Phạt tiền từ 10.000.000 đồng đến 50.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:"
+      ],
+      "original_rule_ids": [
+        "774"
+      ],
+      "original_article_ids": [
+        "178"
+      ],
+      "original_path_score": 0.5260156603455544,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+      "seed_event_name": "Chưa được xóa án tích và lại phạm tội",
+      "original_outcome_event_id": "tai_pham",
+      "original_outcome_event_name": "Tái phạm",
+      "original_event_nodes": [
+        "EVENT::chua_duoc_xoa_an_tich_va_lai_pham_toi",
+        "EVENT::tai_pham"
+      ],
+      "original_event_ids": [
+        "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+        "tai_pham"
+      ],
+      "original_event_names": [
+        "Chưa được xóa án tích và lại phạm tội",
+        "Tái phạm"
+      ],
+      "original_rule_ids": [
+        "144"
+      ],
+      "original_article_ids": [
+        "53"
+      ],
+      "original_path_score": 0.5253634658455849,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "du_dieu_kien_duong_nhien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_duong_nhien_xoa_an_tich",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_duong_nhien_xoa_an_tich",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện đương nhiên xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "199"
+      ],
+      "original_article_ids": [
+        "70"
+      ],
+      "original_path_score": 0.5250564336180688,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "xoa_an_tich",
+      "seed_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "197"
+      ],
+      "original_article_ids": [
+        "69"
+      ],
+      "original_path_score": 0.5244687106013298,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện xóa án tích",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "8"
+      ],
+      "original_article_ids": [
+        "3"
+      ],
+      "original_path_score": 0.5244687106013298,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "du_dieu_kien_duong_nhien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_duong_nhien_xoa_an_tich",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_duong_nhien_xoa_an_tich",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện đương nhiên xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "199"
+      ],
+      "original_article_ids": [
+        "70"
+      ],
+      "original_path_score": 0.5244687106013298,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "200"
+      ],
+      "original_article_ids": [
+        "71"
+      ],
+      "original_path_score": 0.5244687106013298,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_dac_biet",
+      "seed_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_dac_biet",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich_dac_biet",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích đặc biệt",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "201"
+      ],
+      "original_article_ids": [
+        "72"
+      ],
+      "original_path_score": 0.5244687106013298,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "phap_nhan_du_dieu_kien_xoa_an_tich",
+      "seed_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::phap_nhan_du_dieu_kien_xoa_an_tich",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "phap_nhan_du_dieu_kien_xoa_an_tich",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Pháp nhân đủ điều kiện xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "230"
+      ],
+      "original_article_ids": [
+        "89"
+      ],
+      "original_path_score": 0.5244687106013298,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "200",
+        "197"
+      ],
+      "original_article_ids": [
+        "71",
+        "69"
+      ],
+      "original_path_score": 0.4461597207379341,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6682718743320704,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện xóa án tích",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "197",
+        "8"
+      ],
+      "original_article_ids": [
+        "3",
+        "69"
+      ],
+      "original_path_score": 0.4438905229020119,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6672507353059054,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 15,
+      "seed_event_id": "du_dieu_kien_duong_nhien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_duong_nhien_xoa_an_tich",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_duong_nhien_xoa_an_tich",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện đương nhiên xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "197",
+        "199"
+      ],
+      "original_article_ids": [
+        "70",
+        "69"
+      ],
+      "original_path_score": 0.4438905229020119,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6672507353059054,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 16,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "197",
+        "200"
+      ],
+      "original_article_ids": [
+        "71",
+        "69"
+      ],
+      "original_path_score": 0.4438905229020119,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6672507353059054,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 17,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_dac_biet",
+      "seed_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_dac_biet",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich_dac_biet",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích đặc biệt",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "197",
+        "201"
+      ],
+      "original_article_ids": [
+        "72",
+        "69"
+      ],
+      "original_path_score": 0.4438905229020119,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6672507353059054,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 18,
+      "seed_event_id": "phap_nhan_du_dieu_kien_xoa_an_tich",
+      "seed_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::phap_nhan_du_dieu_kien_xoa_an_tich",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "phap_nhan_du_dieu_kien_xoa_an_tich",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Pháp nhân đủ điều kiện xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "197",
+        "230"
+      ],
+      "original_article_ids": [
+        "89",
+        "69"
+      ],
+      "original_path_score": 0.4438905229020119,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6672507353059054,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 19,
+      "seed_event_id": "phap_nhan_du_dieu_kien_xoa_an_tich",
+      "seed_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::phap_nhan_du_dieu_kien_xoa_an_tich",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "phap_nhan_du_dieu_kien_xoa_an_tich",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Pháp nhân đủ điều kiện xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "230",
+        "197"
+      ],
+      "original_article_ids": [
+        "89",
+        "69"
+      ],
+      "original_path_score": 0.44376100635886195,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6671924528614879,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 20,
+      "seed_event_id": "du_dieu_kien_duong_nhien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_duong_nhien_xoa_an_tich",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_duong_nhien_xoa_an_tich",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện đương nhiên xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "199",
+        "197"
+      ],
+      "original_article_ids": [
+        "70",
+        "69"
+      ],
+      "original_path_score": 0.44109627556681635,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6659933240050674,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 6,
+      "rule_id": "202",
+      "article_id": "73",
+      "original_final_score": 0.6279621749877929,
+      "semantic_score": 0.6521210670471191,
+      "graph_score": 0.5482697510719299,
+      "path_support_score": 0.5265483630895614,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6051855138516425,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "202",
+        "rule_node_id": "RULE::202",
+        "article_id": "73",
+        "article_title": "Cách tính thời hạn để xóa án tích",
+        "legal_subject": "Cơ quan có thẩm quyền",
+        "condition": "người chưa được xóa án tích lại phạm tội mới và bị kết án",
+        "effect": "tính lại thời hạn xóa án tích cũ từ khi chấp hành xong bản án mới",
+        "condition_event": "pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+        "condition_event_name": "Phạm tội mới khi chưa được xóa án tích",
+        "effect_event": "tinh_lai_thoi_han_xoa_an_tich",
+        "effect_event_name": "Tính lại thời hạn xóa án tích",
+        "causal_type": "TIME_LIMIT",
+        "semantic_score": 0.6521210670471191,
+        "graph_score": 0.5482697510719299,
+        "seed_event_score": 0.6584995985031128,
+        "direct_rule_score": 0.6521210670471191,
+        "final_score": 0.6279621749877929,
+        "matched_seed_events": [
+          "Phạm tội mới khi chưa được xóa án tích"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "144",
+      "article_id": "53",
+      "original_final_score": 0.5734862265586852,
+      "semantic_score": 0.6272681951522827,
+      "graph_score": 0.546115392446518,
+      "path_support_score": 0.5253634658455849,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6004571831882001,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        5
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "144",
+        "rule_node_id": "RULE::144",
+        "article_id": "53",
+        "article_title": "Tái phạm, tái phạm nguy hiểm",
+        "legal_subject": "Cơ quan tiến hành tố tụng",
+        "condition": "người đã bị kết án, chưa được xóa án tích và lại cố ý phạm tội hoặc vô ý phạm tội rất nghiêm trọng, đặc biệt nghiêm trọng",
+        "effect": "xác định là tái phạm",
+        "condition_event": "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+        "condition_event_name": "Chưa được xóa án tích và lại phạm tội",
+        "effect_event": "tai_pham",
+        "effect_event_name": "Tái phạm",
+        "causal_type": "CLASSIFICATION",
+        "semantic_score": 0.6272681951522827,
+        "graph_score": 0.546115392446518,
+        "seed_event_score": 0.6550248265266418,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5734862265586852,
+        "matched_seed_events": [
+          "Chưa được xóa án tích và lại phạm tội"
+        ],
+        "path_ids": [
+          5
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "774",
+      "article_id": "178",
+      "original_final_score": 0.5698302763938904,
+      "semantic_score": 0.620078444480896,
+      "graph_score": 0.5473012006282807,
+      "path_support_score": 0.5260156603455544,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5997206701362133,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        4
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "774",
+        "rule_node_id": "RULE::774",
+        "article_id": "178",
+        "article_title": "Tội hủy hoại hoặc cố ý làm hư hỏng tài sản",
+        "legal_subject": "Người phạm tội",
+        "condition": "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+        "effect": "bị phạt tiền từ 10.000.000 đồng đến 50.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+        "condition_event": "da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "condition_event_name": "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+        "effect_event": "phat_tien_tu_10_000_000_dong_den_50_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "effect_event_name": "Phạt tiền từ 10.000.000 đồng đến 50.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.620078444480896,
+        "graph_score": 0.5473012006282807,
+        "seed_event_score": 0.6569374203681946,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5698302763938904,
+        "matched_seed_events": [
+          "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm"
+        ],
+        "path_ids": [
+          4
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "8",
+      "article_id": "3",
+      "original_final_score": 0.6573562516212463,
+      "semantic_score": 0.6984139084815979,
+      "graph_score": 0.5444885647296905,
+      "path_support_score": 0.48417961675167087,
+      "counterfactual_support_score": 0.6836253676529527,
+      "verification_score": 0.5907229964337922,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        8,
+        14
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "8",
+        "rule_node_id": "RULE::8",
+        "article_id": "3",
+        "article_title": "Nguyên tắc xử lý",
+        "legal_subject": "Người đã chấp hành xong hình phạt",
+        "condition": "có đủ điều kiện luật định",
+        "effect": "được xóa án tích",
+        "condition_event": "du_dieu_kien_xoa_an_tich",
+        "condition_event_name": "Đủ điều kiện xóa án tích",
+        "effect_event": "xoa_an_tich",
+        "effect_event_name": "Được xóa án tích",
+        "causal_type": "",
+        "semantic_score": 0.6984139084815979,
+        "graph_score": 0.5444885647296905,
+        "seed_event_score": 0.6641174554824829,
+        "direct_rule_score": 0.6984139084815979,
+        "final_score": 0.6573562516212463,
+        "matched_seed_events": [
+          "Được xóa án tích || Có thể được xóa án tích",
+          "Được coi như chưa bị kết án"
+        ],
+        "path_ids": [
+          8,
+          14
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "199",
+      "article_id": "70",
+      "original_final_score": 0.6574850382328032,
+      "semantic_score": 0.6982144117355347,
+      "graph_score": 0.5455571520328522,
+      "path_support_score": 0.4836279856720567,
+      "counterfactual_support_score": 0.6833110148277431,
+      "verification_score": 0.5905304664625443,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        6,
+        9,
+        15,
+        20
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "199",
+        "rule_node_id": "RULE::199",
+        "article_id": "70",
+        "article_title": "Đương nhiên được xóa án tích",
+        "legal_subject": "Người bị kết án",
+        "condition": "không thuộc Chương XIII hoặc XXVI, đã chấp hành xong nghĩa vụ và không phạm tội mới đủ thời hạn luật định",
+        "effect": "đương nhiên được xóa án tích",
+        "condition_event": "du_dieu_kien_duong_nhien_xoa_an_tich",
+        "condition_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+        "effect_event": "xoa_an_tich",
+        "effect_event_name": "Được xóa án tích",
+        "causal_type": "LEGAL_STATUS",
+        "semantic_score": 0.6982144117355347,
+        "graph_score": 0.5455571520328522,
+        "seed_event_score": 0.6641174554824829,
+        "direct_rule_score": 0.6982144713401794,
+        "final_score": 0.6574850382328032,
+        "matched_seed_events": [
+          "Đủ điều kiện đương nhiên xóa án tích",
+          "Được xóa án tích || Có thể được xóa án tích",
+          "Được coi như chưa bị kết án"
+        ],
+        "path_ids": [
+          6,
+          9,
+          15,
+          20
+        ]
+      }
+    },
+    {
+      "original_rank": 4,
+      "rule_id": "200",
+      "article_id": "71",
+      "original_final_score": 0.646117756652832,
+      "semantic_score": 0.6747212409973145,
+      "graph_score": 0.556784303188324,
+      "path_support_score": 0.48643758024871353,
+      "counterfactual_support_score": 0.6838806524094939,
+      "verification_score": 0.5895932902714849,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0,
+        10,
+        13,
+        16
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "200",
+        "rule_node_id": "RULE::200",
+        "article_id": "71",
+        "article_title": "Xóa án tích theo quyết định của Tòa án[29]",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án thuộc Chương XIII hoặc XXVI, đã chấp hành xong nghĩa vụ và không phạm tội mới đủ thời hạn",
+        "effect": "có thể quyết định xóa án tích",
+        "condition_event": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "condition_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+        "effect_event": "xoa_an_tich",
+        "effect_event_name": "Có thể được xóa án tích",
+        "causal_type": "LEGAL_STATUS",
+        "semantic_score": 0.6747212409973145,
+        "graph_score": 0.556784303188324,
+        "seed_event_score": 0.6722327470779419,
+        "direct_rule_score": 0.6747212409973145,
+        "final_score": 0.646117756652832,
+        "matched_seed_events": [
+          "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+          "Được xóa án tích || Có thể được xóa án tích",
+          "Được coi như chưa bị kết án"
+        ],
+        "path_ids": [
+          0,
+          10,
+          13,
+          16
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "230",
+      "article_id": "89",
+      "original_final_score": 0.6425631226539611,
+      "semantic_score": 0.6726832389831543,
+      "graph_score": 0.5514656460285187,
+      "path_support_score": 0.48510658629447223,
+      "counterfactual_support_score": 0.6836107970418484,
+      "verification_score": 0.5879304665265883,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2,
+        12,
+        18,
+        19
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "230",
+        "rule_node_id": "RULE::230",
+        "article_id": "89",
+        "article_title": "Xóa án tích",
+        "legal_subject": "Pháp nhân thương mại bị kết án",
+        "condition": "đã chấp hành xong mọi hình phạt hoặc hết thời hiệu và không phạm tội mới trong 02 năm",
+        "effect": "đương nhiên được xóa án tích",
+        "condition_event": "phap_nhan_du_dieu_kien_xoa_an_tich",
+        "condition_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+        "effect_event": "xoa_an_tich",
+        "effect_event_name": "Được xóa án tích",
+        "causal_type": "LEGAL_STATUS",
+        "semantic_score": 0.6726832389831543,
+        "graph_score": 0.5514656460285187,
+        "seed_event_score": 0.6641174554824829,
+        "direct_rule_score": 0.6726832389831543,
+        "final_score": 0.6425631226539611,
+        "matched_seed_events": [
+          "Pháp nhân đủ điều kiện xóa án tích",
+          "Được xóa án tích || Có thể được xóa án tích",
+          "Được coi như chưa bị kết án"
+        ],
+        "path_ids": [
+          2,
+          12,
+          18,
+          19
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "197",
+      "article_id": "69",
+      "original_final_score": 0.6844208173274993,
+      "semantic_score": 0.736456573009491,
+      "graph_score": 0.5517528223991395,
+      "path_support_score": 0.46034023800945284,
+      "counterfactual_support_score": 0.6737711327728152,
+      "verification_score": 0.5856144997482912,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1,
+        7,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "197",
+        "rule_node_id": "RULE::197",
+        "article_id": "69",
+        "article_title": "Xóa án tích",
+        "legal_subject": "Người bị kết án",
+        "condition": "được xóa án tích",
+        "effect": "được coi như chưa bị kết án",
+        "condition_event": "xoa_an_tich",
+        "condition_event_name": "Được xóa án tích",
+        "effect_event": "duoc_coi_nhu_chua_bi_ket_an",
+        "effect_event_name": "Được coi như chưa bị kết án",
+        "causal_type": "LEGAL_STATUS",
+        "semantic_score": 0.736456573009491,
+        "graph_score": 0.5517528223991395,
+        "seed_event_score": 0.6722327470779419,
+        "direct_rule_score": 0.7364566326141357,
+        "final_score": 0.6844208173274993,
+        "matched_seed_events": [
+          "Được coi như chưa bị kết án",
+          "Được xóa án tích || Có thể được xóa án tích",
+          "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+          "Pháp nhân đủ điều kiện xóa án tích",
+          "Đủ điều kiện đương nhiên xóa án tích"
+        ],
+        "path_ids": [
+          1,
+          7,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "201",
+      "article_id": "72",
+      "original_final_score": 0.5885522021293639,
+      "semantic_score": 0.6520359516143799,
+      "graph_score": 0.5444885647296905,
+      "path_support_score": 0.48417961675167087,
+      "counterfactual_support_score": 0.6836253676529527,
+      "verification_score": 0.5833025233350373,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        11,
+        17
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "201",
+        "rule_node_id": "RULE::201",
+        "article_id": "72",
+        "article_title": "Xóa án tích trong trường hợp đặc biệt",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án tiến bộ rõ rệt, lập công, được đề nghị và đã bảo đảm ít nhất một phần ba thời hạn",
+        "effect": "có thể quyết định xóa án tích trong trường hợp đặc biệt",
+        "condition_event": "du_dieu_kien_xoa_an_tich_dac_biet",
+        "condition_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+        "effect_event": "xoa_an_tich",
+        "effect_event_name": "Có thể được xóa án tích",
+        "causal_type": "LEGAL_STATUS",
+        "semantic_score": 0.6520359516143799,
+        "graph_score": 0.5444885647296905,
+        "seed_event_score": 0.6641174554824829,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5885522021293639,
+        "matched_seed_events": [
+          "Được xóa án tích || Có thể được xóa án tích",
+          "Được coi như chưa bị kết án"
+        ],
+        "path_ids": [
+          11,
+          17
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [
+    {
+      "original_rank": 11,
+      "rule_id": "203",
+      "article_id": "73",
+      "original_final_score": 0.43575508117675776,
+      "semantic_score": 0.6808673143386841,
+      "graph_score": 0.0,
+      "path_support_score": 0.0,
+      "counterfactual_support_score": 0.35,
+      "verification_score": 0.22093877029418946,
+      "decision": "REMOVE",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Verification score thấp hơn reject threshold và không có path SUPPORTED.",
+        "Evidence không ánh xạ được tới causal path bằng rule_id/path_ids."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "203",
+        "rule_node_id": "RULE::203",
+        "article_id": "73",
+        "article_title": "Cách tính thời hạn để xóa án tích",
+        "legal_subject": "Người được miễn chấp hành phần hình phạt còn lại",
+        "condition": "được miễn phần hình phạt còn lại",
+        "effect": "được coi như đã chấp hành xong hình phạt",
+        "condition_event": "mien_phan_hinh_phat_con_lai",
+        "condition_event_name": "Được miễn phần hình phạt còn lại",
+        "effect_event": "duoc_coi_nhu_da_chap_hanh_xong_hinh_phat",
+        "effect_event_name": "Được coi như đã chấp hành xong hình phạt",
+        "causal_type": "LEGAL_STATUS",
+        "semantic_score": 0.6808673143386841,
+        "graph_score": 0.0,
+        "seed_event_score": 0.0,
+        "direct_rule_score": 0.6808673143386841,
+        "final_score": 0.43575508117675776,
+        "matched_seed_events": [],
+        "path_ids": []
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "198",
+      "article_id": "69",
+      "original_final_score": 0.44102409362792966,
+      "semantic_score": 0.6891001462936401,
+      "graph_score": 0.0,
+      "path_support_score": 0.0,
+      "counterfactual_support_score": 0.35,
+      "verification_score": 0.22225602340698242,
+      "decision": "REMOVE",
+      "verified_path_ids": [],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Verification score thấp hơn reject threshold và không có path SUPPORTED.",
+        "Evidence không ánh xạ được tới causal path bằng rule_id/path_ids."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "198",
+        "rule_node_id": "RULE::198",
+        "article_id": "69",
+        "article_title": "Xóa án tích",
+        "legal_subject": "Người bị kết án",
+        "condition": "do lỗi vô ý về tội ít nghiêm trọng hoặc nghiêm trọng, hoặc được miễn hình phạt",
+        "effect": "không bị coi là có án tích",
+        "condition_event": "pham_toi_vo_y_muc_do_thap_hoac_duoc_mien_hinh_phat",
+        "condition_event_name": "Phạm tội vô ý mức độ thấp hoặc được miễn hình phạt",
+        "effect_event": "khong_bi_coi_la_co_an_tich",
+        "effect_event_name": "Không bị coi là có án tích",
+        "causal_type": "LEGAL_STATUS",
+        "semantic_score": 0.6891001462936401,
+        "graph_score": 0.0,
+        "seed_event_score": 0.0,
+        "direct_rule_score": 0.6891001462936401,
+        "final_score": 0.44102409362792966,
+        "matched_seed_events": [],
+        "path_ids": []
+      }
+    }
+  ],
+  "consistency_score": 0.6875100632251501,
+  "confidence": 0.8906285221288025,
+  "verification_method": "graph_intervention_remove_mediator"
+}

@@ -1,0 +1,1553 @@
+{
+  "query": "Hãy xác định mắt xích còn thiếu: Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn → ? → Chịu trách nhiệm hình sự.",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 2885,
+      "score": 0.6845239996910095,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::chiu_trach_nhiem_hinh_su",
+      "event_id": "chiu_trach_nhiem_hinh_su",
+      "event_name": "Chịu trách nhiệm hình sự",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2935,
+      "score": 0.6574116945266724,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3037,
+      "score": 0.6234301328659058,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::truy_cuu_trach_nhiem_hinh_su",
+      "event_id": "truy_cuu_trach_nhiem_hinh_su",
+      "event_name": "Có thể bị truy cứu trách nhiệm hình sự",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2936,
+      "score": 0.6219984889030457,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::pham_toi_chua_dat",
+      "event_id": "pham_toi_chua_dat",
+      "event_name": "Phạm tội chưa đạt",
+      "event_role": "BRIDGE",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2924,
+      "score": 0.6145710349082947,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::co_y_pham_toi",
+      "event_id": "co_y_pham_toi",
+      "event_name": "Cố ý phạm tội",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3182,
+      "score": 0.6113020777702332,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+      "event_id": "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+      "event_name": "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3109,
+      "score": 0.6080301403999329,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+      "event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+      "event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2941,
+      "score": 0.6073333024978638,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+      "event_id": "hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+      "event_name": "Hai người trở lên cố ý cùng thực hiện tội phạm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 30,
+      "score": 0.6685490608215332,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::31",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "31",
+      "article_id": "15"
+    },
+    {
+      "memory_id": 31,
+      "score": 0.6662198901176453,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::32",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "32",
+      "article_id": "15"
+    },
+    {
+      "memory_id": 29,
+      "score": 0.6545095443725586,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::30",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "30",
+      "article_id": "14"
+    },
+    {
+      "memory_id": 22,
+      "score": 0.6504096388816833,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::23",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "23",
+      "article_id": "10"
+    },
+    {
+      "memory_id": 132,
+      "score": 0.6447262763977051,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::133",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "133",
+      "article_id": "52"
+    },
+    {
+      "memory_id": 34,
+      "score": 0.6425750255584717,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::35",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "35",
+      "article_id": "16"
+    },
+    {
+      "memory_id": 25,
+      "score": 0.6380122900009155,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::26",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "26",
+      "article_id": "12"
+    },
+    {
+      "memory_id": 0,
+      "score": 0.6279549598693848,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1",
+      "article_id": "2"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76"
+      ],
+      "rule_ids": [
+        "2",
+        "207"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+          "source_event_id": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+          "source_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "2",
+            "207"
+          ],
+          "article_ids": [
+            "2",
+            "76"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6462996299093877
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::pham_toi_duoc_bo_luat_hinh_su_quy_dinh"
+      ],
+      "rule_ids": [
+        "1"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+          "source_event_id": "pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+          "source_event_name": "Phạm tội được Bộ luật Hình sự quy định",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "1"
+          ],
+          "article_ids": [
+            "2"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::nguoi_tu_du_16_tuoi_thuc_hien_toi_pham"
+      ],
+      "rule_ids": [
+        "26"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+          "source_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "26"
+          ],
+          "article_ids": [
+            "12"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc"
+      ],
+      "rule_ids": [
+        "27"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+          "source_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "27"
+          ],
+          "article_ids": [
+            "12"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich"
+      ],
+      "rule_ids": [
+        "28"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+          "source_event_id": "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+          "source_event_name": "Mất khả năng nhận thức do tự sử dụng chất kích thích",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "28"
+          ],
+          "article_ids": [
+            "13"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem"
+      ],
+      "rule_ids": [
+        "30"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+          "source_event_id": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+          "source_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "30"
+          ],
+          "article_ids": [
+            "14"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::pham_toi_chua_dat"
+      ],
+      "rule_ids": [
+        "32"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_chua_dat",
+          "source_event_id": "pham_toi_chua_dat",
+          "source_event_name": "Phạm tội chưa đạt",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "32"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::hanh_vi_da_thuc_hien_cau_thanh_toi_khac"
+      ],
+      "rule_ids": [
+        "35"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+          "source_event_id": "hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+          "source_event_name": "Hành vi đã thực hiện cấu thành tội khác",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "35"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien"
+      ],
+      "rule_ids": [
+        "39"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+          "source_event_id": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+          "source_event_name": "Che giấu tội phạm sau khi tội phạm được thực hiện",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "39"
+          ],
+          "article_ids": [
+            "18"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::biet_ro_toi_pham_nhung_khong_to_giac"
+      ],
+      "rule_ids": [
+        "41"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::biet_ro_toi_pham_nhung_khong_to_giac",
+          "source_event_id": "biet_ro_toi_pham_nhung_khong_to_giac",
+          "source_event_name": "Biết rõ tội phạm nhưng không tố giác",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "41"
+          ],
+          "article_ids": [
+            "19"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang"
+      ],
+      "rule_ids": [
+        "48"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "source_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "source_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "48"
+          ],
+          "article_ids": [
+            "22"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::vuot_qua_yeu_cau_cua_tinh_the_cap_thiet"
+      ],
+      "rule_ids": [
+        "51"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+          "source_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "51"
+          ],
+          "article_ids": [
+            "23"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi"
+      ],
+      "rule_ids": [
+        "53"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+          "source_event_name": "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "53"
+          ],
+          "article_ids": [
+            "24"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai"
+      ],
+      "rule_ids": [
+        "55"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai",
+          "source_event_id": "vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai",
+          "source_event_name": "Vi phạm quy trình phòng ngừa và gây thiệt hại",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "55"
+          ],
+          "article_ids": [
+            "25"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao"
+      ],
+      "rule_ids": [
+        "57"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+          "source_event_name": "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "57"
+          ],
+          "article_ids": [
+            "26"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::phap_nhan_thuong_mai_pham_toi"
+      ],
+      "rule_ids": [
+        "204"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::phap_nhan_thuong_mai_pham_toi",
+          "source_event_id": "phap_nhan_thuong_mai_pham_toi",
+          "source_event_name": "Pháp nhân thương mại phạm tội",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "204"
+          ],
+          "article_ids": [
+            "74"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan"
+      ],
+      "rule_ids": [
+        "205"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+          "source_event_id": "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+          "source_event_name": "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "205"
+          ],
+          "article_ids": [
+            "75"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5644048798084259
+    },
+    {
+      "seed_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "seed_similarity": 0.6574116945266724,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat"
+      ],
+      "rule_ids": [
+        "31"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "target_event_node": "EVENT::pham_toi_chua_dat",
+          "target_event_id": "pham_toi_chua_dat",
+          "target_event_name": "Phạm tội chưa đạt",
+          "rule_ids": [
+            "31"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5475952506065369
+    },
+    {
+      "seed_event_node": "EVENT::truy_cuu_trach_nhiem_hinh_su",
+      "seed_event_id": "truy_cuu_trach_nhiem_hinh_su",
+      "seed_event_name": "Có thể bị truy cứu trách nhiệm hình sự",
+      "seed_similarity": 0.6234301328659058,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::truy_cuu_trach_nhiem_hinh_su",
+        "EVENT::khoi_benh_hoac_phuc_hoi_kha_nang_nhan_thuc"
+      ],
+      "rule_ids": [
+        "98"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khoi_benh_hoac_phuc_hoi_kha_nang_nhan_thuc",
+          "source_event_id": "khoi_benh_hoac_phuc_hoi_kha_nang_nhan_thuc",
+          "source_event_name": "Khỏi bệnh hoặc phục hồi khả năng nhận thức",
+          "target_event_node": "EVENT::truy_cuu_trach_nhiem_hinh_su",
+          "target_event_id": "truy_cuu_trach_nhiem_hinh_su",
+          "target_event_name": "Có thể bị truy cứu trách nhiệm hình sự",
+          "rule_ids": [
+            "98"
+          ],
+          "article_ids": [
+            "49"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5265266823768615
+    },
+    {
+      "seed_event_node": "EVENT::pham_toi_chua_dat",
+      "seed_event_id": "pham_toi_chua_dat",
+      "seed_event_name": "Phạm tội chưa đạt",
+      "seed_similarity": 0.6219984889030457,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "32"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_chua_dat",
+          "source_event_id": "pham_toi_chua_dat",
+          "source_event_name": "Phạm tội chưa đạt",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "32"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5256390631198884
+    },
+    {
+      "seed_event_node": "EVENT::pham_toi_chua_dat",
+      "seed_event_id": "pham_toi_chua_dat",
+      "seed_event_name": "Phạm tội chưa đạt",
+      "seed_similarity": 0.6219984889030457,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon"
+      ],
+      "rule_ids": [
+        "31"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "target_event_node": "EVENT::pham_toi_chua_dat",
+          "target_event_id": "pham_toi_chua_dat",
+          "target_event_name": "Phạm tội chưa đạt",
+          "rule_ids": [
+            "31"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5256390631198884
+    },
+    {
+      "seed_event_node": "EVENT::co_y_pham_toi",
+      "seed_event_id": "co_y_pham_toi",
+      "seed_event_name": "Cố ý phạm tội",
+      "seed_similarity": 0.6145710349082947,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::co_y_pham_toi",
+        "EVENT::nhan_thuc_va_mong_muon_hau_qua_xay_ra"
+      ],
+      "rule_ids": [
+        "22"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nhan_thuc_va_mong_muon_hau_qua_xay_ra",
+          "source_event_id": "nhan_thuc_va_mong_muon_hau_qua_xay_ra",
+          "source_event_name": "Nhận thức và mong muốn hậu quả xảy ra",
+          "target_event_node": "EVENT::co_y_pham_toi",
+          "target_event_id": "co_y_pham_toi",
+          "target_event_name": "Cố ý phạm tội",
+          "rule_ids": [
+            "22"
+          ],
+          "article_ids": [
+            "10"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5210340416431427
+    },
+    {
+      "seed_event_node": "EVENT::co_y_pham_toi",
+      "seed_event_id": "co_y_pham_toi",
+      "seed_event_name": "Cố ý phạm tội",
+      "seed_similarity": 0.6145710349082947,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::co_y_pham_toi",
+        "EVENT::nhan_thuc_va_de_mac_hau_qua_xay_ra"
+      ],
+      "rule_ids": [
+        "23"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nhan_thuc_va_de_mac_hau_qua_xay_ra",
+          "source_event_id": "nhan_thuc_va_de_mac_hau_qua_xay_ra",
+          "source_event_name": "Nhận thức và để mặc hậu quả xảy ra",
+          "target_event_node": "EVENT::co_y_pham_toi",
+          "target_event_id": "co_y_pham_toi",
+          "target_event_name": "Cố ý phạm tội",
+          "rule_ids": [
+            "23"
+          ],
+          "article_ids": [
+            "10"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5210340416431427
+    },
+    {
+      "seed_event_node": "EVENT::du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+      "seed_event_id": "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+      "seed_event_name": "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân",
+      "seed_similarity": 0.6113020777702332,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "205"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+          "source_event_id": "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+          "source_event_name": "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "205"
+          ],
+          "article_ids": [
+            "75"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5190072882175445
+    },
+    {
+      "seed_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+      "seed_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+      "seed_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+      "seed_similarity": 0.6080301403999329,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "EVENT::ap_dung_khong_qua_ba_phan_tu_muc_phat"
+      ],
+      "rule_ids": [
+        "158"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+          "source_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+          "target_event_node": "EVENT::ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "target_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+          "target_event_name": "Áp dụng không quá ba phần tư mức phạt",
+          "rule_ids": [
+            "158"
+          ],
+          "article_ids": [
+            "57"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5169786870479585
+    },
+    {
+      "seed_event_node": "EVENT::hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+      "seed_event_id": "hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+      "seed_event_name": "Hai người trở lên cố ý cùng thực hiện tội phạm",
+      "seed_similarity": 0.6073333024978638,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+        "EVENT::dong_pham"
+      ],
+      "rule_ids": [
+        "36"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+          "source_event_id": "hai_nguoi_tro_len_co_y_cung_thuc_hien_toi_pham",
+          "source_event_name": "Hai người trở lên cố ý cùng thực hiện tội phạm",
+          "target_event_node": "EVENT::dong_pham",
+          "target_event_id": "dong_pham",
+          "target_event_name": "Đồng phạm",
+          "rule_ids": [
+            "36"
+          ],
+          "article_ids": [
+            "17"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5165466475486755
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon"
+      ],
+      "rule_ids": [
+        "32",
+        "31"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_chua_dat",
+          "source_event_id": "pham_toi_chua_dat",
+          "source_event_name": "Phạm tội chưa đạt",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "32"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "target_event_node": "EVENT::pham_toi_chua_dat",
+          "target_event_id": "pham_toi_chua_dat",
+          "target_event_name": "Phạm tội chưa đạt",
+          "rule_ids": [
+            "31"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.47381200144290925
+    },
+    {
+      "seed_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+      "seed_event_id": "chiu_trach_nhiem_hinh_su",
+      "seed_event_name": "Chịu trách nhiệm hình sự",
+      "seed_similarity": 0.6845239996910095,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::chiu_trach_nhiem_hinh_su",
+        "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "EVENT::chong_tra_ro_rang_qua_muc_can_thiet"
+      ],
+      "rule_ids": [
+        "48",
+        "47"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "source_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "source_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "48"
+          ],
+          "article_ids": [
+            "22"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::chong_tra_ro_rang_qua_muc_can_thiet",
+          "source_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+          "source_event_name": "Chống trả rõ ràng quá mức cần thiết",
+          "target_event_node": "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "target_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "target_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+          "rule_ids": [
+            "47"
+          ],
+          "article_ids": [
+            "22"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.47381200144290925
+    },
+    {
+      "seed_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "seed_similarity": 0.6574116945266724,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "31",
+        "32"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+          "source_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+          "target_event_node": "EVENT::pham_toi_chua_dat",
+          "target_event_id": "pham_toi_chua_dat",
+          "target_event_name": "Phạm tội chưa đạt",
+          "rule_ids": [
+            "31"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::pham_toi_chua_dat",
+          "source_event_id": "pham_toi_chua_dat",
+          "source_event_name": "Phạm tội chưa đạt",
+          "target_event_node": "EVENT::chiu_trach_nhiem_hinh_su",
+          "target_event_id": "chiu_trach_nhiem_hinh_su",
+          "target_event_name": "Chịu trách nhiệm hình sự",
+          "rule_ids": [
+            "32"
+          ],
+          "article_ids": [
+            "15"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4600281054973603
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "32",
+      "rule_node_id": "RULE::32",
+      "article_id": "15",
+      "article_title": "Phạm tội chưa đạt",
+      "legal_subject": "Người phạm tội",
+      "condition": "phạm tội chưa đạt",
+      "effect": "phải chịu trách nhiệm hình sự về tội phạm chưa đạt",
+      "condition_event": "pham_toi_chua_dat",
+      "condition_event_name": "Phạm tội chưa đạt",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6662198901176453,
+      "graph_score": 0.5644048798084259,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.6662198901176453,
+      "final_score": 0.6439807807922363,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự",
+        "Phạm tội chưa đạt",
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn"
+      ],
+      "path_ids": [
+        6,
+        19,
+        26,
+        28
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "31",
+      "rule_node_id": "RULE::31",
+      "article_id": "15",
+      "article_title": "Phạm tội chưa đạt",
+      "legal_subject": "Người phạm tội",
+      "condition": "cố ý thực hiện tội phạm nhưng không thực hiện được đến cùng vì nguyên nhân ngoài ý muốn",
+      "effect": "được xác định là phạm tội chưa đạt",
+      "condition_event": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "condition_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "effect_event": "pham_toi_chua_dat",
+      "effect_event_name": "Phạm tội chưa đạt",
+      "causal_type": "",
+      "semantic_score": 0.6685490608215332,
+      "graph_score": 0.5475952506065369,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.6685490608215332,
+      "final_score": 0.6414371390342712,
+      "matched_seed_events": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "Phạm tội chưa đạt",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        17,
+        20,
+        26,
+        28
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "30",
+      "rule_node_id": "RULE::30",
+      "article_id": "14",
+      "article_title": "Chuẩn bị phạm tội[7]",
+      "legal_subject": "Người chuẩn bị phạm tội",
+      "condition": "chuẩn bị phạm một trong các tội được liệt kê tại khoản 2 Điều 14",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+      "condition_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6545095443725586,
+      "graph_score": 0.5644048798084259,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.6545095443725586,
+      "final_score": 0.6364861595153809,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        5
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "35",
+      "rule_node_id": "RULE::35",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "hành vi thực tế đã thực hiện đủ yếu tố cấu thành một tội khác",
+      "effect": "phải chịu trách nhiệm hình sự về tội đó",
+      "condition_event": "hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+      "condition_event_name": "Hành vi đã thực hiện cấu thành tội khác",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6425749659538269,
+      "graph_score": 0.5644048798084259,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.6425750255584717,
+      "final_score": 0.6288480329036712,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "26",
+      "rule_node_id": "RULE::26",
+      "article_id": "12",
+      "article_title": "Tuổi chịu trách nhiệm hình sự",
+      "legal_subject": "Người từ đủ 16 tuổi trở lên",
+      "condition": "thực hiện tội phạm",
+      "effect": "phải chịu trách nhiệm hình sự về mọi tội phạm, trừ trường hợp luật quy định khác",
+      "condition_event": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+      "condition_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6380122900009155,
+      "graph_score": 0.5644048798084259,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.6380122900009155,
+      "final_score": 0.6259279167175292,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        2
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "1",
+      "rule_node_id": "RULE::1",
+      "article_id": "2",
+      "article_title": "Cơ sở của trách nhiệm hình sự",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "phạm một tội đã được Bộ luật Hình sự quy định",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+      "condition_event_name": "Phạm tội được Bộ luật Hình sự quy định",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6279549598693848,
+      "graph_score": 0.5644048798084259,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.6279549598693848,
+      "final_score": 0.6194912254333496,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        1
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "23",
+      "rule_node_id": "RULE::23",
+      "article_id": "10",
+      "article_title": "Cố ý phạm tội",
+      "legal_subject": "Người phạm tội",
+      "condition": "nhận thức rõ hành vi nguy hiểm, thấy trước hậu quả có thể xảy ra và có ý thức để mặc",
+      "effect": "được xác định là cố ý phạm tội",
+      "condition_event": "nhan_thuc_va_de_mac_hau_qua_xay_ra",
+      "condition_event_name": "Nhận thức và để mặc hậu quả xảy ra",
+      "effect_event": "co_y_pham_toi",
+      "effect_event_name": "Cố ý phạm tội",
+      "causal_type": "",
+      "semantic_score": 0.6504095792770386,
+      "graph_score": 0.5210340416431427,
+      "seed_event_score": 0.6145710349082947,
+      "direct_rule_score": 0.6504096388816833,
+      "final_score": 0.6150588284969329,
+      "matched_seed_events": [
+        "Cố ý phạm tội"
+      ],
+      "path_ids": [
+        22
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "2",
+      "rule_node_id": "RULE::2",
+      "article_id": "2",
+      "article_title": "Cơ sở của trách nhiệm hình sự",
+      "legal_subject": "Pháp nhân thương mại",
+      "condition": "phạm một tội được quy định tại Điều 76 Bộ luật Hình sự",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5953908562660217,
+      "graph_score": 0.6462996299093877,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5825814877754667,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        0
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "207",
+      "rule_node_id": "RULE::207",
+      "article_id": "76",
+      "article_title": "Phạm vi chịu trách nhiệm hình sự của pháp nhân thương mại[30]",
+      "legal_subject": "Pháp nhân thương mại",
+      "condition": "phạm một trong các tội thuộc phạm vi Điều 76",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "LIABILITY",
+      "semantic_score": 0.5925679206848145,
+      "graph_score": 0.6462996299093877,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5809441851383665,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        0
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "51",
+      "rule_node_id": "RULE::51",
+      "article_id": "23",
+      "article_title": "Tình thế cấp thiết",
+      "legal_subject": "Người gây thiệt hại",
+      "condition": "thiệt hại gây ra rõ ràng vượt quá yêu cầu của tình thế cấp thiết",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+      "condition_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6221598386764526,
+      "graph_score": 0.5644048798084259,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5784527575492858,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        11
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "205",
+      "rule_node_id": "RULE::205",
+      "article_id": "75",
+      "article_title": "Điều kiện chịu trách nhiệm hình sự của pháp nhân thương mại",
+      "legal_subject": "Pháp nhân thương mại",
+      "condition": "hành vi phạm tội được thực hiện nhân danh, vì lợi ích, có chỉ đạo hoặc chấp thuận của pháp nhân và chưa hết thời hiệu",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+      "condition_event_name": "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "LIABILITY",
+      "semantic_score": 0.6161174774169922,
+      "graph_score": 0.5644048798084259,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5749481880187988,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự",
+        "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân"
+      ],
+      "path_ids": [
+        16,
+        23
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "39",
+      "rule_node_id": "RULE::39",
+      "article_id": "18",
+      "article_title": "Che giấu tội phạm",
+      "legal_subject": "Người che giấu tội phạm",
+      "condition": "không hứa hẹn trước nhưng sau khi biết tội phạm đã che giấu người phạm tội, dấu vết, tang vật hoặc cản trở phát hiện, điều tra, xử lý",
+      "effect": "phải chịu trách nhiệm hình sự về tội che giấu tội phạm trong trường hợp luật định",
+      "condition_event": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+      "condition_event_name": "Che giấu tội phạm sau khi tội phạm được thực hiện",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6092421412467957,
+      "graph_score": 0.5644048798084259,
+      "seed_event_score": 0.6845239996910095,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5709604930400848,
+      "matched_seed_events": [
+        "Chịu trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        8
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 29,
+    "candidate_rules": 26,
+    "final_evidence": 12,
+    "unique_path_rules": 25
+  }
+}

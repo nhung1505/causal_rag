@@ -1,0 +1,350 @@
+{
+  "query": "Vì sao theo graph, “Đủ điều kiện đương nhiên xóa án tích” có thể dẫn đến “Được coi như chưa bị kết án”? Hãy nêu đầy đủ mắt xích trung gian.",
+  "answer": "**Kết luận**  \nTheo graph, “Đủ điều kiện đương nhiên xóa án tích” có thể dẫn đến “Được coi như chưa bị kết án” thông qua hai mắt xích trung gian: **được xóa án tích** và **được coi như chưa bị kết án**.  \n\n---\n\n**Căn cứ và lập luận**  \n1. **Đủ điều kiện đương nhiên xóa án tích → Được xóa án tích**  \n   - Điều kiện “đủ điều kiện đương nhiên xóa án tích” (theo Điều 70) là cơ sở để người bị kết án được xóa án tích theo quy định pháp luật [E1].  \n   - Quy tắc này xác lập mối quan hệ trực tiếp giữa điều kiện và hệ quả: khi đủ điều kiện, người đó **được xóa án tích** [E1].  \n\n2. **Được xóa án tích → Được coi như chưa bị kết án**  \n   - Khi được xóa án tích, người đó **được coi như chưa bị kết án** theo Điều 69. Điều này thể hiện rằng việc xóa án tích làm thay đổi trạng thái pháp lý, xóa bỏ hiệu lực của bản án trong các mối quan hệ pháp lý [E6].  \n\n---\n\n**Lưu ý về độ chắc chắn**  \n- Mối quan hệ giữa “đủ điều kiện đương nhiên xóa án tích” và “được coi như chưa bị kết án” được xác minh qua các quy tắc trực tiếp (không có trung gian) [P1], [P3].  \n- Tuy nhiên, các quy tắc liên quan (như E2, E5) chỉ đề cập đến trường hợp đặc biệt hoặc điều kiện bổ sung, không ảnh hưởng đến chuỗi logic này.  \n- Confidence score toàn cục (0.8928) và consistency score (0.6938) cho thấy mối quan hệ này có độ tin cậy cao, nhưng không thể khẳng định tuyệt đối do có thể tồn tại ngoại lệ không được nêu trong evidence.  \n\n---  \n*Chú thích: Các trích dẫn [E1], [E6] là cơ sở pháp lý trực tiếp cho chuỗi suy luận.*\n\nLưu ý: Nội dung này không thay thế tư vấn pháp lý chính thức.",
+  "provider": "ollama",
+  "model": "qwen3:8b",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "199",
+      "article_id": "70",
+      "article_title": "Đương nhiên được xóa án tích",
+      "legal_subject": "Người bị kết án",
+      "condition": "không thuộc Chương XIII hoặc XXVI, đã chấp hành xong nghĩa vụ và không phạm tội mới đủ thời hạn luật định",
+      "effect": "đương nhiên được xóa án tích",
+      "condition_event": "du_dieu_kien_duong_nhien_xoa_an_tich",
+      "condition_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Được xóa án tích",
+      "causal_type": "LEGAL_STATUS",
+      "verification_score": 0.6017954952659751,
+      "original_final_score": 0.6602870246887207,
+      "counterfactual_support_score": 0.6897439153055549,
+      "final_selection_score": 0.6325352170987357,
+      "decision": "KEEP",
+      "path_ids": [
+        1,
+        5,
+        13
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "202",
+      "article_id": "73",
+      "article_title": "Cách tính thời hạn để xóa án tích",
+      "legal_subject": "Cơ quan có thẩm quyền",
+      "condition": "người chưa được xóa án tích lại phạm tội mới và bị kết án",
+      "effect": "tính lại thời hạn xóa án tích cũ từ khi chấp hành xong bản án mới",
+      "condition_event": "pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+      "condition_event_name": "Phạm tội mới khi chưa được xóa án tích",
+      "effect_event": "tinh_lai_thoi_han_xoa_an_tich",
+      "effect_event_name": "Tính lại thời hạn xóa án tích",
+      "causal_type": "TIME_LIMIT",
+      "verification_score": 0.6054259255301953,
+      "original_final_score": 0.6249471504211426,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6254684041679501,
+      "decision": "KEEP",
+      "path_ids": [
+        9
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "8",
+      "article_id": "3",
+      "article_title": "Nguyên tắc xử lý",
+      "legal_subject": "Người đã chấp hành xong hình phạt",
+      "condition": "có đủ điều kiện luật định",
+      "effect": "được xóa án tích",
+      "condition_event": "du_dieu_kien_xoa_an_tich",
+      "condition_event_name": "Đủ điều kiện xóa án tích",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Được xóa án tích",
+      "causal_type": "",
+      "verification_score": 0.6051108539891242,
+      "original_final_score": 0.6223899032592772,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6245279406718015,
+      "decision": "KEEP",
+      "path_ids": [
+        4
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "230",
+      "article_id": "89",
+      "article_title": "Xóa án tích",
+      "legal_subject": "Pháp nhân thương mại bị kết án",
+      "condition": "đã chấp hành xong mọi hình phạt hoặc hết thời hiệu và không phạm tội mới trong 02 năm",
+      "effect": "đương nhiên được xóa án tích",
+      "condition_event": "phap_nhan_du_dieu_kien_xoa_an_tich",
+      "condition_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Được xóa án tích",
+      "causal_type": "LEGAL_STATUS",
+      "verification_score": 0.5922447555480067,
+      "original_final_score": 0.6351124872684478,
+      "counterfactual_support_score": 0.6883714041144847,
+      "final_selection_score": 0.6195240723491107,
+      "decision": "KEEP",
+      "path_ids": [
+        8,
+        12,
+        15
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "200",
+      "article_id": "71",
+      "article_title": "Xóa án tích theo quyết định của Tòa án[29]",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án thuộc Chương XIII hoặc XXVI, đã chấp hành xong nghĩa vụ và không phạm tội mới đủ thời hạn",
+      "effect": "có thể quyết định xóa án tích",
+      "condition_event": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "condition_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Có thể được xóa án tích",
+      "causal_type": "LEGAL_STATUS",
+      "verification_score": 0.592764161888461,
+      "original_final_score": 0.6337940968990325,
+      "counterfactual_support_score": 0.6887583262454867,
+      "final_selection_score": 0.6194722670451863,
+      "decision": "KEEP",
+      "path_ids": [
+        6,
+        11,
+        14
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "197",
+      "article_id": "69",
+      "article_title": "Xóa án tích",
+      "legal_subject": "Người bị kết án",
+      "condition": "được xóa án tích",
+      "effect": "được coi như chưa bị kết án",
+      "condition_event": "xoa_an_tich",
+      "condition_event_name": "Được xóa án tích",
+      "effect_event": "duoc_coi_nhu_chua_bi_ket_an",
+      "effect_event_name": "Được coi như chưa bị kết án",
+      "causal_type": "LEGAL_STATUS",
+      "verification_score": 0.5807824593196226,
+      "original_final_score": 0.6570012833595276,
+      "counterfactual_support_score": 0.6751552342491448,
+      "final_selection_score": 0.6178040227710224,
+      "decision": "KEEP",
+      "path_ids": [
+        3,
+        13,
+        14,
+        15
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "201",
+      "article_id": "72",
+      "article_title": "Xóa án tích trong trường hợp đặc biệt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án tiến bộ rõ rệt, lập công, được đề nghị và đã bảo đảm ít nhất một phần ba thời hạn",
+      "effect": "có thể quyết định xóa án tích trong trường hợp đặc biệt",
+      "condition_event": "du_dieu_kien_xoa_an_tich_dac_biet",
+      "condition_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Có thể được xóa án tích",
+      "causal_type": "LEGAL_STATUS",
+      "verification_score": 0.6025011242222785,
+      "original_final_score": 0.5745474793434142,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6087398621252774,
+      "decision": "KEEP",
+      "path_ids": [
+        7
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "144",
+      "article_id": "53",
+      "article_title": "Tái phạm, tái phạm nguy hiểm",
+      "legal_subject": "Cơ quan tiến hành tố tụng",
+      "condition": "người đã bị kết án, chưa được xóa án tích và lại cố ý phạm tội hoặc vô ý phạm tội rất nghiêm trọng, đặc biệt nghiêm trọng",
+      "effect": "xác định là tái phạm",
+      "condition_event": "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+      "condition_event_name": "Chưa được xóa án tích và lại phạm tội",
+      "effect_event": "tai_pham",
+      "effect_event_name": "Tái phạm",
+      "causal_type": "CLASSIFICATION",
+      "verification_score": 0.6003596218156815,
+      "original_final_score": 0.5653935950279236,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6048158705070019,
+      "decision": "KEEP",
+      "path_ids": [
+        2
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 1,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "du_dieu_kien_duong_nhien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+      "outcome_event_id": "xoa_an_tich",
+      "outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Đủ điều kiện đương nhiên xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "rule_ids": [
+        "199"
+      ]
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 2,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+      "seed_event_name": "Chưa được xóa án tích và lại phạm tội",
+      "outcome_event_id": "tai_pham",
+      "outcome_event_name": "Tái phạm",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Chưa được xóa án tích và lại phạm tội",
+        "Tái phạm"
+      ],
+      "rule_ids": [
+        "144"
+      ]
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 3,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "xoa_an_tich",
+      "seed_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "outcome_event_name": "Được coi như chưa bị kết án",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "rule_ids": [
+        "197"
+      ]
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 4,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện xóa án tích",
+      "outcome_event_id": "xoa_an_tich",
+      "outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Đủ điều kiện xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "rule_ids": [
+        "8"
+      ]
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 5,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "du_dieu_kien_duong_nhien_xoa_an_tich",
+      "seed_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+      "outcome_event_id": "xoa_an_tich",
+      "outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Đủ điều kiện đương nhiên xóa án tích",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "rule_ids": [
+        "199"
+      ]
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 6,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "outcome_event_id": "xoa_an_tich",
+      "outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "rule_ids": [
+        "200"
+      ]
+    }
+  ],
+  "citations_used": [
+    "E1",
+    "E6"
+  ],
+  "confidence": 0.8928260829968002,
+  "consistency_score": 0.6937888085622862,
+  "generation_metadata": {
+    "requested_provider": "ollama",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 13.2093,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [],
+    "system_prompt_chars": 943,
+    "user_prompt_chars": 6525
+  }
+}

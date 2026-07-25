@@ -1,0 +1,2301 @@
+{
+  "query": "Trong chuỗi “Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên” → “Bị phạt tù chung thân hoặc tử hình” → “Thời hiệu thi hành bản án 20 năm”, sự kiện nào vừa là kết quả của bước thứ nhất vừa là điều kiện của bước thứ hai?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 48,
+    "total_paths": 48,
+    "path_status_counts": {
+      "SUPPORTED": 48,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 48,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "1474",
+        "1534",
+        "1567"
+      ],
+      "original_article_ids": [
+        "248",
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.8595284961462022,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.8595284961462022,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+        "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm"
+      ],
+      "original_rule_ids": [
+        "1481",
+        "1543",
+        "1576"
+      ],
+      "original_article_ids": [
+        "248",
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.8592473175525666,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.8592473175525666,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "1491",
+        "1592"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.7407890553118406,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7407890553118406,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_100_gam_den_duoi_03_kilogam",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_100_gam_den_duoi_03_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_100_gam_den_duoi_03_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1486",
+        "1584"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.7362647710086522,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7362647710086522,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+        "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+        "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1519",
+        "1623"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.7359337144138036,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7359337144138036,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "1502",
+        "1606"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.7341871713639911,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7341871713639911,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+        "phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+        "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm"
+      ],
+      "original_rule_ids": [
+        "1511",
+        "1615"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.7339059927703557,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7339059927703557,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "gay_thiet_hai_ve_tai_san_5_000_000_000_dong_tro_len",
+      "seed_event_name": "Gây thiệt hại về tài sản 5.000.000.000 đồng trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::gay_thiet_hai_ve_tai_san_5_000_000_000_dong_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "gay_thiet_hai_ve_tai_san_5_000_000_000_dong_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Gây thiệt hại về tài sản 5.000.000.000 đồng trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "2461",
+        "2474",
+        "2488",
+        "2508"
+      ],
+      "original_article_ids": [
+        "353",
+        "354",
+        "355",
+        "358"
+      ],
+      "original_path_score": 0.8208603216409683,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.8208603216409683,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "lam_chet_02_nguoi_tro_len",
+      "seed_event_name": "Làm chết 02 người trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::lam_chet_02_nguoi_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "lam_chet_02_nguoi_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Làm chết 02 người trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "966",
+        "1668"
+      ],
+      "original_article_ids": [
+        "194",
+        "255"
+      ],
+      "original_path_score": 0.6955189968587574,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_05_kilogam_den_duoi_30_kilogam",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_05_kilogam_den_duoi_30_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_05_kilogam_den_duoi_30_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1485",
+        "1583"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.6955189968587574,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_100_gam_den_duoi_03_kilogam",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_100_gam_den_duoi_03_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_100_gam_den_duoi_03_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1486",
+        "1584"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.6955189968587574,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_300_gam_den_duoi_09_kilogam",
+      "seed_event_name": "Các chất ma túy khác ở thể rắn có khối lượng từ 300 gam đến dưới 09 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_300_gam_den_duoi_09_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_tu_300_gam_den_duoi_09_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể rắn có khối lượng từ 300 gam đến dưới 09 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1487",
+        "1588"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.6955189968587574,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_750_mililit_den_duoi_22_lit",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_750_mililit_den_duoi_22_lit",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_tu_750_mililit_den_duoi_22_lit",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích từ 750 mililít đến dưới 22 lít",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1488",
+        "1589"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.6955189968587574,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_g_khoan_nay",
+      "seed_event_name": "Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm g khoản này",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_g_khoan_nay",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_g_khoan_nay",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm g khoản này",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1557",
+        "1590"
+      ],
+      "original_article_ids": [
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.6955189968587574,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "chiem_doat_tai_san_tri_gia_1_000_000_000_dong_tro_len",
+      "seed_event_name": "Chiếm đoạt tài sản trị giá 1.000.000.000 đồng trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::chiem_doat_tai_san_tri_gia_1_000_000_000_dong_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "chiem_doat_tai_san_tri_gia_1_000_000_000_dong_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Chiếm đoạt tài sản trị giá 1.000.000.000 đồng trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "2460",
+        "2487"
+      ],
+      "original_article_ids": [
+        "353",
+        "355"
+      ],
+      "original_path_score": 0.6955189968587574,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 15,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1551"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5592750391960144,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 16,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên",
+      "original_outcome_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+      "original_outcome_event_name": "Thời hiệu thi hành bản án 20 năm",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+        "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+        "Thời hiệu thi hành bản án 20 năm"
+      ],
+      "original_rule_ids": [
+        "1491",
+        "1592",
+        "166"
+      ],
+      "original_article_ids": [
+        "248",
+        "251",
+        "60"
+      ],
+      "original_path_score": 0.5468831341430382,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "removed_nodes": [
+            "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7135974103643672,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 17,
+      "seed_event_id": "co_to_chuc",
+      "seed_event_name": "Có tổ chức",
+      "original_outcome_event_id": "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù 20 năm, tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::co_to_chuc",
+        "EVENT::phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "co_to_chuc",
+        "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Có tổ chức",
+        "Phạt tù 20 năm, tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "388"
+      ],
+      "original_article_ids": [
+        "142"
+      ],
+      "original_path_score": 0.5213322705030441,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 18,
+      "seed_event_id": "nhieu_nguoi_hiep_mot_nguoi",
+      "seed_event_name": "Nhiều người hiếp một người",
+      "original_outcome_event_id": "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù 20 năm, tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::nhieu_nguoi_hiep_mot_nguoi",
+        "EVENT::phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "nhieu_nguoi_hiep_mot_nguoi",
+        "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Nhiều người hiếp một người",
+        "Phạt tù 20 năm, tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "389"
+      ],
+      "original_article_ids": [
+        "142"
+      ],
+      "original_path_score": 0.5213322705030441,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 19,
+      "seed_event_id": "gay_thuong_tich_gay_ton_hai_cho_suc_khoe_hoac_gay_roi_loan_tam_than_va_hanh_vi_cua_nan_nhan_ma_ty_le_ton_thuong_co_the_61_tro_len",
+      "seed_event_name": "Gây thương tích, gây tổn hại cho sức khỏe hoặc gây rối loạn tâm thần và hành vi của nạn nhân mà tỷ lệ tổn thương cơ thể 61% trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù 20 năm, tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::gay_thuong_tich_gay_ton_hai_cho_suc_khoe_hoac_gay_roi_loan_tam_than_va_hanh_vi_cua_nan_nhan_ma_ty_le_ton_thuong_co_the_61_tro_len",
+        "EVENT::phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "gay_thuong_tich_gay_ton_hai_cho_suc_khoe_hoac_gay_roi_loan_tam_than_va_hanh_vi_cua_nan_nhan_ma_ty_le_ton_thuong_co_the_61_tro_len",
+        "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Gây thương tích, gây tổn hại cho sức khỏe hoặc gây rối loạn tâm thần và hành vi của nạn nhân mà tỷ lệ tổn thương cơ thể 61% trở lên",
+        "Phạt tù 20 năm, tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "391"
+      ],
+      "original_article_ids": [
+        "142"
+      ],
+      "original_path_score": 0.5213322705030441,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 20,
+      "seed_event_id": "biet_minh_bi_nhiem_hiv_ma_van_pham_toi",
+      "seed_event_name": "Biết mình bị nhiễm HIV mà vẫn phạm tội",
+      "original_outcome_event_id": "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù 20 năm, tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::biet_minh_bi_nhiem_hiv_ma_van_pham_toi",
+        "EVENT::phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "biet_minh_bi_nhiem_hiv_ma_van_pham_toi",
+        "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Biết mình bị nhiễm HIV mà vẫn phạm tội",
+        "Phạt tù 20 năm, tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "392"
+      ],
+      "original_article_ids": [
+        "142"
+      ],
+      "original_path_score": 0.5213322705030441,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 21,
+      "seed_event_id": "lam_nan_nhan_chet_hoac_tu_sat",
+      "seed_event_name": "Làm nạn nhân chết hoặc tự sát",
+      "original_outcome_event_id": "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù 20 năm, tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::lam_nan_nhan_chet_hoac_tu_sat",
+        "EVENT::phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "lam_nan_nhan_chet_hoac_tu_sat",
+        "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Làm nạn nhân chết hoặc tự sát",
+        "Phạt tù 20 năm, tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "393"
+      ],
+      "original_article_ids": [
+        "142"
+      ],
+      "original_path_score": 0.5213322705030441,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 22,
+      "seed_event_id": "doi_voi_nguoi_duoi_10_tuoi",
+      "seed_event_name": "Đối với người dưới 10 tuổi",
+      "original_outcome_event_id": "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù 20 năm, tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::doi_voi_nguoi_duoi_10_tuoi",
+        "EVENT::phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "doi_voi_nguoi_duoi_10_tuoi",
+        "phat_tu_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Đối với người dưới 10 tuổi",
+        "Phạt tù 20 năm, tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "390"
+      ],
+      "original_article_ids": [
+        "142"
+      ],
+      "original_path_score": 0.5213322705030441,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 23,
+      "seed_event_id": "lam_chet_nguoi",
+      "seed_event_name": "Làm chết người",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::lam_chet_nguoi",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "lam_chet_nguoi",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Làm chết người",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1925"
+      ],
+      "original_article_ids": [
+        "282"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 24,
+      "seed_event_id": "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_31_tro_len",
+      "seed_event_name": "Gây thương tích hoặc gây tổn hại cho sức khỏe của 02 người trở lên mà tỷ lệ tổn thương cơ thể của mỗi người 31% trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_31_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_31_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Gây thương tích hoặc gây tổn hại cho sức khỏe của 02 người trở lên mà tỷ lệ tổn thương cơ thể của mỗi người 31% trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1927"
+      ],
+      "original_article_ids": [
+        "282"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 25,
+      "seed_event_id": "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len",
+      "seed_event_name": "Gây thương tích hoặc gây tổn hại cho sức khỏe của người khác mà tỷ lệ tổn thương cơ thể 61% trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Gây thương tích hoặc gây tổn hại cho sức khỏe của người khác mà tỷ lệ tổn thương cơ thể 61% trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1926"
+      ],
+      "original_article_ids": [
+        "282"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 26,
+      "seed_event_id": "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_tong_ty_le_ton_thuong_co_the_cua_nhung_nguoi_nay_122_tro_len",
+      "seed_event_name": "Gây thương tích hoặc gây tổn hại cho sức khỏe của 02 người trở lên mà tổng tỷ lệ tổn thương cơ thể của những người này 122% trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_tong_ty_le_ton_thuong_co_the_cua_nhung_nguoi_nay_122_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_tong_ty_le_ton_thuong_co_the_cua_nhung_nguoi_nay_122_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Gây thương tích hoặc gây tổn hại cho sức khỏe của 02 người trở lên mà tổng tỷ lệ tổn thương cơ thể của những người này 122% trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "967"
+      ],
+      "original_article_ids": [
+        "194"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 27,
+      "seed_event_id": "gay_thiet_hai_ve_tai_san_1_500_000_000_dong_tro_len",
+      "seed_event_name": "Gây thiệt hại về tài sản 1.500.000.000 đồng trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::gay_thiet_hai_ve_tai_san_1_500_000_000_dong_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "gay_thiet_hai_ve_tai_san_1_500_000_000_dong_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Gây thiệt hại về tài sản 1.500.000.000 đồng trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "968"
+      ],
+      "original_article_ids": [
+        "194"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 28,
+      "seed_event_id": "thu_loi_bat_chinh_2_000_000_000_dong_tro_len",
+      "seed_event_name": "Thu lợi bất chính 2.000.000.000 đồng trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::thu_loi_bat_chinh_2_000_000_000_dong_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "thu_loi_bat_chinh_2_000_000_000_dong_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Thu lợi bất chính 2.000.000.000 đồng trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "965"
+      ],
+      "original_article_ids": [
+        "194"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 29,
+      "seed_event_id": "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_d_khoan_nay",
+      "seed_event_name": "Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm d khoản này",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_d_khoan_nay",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_d_khoan_nay",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm d khoản này",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1489"
+      ],
+      "original_article_ids": [
+        "248"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 30,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1550"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 31,
+      "seed_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+      "seed_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1551"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 32,
+      "seed_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+      "seed_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 75 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 75 kilôgam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1552"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 33,
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1553"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 34,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1554"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 35,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_300_gam_tro_len",
+      "seed_event_name": "Các chất ma túy khác ở thể rắn có khối lượng 300 gam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_300_gam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_ran_co_khoi_luong_300_gam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể rắn có khối lượng 300 gam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1555"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 36,
+      "seed_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_750_mililit_tro_len",
+      "seed_event_name": "Các chất ma túy khác ở thể lỏng có thể tích 750 mililít trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::cac_chat_ma_tuy_khac_o_the_long_co_the_tich_750_mililit_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_750_mililit_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Các chất ma túy khác ở thể lỏng có thể tích 750 mililít trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1556"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 37,
+      "seed_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_75_kilogam_den_duoi_150_kilogam",
+      "seed_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng từ 75 kilôgam đến dưới 150 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_75_kilogam_den_duoi_150_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_75_kilogam_den_duoi_150_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng từ 75 kilôgam đến dưới 150 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1585"
+      ],
+      "original_article_ids": [
+        "251"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 38,
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_600_kilogam_den_duoi_1_200_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 600 kilôgam đến dưới 1.200 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_600_kilogam_den_duoi_1_200_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_kho_co_khoi_luong_tu_600_kilogam_den_duoi_1_200_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện khô có khối lượng từ 600 kilôgam đến dưới 1.200 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1586"
+      ],
+      "original_article_ids": [
+        "251"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 39,
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1587"
+      ],
+      "original_article_ids": [
+        "251"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 40,
+      "seed_event_id": "tien_chat_o_the_ran_co_khoi_luong_1_200_gam_tro_len",
+      "seed_event_name": "Tiền chất ở thể rắn có khối lượng 1.200 gam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::tien_chat_o_the_ran_co_khoi_luong_1_200_gam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "tien_chat_o_the_ran_co_khoi_luong_1_200_gam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Tiền chất ở thể rắn có khối lượng 1.200 gam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1642"
+      ],
+      "original_article_ids": [
+        "253"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 41,
+      "seed_event_id": "tien_chat_o_the_long_co_the_tich_1_800_mililit_tro_len",
+      "seed_event_name": "Tiền chất ở thể lỏng có thể tích 1.800 mililít trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::tien_chat_o_the_long_co_the_tich_1_800_mililit_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "tien_chat_o_the_long_co_the_tich_1_800_mililit_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Tiền chất ở thể lỏng có thể tích 1.800 mililít trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1643"
+      ],
+      "original_article_ids": [
+        "253"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 42,
+      "seed_event_id": "gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_61_tro_len",
+      "seed_event_name": "Gây tổn hại cho sức khỏe của 02 người trở lên mà tỷ lệ tổn thương cơ thể của mỗi người 61% trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_61_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_61_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Gây tổn hại cho sức khỏe của 02 người trở lên mà tỷ lệ tổn thương cơ thể của mỗi người 61% trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1667"
+      ],
+      "original_article_ids": [
+        "255"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 43,
+      "seed_event_id": "pham_toi_trong_truong_hop_lam_chet_02_nguoi_tro_len",
+      "seed_event_name": "Phạm tội trong trường hợp làm chết 02 người trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::pham_toi_trong_truong_hop_lam_chet_02_nguoi_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "pham_toi_trong_truong_hop_lam_chet_02_nguoi_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Phạm tội trong trường hợp làm chết 02 người trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1691"
+      ],
+      "original_article_ids": [
+        "257"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 44,
+      "seed_event_id": "chiem_doat_tai_san_500_000_000_dong_tro_len",
+      "seed_event_name": "Chiếm đoạt tài sản 500.000.000 đồng trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::chiem_doat_tai_san_500_000_000_dong_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "chiem_doat_tai_san_500_000_000_dong_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Chiếm đoạt tài sản 500.000.000 đồng trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1928"
+      ],
+      "original_article_ids": [
+        "282"
+      ],
+      "original_path_score": 0.5188603216409684,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 45,
+      "seed_event_id": "nham_gay_ra_tinh_trang_hoang_so_trong_cong_chung_ma_xam_pham_tinh_mang_cua_nguoi_khac_hoac_pha_huy_tai_san_cua_co_quan_to_chuc_ca_nhan",
+      "seed_event_name": "Nhằm gây ra tình trạng hoảng sợ trong công chúng mà xâm phạm tính mạng của người khác hoặc phá hủy tài sản của cơ quan, tổ chức, cá nhân",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình",
+      "original_event_nodes": [
+        "EVENT::nham_gay_ra_tinh_trang_hoang_so_trong_cong_chung_ma_xam_pham_tinh_mang_cua_nguoi_khac_hoac_pha_huy_tai_san_cua_co_quan_to_chuc_ca_nhan",
+        "EVENT::phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "nham_gay_ra_tinh_trang_hoang_so_trong_cong_chung_ma_xam_pham_tinh_mang_cua_nguoi_khac_hoac_pha_huy_tai_san_cua_co_quan_to_chuc_ca_nhan",
+        "phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Nhằm gây ra tình trạng hoảng sợ trong công chúng mà xâm phạm tính mạng của người khác hoặc phá hủy tài sản của cơ quan, tổ chức, cá nhân",
+        "Phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình"
+      ],
+      "original_rule_ids": [
+        "2043"
+      ],
+      "original_article_ids": [
+        "299"
+      ],
+      "original_path_score": 0.5184629236459732,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 46,
+      "seed_event_id": "trong_thoi_binh_hay_trong_chien_tranh_ma_thuc_hien_hanh_vi_tieu_diet_hang_loat_dan_cu_cua_mot_khu_vuc_pha_huy_nguon_song_pha_hoai_cuoc_song_van_hoa_tinh_than_cua_mot_quoc_gia_hoac_mot_vung_lanh_tho_doc_lap_co_chu_quyen_lam_dao_lon_nen_tang_cua_mot_xa_hoi_nham_pha_hoai_xa_hoi_do_hoac_thuc_hien_hanh_vi_diet_chung_khac_hoac_thuc_hien_hanh_vi_diet_sinh_diet_moi_truong_tu_nhien",
+      "seed_event_name": "Trong thời bình hay trong chiến tranh mà thực hiện hành vi tiêu diệt hàng loạt dân cư của một khu vực, phá hủy nguồn sống, phá hoại cuộc sống văn hóa, tinh thần của một quốc gia hoặc một vùng lãnh thổ độc lập, có chủ quyền, làm đảo lộn nền tảng của một xã hội nhằm phá hoại xã hội đó hoặc thực hiện hành vi diệt chủng khác hoặc thực hiện hành vi diệt sinh, diệt môi trường tự nhiên",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình",
+      "original_event_nodes": [
+        "EVENT::trong_thoi_binh_hay_trong_chien_tranh_ma_thuc_hien_hanh_vi_tieu_diet_hang_loat_dan_cu_cua_mot_khu_vuc_pha_huy_nguon_song_pha_hoai_cuoc_song_van_hoa_tinh_than_cua_mot_quoc_gia_hoac_mot_vung_lanh_tho_doc_lap_co_chu_quyen_lam_dao_lon_nen_tang_cua_mot_xa_hoi_nham_pha_hoai_xa_hoi_do_hoac_thuc_hien_hanh_vi_diet_chung_khac_hoac_thuc_hien_hanh_vi_diet_sinh_diet_moi_truong_tu_nhien",
+        "EVENT::phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "trong_thoi_binh_hay_trong_chien_tranh_ma_thuc_hien_hanh_vi_tieu_diet_hang_loat_dan_cu_cua_mot_khu_vuc_pha_huy_nguon_song_pha_hoai_cuoc_song_van_hoa_tinh_than_cua_mot_quoc_gia_hoac_mot_vung_lanh_tho_doc_lap_co_chu_quyen_lam_dao_lon_nen_tang_cua_mot_xa_hoi_nham_pha_hoai_xa_hoi_do_hoac_thuc_hien_hanh_vi_diet_chung_khac_hoac_thuc_hien_hanh_vi_diet_sinh_diet_moi_truong_tu_nhien",
+        "phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Trong thời bình hay trong chiến tranh mà thực hiện hành vi tiêu diệt hàng loạt dân cư của một khu vực, phá hủy nguồn sống, phá hoại cuộc sống văn hóa, tinh thần của một quốc gia hoặc một vùng lãnh thổ độc lập, có chủ quyền, làm đảo lộn nền tảng của một xã hội nhằm phá hoại xã hội đó hoặc thực hiện hành vi diệt chủng khác hoặc thực hiện hành vi diệt sinh, diệt môi trường tự nhiên",
+        "Phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình"
+      ],
+      "original_rule_ids": [
+        "2879"
+      ],
+      "original_article_ids": [
+        "422"
+      ],
+      "original_path_score": 0.5184629236459732,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 47,
+      "seed_event_id": "trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+      "seed_event_name": "Trong thời kỳ chiến tranh mà ra lệnh hoặc trực tiếp tiến hành việc giết hại dân thường, người bị thương, tù binh, cướp phá tài sản, tàn phá các nơi dân cư, sử dụng các phương tiện hoặc phương pháp chiến tranh bị cấm hoặc thực hiện hành vi khác vi phạm nghiêm trọng pháp luật quốc tế hoặc các điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam ký kết hoặc tham gia",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình",
+      "original_event_nodes": [
+        "EVENT::trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+        "EVENT::phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "trong_thoi_ky_chien_tranh_ma_ra_lenh_hoac_truc_tiep_tien_hanh_viec_giet_hai_dan_thuong_nguoi_bi_thuong_tu_binh_cuop_pha_tai_san_tan_pha_cac_noi_dan_cu_su_dung_cac_phuong_tien_hoac_phuong_phap_chien_tranh_bi_cam_hoac_thuc_hien_hanh_vi_khac_vi_pham_nghiem_trong_phap_luat_quoc_te_hoac_cac_dieu_uoc_quoc_te_ma_cong_hoa_xa_hoi_chu_nghia_viet_nam_ky_ket_hoac_tham_gia",
+        "phat_tu_tu_10_nam_den_20_nam_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Trong thời kỳ chiến tranh mà ra lệnh hoặc trực tiếp tiến hành việc giết hại dân thường, người bị thương, tù binh, cướp phá tài sản, tàn phá các nơi dân cư, sử dụng các phương tiện hoặc phương pháp chiến tranh bị cấm hoặc thực hiện hành vi khác vi phạm nghiêm trọng pháp luật quốc tế hoặc các điều ước quốc tế mà Cộng hòa xã hội chủ nghĩa Việt Nam ký kết hoặc tham gia",
+        "Phạt tù từ 10 năm đến 20 năm, tù chung thân hoặc tử hình"
+      ],
+      "original_rule_ids": [
+        "2881"
+      ],
+      "original_article_ids": [
+        "423"
+      ],
+      "original_path_score": 0.5184629236459732,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 5,
+      "rule_id": "1543",
+      "article_id": "250",
+      "original_final_score": 0.7715774261474608,
+      "semantic_score": 0.7862088680267334,
+      "graph_score": 0.7440860319137573,
+      "path_support_score": 0.8592473175525666,
+      "counterfactual_support_score": 0.8592473175525666,
+      "verification_score": 0.831438585639,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "1543",
+        "rule_node_id": "RULE::1543",
+        "article_id": "250",
+        "article_title": "Tội vận chuyển trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7862088680267334,
+        "graph_score": 0.7440860319137573,
+        "seed_event_score": 0.748525857925415,
+        "direct_rule_score": 0.7862088680267334,
+        "final_score": 0.7715774261474608,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "1481",
+      "article_id": "248",
+      "original_final_score": 0.7230252122402191,
+      "semantic_score": 0.7838301062583923,
+      "graph_score": 0.7440860319137573,
+      "path_support_score": 0.8592473175525666,
+      "counterfactual_support_score": 0.8592473175525666,
+      "verification_score": 0.8310579837560654,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "1481",
+        "rule_node_id": "RULE::1481",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7838301062583923,
+        "graph_score": 0.7440860319137573,
+        "seed_event_score": 0.748525857925415,
+        "direct_rule_score": 0.0,
+        "final_score": 0.7230252122402191,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "1576",
+      "article_id": "251",
+      "original_final_score": 0.7230154287338256,
+      "semantic_score": 0.7838132381439209,
+      "graph_score": 0.7440860319137573,
+      "path_support_score": 0.8592473175525666,
+      "counterfactual_support_score": 0.8592473175525666,
+      "verification_score": 0.83105528485775,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "1576",
+        "rule_node_id": "RULE::1576",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7838132381439209,
+        "graph_score": 0.7440860319137573,
+        "seed_event_score": 0.748525857925415,
+        "direct_rule_score": 0.0,
+        "final_score": 0.7230154287338256,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 30 gam đến dưới 100 gam"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "1534",
+      "article_id": "250",
+      "original_final_score": 0.7154575609207153,
+      "semantic_score": 0.7704002857208252,
+      "graph_score": 0.7445972657203674,
+      "path_support_score": 0.8595284961462022,
+      "counterfactual_support_score": 0.8595284961462022,
+      "verification_score": 0.8291776102185251,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "1534",
+        "rule_node_id": "RULE::1534",
+        "article_id": "250",
+        "article_title": "Tội vận chuyển trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7704002857208252,
+        "graph_score": 0.7445972657203674,
+        "seed_event_score": 0.7493504285812378,
+        "direct_rule_score": 0.0,
+        "final_score": 0.7154575609207153,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 12,
+      "rule_id": "1474",
+      "article_id": "248",
+      "original_final_score": 0.7139635538101196,
+      "semantic_score": 0.7678244113922119,
+      "graph_score": 0.7445972657203674,
+      "path_support_score": 0.8595284961462022,
+      "counterfactual_support_score": 0.8595284961462022,
+      "verification_score": 0.8287654703259468,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 12,
+        "rule_id": "1474",
+        "rule_node_id": "RULE::1474",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7678244113922119,
+        "graph_score": 0.7445972657203674,
+        "seed_event_score": 0.7493504285812378,
+        "direct_rule_score": 0.0,
+        "final_score": 0.7139635538101196,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 05 gam đến dưới 30 gam"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "1623",
+      "article_id": "252",
+      "original_final_score": 0.7699120154148558,
+      "semantic_score": 0.802898645401001,
+      "graph_score": 0.6896675486391699,
+      "path_support_score": 0.7359337144138036,
+      "counterfactual_support_score": 0.7359337144138036,
+      "verification_score": 0.7401708401633065,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        4
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "1623",
+        "rule_node_id": "RULE::1623",
+        "article_id": "252",
+        "article_title": "Tội chiếm đoạt chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.802898645401001,
+        "graph_score": 0.6896675486391699,
+        "seed_event_score": 0.7544722557067871,
+        "direct_rule_score": 0.802898645401001,
+        "final_score": 0.7699120154148558,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên"
+        ],
+        "path_ids": [
+          4
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "1519",
+      "article_id": "249",
+      "original_final_score": 0.7686157014137724,
+      "semantic_score": 0.8008731603622437,
+      "graph_score": 0.6896675486391699,
+      "path_support_score": 0.7359337144138036,
+      "counterfactual_support_score": 0.7359337144138036,
+      "verification_score": 0.7398467625571052,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        4
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "1519",
+        "rule_node_id": "RULE::1519",
+        "article_id": "249",
+        "article_title": "Tội tàng trữ trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_100_gam_tro_len",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.8008731603622437,
+        "graph_score": 0.6896675486391699,
+        "seed_event_score": 0.7544722557067871,
+        "direct_rule_score": 0.8008731007575989,
+        "final_score": 0.7686157014137724,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 100 gam trở lên"
+        ],
+        "path_ids": [
+          4
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "1584",
+      "article_id": "251",
+      "original_final_score": 0.7816983948952178,
+      "semantic_score": 0.8209071159362793,
+      "graph_score": 0.6902694697207128,
+      "path_support_score": 0.7158918839337047,
+      "counterfactual_support_score": 0.718132385504326,
+      "verification_score": 0.7298241435668966,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3,
+        10
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "1584",
+        "rule_node_id": "RULE::1584",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+        "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_100_gam_den_duoi_03_kilogam",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+        "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.8209071159362793,
+        "graph_score": 0.6902694697207128,
+        "seed_event_score": 0.7554430961608887,
+        "direct_rule_score": 0.8209070563316345,
+        "final_score": 0.7816983948952178,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+          "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+        ],
+        "path_ids": [
+          3,
+          10
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "1486",
+      "article_id": "248",
+      "original_final_score": 0.7811444698578336,
+      "semantic_score": 0.8200415968894958,
+      "graph_score": 0.6902694697207128,
+      "path_support_score": 0.7158918839337047,
+      "counterfactual_support_score": 0.718132385504326,
+      "verification_score": 0.7296856605194113,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3,
+        10
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "1486",
+        "rule_node_id": "RULE::1486",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+        "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_100_gam_den_duoi_03_kilogam",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+        "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.8200415968894958,
+        "graph_score": 0.6902694697207128,
+        "seed_event_score": 0.7554430961608887,
+        "direct_rule_score": 0.8200416564941406,
+        "final_score": 0.7811444698578336,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng từ 100 gam đến dưới 03 kilôgam",
+          "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+        ],
+        "path_ids": [
+          3,
+          10
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "1592",
+      "article_id": "251",
+      "original_final_score": 0.7738739165073851,
+      "semantic_score": 0.8031089305877686,
+      "graph_score": 0.6984954411810553,
+      "path_support_score": 0.6438360947274394,
+      "counterfactual_support_score": 0.7271932328381039,
+      "verification_score": 0.703646341164011,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2,
+        16
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "1592",
+        "rule_node_id": "RULE::1592",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên",
+        "effect": "bị phạt tù chung thân hoặc tử hình:",
+        "condition_event": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+        "condition_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên",
+        "effect_event": "phat_tu_chung_than_hoac_tu_hinh",
+        "effect_event_name": "Phạt tù chung thân hoặc tử hình:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.8031089305877686,
+        "graph_score": 0.6984954411810553,
+        "seed_event_score": 0.7687107920646667,
+        "direct_rule_score": 0.8031089305877686,
+        "final_score": 0.7738739165073851,
+        "matched_seed_events": [
+          "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên"
+        ],
+        "path_ids": [
+          2,
+          16
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.7132148802202655,
+  "confidence": 0.8996252080770929,
+  "verification_method": "graph_intervention_remove_mediator"
+}

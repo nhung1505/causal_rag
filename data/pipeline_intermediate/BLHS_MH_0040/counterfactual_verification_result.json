@@ -1,0 +1,986 @@
+{
+  "query": "Khi xảy ra “Được đặc xá hoặc đại xá”, chuỗi hai bước trong dữ liệu dẫn tới kết quả nào?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 12,
+    "total_paths": 12,
+    "path_status_counts": {
+      "SUPPORTED": 12,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 12,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+      "seed_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+      "original_outcome_event_id": "phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "2538",
+        "2824",
+        "2858"
+      ],
+      "original_article_ids": [
+        "363",
+        "408",
+        "415"
+      ],
+      "original_path_score": 0.8007497513890267,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.8007497513890267,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+      "seed_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+      "original_outcome_event_id": "phat_tu_tu_03_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 03 năm đến 10 năm || Phạt tù từ 03 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "EVENT::phat_tu_tu_03_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "phat_tu_tu_03_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "Phạt tù từ 03 năm đến 10 năm || Phạt tù từ 03 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "2735",
+        "2830",
+        "2844"
+      ],
+      "original_article_ids": [
+        "395",
+        "409",
+        "412"
+      ],
+      "original_path_score": 0.8007497513890267,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.8007497513890267,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "duoc_dac_xa_hoac_dai_xa",
+      "seed_event_name": "Được đặc xá hoặc đại xá",
+      "original_outcome_event_id": "mien_chap_hanh_hinh_phat",
+      "original_outcome_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "original_event_nodes": [
+        "EVENT::duoc_dac_xa_hoac_dai_xa",
+        "EVENT::mien_chap_hanh_hinh_phat"
+      ],
+      "original_event_ids": [
+        "duoc_dac_xa_hoac_dai_xa",
+        "mien_chap_hanh_hinh_phat"
+      ],
+      "original_event_names": [
+        "Được đặc xá hoặc đại xá",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt"
+      ],
+      "original_rule_ids": [
+        "170"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.5403927401304245,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "co_quyet_dinh_dai_xa",
+      "seed_event_name": "Có quyết định đại xá",
+      "original_outcome_event_id": "mien_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::co_quyet_dinh_dai_xa",
+        "EVENT::mien_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "co_quyet_dinh_dai_xa",
+        "mien_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Có quyết định đại xá",
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "63"
+      ],
+      "original_article_ids": [
+        "29"
+      ],
+      "original_path_score": 0.5217536522150039,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "vi_pham_dieu_kien_tha_tu_tu_hai_lan_tro_len",
+      "seed_event_name": "Vi phạm điều kiện tha tù từ hai lần trở lên",
+      "original_outcome_event_id": "co_the_bi_huy_quyet_dinh_tha_tu_truoc_thoi_han",
+      "original_outcome_event_name": "Có thể bị hủy quyết định tha tù trước thời hạn",
+      "original_event_nodes": [
+        "EVENT::vi_pham_dieu_kien_tha_tu_tu_hai_lan_tro_len",
+        "EVENT::co_the_bi_huy_quyet_dinh_tha_tu_truoc_thoi_han"
+      ],
+      "original_event_ids": [
+        "vi_pham_dieu_kien_tha_tu_tu_hai_lan_tro_len",
+        "co_the_bi_huy_quyet_dinh_tha_tu_truoc_thoi_han"
+      ],
+      "original_event_names": [
+        "Vi phạm điều kiện tha tù từ hai lần trở lên",
+        "Có thể bị hủy quyết định tha tù trước thời hạn"
+      ],
+      "original_rule_ids": [
+        "187"
+      ],
+      "original_article_ids": [
+        "66"
+      ],
+      "original_path_score": 0.5024310893416405,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "co_ly_do_dac_biet_dang_khoan_hong",
+      "seed_event_name": "Có lý do đặc biệt đáng khoan hồng",
+      "original_outcome_event_id": "giam_hinh_phat_trong_truong_hop_dac_biet",
+      "original_outcome_event_name": "Có thể được giảm hình phạt trong trường hợp đặc biệt",
+      "original_event_nodes": [
+        "EVENT::co_ly_do_dac_biet_dang_khoan_hong",
+        "EVENT::giam_hinh_phat_trong_truong_hop_dac_biet"
+      ],
+      "original_event_ids": [
+        "co_ly_do_dac_biet_dang_khoan_hong",
+        "giam_hinh_phat_trong_truong_hop_dac_biet"
+      ],
+      "original_event_names": [
+        "Có lý do đặc biệt đáng khoan hồng",
+        "Có thể được giảm hình phạt trong trường hợp đặc biệt"
+      ],
+      "original_rule_ids": [
+        "180"
+      ],
+      "original_article_ids": [
+        "64"
+      ],
+      "original_path_score": 0.5018640776872635,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_name": "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "2668"
+      ],
+      "original_article_ids": [
+        "378"
+      ],
+      "original_path_score": 0.5018491386771202,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+      "seed_event_name": "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+      "original_outcome_event_id": "phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "original_outcome_event_name": "Phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "original_event_nodes": [
+        "EVENT::truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+        "EVENT::phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_ids": [
+        "truc_tiep_hay_qua_trung_gian_da_dua_hoac_se_dua_cho_nguoi_co_chuc_vu_quyen_han_hoac_nguoi_khac_hoac_to_chuc_khac_bat_ky_loi_ich_nao_sau_day_de_nguoi_co_chuc_vu_quyen_han_lam_hoac_khong_lam_mot_viec_vi_loi_ich_hoac_theo_yeu_cau_cua_nguoi_dua_hoi_lo",
+        "phat_tien_tu_20_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_names": [
+        "Trực tiếp hay qua trung gian đã đưa hoặc sẽ đưa cho người có chức vụ, quyền hạn hoặc người khác hoặc tổ chức khác bất kỳ lợi ích nào sau đây để người có chức vụ, quyền hạn làm hoặc không làm một việc vì lợi ích hoặc theo yêu cầu của người đưa hối lộ",
+        "Phạt tiền từ 20.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:"
+      ],
+      "original_rule_ids": [
+        "2540"
+      ],
+      "original_article_ids": [
+        "364"
+      ],
+      "original_path_score": 0.5004756237268448,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+      "seed_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+      "original_outcome_event_id": "phat_tien_tu_2_000_000_000_dong_den_6_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tiền từ 2.000.000.000 đồng đến 6.000.000.000 đồng hoặc phạt tù từ 05 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "EVENT::phat_tien_tu_2_000_000_000_dong_den_6_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "phat_tien_tu_2_000_000_000_dong_den_6_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "Phạt tiền từ 2.000.000.000 đồng đến 6.000.000.000 đồng hoặc phạt tù từ 05 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "1333"
+      ],
+      "original_article_ids": [
+        "235"
+      ],
+      "original_path_score": 0.49874975138902666,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_dac_biet",
+      "seed_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+      "original_outcome_event_id": "xoa_an_tich",
+      "original_outcome_event_name": "Được xóa án tích || Có thể được xóa án tích",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_dac_biet",
+        "EVENT::xoa_an_tich"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich_dac_biet",
+        "xoa_an_tich"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích đặc biệt",
+        "Được xóa án tích || Có thể được xóa án tích"
+      ],
+      "original_rule_ids": [
+        "201"
+      ],
+      "original_article_ids": [
+        "72"
+      ],
+      "original_path_score": 0.4985843247175217,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "duoc_dac_xa_hoac_dai_xa",
+      "seed_event_name": "Được đặc xá hoặc đại xá",
+      "original_outcome_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "original_outcome_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "original_event_nodes": [
+        "EVENT::duoc_dac_xa_hoac_dai_xa",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_ids": [
+        "duoc_dac_xa_hoac_dai_xa",
+        "mien_chap_hanh_hinh_phat",
+        "van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_names": [
+        "Được đặc xá hoặc đại xá",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "original_rule_ids": [
+        "170",
+        "177"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.45367204690694807,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "mediator_event_id": "mien_chap_hanh_hinh_phat",
+          "mediator_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "removed_nodes": [
+            "EVENT::mien_chap_hanh_hinh_phat"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6716524211081267,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_dac_biet",
+      "seed_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+      "original_outcome_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "original_outcome_event_name": "Được coi như chưa bị kết án",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_dac_biet",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_xoa_an_tich_dac_biet",
+        "xoa_an_tich",
+        "duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện xóa án tích đặc biệt",
+        "Được xóa án tích || Có thể được xóa án tích",
+        "Được coi như chưa bị kết án"
+      ],
+      "original_rule_ids": [
+        "201",
+        "197"
+      ],
+      "original_article_ids": [
+        "72",
+        "69"
+      ],
+      "original_path_score": 0.41938914626836776,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::xoa_an_tich",
+          "mediator_event_id": "xoa_an_tich",
+          "mediator_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "removed_nodes": [
+            "EVENT::xoa_an_tich"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6562251158207655,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 4,
+      "rule_id": "2824",
+      "article_id": "408",
+      "original_final_score": 0.5295061903476715,
+      "semantic_score": 0.5296798348426819,
+      "graph_score": 0.6377268207073212,
+      "path_support_score": 0.8007497513890267,
+      "counterfactual_support_score": 0.8007497513890267,
+      "verification_score": 0.7345553544461729,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "2824",
+        "rule_node_id": "RULE::2824",
+        "article_id": "408",
+        "article_title": "Tội báo cáo sai",
+        "legal_subject": "Người phạm tội",
+        "condition": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+        "condition_event": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "condition_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+        "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5296798348426819,
+        "graph_score": 0.6377268207073212,
+        "seed_event_score": 0.5769787430763245,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5295061903476715,
+        "matched_seed_events": [
+          "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "2735",
+      "article_id": "395",
+      "original_final_score": 0.5229492359638215,
+      "semantic_score": 0.5183747410774231,
+      "graph_score": 0.6377268207073212,
+      "path_support_score": 0.8007497513890267,
+      "counterfactual_support_score": 0.8007497513890267,
+      "verification_score": 0.7327465394437315,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "2735",
+        "rule_node_id": "RULE::2735",
+        "article_id": "395",
+        "article_title": "Tội chấp hành không nghiêm chỉnh mệnh lệnh",
+        "legal_subject": "Người phạm tội",
+        "condition": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 03 năm đến 10 năm:",
+        "condition_event": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "condition_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_03_nam_den_10_nam",
+        "effect_event_name": "Phạt tù từ 03 năm đến 10 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5183747410774231,
+        "graph_score": 0.6377268207073212,
+        "seed_event_score": 0.5769787430763245,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5229492359638215,
+        "matched_seed_events": [
+          "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "2538",
+      "article_id": "363",
+      "original_final_score": 0.5213702195167542,
+      "semantic_score": 0.5156522989273071,
+      "graph_score": 0.6377268207073212,
+      "path_support_score": 0.8007497513890267,
+      "counterfactual_support_score": 0.8007497513890267,
+      "verification_score": 0.7323109486997129,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "2538",
+        "rule_node_id": "RULE::2538",
+        "article_id": "363",
+        "article_title": "Tội đào nhiệm",
+        "legal_subject": "Người phạm tội",
+        "condition": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+        "condition_event": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "condition_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+        "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5156522989273071,
+        "graph_score": 0.6377268207073212,
+        "seed_event_score": 0.5769787430763245,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5213702195167542,
+        "matched_seed_events": [
+          "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "2830",
+      "article_id": "409",
+      "original_final_score": 0.521227719116211,
+      "semantic_score": 0.515406608581543,
+      "graph_score": 0.6377268207073212,
+      "path_support_score": 0.8007497513890267,
+      "counterfactual_support_score": 0.8007497513890267,
+      "verification_score": 0.7322716382443907,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "2830",
+        "rule_node_id": "RULE::2830",
+        "article_id": "409",
+        "article_title": "Tội vi phạm quy định về trực ban, trực chiến, trực chỉ huy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 03 năm đến 10 năm:",
+        "condition_event": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "condition_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_03_nam_den_10_nam",
+        "effect_event_name": "Phạt tù từ 03 năm đến 10 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.515406608581543,
+        "graph_score": 0.6377268207073212,
+        "seed_event_score": 0.5769787430763245,
+        "direct_rule_score": 0.0,
+        "final_score": 0.521227719116211,
+        "matched_seed_events": [
+          "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "2858",
+      "article_id": "415",
+      "original_final_score": 0.5035793107032777,
+      "semantic_score": 0.4849783182144165,
+      "graph_score": 0.6377268207073212,
+      "path_support_score": 0.8007497513890267,
+      "counterfactual_support_score": 0.8007497513890267,
+      "verification_score": 0.7274031117856504,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "2858",
+        "rule_node_id": "RULE::2858",
+        "article_id": "415",
+        "article_title": "Tội quấy nhiễu nhân dân",
+        "legal_subject": "Người phạm tội",
+        "condition": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+        "condition_event": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "condition_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+        "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.4849783182144165,
+        "graph_score": 0.6377268207073212,
+        "seed_event_score": 0.5769787430763245,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5035793107032777,
+        "matched_seed_events": [
+          "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "2844",
+      "article_id": "412",
+      "original_final_score": 0.5024611216068268,
+      "semantic_score": 0.4830504059791565,
+      "graph_score": 0.6377268207073212,
+      "path_support_score": 0.8007497513890267,
+      "counterfactual_support_score": 0.8007497513890267,
+      "verification_score": 0.7270946458280089,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "2844",
+        "rule_node_id": "RULE::2844",
+        "article_id": "412",
+        "article_title": "Tội vi phạm quy định về sử dụng vũ khí quân dụng, trang bị kỹ thuật quân sự",
+        "legal_subject": "Người phạm tội",
+        "condition": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 03 năm đến 10 năm:",
+        "condition_event": "gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+        "condition_event_name": "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_03_nam_den_10_nam",
+        "effect_event_name": "Phạt tù từ 03 năm đến 10 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.4830504059791565,
+        "graph_score": 0.6377268207073212,
+        "seed_event_score": 0.5769787430763245,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5024611216068268,
+        "matched_seed_events": [
+          "Gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "63",
+      "article_id": "29",
+      "original_final_score": 0.6008642369270325,
+      "semantic_score": 0.6156860589981079,
+      "graph_score": 0.5395520949363708,
+      "path_support_score": 0.5217536522150039,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5963134505724906,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "63",
+        "rule_node_id": "RULE::63",
+        "article_id": "29",
+        "article_title": "Căn cứ miễn trách nhiệm hình sự",
+        "legal_subject": "Người phạm tội",
+        "condition": "có quyết định đại xá",
+        "effect": "được miễn trách nhiệm hình sự",
+        "condition_event": "co_quyet_dinh_dai_xa",
+        "condition_event_name": "Có quyết định đại xá",
+        "effect_event": "mien_trach_nhiem_hinh_su",
+        "effect_event_name": "Được miễn trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.6156860589981079,
+        "graph_score": 0.5395520949363708,
+        "seed_event_score": 0.6444388628005981,
+        "direct_rule_score": 0.6156859397888184,
+        "final_score": 0.6008642369270325,
+        "matched_seed_events": [
+          "Có quyết định đại xá"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "170",
+      "article_id": "62",
+      "original_final_score": 0.6226543090820312,
+      "semantic_score": 0.6267758011817932,
+      "graph_score": 0.5734413456916809,
+      "path_support_score": 0.4970323935186863,
+      "counterfactual_support_score": 0.6858262105540633,
+      "verification_score": 0.5889026135003234,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2,
+        10
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "170",
+        "rule_node_id": "RULE::170",
+        "article_id": "62",
+        "article_title": "Miễn chấp hành hình phạt",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án được đặc xá hoặc đại xá",
+        "effect": "được miễn chấp hành hình phạt",
+        "condition_event": "duoc_dac_xa_hoac_dai_xa",
+        "condition_event_name": "Được đặc xá hoặc đại xá",
+        "effect_event": "mien_chap_hanh_hinh_phat",
+        "effect_event_name": "Được miễn chấp hành hình phạt",
+        "causal_type": "EXEMPTION",
+        "semantic_score": 0.6267758011817932,
+        "graph_score": 0.5734413456916809,
+        "seed_event_score": 0.6990989446640015,
+        "direct_rule_score": 0.6267758011817932,
+        "final_score": 0.6226543090820312,
+        "matched_seed_events": [
+          "Được đặc xá hoặc đại xá"
+        ],
+        "path_ids": [
+          2,
+          10
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "180",
+      "article_id": "64",
+      "original_final_score": 0.5400298685550688,
+      "semantic_score": 0.5451297760009766,
+      "graph_score": 0.5033892321586608,
+      "path_support_score": 0.5018640776872635,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5724036061835288,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        5
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "180",
+        "rule_node_id": "RULE::180",
+        "article_id": "64",
+        "article_title": "Giảm thời hạn chấp hành hình phạt trong trường hợp đặc biệt",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án đã lập công, quá già yếu hoặc mắc bệnh hiểm nghèo",
+        "effect": "có thể xét giảm sớm hơn hoặc với mức cao hơn",
+        "condition_event": "co_ly_do_dac_biet_dang_khoan_hong",
+        "condition_event_name": "Có lý do đặc biệt đáng khoan hồng",
+        "effect_event": "giam_hinh_phat_trong_truong_hop_dac_biet",
+        "effect_event_name": "Có thể được giảm hình phạt trong trường hợp đặc biệt",
+        "causal_type": "MITIGATION",
+        "semantic_score": 0.5451297760009766,
+        "graph_score": 0.5033892321586608,
+        "seed_event_score": 0.5861116647720337,
+        "direct_rule_score": 0.5451297163963318,
+        "final_score": 0.5400298685550688,
+        "matched_seed_events": [
+          "Có lý do đặc biệt đáng khoan hồng"
+        ],
+        "path_ids": [
+          5
+        ]
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "2668",
+      "article_id": "378",
+      "original_final_score": 0.49132585783004756,
+      "semantic_score": 0.5175703763961792,
+      "graph_score": 0.5033620703220367,
+      "path_support_score": 0.5018491386771202,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5679846227657794,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        6
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "2668",
+        "rule_node_id": "RULE::2668",
+        "article_id": "378",
+        "article_title": "Tội tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "legal_subject": "Người phạm tội",
+        "condition": "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+        "condition_event": "nguoi_duoc_tha_trai_phap_luat_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "condition_event_name": "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+        "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5175703763961792,
+        "graph_score": 0.5033620703220367,
+        "seed_event_score": 0.5860678553581238,
+        "direct_rule_score": 0.0,
+        "final_score": 0.49132585783004756,
+        "matched_seed_events": [
+          "Người được tha trái pháp luật thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          6
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.7107814199755788,
+  "confidence": 0.8987734969914526,
+  "verification_method": "graph_intervention_remove_mediator"
+}

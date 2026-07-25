@@ -1,0 +1,2228 @@
+{
+  "query": "Hãy xác định hệ quả cuối cùng của chuỗi bắt đầu từ “Đồng phạm có sự câu kết chặt chẽ”.",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 2943,
+      "score": 0.6719702482223511,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::dong_pham_co_su_cau_ket_chat_che",
+      "event_id": "dong_pham_co_su_cau_ket_chat_che",
+      "event_name": "Đồng phạm có sự câu kết chặt chẽ",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3203,
+      "score": 0.5546340942382812,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phap_nhan_cau_ket_de_pham_toi",
+      "event_id": "phap_nhan_cau_ket_de_pham_toi",
+      "event_name": "Pháp nhân câu kết để phạm tội",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3073,
+      "score": 0.5523780584335327,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+      "event_id": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3088,
+      "score": 0.5462098121643066,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::tai_pham_nguy_hiem",
+      "event_id": "tai_pham_nguy_hiem",
+      "event_name": "Tái phạm nguy hiểm",
+      "event_role": "BRIDGE",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2944,
+      "score": 0.5461175441741943,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::pham_toi_co_to_chuc",
+      "event_id": "pham_toi_co_to_chuc",
+      "event_name": "Phạm tội có tổ chức",
+      "event_role": "BRIDGE",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2918,
+      "score": 0.5421000719070435,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::toi_pham_nghiem_trong",
+      "event_id": "toi_pham_nghiem_trong",
+      "event_name": "Tội phạm nghiêm trọng",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2922,
+      "score": 0.5418651103973389,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::toi_pham_dac_biet_nghiem_trong",
+      "event_id": "toi_pham_dac_biet_nghiem_trong",
+      "event_name": "Tội phạm đặc biệt nghiêm trọng",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3942,
+      "score": 0.5376038551330566,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::gay_hau_qua_nghiem_trong",
+      "event_id": "gay_hau_qua_nghiem_trong",
+      "event_name": "Gây hậu quả nghiêm trọng",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 36,
+      "score": 0.6218124628067017,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::37",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "37",
+      "article_id": "17"
+    },
+    {
+      "memory_id": 35,
+      "score": 0.5325469374656677,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::36",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "36",
+      "article_id": "17"
+    },
+    {
+      "memory_id": 220,
+      "score": 0.5303912162780762,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::221",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "221",
+      "article_id": "85"
+    },
+    {
+      "memory_id": 230,
+      "score": 0.5213964581489563,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::231",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "231",
+      "article_id": "108"
+    },
+    {
+      "memory_id": 132,
+      "score": 0.518501341342926,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::133",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "133",
+      "article_id": "52"
+    },
+    {
+      "memory_id": 144,
+      "score": 0.5115512609481812,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::145",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "145",
+      "article_id": "53"
+    },
+    {
+      "memory_id": 1197,
+      "score": 0.5063685178756714,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1198",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1198",
+      "article_id": "223"
+    },
+    {
+      "memory_id": 1705,
+      "score": 0.5026302337646484,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1706",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1706",
+      "article_id": "258"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "rule_ids": [
+        "372",
+        "414",
+        "646",
+        "1477",
+        "1541",
+        "1574",
+        "1662",
+        "1674",
+        "1687"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_07_nam_den_15_nam",
+          "target_event_id": "phat_tu_tu_07_nam_den_15_nam",
+          "target_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+          "rule_ids": [
+            "372",
+            "414",
+            "646",
+            "1477",
+            "1541",
+            "1574",
+            "1662",
+            "1674",
+            "1687"
+          ],
+          "article_ids": [
+            "141",
+            "144",
+            "168",
+            "248",
+            "250",
+            "251",
+            "255",
+            "256",
+            "257"
+          ],
+          "support_count": 9
+        }
+      ],
+      "graph_score": 0.6186500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_12_nam_den_20_nam"
+      ],
+      "rule_ids": [
+        "387",
+        "483",
+        "1924"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_12_nam_den_20_nam",
+          "target_event_id": "phat_tu_tu_12_nam_den_20_nam",
+          "target_event_name": "Phạt tù từ 12 năm đến 20 năm || Phạt tù từ 12 năm đến 20 năm:",
+          "rule_ids": [
+            "387",
+            "483",
+            "1924"
+          ],
+          "article_ids": [
+            "142",
+            "150",
+            "282"
+          ],
+          "support_count": 3
+        }
+      ],
+      "graph_score": 0.6186500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_03_nam_den_10_nam"
+      ],
+      "rule_ids": [
+        "402",
+        "679",
+        "694",
+        "2115",
+        "2184",
+        "2323"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_03_nam_den_10_nam",
+          "target_event_id": "phat_tu_tu_03_nam_den_10_nam",
+          "target_event_name": "Phạt tù từ 03 năm đến 10 năm || Phạt tù từ 03 năm đến 10 năm:",
+          "rule_ids": [
+            "402",
+            "679",
+            "694",
+            "2115",
+            "2184",
+            "2323"
+          ],
+          "article_ids": [
+            "143",
+            "170",
+            "171",
+            "305",
+            "311",
+            "326"
+          ],
+          "support_count": 6
+        }
+      ],
+      "graph_score": 0.6186500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "436",
+        "447",
+        "1408",
+        "1449",
+        "1459",
+        "1466",
+        "2270",
+        "2281",
+        "2314",
+        "2350"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_03_nam_den_07_nam",
+          "target_event_id": "phat_tu_tu_03_nam_den_07_nam",
+          "target_event_name": "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:",
+          "rule_ids": [
+            "436",
+            "447",
+            "1408",
+            "1449",
+            "1459",
+            "1466",
+            "2270",
+            "2281",
+            "2314",
+            "2350"
+          ],
+          "article_ids": [
+            "146",
+            "147",
+            "243",
+            "245",
+            "246",
+            "247",
+            "321",
+            "323",
+            "325",
+            "328"
+          ],
+          "support_count": 10
+        }
+      ],
+      "graph_score": 0.6186500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_05_nam_den_12_nam"
+      ],
+      "rule_ids": [
+        "665",
+        "951",
+        "2097",
+        "2161",
+        "2446"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_05_nam_den_12_nam",
+          "target_event_id": "phat_tu_tu_05_nam_den_12_nam",
+          "target_event_name": "Phạt tù từ 05 năm đến 12 năm || Phạt tù từ 05 năm đến 12 năm:",
+          "rule_ids": [
+            "665",
+            "951",
+            "2097",
+            "2161",
+            "2446"
+          ],
+          "article_ids": [
+            "169",
+            "194",
+            "304",
+            "309",
+            "350"
+          ],
+          "support_count": 5
+        }
+      ],
+      "graph_score": 0.6186500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "709",
+        "730",
+        "743",
+        "759",
+        "784",
+        "1995",
+        "2033",
+        "2256",
+        "2364",
+        "2565",
+        "2704"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "709",
+            "730",
+            "743",
+            "759",
+            "784",
+            "1995",
+            "2033",
+            "2256",
+            "2364",
+            "2565",
+            "2704"
+          ],
+          "article_ids": [
+            "172",
+            "173",
+            "174",
+            "175",
+            "178",
+            "290",
+            "297",
+            "318",
+            "330",
+            "366",
+            "388"
+          ],
+          "support_count": 11
+        }
+      ],
+      "graph_score": 0.6186500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "809",
+        "2008",
+        "2134"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tù từ 01 năm đến 05 năm || Phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "809",
+            "2008",
+            "2134"
+          ],
+          "article_ids": [
+            "187",
+            "293",
+            "306"
+          ],
+          "support_count": 3
+        }
+      ],
+      "graph_score": 0.6186500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "rule_ids": [
+        "908",
+        "923",
+        "981",
+        "1434",
+        "1509",
+        "1613",
+        "1653",
+        "1702",
+        "1710",
+        "2275",
+        "2297",
+        "2336",
+        "2427",
+        "2437"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "908",
+            "923",
+            "981",
+            "1434",
+            "1509",
+            "1613",
+            "1653",
+            "1702",
+            "1710",
+            "2275",
+            "2297",
+            "2336",
+            "2427",
+            "2437"
+          ],
+          "article_ids": [
+            "192",
+            "193",
+            "195",
+            "244",
+            "249",
+            "252",
+            "254",
+            "258",
+            "259",
+            "322",
+            "324",
+            "327",
+            "348",
+            "349"
+          ],
+          "support_count": 14
+        }
+      ],
+      "graph_score": 0.6186500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "821",
+        "1306"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_03_nam_den_07_nam",
+          "target_event_id": "phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_03_nam_den_07_nam",
+          "target_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 03 năm đến 07 năm:",
+          "rule_ids": [
+            "821",
+            "1306"
+          ],
+          "article_ids": [
+            "188",
+            "234"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.560544833642832
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_2_000_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "1102",
+        "1119"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_2_000_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tien_tu_2_000_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tiền từ 2.000.000.000 đồng đến 5.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "1102",
+            "1119"
+          ],
+          "article_ids": [
+            "210",
+            "212"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.560544833642832
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_100_000_000_dong_den_200_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "1138",
+        "1147"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_200_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_100_000_000_dong_den_200_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 100.000.000 đồng đến 200.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1138",
+            "1147"
+          ],
+          "article_ids": [
+            "214",
+            "215"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.560544833642832
+    },
+    {
+      "seed_event_node": "EVENT::pham_toi_co_to_chuc",
+      "seed_event_id": "pham_toi_co_to_chuc",
+      "seed_event_name": "Phạm tội có tổ chức",
+      "seed_similarity": 0.5461175441741943,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::pham_toi_co_to_chuc",
+        "EVENT::phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "431",
+        "441"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_co_to_chuc",
+          "source_event_id": "pham_toi_co_to_chuc",
+          "source_event_name": "Phạm tội có tổ chức",
+          "target_event_node": "EVENT::phat_tu_tu_03_nam_den_07_nam",
+          "target_event_id": "phat_tu_tu_03_nam_den_07_nam",
+          "target_event_name": "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:",
+          "rule_ids": [
+            "431",
+            "441"
+          ],
+          "article_ids": [
+            "146",
+            "147"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.5604876274889623
+    },
+    {
+      "seed_event_node": "EVENT::dong_pham_co_su_cau_ket_chat_che",
+      "seed_event_id": "dong_pham_co_su_cau_ket_chat_che",
+      "seed_event_name": "Đồng phạm có sự câu kết chặt chẽ",
+      "seed_similarity": 0.6719702482223511,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::dong_pham_co_su_cau_ket_chat_che",
+        "EVENT::pham_toi_co_to_chuc"
+      ],
+      "rule_ids": [
+        "37"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dong_pham_co_su_cau_ket_chat_che",
+          "source_event_id": "dong_pham_co_su_cau_ket_chat_che",
+          "source_event_name": "Đồng phạm có sự câu kết chặt chẽ",
+          "target_event_node": "EVENT::pham_toi_co_to_chuc",
+          "target_event_id": "pham_toi_co_to_chuc",
+          "target_event_name": "Phạm tội có tổ chức",
+          "rule_ids": [
+            "37"
+          ],
+          "article_ids": [
+            "17"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5566215538978576
+    },
+    {
+      "seed_event_node": "EVENT::dong_pham_co_su_cau_ket_chat_che",
+      "seed_event_id": "dong_pham_co_su_cau_ket_chat_che",
+      "seed_event_name": "Đồng phạm có sự câu kết chặt chẽ",
+      "seed_similarity": 0.6719702482223511,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::dong_pham_co_su_cau_ket_chat_che",
+        "EVENT::pham_toi_co_to_chuc",
+        "EVENT::phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "37",
+        "431",
+        "441"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dong_pham_co_su_cau_ket_chat_che",
+          "source_event_id": "dong_pham_co_su_cau_ket_chat_che",
+          "source_event_name": "Đồng phạm có sự câu kết chặt chẽ",
+          "target_event_node": "EVENT::pham_toi_co_to_chuc",
+          "target_event_id": "pham_toi_co_to_chuc",
+          "target_event_name": "Phạm tội có tổ chức",
+          "rule_ids": [
+            "37"
+          ],
+          "article_ids": [
+            "17"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::pham_toi_co_to_chuc",
+          "source_event_id": "pham_toi_co_to_chuc",
+          "source_event_name": "Phạm tội có tổ chức",
+          "target_event_node": "EVENT::phat_tu_tu_03_nam_den_07_nam",
+          "target_event_id": "phat_tu_tu_03_nam_den_07_nam",
+          "target_event_name": "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:",
+          "rule_ids": [
+            "431",
+            "441"
+          ],
+          "article_ids": [
+            "146",
+            "147"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.5010065217376376
+    },
+    {
+      "seed_event_node": "EVENT::phap_nhan_cau_ket_de_pham_toi",
+      "seed_event_id": "phap_nhan_cau_ket_de_pham_toi",
+      "seed_event_name": "Pháp nhân câu kết để phạm tội",
+      "seed_similarity": 0.5546340942382812,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::phap_nhan_cau_ket_de_pham_toi",
+        "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "221"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::phap_nhan_cau_ket_de_pham_toi",
+          "source_event_id": "phap_nhan_cau_ket_de_pham_toi",
+          "source_event_name": "Pháp nhân câu kết để phạm tội",
+          "target_event_node": "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+          "rule_ids": [
+            "221"
+          ],
+          "article_ids": [
+            "85"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4838731384277344
+    },
+    {
+      "seed_event_node": "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+      "seed_event_id": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "seed_event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "seed_similarity": 0.5523780584335327,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+        "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "133"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_tinh_thuc_hien_toi_pham_den_cung",
+          "source_event_id": "co_tinh_thuc_hien_toi_pham_den_cung",
+          "source_event_name": "Cố tình thực hiện tội phạm đến cùng",
+          "target_event_node": "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+          "rule_ids": [
+            "133"
+          ],
+          "article_ids": [
+            "52"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4824743962287903
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_02_nam_den_06_nam"
+      ],
+      "rule_ids": [
+        "324"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_02_nam_den_06_nam",
+          "target_event_id": "phat_tu_tu_02_nam_den_06_nam",
+          "target_event_name": "Phạt tù từ 02 năm đến 06 năm:",
+          "rule_ids": [
+            "324"
+          ],
+          "article_ids": [
+            "134"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_18_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "rule_ids": [
+        "502"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_18_nam_den_20_nam_hoac_tu_chung_than",
+          "target_event_id": "phat_tu_tu_18_nam_den_20_nam_hoac_tu_chung_than",
+          "target_event_name": "Phạt tù từ 18 năm đến 20 năm hoặc tù chung thân:",
+          "rule_ids": [
+            "502"
+          ],
+          "article_ids": [
+            "151"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_07_nam_den_12_nam"
+      ],
+      "rule_ids": [
+        "510"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "target_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "target_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "rule_ids": [
+            "510"
+          ],
+          "article_ids": [
+            "152"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "rule_ids": [
+        "523"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_10_nam_den_15_nam",
+          "target_event_id": "phat_tu_tu_10_nam_den_15_nam",
+          "target_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+          "rule_ids": [
+            "523"
+          ],
+          "article_ids": [
+            "153"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tu_tu_12_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "rule_ids": [
+        "536"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tu_tu_12_nam_den_20_nam_hoac_tu_chung_than",
+          "target_event_id": "phat_tu_tu_12_nam_den_20_nam_hoac_tu_chung_than",
+          "target_event_name": "Phạt tù từ 12 năm đến 20 năm hoặc tù chung thân || Phạt tù từ 12 năm đến 20 năm hoặc tù chung thân:",
+          "rule_ids": [
+            "536"
+          ],
+          "article_ids": [
+            "154"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_100_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "770"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_50_000_000_dong_den_100_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_50_000_000_dong_den_100_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 50.000.000 đồng đến 100.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "770"
+          ],
+          "article_ids": [
+            "177"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_200_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "842"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_200_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_200_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 200.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+          "rule_ids": [
+            "842"
+          ],
+          "article_ids": [
+            "189"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "rule_ids": [
+        "861"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "861"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "884"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+          "rule_ids": [
+            "884"
+          ],
+          "article_ids": [
+            "191"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_1_500_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "rule_ids": [
+        "1010"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_1_500_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_07_nam_den_15_nam",
+          "target_event_id": "phat_tien_tu_1_500_000_000_dong_den_5_000_000_000_dong_hoac_phat_tu_tu_07_nam_den_15_nam",
+          "target_event_name": "Phạt tiền từ 1.500.000.000 đồng đến 5.000.000.000 đồng hoặc phạt tù từ 07 năm đến 15 năm:",
+          "rule_ids": [
+            "1010"
+          ],
+          "article_ids": [
+            "196"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_500_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam"
+      ],
+      "rule_ids": [
+        "1041"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_500_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam",
+          "target_event_id": "phat_tien_tu_500_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam",
+          "target_event_name": "Phạt tiền từ 500.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 01 năm đến 03 năm:",
+          "rule_ids": [
+            "1041"
+          ],
+          "article_ids": [
+            "200"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_100_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "1057"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tien_tu_100_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tiền từ 100.000.000 đồng đến 500.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "1057"
+          ],
+          "article_ids": [
+            "202"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_200_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "1065"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_200_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_200_000_000_dong_den_500_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 200.000.000 đồng đến 500.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1065"
+          ],
+          "article_ids": [
+            "203"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "1094"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 500.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1094"
+          ],
+          "article_ids": [
+            "209"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_2_000_000_000_dong_den_4_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "1110"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_2_000_000_000_dong_den_4_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tien_tu_2_000_000_000_dong_den_4_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tiền từ 2.000.000.000 đồng đến 4.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "1110"
+          ],
+          "article_ids": [
+            "211"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_100_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam"
+      ],
+      "rule_ids": [
+        "1125"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam",
+          "target_event_id": "phat_tien_tu_100_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_03_nam",
+          "target_event_name": "Phạt tiền từ 100.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 03 năm:",
+          "rule_ids": [
+            "1125"
+          ],
+          "article_ids": [
+            "213"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "1239"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tien_tu_500_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tiền từ 500.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "1239"
+          ],
+          "article_ids": [
+            "228"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "1269"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tien_tu_300_000_000_dong_den_1_500_000_000_dong_hoac_phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.500.000.000 đồng hoặc phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "1269"
+          ],
+          "article_ids": [
+            "232"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::tai_pham_nguy_hiem",
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "seed_similarity": 0.5462098121643066,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_400_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "1343"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_400_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_400_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 400.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+          "rule_ids": [
+            "1343"
+          ],
+          "article_ids": [
+            "236"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4786500835418701
+    },
+    {
+      "seed_event_node": "EVENT::pham_toi_co_to_chuc",
+      "seed_event_id": "pham_toi_co_to_chuc",
+      "seed_event_name": "Phạm tội có tổ chức",
+      "seed_similarity": 0.5461175441741943,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::pham_toi_co_to_chuc",
+        "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "128"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_co_to_chuc",
+          "source_event_id": "pham_toi_co_to_chuc",
+          "source_event_name": "Phạm tội có tổ chức",
+          "target_event_node": "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+          "rule_ids": [
+            "128"
+          ],
+          "article_ids": [
+            "52"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4785928773880005
+    },
+    {
+      "seed_event_node": "EVENT::pham_toi_co_to_chuc",
+      "seed_event_id": "pham_toi_co_to_chuc",
+      "seed_event_name": "Phạm tội có tổ chức",
+      "seed_similarity": 0.5461175441741943,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::pham_toi_co_to_chuc",
+        "EVENT::dong_pham_co_su_cau_ket_chat_che"
+      ],
+      "rule_ids": [
+        "37"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dong_pham_co_su_cau_ket_chat_che",
+          "source_event_id": "dong_pham_co_su_cau_ket_chat_che",
+          "source_event_name": "Đồng phạm có sự câu kết chặt chẽ",
+          "target_event_node": "EVENT::pham_toi_co_to_chuc",
+          "target_event_id": "pham_toi_co_to_chuc",
+          "target_event_name": "Phạm tội có tổ chức",
+          "rule_ids": [
+            "37"
+          ],
+          "article_ids": [
+            "17"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4785928773880005
+    },
+    {
+      "seed_event_node": "EVENT::toi_pham_nghiem_trong",
+      "seed_event_id": "toi_pham_nghiem_trong",
+      "seed_event_name": "Tội phạm nghiêm trọng",
+      "seed_similarity": 0.5421000719070435,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::toi_pham_nghiem_trong",
+        "EVENT::khung_hinh_phat_cao_nhat_tren_03_nam_den_07_nam_tu"
+      ],
+      "rule_ids": [
+        "19"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khung_hinh_phat_cao_nhat_tren_03_nam_den_07_nam_tu",
+          "source_event_id": "khung_hinh_phat_cao_nhat_tren_03_nam_den_07_nam_tu",
+          "source_event_name": "Khung hình phạt cao nhất trên 03 năm đến 07 năm tù",
+          "target_event_node": "EVENT::toi_pham_nghiem_trong",
+          "target_event_id": "toi_pham_nghiem_trong",
+          "target_event_name": "Tội phạm nghiêm trọng",
+          "rule_ids": [
+            "19"
+          ],
+          "article_ids": [
+            "9"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.47610204458236693
+    },
+    {
+      "seed_event_node": "EVENT::toi_pham_dac_biet_nghiem_trong",
+      "seed_event_id": "toi_pham_dac_biet_nghiem_trong",
+      "seed_event_name": "Tội phạm đặc biệt nghiêm trọng",
+      "seed_similarity": 0.5418651103973389,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::toi_pham_dac_biet_nghiem_trong",
+        "EVENT::khung_hinh_phat_cao_nhat_tren_15_nam_tu_tu_chung_than_hoac_tu_hinh"
+      ],
+      "rule_ids": [
+        "21"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khung_hinh_phat_cao_nhat_tren_15_nam_tu_tu_chung_than_hoac_tu_hinh",
+          "source_event_id": "khung_hinh_phat_cao_nhat_tren_15_nam_tu_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Khung hình phạt cao nhất trên 15 năm tù, tù chung thân hoặc tử hình",
+          "target_event_node": "EVENT::toi_pham_dac_biet_nghiem_trong",
+          "target_event_id": "toi_pham_dac_biet_nghiem_trong",
+          "target_event_name": "Tội phạm đặc biệt nghiêm trọng",
+          "rule_ids": [
+            "21"
+          ],
+          "article_ids": [
+            "9"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4759563684463501
+    },
+    {
+      "seed_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+      "seed_event_id": "gay_hau_qua_nghiem_trong",
+      "seed_event_name": "Gây hậu quả nghiêm trọng",
+      "seed_similarity": 0.5376038551330566,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::gay_hau_qua_nghiem_trong",
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam"
+      ],
+      "rule_ids": [
+        "1327"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+          "source_event_id": "gay_hau_qua_nghiem_trong",
+          "source_event_name": "Gây hậu quả nghiêm trọng",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+          "rule_ids": [
+            "1327"
+          ],
+          "article_ids": [
+            "235"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4733143901824951
+    },
+    {
+      "seed_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+      "seed_event_id": "gay_hau_qua_nghiem_trong",
+      "seed_event_name": "Gây hậu quả nghiêm trọng",
+      "seed_similarity": 0.5376038551330566,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::gay_hau_qua_nghiem_trong",
+        "EVENT::phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "2060"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+          "source_event_id": "gay_hau_qua_nghiem_trong",
+          "source_event_name": "Gây hậu quả nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_03_nam_den_07_nam",
+          "target_event_id": "phat_tu_tu_03_nam_den_07_nam",
+          "target_event_name": "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:",
+          "rule_ids": [
+            "2060"
+          ],
+          "article_ids": [
+            "301"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4733143901824951
+    },
+    {
+      "seed_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+      "seed_event_id": "gay_hau_qua_nghiem_trong",
+      "seed_event_name": "Gây hậu quả nghiêm trọng",
+      "seed_similarity": 0.5376038551330566,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::gay_hau_qua_nghiem_trong",
+        "EVENT::phat_tu_tu_03_nam_den_10_nam"
+      ],
+      "rule_ids": [
+        "2723"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+          "source_event_id": "gay_hau_qua_nghiem_trong",
+          "source_event_name": "Gây hậu quả nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_03_nam_den_10_nam",
+          "target_event_id": "phat_tu_tu_03_nam_den_10_nam",
+          "target_event_name": "Phạt tù từ 03 năm đến 10 năm || Phạt tù từ 03 năm đến 10 năm:",
+          "rule_ids": [
+            "2723"
+          ],
+          "article_ids": [
+            "394"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4733143901824951
+    },
+    {
+      "seed_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+      "seed_event_id": "gay_hau_qua_nghiem_trong",
+      "seed_event_name": "Gây hậu quả nghiêm trọng",
+      "seed_similarity": 0.5376038551330566,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::gay_hau_qua_nghiem_trong",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "rule_ids": [
+        "2798"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+          "source_event_id": "gay_hau_qua_nghiem_trong",
+          "source_event_name": "Gây hậu quả nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_02_nam_den_07_nam",
+          "target_event_id": "phat_tu_tu_02_nam_den_07_nam",
+          "target_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+          "rule_ids": [
+            "2798"
+          ],
+          "article_ids": [
+            "403"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4733143901824951
+    },
+    {
+      "seed_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+      "seed_event_id": "gay_hau_qua_nghiem_trong",
+      "seed_event_name": "Gây hậu quả nghiêm trọng",
+      "seed_similarity": 0.5376038551330566,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::gay_hau_qua_nghiem_trong",
+        "EVENT::phat_tu_tu_07_nam_den_12_nam"
+      ],
+      "rule_ids": [
+        "2849"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+          "source_event_id": "gay_hau_qua_nghiem_trong",
+          "source_event_name": "Gây hậu quả nghiêm trọng",
+          "target_event_node": "EVENT::phat_tu_tu_07_nam_den_12_nam",
+          "target_event_id": "phat_tu_tu_07_nam_den_12_nam",
+          "target_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+          "rule_ids": [
+            "2849"
+          ],
+          "article_ids": [
+            "413"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4733143901824951
+    },
+    {
+      "seed_event_node": "EVENT::dong_pham_co_su_cau_ket_chat_che",
+      "seed_event_id": "dong_pham_co_su_cau_ket_chat_che",
+      "seed_event_name": "Đồng phạm có sự câu kết chặt chẽ",
+      "seed_similarity": 0.6719702482223511,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::dong_pham_co_su_cau_ket_chat_che",
+        "EVENT::pham_toi_co_to_chuc",
+        "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "37",
+        "128"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dong_pham_co_su_cau_ket_chat_che",
+          "source_event_id": "dong_pham_co_su_cau_ket_chat_che",
+          "source_event_name": "Đồng phạm có sự câu kết chặt chẽ",
+          "target_event_node": "EVENT::pham_toi_co_to_chuc",
+          "target_event_id": "pham_toi_co_to_chuc",
+          "target_event_name": "Phạm tội có tổ chức",
+          "rule_ids": [
+            "37"
+          ],
+          "article_ids": [
+            "17"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::pham_toi_co_to_chuc",
+          "source_event_id": "pham_toi_co_to_chuc",
+          "source_event_name": "Phạm tội có tổ chức",
+          "target_event_node": "EVENT::co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_id": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+          "target_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+          "rule_ids": [
+            "128"
+          ],
+          "article_ids": [
+            "52"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.46742967419624326
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "37",
+      "rule_node_id": "RULE::37",
+      "article_id": "17",
+      "article_title": "Đồng phạm",
+      "legal_subject": "Nhóm người đồng phạm",
+      "condition": "có sự câu kết chặt chẽ giữa những người cùng thực hiện tội phạm",
+      "effect": "được xác định là phạm tội có tổ chức",
+      "condition_event": "dong_pham_co_su_cau_ket_chat_che",
+      "condition_event_name": "Đồng phạm có sự câu kết chặt chẽ",
+      "effect_event": "pham_toi_co_to_chuc",
+      "effect_event_name": "Phạm tội có tổ chức",
+      "causal_type": "",
+      "semantic_score": 0.6218124628067017,
+      "graph_score": 0.5566215538978576,
+      "seed_event_score": 0.6719702482223511,
+      "direct_rule_score": 0.6218124628067017,
+      "final_score": 0.612185578918457,
+      "matched_seed_events": [
+        "Đồng phạm có sự câu kết chặt chẽ",
+        "Phạm tội có tổ chức"
+      ],
+      "path_ids": [
+        12,
+        13,
+        36,
+        44
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "221",
+      "rule_node_id": "RULE::221",
+      "article_id": "85",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự áp dụng đối với pháp nhân thương mại",
+      "legal_subject": "Tòa án",
+      "condition": "pháp nhân thương mại câu kết với pháp nhân khác để phạm tội",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "phap_nhan_cau_ket_de_pham_toi",
+      "condition_event_name": "Pháp nhân câu kết để phạm tội",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "semantic_score": 0.5303911566734314,
+      "graph_score": 0.4838731384277344,
+      "seed_event_score": 0.5546340942382812,
+      "direct_rule_score": 0.5303912162780762,
+      "final_score": 0.5221359883785247,
+      "matched_seed_events": [
+        "Pháp nhân câu kết để phạm tội"
+      ],
+      "path_ids": [
+        14
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "133",
+      "rule_node_id": "RULE::133",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội cố tình thực hiện tội phạm đến cùng",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "co_tinh_thuc_hien_toi_pham_den_cung",
+      "condition_event_name": "Cố tình thực hiện tội phạm đến cùng",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "semantic_score": 0.5185014009475708,
+      "graph_score": 0.4824743962287903,
+      "seed_event_score": 0.5523780584335327,
+      "direct_rule_score": 0.518501341342926,
+      "final_score": 0.5139201151371001,
+      "matched_seed_events": [
+        "Cố tình thực hiện tội phạm đến cùng"
+      ],
+      "path_ids": [
+        15
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "2297",
+      "rule_node_id": "RULE::2297",
+      "article_id": "324",
+      "article_title": "Tội rửa tiền",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.4779890775680542,
+      "graph_score": 0.6186500835418701,
+      "seed_event_score": 0.5462098121643066,
+      "direct_rule_score": 0.0,
+      "final_score": 0.491254862499237,
+      "matched_seed_events": [
+        "Tái phạm nguy hiểm"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "1702",
+      "rule_node_id": "RULE::1702",
+      "article_id": "258",
+      "article_title": "Tội lôi kéo người khác sử dụng trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.47604256868362427,
+      "graph_score": 0.6186500835418701,
+      "seed_event_score": 0.5462098121643066,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4901258873462676,
+      "matched_seed_events": [
+        "Tái phạm nguy hiểm"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "665",
+      "rule_node_id": "RULE::665",
+      "article_id": "169",
+      "article_title": "Tội bắt cóc nhằm chiếm đoạt tài sản",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 12 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_12_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 12 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.4694446325302124,
+      "graph_score": 0.6186500835418701,
+      "seed_event_score": 0.5462098121643066,
+      "direct_rule_score": 0.0,
+      "final_score": 0.48629908437728875,
+      "matched_seed_events": [
+        "Tái phạm nguy hiểm"
+      ],
+      "path_ids": [
+        4
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "2336",
+      "rule_node_id": "RULE::2336",
+      "article_id": "327",
+      "article_title": "Tội chứa mại dâm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.46943849325180054,
+      "graph_score": 0.6186500835418701,
+      "seed_event_score": 0.5462098121643066,
+      "direct_rule_score": 0.0,
+      "final_score": 0.48629552359580985,
+      "matched_seed_events": [
+        "Tái phạm nguy hiểm"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "2281",
+      "rule_node_id": "RULE::2281",
+      "article_id": "323",
+      "article_title": "Tội chứa chấp hoặc tiêu thụ tài sản do người khác phạm tội mà có",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 03 năm đến 07 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_03_nam_den_07_nam",
+      "effect_event_name": "Phạt tù từ 03 năm đến 07 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.4691149592399597,
+      "graph_score": 0.6186500835418701,
+      "seed_event_score": 0.5462098121643066,
+      "direct_rule_score": 0.0,
+      "final_score": 0.48610787386894216,
+      "matched_seed_events": [
+        "Tái phạm nguy hiểm"
+      ],
+      "path_ids": [
+        3
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "128",
+      "rule_node_id": "RULE::128",
+      "article_id": "52",
+      "article_title": "Các tình tiết tăng nặng trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội phạm tội có tổ chức",
+      "effect": "xác định đây là tình tiết tăng nặng trách nhiệm hình sự",
+      "condition_event": "pham_toi_co_to_chuc",
+      "condition_event_name": "Phạm tội có tổ chức",
+      "effect_event": "co_tinh_tiet_tang_nang_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết tăng nặng trách nhiệm hình sự",
+      "causal_type": "AGGRAVATION",
+      "semantic_score": 0.5005268454551697,
+      "graph_score": 0.4785928773880005,
+      "seed_event_score": 0.6719702482223511,
+      "direct_rule_score": 0.0,
+      "final_score": 0.48580429072380066,
+      "matched_seed_events": [
+        "Phạm tội có tổ chức",
+        "Đồng phạm có sự câu kết chặt chẽ"
+      ],
+      "path_ids": [
+        35,
+        44
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "1662",
+      "rule_node_id": "RULE::1662",
+      "article_id": "255",
+      "article_title": "Tội tổ chức sử dụng trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+      "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.4673295021057129,
+      "graph_score": 0.6186500835418701,
+      "seed_event_score": 0.5462098121643066,
+      "direct_rule_score": 0.0,
+      "final_score": 0.4850723087310791,
+      "matched_seed_events": [
+        "Tái phạm nguy hiểm"
+      ],
+      "path_ids": [
+        0
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "2437",
+      "rule_node_id": "RULE::2437",
+      "article_id": "349",
+      "article_title": "Tội tổ chức, môi giới cho người khác trốn đi nước ngoài hoặc ở lại nước ngoài trái phép",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.46599137783050537,
+      "graph_score": 0.6186500835418701,
+      "seed_event_score": 0.5462098121643066,
+      "direct_rule_score": 0.0,
+      "final_score": 0.48429619665145873,
+      "matched_seed_events": [
+        "Tái phạm nguy hiểm"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "709",
+      "rule_node_id": "RULE::709",
+      "article_id": "172",
+      "article_title": "Tội công nhiên chiếm đoạt tài sản",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+      "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.4655851125717163,
+      "graph_score": 0.6186500835418701,
+      "seed_event_score": 0.5462098121643066,
+      "direct_rule_score": 0.0,
+      "final_score": 0.484060562801361,
+      "matched_seed_events": [
+        "Tái phạm nguy hiểm"
+      ],
+      "path_ids": [
+        5
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 45,
+    "candidate_rules": 117,
+    "final_evidence": 12,
+    "unique_path_rules": 99
+  }
+}

@@ -1,0 +1,1107 @@
+{
+  "query": "Hãy xác định mắt xích còn thiếu: Đủ điều kiện xóa án tích theo quyết định của Tòa án → ? → Được coi như chưa bị kết án.",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 3553,
+      "score": 0.7029331922531128,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_id": "da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_name": "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3176,
+      "score": 0.6899620294570923,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3178,
+      "score": 0.672223687171936,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+      "event_id": "pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+      "event_name": "Phạm tội mới khi chưa được xóa án tích",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3705,
+      "score": 0.6681106090545654,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_id": "da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_name": "Đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3172,
+      "score": 0.6664780378341675,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "event_name": "Được coi như chưa bị kết án",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3085,
+      "score": 0.6612163782119751,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::chua_duoc_xoa_an_tich_va_lai_pham_toi",
+      "event_id": "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+      "event_name": "Chưa được xóa án tích và lại phạm tội",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3714,
+      "score": 0.6521784067153931,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_id": "da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_name": "Đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3532,
+      "score": 0.6480137705802917,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::da_bi_ket_an_ve_toi_nay_hoac_ve_mot_trong_cac_toi_quy_dinh_tai_cac_dieu_168_169_170_171_172_173_175_va_290_cua_bo_luat_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_id": "da_bi_ket_an_ve_toi_nay_hoac_ve_mot_trong_cac_toi_quy_dinh_tai_cac_dieu_168_169_170_171_172_173_175_va_290_cua_bo_luat_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "event_name": "Đã bị kết án về tội này hoặc về một trong các tội quy định tại các điều 168, 169, 170, 171, 172, 173, 175 và 290 của Bộ luật này, chưa được xóa án tích mà còn vi phạm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 196,
+      "score": 0.728927493095398,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::197",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "197",
+      "article_id": "69"
+    },
+    {
+      "memory_id": 198,
+      "score": 0.6954218149185181,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::199",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "199",
+      "article_id": "70"
+    },
+    {
+      "memory_id": 201,
+      "score": 0.6932525634765625,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::202",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "202",
+      "article_id": "73"
+    },
+    {
+      "memory_id": 202,
+      "score": 0.6864948868751526,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::203",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "203",
+      "article_id": "73"
+    },
+    {
+      "memory_id": 199,
+      "score": 0.6856279373168945,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::200",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "200",
+      "article_id": "71"
+    },
+    {
+      "memory_id": 197,
+      "score": 0.6762803792953491,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::198",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "198",
+      "article_id": "69"
+    },
+    {
+      "memory_id": 7,
+      "score": 0.6615073680877686,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::8",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "8",
+      "article_id": "3"
+    },
+    {
+      "memory_id": 200,
+      "score": 0.6486039757728577,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::201",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "201",
+      "article_id": "72"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_id": "da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "seed_similarity": 0.7029331922531128,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_tien_tu_10_000_000_dong_den_50_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "rule_ids": [
+        "774"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_id": "da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_name": "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "target_event_node": "EVENT::phat_tien_tu_10_000_000_dong_den_50_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_tien_tu_10_000_000_dong_den_50_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt tiền từ 10.000.000 đồng đến 50.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "rule_ids": [
+            "774"
+          ],
+          "article_ids": [
+            "178"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5758185791969299
+    },
+    {
+      "seed_event_node": "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "seed_similarity": 0.6899620294570923,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "EVENT::xoa_an_tich"
+      ],
+      "rule_ids": [
+        "200"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+          "source_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+          "source_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "200"
+          ],
+          "article_ids": [
+            "71"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5677764582633973
+    },
+    {
+      "seed_event_node": "EVENT::pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+      "seed_event_id": "pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+      "seed_event_name": "Phạm tội mới khi chưa được xóa án tích",
+      "seed_similarity": 0.672223687171936,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+        "EVENT::tinh_lai_thoi_han_xoa_an_tich"
+      ],
+      "rule_ids": [
+        "202"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+          "source_event_id": "pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+          "source_event_name": "Phạm tội mới khi chưa được xóa án tích",
+          "target_event_node": "EVENT::tinh_lai_thoi_han_xoa_an_tich",
+          "target_event_id": "tinh_lai_thoi_han_xoa_an_tich",
+          "target_event_name": "Tính lại thời hạn xóa án tích",
+          "rule_ids": [
+            "202"
+          ],
+          "article_ids": [
+            "73"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5567786860466004
+    },
+    {
+      "seed_event_node": "EVENT::da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_id": "da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "seed_similarity": 0.6681106090545654,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_canh_cao_phat_tien_tu_10_000_000_dong_den_100_000_000_dong_hoac_phat_cai_tao_khong_giam_giu_den_03_nam"
+      ],
+      "rule_ids": [
+        "1018"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_id": "da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_name": "Đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "target_event_node": "EVENT::phat_canh_cao_phat_tien_tu_10_000_000_dong_den_100_000_000_dong_hoac_phat_cai_tao_khong_giam_giu_den_03_nam",
+          "target_event_id": "phat_canh_cao_phat_tien_tu_10_000_000_dong_den_100_000_000_dong_hoac_phat_cai_tao_khong_giam_giu_den_03_nam",
+          "target_event_name": "Phạt cảnh cáo, phạt tiền từ 10.000.000 đồng đến 100.000.000 đồng hoặc phạt cải tạo không giam giữ đến 03 năm:",
+          "rule_ids": [
+            "1018"
+          ],
+          "article_ids": [
+            "198"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5542285776138306
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.6664780378341675,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich"
+      ],
+      "rule_ids": [
+        "197"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5532163834571838
+    },
+    {
+      "seed_event_node": "EVENT::chua_duoc_xoa_an_tich_va_lai_pham_toi",
+      "seed_event_id": "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+      "seed_event_name": "Chưa được xóa án tích và lại phạm tội",
+      "seed_similarity": 0.6612163782119751,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::chua_duoc_xoa_an_tich_va_lai_pham_toi",
+        "EVENT::tai_pham"
+      ],
+      "rule_ids": [
+        "144"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::chua_duoc_xoa_an_tich_va_lai_pham_toi",
+          "source_event_id": "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+          "source_event_name": "Chưa được xóa án tích và lại phạm tội",
+          "target_event_node": "EVENT::tai_pham",
+          "target_event_id": "tai_pham",
+          "target_event_name": "Tái phạm",
+          "rule_ids": [
+            "144"
+          ],
+          "article_ids": [
+            "53"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5499541544914246
+    },
+    {
+      "seed_event_node": "EVENT::da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_id": "da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "seed_similarity": 0.6521784067153931,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_150_000_000_dong_phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam"
+      ],
+      "rule_ids": [
+        "1028"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_id": "da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_name": "Đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_150_000_000_dong_phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_150_000_000_dong_phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 150.000.000 đồng, phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+          "rule_ids": [
+            "1028"
+          ],
+          "article_ids": [
+            "199"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5443506121635437
+    },
+    {
+      "seed_event_node": "EVENT::da_bi_ket_an_ve_toi_nay_hoac_ve_mot_trong_cac_toi_quy_dinh_tai_cac_dieu_168_169_170_171_172_173_175_va_290_cua_bo_luat_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_id": "da_bi_ket_an_ve_toi_nay_hoac_ve_mot_trong_cac_toi_quy_dinh_tai_cac_dieu_168_169_170_171_172_173_175_va_290_cua_bo_luat_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Đã bị kết án về tội này hoặc về một trong các tội quy định tại các điều 168, 169, 170, 171, 172, 173, 175 và 290 của Bộ luật này, chưa được xóa án tích mà còn vi phạm",
+      "seed_similarity": 0.6480137705802917,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::da_bi_ket_an_ve_toi_nay_hoac_ve_mot_trong_cac_toi_quy_dinh_tai_cac_dieu_168_169_170_171_172_173_175_va_290_cua_bo_luat_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "rule_ids": [
+        "737"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::da_bi_ket_an_ve_toi_nay_hoac_ve_mot_trong_cac_toi_quy_dinh_tai_cac_dieu_168_169_170_171_172_173_175_va_290_cua_bo_luat_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_id": "da_bi_ket_an_ve_toi_nay_hoac_ve_mot_trong_cac_toi_quy_dinh_tai_cac_dieu_168_169_170_171_172_173_175_va_290_cua_bo_luat_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_name": "Đã bị kết án về tội này hoặc về một trong các tội quy định tại các điều 168, 169, 170, 171, 172, 173, 175 và 290 của Bộ luật này, chưa được xóa án tích mà còn vi phạm",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+          "rule_ids": [
+            "737"
+          ],
+          "article_ids": [
+            "174"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.541768537759781
+    },
+    {
+      "seed_event_node": "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "seed_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "seed_similarity": 0.6899620294570923,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an"
+      ],
+      "rule_ids": [
+        "200",
+        "197"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+          "source_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+          "source_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "200"
+          ],
+          "article_ids": [
+            "71"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4765766957759857
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.6664780378341675,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::du_dieu_kien_xoa_an_tich"
+      ],
+      "rule_ids": [
+        "197",
+        "8"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::du_dieu_kien_xoa_an_tich",
+          "source_event_id": "du_dieu_kien_xoa_an_tich",
+          "source_event_name": "Đủ điều kiện xóa án tích",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "8"
+          ],
+          "article_ids": [
+            "3"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4646374344348907
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.6664780378341675,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::du_dieu_kien_duong_nhien_xoa_an_tich"
+      ],
+      "rule_ids": [
+        "197",
+        "199"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::du_dieu_kien_duong_nhien_xoa_an_tich",
+          "source_event_id": "du_dieu_kien_duong_nhien_xoa_an_tich",
+          "source_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "199"
+          ],
+          "article_ids": [
+            "70"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4646374344348907
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.6664780378341675,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an"
+      ],
+      "rule_ids": [
+        "197",
+        "200"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+          "source_event_id": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+          "source_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "200"
+          ],
+          "article_ids": [
+            "71"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4646374344348907
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.6664780378341675,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::du_dieu_kien_xoa_an_tich_dac_biet"
+      ],
+      "rule_ids": [
+        "197",
+        "201"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::du_dieu_kien_xoa_an_tich_dac_biet",
+          "source_event_id": "du_dieu_kien_xoa_an_tich_dac_biet",
+          "source_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "201"
+          ],
+          "article_ids": [
+            "72"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4646374344348907
+    },
+    {
+      "seed_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+      "seed_event_name": "Được coi như chưa bị kết án",
+      "seed_similarity": 0.6664780378341675,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+        "EVENT::xoa_an_tich",
+        "EVENT::phap_nhan_du_dieu_kien_xoa_an_tich"
+      ],
+      "rule_ids": [
+        "197",
+        "230"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xoa_an_tich",
+          "source_event_id": "xoa_an_tich",
+          "source_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "target_event_node": "EVENT::duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_id": "duoc_coi_nhu_chua_bi_ket_an",
+          "target_event_name": "Được coi như chưa bị kết án",
+          "rule_ids": [
+            "197"
+          ],
+          "article_ids": [
+            "69"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::phap_nhan_du_dieu_kien_xoa_an_tich",
+          "source_event_id": "phap_nhan_du_dieu_kien_xoa_an_tich",
+          "source_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+          "target_event_node": "EVENT::xoa_an_tich",
+          "target_event_id": "xoa_an_tich",
+          "target_event_name": "Được xóa án tích || Có thể được xóa án tích",
+          "rule_ids": [
+            "230"
+          ],
+          "article_ids": [
+            "89"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4646374344348907
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "197",
+      "rule_node_id": "RULE::197",
+      "article_id": "69",
+      "article_title": "Xóa án tích",
+      "legal_subject": "Người bị kết án",
+      "condition": "được xóa án tích",
+      "effect": "được coi như chưa bị kết án",
+      "condition_event": "xoa_an_tich",
+      "condition_event_name": "Được xóa án tích",
+      "effect_event": "duoc_coi_nhu_chua_bi_ket_an",
+      "effect_event_name": "Được coi như chưa bị kết án",
+      "causal_type": "LEGAL_STATUS",
+      "semantic_score": 0.728927493095398,
+      "graph_score": 0.5532163834571838,
+      "seed_event_score": 0.6899620294570923,
+      "direct_rule_score": 0.728927493095398,
+      "final_score": 0.6820809711456298,
+      "matched_seed_events": [
+        "Được coi như chưa bị kết án",
+        "Đủ điều kiện xóa án tích theo quyết định của Tòa án"
+      ],
+      "path_ids": [
+        4,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "202",
+      "rule_node_id": "RULE::202",
+      "article_id": "73",
+      "article_title": "Cách tính thời hạn để xóa án tích",
+      "legal_subject": "Cơ quan có thẩm quyền",
+      "condition": "người chưa được xóa án tích lại phạm tội mới và bị kết án",
+      "effect": "tính lại thời hạn xóa án tích cũ từ khi chấp hành xong bản án mới",
+      "condition_event": "pham_toi_moi_khi_chua_duoc_xoa_an_tich",
+      "condition_event_name": "Phạm tội mới khi chưa được xóa án tích",
+      "effect_event": "tinh_lai_thoi_han_xoa_an_tich",
+      "effect_event_name": "Tính lại thời hạn xóa án tích",
+      "causal_type": "TIME_LIMIT",
+      "semantic_score": 0.6932525634765625,
+      "graph_score": 0.5567786860466004,
+      "seed_event_score": 0.672223687171936,
+      "direct_rule_score": 0.6932525634765625,
+      "final_score": 0.6579753677368164,
+      "matched_seed_events": [
+        "Phạm tội mới khi chưa được xóa án tích"
+      ],
+      "path_ids": [
+        2
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "200",
+      "rule_node_id": "RULE::200",
+      "article_id": "71",
+      "article_title": "Xóa án tích theo quyết định của Tòa án[29]",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án thuộc Chương XIII hoặc XXVI, đã chấp hành xong nghĩa vụ và không phạm tội mới đủ thời hạn",
+      "effect": "có thể quyết định xóa án tích",
+      "condition_event": "du_dieu_kien_xoa_an_tich_theo_quyet_dinh_cua_toa_an",
+      "condition_event_name": "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Có thể được xóa án tích",
+      "causal_type": "LEGAL_STATUS",
+      "semantic_score": 0.6856279373168945,
+      "graph_score": 0.5677764582633973,
+      "seed_event_score": 0.6899620294570923,
+      "direct_rule_score": 0.6856279373168945,
+      "final_score": 0.6578636734008789,
+      "matched_seed_events": [
+        "Đủ điều kiện xóa án tích theo quyết định của Tòa án",
+        "Được coi như chưa bị kết án"
+      ],
+      "path_ids": [
+        1,
+        8,
+        11
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "199",
+      "rule_node_id": "RULE::199",
+      "article_id": "70",
+      "article_title": "Đương nhiên được xóa án tích",
+      "legal_subject": "Người bị kết án",
+      "condition": "không thuộc Chương XIII hoặc XXVI, đã chấp hành xong nghĩa vụ và không phạm tội mới đủ thời hạn luật định",
+      "effect": "đương nhiên được xóa án tích",
+      "condition_event": "du_dieu_kien_duong_nhien_xoa_an_tich",
+      "condition_event_name": "Đủ điều kiện đương nhiên xóa án tích",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Được xóa án tích",
+      "causal_type": "LEGAL_STATUS",
+      "semantic_score": 0.6954218149185181,
+      "graph_score": 0.4646374344348907,
+      "seed_event_score": 0.6664780378341675,
+      "direct_rule_score": 0.6954218149185181,
+      "final_score": 0.6365603103523253,
+      "matched_seed_events": [
+        "Được coi như chưa bị kết án"
+      ],
+      "path_ids": [
+        10
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "8",
+      "rule_node_id": "RULE::8",
+      "article_id": "3",
+      "article_title": "Nguyên tắc xử lý",
+      "legal_subject": "Người đã chấp hành xong hình phạt",
+      "condition": "có đủ điều kiện luật định",
+      "effect": "được xóa án tích",
+      "condition_event": "du_dieu_kien_xoa_an_tich",
+      "condition_event_name": "Đủ điều kiện xóa án tích",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Được xóa án tích",
+      "causal_type": "",
+      "semantic_score": 0.6615073084831238,
+      "graph_score": 0.4646374344348907,
+      "seed_event_score": 0.6664780378341675,
+      "direct_rule_score": 0.6615073680877686,
+      "final_score": 0.6148550298099517,
+      "matched_seed_events": [
+        "Được coi như chưa bị kết án"
+      ],
+      "path_ids": [
+        9
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "201",
+      "rule_node_id": "RULE::201",
+      "article_id": "72",
+      "article_title": "Xóa án tích trong trường hợp đặc biệt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án tiến bộ rõ rệt, lập công, được đề nghị và đã bảo đảm ít nhất một phần ba thời hạn",
+      "effect": "có thể quyết định xóa án tích trong trường hợp đặc biệt",
+      "condition_event": "du_dieu_kien_xoa_an_tich_dac_biet",
+      "condition_event_name": "Đủ điều kiện xóa án tích đặc biệt",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Có thể được xóa án tích",
+      "causal_type": "LEGAL_STATUS",
+      "semantic_score": 0.6486040353775024,
+      "graph_score": 0.4646374344348907,
+      "seed_event_score": 0.6664780378341675,
+      "direct_rule_score": 0.6486039757728577,
+      "final_score": 0.6065969278697968,
+      "matched_seed_events": [
+        "Được coi như chưa bị kết án"
+      ],
+      "path_ids": [
+        12
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "774",
+      "rule_node_id": "RULE::774",
+      "article_id": "178",
+      "article_title": "Tội hủy hoại hoặc cố ý làm hư hỏng tài sản",
+      "legal_subject": "Người phạm tội",
+      "condition": "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "effect": "bị phạt tiền từ 10.000.000 đồng đến 50.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "condition_event": "da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "condition_event_name": "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "effect_event": "phat_tien_tu_10_000_000_dong_den_50_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "effect_event_name": "Phạt tiền từ 10.000.000 đồng đến 50.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6063327789306641,
+      "graph_score": 0.5758185791969299,
+      "seed_event_score": 0.7029331922531128,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5742214538574218,
+      "matched_seed_events": [
+        "Đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm"
+      ],
+      "path_ids": [
+        0
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "144",
+      "rule_node_id": "RULE::144",
+      "article_id": "53",
+      "article_title": "Tái phạm, tái phạm nguy hiểm",
+      "legal_subject": "Cơ quan tiến hành tố tụng",
+      "condition": "người đã bị kết án, chưa được xóa án tích và lại cố ý phạm tội hoặc vô ý phạm tội rất nghiêm trọng, đặc biệt nghiêm trọng",
+      "effect": "xác định là tái phạm",
+      "condition_event": "chua_duoc_xoa_an_tich_va_lai_pham_toi",
+      "condition_event_name": "Chưa được xóa án tích và lại phạm tội",
+      "effect_event": "tai_pham",
+      "effect_event_name": "Tái phạm",
+      "causal_type": "CLASSIFICATION",
+      "semantic_score": 0.6194503307342529,
+      "graph_score": 0.5499541544914246,
+      "seed_event_score": 0.6612163782119751,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5706161542892456,
+      "matched_seed_events": [
+        "Chưa được xóa án tích và lại phạm tội"
+      ],
+      "path_ids": [
+        5
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "230",
+      "rule_node_id": "RULE::230",
+      "article_id": "89",
+      "article_title": "Xóa án tích",
+      "legal_subject": "Pháp nhân thương mại bị kết án",
+      "condition": "đã chấp hành xong mọi hình phạt hoặc hết thời hiệu và không phạm tội mới trong 02 năm",
+      "effect": "đương nhiên được xóa án tích",
+      "condition_event": "phap_nhan_du_dieu_kien_xoa_an_tich",
+      "condition_event_name": "Pháp nhân đủ điều kiện xóa án tích",
+      "effect_event": "xoa_an_tich",
+      "effect_event_name": "Được xóa án tích",
+      "causal_type": "LEGAL_STATUS",
+      "semantic_score": 0.6404818892478943,
+      "graph_score": 0.4646374344348907,
+      "seed_event_score": 0.6664780378341675,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5629698445682525,
+      "matched_seed_events": [
+        "Được coi như chưa bị kết án"
+      ],
+      "path_ids": [
+        13
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "737",
+      "rule_node_id": "RULE::737",
+      "article_id": "174",
+      "article_title": "Tội lừa đảo chiếm đoạt tài sản",
+      "legal_subject": "Người phạm tội",
+      "condition": "Đã bị kết án về tội này hoặc về một trong các tội quy định tại các điều 168, 169, 170, 171, 172, 173, 175 và 290 của Bộ luật này, chưa được xóa án tích mà còn vi phạm",
+      "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "condition_event": "da_bi_ket_an_ve_toi_nay_hoac_ve_mot_trong_cac_toi_quy_dinh_tai_cac_dieu_168_169_170_171_172_173_175_va_290_cua_bo_luat_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "condition_event_name": "Đã bị kết án về tội này hoặc về một trong các tội quy định tại các điều 168, 169, 170, 171, 172, 173, 175 và 290 của Bộ luật này, chưa được xóa án tích mà còn vi phạm",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5918437242507935,
+      "graph_score": 0.541768537759781,
+      "seed_event_score": 0.6480137705802917,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5510554615974426,
+      "matched_seed_events": [
+        "Đã bị kết án về tội này hoặc về một trong các tội quy định tại các điều 168, 169, 170, 171, 172, 173, 175 và 290 của Bộ luật này, chưa được xóa án tích mà còn vi phạm"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "1018",
+      "rule_node_id": "RULE::1018",
+      "article_id": "198",
+      "article_title": "Tội lừa dối khách hàng",
+      "legal_subject": "Người phạm tội",
+      "condition": "Đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "effect": "bị phạt cảnh cáo, phạt tiền từ 10.000.000 đồng đến 100.000.000 đồng hoặc phạt cải tạo không giam giữ đến 03 năm:",
+      "condition_event": "da_bi_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "condition_event_name": "Đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "effect_event": "phat_canh_cao_phat_tien_tu_10_000_000_dong_den_100_000_000_dong_hoac_phat_cai_tao_khong_giam_giu_den_03_nam",
+      "effect_event_name": "Phạt cảnh cáo, phạt tiền từ 10.000.000 đồng đến 100.000.000 đồng hoặc phạt cải tạo không giam giữ đến 03 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5720248222351074,
+      "graph_score": 0.5542285776138306,
+      "seed_event_score": 0.6681106090545654,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5449625286102295,
+      "matched_seed_events": [
+        "Đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm"
+      ],
+      "path_ids": [
+        3
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "1028",
+      "rule_node_id": "RULE::1028",
+      "article_id": "199",
+      "article_title": "Tội vi phạm quy định về cung ứng điện",
+      "legal_subject": "Người phạm tội",
+      "condition": "Đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "effect": "bị phạt tiền từ 30.000.000 đồng đến 150.000.000 đồng, phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "condition_event": "da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "condition_event_name": "Đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "effect_event": "phat_tien_tu_30_000_000_dong_den_150_000_000_dong_phat_cai_tao_khong_giam_giu_den_02_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "effect_event_name": "Phạt tiền từ 30.000.000 đồng đến 150.000.000 đồng, phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5472432374954224,
+      "graph_score": 0.5443506121635437,
+      "seed_event_score": 0.6521784067153931,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5263066334724427,
+      "matched_seed_events": [
+        "Đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm"
+      ],
+      "path_ids": [
+        6
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 14,
+    "candidate_rules": 14,
+    "final_evidence": 12,
+    "unique_path_rules": 12
+  }
+}

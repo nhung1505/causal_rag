@@ -1,0 +1,996 @@
+{
+  "query": "Khi xảy ra “Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công”, chuỗi hai bước trong dữ liệu dẫn tới kết quả nào?",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 3134,
+      "score": 0.799324631690979,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3135,
+      "score": 0.7338987588882446,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3137,
+      "score": 0.7308663129806519,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+      "event_id": "ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+      "event_name": "Bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3347,
+      "score": 0.7102273106575012,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4304,
+      "score": 0.71021568775177,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 02 năm đến 05 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3569,
+      "score": 0.7075110673904419,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3344,
+      "score": 0.7072993516921997,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3269,
+      "score": 0.7052872776985168,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+      "event_id": "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+      "event_name": "Phạt cải tạo không giam giữ đến 02 năm hoặc bị phạt tù từ 03 tháng đến 02 năm",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 170,
+      "score": 0.7382458448410034,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::171",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "171",
+      "article_id": "62"
+    },
+    {
+      "memory_id": 2668,
+      "score": 0.7086261510848999,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2669",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2669",
+      "article_id": "379"
+    },
+    {
+      "memory_id": 171,
+      "score": 0.6951348781585693,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::172",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "172",
+      "article_id": "62"
+    },
+    {
+      "memory_id": 703,
+      "score": 0.694387674331665,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::704",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "704",
+      "article_id": "172"
+    },
+    {
+      "memory_id": 2729,
+      "score": 0.6919488906860352,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2730",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2730",
+      "article_id": "395"
+    },
+    {
+      "memory_id": 736,
+      "score": 0.6883491277694702,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::737",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "737",
+      "article_id": "174"
+    },
+    {
+      "memory_id": 172,
+      "score": 0.6864789128303528,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::173",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "173",
+      "article_id": "62"
+    },
+    {
+      "memory_id": 719,
+      "score": 0.6852458715438843,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::720",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "720",
+      "article_id": "173"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "seed_similarity": 0.799324631690979,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+        "EVENT::mien_chap_hanh_hinh_phat"
+      ],
+      "rule_ids": [
+        "171"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "171"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.635581271648407
+    },
+    {
+      "seed_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "seed_similarity": 0.7338987588882446,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+        "EVENT::mien_chap_hanh_hinh_phat"
+      ],
+      "rule_ids": [
+        "172"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "172"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5950172305107118
+    },
+    {
+      "seed_event_node": "EVENT::ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+      "seed_event_id": "ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+      "seed_event_name": "Bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+      "seed_similarity": 0.7308663129806519,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+        "EVENT::mien_toan_bo_hinh_phat"
+      ],
+      "rule_ids": [
+        "174"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+          "source_event_id": "ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+          "source_event_name": "Bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+          "target_event_node": "EVENT::mien_toan_bo_hinh_phat",
+          "target_event_id": "mien_toan_bo_hinh_phat",
+          "target_event_name": "Có thể được miễn toàn bộ hình phạt",
+          "rule_ids": [
+            "174"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5931371140480042
+    },
+    {
+      "seed_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "seed_similarity": 0.7102273106575012,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+        "EVENT::doi_xu_tan_ac_hoac_lam_nhuc_nguoi_le_thuoc_minh_neu_khong_thuoc_cac_truong_hop_quy_dinh_tai_dieu_185_cua_bo_luat_nay"
+      ],
+      "rule_ids": [
+        "359"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::doi_xu_tan_ac_hoac_lam_nhuc_nguoi_le_thuoc_minh_neu_khong_thuoc_cac_truong_hop_quy_dinh_tai_dieu_185_cua_bo_luat_nay",
+          "source_event_id": "doi_xu_tan_ac_hoac_lam_nhuc_nguoi_le_thuoc_minh_neu_khong_thuoc_cac_truong_hop_quy_dinh_tai_dieu_185_cua_bo_luat_nay",
+          "source_event_name": "Đối xử tàn ác hoặc làm nhục người lệ thuộc mình nếu không thuộc các trường hợp quy định tại Điều 185 của Bộ luật này",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+          "rule_ids": [
+            "359"
+          ],
+          "article_ids": [
+            "140"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5803409326076507
+    },
+    {
+      "seed_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "seed_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "seed_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 02 năm đến 05 năm:",
+      "seed_similarity": 0.71021568775177,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+        "EVENT::vi_pham_quy_dinh_ve_phong_chay_chua_chay_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day"
+      ],
+      "rule_ids": [
+        "2200"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::vi_pham_quy_dinh_ve_phong_chay_chua_chay_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_id": "vi_pham_quy_dinh_ve_phong_chay_chua_chay_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_name": "Vi phạm quy định về phòng cháy, chữa cháy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 02 năm đến 05 năm:",
+          "rule_ids": [
+            "2200"
+          ],
+          "article_ids": [
+            "313"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5803337264060975
+    },
+    {
+      "seed_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "seed_similarity": 0.7075110673904419,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+        "EVENT::pham_toi_gay_thiet_hai_cho_tai_san_cua_nguoi_khac_tri_gia_500_000_000_dong_tro_len"
+      ],
+      "rule_ids": [
+        "793"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_gay_thiet_hai_cho_tai_san_cua_nguoi_khac_tri_gia_500_000_000_dong_tro_len",
+          "source_event_id": "pham_toi_gay_thiet_hai_cho_tai_san_cua_nguoi_khac_tri_gia_500_000_000_dong_tro_len",
+          "source_event_name": "Phạm tội gây thiệt hại cho tài sản của người khác trị giá 500.000.000 đồng trở lên",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+          "rule_ids": [
+            "793"
+          ],
+          "article_ids": [
+            "180"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.578656861782074
+    },
+    {
+      "seed_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "seed_similarity": 0.7075110673904419,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+        "EVENT::gay_thiet_hai_ve_tai_san_500_000_000_dong_tro_len"
+      ],
+      "rule_ids": [
+        "2534"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_thiet_hai_ve_tai_san_500_000_000_dong_tro_len",
+          "source_event_id": "gay_thiet_hai_ve_tai_san_500_000_000_dong_tro_len",
+          "source_event_name": "Gây thiệt hại về tài sản 500.000.000 đồng trở lên",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+          "rule_ids": [
+            "2534"
+          ],
+          "article_ids": [
+            "362"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.578656861782074
+    },
+    {
+      "seed_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "seed_similarity": 0.7075110673904419,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+        "EVENT::de_nguoi_khac_su_dung_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong"
+      ],
+      "rule_ids": [
+        "2535"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::de_nguoi_khac_su_dung_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_id": "de_nguoi_khac_su_dung_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+          "source_event_name": "Để người khác sử dụng thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+          "rule_ids": [
+            "2535"
+          ],
+          "article_ids": [
+            "362"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.578656861782074
+    },
+    {
+      "seed_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "seed_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "seed_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "seed_similarity": 0.7072993516921997,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "EVENT::doi_voi_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_tu_31_den_60"
+      ],
+      "rule_ids": [
+        "355"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::doi_voi_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_tu_31_den_60",
+          "source_event_id": "doi_voi_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_tu_31_den_60",
+          "source_event_name": "Đối với 02 người trở lên mà tỷ lệ tổn thương cơ thể của mỗi người từ 31% đến 60%",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "rule_ids": [
+            "355"
+          ],
+          "article_ids": [
+            "139"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5785255980491638
+    },
+    {
+      "seed_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "seed_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "seed_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "seed_similarity": 0.7072993516921997,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "EVENT::gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len"
+      ],
+      "rule_ids": [
+        "356"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len",
+          "source_event_id": "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len",
+          "source_event_name": "Gây thương tích hoặc gây tổn hại cho sức khỏe của người khác mà tỷ lệ tổn thương cơ thể 61% trở lên",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "rule_ids": [
+            "356"
+          ],
+          "article_ids": [
+            "139"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5785255980491638
+    },
+    {
+      "seed_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_id": "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+      "seed_event_name": "Phạt cải tạo không giam giữ đến 02 năm hoặc bị phạt tù từ 03 tháng đến 02 năm",
+      "seed_similarity": 0.7052872776985168,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+        "EVENT::nguoi_me_nao_do_anh_huong_nang_ne_cua_tu_tuong_lac_hau_hoac_trong_hoan_canh_khach_quan_dac_biet_ma_vut_bo_con_do_minh_de_ra_trong_07_ngay_tuoi_dan_den_hau_qua_dua_tre_chet"
+      ],
+      "rule_ids": [
+        "289"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_me_nao_do_anh_huong_nang_ne_cua_tu_tuong_lac_hau_hoac_trong_hoan_canh_khach_quan_dac_biet_ma_vut_bo_con_do_minh_de_ra_trong_07_ngay_tuoi_dan_den_hau_qua_dua_tre_chet",
+          "source_event_id": "nguoi_me_nao_do_anh_huong_nang_ne_cua_tu_tuong_lac_hau_hoac_trong_hoan_canh_khach_quan_dac_biet_ma_vut_bo_con_do_minh_de_ra_trong_07_ngay_tuoi_dan_den_hau_qua_dua_tre_chet",
+          "source_event_name": "Người mẹ nào do ảnh hưởng nặng nề của tư tưởng lạc hậu hoặc trong hoàn cảnh khách quan đặc biệt mà vứt bỏ con do mình đẻ ra trong 07 ngày tuổi dẫn đến hậu quả đứa trẻ chết",
+          "target_event_node": "EVENT::phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_id": "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+          "target_event_name": "Phạt cải tạo không giam giữ đến 02 năm hoặc bị phạt tù từ 03 tháng đến 02 năm",
+          "rule_ids": [
+            "289"
+          ],
+          "article_ids": [
+            "124"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5772781121730804
+    },
+    {
+      "seed_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "seed_similarity": 0.799324631690979,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "rule_ids": [
+        "171",
+        "177"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "171"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "source_event_id": "mien_chap_hanh_hinh_phat",
+          "source_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "target_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "rule_ids": [
+            "177"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5321766427516937
+    },
+    {
+      "seed_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "seed_similarity": 0.7338987588882446,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "rule_ids": [
+        "172",
+        "177"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "172"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "source_event_id": "mien_chap_hanh_hinh_phat",
+          "source_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "target_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "rule_ids": [
+            "177"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4989141290187836
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "171",
+      "rule_node_id": "RULE::171",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "semantic_score": 0.7382458448410034,
+      "graph_score": 0.635581271648407,
+      "seed_event_score": 0.799324631690979,
+      "direct_rule_score": 0.7382458448410034,
+      "final_score": 0.7209358016967774,
+      "matched_seed_events": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công"
+      ],
+      "path_ids": [
+        0,
+        11
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "172",
+      "rule_node_id": "RULE::172",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "semantic_score": 0.6951348781585693,
+      "graph_score": 0.5950172305107118,
+      "seed_event_score": 0.7338987588882446,
+      "direct_rule_score": 0.6951348781585693,
+      "final_score": 0.6757583084106444,
+      "matched_seed_events": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo"
+      ],
+      "path_ids": [
+        1,
+        12
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "174",
+      "rule_node_id": "RULE::174",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+      "effect": "có thể được miễn toàn bộ hình phạt",
+      "condition_event": "ket_an_tu_tren_03_nam_chua_chap_hanh_da_lap_cong_lon_hoac_mac_benh_hiem_ngheo_va_khong_con_nguy_hiem",
+      "condition_event_name": "Bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm",
+      "effect_event": "mien_toan_bo_hinh_phat",
+      "effect_event_name": "Có thể được miễn toàn bộ hình phạt",
+      "causal_type": "EXEMPTION",
+      "semantic_score": 0.6743323802947998,
+      "graph_score": 0.5931371140480042,
+      "seed_event_score": 0.7308663129806519,
+      "direct_rule_score": 0.0,
+      "final_score": 0.621169645500183,
+      "matched_seed_events": [
+        "Bị kết án tù trên 03 năm, chưa chấp hành, đã lập công lớn hoặc mắc bệnh hiểm nghèo và không còn nguy hiểm"
+      ],
+      "path_ids": [
+        2
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "2535",
+      "rule_node_id": "RULE::2535",
+      "article_id": "362",
+      "article_title": "Tội vô ý làm lộ bí mật công tác; tội làm mất tài liệu bí mật công tác",
+      "legal_subject": "Người phạm tội",
+      "condition": "Để người khác sử dụng thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "effect": "bị phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "condition_event": "de_nguoi_khac_su_dung_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "condition_event_name": "Để người khác sử dụng thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "effect_event": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6648890972137451,
+      "graph_score": 0.578656861782074,
+      "seed_event_score": 0.7075110673904419,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6094146512985229,
+      "matched_seed_events": [
+        "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "2534",
+      "rule_node_id": "RULE::2534",
+      "article_id": "362",
+      "article_title": "Tội vô ý làm lộ bí mật công tác; tội làm mất tài liệu bí mật công tác",
+      "legal_subject": "Người phạm tội",
+      "condition": "Gây thiệt hại về tài sản 500.000.000 đồng trở lên",
+      "effect": "bị phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "condition_event": "gay_thiet_hai_ve_tai_san_500_000_000_dong_tro_len",
+      "condition_event_name": "Gây thiệt hại về tài sản 500.000.000 đồng trở lên",
+      "effect_event": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6543433666229248,
+      "graph_score": 0.578656861782074,
+      "seed_event_score": 0.7075110673904419,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6032981275558471,
+      "matched_seed_events": [
+        "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:"
+      ],
+      "path_ids": [
+        6
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "355",
+      "rule_node_id": "RULE::355",
+      "article_id": "139",
+      "article_title": "Tội vô ý gây thương tích hoặc gây tổn hại cho sức khỏe của người khác do vi phạm quy tắc nghề nghiệp hoặc quy tắc hành chính",
+      "legal_subject": "Người phạm tội",
+      "condition": "Đối với 02 người trở lên mà tỷ lệ tổn thương cơ thể của mỗi người từ 31% đến 60%",
+      "effect": "bị phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "condition_event": "doi_voi_02_nguoi_tro_len_ma_ty_le_ton_thuong_co_the_cua_moi_nguoi_tu_31_den_60",
+      "condition_event_name": "Đối với 02 người trở lên mà tỷ lệ tổn thương cơ thể của mỗi người từ 31% đến 60%",
+      "effect_event": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6448601484298706,
+      "graph_score": 0.5785255980491638,
+      "seed_event_score": 0.7072993516921997,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5977409518241882,
+      "matched_seed_events": [
+        "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:"
+      ],
+      "path_ids": [
+        8
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "359",
+      "rule_node_id": "RULE::359",
+      "article_id": "140",
+      "article_title": "Tội hành hạ người khác",
+      "legal_subject": "Người phạm tội",
+      "condition": "đối xử tàn ác hoặc làm nhục người lệ thuộc mình nếu không thuộc các trường hợp quy định tại Điều 185 của Bộ luật này",
+      "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "condition_event": "doi_xu_tan_ac_hoac_lam_nhuc_nguoi_le_thuoc_minh_neu_khong_thuoc_cac_truong_hop_quy_dinh_tai_dieu_185_cua_bo_luat_nay",
+      "condition_event_name": "Đối xử tàn ác hoặc làm nhục người lệ thuộc mình nếu không thuộc các trường hợp quy định tại Điều 185 của Bộ luật này",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6348950862884521,
+      "graph_score": 0.5803409326076507,
+      "seed_event_score": 0.7102273106575012,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5927482511520386,
+      "matched_seed_events": [
+        "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm"
+      ],
+      "path_ids": [
+        3
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "793",
+      "rule_node_id": "RULE::793",
+      "article_id": "180",
+      "article_title": "Tội vô ý gây thiệt hại nghiêm trọng đến tài sản",
+      "legal_subject": "Người phạm tội",
+      "condition": "Phạm tội gây thiệt hại cho tài sản của người khác trị giá 500.000.000 đồng trở lên",
+      "effect": "bị phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "condition_event": "pham_toi_gay_thiet_hai_cho_tai_san_cua_nguoi_khac_tri_gia_500_000_000_dong_tro_len",
+      "condition_event_name": "Phạm tội gây thiệt hại cho tài sản của người khác trị giá 500.000.000 đồng trở lên",
+      "effect_event": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6361111998558044,
+      "graph_score": 0.578656861782074,
+      "seed_event_score": 0.7075110673904419,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5927234708309174,
+      "matched_seed_events": [
+        "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm || Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm:"
+      ],
+      "path_ids": [
+        5
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "356",
+      "rule_node_id": "RULE::356",
+      "article_id": "139",
+      "article_title": "Tội vô ý gây thương tích hoặc gây tổn hại cho sức khỏe của người khác do vi phạm quy tắc nghề nghiệp hoặc quy tắc hành chính",
+      "legal_subject": "Người phạm tội",
+      "condition": "Gây thương tích hoặc gây tổn hại cho sức khỏe của người khác mà tỷ lệ tổn thương cơ thể 61% trở lên",
+      "effect": "bị phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "condition_event": "gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len",
+      "condition_event_name": "Gây thương tích hoặc gây tổn hại cho sức khỏe của người khác mà tỷ lệ tổn thương cơ thể 61% trở lên",
+      "effect_event": "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6196733713150024,
+      "graph_score": 0.5785255980491638,
+      "seed_event_score": 0.7072993516921997,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5831326210975647,
+      "matched_seed_events": [
+        "Phạt cải tạo không giam giữ từ 02 năm đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:"
+      ],
+      "path_ids": [
+        9
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "2200",
+      "rule_node_id": "RULE::2200",
+      "article_id": "313",
+      "article_title": "Tội vi phạm quy định về phòng cháy, chữa cháy",
+      "legal_subject": "Người phạm tội",
+      "condition": "vi phạm quy định về phòng cháy, chữa cháy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+      "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 02 năm đến 05 năm:",
+      "condition_event": "vi_pham_quy_dinh_ve_phong_chay_chua_chay_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+      "condition_event_name": "Vi phạm quy định về phòng cháy, chữa cháy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 02 năm đến 05 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6112028360366821,
+      "graph_score": 0.5803337264060975,
+      "seed_event_score": 0.71021568775177,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5790036217689514,
+      "matched_seed_events": [
+        "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "path_ids": [
+        4
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "177",
+      "rule_node_id": "RULE::177",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Người được miễn chấp hành hình phạt",
+      "condition": "được miễn chấp hành hình phạt",
+      "effect": "vẫn phải thực hiện đầy đủ nghĩa vụ dân sự trong bản án",
+      "condition_event": "mien_chap_hanh_hinh_phat",
+      "condition_event_name": "Được miễn chấp hành hình phạt",
+      "effect_event": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "effect_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "causal_type": "OBLIGATION",
+      "semantic_score": 0.5863000154495239,
+      "graph_score": 0.5321766427516937,
+      "seed_event_score": 0.799324631690979,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5636953590240479,
+      "matched_seed_events": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo"
+      ],
+      "path_ids": [
+        11,
+        12
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "289",
+      "rule_node_id": "RULE::289",
+      "article_id": "124",
+      "article_title": "Tội giết hoặc vứt bỏ con mới đẻ",
+      "legal_subject": "Người phạm tội",
+      "condition": "Người mẹ nào do ảnh hưởng nặng nề của tư tưởng lạc hậu hoặc trong hoàn cảnh khách quan đặc biệt mà vứt bỏ con do mình đẻ ra trong 07 ngày tuổi dẫn đến hậu quả đứa trẻ chết",
+      "effect": "bị phạt cải tạo không giam giữ đến 02 năm hoặc bị phạt tù từ 03 tháng đến 02 năm",
+      "condition_event": "nguoi_me_nao_do_anh_huong_nang_ne_cua_tu_tuong_lac_hau_hoac_trong_hoan_canh_khach_quan_dac_biet_ma_vut_bo_con_do_minh_de_ra_trong_07_ngay_tuoi_dan_den_hau_qua_dua_tre_chet",
+      "condition_event_name": "Người mẹ nào do ảnh hưởng nặng nề của tư tưởng lạc hậu hoặc trong hoàn cảnh khách quan đặc biệt mà vứt bỏ con do mình đẻ ra trong 07 ngày tuổi dẫn đến hậu quả đứa trẻ chết",
+      "effect_event": "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+      "effect_event_name": "Phạt cải tạo không giam giữ đến 02 năm hoặc bị phạt tù từ 03 tháng đến 02 năm",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5461682081222534,
+      "graph_score": 0.5772781121730804,
+      "seed_event_score": 0.7052872776985168,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5399587809562683,
+      "matched_seed_events": [
+        "Phạt cải tạo không giam giữ đến 02 năm hoặc bị phạt tù từ 03 tháng đến 02 năm"
+      ],
+      "path_ids": [
+        10
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 13,
+    "candidate_rules": 18,
+    "final_evidence": 12,
+    "unique_path_rules": 12
+  }
+}

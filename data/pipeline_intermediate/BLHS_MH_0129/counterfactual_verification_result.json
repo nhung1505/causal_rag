@@ -1,0 +1,1625 @@
+{
+  "query": "Trong chuỗi từ “Đã tái phạm chưa xóa án tích và lại cố ý phạm tội” đến “Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm”, bước pháp lý trung gian là gì?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 30,
+    "total_paths": 30,
+    "path_status_counts": {
+      "SUPPORTED": 30,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 30,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "tham_gia_giao_thong_duong_bo_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_bo_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+      "seed_event_name": "Tham gia giao thông đường bộ mà vi phạm quy định về an toàn giao thông đường bộ gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::tham_gia_giao_thong_duong_bo_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_bo_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "tham_gia_giao_thong_duong_bo_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_bo_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Tham gia giao thông đường bộ mà vi phạm quy định về an toàn giao thông đường bộ gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1711"
+      ],
+      "original_article_ids": [
+        "260"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "to_chuc_trai_phep_viec_dua_xe_o_to_xe_may_hoac_cac_loai_xe_khac_co_gan_dong_co",
+      "seed_event_name": "Tổ chức trái phép việc đua xe ô tô, xe máy hoặc các loại xe khác có gắn động cơ",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::to_chuc_trai_phep_viec_dua_xe_o_to_xe_may_hoac_cac_loai_xe_khac_co_gan_dong_co",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "to_chuc_trai_phep_viec_dua_xe_o_to_xe_may_hoac_cac_loai_xe_khac_co_gan_dong_co",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Tổ chức trái phép việc đua xe ô tô, xe máy hoặc các loại xe khác có gắn động cơ",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1753"
+      ],
+      "original_article_ids": [
+        "265"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "dieu_dong_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+      "seed_event_name": "Điều động người không có giấy phép lái tàu hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường sắt gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật hoặc xử phạt vi phạm hành chính về hành vi này mà còn vi phạm",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::dieu_dong_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "dieu_dong_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Điều động người không có giấy phép lái tàu hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường sắt gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật hoặc xử phạt vi phạm hành chính về hành vi này mà còn vi phạm",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1815"
+      ],
+      "original_article_ids": [
+        "270"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "dieu_khien_phuong_tien_giao_thong_duong_thuy_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+      "seed_event_name": "Điều khiển phương tiện giao thông đường thủy mà vi phạm quy định về an toàn giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::dieu_khien_phuong_tien_giao_thong_duong_thuy_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "dieu_khien_phuong_tien_giao_thong_duong_thuy_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Điều khiển phương tiện giao thông đường thủy mà vi phạm quy định về an toàn giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1829"
+      ],
+      "original_article_ids": [
+        "272"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "khoan_dao_trai_phep_lam_hu_hai_ket_cau_cua_cong_trinh_giao_thong_duong_thuy_tao_ra_chuong_ngai_vat_gay_can_tro_giao_thong_duong_thuy_ma_khong_dat_va_duy_tri_bao_hieu_di_chuyen_lam_giam_hieu_luc_tac_dung_cua_bao_hieu_thao_do_bao_hieu_hoac_pha_hoai_cong_trinh_giao_thong_duong_thuy_lan_chiem_luong_hoac_hanh_lang_bao_ve_luong_giao_thong_duong_thuy_hoac_hanh_vi_khac_can_tro_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+      "seed_event_name": "Khoan, đào trái phép làm hư hại kết cấu của công trình giao thông đường thủy; tạo ra chướng ngại vật gây cản trở giao thông đường thủy mà không đặt và duy trì báo hiệu; di chuyển làm giảm hiệu lực, tác dụng của báo hiệu; tháo dỡ báo hiệu hoặc phá hoại công trình giao thông đường thủy; lấn chiếm luồng hoặc hành lang bảo vệ luồng giao thông đường thủy hoặc hành vi khác cản trở giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::khoan_dao_trai_phep_lam_hu_hai_ket_cau_cua_cong_trinh_giao_thong_duong_thuy_tao_ra_chuong_ngai_vat_gay_can_tro_giao_thong_duong_thuy_ma_khong_dat_va_duy_tri_bao_hieu_di_chuyen_lam_giam_hieu_luc_tac_dung_cua_bao_hieu_thao_do_bao_hieu_hoac_pha_hoai_cong_trinh_giao_thong_duong_thuy_lan_chiem_luong_hoac_hanh_lang_bao_ve_luong_giao_thong_duong_thuy_hoac_hanh_vi_khac_can_tro_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "khoan_dao_trai_phep_lam_hu_hai_ket_cau_cua_cong_trinh_giao_thong_duong_thuy_tao_ra_chuong_ngai_vat_gay_can_tro_giao_thong_duong_thuy_ma_khong_dat_va_duy_tri_bao_hieu_di_chuyen_lam_giam_hieu_luc_tac_dung_cua_bao_hieu_thao_do_bao_hieu_hoac_pha_hoai_cong_trinh_giao_thong_duong_thuy_lan_chiem_luong_hoac_hanh_lang_bao_ve_luong_giao_thong_duong_thuy_hoac_hanh_vi_khac_can_tro_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Khoan, đào trái phép làm hư hại kết cấu của công trình giao thông đường thủy; tạo ra chướng ngại vật gây cản trở giao thông đường thủy mà không đặt và duy trì báo hiệu; di chuyển làm giảm hiệu lực, tác dụng của báo hiệu; tháo dỡ báo hiệu hoặc phá hoại công trình giao thông đường thủy; lấn chiếm luồng hoặc hành lang bảo vệ luồng giao thông đường thủy hoặc hành vi khác cản trở giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1841"
+      ],
+      "original_article_ids": [
+        "273"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "chiu_trach_nhiem_truc_tiep_ve_viec_dieu_dong_hoac_ve_tinh_trang_ky_thuat_ma_cho_phep_dua_vao_su_dung_phuong_tien_giao_thong_duong_thuy_ro_rang_khong_bao_dam_tieu_chuan_an_toan_ky_thuat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Chịu trách nhiệm trực tiếp về việc điều động hoặc về tình trạng kỹ thuật mà cho phép đưa vào sử dụng phương tiện giao thông đường thủy rõ ràng không bảo đảm tiêu chuẩn an toàn kỹ thuật gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::chiu_trach_nhiem_truc_tiep_ve_viec_dieu_dong_hoac_ve_tinh_trang_ky_thuat_ma_cho_phep_dua_vao_su_dung_phuong_tien_giao_thong_duong_thuy_ro_rang_khong_bao_dam_tieu_chuan_an_toan_ky_thuat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "chiu_trach_nhiem_truc_tiep_ve_viec_dieu_dong_hoac_ve_tinh_trang_ky_thuat_ma_cho_phep_dua_vao_su_dung_phuong_tien_giao_thong_duong_thuy_ro_rang_khong_bao_dam_tieu_chuan_an_toan_ky_thuat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Chịu trách nhiệm trực tiếp về việc điều động hoặc về tình trạng kỹ thuật mà cho phép đưa vào sử dụng phương tiện giao thông đường thủy rõ ràng không bảo đảm tiêu chuẩn an toàn kỹ thuật gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1849"
+      ],
+      "original_article_ids": [
+        "274"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "dieu_dong_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Điều động người không có bằng, giấy chứng nhận khả năng chuyên môn, chứng chỉ chuyên môn theo quy định hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::dieu_dong_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "dieu_dong_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Điều động người không có bằng, giấy chứng nhận khả năng chuyên môn, chứng chỉ chuyên môn theo quy định hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1856"
+      ],
+      "original_article_ids": [
+        "275"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "chi_huy_dieu_khien_tau_bay_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_khong_co_kha_nang_thuc_te_dan_den_hau_qua_gay_thiet_hai_cho_tinh_mang_suc_khoe_hoac_tai_san_cua_nguoi_khac_neu_khong_duoc_ngan_chan_kip_thoi",
+      "seed_event_name": "Chỉ huy, điều khiển tàu bay mà vi phạm quy định về an toàn giao thông đường không, có khả năng thực tế dẫn đến hậu quả gây thiệt hại cho tính mạng, sức khỏe hoặc tài sản của người khác nếu không được ngăn chặn kịp thời",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::chi_huy_dieu_khien_tau_bay_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_khong_co_kha_nang_thuc_te_dan_den_hau_qua_gay_thiet_hai_cho_tinh_mang_suc_khoe_hoac_tai_san_cua_nguoi_khac_neu_khong_duoc_ngan_chan_kip_thoi",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "chi_huy_dieu_khien_tau_bay_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_khong_co_kha_nang_thuc_te_dan_den_hau_qua_gay_thiet_hai_cho_tinh_mang_suc_khoe_hoac_tai_san_cua_nguoi_khac_neu_khong_duoc_ngan_chan_kip_thoi",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Chỉ huy, điều khiển tàu bay mà vi phạm quy định về an toàn giao thông đường không, có khả năng thực tế dẫn đến hậu quả gây thiệt hại cho tính mạng, sức khỏe hoặc tài sản của người khác nếu không được ngăn chặn kịp thời",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1870"
+      ],
+      "original_article_ids": [
+        "277"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "dat_chuong_ngai_vat_di_chuyen_trai_phep_lam_sai_lech_che_khuat_hoac_pha_huy_bien_hieu_tin_hieu_an_toan_giao_thong_duong_khong_su_dung_sai_hoac_lam_nhieu_tan_so_thong_tin_lien_lac_lam_hu_hong_trang_bi_thiet_bi_cua_san_bay_hoac_trang_bi_thiet_bi_phu_tro_khac_phuc_vu_cho_an_toan_bay_cung_cap_thong_tin_sai_den_muc_gay_uy_hiep_an_toan_cua_tau_bay_an_toan_cua_hanh_khach_to_bay_nhan_vien_mat_dat_hoac_nguoi_khac_tai_cang_hang_khong_san_bay_hoac_cong_trinh_trang_bi_thiet_bi_hang_khong_dan_dung_dieu_khien_dua_phuong_tien_mat_dat_khong_dap_ung_dieu_kien_ky_thuat_vao_khai_thac_tai_khu_bay_hoac_co_hanh_vi_khac_can_tro_giao_thong_duong_khong_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+      "seed_event_name": "Đặt chướng ngại vật; di chuyển trái phép, làm sai lệch, che khuất hoặc phá hủy biển hiệu, tín hiệu an toàn giao thông đường không; sử dụng sai hoặc làm nhiễu tần số thông tin liên lạc; làm hư hỏng trang bị, thiết bị của sân bay hoặc trang bị, thiết bị phụ trợ khác phục vụ cho an toàn bay; cung cấp thông tin sai đến mức gây uy hiếp an toàn của tàu bay, an toàn của hành khách, tổ bay, nhân viên mặt đất hoặc người khác tại cảng hàng không, sân bay hoặc công trình, trang bị, thiết bị hàng không dân dụng; điều khiển, đưa phương tiện mặt đất không đáp ứng điều kiện kỹ thuật vào khai thác tại khu bay hoặc có hành vi khác cản trở giao thông đường không gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+      "original_outcome_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "original_event_nodes": [
+        "EVENT::dat_chuong_ngai_vat_di_chuyen_trai_phep_lam_sai_lech_che_khuat_hoac_pha_huy_bien_hieu_tin_hieu_an_toan_giao_thong_duong_khong_su_dung_sai_hoac_lam_nhieu_tan_so_thong_tin_lien_lac_lam_hu_hong_trang_bi_thiet_bi_cua_san_bay_hoac_trang_bi_thiet_bi_phu_tro_khac_phuc_vu_cho_an_toan_bay_cung_cap_thong_tin_sai_den_muc_gay_uy_hiep_an_toan_cua_tau_bay_an_toan_cua_hanh_khach_to_bay_nhan_vien_mat_dat_hoac_nguoi_khac_tai_cang_hang_khong_san_bay_hoac_cong_trinh_trang_bi_thiet_bi_hang_khong_dan_dung_dieu_khien_dua_phuong_tien_mat_dat_khong_dap_ung_dieu_kien_ky_thuat_vao_khai_thac_tai_khu_bay_hoac_co_hanh_vi_khac_can_tro_giao_thong_duong_khong_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "dat_chuong_ngai_vat_di_chuyen_trai_phep_lam_sai_lech_che_khuat_hoac_pha_huy_bien_hieu_tin_hieu_an_toan_giao_thong_duong_khong_su_dung_sai_hoac_lam_nhieu_tan_so_thong_tin_lien_lac_lam_hu_hong_trang_bi_thiet_bi_cua_san_bay_hoac_trang_bi_thiet_bi_phu_tro_khac_phuc_vu_cho_an_toan_bay_cung_cap_thong_tin_sai_den_muc_gay_uy_hiep_an_toan_cua_tau_bay_an_toan_cua_hanh_khach_to_bay_nhan_vien_mat_dat_hoac_nguoi_khac_tai_cang_hang_khong_san_bay_hoac_cong_trinh_trang_bi_thiet_bi_hang_khong_dan_dung_dieu_khien_dua_phuong_tien_mat_dat_khong_dap_ung_dieu_kien_ky_thuat_vao_khai_thac_tai_khu_bay_hoac_co_hanh_vi_khac_can_tro_giao_thong_duong_khong_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đặt chướng ngại vật; di chuyển trái phép, làm sai lệch, che khuất hoặc phá hủy biển hiệu, tín hiệu an toàn giao thông đường không; sử dụng sai hoặc làm nhiễu tần số thông tin liên lạc; làm hư hỏng trang bị, thiết bị của sân bay hoặc trang bị, thiết bị phụ trợ khác phục vụ cho an toàn bay; cung cấp thông tin sai đến mức gây uy hiếp an toàn của tàu bay, an toàn của hành khách, tổ bay, nhân viên mặt đất hoặc người khác tại cảng hàng không, sân bay hoặc công trình, trang bị, thiết bị hàng không dân dụng; điều khiển, đưa phương tiện mặt đất không đáp ứng điều kiện kỹ thuật vào khai thác tại khu bay hoặc có hành vi khác cản trở giao thông đường không gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+        "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+      ],
+      "original_rule_ids": [
+        "1881"
+      ],
+      "original_article_ids": [
+        "278"
+      ],
+      "original_path_score": 0.5240728369951249,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "tai_pham_nguy_hiem",
+      "seed_event_name": "Tái phạm nguy hiểm",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "884"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "loi_dung_chuc_vu_quyen_han",
+      "seed_event_name": "Lợi dụng chức vụ, quyền hạn",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::loi_dung_chuc_vu_quyen_han",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "loi_dung_chuc_vu_quyen_han",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Lợi dụng chức vụ, quyền hạn",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "875"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "co_to_chuc",
+      "seed_event_name": "Có tổ chức",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::co_to_chuc",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "co_to_chuc",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Có tổ chức",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "874"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "co_tinh_chat_chuyen_nghiep",
+      "seed_event_name": "Có tính chất chuyên nghiệp",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::co_tinh_chat_chuyen_nghiep",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "co_tinh_chat_chuyen_nghiep",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Có tính chất chuyên nghiệp",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "877"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "loi_dung_danh_nghia_co_quan_to_chuc",
+      "seed_event_name": "Lợi dụng danh nghĩa cơ quan, tổ chức",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::loi_dung_danh_nghia_co_quan_to_chuc",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "loi_dung_danh_nghia_co_quan_to_chuc",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Lợi dụng danh nghĩa cơ quan, tổ chức",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "876"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "thuoc_bao_ve_thuc_vat_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tu_100_kilogam_den_duoi_300_kilogam_hoac_tu_100_lit_den_duoi_300_lit",
+      "seed_event_name": "Thuốc bảo vệ thực vật mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng từ 100 kilôgam đến dưới 300 kilôgam hoặc từ 100 lít đến dưới 300 lít",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::thuoc_bao_ve_thuc_vat_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tu_100_kilogam_den_duoi_300_kilogam_hoac_tu_100_lit_den_duoi_300_lit",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "thuoc_bao_ve_thuc_vat_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tu_100_kilogam_den_duoi_300_kilogam_hoac_tu_100_lit_den_duoi_300_lit",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Thuốc bảo vệ thực vật mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng từ 100 kilôgam đến dưới 300 kilôgam hoặc từ 100 lít đến dưới 300 lít",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "878"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 15,
+      "seed_event_id": "thuoc_la_dieu_nhap_lau_tu_3_000_bao_den_duoi_4_500_bao",
+      "seed_event_name": "Thuốc lá điếu nhập lậu từ 3.000 bao đến dưới 4.500 bao",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::thuoc_la_dieu_nhap_lau_tu_3_000_bao_den_duoi_4_500_bao",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "thuoc_la_dieu_nhap_lau_tu_3_000_bao_den_duoi_4_500_bao",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Thuốc lá điếu nhập lậu từ 3.000 bao đến dưới 4.500 bao",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "879"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 16,
+      "seed_event_id": "phao_no_tu_40_kilogam_den_duoi_120_kilogam",
+      "seed_event_name": "Pháo nổ từ 40 kilôgam đến dưới 120 kilôgam",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::phao_no_tu_40_kilogam_den_duoi_120_kilogam",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "phao_no_tu_40_kilogam_den_duoi_120_kilogam",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Pháo nổ từ 40 kilôgam đến dưới 120 kilôgam",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "880"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 17,
+      "seed_event_id": "hang_hoa_khac_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tri_gia_tu_300_000_000_dong_den_duoi_500_000_000_dong_hoac_thu_loi_bat_chinh_tu_200_000_000_dong_den_duoi_500_000_000_dong",
+      "seed_event_name": "Hàng hóa khác mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng trị giá từ 300.000.000 đồng đến dưới 500.000.000 đồng hoặc thu lợi bất chính từ 200.000.000 đồng đến dưới 500.000.000 đồng",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::hang_hoa_khac_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tri_gia_tu_300_000_000_dong_den_duoi_500_000_000_dong_hoac_thu_loi_bat_chinh_tu_200_000_000_dong_den_duoi_500_000_000_dong",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "hang_hoa_khac_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tri_gia_tu_300_000_000_dong_den_duoi_500_000_000_dong_hoac_thu_loi_bat_chinh_tu_200_000_000_dong_den_duoi_500_000_000_dong",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Hàng hóa khác mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng trị giá từ 300.000.000 đồng đến dưới 500.000.000 đồng hoặc thu lợi bất chính từ 200.000.000 đồng đến dưới 500.000.000 đồng",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "881"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 18,
+      "seed_event_id": "hang_hoa_chua_duoc_phep_luu_hanh_chua_duoc_phep_su_dung_tai_viet_nam_tri_gia_tu_500_000_000_dong_den_duoi_1_000_000_000_dong_hoac_thu_loi_bat_chinh_tu_300_000_000_dong_den_duoi_700_000_000_dong",
+      "seed_event_name": "Hàng hóa chưa được phép lưu hành, chưa được phép sử dụng tại Việt Nam trị giá từ 500.000.000 đồng đến dưới 1.000.000.000 đồng hoặc thu lợi bất chính từ 300.000.000 đồng đến dưới 700.000.000 đồng",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::hang_hoa_chua_duoc_phep_luu_hanh_chua_duoc_phep_su_dung_tai_viet_nam_tri_gia_tu_500_000_000_dong_den_duoi_1_000_000_000_dong_hoac_thu_loi_bat_chinh_tu_300_000_000_dong_den_duoi_700_000_000_dong",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "hang_hoa_chua_duoc_phep_luu_hanh_chua_duoc_phep_su_dung_tai_viet_nam_tri_gia_tu_500_000_000_dong_den_duoi_1_000_000_000_dong_hoac_thu_loi_bat_chinh_tu_300_000_000_dong_den_duoi_700_000_000_dong",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Hàng hóa chưa được phép lưu hành, chưa được phép sử dụng tại Việt Nam trị giá từ 500.000.000 đồng đến dưới 1.000.000.000 đồng hoặc thu lợi bất chính từ 300.000.000 đồng đến dưới 700.000.000 đồng",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "882"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 19,
+      "seed_event_id": "van_chuyen_qua_bien_gioi_tru_hang_hoa_la_thuoc_la_dieu_nhap_lau",
+      "seed_event_name": "Vận chuyển qua biên giới, trừ hàng hóa là thuốc lá điếu nhập lậu",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::van_chuyen_qua_bien_gioi_tru_hang_hoa_la_thuoc_la_dieu_nhap_lau",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "van_chuyen_qua_bien_gioi_tru_hang_hoa_la_thuoc_la_dieu_nhap_lau",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Vận chuyển qua biên giới, trừ hàng hóa là thuốc lá điếu nhập lậu",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "883"
+      ],
+      "original_article_ids": [
+        "191"
+      ],
+      "original_path_score": 0.5226446269750595,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 20,
+      "seed_event_id": "thuc_hien_mot_trong_cac_hanh_vi_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_243_cua_bo_luat_nay",
+      "seed_event_name": "Thực hiện một trong các hành vi sau đây, nếu không thuộc trường hợp quy định tại Điều 243 của Bộ luật này",
+      "original_outcome_event_id": "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "original_outcome_event_name": "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "original_event_nodes": [
+        "EVENT::thuc_hien_mot_trong_cac_hanh_vi_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_243_cua_bo_luat_nay",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_300_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_ids": [
+        "thuc_hien_mot_trong_cac_hanh_vi_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_243_cua_bo_luat_nay",
+        "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_names": [
+        "Thực hiện một trong các hành vi sau đây, nếu không thuộc trường hợp quy định tại Điều 243 của Bộ luật này",
+        "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:"
+      ],
+      "original_rule_ids": [
+        "1255"
+      ],
+      "original_article_ids": [
+        "232"
+      ],
+      "original_path_score": 0.5224791799783707,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 21,
+      "seed_event_id": "thuc_hien_mot_trong_cac_hanh_vi_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_242_va_dieu_244_cua_bo_luat_nay",
+      "seed_event_name": "Thực hiện một trong các hành vi sau đây, nếu không thuộc trường hợp quy định tại Điều 242 và Điều 244 của Bộ luật này",
+      "original_outcome_event_id": "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "original_outcome_event_name": "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "original_event_nodes": [
+        "EVENT::thuc_hien_mot_trong_cac_hanh_vi_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_242_va_dieu_244_cua_bo_luat_nay",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_300_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_ids": [
+        "thuc_hien_mot_trong_cac_hanh_vi_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_242_va_dieu_244_cua_bo_luat_nay",
+        "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_names": [
+        "Thực hiện một trong các hành vi sau đây, nếu không thuộc trường hợp quy định tại Điều 242 và Điều 244 của Bộ luật này",
+        "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:"
+      ],
+      "original_rule_ids": [
+        "1297"
+      ],
+      "original_article_ids": [
+        "234"
+      ],
+      "original_path_score": 0.5224791799783707,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 22,
+      "seed_event_id": "vi_pham_quy_dinh_ve_xay_dung_trong_linh_vuc_khao_sat_thiet_ke_thi_cong_su_dung_nguyen_lieu_vat_lieu_may_moc_giam_sat_nghiem_thu_cong_trinh_hoac_linh_vuc_khac_thuoc_mot_trong_cac_truong_hop_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_224_va_dieu_281_cua_bo_luat_nay",
+      "seed_event_name": "Vi phạm quy định về xây dựng trong lĩnh vực khảo sát, thiết kế, thi công, sử dụng nguyên liệu, vật liệu, máy móc, giám sát, nghiệm thu công trình hoặc lĩnh vực khác thuộc một trong các trường hợp sau đây, nếu không thuộc trường hợp quy định tại Điều 224 và Điều 281 của Bộ luật này",
+      "original_outcome_event_id": "phat_tien_tu_50_000_000_dong_den_500_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 50.000.000 đồng đến 500.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::vi_pham_quy_dinh_ve_xay_dung_trong_linh_vuc_khao_sat_thiet_ke_thi_cong_su_dung_nguyen_lieu_vat_lieu_may_moc_giam_sat_nghiem_thu_cong_trinh_hoac_linh_vuc_khac_thuoc_mot_trong_cac_truong_hop_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_224_va_dieu_281_cua_bo_luat_nay",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_500_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "vi_pham_quy_dinh_ve_xay_dung_trong_linh_vuc_khao_sat_thiet_ke_thi_cong_su_dung_nguyen_lieu_vat_lieu_may_moc_giam_sat_nghiem_thu_cong_trinh_hoac_linh_vuc_khac_thuoc_mot_trong_cac_truong_hop_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_224_va_dieu_281_cua_bo_luat_nay",
+        "phat_tien_tu_50_000_000_dong_den_500_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Vi phạm quy định về xây dựng trong lĩnh vực khảo sát, thiết kế, thi công, sử dụng nguyên liệu, vật liệu, máy móc, giám sát, nghiệm thu công trình hoặc lĩnh vực khác thuộc một trong các trường hợp sau đây, nếu không thuộc trường hợp quy định tại Điều 224 và Điều 281 của Bộ luật này",
+        "Phạt tiền từ 50.000.000 đồng đến 500.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "2036"
+      ],
+      "original_article_ids": [
+        "298"
+      ],
+      "original_path_score": 0.5216372295618057,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 23,
+      "seed_event_id": "to_chuc_hoat_dong_kinh_doanh_theo_phuong_thuc_da_cap_ma_khong_co_giay_chung_nhan_dang_ky_hoat_dong_ban_hang_da_cap_hoac_khong_dung_voi_noi_dung_giay_chung_nhan_dang_ky_hoat_dong_ban_hang_da_cap_thuoc_mot_trong_cac_truong_hop_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_174_va_dieu_290_cua_bo_luat_nay",
+      "seed_event_name": "Tổ chức hoạt động kinh doanh theo phương thức đa cấp mà không có giấy chứng nhận đăng ký hoạt động bán hàng đa cấp hoặc không đúng với nội dung giấy chứng nhận đăng ký hoạt động bán hàng đa cấp thuộc một trong các trường hợp sau đây, nếu không thuộc trường hợp quy định tại Điều 174 và Điều 290 của Bộ luật này",
+      "original_outcome_event_id": "phat_tien_tu_500_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_02_nam",
+      "original_outcome_event_name": "Phạt tiền từ 500.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 02 năm:",
+      "original_event_nodes": [
+        "EVENT::to_chuc_hoat_dong_kinh_doanh_theo_phuong_thuc_da_cap_ma_khong_co_giay_chung_nhan_dang_ky_hoat_dong_ban_hang_da_cap_hoac_khong_dung_voi_noi_dung_giay_chung_nhan_dang_ky_hoat_dong_ban_hang_da_cap_thuoc_mot_trong_cac_truong_hop_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_174_va_dieu_290_cua_bo_luat_nay",
+        "EVENT::phat_tien_tu_500_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_02_nam"
+      ],
+      "original_event_ids": [
+        "to_chuc_hoat_dong_kinh_doanh_theo_phuong_thuc_da_cap_ma_khong_co_giay_chung_nhan_dang_ky_hoat_dong_ban_hang_da_cap_hoac_khong_dung_voi_noi_dung_giay_chung_nhan_dang_ky_hoat_dong_ban_hang_da_cap_thuoc_mot_trong_cac_truong_hop_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_174_va_dieu_290_cua_bo_luat_nay",
+        "phat_tien_tu_500_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_02_nam"
+      ],
+      "original_event_names": [
+        "Tổ chức hoạt động kinh doanh theo phương thức đa cấp mà không có giấy chứng nhận đăng ký hoạt động bán hàng đa cấp hoặc không đúng với nội dung giấy chứng nhận đăng ký hoạt động bán hàng đa cấp thuộc một trong các trường hợp sau đây, nếu không thuộc trường hợp quy định tại Điều 174 và Điều 290 của Bộ luật này",
+        "Phạt tiền từ 500.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 02 năm:"
+      ],
+      "original_rule_ids": [
+        "1171"
+      ],
+      "original_article_ids": [
+        "217"
+      ],
+      "original_path_score": 0.5214654411077501,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 24,
+      "seed_event_id": "co_y_vuot_qua_canh_bao_ma_truy_cap_tuong_lua_su_dung_quyen_quan_tri_cua_nguoi_khac_hoac_bang_phuong_thuc_khac_xam_nhap_trai_phep_vao_mang_may_tinh_mang_vien_thong_hoac_phuong_tien_dien_tu_cua_nguoi_khac_chiem_quyen_dieu_khien_can_thiep_vao_chuc_nang_hoat_dong_cua_phuong_tien_dien_tu_lay_cap_thay_doi_huy_hoai_lam_gia_du_lieu_hoac_su_dung_trai_phep_cac_dich_vu",
+      "seed_event_name": "Cố ý vượt qua cảnh báo, mã truy cập, tường lửa, sử dụng quyền quản trị của người khác hoặc bằng phương thức khác xâm nhập trái phép vào mạng máy tính, mạng viễn thông hoặc phương tiện điện tử của người khác chiếm quyền điều khiển; can thiệp vào chức năng hoạt động của phương tiện điện tử; lấy cắp, thay đổi, hủy hoại, làm giả dữ liệu hoặc sử dụng trái phép các dịch vụ",
+      "original_outcome_event_id": "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm || Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::co_y_vuot_qua_canh_bao_ma_truy_cap_tuong_lua_su_dung_quyen_quan_tri_cua_nguoi_khac_hoac_bang_phuong_thuc_khac_xam_nhap_trai_phep_vao_mang_may_tinh_mang_vien_thong_hoac_phuong_tien_dien_tu_cua_nguoi_khac_chiem_quyen_dieu_khien_can_thiep_vao_chuc_nang_hoat_dong_cua_phuong_tien_dien_tu_lay_cap_thay_doi_huy_hoai_lam_gia_du_lieu_hoac_su_dung_trai_phep_cac_dich_vu",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "co_y_vuot_qua_canh_bao_ma_truy_cap_tuong_lua_su_dung_quyen_quan_tri_cua_nguoi_khac_hoac_bang_phuong_thuc_khac_xam_nhap_trai_phep_vao_mang_may_tinh_mang_vien_thong_hoac_phuong_tien_dien_tu_cua_nguoi_khac_chiem_quyen_dieu_khien_can_thiep_vao_chuc_nang_hoat_dong_cua_phuong_tien_dien_tu_lay_cap_thay_doi_huy_hoai_lam_gia_du_lieu_hoac_su_dung_trai_phep_cac_dich_vu",
+        "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Cố ý vượt qua cảnh báo, mã truy cập, tường lửa, sử dụng quyền quản trị của người khác hoặc bằng phương thức khác xâm nhập trái phép vào mạng máy tính, mạng viễn thông hoặc phương tiện điện tử của người khác chiếm quyền điều khiển; can thiệp vào chức năng hoạt động của phương tiện điện tử; lấy cắp, thay đổi, hủy hoại, làm giả dữ liệu hoặc sử dụng trái phép các dịch vụ",
+        "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm || Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "1977"
+      ],
+      "original_article_ids": [
+        "289"
+      ],
+      "original_path_score": 0.5202350154519081,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 25,
+      "seed_event_id": "to_chuc_danh_bac_hoac_ga_bac_trai_phep_thuoc_mot_trong_cac_truong_hop_sau_day",
+      "seed_event_name": "Tổ chức đánh bạc hoặc gá bạc trái phép thuộc một trong các trường hợp sau đây",
+      "original_outcome_event_id": "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm || Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::to_chuc_danh_bac_hoac_ga_bac_trai_phep_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "to_chuc_danh_bac_hoac_ga_bac_trai_phep_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Tổ chức đánh bạc hoặc gá bạc trái phép thuộc một trong các trường hợp sau đây",
+        "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm || Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "2271"
+      ],
+      "original_article_ids": [
+        "322"
+      ],
+      "original_path_score": 0.5202350154519081,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 26,
+      "seed_event_id": "chi_huy_dieu_khien_phuong_tien_giao_thong_duong_sat_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+      "seed_event_name": "Chỉ huy, điều khiển phương tiện giao thông đường sắt mà vi phạm quy định về an toàn giao thông đường sắt gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+      "original_outcome_event_id": "phat_tien_tu_50_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 50.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::chi_huy_dieu_khien_phuong_tien_giao_thong_duong_sat_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "chi_huy_dieu_khien_phuong_tien_giao_thong_duong_sat_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+        "phat_tien_tu_50_000_000_dong_den_200_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Chỉ huy, điều khiển phương tiện giao thông đường sắt mà vi phạm quy định về an toàn giao thông đường sắt gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+        "Phạt tiền từ 50.000.000 đồng đến 200.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "1788"
+      ],
+      "original_article_ids": [
+        "267"
+      ],
+      "original_path_score": 0.5196336948871613,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 27,
+      "seed_event_id": "khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+      "seed_event_name": "Không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+      "original_outcome_event_id": "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_cai_tao_khong_giam_giu_den_03_nam",
+      "original_outcome_event_name": "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt cải tạo không giam giữ đến 03 năm:",
+      "original_event_nodes": [
+        "EVENT::khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+        "EVENT::phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_cai_tao_khong_giam_giu_den_03_nam"
+      ],
+      "original_event_ids": [
+        "khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+        "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_cai_tao_khong_giam_giu_den_03_nam"
+      ],
+      "original_event_names": [
+        "Không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+        "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt cải tạo không giam giữ đến 03 năm:"
+      ],
+      "original_rule_ids": [
+        "1208"
+      ],
+      "original_article_ids": [
+        "225"
+      ],
+      "original_path_score": 0.5193035935759545,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 28,
+      "seed_event_id": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+      "seed_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "884",
+        "145"
+      ],
+      "original_article_ids": [
+        "53",
+        "191"
+      ],
+      "original_path_score": 0.4391185941195488,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6651033673537969,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 29,
+      "seed_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+      "seed_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+      "original_outcome_event_id": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+      "original_outcome_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+      "original_event_nodes": [
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_ids": [
+        "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+        "tai_pham_nguy_hiem",
+        "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam"
+      ],
+      "original_event_names": [
+        "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+        "Tái phạm nguy hiểm",
+        "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+      ],
+      "original_rule_ids": [
+        "884",
+        "146"
+      ],
+      "original_article_ids": [
+        "53",
+        "191"
+      ],
+      "original_path_score": 0.4391185941195488,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::tai_pham_nguy_hiem",
+          "mediator_event_id": "tai_pham_nguy_hiem",
+          "mediator_event_name": "Tái phạm nguy hiểm",
+          "removed_nodes": [
+            "EVENT::tai_pham_nguy_hiem"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6651033673537969,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 2,
+      "rule_id": "882",
+      "article_id": "191",
+      "original_final_score": 0.5728807524681091,
+      "semantic_score": 0.6299194097518921,
+      "graph_score": 0.5411720490455627,
+      "path_support_score": 0.5226446269750595,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5991561506772042,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        18
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "882",
+        "rule_node_id": "RULE::882",
+        "article_id": "191",
+        "article_title": "Tội tàng trữ, vận chuyển hàng cấm",
+        "legal_subject": "Người phạm tội",
+        "condition": "Hàng hóa chưa được phép lưu hành, chưa được phép sử dụng tại Việt Nam trị giá từ 500.000.000 đồng đến dưới 1.000.000.000 đồng hoặc thu lợi bất chính từ 300.000.000 đồng đến dưới 700.000.000 đồng",
+        "effect": "bị phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "condition_event": "hang_hoa_chua_duoc_phep_luu_hanh_chua_duoc_phep_su_dung_tai_viet_nam_tri_gia_tu_500_000_000_dong_den_duoi_1_000_000_000_dong_hoac_thu_loi_bat_chinh_tu_300_000_000_dong_den_duoi_700_000_000_dong",
+        "condition_event_name": "Hàng hóa chưa được phép lưu hành, chưa được phép sử dụng tại Việt Nam trị giá từ 500.000.000 đồng đến dưới 1.000.000.000 đồng hoặc thu lợi bất chính từ 300.000.000 đồng đến dưới 700.000.000 đồng",
+        "effect_event": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+        "effect_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6299194097518921,
+        "graph_score": 0.5411720490455627,
+        "seed_event_score": 0.6470516920089722,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5728807524681091,
+        "matched_seed_events": [
+          "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+        ],
+        "path_ids": [
+          18
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "874",
+      "article_id": "191",
+      "original_final_score": 0.5673546961784363,
+      "semantic_score": 0.6203917264938354,
+      "graph_score": 0.5411720490455627,
+      "path_support_score": 0.5226446269750595,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.597631721355915,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        11
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "874",
+        "rule_node_id": "RULE::874",
+        "article_id": "191",
+        "article_title": "Tội tàng trữ, vận chuyển hàng cấm",
+        "legal_subject": "Người phạm tội",
+        "condition": "Có tổ chức",
+        "effect": "bị phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "condition_event": "co_to_chuc",
+        "condition_event_name": "Có tổ chức",
+        "effect_event": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+        "effect_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6203917264938354,
+        "graph_score": 0.5411720490455627,
+        "seed_event_score": 0.6470516920089722,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5673546961784363,
+        "matched_seed_events": [
+          "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+        ],
+        "path_ids": [
+          11
+        ]
+      }
+    },
+    {
+      "original_rank": 4,
+      "rule_id": "877",
+      "article_id": "191",
+      "original_final_score": 0.5664621154308318,
+      "semantic_score": 0.6188527941703796,
+      "graph_score": 0.5411720490455627,
+      "path_support_score": 0.5226446269750595,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5973854921841621,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        12
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "877",
+        "rule_node_id": "RULE::877",
+        "article_id": "191",
+        "article_title": "Tội tàng trữ, vận chuyển hàng cấm",
+        "legal_subject": "Người phạm tội",
+        "condition": "Có tính chất chuyên nghiệp",
+        "effect": "bị phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "condition_event": "co_tinh_chat_chuyen_nghiep",
+        "condition_event_name": "Có tính chất chuyên nghiệp",
+        "effect_event": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+        "effect_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6188527941703796,
+        "graph_score": 0.5411720490455627,
+        "seed_event_score": 0.6470516920089722,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5664621154308318,
+        "matched_seed_events": [
+          "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+        ],
+        "path_ids": [
+          12
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "1255",
+      "article_id": "232",
+      "original_final_score": 0.5653444632530212,
+      "semantic_score": 0.6171506643295288,
+      "graph_score": 0.5408712363243103,
+      "path_support_score": 0.5224791799783707,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5970081677699088,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        20
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "1255",
+        "rule_node_id": "RULE::1255",
+        "article_id": "232",
+        "article_title": "Tội vi phạm quy định về khai thác, bảo vệ rừng và lâm sản",
+        "legal_subject": "Người phạm tội",
+        "condition": "thực hiện một trong các hành vi sau đây, nếu không thuộc trường hợp quy định tại Điều 243 của Bộ luật này",
+        "effect": "bị phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+        "condition_event": "thuc_hien_mot_trong_cac_hanh_vi_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_243_cua_bo_luat_nay",
+        "condition_event_name": "Thực hiện một trong các hành vi sau đây, nếu không thuộc trường hợp quy định tại Điều 243 của Bộ luật này",
+        "effect_event": "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "effect_event_name": "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6171506643295288,
+        "graph_score": 0.5408712363243103,
+        "seed_event_score": 0.6465665102005005,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5653444632530212,
+        "matched_seed_events": [
+          "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:"
+        ],
+        "path_ids": [
+          20
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "881",
+      "article_id": "191",
+      "original_final_score": 0.5636782411575317,
+      "semantic_score": 0.6140530109405518,
+      "graph_score": 0.5411720490455627,
+      "path_support_score": 0.5226446269750595,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5966175268673897,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        17
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "881",
+        "rule_node_id": "RULE::881",
+        "article_id": "191",
+        "article_title": "Tội tàng trữ, vận chuyển hàng cấm",
+        "legal_subject": "Người phạm tội",
+        "condition": "Hàng hóa khác mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng trị giá từ 300.000.000 đồng đến dưới 500.000.000 đồng hoặc thu lợi bất chính từ 200.000.000 đồng đến dưới 500.000.000 đồng",
+        "effect": "bị phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "condition_event": "hang_hoa_khac_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tri_gia_tu_300_000_000_dong_den_duoi_500_000_000_dong_hoac_thu_loi_bat_chinh_tu_200_000_000_dong_den_duoi_500_000_000_dong",
+        "condition_event_name": "Hàng hóa khác mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng trị giá từ 300.000.000 đồng đến dưới 500.000.000 đồng hoặc thu lợi bất chính từ 200.000.000 đồng đến dưới 500.000.000 đồng",
+        "effect_event": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+        "effect_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6140530109405518,
+        "graph_score": 0.5411720490455627,
+        "seed_event_score": 0.6470516920089722,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5636782411575317,
+        "matched_seed_events": [
+          "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+        ],
+        "path_ids": [
+          17
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "875",
+      "article_id": "191",
+      "original_final_score": 0.5601578382492065,
+      "semantic_score": 0.6079833507537842,
+      "graph_score": 0.5411720490455627,
+      "path_support_score": 0.5226446269750595,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5956463812375069,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        10
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "875",
+        "rule_node_id": "RULE::875",
+        "article_id": "191",
+        "article_title": "Tội tàng trữ, vận chuyển hàng cấm",
+        "legal_subject": "Người phạm tội",
+        "condition": "Lợi dụng chức vụ, quyền hạn",
+        "effect": "bị phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "condition_event": "loi_dung_chuc_vu_quyen_han",
+        "condition_event_name": "Lợi dụng chức vụ, quyền hạn",
+        "effect_event": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+        "effect_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6079833507537842,
+        "graph_score": 0.5411720490455627,
+        "seed_event_score": 0.6470516920089722,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5601578382492065,
+        "matched_seed_events": [
+          "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+        ],
+        "path_ids": [
+          10
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "1208",
+      "article_id": "225",
+      "original_final_score": 0.5647789663791656,
+      "semantic_score": 0.6204915642738342,
+      "graph_score": 0.5350974428653716,
+      "path_support_score": 0.5193035935759545,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5955276578438281,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        27
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "1208",
+        "rule_node_id": "RULE::1208",
+        "article_id": "225",
+        "article_title": "Tội xâm phạm quyền tác giả, quyền liên quan",
+        "legal_subject": "Người phạm tội",
+        "condition": "không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+        "effect": "bị phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt cải tạo không giam giữ đến 03 năm:",
+        "condition_event": "khong_duoc_phep_cua_chu_the_quyen_tac_gia_quyen_lien_quan_ma_co_y_thuc_hien_mot_trong_cac_hanh_vi_sau_day_xam_pham_quyen_tac_gia_quyen_lien_quan_dang_duoc_bao_ho_tai_viet_nam_voi_quy_mo_thuong_mai_hoac_thu_loi_bat_chinh_tu_50_000_000_dong_den_duoi_300_000_000_dong_hoac_gay_thiet_hai_cho_chu_the_quyen_tac_gia_quyen_lien_quan_tu_100_000_000_dong_den_duoi_500_000_000_dong_hoac_hang_hoa_vi_pham_tri_gia_tu_100_000_000_dong_den_duoi_500_000_000_dong",
+        "condition_event_name": "Không được phép của chủ thể quyền tác giả, quyền liên quan mà cố ý thực hiện một trong các hành vi sau đây, xâm phạm quyền tác giả, quyền liên quan đang được bảo hộ tại Việt Nam với quy mô thương mại hoặc thu lợi bất chính từ 50.000.000 đồng đến dưới 300.000.000 đồng hoặc gây thiệt hại cho chủ thể quyền tác giả, quyền liên quan từ 100.000.000 đồng đến dưới 500.000.000 đồng hoặc hàng hóa vi phạm trị giá từ 100.000.000 đồng đến dưới 500.000.000 đồng",
+        "effect_event": "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_hoac_phat_cai_tao_khong_giam_giu_den_03_nam",
+        "effect_event_name": "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt cải tạo không giam giữ đến 03 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6204915642738342,
+        "graph_score": 0.5350974428653716,
+        "seed_event_score": 0.6372539401054382,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5647789663791656,
+        "matched_seed_events": [
+          "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng hoặc phạt cải tạo không giam giữ đến 03 năm:"
+        ],
+        "path_ids": [
+          27
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "1297",
+      "article_id": "234",
+      "original_final_score": 0.559793585205078,
+      "semantic_score": 0.6075801849365234,
+      "graph_score": 0.5408712363243103,
+      "path_support_score": 0.5224791799783707,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5954768910670281,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        21
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "1297",
+        "rule_node_id": "RULE::1297",
+        "article_id": "234",
+        "article_title": "Tội vi phạm quy định về bảo vệ động vật hoang dã",
+        "legal_subject": "Người phạm tội",
+        "condition": "thực hiện một trong các hành vi sau đây, nếu không thuộc trường hợp quy định tại Điều 242 và Điều 244 của Bộ luật này",
+        "effect": "bị phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+        "condition_event": "thuc_hien_mot_trong_cac_hanh_vi_sau_day_neu_khong_thuoc_truong_hop_quy_dinh_tai_dieu_242_va_dieu_244_cua_bo_luat_nay",
+        "condition_event_name": "Thực hiện một trong các hành vi sau đây, nếu không thuộc trường hợp quy định tại Điều 242 và Điều 244 của Bộ luật này",
+        "effect_event": "phat_tien_tu_50_000_000_dong_den_300_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "effect_event_name": "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6075801849365234,
+        "graph_score": 0.5408712363243103,
+        "seed_event_score": 0.6465665102005005,
+        "direct_rule_score": 0.0,
+        "final_score": 0.559793585205078,
+        "matched_seed_events": [
+          "Phạt tiền từ 50.000.000 đồng đến 300.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:"
+        ],
+        "path_ids": [
+          21
+        ]
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "1881",
+      "article_id": "278",
+      "original_final_score": 0.5554927506923675,
+      "semantic_score": 0.5979990363121033,
+      "graph_score": 0.5437687945365905,
+      "path_support_score": 0.5240728369951249,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5949551551032066,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        8
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "1881",
+        "rule_node_id": "RULE::1881",
+        "article_id": "278",
+        "article_title": "Tội cản trở giao thông đường không",
+        "legal_subject": "Người phạm tội",
+        "condition": "đặt chướng ngại vật; di chuyển trái phép, làm sai lệch, che khuất hoặc phá hủy biển hiệu, tín hiệu an toàn giao thông đường không; sử dụng sai hoặc làm nhiễu tần số thông tin liên lạc; làm hư hỏng trang bị, thiết bị của sân bay hoặc trang bị, thiết bị phụ trợ khác phục vụ cho an toàn bay; cung cấp thông tin sai đến mức gây uy hiếp an toàn của tàu bay, an toàn của hành khách, tổ bay, nhân viên mặt đất hoặc người khác tại cảng hàng không, sân bay hoặc công trình, trang bị, thiết bị hàng không dân dụng; điều khiển, đưa phương tiện mặt đất không đáp ứng điều kiện kỹ thuật vào khai thác tại khu bay hoặc có hành vi khác cản trở giao thông đường không gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+        "effect": "bị phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:",
+        "condition_event": "dat_chuong_ngai_vat_di_chuyen_trai_phep_lam_sai_lech_che_khuat_hoac_pha_huy_bien_hieu_tin_hieu_an_toan_giao_thong_duong_khong_su_dung_sai_hoac_lam_nhieu_tan_so_thong_tin_lien_lac_lam_hu_hong_trang_bi_thiet_bi_cua_san_bay_hoac_trang_bi_thiet_bi_phu_tro_khac_phuc_vu_cho_an_toan_bay_cung_cap_thong_tin_sai_den_muc_gay_uy_hiep_an_toan_cua_tau_bay_an_toan_cua_hanh_khach_to_bay_nhan_vien_mat_dat_hoac_nguoi_khac_tai_cang_hang_khong_san_bay_hoac_cong_trinh_trang_bi_thiet_bi_hang_khong_dan_dung_dieu_khien_dua_phuong_tien_mat_dat_khong_dap_ung_dieu_kien_ky_thuat_vao_khai_thac_tai_khu_bay_hoac_co_hanh_vi_khac_can_tro_giao_thong_duong_khong_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+        "condition_event_name": "Đặt chướng ngại vật; di chuyển trái phép, làm sai lệch, che khuất hoặc phá hủy biển hiệu, tín hiệu an toàn giao thông đường không; sử dụng sai hoặc làm nhiễu tần số thông tin liên lạc; làm hư hỏng trang bị, thiết bị của sân bay hoặc trang bị, thiết bị phụ trợ khác phục vụ cho an toàn bay; cung cấp thông tin sai đến mức gây uy hiếp an toàn của tàu bay, an toàn của hành khách, tổ bay, nhân viên mặt đất hoặc người khác tại cảng hàng không, sân bay hoặc công trình, trang bị, thiết bị hàng không dân dụng; điều khiển, đưa phương tiện mặt đất không đáp ứng điều kiện kỹ thuật vào khai thác tại khu bay hoặc có hành vi khác cản trở giao thông đường không gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+        "effect_event": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "effect_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5979990363121033,
+        "graph_score": 0.5437687945365905,
+        "seed_event_score": 0.6512399911880493,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5554927506923675,
+        "matched_seed_events": [
+          "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm"
+        ],
+        "path_ids": [
+          8
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "883",
+      "article_id": "191",
+      "original_final_score": 0.5547742132186889,
+      "semantic_score": 0.5987012386322021,
+      "graph_score": 0.5411720490455627,
+      "path_support_score": 0.5226446269750595,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5941612432980538,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        19
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "883",
+        "rule_node_id": "RULE::883",
+        "article_id": "191",
+        "article_title": "Tội tàng trữ, vận chuyển hàng cấm",
+        "legal_subject": "Người phạm tội",
+        "condition": "Vận chuyển qua biên giới, trừ hàng hóa là thuốc lá điếu nhập lậu",
+        "effect": "bị phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "condition_event": "van_chuyen_qua_bien_gioi_tru_hang_hoa_la_thuoc_la_dieu_nhap_lau",
+        "condition_event_name": "Vận chuyển qua biên giới, trừ hàng hóa là thuốc lá điếu nhập lậu",
+        "effect_event": "phat_tien_tu_300_000_000_dong_den_1_000_000_000_dong_hoac_phat_tu_tu_02_nam_den_05_nam",
+        "effect_event_name": "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.5987012386322021,
+        "graph_score": 0.5411720490455627,
+        "seed_event_score": 0.6470516920089722,
+        "direct_rule_score": 0.0,
+        "final_score": 0.5547742132186889,
+        "matched_seed_events": [
+          "Phạt tiền từ 300.000.000 đồng đến 1.000.000.000 đồng hoặc phạt tù từ 02 năm đến 05 năm:"
+        ],
+        "path_ids": [
+          19
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.6976735578235864,
+  "confidence": 0.8941857452382552,
+  "verification_method": "graph_intervention_remove_mediator"
+}

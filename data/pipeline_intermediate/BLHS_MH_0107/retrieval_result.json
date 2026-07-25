@@ -1,0 +1,1885 @@
+{
+  "query": "Theo chuỗi dữ liệu, điều kiện ban đầu nào có thể dẫn đến “Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm” thông qua “Tái phạm nguy hiểm”?",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 3618,
+      "score": 0.7003870010375977,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4202,
+      "score": 0.7000757455825806,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_12_nam",
+      "event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_12_nam",
+      "event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 12 năm",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3817,
+      "score": 0.6876277923583984,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3998,
+      "score": 0.6829491853713989,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "event_id": "phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "event_name": "Phạt tiền từ 100.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3937,
+      "score": 0.6799200773239136,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4131,
+      "score": 0.6788354516029358,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3959,
+      "score": 0.6767494678497314,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "event_id": "phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "event_name": "Phạt tiền từ 100.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3976,
+      "score": 0.6764582395553589,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "event_id": "phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "event_name": "Phạt tiền từ 4.000.000.000 đồng đến 10.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 860,
+      "score": 0.7693608999252319,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::861",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "861",
+      "article_id": "190"
+    },
+    {
+      "memory_id": 1093,
+      "score": 0.7542974948883057,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1094",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1094",
+      "article_id": "209"
+    },
+    {
+      "memory_id": 1342,
+      "score": 0.7496400475502014,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1343",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1343",
+      "article_id": "236"
+    },
+    {
+      "memory_id": 1009,
+      "score": 0.7484233379364014,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1010",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1010",
+      "article_id": "196"
+    },
+    {
+      "memory_id": 1040,
+      "score": 0.7469109296798706,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1041",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1041",
+      "article_id": "200"
+    },
+    {
+      "memory_id": 883,
+      "score": 0.7462088465690613,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::884",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "884",
+      "article_id": "191"
+    },
+    {
+      "memory_id": 841,
+      "score": 0.7436179518699646,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::842",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "842",
+      "article_id": "189"
+    },
+    {
+      "memory_id": 1940,
+      "score": 0.742759108543396,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1941",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1941",
+      "article_id": "285"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::tai_pham_nguy_hiem"
+      ],
+      "rule_ids": [
+        "861"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "861"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::loi_dung_chuc_vu_quyen_han"
+      ],
+      "rule_ids": [
+        "852"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::loi_dung_chuc_vu_quyen_han",
+          "source_event_id": "loi_dung_chuc_vu_quyen_han",
+          "source_event_name": "Lợi dụng chức vụ, quyền hạn",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "852"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::co_to_chuc"
+      ],
+      "rule_ids": [
+        "851"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_to_chuc",
+          "source_event_id": "co_to_chuc",
+          "source_event_name": "Có tổ chức",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "851"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::co_tinh_chat_chuyen_nghiep"
+      ],
+      "rule_ids": [
+        "854"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_tinh_chat_chuyen_nghiep",
+          "source_event_id": "co_tinh_chat_chuyen_nghiep",
+          "source_event_name": "Có tính chất chuyên nghiệp",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "854"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::loi_dung_danh_nghia_co_quan_to_chuc"
+      ],
+      "rule_ids": [
+        "853"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::loi_dung_danh_nghia_co_quan_to_chuc",
+          "source_event_id": "loi_dung_danh_nghia_co_quan_to_chuc",
+          "source_event_name": "Lợi dụng danh nghĩa cơ quan, tổ chức",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "853"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::pham_toi_trong_truong_hop_vat_pham_phap_tri_gia_500_000_000_dong_tro_len"
+      ],
+      "rule_ids": [
+        "843"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_trong_truong_hop_vat_pham_phap_tri_gia_500_000_000_dong_tro_len",
+          "source_event_id": "pham_toi_trong_truong_hop_vat_pham_phap_tri_gia_500_000_000_dong_tro_len",
+          "source_event_name": "Phạm tội trong trường hợp vật phạm pháp trị giá 500.000.000 đồng trở lên",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "843"
+          ],
+          "article_ids": [
+            "189"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::thuoc_bao_ve_thuc_vat_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tu_100_kilogam_den_duoi_300_kilogam_hoac_tu_100_lit_den_duoi_300_lit"
+      ],
+      "rule_ids": [
+        "855"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::thuoc_bao_ve_thuc_vat_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tu_100_kilogam_den_duoi_300_kilogam_hoac_tu_100_lit_den_duoi_300_lit",
+          "source_event_id": "thuoc_bao_ve_thuc_vat_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tu_100_kilogam_den_duoi_300_kilogam_hoac_tu_100_lit_den_duoi_300_lit",
+          "source_event_name": "Thuốc bảo vệ thực vật mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng từ 100 kilôgam đến dưới 300 kilôgam hoặc từ 100 lít đến dưới 300 lít",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "855"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::thuoc_la_dieu_nhap_lau_tu_3_000_bao_den_duoi_4_500_bao"
+      ],
+      "rule_ids": [
+        "856"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::thuoc_la_dieu_nhap_lau_tu_3_000_bao_den_duoi_4_500_bao",
+          "source_event_id": "thuoc_la_dieu_nhap_lau_tu_3_000_bao_den_duoi_4_500_bao",
+          "source_event_name": "Thuốc lá điếu nhập lậu từ 3.000 bao đến dưới 4.500 bao",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "856"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::phao_no_tu_40_kilogam_den_duoi_120_kilogam"
+      ],
+      "rule_ids": [
+        "857"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::phao_no_tu_40_kilogam_den_duoi_120_kilogam",
+          "source_event_id": "phao_no_tu_40_kilogam_den_duoi_120_kilogam",
+          "source_event_name": "Pháo nổ từ 40 kilôgam đến dưới 120 kilôgam",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "857"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::hang_hoa_khac_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tri_gia_tu_300_000_000_dong_den_duoi_500_000_000_dong_hoac_thu_loi_bat_chinh_tu_200_000_000_dong_den_duoi_500_000_000_dong"
+      ],
+      "rule_ids": [
+        "858"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::hang_hoa_khac_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tri_gia_tu_300_000_000_dong_den_duoi_500_000_000_dong_hoac_thu_loi_bat_chinh_tu_200_000_000_dong_den_duoi_500_000_000_dong",
+          "source_event_id": "hang_hoa_khac_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tri_gia_tu_300_000_000_dong_den_duoi_500_000_000_dong_hoac_thu_loi_bat_chinh_tu_200_000_000_dong_den_duoi_500_000_000_dong",
+          "source_event_name": "Hàng hóa khác mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng trị giá từ 300.000.000 đồng đến dưới 500.000.000 đồng hoặc thu lợi bất chính từ 200.000.000 đồng đến dưới 500.000.000 đồng",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "858"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::hang_hoa_chua_duoc_phep_luu_hanh_chua_duoc_phep_su_dung_tai_viet_nam_tri_gia_tu_500_000_000_dong_den_duoi_1_000_000_000_dong_hoac_thu_loi_bat_chinh_tu_300_000_000_dong_den_duoi_700_000_000_dong"
+      ],
+      "rule_ids": [
+        "859"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::hang_hoa_chua_duoc_phep_luu_hanh_chua_duoc_phep_su_dung_tai_viet_nam_tri_gia_tu_500_000_000_dong_den_duoi_1_000_000_000_dong_hoac_thu_loi_bat_chinh_tu_300_000_000_dong_den_duoi_700_000_000_dong",
+          "source_event_id": "hang_hoa_chua_duoc_phep_luu_hanh_chua_duoc_phep_su_dung_tai_viet_nam_tri_gia_tu_500_000_000_dong_den_duoi_1_000_000_000_dong_hoac_thu_loi_bat_chinh_tu_300_000_000_dong_den_duoi_700_000_000_dong",
+          "source_event_name": "Hàng hóa chưa được phép lưu hành, chưa được phép sử dụng tại Việt Nam trị giá từ 500.000.000 đồng đến dưới 1.000.000.000 đồng hoặc thu lợi bất chính từ 300.000.000 đồng đến dưới 700.000.000 đồng",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "859"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::buon_ban_qua_bien_gioi_tru_hang_hoa_la_thuoc_la_dieu_nhap_lau"
+      ],
+      "rule_ids": [
+        "860"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::buon_ban_qua_bien_gioi_tru_hang_hoa_la_thuoc_la_dieu_nhap_lau",
+          "source_event_id": "buon_ban_qua_bien_gioi_tru_hang_hoa_la_thuoc_la_dieu_nhap_lau",
+          "source_event_name": "Buôn bán qua biên giới, trừ hàng hóa là thuốc lá điếu nhập lậu",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "860"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5742399406433105
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_12_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_12_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 12 năm",
+      "seed_similarity": 0.7000757455825806,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_12_nam",
+        "EVENT::pham_toi_gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong"
+      ],
+      "rule_ids": [
+        "1931"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+          "source_event_id": "pham_toi_gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+          "source_event_name": "Phạm tội gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_12_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_12_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 12 năm",
+          "rule_ids": [
+            "1931"
+          ],
+          "article_ids": [
+            "283"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5740469622611999
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "seed_similarity": 0.6876277923583984,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::pham_toi_02_lan_tro_len"
+      ],
+      "rule_ids": [
+        "1163"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_02_lan_tro_len",
+          "source_event_id": "pham_toi_02_lan_tro_len",
+          "source_event_name": "Phạm tội 02 lần trở lên",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1163"
+          ],
+          "article_ids": [
+            "217"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.566329231262207
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "seed_similarity": 0.6876277923583984,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::dung_thu_doan_tinh_vi_xao_quyet"
+      ],
+      "rule_ids": [
+        "1164"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dung_thu_doan_tinh_vi_xao_quyet",
+          "source_event_id": "dung_thu_doan_tinh_vi_xao_quyet",
+          "source_event_name": "Dùng thủ đoạn tinh vi, xảo quyệt",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1164"
+          ],
+          "article_ids": [
+            "217"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.566329231262207
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "seed_similarity": 0.6876277923583984,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::lam_dung_vi_tri_thong_linh_thi_truong_hoac_vi_tri_doc_quyen"
+      ],
+      "rule_ids": [
+        "1165"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::lam_dung_vi_tri_thong_linh_thi_truong_hoac_vi_tri_doc_quyen",
+          "source_event_id": "lam_dung_vi_tri_thong_linh_thi_truong_hoac_vi_tri_doc_quyen",
+          "source_event_name": "Lạm dụng vị trí thống lĩnh thị trường hoặc vị trí độc quyền",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1165"
+          ],
+          "article_ids": [
+            "217"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.566329231262207
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "seed_similarity": 0.6876277923583984,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::thu_loi_bat_chinh_3_000_000_000_dong_tro_len"
+      ],
+      "rule_ids": [
+        "1166"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::thu_loi_bat_chinh_3_000_000_000_dong_tro_len",
+          "source_event_id": "thu_loi_bat_chinh_3_000_000_000_dong_tro_len",
+          "source_event_name": "Thu lợi bất chính 3.000.000.000 đồng trở lên",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1166"
+          ],
+          "article_ids": [
+            "217"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.566329231262207
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "seed_similarity": 0.6876277923583984,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::gay_thiet_hai_cho_nguoi_khac_5_000_000_000_dong_tro_len"
+      ],
+      "rule_ids": [
+        "1167"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_thiet_hai_cho_nguoi_khac_5_000_000_000_dong_tro_len",
+          "source_event_id": "gay_thiet_hai_cho_nguoi_khac_5_000_000_000_dong_tro_len",
+          "source_event_name": "Gây thiệt hại cho người khác 5.000.000.000 đồng trở lên",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1167"
+          ],
+          "article_ids": [
+            "217"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.566329231262207
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 100.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:",
+      "seed_similarity": 0.6829491853713989,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::dot_pha_rung_trai_phep_hoac_co_hanh_vi_khac_huy_hoai_rung_thuoc_mot_trong_cac_truong_hop_sau_day"
+      ],
+      "rule_ids": [
+        "1405"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dot_pha_rung_trai_phep_hoac_co_hanh_vi_khac_huy_hoai_rung_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_id": "dot_pha_rung_trai_phep_hoac_co_hanh_vi_khac_huy_hoai_rung_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_name": "Đốt, phá rừng trái phép hoặc có hành vi khác hủy hoại rừng thuộc một trong các trường hợp sau đây",
+          "target_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 100.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm:",
+          "rule_ids": [
+            "1405"
+          ],
+          "article_ids": [
+            "243"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5634284949302674
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+      "seed_similarity": 0.6799200773239136,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+        "EVENT::chon_lap_do_thai_ra_moi_truong_trai_phap_luat_tu_3_000_kilogam_den_duoi_5_000_kilogam_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_tu_10_000_kilogam_den_duoi_50_000_kilogam_chat_thai_nguy_hai_khac"
+      ],
+      "rule_ids": [
+        "1322"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::chon_lap_do_thai_ra_moi_truong_trai_phap_luat_tu_3_000_kilogam_den_duoi_5_000_kilogam_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_tu_10_000_kilogam_den_duoi_50_000_kilogam_chat_thai_nguy_hai_khac",
+          "source_event_id": "chon_lap_do_thai_ra_moi_truong_trai_phap_luat_tu_3_000_kilogam_den_duoi_5_000_kilogam_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_tu_10_000_kilogam_den_duoi_50_000_kilogam_chat_thai_nguy_hai_khac",
+          "source_event_name": "Chôn, lấp, đổ, thải ra môi trường trái pháp luật từ 3.000 kilôgam đến dưới 5.000 kilôgam chất thải nguy hại có thành phần nguy hại đặc biệt vượt ngưỡng chất thải nguy hại theo quy định của pháp luật hoặc có chứa chất phải loại trừ theo Phụ lục A Công ước Stockholm về các chất ô nhiễm hữu cơ khó phân hủy hoặc từ 10.000 kilôgam đến dưới 50.000 kilôgam chất thải nguy hại khác",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+          "rule_ids": [
+            "1322"
+          ],
+          "article_ids": [
+            "235"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5615504479408264
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+      "seed_similarity": 0.6799200773239136,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+        "EVENT::xa_thai_ra_moi_truong_tu_5_000_met_khoi_m3_tren_ngay_den_duoi_10_000_met_khoi_m3_tren_ngay_nuoc_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_tu_03_lan_den_duoi_05_lan_hoac_tu_500_met_khoi_m3_tren_ngay_den_duoi_5_000_met_khoi_m3_tren_ngay_nuoc_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_05_lan_tro_len"
+      ],
+      "rule_ids": [
+        "1323"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xa_thai_ra_moi_truong_tu_5_000_met_khoi_m3_tren_ngay_den_duoi_10_000_met_khoi_m3_tren_ngay_nuoc_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_tu_03_lan_den_duoi_05_lan_hoac_tu_500_met_khoi_m3_tren_ngay_den_duoi_5_000_met_khoi_m3_tren_ngay_nuoc_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_05_lan_tro_len",
+          "source_event_id": "xa_thai_ra_moi_truong_tu_5_000_met_khoi_m3_tren_ngay_den_duoi_10_000_met_khoi_m3_tren_ngay_nuoc_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_tu_03_lan_den_duoi_05_lan_hoac_tu_500_met_khoi_m3_tren_ngay_den_duoi_5_000_met_khoi_m3_tren_ngay_nuoc_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_05_lan_tro_len",
+          "source_event_name": "Xả thải ra môi trường từ 5.000 mét khối (m3) trên ngày đến dưới 10.000 mét khối (m3) trên ngày nước thải có thông số môi trường nguy hại vượt quy chuẩn kỹ thuật quốc gia về môi trường từ 03 lần đến dưới 05 lần hoặc từ 500 mét khối (m3) trên ngày đến dưới 5.000 mét khối (m3) trên ngày nước thải có thông số môi trường nguy hại vượt quy chuẩn kỹ thuật quốc gia về môi trường 05 lần trở lên",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+          "rule_ids": [
+            "1323"
+          ],
+          "article_ids": [
+            "235"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5615504479408264
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+      "seed_similarity": 0.6799200773239136,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+        "EVENT::thai_ra_moi_truong_tu_300_000_met_khoi_m3_tren_gio_den_duoi_500_000_met_khoi_m3_tren_gio_khi_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_tu_03_lan_den_duoi_05_lan_hoac_tu_150_000_met_khoi_m3_tren_gio_den_duoi_300_000_met_khoi_m3_tren_gio_khi_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_05_lan_tro_len"
+      ],
+      "rule_ids": [
+        "1324"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::thai_ra_moi_truong_tu_300_000_met_khoi_m3_tren_gio_den_duoi_500_000_met_khoi_m3_tren_gio_khi_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_tu_03_lan_den_duoi_05_lan_hoac_tu_150_000_met_khoi_m3_tren_gio_den_duoi_300_000_met_khoi_m3_tren_gio_khi_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_05_lan_tro_len",
+          "source_event_id": "thai_ra_moi_truong_tu_300_000_met_khoi_m3_tren_gio_den_duoi_500_000_met_khoi_m3_tren_gio_khi_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_tu_03_lan_den_duoi_05_lan_hoac_tu_150_000_met_khoi_m3_tren_gio_den_duoi_300_000_met_khoi_m3_tren_gio_khi_thai_co_thong_so_moi_truong_nguy_hai_vuot_quy_chuan_ky_thuat_quoc_gia_ve_moi_truong_05_lan_tro_len",
+          "source_event_name": "Thải ra môi trường từ 300.000 mét khối (m3) trên giờ đến dưới 500.000 mét khối (m3) trên giờ khí thải có thông số môi trường nguy hại vượt quy chuẩn kỹ thuật quốc gia về môi trường từ 03 lần đến dưới 05 lần hoặc từ 150.000 mét khối (m3) trên giờ đến dưới 300.000 mét khối (m3) trên giờ khí thải có thông số môi trường nguy hại vượt quy chuẩn kỹ thuật quốc gia về môi trường 05 lần trở lên",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+          "rule_ids": [
+            "1324"
+          ],
+          "article_ids": [
+            "235"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5615504479408264
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+      "seed_similarity": 0.6799200773239136,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+        "EVENT::chon_lap_do_thai_ra_moi_truong_trai_phap_luat_chat_thai_ran_thong_thuong_tu_200_000_kilogam_den_duoi_500_000_kilogam"
+      ],
+      "rule_ids": [
+        "1325"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::chon_lap_do_thai_ra_moi_truong_trai_phap_luat_chat_thai_ran_thong_thuong_tu_200_000_kilogam_den_duoi_500_000_kilogam",
+          "source_event_id": "chon_lap_do_thai_ra_moi_truong_trai_phap_luat_chat_thai_ran_thong_thuong_tu_200_000_kilogam_den_duoi_500_000_kilogam",
+          "source_event_name": "Chôn, lấp, đổ, thải ra môi trường trái pháp luật chất thải rắn thông thường từ 200.000 kilôgam đến dưới 500.000 kilôgam",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+          "rule_ids": [
+            "1325"
+          ],
+          "article_ids": [
+            "235"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5615504479408264
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+      "seed_similarity": 0.6799200773239136,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+        "EVENT::xa_thai_ra_moi_truong_nuoc_thai_chon_lap_do_thai_ra_moi_truong_chat_thai_ran_hoac_phat_tan_khi_thai_co_chua_chat_phong_xa_vuot_gia_tri_lieu_tu_200_milisivo_msv_tren_nam_den_duoi_400_milisivo_msv_tren_nam_hoac_gia_tri_suat_lieu_tu_0_01_milisivo_msv_tren_gio_den_duoi_0_02_milisivo_msv_tren_gio"
+      ],
+      "rule_ids": [
+        "1326"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::xa_thai_ra_moi_truong_nuoc_thai_chon_lap_do_thai_ra_moi_truong_chat_thai_ran_hoac_phat_tan_khi_thai_co_chua_chat_phong_xa_vuot_gia_tri_lieu_tu_200_milisivo_msv_tren_nam_den_duoi_400_milisivo_msv_tren_nam_hoac_gia_tri_suat_lieu_tu_0_01_milisivo_msv_tren_gio_den_duoi_0_02_milisivo_msv_tren_gio",
+          "source_event_id": "xa_thai_ra_moi_truong_nuoc_thai_chon_lap_do_thai_ra_moi_truong_chat_thai_ran_hoac_phat_tan_khi_thai_co_chua_chat_phong_xa_vuot_gia_tri_lieu_tu_200_milisivo_msv_tren_nam_den_duoi_400_milisivo_msv_tren_nam_hoac_gia_tri_suat_lieu_tu_0_01_milisivo_msv_tren_gio_den_duoi_0_02_milisivo_msv_tren_gio",
+          "source_event_name": "Xả thải ra môi trường nước thải, chôn, lấp, đổ, thải ra môi trường chất thải rắn hoặc phát tán khí thải có chứa chất phóng xạ vượt giá trị liều từ 200 milisivơ (mSv) trên năm đến dưới 400 milisivơ (mSv) trên năm hoặc giá trị suất liều từ 0,01 milisivơ (mSv) trên giờ đến dưới 0,02 milisivơ (mSv) trên giờ",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+          "rule_ids": [
+            "1326"
+          ],
+          "article_ids": [
+            "235"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5615504479408264
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+      "seed_similarity": 0.6799200773239136,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+        "EVENT::gay_hau_qua_nghiem_trong"
+      ],
+      "rule_ids": [
+        "1327"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::gay_hau_qua_nghiem_trong",
+          "source_event_id": "gay_hau_qua_nghiem_trong",
+          "source_event_name": "Gây hậu quả nghiêm trọng",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_2_000_000_000_dong_hoac_phat_tu_tu_03_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 2.000.000.000 đồng hoặc phạt tù từ 03 năm đến 05 năm:",
+          "rule_ids": [
+            "1327"
+          ],
+          "article_ids": [
+            "235"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5615504479408264
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::tham_gia_giao_thong_duong_bo_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_bo_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day"
+      ],
+      "rule_ids": [
+        "1711"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tham_gia_giao_thong_duong_bo_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_bo_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_id": "tham_gia_giao_thong_duong_bo_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_bo_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_name": "Tham gia giao thông đường bộ mà vi phạm quy định về an toàn giao thông đường bộ gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1711"
+          ],
+          "article_ids": [
+            "260"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::to_chuc_trai_phep_viec_dua_xe_o_to_xe_may_hoac_cac_loai_xe_khac_co_gan_dong_co"
+      ],
+      "rule_ids": [
+        "1753"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::to_chuc_trai_phep_viec_dua_xe_o_to_xe_may_hoac_cac_loai_xe_khac_co_gan_dong_co",
+          "source_event_id": "to_chuc_trai_phep_viec_dua_xe_o_to_xe_may_hoac_cac_loai_xe_khac_co_gan_dong_co",
+          "source_event_name": "Tổ chức trái phép việc đua xe ô tô, xe máy hoặc các loại xe khác có gắn động cơ",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1753"
+          ],
+          "article_ids": [
+            "265"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::dieu_dong_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham"
+      ],
+      "rule_ids": [
+        "1815"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dieu_dong_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+          "source_event_id": "dieu_dong_nguoi_khong_co_giay_phep_lai_tau_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_sat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_hoac_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_ma_con_vi_pham",
+          "source_event_name": "Điều động người không có giấy phép lái tàu hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường sắt gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật hoặc xử phạt vi phạm hành chính về hành vi này mà còn vi phạm",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1815"
+          ],
+          "article_ids": [
+            "270"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::dieu_khien_phuong_tien_giao_thong_duong_thuy_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day"
+      ],
+      "rule_ids": [
+        "1829"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dieu_khien_phuong_tien_giao_thong_duong_thuy_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_id": "dieu_khien_phuong_tien_giao_thong_duong_thuy_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_name": "Điều khiển phương tiện giao thông đường thủy mà vi phạm quy định về an toàn giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1829"
+          ],
+          "article_ids": [
+            "272"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::khoan_dao_trai_phep_lam_hu_hai_ket_cau_cua_cong_trinh_giao_thong_duong_thuy_tao_ra_chuong_ngai_vat_gay_can_tro_giao_thong_duong_thuy_ma_khong_dat_va_duy_tri_bao_hieu_di_chuyen_lam_giam_hieu_luc_tac_dung_cua_bao_hieu_thao_do_bao_hieu_hoac_pha_hoai_cong_trinh_giao_thong_duong_thuy_lan_chiem_luong_hoac_hanh_lang_bao_ve_luong_giao_thong_duong_thuy_hoac_hanh_vi_khac_can_tro_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day"
+      ],
+      "rule_ids": [
+        "1841"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khoan_dao_trai_phep_lam_hu_hai_ket_cau_cua_cong_trinh_giao_thong_duong_thuy_tao_ra_chuong_ngai_vat_gay_can_tro_giao_thong_duong_thuy_ma_khong_dat_va_duy_tri_bao_hieu_di_chuyen_lam_giam_hieu_luc_tac_dung_cua_bao_hieu_thao_do_bao_hieu_hoac_pha_hoai_cong_trinh_giao_thong_duong_thuy_lan_chiem_luong_hoac_hanh_lang_bao_ve_luong_giao_thong_duong_thuy_hoac_hanh_vi_khac_can_tro_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_id": "khoan_dao_trai_phep_lam_hu_hai_ket_cau_cua_cong_trinh_giao_thong_duong_thuy_tao_ra_chuong_ngai_vat_gay_can_tro_giao_thong_duong_thuy_ma_khong_dat_va_duy_tri_bao_hieu_di_chuyen_lam_giam_hieu_luc_tac_dung_cua_bao_hieu_thao_do_bao_hieu_hoac_pha_hoai_cong_trinh_giao_thong_duong_thuy_lan_chiem_luong_hoac_hanh_lang_bao_ve_luong_giao_thong_duong_thuy_hoac_hanh_vi_khac_can_tro_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day",
+          "source_event_name": "Khoan, đào trái phép làm hư hại kết cấu của công trình giao thông đường thủy; tạo ra chướng ngại vật gây cản trở giao thông đường thủy mà không đặt và duy trì báo hiệu; di chuyển làm giảm hiệu lực, tác dụng của báo hiệu; tháo dỡ báo hiệu hoặc phá hoại công trình giao thông đường thủy; lấn chiếm luồng hoặc hành lang bảo vệ luồng giao thông đường thủy hoặc hành vi khác cản trở giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1841"
+          ],
+          "article_ids": [
+            "273"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::chiu_trach_nhiem_truc_tiep_ve_viec_dieu_dong_hoac_ve_tinh_trang_ky_thuat_ma_cho_phep_dua_vao_su_dung_phuong_tien_giao_thong_duong_thuy_ro_rang_khong_bao_dam_tieu_chuan_an_toan_ky_thuat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham"
+      ],
+      "rule_ids": [
+        "1849"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::chiu_trach_nhiem_truc_tiep_ve_viec_dieu_dong_hoac_ve_tinh_trang_ky_thuat_ma_cho_phep_dua_vao_su_dung_phuong_tien_giao_thong_duong_thuy_ro_rang_khong_bao_dam_tieu_chuan_an_toan_ky_thuat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_id": "chiu_trach_nhiem_truc_tiep_ve_viec_dieu_dong_hoac_ve_tinh_trang_ky_thuat_ma_cho_phep_dua_vao_su_dung_phuong_tien_giao_thong_duong_thuy_ro_rang_khong_bao_dam_tieu_chuan_an_toan_ky_thuat_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_name": "Chịu trách nhiệm trực tiếp về việc điều động hoặc về tình trạng kỹ thuật mà cho phép đưa vào sử dụng phương tiện giao thông đường thủy rõ ràng không bảo đảm tiêu chuẩn an toàn kỹ thuật gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1849"
+          ],
+          "article_ids": [
+            "274"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::dieu_dong_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham"
+      ],
+      "rule_ids": [
+        "1856"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dieu_dong_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_id": "dieu_dong_nguoi_khong_co_bang_giay_chung_nhan_kha_nang_chuyen_mon_chung_chi_chuyen_mon_theo_quy_dinh_hoac_nguoi_dang_trong_tinh_trang_co_su_dung_ruou_bia_ma_trong_mau_hoac_hoi_tho_co_nong_do_con_vuot_qua_muc_quy_dinh_co_su_dung_chat_ma_tuy_chat_kich_thich_manh_khac_hoac_khong_du_cac_dieu_kien_khac_theo_quy_dinh_cua_phap_luat_dieu_khien_phuong_tien_giao_thong_duong_thuy_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_hanh_vi_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_name": "Điều động người không có bằng, giấy chứng nhận khả năng chuyên môn, chứng chỉ chuyên môn theo quy định hoặc người đang trong tình trạng có sử dụng rượu, bia mà trong máu hoặc hơi thở có nồng độ cồn vượt quá mức quy định, có sử dụng chất ma túy, chất kích thích mạnh khác hoặc không đủ các điều kiện khác theo quy định của pháp luật điều khiển phương tiện giao thông đường thủy gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1856"
+          ],
+          "article_ids": [
+            "275"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::chi_huy_dieu_khien_tau_bay_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_khong_co_kha_nang_thuc_te_dan_den_hau_qua_gay_thiet_hai_cho_tinh_mang_suc_khoe_hoac_tai_san_cua_nguoi_khac_neu_khong_duoc_ngan_chan_kip_thoi"
+      ],
+      "rule_ids": [
+        "1870"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::chi_huy_dieu_khien_tau_bay_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_khong_co_kha_nang_thuc_te_dan_den_hau_qua_gay_thiet_hai_cho_tinh_mang_suc_khoe_hoac_tai_san_cua_nguoi_khac_neu_khong_duoc_ngan_chan_kip_thoi",
+          "source_event_id": "chi_huy_dieu_khien_tau_bay_ma_vi_pham_quy_dinh_ve_an_toan_giao_thong_duong_khong_co_kha_nang_thuc_te_dan_den_hau_qua_gay_thiet_hai_cho_tinh_mang_suc_khoe_hoac_tai_san_cua_nguoi_khac_neu_khong_duoc_ngan_chan_kip_thoi",
+          "source_event_name": "Chỉ huy, điều khiển tàu bay mà vi phạm quy định về an toàn giao thông đường không, có khả năng thực tế dẫn đến hậu quả gây thiệt hại cho tính mạng, sức khỏe hoặc tài sản của người khác nếu không được ngăn chặn kịp thời",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1870"
+          ],
+          "article_ids": [
+            "277"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "seed_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+      "seed_similarity": 0.6788354516029358,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+        "EVENT::dat_chuong_ngai_vat_di_chuyen_trai_phep_lam_sai_lech_che_khuat_hoac_pha_huy_bien_hieu_tin_hieu_an_toan_giao_thong_duong_khong_su_dung_sai_hoac_lam_nhieu_tan_so_thong_tin_lien_lac_lam_hu_hong_trang_bi_thiet_bi_cua_san_bay_hoac_trang_bi_thiet_bi_phu_tro_khac_phuc_vu_cho_an_toan_bay_cung_cap_thong_tin_sai_den_muc_gay_uy_hiep_an_toan_cua_tau_bay_an_toan_cua_hanh_khach_to_bay_nhan_vien_mat_dat_hoac_nguoi_khac_tai_cang_hang_khong_san_bay_hoac_cong_trinh_trang_bi_thiet_bi_hang_khong_dan_dung_dieu_khien_dua_phuong_tien_mat_dat_khong_dap_ung_dieu_kien_ky_thuat_vao_khai_thac_tai_khu_bay_hoac_co_hanh_vi_khac_can_tro_giao_thong_duong_khong_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham"
+      ],
+      "rule_ids": [
+        "1881"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dat_chuong_ngai_vat_di_chuyen_trai_phep_lam_sai_lech_che_khuat_hoac_pha_huy_bien_hieu_tin_hieu_an_toan_giao_thong_duong_khong_su_dung_sai_hoac_lam_nhieu_tan_so_thong_tin_lien_lac_lam_hu_hong_trang_bi_thiet_bi_cua_san_bay_hoac_trang_bi_thiet_bi_phu_tro_khac_phuc_vu_cho_an_toan_bay_cung_cap_thong_tin_sai_den_muc_gay_uy_hiep_an_toan_cua_tau_bay_an_toan_cua_hanh_khach_to_bay_nhan_vien_mat_dat_hoac_nguoi_khac_tai_cang_hang_khong_san_bay_hoac_cong_trinh_trang_bi_thiet_bi_hang_khong_dan_dung_dieu_khien_dua_phuong_tien_mat_dat_khong_dap_ung_dieu_kien_ky_thuat_vao_khai_thac_tai_khu_bay_hoac_co_hanh_vi_khac_can_tro_giao_thong_duong_khong_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_id": "dat_chuong_ngai_vat_di_chuyen_trai_phep_lam_sai_lech_che_khuat_hoac_pha_huy_bien_hieu_tin_hieu_an_toan_giao_thong_duong_khong_su_dung_sai_hoac_lam_nhieu_tan_so_thong_tin_lien_lac_lam_hu_hong_trang_bi_thiet_bi_cua_san_bay_hoac_trang_bi_thiet_bi_phu_tro_khac_phuc_vu_cho_an_toan_bay_cung_cap_thong_tin_sai_den_muc_gay_uy_hiep_an_toan_cua_tau_bay_an_toan_cua_hanh_khach_to_bay_nhan_vien_mat_dat_hoac_nguoi_khac_tai_cang_hang_khong_san_bay_hoac_cong_trinh_trang_bi_thiet_bi_hang_khong_dan_dung_dieu_khien_dua_phuong_tien_mat_dat_khong_dap_ung_dieu_kien_ky_thuat_vao_khai_thac_tai_khu_bay_hoac_co_hanh_vi_khac_can_tro_giao_thong_duong_khong_gay_thiet_hai_cho_nguoi_khac_thuoc_mot_trong_cac_truong_hop_sau_day_hoac_da_bi_xu_ly_ky_luat_xu_phat_vi_pham_hanh_chinh_ve_mot_trong_cac_hanh_vi_quy_dinh_tai_dieu_nay_hoac_da_bi_ket_an_ve_toi_nay_chua_duoc_xoa_an_tich_ma_con_vi_pham",
+          "source_event_name": "Đặt chướng ngại vật; di chuyển trái phép, làm sai lệch, che khuất hoặc phá hủy biển hiệu, tín hiệu an toàn giao thông đường không; sử dụng sai hoặc làm nhiễu tần số thông tin liên lạc; làm hư hỏng trang bị, thiết bị của sân bay hoặc trang bị, thiết bị phụ trợ khác phục vụ cho an toàn bay; cung cấp thông tin sai đến mức gây uy hiếp an toàn của tàu bay, an toàn của hành khách, tổ bay, nhân viên mặt đất hoặc người khác tại cảng hàng không, sân bay hoặc công trình, trang bị, thiết bị hàng không dân dụng; điều khiển, đưa phương tiện mặt đất không đáp ứng điều kiện kỹ thuật vào khai thác tại khu bay hoặc có hành vi khác cản trở giao thông đường không gây thiệt hại cho người khác thuộc một trong các trường hợp sau đây hoặc đã bị xử lý kỷ luật, xử phạt vi phạm hành chính về một trong các hành vi quy định tại Điều này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm",
+          "target_event_node": "EVENT::phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_id": "phat_tien_tu_30_000_000_dong_den_100_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_01_nam_den_05_nam",
+          "target_event_name": "Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm: || Phạt tiền từ 30.000.000 đồng đến 100.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 01 năm đến 05 năm",
+          "rule_ids": [
+            "1881"
+          ],
+          "article_ids": [
+            "278"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5608779799938202
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "seed_event_id": "phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "seed_event_name": "Phạt tiền từ 100.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "seed_similarity": 0.6767494678497314,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "EVENT::vi_pham_quy_dinh_ve_phong_ngua_su_co_moi_truong_de_xay_ra_su_co_moi_truong"
+      ],
+      "rule_ids": [
+        "1345"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::vi_pham_quy_dinh_ve_phong_ngua_su_co_moi_truong_de_xay_ra_su_co_moi_truong",
+          "source_event_id": "vi_pham_quy_dinh_ve_phong_ngua_su_co_moi_truong_de_xay_ra_su_co_moi_truong",
+          "source_event_name": "Vi phạm quy định về phòng ngừa sự cố môi trường để xảy ra sự cố môi trường",
+          "target_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt tiền từ 100.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "rule_ids": [
+            "1345"
+          ],
+          "article_ids": [
+            "237"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5595846700668334
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "seed_event_id": "phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "seed_event_name": "Phạt tiền từ 100.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+      "seed_similarity": 0.6767494678497314,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "EVENT::vi_pham_quy_dinh_ve_ung_pho_khac_phuc_su_co_moi_truong_lam_moi_truong_bi_o_nhiem_nghiem_trong_hoac_gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len_hoac_gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_tong_ty_le_ton_thuong_co_the_cua_nhung_nguoi_nay_tu_61_den_121_hoac_gay_thiet_hai_tu_1_000_000_000_dong_den_duoi_3_000_000_000_dong"
+      ],
+      "rule_ids": [
+        "1346"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::vi_pham_quy_dinh_ve_ung_pho_khac_phuc_su_co_moi_truong_lam_moi_truong_bi_o_nhiem_nghiem_trong_hoac_gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len_hoac_gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_tong_ty_le_ton_thuong_co_the_cua_nhung_nguoi_nay_tu_61_den_121_hoac_gay_thiet_hai_tu_1_000_000_000_dong_den_duoi_3_000_000_000_dong",
+          "source_event_id": "vi_pham_quy_dinh_ve_ung_pho_khac_phuc_su_co_moi_truong_lam_moi_truong_bi_o_nhiem_nghiem_trong_hoac_gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_nguoi_khac_ma_ty_le_ton_thuong_co_the_61_tro_len_hoac_gay_thuong_tich_hoac_gay_ton_hai_cho_suc_khoe_cua_02_nguoi_tro_len_ma_tong_ty_le_ton_thuong_co_the_cua_nhung_nguoi_nay_tu_61_den_121_hoac_gay_thiet_hai_tu_1_000_000_000_dong_den_duoi_3_000_000_000_dong",
+          "source_event_name": "Vi phạm quy định về ứng phó, khắc phục sự cố môi trường làm môi trường bị ô nhiễm nghiêm trọng hoặc gây thương tích hoặc gây tổn hại cho sức khỏe của người khác mà tỷ lệ tổn thương cơ thể 61% trở lên hoặc gây thương tích hoặc gây tổn hại cho sức khỏe của 02 người trở lên mà tổng tỷ lệ tổn thương cơ thể của những người này từ 61% đến 121% hoặc gây thiệt hại từ 1.000.000.000 đồng đến dưới 3.000.000.000 đồng",
+          "target_event_node": "EVENT::phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_id": "phat_tien_tu_100_000_000_dong_den_1_000_000_000_dong_phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+          "target_event_name": "Phạt tiền từ 100.000.000 đồng đến 1.000.000.000 đồng, phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm:",
+          "rule_ids": [
+            "1346"
+          ],
+          "article_ids": [
+            "237"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5595846700668334
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 4.000.000.000 đồng đến 10.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.6764582395553589,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac"
+      ],
+      "rule_ids": [
+        "1377"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "source_event_id": "dua_5_000_kilogam_tro_len_chat_thai_nguy_hai_co_thanh_phan_nguy_hai_dac_biet_vuot_nguong_chat_thai_nguy_hai_theo_quy_dinh_cua_phap_luat_hoac_co_chua_chat_phai_loai_tru_theo_phu_luc_a_cong_uoc_stockholm_ve_cac_chat_o_nhiem_huu_co_kho_phan_huy_hoac_50_000_kilogam_tro_len_chat_thai_nguy_hai_khac",
+          "source_event_name": "Đưa 5.000 kilôgam trở lên chất thải nguy hại có thành phần nguy hại đặc biệt vượt ngưỡng chất thải nguy hại theo quy định của pháp luật hoặc có chứa chất phải loại trừ theo Phụ lục A Công ước Stockholm về các chất ô nhiễm hữu cơ khó phân hủy hoặc 50.000 kilôgam trở lên chất thải nguy hại khác",
+          "target_event_node": "EVENT::phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 4.000.000.000 đồng đến 10.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "1377"
+          ],
+          "article_ids": [
+            "239"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5594041085243225
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 4.000.000.000 đồng đến 10.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.6764582395553589,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::dua_300_000_kilogam_tro_len_chat_thai_khac"
+      ],
+      "rule_ids": [
+        "1378"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::dua_300_000_kilogam_tro_len_chat_thai_khac",
+          "source_event_id": "dua_300_000_kilogam_tro_len_chat_thai_khac",
+          "source_event_name": "Đưa 300.000 kilôgam trở lên chất thải khác",
+          "target_event_node": "EVENT::phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_4_000_000_000_dong_den_10_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 4.000.000.000 đồng đến 10.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "1378"
+          ],
+          "article_ids": [
+            "239"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5594041085243225
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y"
+      ],
+      "rule_ids": [
+        "861",
+        "145"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "861"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+          "source_event_id": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+          "source_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+          "target_event_node": "EVENT::tai_pham_nguy_hiem",
+          "target_event_id": "tai_pham_nguy_hiem",
+          "target_event_name": "Tái phạm nguy hiểm",
+          "rule_ids": [
+            "145"
+          ],
+          "article_ids": [
+            "53"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4818767513275146
+    },
+    {
+      "seed_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "seed_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "seed_similarity": 0.7003870010375977,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+        "EVENT::tai_pham_nguy_hiem",
+        "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi"
+      ],
+      "rule_ids": [
+        "861",
+        "146"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tai_pham_nguy_hiem",
+          "source_event_id": "tai_pham_nguy_hiem",
+          "source_event_name": "Tái phạm nguy hiểm",
+          "target_event_node": "EVENT::phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "861"
+          ],
+          "article_ids": [
+            "190"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+          "source_event_id": "da_tai_pham_chua_xoa_an_tich_va_lai_co_y_pham_toi",
+          "source_event_name": "Đã tái phạm chưa xóa án tích và lại cố ý phạm tội",
+          "target_event_node": "EVENT::tai_pham_nguy_hiem",
+          "target_event_id": "tai_pham_nguy_hiem",
+          "target_event_name": "Tái phạm nguy hiểm",
+          "rule_ids": [
+            "146"
+          ],
+          "article_ids": [
+            "53"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4818767513275146
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "861",
+      "rule_node_id": "RULE::861",
+      "article_id": "190",
+      "article_title": "Tội sản xuất, buôn bán hàng cấm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.7693608999252319,
+      "graph_score": 0.5742399406433105,
+      "seed_event_score": 0.7003870010375977,
+      "direct_rule_score": 0.7693608999252319,
+      "final_score": 0.7142550018310546,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "path_ids": [
+        0,
+        38,
+        39
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "843",
+      "rule_node_id": "RULE::843",
+      "article_id": "189",
+      "article_title": "Tội vận chuyển trái phép hàng hóa, tiền tệ qua biên giới",
+      "legal_subject": "Người phạm tội",
+      "condition": "Phạm tội trong trường hợp vật phạm pháp trị giá 500.000.000 đồng trở lên",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm",
+      "condition_event": "pham_toi_trong_truong_hop_vat_pham_phap_tri_gia_500_000_000_dong_tro_len",
+      "condition_event_name": "Phạm tội trong trường hợp vật phạm pháp trị giá 500.000.000 đồng trở lên",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6826505064964294,
+      "graph_score": 0.5742399406433105,
+      "seed_event_score": 0.7003870010375977,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6178013196468353,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "path_ids": [
+        5
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "851",
+      "rule_node_id": "RULE::851",
+      "article_id": "190",
+      "article_title": "Tội sản xuất, buôn bán hàng cấm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Có tổ chức",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "co_to_chuc",
+      "condition_event_name": "Có tổ chức",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6796101927757263,
+      "graph_score": 0.5742399406433105,
+      "seed_event_score": 0.7003870010375977,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6160379376888274,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "path_ids": [
+        2
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "1931",
+      "rule_node_id": "RULE::1931",
+      "article_id": "283",
+      "article_title": "Tội điều khiển tàu bay vi phạm quy định về hàng không của nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "legal_subject": "Người phạm tội",
+      "condition": "Phạm tội gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 12 năm",
+      "condition_event": "pham_toi_gay_hau_qua_rat_nghiem_trong_hoac_dac_biet_nghiem_trong",
+      "condition_event_name": "Phạm tội gây hậu quả rất nghiêm trọng hoặc đặc biệt nghiêm trọng",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_12_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 12 năm",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6762980222702026,
+      "graph_score": 0.5740469622611999,
+      "seed_event_score": 0.7000757455825806,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6140332133293152,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 12 năm"
+      ],
+      "path_ids": [
+        12
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "1163",
+      "rule_node_id": "RULE::1163",
+      "article_id": "217",
+      "article_title": "Tội vi phạm quy định về cạnh tranh",
+      "legal_subject": "Người phạm tội",
+      "condition": "Phạm tội 02 lần trở lên",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "condition_event": "pham_toi_02_lan_tro_len",
+      "condition_event_name": "Phạm tội 02 lần trở lên",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.68205326795578,
+      "graph_score": 0.566329231262207,
+      "seed_event_score": 0.6876277923583984,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6140252460002898,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "path_ids": [
+        13
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "859",
+      "rule_node_id": "RULE::859",
+      "article_id": "190",
+      "article_title": "Tội sản xuất, buôn bán hàng cấm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Hàng hóa chưa được phép lưu hành, chưa được phép sử dụng tại Việt Nam trị giá từ 500.000.000 đồng đến dưới 1.000.000.000 đồng hoặc thu lợi bất chính từ 300.000.000 đồng đến dưới 700.000.000 đồng",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "hang_hoa_chua_duoc_phep_luu_hanh_chua_duoc_phep_su_dung_tai_viet_nam_tri_gia_tu_500_000_000_dong_den_duoi_1_000_000_000_dong_hoac_thu_loi_bat_chinh_tu_300_000_000_dong_den_duoi_700_000_000_dong",
+      "condition_event_name": "Hàng hóa chưa được phép lưu hành, chưa được phép sử dụng tại Việt Nam trị giá từ 500.000.000 đồng đến dưới 1.000.000.000 đồng hoặc thu lợi bất chính từ 300.000.000 đồng đến dưới 700.000.000 đồng",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6759462356567383,
+      "graph_score": 0.5742399406433105,
+      "seed_event_score": 0.7003870010375977,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6139128425598144,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "path_ids": [
+        10
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "854",
+      "rule_node_id": "RULE::854",
+      "article_id": "190",
+      "article_title": "Tội sản xuất, buôn bán hàng cấm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Có tính chất chuyên nghiệp",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "co_tinh_chat_chuyen_nghiep",
+      "condition_event_name": "Có tính chất chuyên nghiệp",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6735990047454834,
+      "graph_score": 0.5742399406433105,
+      "seed_event_score": 0.7003870010375977,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6125514486312865,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "path_ids": [
+        3
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "1167",
+      "rule_node_id": "RULE::1167",
+      "article_id": "217",
+      "article_title": "Tội vi phạm quy định về cạnh tranh",
+      "legal_subject": "Người phạm tội",
+      "condition": "Gây thiệt hại cho người khác 5.000.000.000 đồng trở lên",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "condition_event": "gay_thiet_hai_cho_nguoi_khac_5_000_000_000_dong_tro_len",
+      "condition_event_name": "Gây thiệt hại cho người khác 5.000.000.000 đồng trở lên",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6718711853027344,
+      "graph_score": 0.566329231262207,
+      "seed_event_score": 0.6876277923583984,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6081196380615234,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "path_ids": [
+        17
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "852",
+      "rule_node_id": "RULE::852",
+      "article_id": "190",
+      "article_title": "Tội sản xuất, buôn bán hàng cấm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Lợi dụng chức vụ, quyền hạn",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "loi_dung_chuc_vu_quyen_han",
+      "condition_event_name": "Lợi dụng chức vụ, quyền hạn",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.665684700012207,
+      "graph_score": 0.5742399406433105,
+      "seed_event_score": 0.7003870010375977,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6079611518859863,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "path_ids": [
+        1
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "1164",
+      "rule_node_id": "RULE::1164",
+      "article_id": "217",
+      "article_title": "Tội vi phạm quy định về cạnh tranh",
+      "legal_subject": "Người phạm tội",
+      "condition": "Dùng thủ đoạn tinh vi, xảo quyệt",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "condition_event": "dung_thu_doan_tinh_vi_xao_quyet",
+      "condition_event_name": "Dùng thủ đoạn tinh vi, xảo quyệt",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6679331064224243,
+      "graph_score": 0.566329231262207,
+      "seed_event_score": 0.6876277923583984,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6058355523109435,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "path_ids": [
+        14
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "1166",
+      "rule_node_id": "RULE::1166",
+      "article_id": "217",
+      "article_title": "Tội vi phạm quy định về cạnh tranh",
+      "legal_subject": "Người phạm tội",
+      "condition": "Thu lợi bất chính 3.000.000.000 đồng trở lên",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "condition_event": "thu_loi_bat_chinh_3_000_000_000_dong_tro_len",
+      "condition_event_name": "Thu lợi bất chính 3.000.000.000 đồng trở lên",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_01_nam_den_05_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6656987071037292,
+      "graph_score": 0.566329231262207,
+      "seed_event_score": 0.6876277923583984,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6045396007061005,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 01 năm đến 05 năm:"
+      ],
+      "path_ids": [
+        16
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "858",
+      "rule_node_id": "RULE::858",
+      "article_id": "190",
+      "article_title": "Tội sản xuất, buôn bán hàng cấm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Hàng hóa khác mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng trị giá từ 300.000.000 đồng đến dưới 500.000.000 đồng hoặc thu lợi bất chính từ 200.000.000 đồng đến dưới 500.000.000 đồng",
+      "effect": "bị phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "hang_hoa_khac_ma_nha_nuoc_cam_kinh_doanh_cam_luu_hanh_cam_su_dung_tri_gia_tu_300_000_000_dong_den_duoi_500_000_000_dong_hoac_thu_loi_bat_chinh_tu_200_000_000_dong_den_duoi_500_000_000_dong",
+      "condition_event_name": "Hàng hóa khác mà Nhà nước cấm kinh doanh, cấm lưu hành, cấm sử dụng trị giá từ 300.000.000 đồng đến dưới 500.000.000 đồng hoặc thu lợi bất chính từ 200.000.000 đồng đến dưới 500.000.000 đồng",
+      "effect_event": "phat_tien_tu_1_000_000_000_dong_den_3_000_000_000_dong_hoac_phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6578575372695923,
+      "graph_score": 0.5742399406433105,
+      "seed_event_score": 0.7003870010375977,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6034213974952697,
+      "matched_seed_events": [
+        "Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm || Phạt tiền từ 1.000.000.000 đồng đến 3.000.000.000 đồng hoặc phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "path_ids": [
+        9
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 40,
+    "candidate_rules": 47,
+    "final_evidence": 12,
+    "unique_path_rules": 40
+  }
+}

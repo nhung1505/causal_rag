@@ -1,0 +1,340 @@
+{
+  "query": "Trong chuỗi từ “Chống trả rõ ràng quá mức cần thiết” đến “Có tình tiết giảm nhẹ trách nhiệm hình sự”, bước pháp lý trung gian là gì?",
+  "answer": "**Kết luận**  \nBước pháp lý trung gian giữa \"Chống trả rõ ràng quá mức cần thiết\" và \"Có tình tiết giảm nhẹ trách nhiệm hình sự\" là **xác định hành vi vượt quá giới hạn phòng vệ chính đáng**, dẫn đến việc áp dụng tình tiết giảm nhẹ theo quy định pháp luật.  \n\n**Căn cứ và lập luận**  \n- Theo [E8], hành vi \"vượt quá giới hạn phòng vệ chính đáng\" (tương ứng với \"Chống trả rõ ràng quá mức cần thiết\") được xác định là **tình tiết giảm nhẹ trách nhiệm hình sự**.  \n- Quan hệ pháp lý trực tiếp giữa điều kiện (vượt quá giới hạn phòng vệ) và hệ quả (tình tiết giảm nhẹ) được thể hiện qua Rule ID 147, với loại quan hệ MITIGATION.  \n- Không có bước trung gian nào được ghi nhận trong dữ liệu, vì chuỗi sự kiện trong causal path [P5] chỉ có mối liên hệ trực tiếp giữa điều kiện và hệ quả.  \n\n**Lưu ý về độ chắc chắn**  \n- Dữ liệu xác minh cho thấy mối liên hệ giữa \"vượt quá giới hạn phòng vệ\" và \"tình tiết giảm nhẹ\" là **trực tiếp**, không qua bước trung gian nào.  \n- Tuy nhiên, cần lưu ý rằng việc xác định \"quá mức cần thiết\" có thể phụ thuộc vào việc đánh giá cụ thể của tòa án dựa trên các yếu tố pháp lý liên quan (ví dụ: mục đích, tính chất hành vi, mức độ nguy hiểm...), nhưng không có bằng chứng nào trong dữ liệu hỗ trợ các bước phân tích sâu hơn.\n\nLưu ý: Nội dung này không thay thế tư vấn pháp lý chính thức.",
+  "provider": "ollama",
+  "model": "qwen3:8b",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "178",
+      "article_id": "63",
+      "article_title": "Giảm mức hình phạt đã tuyên",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án đã chấp hành một thời gian, có nhiều tiến bộ và đã bồi thường một phần nghĩa vụ dân sự",
+      "effect": "có thể giảm thời hạn chấp hành hình phạt",
+      "condition_event": "du_dieu_kien_giam_thoi_han_chap_hanh_hinh_phat",
+      "condition_event_name": "Đủ điều kiện giảm thời hạn chấp hành hình phạt",
+      "effect_event": "giam_thoi_han_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được giảm thời hạn chấp hành hình phạt",
+      "causal_type": "MITIGATION",
+      "verification_score": 0.5843926915526391,
+      "original_final_score": 0.5850492060184479,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.6019307421594858,
+      "decision": "KEEP",
+      "path_ids": [
+        1
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "161",
+      "article_id": "59",
+      "article_title": "Miễn hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội thuộc trường hợp Điều 54, đáng khoan hồng đặc biệt nhưng chưa đủ mức miễn trách nhiệm hình sự",
+      "effect": "có thể miễn hình phạt",
+      "condition_event": "du_dieu_kien_giam_duoi_khung_va_dang_khoan_hong_dac_biet",
+      "condition_event_name": "Đủ điều kiện giảm dưới khung và đáng khoan hồng đặc biệt",
+      "effect_event": "mien_hinh_phat",
+      "effect_event_name": "Có thể được miễn hình phạt",
+      "causal_type": "MITIGATION",
+      "verification_score": 0.5807140311157704,
+      "original_final_score": 0.5404665862083435,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5865326929761768,
+      "decision": "KEEP",
+      "path_ids": [
+        6
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "147",
+      "article_id": "54",
+      "article_title": "Quyết định hình phạt dưới mức thấp nhất của khung hình phạt được áp dụng",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội có ít nhất hai tình tiết giảm nhẹ theo khoản 1 Điều 51",
+      "effect": "có thể quyết định hình phạt dưới mức thấp nhất trong khung liền kề nhẹ hơn",
+      "condition_event": "co_it_nhat_hai_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+      "condition_event_name": "Có ít nhất hai tình tiết giảm nhẹ trách nhiệm hình sự",
+      "effect_event": "co_the_quyet_dinh_hinh_phat_duoi_muc_thap_nhat",
+      "effect_event_name": "Có thể quyết định hình phạt dưới mức thấp nhất",
+      "causal_type": "MITIGATION",
+      "verification_score": 0.5806725276672839,
+      "original_final_score": 0.5402197643756866,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5864358195297121,
+      "decision": "KEEP",
+      "path_ids": [
+        5
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "34",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tự ý nửa chừng chấm dứt việc phạm tội",
+      "effect": "được miễn trách nhiệm hình sự về tội định phạm",
+      "condition_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "condition_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5814016123998165,
+      "original_final_score": 0.5387767889976501,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5864039235191941,
+      "decision": "KEEP",
+      "path_ids": [
+        3
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "67",
+      "article_id": "29",
+      "article_title": "Căn cứ miễn trách nhiệm hình sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "phạm tội nghiêm trọng do vô ý hoặc tội ít nghiêm trọng, đã khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+      "effect": "có thể được miễn trách nhiệm hình sự",
+      "condition_event": "khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+      "condition_event_name": "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Có thể được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5798578343343735,
+      "original_final_score": 0.5318725978851317,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.583483588249445,
+      "decision": "KEEP",
+      "path_ids": [
+        2
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "70",
+      "article_id": "34",
+      "article_title": "Cảnh cáo",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội ít nghiêm trọng, có nhiều tình tiết giảm nhẹ nhưng chưa đến mức miễn hình phạt",
+      "effect": "áp dụng hình phạt cảnh cáo",
+      "condition_event": "pham_toi_it_nghiem_trong_co_nhieu_tinh_tiet_giam_nhe",
+      "condition_event_name": "Phạm tội ít nghiêm trọng có nhiều tình tiết giảm nhẹ",
+      "effect_event": "ap_dung_hinh_phat_canh_cao",
+      "effect_event_name": "Áp dụng hình phạt cảnh cáo",
+      "causal_type": "",
+      "verification_score": 0.5781270301997662,
+      "original_final_score": 0.534026020526886,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5831776727679372,
+      "decision": "KEEP",
+      "path_ids": [
+        8
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "33",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tự mình không thực hiện tội phạm đến cùng mặc dù không có gì ngăn cản",
+      "effect": "được xác định là tự ý nửa chừng chấm dứt việc phạm tội",
+      "condition_event": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "condition_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "effect_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "effect_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "causal_type": "",
+      "verification_score": 0.577622754215002,
+      "original_final_score": 0.5250784280776977,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5802160432415604,
+      "decision": "KEEP",
+      "path_ids": [
+        4
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "106",
+      "article_id": "51",
+      "article_title": "Các tình tiết giảm nhẹ trách nhiệm hình sự",
+      "legal_subject": "Tòa án",
+      "condition": "người phạm tội phạm tội trong trường hợp vượt quá giới hạn phòng vệ chính đáng",
+      "effect": "xác định đây là tình tiết giảm nhẹ trách nhiệm hình sự",
+      "condition_event": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "condition_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "effect_event": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+      "effect_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+      "causal_type": "MITIGATION",
+      "verification_score": 0.5349613434271765,
+      "original_final_score": 0.5845558794822692,
+      "counterfactual_support_score": 0.6588235558426976,
+      "final_selection_score": 0.5684190361060325,
+      "decision": "KEEP",
+      "path_ids": [
+        10
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 1,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "du_dieu_kien_giam_thoi_han_chap_hanh_hinh_phat",
+      "seed_event_name": "Đủ điều kiện giảm thời hạn chấp hành hình phạt",
+      "outcome_event_id": "giam_thoi_han_chap_hanh_hinh_phat",
+      "outcome_event_name": "Có thể được giảm thời hạn chấp hành hình phạt",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Đủ điều kiện giảm thời hạn chấp hành hình phạt",
+        "Có thể được giảm thời hạn chấp hành hình phạt"
+      ],
+      "rule_ids": [
+        "178"
+      ]
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 2,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+      "outcome_event_id": "mien_trach_nhiem_hinh_su",
+      "outcome_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "67"
+      ]
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 3,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "outcome_event_id": "mien_trach_nhiem_hinh_su",
+      "outcome_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "34"
+      ]
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 4,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "seed_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "outcome_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "outcome_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Tự nguyện dừng thực hiện tội phạm",
+        "Tự ý nửa chừng chấm dứt việc phạm tội"
+      ],
+      "rule_ids": [
+        "33"
+      ]
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 5,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "co_it_nhat_hai_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+      "seed_event_name": "Có ít nhất hai tình tiết giảm nhẹ trách nhiệm hình sự",
+      "outcome_event_id": "co_the_quyet_dinh_hinh_phat_duoi_muc_thap_nhat",
+      "outcome_event_name": "Có thể quyết định hình phạt dưới mức thấp nhất",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Có ít nhất hai tình tiết giảm nhẹ trách nhiệm hình sự",
+        "Có thể quyết định hình phạt dưới mức thấp nhất"
+      ],
+      "rule_ids": [
+        "147"
+      ]
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 6,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "seed_event_id": "du_dieu_kien_giam_duoi_khung_va_dang_khoan_hong_dac_biet",
+      "seed_event_name": "Đủ điều kiện giảm dưới khung và đáng khoan hồng đặc biệt",
+      "outcome_event_id": "mien_hinh_phat",
+      "outcome_event_name": "Có thể được miễn hình phạt",
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "event_names": [
+        "Đủ điều kiện giảm dưới khung và đáng khoan hồng đặc biệt",
+        "Có thể được miễn hình phạt"
+      ],
+      "rule_ids": [
+        "161"
+      ]
+    }
+  ],
+  "citations_used": [
+    "E8"
+  ],
+  "confidence": 0.8923796808263534,
+  "consistency_score": 0.6925133737895813,
+  "generation_metadata": {
+    "requested_provider": "ollama",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 12.3379,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [],
+    "system_prompt_chars": 943,
+    "user_prompt_chars": 7062
+  }
+}

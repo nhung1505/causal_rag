@@ -1,0 +1,1285 @@
+{
+  "query": "Để nối “Được đặc xá hoặc đại xá” với “Vẫn phải thực hiện nghĩa vụ dân sự”, graph sử dụng sự kiện trung gian nào?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 16,
+    "total_paths": 16,
+    "path_status_counts": {
+      "SUPPORTED": 16,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 16,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 9,
+    "uncertain_evidence": 3,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "mien_chap_hanh_hinh_phat",
+      "seed_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "original_outcome_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "original_outcome_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "original_event_nodes": [
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_ids": [
+        "mien_chap_hanh_hinh_phat",
+        "van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_names": [
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "original_rule_ids": [
+        "177"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.5167680472135544,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "duoc_dac_xa_hoac_dai_xa",
+      "seed_event_name": "Được đặc xá hoặc đại xá",
+      "original_outcome_event_id": "mien_chap_hanh_hinh_phat",
+      "original_outcome_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "original_event_nodes": [
+        "EVENT::duoc_dac_xa_hoac_dai_xa",
+        "EVENT::mien_chap_hanh_hinh_phat"
+      ],
+      "original_event_ids": [
+        "duoc_dac_xa_hoac_dai_xa",
+        "mien_chap_hanh_hinh_phat"
+      ],
+      "original_event_names": [
+        "Được đặc xá hoặc đại xá",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt"
+      ],
+      "original_rule_ids": [
+        "170"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.5108863048553467,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "loi_dung_chuc_vu_quyen_han_hoac_lam_quyen_tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu",
+      "seed_event_name": "Lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+      "original_outcome_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "original_outcome_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+      "original_event_nodes": [
+        "EVENT::loi_dung_chuc_vu_quyen_han_hoac_lam_quyen_tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu",
+        "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_ids": [
+        "loi_dung_chuc_vu_quyen_han_hoac_lam_quyen_tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu",
+        "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_names": [
+        "Lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm"
+      ],
+      "original_rule_ids": [
+        "2662"
+      ],
+      "original_article_ids": [
+        "378"
+      ],
+      "original_path_score": 0.5036237101554871,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "da_chap_hanh_mot_phan_tien_phat_nhung_khong_the_tiep_tuc_do_hoan_canh_dac_biet_kho_khan_hoac_lap_cong_lon",
+      "seed_event_name": "Đã chấp hành một phần tiền phạt nhưng không thể tiếp tục do hoàn cảnh đặc biệt khó khăn hoặc lập công lớn",
+      "original_outcome_event_id": "mien_phan_tien_phat_con_lai",
+      "original_outcome_event_name": "Có thể được miễn phần tiền phạt còn lại",
+      "original_event_nodes": [
+        "EVENT::da_chap_hanh_mot_phan_tien_phat_nhung_khong_the_tiep_tuc_do_hoan_canh_dac_biet_kho_khan_hoac_lap_cong_lon",
+        "EVENT::mien_phan_tien_phat_con_lai"
+      ],
+      "original_event_ids": [
+        "da_chap_hanh_mot_phan_tien_phat_nhung_khong_the_tiep_tuc_do_hoan_canh_dac_biet_kho_khan_hoac_lap_cong_lon",
+        "mien_phan_tien_phat_con_lai"
+      ],
+      "original_event_names": [
+        "Đã chấp hành một phần tiền phạt nhưng không thể tiếp tục do hoàn cảnh đặc biệt khó khăn hoặc lập công lớn",
+        "Có thể được miễn phần tiền phạt còn lại"
+      ],
+      "original_rule_ids": [
+        "175"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.5002065792679787,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "co_quyet_dinh_dai_xa",
+      "seed_event_name": "Có quyết định đại xá",
+      "original_outcome_event_id": "mien_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::co_quyet_dinh_dai_xa",
+        "EVENT::mien_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "co_quyet_dinh_dai_xa",
+        "mien_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Có quyết định đại xá",
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "63"
+      ],
+      "original_article_ids": [
+        "29"
+      ],
+      "original_path_score": 0.5001662947535516,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu_ve_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_name": "Tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù về tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "original_outcome_event_id": "phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu_ve_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu_ve_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù về tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "2663"
+      ],
+      "original_article_ids": [
+        "378"
+      ],
+      "original_path_score": 0.49881867408752445,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+      "seed_event_name": "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+      "original_outcome_event_id": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+      "original_outcome_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+      "original_event_nodes": [
+        "EVENT::roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+        "EVENT::phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_ids": [
+        "roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+        "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam"
+      ],
+      "original_event_names": [
+        "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+        "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm: || Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm"
+      ],
+      "original_rule_ids": [
+        "2782"
+      ],
+      "original_article_ids": [
+        "402"
+      ],
+      "original_path_score": 0.49769969141483306,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+      "seed_event_name": "Đối với người đang thi hành công vụ",
+      "original_outcome_event_id": "phat_tu_tu_03_thang_den_02_nam",
+      "original_outcome_event_name": "Phạt tù từ 03 tháng đến 02 năm: || Phạt tù từ 03 tháng đến 02 năm",
+      "original_event_nodes": [
+        "EVENT::doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "EVENT::phat_tu_tu_03_thang_den_02_nam"
+      ],
+      "original_event_ids": [
+        "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "phat_tu_tu_03_thang_den_02_nam"
+      ],
+      "original_event_names": [
+        "Đối với người đang thi hành công vụ",
+        "Phạt tù từ 03 tháng đến 02 năm: || Phạt tù từ 03 tháng đến 02 năm"
+      ],
+      "original_rule_ids": [
+        "542"
+      ],
+      "original_article_ids": [
+        "155"
+      ],
+      "original_path_score": 0.49744623637199403,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+      "seed_event_name": "Đối với người đang thi hành công vụ",
+      "original_outcome_event_id": "phat_tu_tu_01_nam_den_03_nam",
+      "original_outcome_event_name": "Phạt tù từ 01 năm đến 03 năm || Phạt tù từ 01 năm đến 03 năm:",
+      "original_event_nodes": [
+        "EVENT::doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "EVENT::phat_tu_tu_01_nam_den_03_nam"
+      ],
+      "original_event_ids": [
+        "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "phat_tu_tu_01_nam_den_03_nam"
+      ],
+      "original_event_names": [
+        "Đối với người đang thi hành công vụ",
+        "Phạt tù từ 01 năm đến 03 năm || Phạt tù từ 01 năm đến 03 năm:"
+      ],
+      "original_rule_ids": [
+        "555"
+      ],
+      "original_article_ids": [
+        "156"
+      ],
+      "original_path_score": 0.49744623637199403,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+      "seed_event_name": "Đối với người đang thi hành công vụ",
+      "original_outcome_event_id": "phat_tu_tu_02_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "EVENT::phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "phat_tu_tu_02_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đối với người đang thi hành công vụ",
+        "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "566"
+      ],
+      "original_article_ids": [
+        "157"
+      ],
+      "original_path_score": 0.49744623637199403,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+      "seed_event_name": "Đối với người đang thi hành công vụ",
+      "original_outcome_event_id": "phat_tu_tu_03_nam_den_07_nam",
+      "original_outcome_event_name": "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:",
+      "original_event_nodes": [
+        "EVENT::doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "EVENT::phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "original_event_ids": [
+        "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "phat_tu_tu_03_nam_den_07_nam"
+      ],
+      "original_event_names": [
+        "Đối với người đang thi hành công vụ",
+        "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:"
+      ],
+      "original_rule_ids": [
+        "2059"
+      ],
+      "original_article_ids": [
+        "301"
+      ],
+      "original_path_score": 0.49744623637199403,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "duoc_dac_xa_hoac_dai_xa",
+      "seed_event_name": "Được đặc xá hoặc đại xá",
+      "original_outcome_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "original_outcome_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "original_event_nodes": [
+        "EVENT::duoc_dac_xa_hoac_dai_xa",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_ids": [
+        "duoc_dac_xa_hoac_dai_xa",
+        "mien_chap_hanh_hinh_phat",
+        "van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_names": [
+        "Được đặc xá hoặc đại xá",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "original_rule_ids": [
+        "177",
+        "170"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.4342997987151146,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "mediator_event_id": "mien_chap_hanh_hinh_phat",
+          "mediator_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "removed_nodes": [
+            "EVENT::mien_chap_hanh_hinh_phat"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6629349094218016,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "original_outcome_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "original_outcome_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "original_event_nodes": [
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_ids": [
+        "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+        "mien_chap_hanh_hinh_phat",
+        "van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_names": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "original_rule_ids": [
+        "177",
+        "171"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.4342997987151146,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "mediator_event_id": "mien_chap_hanh_hinh_phat",
+          "mediator_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "removed_nodes": [
+            "EVENT::mien_chap_hanh_hinh_phat"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6629349094218016,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+      "original_outcome_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "original_outcome_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "original_event_nodes": [
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_ids": [
+        "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+        "mien_chap_hanh_hinh_phat",
+        "van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_names": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "original_rule_ids": [
+        "177",
+        "172"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.4342997987151146,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "mediator_event_id": "mien_chap_hanh_hinh_phat",
+          "mediator_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "removed_nodes": [
+            "EVENT::mien_chap_hanh_hinh_phat"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6629349094218016,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+      "seed_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+      "original_outcome_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "original_outcome_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "original_event_nodes": [
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_ids": [
+        "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+        "mien_chap_hanh_hinh_phat",
+        "van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_names": [
+        "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "original_rule_ids": [
+        "177",
+        "173"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.4342997987151146,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "mediator_event_id": "mien_chap_hanh_hinh_phat",
+          "mediator_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "removed_nodes": [
+            "EVENT::mien_chap_hanh_hinh_phat"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.6629349094218016,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 15,
+      "seed_event_id": "duoc_dac_xa_hoac_dai_xa",
+      "seed_event_name": "Được đặc xá hoặc đại xá",
+      "original_outcome_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "original_outcome_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "original_event_nodes": [
+        "EVENT::duoc_dac_xa_hoac_dai_xa",
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_ids": [
+        "duoc_dac_xa_hoac_dai_xa",
+        "mien_chap_hanh_hinh_phat",
+        "van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "original_event_names": [
+        "Được đặc xá hoặc đại xá",
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+        "Vẫn phải thực hiện nghĩa vụ dân sự"
+      ],
+      "original_rule_ids": [
+        "170",
+        "177"
+      ],
+      "original_article_ids": [
+        "62"
+      ],
+      "original_path_score": 0.4294767699813843,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "mediator_event_id": "mien_chap_hanh_hinh_phat",
+          "mediator_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "removed_nodes": [
+            "EVENT::mien_chap_hanh_hinh_phat"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.660764546491623,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 2,
+      "rule_id": "63",
+      "article_id": "29",
+      "original_final_score": 0.5353373741149902,
+      "semantic_score": 0.539888858795166,
+      "graph_score": 0.5003023540973663,
+      "path_support_score": 0.5001662947535516,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5704877389872075,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        4
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "63",
+        "rule_node_id": "RULE::63",
+        "article_id": "29",
+        "article_title": "Căn cứ miễn trách nhiệm hình sự",
+        "legal_subject": "Người phạm tội",
+        "condition": "có quyết định đại xá",
+        "effect": "được miễn trách nhiệm hình sự",
+        "condition_event": "co_quyet_dinh_dai_xa",
+        "condition_event_name": "Có quyết định đại xá",
+        "effect_event": "mien_trach_nhiem_hinh_su",
+        "effect_event_name": "Được miễn trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.539888858795166,
+        "graph_score": 0.5003023540973663,
+        "seed_event_score": 0.5811328291893005,
+        "direct_rule_score": 0.539888858795166,
+        "final_score": 0.5353373741149902,
+        "matched_seed_events": [
+          "Có quyết định đại xá"
+        ],
+        "path_ids": [
+          4
+        ]
+      }
+    },
+    {
+      "original_rank": 4,
+      "rule_id": "175",
+      "article_id": "62",
+      "original_final_score": 0.5128961753845215,
+      "semantic_score": 0.5047748684883118,
+      "graph_score": 0.5003755986690521,
+      "path_support_score": 0.5002065792679787,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5648950628936291,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "175",
+        "rule_node_id": "RULE::175",
+        "article_id": "62",
+        "article_title": "Miễn chấp hành hình phạt",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án đã chấp hành một phần tiền phạt nhưng không thể tiếp tục do hoàn cảnh đặc biệt khó khăn hoặc lập công lớn",
+        "effect": "có thể được miễn phần tiền phạt còn lại",
+        "condition_event": "da_chap_hanh_mot_phan_tien_phat_nhung_khong_the_tiep_tuc_do_hoan_canh_dac_biet_kho_khan_hoac_lap_cong_lon",
+        "condition_event_name": "Đã chấp hành một phần tiền phạt nhưng không thể tiếp tục do hoàn cảnh đặc biệt khó khăn hoặc lập công lớn",
+        "effect_event": "mien_phan_tien_phat_con_lai",
+        "effect_event_name": "Có thể được miễn phần tiền phạt còn lại",
+        "causal_type": "EXEMPTION",
+        "semantic_score": 0.5047748684883118,
+        "graph_score": 0.5003755986690521,
+        "seed_event_score": 0.5812509655952454,
+        "direct_rule_score": 0.5047748684883118,
+        "final_score": 0.5128961753845215,
+        "matched_seed_events": [
+          "Đã chấp hành một phần tiền phạt nhưng không thể tiếp tục do hoàn cảnh đặc biệt khó khăn hoặc lập công lớn"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "2662",
+      "article_id": "378",
+      "original_final_score": 0.45893578662872314,
+      "semantic_score": 0.45931363105773926,
+      "graph_score": 0.5065885639190674,
+      "path_support_score": 0.5036237101554871,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5597895897769929,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "2662",
+        "rule_node_id": "RULE::2662",
+        "article_id": "378",
+        "article_title": "Tội tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "legal_subject": "Người phạm tội",
+        "condition": "lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+        "condition_event": "loi_dung_chuc_vu_quyen_han_hoac_lam_quyen_tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu",
+        "condition_event_name": "Lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.45931363105773926,
+        "graph_score": 0.5065885639190674,
+        "seed_event_score": 0.5912718772888184,
+        "direct_rule_score": 0.0,
+        "final_score": 0.45893578662872314,
+        "matched_seed_events": [
+          "Lợi dụng chức vụ, quyền hạn hoặc lạm quyền tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù"
+        ],
+        "path_ids": [
+          2
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "542",
+      "article_id": "155",
+      "original_final_score": 0.45548888926506037,
+      "semantic_score": 0.46176642179489136,
+      "graph_score": 0.4953567934036255,
+      "path_support_score": 0.49744623637199403,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.556262148385048,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "542",
+        "rule_node_id": "RULE::542",
+        "article_id": "155",
+        "article_title": "Tội làm nhục người khác",
+        "legal_subject": "Người phạm tội",
+        "condition": "Đối với người đang thi hành công vụ",
+        "effect": "bị phạt tù từ 03 tháng đến 02 năm:",
+        "condition_event": "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "condition_event_name": "Đối với người đang thi hành công vụ",
+        "effect_event": "phat_tu_tu_03_thang_den_02_nam",
+        "effect_event_name": "Phạt tù từ 03 tháng đến 02 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.46176642179489136,
+        "graph_score": 0.4953567934036255,
+        "seed_event_score": 0.5731561183929443,
+        "direct_rule_score": 0.0,
+        "final_score": 0.45548888926506037,
+        "matched_seed_events": [
+          "Đối với người đang thi hành công vụ"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "2782",
+      "article_id": "402",
+      "original_final_score": 0.4534495536565781,
+      "semantic_score": 0.4579058587551117,
+      "graph_score": 0.49581762075424196,
+      "path_support_score": 0.49769969141483306,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5558052870440482,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        6
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "2782",
+        "rule_node_id": "RULE::2782",
+        "article_id": "402",
+        "article_title": "Tội đào ngũ",
+        "legal_subject": "Người phạm tội",
+        "condition": "rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+        "effect": "bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+        "condition_event": "roi_bo_hang_ngu_quan_doi_nham_tron_tranh_nghia_vu_trong_thoi_chien_hoac_da_bi_xu_ly_ky_luat_ve_hanh_vi_nay_ma_con_vi_pham_hoac_gay_hau_qua_nghiem_trong",
+        "condition_event_name": "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng",
+        "effect_event": "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_06_thang_den_03_nam",
+        "effect_event_name": "Phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 06 tháng đến 03 năm",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.4579058587551117,
+        "graph_score": 0.49581762075424196,
+        "seed_event_score": 0.5738993883132935,
+        "direct_rule_score": 0.0,
+        "final_score": 0.4534495536565781,
+        "matched_seed_events": [
+          "Rời bỏ hàng ngũ quân đội nhằm trốn tránh nghĩa vụ trong thời chiến hoặc đã bị xử lý kỷ luật về hành vi này mà còn vi phạm hoặc gây hậu quả nghiêm trọng"
+        ],
+        "path_ids": [
+          6
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "2663",
+      "article_id": "378",
+      "original_final_score": 0.44740857315063476,
+      "semantic_score": 0.4459695816040039,
+      "graph_score": 0.49785213470458983,
+      "path_support_score": 0.49881867408752445,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5546055280685425,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        5
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "2663",
+        "rule_node_id": "RULE::2663",
+        "article_id": "378",
+        "article_title": "Tội tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù",
+        "legal_subject": "Người phạm tội",
+        "condition": "Tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù về tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+        "condition_event": "tha_trai_phap_luat_nguoi_bi_bat_nguoi_dang_bi_tam_giu_tam_giam_nguoi_dang_chap_hanh_an_phat_tu_ve_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "condition_event_name": "Tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù về tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+        "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.4459695816040039,
+        "graph_score": 0.49785213470458983,
+        "seed_event_score": 0.5771808624267578,
+        "direct_rule_score": 0.0,
+        "final_score": 0.44740857315063476,
+        "matched_seed_events": [
+          "Tha trái pháp luật người bị bắt, người đang bị tạm giữ, tạm giam, người đang chấp hành án phạt tù về tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng"
+        ],
+        "path_ids": [
+          5
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "566",
+      "article_id": "157",
+      "original_final_score": 0.44402503972053525,
+      "semantic_score": 0.4420011639595032,
+      "graph_score": 0.4953567934036255,
+      "path_support_score": 0.49744623637199403,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5530997071313858,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        9
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "566",
+        "rule_node_id": "RULE::566",
+        "article_id": "157",
+        "article_title": "Tội bắt, giữ hoặc giam người trái pháp luật",
+        "legal_subject": "Người phạm tội",
+        "condition": "Đối với người đang thi hành công vụ",
+        "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+        "condition_event": "doi_voi_nguoi_dang_thi_hanh_cong_vu",
+        "condition_event_name": "Đối với người đang thi hành công vụ",
+        "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+        "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.4420011639595032,
+        "graph_score": 0.4953567934036255,
+        "seed_event_score": 0.5731561183929443,
+        "direct_rule_score": 0.0,
+        "final_score": 0.44402503972053525,
+        "matched_seed_events": [
+          "Đối với người đang thi hành công vụ"
+        ],
+        "path_ids": [
+          9
+        ]
+      }
+    },
+    {
+      "original_rank": 1,
+      "rule_id": "170",
+      "article_id": "62",
+      "original_final_score": 0.549306476020813,
+      "semantic_score": 0.5452779531478882,
+      "graph_score": 0.5197932815551758,
+      "path_support_score": 0.4582209578506152,
+      "counterfactual_support_score": 0.6745664853044748,
+      "verification_score": 0.5500007712020525,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1,
+        11,
+        15
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "170",
+        "rule_node_id": "RULE::170",
+        "article_id": "62",
+        "article_title": "Miễn chấp hành hình phạt",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án được đặc xá hoặc đại xá",
+        "effect": "được miễn chấp hành hình phạt",
+        "condition_event": "duoc_dac_xa_hoac_dai_xa",
+        "condition_event_name": "Được đặc xá hoặc đại xá",
+        "effect_event": "mien_chap_hanh_hinh_phat",
+        "effect_event_name": "Được miễn chấp hành hình phạt",
+        "causal_type": "EXEMPTION",
+        "semantic_score": 0.5452779531478882,
+        "graph_score": 0.5197932815551758,
+        "seed_event_score": 0.629818320274353,
+        "direct_rule_score": 0.5452779531478882,
+        "final_score": 0.549306476020813,
+        "matched_seed_events": [
+          "Được đặc xá hoặc đại xá",
+          "Vẫn phải thực hiện nghĩa vụ dân sự"
+        ],
+        "path_ids": [
+          1,
+          11,
+          15
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "177",
+      "article_id": "62",
+      "original_final_score": 0.5351941299438476,
+      "semantic_score": 0.5192171335220337,
+      "graph_score": 0.5304873585700989,
+      "path_support_score": 0.44724066867589957,
+      "counterfactual_support_score": 0.6687506973631382,
+      "verification_score": 0.5412946488163853,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "177",
+        "rule_node_id": "RULE::177",
+        "article_id": "62",
+        "article_title": "Miễn chấp hành hình phạt",
+        "legal_subject": "Người được miễn chấp hành hình phạt",
+        "condition": "được miễn chấp hành hình phạt",
+        "effect": "vẫn phải thực hiện đầy đủ nghĩa vụ dân sự trong bản án",
+        "condition_event": "mien_chap_hanh_hinh_phat",
+        "condition_event_name": "Được miễn chấp hành hình phạt",
+        "effect_event": "van_phai_thuc_hien_nghia_vu_dan_su",
+        "effect_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+        "causal_type": "OBLIGATION",
+        "semantic_score": 0.5192171335220337,
+        "graph_score": 0.5304873585700989,
+        "seed_event_score": 0.629818320274353,
+        "direct_rule_score": 0.5192171335220337,
+        "final_score": 0.5351941299438476,
+        "matched_seed_events": [
+          "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "Được đặc xá hoặc đại xá"
+        ],
+        "path_ids": [
+          0,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [
+    {
+      "original_rank": 10,
+      "rule_id": "173",
+      "article_id": "62",
+      "original_final_score": 0.44338105243682857,
+      "semantic_score": 0.4495912790298462,
+      "graph_score": 0.4459996340274811,
+      "path_support_score": 0.4342997987151146,
+      "counterfactual_support_score": 0.6629349094218016,
+      "verification_score": 0.5115476479353428,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [
+        14
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Chưa đủ điều kiện KEEP hoặc REMOVE."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "173",
+        "rule_node_id": "RULE::173",
+        "article_id": "62",
+        "article_title": "Miễn chấp hành hình phạt",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+        "effect": "có thể được miễn chấp hành hình phạt",
+        "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+        "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+        "effect_event": "mien_chap_hanh_hinh_phat",
+        "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+        "causal_type": "EXEMPTION",
+        "semantic_score": 0.4495912790298462,
+        "graph_score": 0.4459996340274811,
+        "seed_event_score": 0.629818320274353,
+        "direct_rule_score": 0.0,
+        "final_score": 0.44338105243682857,
+        "matched_seed_events": [
+          "Vẫn phải thực hiện nghĩa vụ dân sự"
+        ],
+        "path_ids": [
+          14
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "171",
+      "article_id": "62",
+      "original_final_score": 0.43931035322189327,
+      "semantic_score": 0.44257283210754395,
+      "graph_score": 0.4459996340274811,
+      "path_support_score": 0.4342997987151146,
+      "counterfactual_support_score": 0.6629349094218016,
+      "verification_score": 0.5104246964277744,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [
+        12
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Chưa đủ điều kiện KEEP hoặc REMOVE."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "171",
+        "rule_node_id": "RULE::171",
+        "article_id": "62",
+        "article_title": "Miễn chấp hành hình phạt",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+        "effect": "có thể được miễn chấp hành hình phạt",
+        "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+        "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+        "effect_event": "mien_chap_hanh_hinh_phat",
+        "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+        "causal_type": "EXEMPTION",
+        "semantic_score": 0.44257283210754395,
+        "graph_score": 0.4459996340274811,
+        "seed_event_score": 0.629818320274353,
+        "direct_rule_score": 0.0,
+        "final_score": 0.43931035322189327,
+        "matched_seed_events": [
+          "Vẫn phải thực hiện nghĩa vụ dân sự"
+        ],
+        "path_ids": [
+          12
+        ]
+      }
+    },
+    {
+      "original_rank": 12,
+      "rule_id": "172",
+      "article_id": "62",
+      "original_final_score": 0.43854404193401336,
+      "semantic_score": 0.44125160574913025,
+      "graph_score": 0.4459996340274811,
+      "path_support_score": 0.4342997987151146,
+      "counterfactual_support_score": 0.6629349094218016,
+      "verification_score": 0.5102133002104282,
+      "decision": "UNCERTAIN",
+      "verified_path_ids": [
+        13
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Chưa đủ điều kiện KEEP hoặc REMOVE."
+      ],
+      "original_evidence": {
+        "rank": 12,
+        "rule_id": "172",
+        "rule_node_id": "RULE::172",
+        "article_id": "62",
+        "article_title": "Miễn chấp hành hình phạt",
+        "legal_subject": "Tòa án",
+        "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+        "effect": "có thể được miễn chấp hành hình phạt",
+        "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+        "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+        "effect_event": "mien_chap_hanh_hinh_phat",
+        "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+        "causal_type": "EXEMPTION",
+        "semantic_score": 0.44125160574913025,
+        "graph_score": 0.4459996340274811,
+        "seed_event_score": 0.629818320274353,
+        "direct_rule_score": 0.0,
+        "final_score": 0.43854404193401336,
+        "matched_seed_events": [
+          "Vẫn phải thực hiện nghĩa vụ dân sự"
+        ],
+        "path_ids": [
+          13
+        ]
+      }
+    }
+  ],
+  "removed_evidence": [],
+  "consistency_score": 0.6882815115111768,
+  "confidence": 0.8908985290289119,
+  "verification_method": "graph_intervention_remove_mediator"
+}

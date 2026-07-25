@@ -1,0 +1,1334 @@
+{
+  "query": "Sự kiện nào là cầu nối giữa “Tự nguyện dừng thực hiện tội phạm” và “Được miễn trách nhiệm hình sự”?",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 2938,
+      "score": 0.6578515768051147,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "event_role": "BRIDGE",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2939,
+      "score": 0.6344832181930542,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::mien_trach_nhiem_hinh_su",
+      "event_id": "mien_trach_nhiem_hinh_su",
+      "event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2937,
+      "score": 0.630347490310669,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+      "event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3232,
+      "score": 0.6258212327957153,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::mien_trach_nhiem_hinh_su_ve_toi_nay",
+      "event_id": "mien_trach_nhiem_hinh_su_ve_toi_nay",
+      "event_name": "Được miễn trách nhiệm hình sự về tội này",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 3133,
+      "score": 0.6173678636550903,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::mien_chap_hanh_hinh_phat",
+      "event_id": "mien_chap_hanh_hinh_phat",
+      "event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "event_role": "BRIDGE",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 2979,
+      "score": 0.6152028441429138,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+      "event_id": "khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+      "event_name": "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4624,
+      "score": 0.6139897108078003,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::mien_trach_nhiem_hinh_su_hoac_mien_hinh_phat",
+      "event_id": "mien_trach_nhiem_hinh_su_hoac_mien_hinh_phat",
+      "event_name": "Có thể được miễn trách nhiệm hình sự hoặc miễn hình phạt",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4515,
+      "score": 0.6059979200363159,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::mien_trach_nhiem_hinh_su_va_duoc_tra_lai_mot_phan_hoac_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "event_id": "mien_trach_nhiem_hinh_su_va_duoc_tra_lai_mot_phan_hoac_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "event_name": "Có thể được miễn trách nhiệm hình sự và được trả lại một phần hoặc toàn bộ của đã dùng để đưa hối lộ",
+      "event_role": "EFFECT",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 33,
+      "score": 0.6310682892799377,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::34",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "34",
+      "article_id": "16"
+    },
+    {
+      "memory_id": 65,
+      "score": 0.6048850417137146,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::66",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "66",
+      "article_id": "29"
+    },
+    {
+      "memory_id": 63,
+      "score": 0.6006823778152466,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::64",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "64",
+      "article_id": "29"
+    },
+    {
+      "memory_id": 66,
+      "score": 0.5969205498695374,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::67",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "67",
+      "article_id": "29"
+    },
+    {
+      "memory_id": 61,
+      "score": 0.5965675115585327,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::62",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "62",
+      "article_id": "29"
+    },
+    {
+      "memory_id": 62,
+      "score": 0.5814635753631592,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::63",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "63",
+      "article_id": "29"
+    },
+    {
+      "memory_id": 2707,
+      "score": 0.5797169208526611,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::2708",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "2708",
+      "article_id": "390"
+    },
+    {
+      "memory_id": 32,
+      "score": 0.5770569443702698,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::33",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "33",
+      "article_id": "16"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "seed_similarity": 0.6578515768051147,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "EVENT::mien_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "34"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "34"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5478679776191712
+    },
+    {
+      "seed_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "seed_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "seed_similarity": 0.6578515768051147,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "EVENT::tu_nguyen_dung_thuc_hien_toi_pham"
+      ],
+      "rule_ids": [
+        "33"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_name": "Tự nguyện dừng thực hiện tội phạm",
+          "target_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "rule_ids": [
+            "33"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5478679776191712
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi"
+      ],
+      "rule_ids": [
+        "34"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "34"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::hanh_vi_khong_con_nguy_hiem_do_thay_doi_chinh_sach_phap_luat"
+      ],
+      "rule_ids": [
+        "62"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::hanh_vi_khong_con_nguy_hiem_do_thay_doi_chinh_sach_phap_luat",
+          "source_event_id": "hanh_vi_khong_con_nguy_hiem_do_thay_doi_chinh_sach_phap_luat",
+          "source_event_name": "Hành vi không còn nguy hiểm do thay đổi chính sách pháp luật",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "62"
+          ],
+          "article_ids": [
+            "29"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::co_quyet_dinh_dai_xa"
+      ],
+      "rule_ids": [
+        "63"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::co_quyet_dinh_dai_xa",
+          "source_event_id": "co_quyet_dinh_dai_xa",
+          "source_event_name": "Có quyết định đại xá",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "63"
+          ],
+          "article_ids": [
+            "29"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::khong_con_nguy_hiem_cho_xa_hoi_do_chuyen_bien_tinh_hinh"
+      ],
+      "rule_ids": [
+        "64"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khong_con_nguy_hiem_cho_xa_hoi_do_chuyen_bien_tinh_hinh",
+          "source_event_id": "khong_con_nguy_hiem_cho_xa_hoi_do_chuyen_bien_tinh_hinh",
+          "source_event_name": "Không còn nguy hiểm cho xã hội do chuyển biến tình hình",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "64"
+          ],
+          "article_ids": [
+            "29"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::mac_benh_hiem_ngheo_va_khong_con_kha_nang_gay_nguy_hiem"
+      ],
+      "rule_ids": [
+        "65"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::mac_benh_hiem_ngheo_va_khong_con_kha_nang_gay_nguy_hiem",
+          "source_event_id": "mac_benh_hiem_ngheo_va_khong_con_kha_nang_gay_nguy_hiem",
+          "source_event_name": "Mắc bệnh hiểm nghèo và không còn khả năng gây nguy hiểm",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "65"
+          ],
+          "article_ids": [
+            "29"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::tu_thu_va_co_dong_gop_dac_biet_truoc_khi_bi_phat_giac"
+      ],
+      "rule_ids": [
+        "66"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_thu_va_co_dong_gop_dac_biet_truoc_khi_bi_phat_giac",
+          "source_event_id": "tu_thu_va_co_dong_gop_dac_biet_truoc_khi_bi_phat_giac",
+          "source_event_name": "Tự thú và có đóng góp đặc biệt trước khi bị phát giác",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "66"
+          ],
+          "article_ids": [
+            "29"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "67"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+          "source_event_id": "khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+          "source_event_name": "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "67"
+          ],
+          "article_ids": [
+            "29"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::pham_toi_thuoc_khoan_1_dieu_nay_nhung_da_tu_nguyen_pha_bo_giao_nop_cho_co_quan_chuc_nang_co_tham_quyen_truoc_khi_thu_hoach"
+      ],
+      "rule_ids": [
+        "1467"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::pham_toi_thuoc_khoan_1_dieu_nay_nhung_da_tu_nguyen_pha_bo_giao_nop_cho_co_quan_chuc_nang_co_tham_quyen_truoc_khi_thu_hoach",
+          "source_event_id": "pham_toi_thuoc_khoan_1_dieu_nay_nhung_da_tu_nguyen_pha_bo_giao_nop_cho_co_quan_chuc_nang_co_tham_quyen_truoc_khi_thu_hoach",
+          "source_event_name": "Phạm tội thuộc khoản 1 Điều này, nhưng đã tự nguyện phá bỏ, giao nộp cho cơ quan chức năng có thẩm quyền trước khi thu hoạch",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "1467"
+          ],
+          "article_ids": [
+            "247"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::nguoi_moi_gioi_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac"
+      ],
+      "rule_ids": [
+        "2561"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_moi_gioi_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+          "source_event_id": "nguoi_moi_gioi_hoi_lo_ma_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+          "source_event_name": "Người môi giới hối lộ mà chủ động khai báo trước khi bị phát giác",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "2561"
+          ],
+          "article_ids": [
+            "365"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5333795952796936
+    },
+    {
+      "seed_event_node": "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+      "seed_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "seed_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "seed_similarity": 0.630347490310669,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi"
+      ],
+      "rule_ids": [
+        "33"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_name": "Tự nguyện dừng thực hiện tội phạm",
+          "target_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "rule_ids": [
+            "33"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5308154439926147
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su_ve_toi_nay",
+      "seed_event_id": "mien_trach_nhiem_hinh_su_ve_toi_nay",
+      "seed_event_name": "Được miễn trách nhiệm hình sự về tội này",
+      "seed_similarity": 0.6258212327957153,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su_ve_toi_nay",
+        "EVENT::nguoi_da_nhan_lam_gian_diep_nhung_khong_thuc_hien_nhiem_vu_duoc_giao_va_tu_thu_thanh_khan_khai_bao_voi_co_quan_nha_nuoc_co_tham_quyen"
+      ],
+      "rule_ids": [
+        "243"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_da_nhan_lam_gian_diep_nhung_khong_thuc_hien_nhiem_vu_duoc_giao_va_tu_thu_thanh_khan_khai_bao_voi_co_quan_nha_nuoc_co_tham_quyen",
+          "source_event_id": "nguoi_da_nhan_lam_gian_diep_nhung_khong_thuc_hien_nhiem_vu_duoc_giao_va_tu_thu_thanh_khan_khai_bao_voi_co_quan_nha_nuoc_co_tham_quyen",
+          "source_event_name": "Người đã nhận làm gián điệp, nhưng không thực hiện nhiệm vụ được giao và tự thú, thành khẩn khai báo với cơ quan nhà nước có thẩm quyền",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su_ve_toi_nay",
+          "target_event_id": "mien_trach_nhiem_hinh_su_ve_toi_nay",
+          "target_event_name": "Được miễn trách nhiệm hình sự về tội này",
+          "rule_ids": [
+            "243"
+          ],
+          "article_ids": [
+            "110"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5280091643333436
+    },
+    {
+      "seed_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+      "seed_event_id": "mien_chap_hanh_hinh_phat",
+      "seed_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "seed_similarity": 0.6173678636550903,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::van_phai_thuc_hien_nghia_vu_dan_su"
+      ],
+      "rule_ids": [
+        "177"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "source_event_id": "mien_chap_hanh_hinh_phat",
+          "source_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "target_event_node": "EVENT::van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_id": "van_phai_thuc_hien_nghia_vu_dan_su",
+          "target_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+          "rule_ids": [
+            "177"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.522768075466156
+    },
+    {
+      "seed_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+      "seed_event_id": "mien_chap_hanh_hinh_phat",
+      "seed_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "seed_similarity": 0.6173678636550903,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::duoc_dac_xa_hoac_dai_xa"
+      ],
+      "rule_ids": [
+        "170"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::duoc_dac_xa_hoac_dai_xa",
+          "source_event_id": "duoc_dac_xa_hoac_dai_xa",
+          "source_event_name": "Được đặc xá hoặc đại xá",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "170"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.522768075466156
+    },
+    {
+      "seed_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+      "seed_event_id": "mien_chap_hanh_hinh_phat",
+      "seed_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "seed_similarity": 0.6173678636550903,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong"
+      ],
+      "rule_ids": [
+        "171"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "171"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.522768075466156
+    },
+    {
+      "seed_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+      "seed_event_id": "mien_chap_hanh_hinh_phat",
+      "seed_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "seed_similarity": 0.6173678636550903,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo"
+      ],
+      "rule_ids": [
+        "172"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_mac_benh_hiem_ngheo",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và mắc bệnh hiểm nghèo",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "172"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.522768075466156
+    },
+    {
+      "seed_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+      "seed_event_id": "mien_chap_hanh_hinh_phat",
+      "seed_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+      "seed_similarity": 0.6173678636550903,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_chap_hanh_hinh_phat",
+        "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem"
+      ],
+      "rule_ids": [
+        "173"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+          "source_event_id": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chap_hanh_tot_phap_luat_gia_dinh_dac_biet_kho_khan_va_khong_con_nguy_hiem",
+          "source_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chấp hành tốt pháp luật, gia đình đặc biệt khó khăn và không còn nguy hiểm",
+          "target_event_node": "EVENT::mien_chap_hanh_hinh_phat",
+          "target_event_id": "mien_chap_hanh_hinh_phat",
+          "target_event_name": "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt",
+          "rule_ids": [
+            "173"
+          ],
+          "article_ids": [
+            "62"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.522768075466156
+    },
+    {
+      "seed_event_node": "EVENT::khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+      "seed_event_id": "khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6152028441429138,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+        "EVENT::mien_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "67"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+          "source_event_id": "khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+          "source_event_name": "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "67"
+          ],
+          "article_ids": [
+            "29"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5214257633686066
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su_hoac_mien_hinh_phat",
+      "seed_event_id": "mien_trach_nhiem_hinh_su_hoac_mien_hinh_phat",
+      "seed_event_name": "Có thể được miễn trách nhiệm hình sự hoặc miễn hình phạt",
+      "seed_similarity": 0.6139897108078003,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su_hoac_mien_hinh_phat",
+        "EVENT::nguoi_khong_to_giac_neu_da_co_hanh_dong_can_ngan_nguoi_pham_toi_hoac_han_che_tac_hai_cua_toi_pham"
+      ],
+      "rule_ids": [
+        "2708"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_khong_to_giac_neu_da_co_hanh_dong_can_ngan_nguoi_pham_toi_hoac_han_che_tac_hai_cua_toi_pham",
+          "source_event_id": "nguoi_khong_to_giac_neu_da_co_hanh_dong_can_ngan_nguoi_pham_toi_hoac_han_che_tac_hai_cua_toi_pham",
+          "source_event_name": "Người không tố giác nếu đã có hành động can ngăn người phạm tội hoặc hạn chế tác hại của tội phạm",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su_hoac_mien_hinh_phat",
+          "target_event_id": "mien_trach_nhiem_hinh_su_hoac_mien_hinh_phat",
+          "target_event_name": "Có thể được miễn trách nhiệm hình sự hoặc miễn hình phạt",
+          "rule_ids": [
+            "2708"
+          ],
+          "article_ids": [
+            "390"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5206736207008362
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su_va_duoc_tra_lai_mot_phan_hoac_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "seed_event_id": "mien_trach_nhiem_hinh_su_va_duoc_tra_lai_mot_phan_hoac_toan_bo_cua_da_dung_de_dua_hoi_lo",
+      "seed_event_name": "Có thể được miễn trách nhiệm hình sự và được trả lại một phần hoặc toàn bộ của đã dùng để đưa hối lộ",
+      "seed_similarity": 0.6059979200363159,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su_va_duoc_tra_lai_mot_phan_hoac_toan_bo_cua_da_dung_de_dua_hoi_lo",
+        "EVENT::nguoi_dua_hoi_lo_tuy_khong_bi_ep_buoc_nhung_da_chu_dong_khai_bao_truoc_khi_bi_phat_giac"
+      ],
+      "rule_ids": [
+        "2550"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::nguoi_dua_hoi_lo_tuy_khong_bi_ep_buoc_nhung_da_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+          "source_event_id": "nguoi_dua_hoi_lo_tuy_khong_bi_ep_buoc_nhung_da_chu_dong_khai_bao_truoc_khi_bi_phat_giac",
+          "source_event_name": "Người đưa hối lộ tuy không bị ép buộc nhưng đã chủ động khai báo trước khi bị phát giác",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su_va_duoc_tra_lai_mot_phan_hoac_toan_bo_cua_da_dung_de_dua_hoi_lo",
+          "target_event_id": "mien_trach_nhiem_hinh_su_va_duoc_tra_lai_mot_phan_hoac_toan_bo_cua_da_dung_de_dua_hoi_lo",
+          "target_event_name": "Có thể được miễn trách nhiệm hình sự và được trả lại một phần hoặc toàn bộ của đã dùng để đưa hối lộ",
+          "rule_ids": [
+            "2550"
+          ],
+          "article_ids": [
+            "364"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5157187104225158
+    },
+    {
+      "seed_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+      "seed_event_id": "mien_trach_nhiem_hinh_su",
+      "seed_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+      "seed_similarity": 0.6344832181930542,
+      "direction": "backward",
+      "event_nodes": [
+        "EVENT::mien_trach_nhiem_hinh_su",
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "EVENT::tu_nguyen_dung_thuc_hien_toi_pham"
+      ],
+      "rule_ids": [
+        "34",
+        "33"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "34"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_name": "Tự nguyện dừng thực hiện tội phạm",
+          "target_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "rule_ids": [
+            "33"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4483712681293488
+    },
+    {
+      "seed_event_node": "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+      "seed_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "seed_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "seed_similarity": 0.630347490310669,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+        "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+        "EVENT::mien_trach_nhiem_hinh_su"
+      ],
+      "rule_ids": [
+        "33",
+        "34"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_id": "tu_nguyen_dung_thuc_hien_toi_pham",
+          "source_event_name": "Tự nguyện dừng thực hiện tội phạm",
+          "target_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "target_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "rule_ids": [
+            "33"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_id": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+          "source_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+          "target_event_node": "EVENT::mien_trach_nhiem_hinh_su",
+          "target_event_id": "mien_trach_nhiem_hinh_su",
+          "target_event_name": "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+          "rule_ids": [
+            "34"
+          ],
+          "article_ids": [
+            "16"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.44626866407394405
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "34",
+      "rule_node_id": "RULE::34",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tự ý nửa chừng chấm dứt việc phạm tội",
+      "effect": "được miễn trách nhiệm hình sự về tội định phạm",
+      "condition_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "condition_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6310683488845825,
+      "graph_score": 0.5478679776191712,
+      "seed_event_score": 0.6578515768051147,
+      "direct_rule_score": 0.6310682892799377,
+      "final_score": 0.614314243555069,
+      "matched_seed_events": [
+        "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+        "Tự nguyện dừng thực hiện tội phạm"
+      ],
+      "path_ids": [
+        0,
+        2,
+        21,
+        22
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "66",
+      "rule_node_id": "RULE::66",
+      "article_id": "29",
+      "article_title": "Căn cứ miễn trách nhiệm hình sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "tự thú trước khi bị phát giác, khai rõ, góp phần điều tra, hạn chế hậu quả và lập công lớn hoặc có cống hiến đặc biệt",
+      "effect": "có thể được miễn trách nhiệm hình sự",
+      "condition_event": "tu_thu_va_co_dong_gop_dac_biet_truoc_khi_bi_phat_giac",
+      "condition_event_name": "Tự thú và có đóng góp đặc biệt trước khi bị phát giác",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Có thể được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6048849821090698,
+      "graph_score": 0.5333795952796936,
+      "seed_event_score": 0.6344832181930542,
+      "direct_rule_score": 0.6048850417137146,
+      "final_score": 0.5912754811763764,
+      "matched_seed_events": [
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        7
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "64",
+      "rule_node_id": "RULE::64",
+      "article_id": "29",
+      "article_title": "Căn cứ miễn trách nhiệm hình sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "do chuyển biến tình hình mà không còn nguy hiểm cho xã hội",
+      "effect": "có thể được miễn trách nhiệm hình sự",
+      "condition_event": "khong_con_nguy_hiem_cho_xa_hoi_do_chuyen_bien_tinh_hinh",
+      "condition_event_name": "Không còn nguy hiểm cho xã hội do chuyển biến tình hình",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Có thể được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.6006823778152466,
+      "graph_score": 0.5333795952796936,
+      "seed_event_score": 0.6344832181930542,
+      "direct_rule_score": 0.6006823778152466,
+      "final_score": 0.5885858108520508,
+      "matched_seed_events": [
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        5
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "67",
+      "rule_node_id": "RULE::67",
+      "article_id": "29",
+      "article_title": "Căn cứ miễn trách nhiệm hình sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "phạm tội nghiêm trọng do vô ý hoặc tội ít nghiêm trọng, đã khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+      "effect": "có thể được miễn trách nhiệm hình sự",
+      "condition_event": "khac_phuc_thiet_hai_hoa_giai_va_duoc_de_nghi_mien_trach_nhiem_hinh_su",
+      "condition_event_name": "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Có thể được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5969204902648926,
+      "graph_score": 0.5333795952796936,
+      "seed_event_score": 0.6344832181930542,
+      "direct_rule_score": 0.5969205498695374,
+      "final_score": 0.5861782063961029,
+      "matched_seed_events": [
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự",
+        "Khắc phục thiệt hại, hòa giải và được đề nghị miễn trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        8,
+        18
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "62",
+      "rule_node_id": "RULE::62",
+      "article_id": "29",
+      "article_title": "Căn cứ miễn trách nhiệm hình sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "thay đổi chính sách, pháp luật làm hành vi không còn nguy hiểm cho xã hội",
+      "effect": "được miễn trách nhiệm hình sự",
+      "condition_event": "hanh_vi_khong_con_nguy_hiem_do_thay_doi_chinh_sach_phap_luat",
+      "condition_event_name": "Hành vi không còn nguy hiểm do thay đổi chính sách pháp luật",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5965675115585327,
+      "graph_score": 0.5333795952796936,
+      "seed_event_score": 0.6344832181930542,
+      "direct_rule_score": 0.5965675115585327,
+      "final_score": 0.5859522964477538,
+      "matched_seed_events": [
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        3
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "33",
+      "rule_node_id": "RULE::33",
+      "article_id": "16",
+      "article_title": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "legal_subject": "Người thực hiện hành vi",
+      "condition": "tự mình không thực hiện tội phạm đến cùng mặc dù không có gì ngăn cản",
+      "effect": "được xác định là tự ý nửa chừng chấm dứt việc phạm tội",
+      "condition_event": "tu_nguyen_dung_thuc_hien_toi_pham",
+      "condition_event_name": "Tự nguyện dừng thực hiện tội phạm",
+      "effect_event": "tu_y_nua_chung_cham_dut_viec_pham_toi",
+      "effect_event_name": "Tự ý nửa chừng chấm dứt việc phạm tội",
+      "causal_type": "",
+      "semantic_score": 0.5770569443702698,
+      "graph_score": 0.5478679776191712,
+      "seed_event_score": 0.6578515768051147,
+      "direct_rule_score": 0.5770569443702698,
+      "final_score": 0.5797469482421874,
+      "matched_seed_events": [
+        "Tự ý nửa chừng chấm dứt việc phạm tội",
+        "Tự nguyện dừng thực hiện tội phạm",
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        1,
+        11,
+        21,
+        22
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "63",
+      "rule_node_id": "RULE::63",
+      "article_id": "29",
+      "article_title": "Căn cứ miễn trách nhiệm hình sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "có quyết định đại xá",
+      "effect": "được miễn trách nhiệm hình sự",
+      "condition_event": "co_quyet_dinh_dai_xa",
+      "condition_event_name": "Có quyết định đại xá",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5814635753631592,
+      "graph_score": 0.5333795952796936,
+      "seed_event_score": 0.6344832181930542,
+      "direct_rule_score": 0.5814635753631592,
+      "final_score": 0.5762857772827148,
+      "matched_seed_events": [
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        4
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "2708",
+      "rule_node_id": "RULE::2708",
+      "article_id": "390",
+      "article_title": "Tội không tố giác tội phạm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Người không tố giác nếu đã có hành động can ngăn người phạm tội hoặc hạn chế tác hại của tội phạm",
+      "effect": "có thể được miễn trách nhiệm hình sự hoặc miễn hình phạt",
+      "condition_event": "nguoi_khong_to_giac_neu_da_co_hanh_dong_can_ngan_nguoi_pham_toi_hoac_han_che_tac_hai_cua_toi_pham",
+      "condition_event_name": "Người không tố giác nếu đã có hành động can ngăn người phạm tội hoặc hạn chế tác hại của tội phạm",
+      "effect_event": "mien_trach_nhiem_hinh_su_hoac_mien_hinh_phat",
+      "effect_event_name": "Có thể được miễn trách nhiệm hình sự hoặc miễn hình phạt",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.5797168612480164,
+      "graph_score": 0.5206736207008362,
+      "seed_event_score": 0.6139897108078003,
+      "direct_rule_score": 0.5797169208526611,
+      "final_score": 0.5696592290401459,
+      "matched_seed_events": [
+        "Có thể được miễn trách nhiệm hình sự hoặc miễn hình phạt"
+      ],
+      "path_ids": [
+        19
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "65",
+      "rule_node_id": "RULE::65",
+      "article_id": "29",
+      "article_title": "Căn cứ miễn trách nhiệm hình sự",
+      "legal_subject": "Người phạm tội",
+      "condition": "mắc bệnh hiểm nghèo dẫn đến không còn khả năng gây nguy hiểm cho xã hội",
+      "effect": "có thể được miễn trách nhiệm hình sự",
+      "condition_event": "mac_benh_hiem_ngheo_va_khong_con_kha_nang_gay_nguy_hiem",
+      "condition_event_name": "Mắc bệnh hiểm nghèo và không còn khả năng gây nguy hiểm",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Có thể được miễn trách nhiệm hình sự",
+      "causal_type": "",
+      "semantic_score": 0.5723665952682495,
+      "graph_score": 0.5333795952796936,
+      "seed_event_score": 0.6344832181930542,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5361217143058776,
+      "matched_seed_events": [
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        6
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "171",
+      "rule_node_id": "RULE::171",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Tòa án",
+      "condition": "người bị kết án bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "effect": "có thể được miễn chấp hành hình phạt",
+      "condition_event": "ket_an_cai_tao_khong_giam_giu_hoac_tu_den_03_nam_chua_chap_hanh_va_da_lap_cong",
+      "condition_event_name": "Bị kết án cải tạo không giam giữ hoặc tù đến 03 năm, chưa chấp hành và đã lập công",
+      "effect_event": "mien_chap_hanh_hinh_phat",
+      "effect_event_name": "Có thể được miễn chấp hành hình phạt",
+      "causal_type": "EXEMPTION",
+      "semantic_score": 0.5645917654037476,
+      "graph_score": 0.522768075466156,
+      "seed_event_score": 0.6173678636550903,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5270117056846618,
+      "matched_seed_events": [
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt"
+      ],
+      "path_ids": [
+        15
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "1467",
+      "rule_node_id": "RULE::1467",
+      "article_id": "247",
+      "article_title": "Tội trồng cây thuốc phiện, cây côca, cây cần sa hoặc các loại cây khác có chứa chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "phạm tội thuộc khoản 1 Điều này, nhưng đã tự nguyện phá bỏ, giao nộp cho cơ quan chức năng có thẩm quyền trước khi thu hoạch",
+      "effect": "có thể được miễn trách nhiệm hình sự",
+      "condition_event": "pham_toi_thuoc_khoan_1_dieu_nay_nhung_da_tu_nguyen_pha_bo_giao_nop_cho_co_quan_chuc_nang_co_tham_quyen_truoc_khi_thu_hoach",
+      "condition_event_name": "Phạm tội thuộc khoản 1 Điều này, nhưng đã tự nguyện phá bỏ, giao nộp cho cơ quan chức năng có thẩm quyền trước khi thu hoạch",
+      "effect_event": "mien_trach_nhiem_hinh_su",
+      "effect_event_name": "Có thể được miễn trách nhiệm hình sự",
+      "causal_type": "LEGAL_EFFECT",
+      "semantic_score": 0.5552573800086975,
+      "graph_score": 0.5333795952796936,
+      "seed_event_score": 0.6344832181930542,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5261983694553375,
+      "matched_seed_events": [
+        "Được miễn trách nhiệm hình sự || Có thể được miễn trách nhiệm hình sự"
+      ],
+      "path_ids": [
+        9
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "177",
+      "rule_node_id": "RULE::177",
+      "article_id": "62",
+      "article_title": "Miễn chấp hành hình phạt",
+      "legal_subject": "Người được miễn chấp hành hình phạt",
+      "condition": "được miễn chấp hành hình phạt",
+      "effect": "vẫn phải thực hiện đầy đủ nghĩa vụ dân sự trong bản án",
+      "condition_event": "mien_chap_hanh_hinh_phat",
+      "condition_event_name": "Được miễn chấp hành hình phạt",
+      "effect_event": "van_phai_thuc_hien_nghia_vu_dan_su",
+      "effect_event_name": "Vẫn phải thực hiện nghĩa vụ dân sự",
+      "causal_type": "OBLIGATION",
+      "semantic_score": 0.5604228973388672,
+      "graph_score": 0.522768075466156,
+      "seed_event_score": 0.6173678636550903,
+      "direct_rule_score": 0.0,
+      "final_score": 0.5245937622070312,
+      "matched_seed_events": [
+        "Được miễn chấp hành hình phạt || Có thể được miễn chấp hành hình phạt"
+      ],
+      "path_ids": [
+        13
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 23,
+    "candidate_rules": 18,
+    "final_evidence": 12,
+    "unique_path_rules": 18
+  }
+}

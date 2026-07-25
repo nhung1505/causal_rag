@@ -1,0 +1,1111 @@
+{
+  "query": "Có tồn tại chuỗi nhân quả hai bước từ “Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 30 kilôgam trở lên” đến “Thời hiệu thi hành bản án 20 năm” không?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "verification_method": "graph_intervention_remove_mediator",
+    "semantic_mapping_enabled": false,
+    "model_name": "BAAI/bge-m3"
+  },
+  "statistics": {
+    "original_paths": 15,
+    "total_paths": 15,
+    "path_status_counts": {
+      "SUPPORTED": 15,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 15,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "1473",
+        "1533",
+        "1566"
+      ],
+      "original_article_ids": [
+        "248",
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.8208069883584976,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.8208069883584976,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+        "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm"
+      ],
+      "original_rule_ids": [
+        "1480",
+        "1542",
+        "1575"
+      ],
+      "original_article_ids": [
+        "248",
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.8204001188278198,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.8204001188278198,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_30_kilogam_tro_len",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 30 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_30_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_30_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 30 kilôgam trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "1490",
+        "1591"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.7063405109287915,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7063405109287915,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_05_kilogam_den_duoi_30_kilogam",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_05_kilogam_den_duoi_30_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_05_kilogam_den_duoi_30_kilogam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1485",
+        "1583"
+      ],
+      "original_article_ids": [
+        "248",
+        "251"
+      ],
+      "original_path_score": 0.701921429777306,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.701921429777306,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+        "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+        "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1518",
+        "1622"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6992547250034031,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "1501",
+        "1605"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6954656635762868,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_10_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+        "phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+        "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm"
+      ],
+      "original_rule_ids": [
+        "1510",
+        "1614"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.695058794045609,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_10_kilogam_den_duoi_25_kilogam",
+      "seed_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng từ 10 kilôgam đến dưới 25 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_10_kilogam_den_duoi_25_kilogam",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_10_kilogam_den_duoi_25_kilogam",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng từ 10 kilôgam đến dưới 25 kilôgam",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "1503",
+        "1607"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6907324160577473,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_10_kilogam_den_duoi_25_kilogam",
+      "seed_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng từ 10 kilôgam đến dưới 25 kilôgam",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "original_event_nodes": [
+        "EVENT::la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_10_kilogam_den_duoi_25_kilogam",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_10_kilogam_den_duoi_25_kilogam",
+        "phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "original_event_names": [
+        "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng từ 10 kilôgam đến dưới 25 kilôgam",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "original_rule_ids": [
+        "1535",
+        "1568"
+      ],
+      "original_article_ids": [
+        "250",
+        "251"
+      ],
+      "original_path_score": 0.6907324160577473,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+      "seed_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 75 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+        "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 75 kilôgam trở lên",
+        "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1520",
+        "1624"
+      ],
+      "original_article_ids": [
+        "249",
+        "252"
+      ],
+      "original_path_score": 0.6906992860080419,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1550"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.522596049785614,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 150 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+      "original_outcome_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+      "original_event_nodes": [
+        "EVENT::la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "original_event_names": [
+        "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 150 kilôgam trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:"
+      ],
+      "original_rule_ids": [
+        "1593"
+      ],
+      "original_article_ids": [
+        "251"
+      ],
+      "original_path_score": 0.5173371523618698,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+      "seed_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 75 kilôgam trở lên",
+      "original_outcome_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+      "original_outcome_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+      "original_event_nodes": [
+        "EVENT::la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "original_event_names": [
+        "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 75 kilôgam trở lên",
+        "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân"
+      ],
+      "original_rule_ids": [
+        "1552"
+      ],
+      "original_article_ids": [
+        "250"
+      ],
+      "original_path_score": 0.5140406107902527,
+      "original_hop_count": 1,
+      "intervention_type": "DIRECT_EDGE_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "Path trực tiếp một hop; không có mediator để can thiệp. CAUSES edge tồn tại trong causal event graph.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_30_kilogam_tro_len",
+      "seed_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 30 kilôgam trở lên",
+      "original_outcome_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+      "original_outcome_event_name": "Thời hiệu thi hành bản án 20 năm",
+      "original_event_nodes": [
+        "EVENT::nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_30_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+        "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_ids": [
+        "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_30_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_names": [
+        "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 30 kilôgam trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+        "Thời hiệu thi hành bản án 20 năm"
+      ],
+      "original_rule_ids": [
+        "1490",
+        "1591",
+        "166"
+      ],
+      "original_article_ids": [
+        "248",
+        "251",
+        "60"
+      ],
+      "original_path_score": 0.5186353277489381,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "removed_nodes": [
+            "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7008858974870221,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 150 kilôgam trở lên",
+      "original_outcome_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+      "original_outcome_event_name": "Thời hiệu thi hành bản án 20 năm",
+      "original_event_nodes": [
+        "EVENT::la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+        "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "original_event_names": [
+        "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 150 kilôgam trở lên",
+        "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+        "Thời hiệu thi hành bản án 20 năm"
+      ],
+      "original_rule_ids": [
+        "1593",
+        "166"
+      ],
+      "original_article_ids": [
+        "251",
+        "60"
+      ],
+      "original_path_score": 0.43476646493673327,
+      "original_hop_count": 2,
+      "intervention_type": "REMOVE_MEDIATOR",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "mediator_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "removed_nodes": [
+            "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+          ],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "Loại mediator làm outcome không còn reachable trong giới hạn tìm kiếm."
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.66314490922153,
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": []
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 1,
+      "rule_id": "1542",
+      "article_id": "250",
+      "original_final_score": 0.7273304712772368,
+      "semantic_score": 0.7649199962615967,
+      "graph_score": 0.673454761505127,
+      "path_support_score": 0.8204001188278198,
+      "counterfactual_support_score": 0.8204001188278198,
+      "verification_score": 0.7909509491920471,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "1542",
+        "rule_node_id": "RULE::1542",
+        "article_id": "250",
+        "article_title": "Tội vận chuyển trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7649199962615967,
+        "graph_score": 0.673454761505127,
+        "seed_event_score": 0.6346044540405273,
+        "direct_rule_score": 0.7649199366569519,
+        "final_score": 0.7273304712772368,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "1480",
+      "article_id": "248",
+      "original_final_score": 0.7266982340812682,
+      "semantic_score": 0.7639321088790894,
+      "graph_score": 0.673454761505127,
+      "path_support_score": 0.8204001188278198,
+      "counterfactual_support_score": 0.8204001188278198,
+      "verification_score": 0.790792887210846,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "1480",
+        "rule_node_id": "RULE::1480",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7639321088790894,
+        "graph_score": 0.673454761505127,
+        "seed_event_score": 0.6346044540405273,
+        "direct_rule_score": 0.7639322280883789,
+        "final_score": 0.7266982340812682,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "1575",
+      "article_id": "251",
+      "original_final_score": 0.7255190348625182,
+      "semantic_score": 0.7620896100997925,
+      "graph_score": 0.673454761505127,
+      "path_support_score": 0.8204001188278198,
+      "counterfactual_support_score": 0.8204001188278198,
+      "verification_score": 0.7904980874061585,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "1575",
+        "rule_node_id": "RULE::1575",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_01_kilogam_den_duoi_05_kilogam",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7620896100997925,
+        "graph_score": 0.673454761505127,
+        "seed_event_score": 0.6346044540405273,
+        "direct_rule_score": 0.762089729309082,
+        "final_score": 0.7255190348625182,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 01 kilôgam đến dưới 05 kilôgam"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "1533",
+      "article_id": "250",
+      "original_final_score": 0.66597834815979,
+      "semantic_score": 0.7377171516418457,
+      "graph_score": 0.6741945242881775,
+      "path_support_score": 0.8208069883584976,
+      "counterfactual_support_score": 0.8208069883584976,
+      "verification_score": 0.7869868695139884,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "1533",
+        "rule_node_id": "RULE::1533",
+        "article_id": "250",
+        "article_title": "Tội vận chuyển trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7377171516418457,
+        "graph_score": 0.6741945242881775,
+        "seed_event_score": 0.6357976198196411,
+        "direct_rule_score": 0.0,
+        "final_score": 0.66597834815979,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 10,
+      "rule_id": "1473",
+      "article_id": "248",
+      "original_final_score": 0.6639539574623108,
+      "semantic_score": 0.7342268228530884,
+      "graph_score": 0.6741945242881775,
+      "path_support_score": 0.8208069883584976,
+      "counterfactual_support_score": 0.8208069883584976,
+      "verification_score": 0.7864284169077873,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 10,
+        "rule_id": "1473",
+        "rule_node_id": "RULE::1473",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7342268228530884,
+        "graph_score": 0.6741945242881775,
+        "seed_event_score": 0.6357976198196411,
+        "direct_rule_score": 0.0,
+        "final_score": 0.6639539574623108,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "1566",
+      "article_id": "251",
+      "original_final_score": 0.6637256525993347,
+      "semantic_score": 0.7338331937789917,
+      "graph_score": 0.6741945242881775,
+      "path_support_score": 0.8208069883584976,
+      "counterfactual_support_score": 0.8208069883584976,
+      "verification_score": 0.7863654362559318,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "1566",
+        "rule_node_id": "RULE::1566",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+        "effect": "bị phạt tù từ 07 năm đến 15 năm:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_500_gam_den_duoi_01_kilogam",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam",
+        "effect_event": "phat_tu_tu_07_nam_den_15_nam",
+        "effect_event_name": "Phạt tù từ 07 năm đến 15 năm:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7338331937789917,
+        "graph_score": 0.6741945242881775,
+        "seed_event_score": 0.6357976198196411,
+        "direct_rule_score": 0.0,
+        "final_score": 0.6637256525993347,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 500 gam đến dưới 01 kilôgam"
+        ],
+        "path_ids": [
+          0
+        ]
+      }
+    },
+    {
+      "original_rank": 4,
+      "rule_id": "1485",
+      "article_id": "248",
+      "original_final_score": 0.7203986746555785,
+      "semantic_score": 0.7674260139465332,
+      "graph_score": 0.6278270311182653,
+      "path_support_score": 0.701921429777306,
+      "counterfactual_support_score": 0.701921429777306,
+      "verification_score": 0.7020289474321166,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "1485",
+        "rule_node_id": "RULE::1485",
+        "article_id": "248",
+        "article_title": "Tội sản xuất trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam",
+        "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_05_kilogam_den_duoi_30_kilogam",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam",
+        "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7674260139465332,
+        "graph_score": 0.6278270311182653,
+        "seed_event_score": 0.6547294855117798,
+        "direct_rule_score": 0.7674260139465332,
+        "final_score": 0.7203986746555785,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "1583",
+      "article_id": "251",
+      "original_final_score": 0.7195326203590849,
+      "semantic_score": 0.7660728096961975,
+      "graph_score": 0.6278270311182653,
+      "path_support_score": 0.701921429777306,
+      "counterfactual_support_score": 0.701921429777306,
+      "verification_score": 0.7018124347520629,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        3
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "1583",
+        "rule_node_id": "RULE::1583",
+        "article_id": "251",
+        "article_title": "Tội mua bán trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam",
+        "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_tu_05_kilogam_den_duoi_30_kilogam",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam",
+        "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7660728096961975,
+        "graph_score": 0.6278270311182653,
+        "seed_event_score": 0.6547294855117798,
+        "direct_rule_score": 0.7660727500915527,
+        "final_score": 0.7195326203590849,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng từ 05 kilôgam đến dưới 30 kilôgam"
+        ],
+        "path_ids": [
+          3
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "1622",
+      "article_id": "252",
+      "original_final_score": 0.7168139715916136,
+      "semantic_score": 0.7651094198226929,
+      "graph_score": 0.6229784769838964,
+      "path_support_score": 0.6992547250034031,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6993512894506695,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        4
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "1622",
+        "rule_node_id": "RULE::1622",
+        "article_id": "252",
+        "article_title": "Tội chiếm đoạt chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7651094198226929,
+        "graph_score": 0.6229784769838964,
+        "seed_event_score": 0.646909236907959,
+        "direct_rule_score": 0.7651094198226929,
+        "final_score": 0.7168139715916136,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên"
+        ],
+        "path_ids": [
+          4
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "1518",
+      "article_id": "249",
+      "original_final_score": 0.7143552501923064,
+      "semantic_score": 0.7612676620483398,
+      "graph_score": 0.6229784769838964,
+      "path_support_score": 0.6992547250034031,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.698736608206773,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        4
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "1518",
+        "rule_node_id": "RULE::1518",
+        "article_id": "249",
+        "article_title": "Tội tàng trữ trái phép chất ma túy",
+        "legal_subject": "Người phạm tội",
+        "condition": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+        "effect": "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "condition_event": "nhua_thuoc_phien_nhua_can_sa_hoac_cao_coca_co_khoi_luong_05_kilogam_tro_len",
+        "condition_event_name": "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên",
+        "effect_event": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "effect_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.7612676620483398,
+        "graph_score": 0.6229784769838964,
+        "seed_event_score": 0.646909236907959,
+        "direct_rule_score": 0.7612677216529846,
+        "final_score": 0.7143552501923064,
+        "matched_seed_events": [
+          "Nhựa thuốc phiện, nhựa cần sa hoặc cao côca có khối lượng 05 kilôgam trở lên"
+        ],
+        "path_ids": [
+          4
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.7142333236400644,
+  "confidence": 0.8999816632740225,
+  "verification_method": "graph_intervention_remove_mediator"
+}

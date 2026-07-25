@@ -1,0 +1,1084 @@
+{
+  "query": "Khi xảy ra “Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên”, chuỗi hai bước trong dữ liệu dẫn tới kết quả nào?",
+  "configuration": {
+    "event_top_k": 8,
+    "direct_rule_top_k": 8,
+    "semantic_pool_size": 100,
+    "max_hops": 2,
+    "max_paths_per_event": 30,
+    "max_candidate_rules": 200,
+    "final_top_k": 12,
+    "min_event_score": 0.2,
+    "min_rule_score": 0.15,
+    "direction": "both",
+    "model_name": "BAAI/bge-m3",
+    "score_weights": {
+      "semantic_rule": 0.58,
+      "graph_path": 0.24,
+      "seed_event": 0.12,
+      "direct_rule_bonus": 0.06
+    }
+  },
+  "retrieved_events": [
+    {
+      "memory_id": 4091,
+      "score": 0.7360579967498779,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "event_name": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4088,
+      "score": 0.7251214981079102,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+      "event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+      "event_name": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4077,
+      "score": 0.7197473049163818,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4069,
+      "score": 0.7097098231315613,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4070,
+      "score": 0.7057385444641113,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4090,
+      "score": 0.7026329636573792,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+      "event_id": "qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+      "event_name": "Quả thuốc phiện khô có khối lượng 1.200 kilôgam trở lên",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4076,
+      "score": 0.7009223699569702,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "event_id": "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "event_name": "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    },
+    {
+      "memory_id": 4064,
+      "score": 0.6978654265403748,
+      "memory_type": "EVENT",
+      "graph_node_id": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+      "event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+      "event_name": "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+      "event_role": "CONDITION",
+      "rule_id": "",
+      "article_id": ""
+    }
+  ],
+  "direct_rule_hits": [
+    {
+      "memory_id": 1594,
+      "score": 0.7032545804977417,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1595",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1595",
+      "article_id": "251"
+    },
+    {
+      "memory_id": 1586,
+      "score": 0.6936574578285217,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1587",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1587",
+      "article_id": "251"
+    },
+    {
+      "memory_id": 1545,
+      "score": 0.6879825592041016,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1546",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1546",
+      "article_id": "250"
+    },
+    {
+      "memory_id": 1544,
+      "score": 0.6869011521339417,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1545",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1545",
+      "article_id": "250"
+    },
+    {
+      "memory_id": 1553,
+      "score": 0.686745285987854,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1554",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1554",
+      "article_id": "250"
+    },
+    {
+      "memory_id": 1578,
+      "score": 0.6822819709777832,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1579",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1579",
+      "article_id": "251"
+    },
+    {
+      "memory_id": 1593,
+      "score": 0.68216872215271,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1594",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1594",
+      "article_id": "251"
+    },
+    {
+      "memory_id": 1577,
+      "score": 0.6817790269851685,
+      "memory_type": "RULE",
+      "graph_node_id": "RULE::1578",
+      "event_id": "",
+      "event_name": "",
+      "event_role": "",
+      "rule_id": "1578",
+      "article_id": "251"
+    }
+  ],
+  "causal_paths": [
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "seed_similarity": 0.7197473049163818,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "rule_ids": [
+        "1522",
+        "1626"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+          "source_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+          "source_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+          "target_event_node": "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+          "target_event_id": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+          "target_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân",
+          "rule_ids": [
+            "1522",
+            "1626"
+          ],
+          "article_ids": [
+            "249",
+            "252"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6681380791491186
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "seed_similarity": 0.7097098231315613,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "rule_ids": [
+        "1513",
+        "1617"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+          "source_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+          "source_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+          "target_event_node": "EVENT::phat_tu_tu_10_nam_den_15_nam",
+          "target_event_id": "phat_tu_tu_10_nam_den_15_nam",
+          "target_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+          "rule_ids": [
+            "1513",
+            "1617"
+          ],
+          "article_ids": [
+            "249",
+            "252"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6619148404425299
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "seed_similarity": 0.7097098231315613,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "rule_ids": [
+        "1545",
+        "1578"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+          "source_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+          "source_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+          "target_event_node": "EVENT::phat_tu_tu_15_nam_den_20_nam",
+          "target_event_id": "phat_tu_tu_15_nam_den_20_nam",
+          "target_event_name": "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm",
+          "rule_ids": [
+            "1545",
+            "1578"
+          ],
+          "article_ids": [
+            "250",
+            "251"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6619148404425299
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "seed_similarity": 0.7057385444641113,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "EVENT::phat_tu_tu_10_nam_den_15_nam"
+      ],
+      "rule_ids": [
+        "1514",
+        "1618"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+          "source_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+          "source_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+          "target_event_node": "EVENT::phat_tu_tu_10_nam_den_15_nam",
+          "target_event_id": "phat_tu_tu_10_nam_den_15_nam",
+          "target_event_name": "Phạt tù từ 10 năm đến 15 năm: || Phạt tù từ 10 năm đến 15 năm",
+          "rule_ids": [
+            "1514",
+            "1618"
+          ],
+          "article_ids": [
+            "249",
+            "252"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6594526476687109
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "seed_similarity": 0.7057385444641113,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "rule_ids": [
+        "1546",
+        "1579"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+          "source_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+          "source_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+          "target_event_node": "EVENT::phat_tu_tu_15_nam_den_20_nam",
+          "target_event_id": "phat_tu_tu_15_nam_den_20_nam",
+          "target_event_name": "Phạt tù từ 15 năm đến 20 năm: || Phạt tù từ 15 năm đến 20 năm",
+          "rule_ids": [
+            "1546",
+            "1579"
+          ],
+          "article_ids": [
+            "250",
+            "251"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6594526476687109
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+      "seed_similarity": 0.7009223699569702,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+        "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than"
+      ],
+      "rule_ids": [
+        "1521",
+        "1625"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+          "source_event_id": "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+          "source_event_name": "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+          "target_event_node": "EVENT::phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+          "target_event_id": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+          "target_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân: || Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân",
+          "rule_ids": [
+            "1521",
+            "1625"
+          ],
+          "article_ids": [
+            "249",
+            "252"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6564666194742834
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+      "seed_similarity": 0.6978654265403748,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "rule_ids": [
+        "1504",
+        "1608"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+          "source_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+          "source_event_name": "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+          "target_event_node": "EVENT::phat_tu_tu_05_nam_den_10_nam",
+          "target_event_id": "phat_tu_tu_05_nam_den_10_nam",
+          "target_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+          "rule_ids": [
+            "1504",
+            "1608"
+          ],
+          "article_ids": [
+            "249",
+            "252"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6545713145559942
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+      "seed_similarity": 0.6978654265403748,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+        "EVENT::phat_tu_tu_07_nam_den_15_nam"
+      ],
+      "rule_ids": [
+        "1536",
+        "1569"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+          "source_event_id": "qua_thuoc_phien_kho_co_khoi_luong_tu_50_kilogam_den_duoi_200_kilogam",
+          "source_event_name": "Quả thuốc phiện khô có khối lượng từ 50 kilôgam đến dưới 200 kilôgam",
+          "target_event_node": "EVENT::phat_tu_tu_07_nam_den_15_nam",
+          "target_event_id": "phat_tu_tu_07_nam_den_15_nam",
+          "target_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+          "rule_ids": [
+            "1536",
+            "1569"
+          ],
+          "article_ids": [
+            "250",
+            "251"
+          ],
+          "support_count": 2
+        }
+      ],
+      "graph_score": 0.6545713145559942
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+      "seed_similarity": 0.7360579967498779,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "rule_ids": [
+        "1595"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+          "source_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+          "source_event_name": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+          "target_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "rule_ids": [
+            "1595"
+          ],
+          "article_ids": [
+            "251"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5963559579849242
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+      "seed_similarity": 0.7251214981079102,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "rule_ids": [
+        "1587"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+          "source_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+          "source_event_name": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+          "target_event_node": "EVENT::phat_tu_20_nam_hoac_tu_chung_than",
+          "target_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+          "target_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+          "rule_ids": [
+            "1587"
+          ],
+          "article_ids": [
+            "251"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5895753288269043
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "seed_similarity": 0.7197473049163818,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "rule_ids": [
+        "1554"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+          "source_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+          "source_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+          "target_event_node": "EVENT::phat_tu_20_nam_hoac_tu_chung_than",
+          "target_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+          "target_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+          "rule_ids": [
+            "1554"
+          ],
+          "article_ids": [
+            "250"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5862433290481568
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng 1.200 kilôgam trở lên",
+      "seed_similarity": 0.7026329636573792,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh"
+      ],
+      "rule_ids": [
+        "1594"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+          "source_event_id": "qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+          "source_event_name": "Quả thuốc phiện khô có khối lượng 1.200 kilôgam trở lên",
+          "target_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "rule_ids": [
+            "1594"
+          ],
+          "article_ids": [
+            "251"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5756324374675751
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+      "seed_similarity": 0.7009223699569702,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+        "EVENT::phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "rule_ids": [
+        "1553"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+          "source_event_id": "qua_thuoc_phien_kho_co_khoi_luong_600_kilogam_tro_len",
+          "source_event_name": "Quả thuốc phiện khô có khối lượng 600 kilôgam trở lên",
+          "target_event_node": "EVENT::phat_tu_20_nam_hoac_tu_chung_than",
+          "target_event_id": "phat_tu_20_nam_hoac_tu_chung_than",
+          "target_event_name": "Phạt tù 20 năm hoặc tù chung thân: || Phạt tù 20 năm hoặc tù chung thân",
+          "rule_ids": [
+            "1553"
+          ],
+          "article_ids": [
+            "250"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5745718693733215
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "seed_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+      "seed_similarity": 0.7360579967498779,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+        "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "rule_ids": [
+        "1595",
+        "166"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+          "source_event_id": "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+          "source_event_name": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+          "target_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "rule_ids": [
+            "1595"
+          ],
+          "article_ids": [
+            "251"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "target_event_node": "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+          "target_event_name": "Thời hiệu thi hành bản án 20 năm",
+          "rule_ids": [
+            "166"
+          ],
+          "article_ids": [
+            "60"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.5000118855476379
+    },
+    {
+      "seed_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+      "seed_event_id": "qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+      "seed_event_name": "Quả thuốc phiện khô có khối lượng 1.200 kilôgam trở lên",
+      "seed_similarity": 0.7026329636573792,
+      "direction": "forward",
+      "event_nodes": [
+        "EVENT::qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+        "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+        "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "rule_ids": [
+        "1594",
+        "166"
+      ],
+      "steps": [
+        {
+          "hop": 1,
+          "source_event_node": "EVENT::qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+          "source_event_id": "qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+          "source_event_name": "Quả thuốc phiện khô có khối lượng 1.200 kilôgam trở lên",
+          "target_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "rule_ids": [
+            "1594"
+          ],
+          "article_ids": [
+            "251"
+          ],
+          "support_count": 1
+        },
+        {
+          "hop": 2,
+          "source_event_node": "EVENT::phat_tu_chung_than_hoac_tu_hinh",
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Bị phạt tù chung thân hoặc tử hình || Phạt tù chung thân hoặc tử hình:",
+          "target_event_node": "EVENT::thoi_hieu_thi_hanh_ban_an_20_nam",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+          "target_event_name": "Thời hiệu thi hành bản án 20 năm",
+          "rule_ids": [
+            "166"
+          ],
+          "article_ids": [
+            "60"
+          ],
+          "support_count": 1
+        }
+      ],
+      "graph_score": 0.4830185987234116
+    }
+  ],
+  "evidence": [
+    {
+      "rank": 1,
+      "rule_id": "1545",
+      "rule_node_id": "RULE::1545",
+      "article_id": "250",
+      "article_title": "Tội vận chuyển trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+      "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "condition_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+      "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6869011521339417,
+      "graph_score": 0.6619148404425299,
+      "seed_event_score": 0.7097098231315613,
+      "direct_rule_score": 0.6869011521339417,
+      "final_score": 0.6836414778477171,
+      "matched_seed_events": [
+        "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam"
+      ],
+      "path_ids": [
+        2
+      ]
+    },
+    {
+      "rank": 2,
+      "rule_id": "1546",
+      "rule_node_id": "RULE::1546",
+      "article_id": "250",
+      "article_title": "Tội vận chuyển trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+      "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "condition_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+      "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6879825592041016,
+      "graph_score": 0.6594526476687109,
+      "seed_event_score": 0.7057385444641113,
+      "direct_rule_score": 0.6879825592041016,
+      "final_score": 0.6832660986668089,
+      "matched_seed_events": [
+        "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam"
+      ],
+      "path_ids": [
+        4
+      ]
+    },
+    {
+      "rank": 3,
+      "rule_id": "1595",
+      "rule_node_id": "RULE::1595",
+      "article_id": "251",
+      "article_title": "Tội mua bán trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+      "effect": "bị phạt tù chung thân hoặc tử hình:",
+      "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_300_kilogam_tro_len",
+      "condition_event_name": "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên",
+      "effect_event": "phat_tu_chung_than_hoac_tu_hinh",
+      "effect_event_name": "Phạt tù chung thân hoặc tử hình:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.7032545804977417,
+      "graph_score": 0.5963559579849242,
+      "seed_event_score": 0.7360579967498779,
+      "direct_rule_score": 0.7032545804977417,
+      "final_score": 0.6815353210449219,
+      "matched_seed_events": [
+        "Quả thuốc phiện tươi có khối lượng 300 kilôgam trở lên"
+      ],
+      "path_ids": [
+        8,
+        13
+      ]
+    },
+    {
+      "rank": 4,
+      "rule_id": "1578",
+      "rule_node_id": "RULE::1578",
+      "article_id": "251",
+      "article_title": "Tội mua bán trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+      "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "condition_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+      "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6817789673805237,
+      "graph_score": 0.6619148404425299,
+      "seed_event_score": 0.7097098231315613,
+      "direct_rule_score": 0.6817790269851685,
+      "final_score": 0.6803632831818083,
+      "matched_seed_events": [
+        "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam"
+      ],
+      "path_ids": [
+        2
+      ]
+    },
+    {
+      "rank": 5,
+      "rule_id": "1579",
+      "rule_node_id": "RULE::1579",
+      "article_id": "251",
+      "article_title": "Tội mua bán trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "effect": "bị phạt tù từ 15 năm đến 20 năm:",
+      "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_50_kilogam_den_duoi_150_kilogam",
+      "condition_event_name": "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam",
+      "effect_event": "phat_tu_tu_15_nam_den_20_nam",
+      "effect_event_name": "Phạt tù từ 15 năm đến 20 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6822819709777832,
+      "graph_score": 0.6594526476687109,
+      "seed_event_score": 0.7057385444641113,
+      "direct_rule_score": 0.6822819709777832,
+      "final_score": 0.6796177222019651,
+      "matched_seed_events": [
+        "Quả thuốc phiện tươi có khối lượng từ 50 kilôgam đến dưới 150 kilôgam"
+      ],
+      "path_ids": [
+        4
+      ]
+    },
+    {
+      "rank": 6,
+      "rule_id": "1587",
+      "rule_node_id": "RULE::1587",
+      "article_id": "251",
+      "article_title": "Tội mua bán trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+      "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+      "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_tu_150_kilogam_den_duoi_300_kilogam",
+      "condition_event_name": "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam",
+      "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+      "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6936574578285217,
+      "graph_score": 0.5895753288269043,
+      "seed_event_score": 0.7251214981079102,
+      "direct_rule_score": 0.6936574578285217,
+      "final_score": 0.6724534317016602,
+      "matched_seed_events": [
+        "Quả thuốc phiện tươi có khối lượng từ 150 kilôgam đến dưới 300 kilôgam"
+      ],
+      "path_ids": [
+        9
+      ]
+    },
+    {
+      "rank": 7,
+      "rule_id": "1554",
+      "rule_node_id": "RULE::1554",
+      "article_id": "250",
+      "article_title": "Tội vận chuyển trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "effect": "bị phạt tù 20 năm hoặc tù chung thân:",
+      "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "condition_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "effect_event": "phat_tu_20_nam_hoac_tu_chung_than",
+      "effect_event_name": "Phạt tù 20 năm hoặc tù chung thân:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.686745285987854,
+      "graph_score": 0.5862433290481568,
+      "seed_event_score": 0.7197473049163818,
+      "direct_rule_score": 0.686745285987854,
+      "final_score": 0.6665850585937501,
+      "matched_seed_events": [
+        "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên"
+      ],
+      "path_ids": [
+        10
+      ]
+    },
+    {
+      "rank": 8,
+      "rule_id": "1594",
+      "rule_node_id": "RULE::1594",
+      "article_id": "251",
+      "article_title": "Tội mua bán trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện khô có khối lượng 1.200 kilôgam trở lên",
+      "effect": "bị phạt tù chung thân hoặc tử hình:",
+      "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_1_200_kilogam_tro_len",
+      "condition_event_name": "Quả thuốc phiện khô có khối lượng 1.200 kilôgam trở lên",
+      "effect_event": "phat_tu_chung_than_hoac_tu_hinh",
+      "effect_event_name": "Phạt tù chung thân hoặc tử hình:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.68216872215271,
+      "graph_score": 0.5756324374675751,
+      "seed_event_score": 0.7026329636573792,
+      "direct_rule_score": 0.68216872215271,
+      "final_score": 0.6590557228088378,
+      "matched_seed_events": [
+        "Quả thuốc phiện khô có khối lượng 1.200 kilôgam trở lên"
+      ],
+      "path_ids": [
+        11,
+        14
+      ]
+    },
+    {
+      "rank": 9,
+      "rule_id": "1626",
+      "rule_node_id": "RULE::1626",
+      "article_id": "252",
+      "article_title": "Tội chiếm đoạt chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "effect": "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+      "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "condition_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "effect_event": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+      "effect_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6749808192253113,
+      "graph_score": 0.6681380791491186,
+      "seed_event_score": 0.7197473049163818,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6382116907364349,
+      "matched_seed_events": [
+        "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên"
+      ],
+      "path_ids": [
+        0
+      ]
+    },
+    {
+      "rank": 10,
+      "rule_id": "1617",
+      "rule_node_id": "RULE::1617",
+      "article_id": "252",
+      "article_title": "Tội chiếm đoạt chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "effect": "bị phạt tù từ 10 năm đến 15 năm:",
+      "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "condition_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "effect_event": "phat_tu_tu_10_nam_den_15_nam",
+      "effect_event_name": "Phạt tù từ 10 năm đến 15 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6787732243537903,
+      "graph_score": 0.6619148404425299,
+      "seed_event_score": 0.7097098231315613,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6377132106071929,
+      "matched_seed_events": [
+        "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam"
+      ],
+      "path_ids": [
+        1
+      ]
+    },
+    {
+      "rank": 11,
+      "rule_id": "1513",
+      "rule_node_id": "RULE::1513",
+      "article_id": "249",
+      "article_title": "Tội tàng trữ trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "effect": "bị phạt tù từ 10 năm đến 15 năm:",
+      "condition_event": "qua_thuoc_phien_kho_co_khoi_luong_tu_200_kilogam_den_duoi_600_kilogam",
+      "condition_event_name": "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam",
+      "effect_event": "phat_tu_tu_10_nam_den_15_nam",
+      "effect_event_name": "Phạt tù từ 10 năm đến 15 năm:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6787053346633911,
+      "graph_score": 0.6619148404425299,
+      "seed_event_score": 0.7097098231315613,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6376738345867613,
+      "matched_seed_events": [
+        "Quả thuốc phiện khô có khối lượng từ 200 kilôgam đến dưới 600 kilôgam"
+      ],
+      "path_ids": [
+        1
+      ]
+    },
+    {
+      "rank": 12,
+      "rule_id": "1522",
+      "rule_node_id": "RULE::1522",
+      "article_id": "249",
+      "article_title": "Tội tàng trữ trái phép chất ma túy",
+      "legal_subject": "Người phạm tội",
+      "condition": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "effect": "bị phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+      "condition_event": "qua_thuoc_phien_tuoi_co_khoi_luong_150_kilogam_tro_len",
+      "condition_event_name": "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên",
+      "effect_event": "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+      "effect_event_name": "Phạt tù từ 15 năm đến 20 năm hoặc tù chung thân:",
+      "causal_type": "SANCTION",
+      "semantic_score": 0.6724029183387756,
+      "graph_score": 0.6681380791491186,
+      "seed_event_score": 0.7197473049163818,
+      "direct_rule_score": 0.0,
+      "final_score": 0.6367165082222442,
+      "matched_seed_events": [
+        "Quả thuốc phiện tươi có khối lượng 150 kilôgam trở lên"
+      ],
+      "path_ids": [
+        0
+      ]
+    }
+  ],
+  "statistics": {
+    "semantic_hits": 100,
+    "retrieved_event_seeds": 8,
+    "direct_rule_hits": 8,
+    "causal_paths": 15,
+    "candidate_rules": 22,
+    "final_evidence": 12,
+    "unique_path_rules": 22
+  }
+}

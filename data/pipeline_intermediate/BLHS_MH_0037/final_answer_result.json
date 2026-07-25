@@ -1,0 +1,443 @@
+{
+  "query": "Từ sự kiện “Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý”, sau khi trải qua bước trung gian, kết quả pháp lý cuối cùng nào có thể phát sinh?",
+  "answer": "### Kết luận  \nTừ sự kiện \"Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý\", sau bước trung gian là **xác định là tái phạm nguy hiểm** (theo [E1]), kết quả pháp lý cuối cùng có thể là **phạt tù từ 02 năm đến 15 năm**, tùy theo tội danh cụ thể được phạm lại.  \n\n---\n\n### Căn cứ và lập luận  \n1. **Bước trung gian**: Sự kiện \"Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý\" dẫn đến **xác định là tái phạm nguy hiểm** theo Điều 53 (Rule ID: 145) [E1].  \n2. **Kết quả pháp lý cuối cùng**: Tái phạm nguy hiểm là điều kiện để áp dụng các hình phạt cụ thể trong các điều luật khác. Các quy định liên quan đến tái phạm nguy hiểm (theo [E2]–[E8]) quy định các mức phạt tù khác nhau, tùy theo tội danh cụ thể:  \n   - **Phạt tù từ 02 năm đến 07 năm** (theo [E4] – tội công nhiên chiếm đoạt tài sản).  \n   - **Phạt tù từ 03 năm đến 07 năm** (theo [E6] – tội môi giới mại dâm).  \n   - **Phạt tù từ 03 năm đến 10 năm** (theo [E8] – tội cưỡng dâm).  \n   - **Phạt tù từ 05 năm đến 10 năm** (theo [E2]–[E5], [E7]–[E8] – các tội liên quan đến xuất nhập cảnh, mại dâm, rửa tiền, v.v.).  \n   - **Phạt tù từ 05 năm đến 12 năm** (theo [E6] – tội khác).  \n   - **Phạt tù từ 07 năm đến 15 năm** (theo [E1] – tái phạm nguy hiểm tổng quát).  \n\nCác mức phạt này được xác minh qua các causal path [P1]–[P6], với độ tin cậy cao (consistency score ≥ 0.7357).  \n\n---\n\n### Lưu ý về độ chắc chắn  \n- Các mức phạt cụ thể phụ thuộc vào tội danh phạm lại, không có trong dữ liệu được cung cấp.  \n- Dù có nhiều quy định liên quan, **không thể\n\nLưu ý: Nội dung này không thay thế tư vấn pháp lý chính thức.",
+  "provider": "ollama",
+  "model": "qwen3:8b",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "145",
+      "article_id": "53",
+      "article_title": "Tái phạm, tái phạm nguy hiểm",
+      "legal_subject": "Cơ quan tiến hành tố tụng",
+      "condition": "người đã bị kết án về tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý, chưa xóa án tích và lại phạm tội cùng mức độ do cố ý",
+      "effect": "xác định là tái phạm nguy hiểm",
+      "condition_event": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+      "condition_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "effect_event": "tai_pham_nguy_hiem",
+      "effect_event_name": "Tái phạm nguy hiểm",
+      "causal_type": "CLASSIFICATION",
+      "verification_score": 0.6039850366615314,
+      "original_final_score": 0.6614780065631866,
+      "counterfactual_support_score": 0.6926099102732215,
+      "final_selection_score": 0.6345266586737814,
+      "decision": "KEEP",
+      "path_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        11,
+        12,
+        21,
+        22,
+        23,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "2427",
+      "article_id": "348",
+      "article_title": "Tội tổ chức, môi giới cho người khác xuất cảnh, nhập cảnh hoặc ở lại Việt Nam trái phép",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.6379657856143666,
+      "original_final_score": 0.5672933766460418,
+      "counterfactual_support_score": 0.734637848692298,
+      "final_selection_score": 0.631264872385559,
+      "decision": "KEEP",
+      "path_ids": [
+        3,
+        10
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "2437",
+      "article_id": "349",
+      "article_title": "Tội tổ chức, môi giới cho người khác trốn đi nước ngoài hoặc ở lại nước ngoài trái phép",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.6369036022342396,
+      "original_final_score": 0.5634429618930816,
+      "counterfactual_support_score": 0.734637848692298,
+      "final_selection_score": 0.629525547100601,
+      "decision": "KEEP",
+      "path_ids": [
+        3,
+        10
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "709",
+      "article_id": "172",
+      "article_title": "Tội công nhiên chiếm đoạt tài sản",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 02 năm đến 07 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_02_nam_den_07_nam",
+      "effect_event_name": "Phạt tù từ 02 năm đến 07 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.6367597976840687,
+      "original_final_score": 0.5629216703987121,
+      "counterfactual_support_score": 0.734637848692298,
+      "final_selection_score": 0.6292900671496962,
+      "decision": "KEEP",
+      "path_ids": [
+        2,
+        9
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "2336",
+      "article_id": "327",
+      "article_title": "Tội chứa mại dâm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.6356036583102894,
+      "original_final_score": 0.5587306651687622,
+      "counterfactual_support_score": 0.734637848692298,
+      "final_selection_score": 0.6273968889251326,
+      "decision": "KEEP",
+      "path_ids": [
+        3,
+        10
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "2350",
+      "article_id": "328",
+      "article_title": "Tội môi giới mại dâm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 03 năm đến 07 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_03_nam_den_07_nam",
+      "effect_event_name": "Phạt tù từ 03 năm đến 07 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.6352294365085316,
+      "original_final_score": 0.5573741111373901,
+      "counterfactual_support_score": 0.734637848692298,
+      "final_selection_score": 0.6267841007247541,
+      "decision": "KEEP",
+      "path_ids": [
+        1,
+        8
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "2297",
+      "article_id": "324",
+      "article_title": "Tội rửa tiền",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 05 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_05_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 05 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.6350020996249867,
+      "original_final_score": 0.5565500149345397,
+      "counterfactual_support_score": 0.734637848692298,
+      "final_selection_score": 0.6264118365779493,
+      "decision": "KEEP",
+      "path_ids": [
+        3,
+        10
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "402",
+      "article_id": "143",
+      "article_title": "Tội cưỡng dâm",
+      "legal_subject": "Người phạm tội",
+      "condition": "Tái phạm nguy hiểm",
+      "effect": "bị phạt tù từ 03 năm đến 10 năm:",
+      "condition_event": "tai_pham_nguy_hiem",
+      "condition_event_name": "Tái phạm nguy hiểm",
+      "effect_event": "phat_tu_tu_03_nam_den_10_nam",
+      "effect_event_name": "Phạt tù từ 03 năm đến 10 năm:",
+      "causal_type": "SANCTION",
+      "verification_score": 0.6310048717416079,
+      "original_final_score": 0.5565704215142214,
+      "counterfactual_support_score": 0.7319010363925094,
+      "final_selection_score": 0.6238089613710271,
+      "decision": "KEEP",
+      "path_ids": [
+        4,
+        13
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ]
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 0,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7415684120827915,
+      "seed_event_id": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+      "seed_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "outcome_event_id": "phat_tu_tu_07_nam_den_15_nam",
+      "outcome_event_name": "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:",
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "event_names": [
+        "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 07 năm đến 15 năm || Phạt tù từ 07 năm đến 15 năm:"
+      ],
+      "rule_ids": [
+        "145",
+        "372",
+        "414",
+        "646",
+        "1477",
+        "1541",
+        "1574",
+        "1662",
+        "1674",
+        "1687"
+      ]
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 1,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7415684120827915,
+      "seed_event_id": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+      "seed_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "outcome_event_id": "phat_tu_tu_03_nam_den_07_nam",
+      "outcome_event_name": "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:",
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "event_names": [
+        "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 03 năm đến 07 năm || Phạt tù từ 03 năm đến 07 năm:"
+      ],
+      "rule_ids": [
+        "145",
+        "436",
+        "447",
+        "1408",
+        "1449",
+        "1459",
+        "1466",
+        "2270",
+        "2281",
+        "2314",
+        "2350"
+      ]
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 2,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7415684120827915,
+      "seed_event_id": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+      "seed_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "outcome_event_id": "phat_tu_tu_02_nam_den_07_nam",
+      "outcome_event_name": "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:",
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "event_names": [
+        "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 02 năm đến 07 năm || Phạt tù từ 02 năm đến 07 năm:"
+      ],
+      "rule_ids": [
+        "145",
+        "709",
+        "730",
+        "743",
+        "759",
+        "784",
+        "1995",
+        "2033",
+        "2256",
+        "2364",
+        "2565",
+        "2704"
+      ]
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 3,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7415684120827915,
+      "seed_event_id": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+      "seed_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "event_names": [
+        "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "rule_ids": [
+        "145",
+        "908",
+        "923",
+        "981",
+        "1434",
+        "1509",
+        "1613",
+        "1653",
+        "1702",
+        "1710",
+        "2275",
+        "2297",
+        "2336",
+        "2427",
+        "2437"
+      ]
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 4,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7388315997830028,
+      "seed_event_id": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+      "seed_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "outcome_event_id": "phat_tu_tu_03_nam_den_10_nam",
+      "outcome_event_name": "Phạt tù từ 03 năm đến 10 năm || Phạt tù từ 03 năm đến 10 năm:",
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "event_names": [
+        "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 03 năm đến 10 năm || Phạt tù từ 03 năm đến 10 năm:"
+      ],
+      "rule_ids": [
+        "145",
+        "402",
+        "679",
+        "694",
+        "2115",
+        "2184",
+        "2323"
+      ]
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 6,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7356721818492865,
+      "seed_event_id": "tai_pham_toi_rat_nghiem_trong_hoac_dac_biet_nghiem_trong_do_co_y",
+      "seed_event_name": "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+      "outcome_event_id": "phat_tu_tu_05_nam_den_12_nam",
+      "outcome_event_name": "Phạt tù từ 05 năm đến 12 năm || Phạt tù từ 05 năm đến 12 năm:",
+      "explanation": "Intervention cho thấy 1 mediator cần thiết và 0 mediator cần thiết một phần.",
+      "event_names": [
+        "Tái phạm tội rất nghiêm trọng hoặc đặc biệt nghiêm trọng do cố ý",
+        "Tái phạm nguy hiểm",
+        "Phạt tù từ 05 năm đến 12 năm || Phạt tù từ 05 năm đến 12 năm:"
+      ],
+      "rule_ids": [
+        "145",
+        "665",
+        "951",
+        "2097",
+        "2161",
+        "2446"
+      ]
+    }
+  ],
+  "citations_used": [
+    "E1",
+    "E2",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8"
+  ],
+  "confidence": 0.891001590255549,
+  "consistency_score": 0.6885759721587117,
+  "generation_metadata": {
+    "requested_provider": "ollama",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 16.631,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [],
+    "system_prompt_chars": 943,
+    "user_prompt_chars": 6819
+  }
+}
