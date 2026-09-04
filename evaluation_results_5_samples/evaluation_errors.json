@@ -1,0 +1,419 @@
+{
+  "count": 5,
+  "errors": [
+    {
+      "id": "BLHS_MH_0001",
+      "question": "Nếu Đã chấp hành một nửa thời hạn cấm cư trú hoặc quản chế và cải tạo tốt thì qua chuỗi quan hệ pháp lý, hệ quả cuối cùng là gì?",
+      "question_type": "forward_multihop",
+      "difficulty": "medium",
+      "error_types": [
+        "VERIFICATION_ERROR",
+        "LOW_ANSWER_F1"
+      ],
+      "predicted_rule_ids": [
+        "176",
+        "203",
+        "353",
+        "705",
+        "793",
+        "2876",
+        "359",
+        "2200",
+        "2534",
+        "613",
+        "2411",
+        "2535"
+      ],
+      "gold_rule_ids": [
+        "176",
+        "203"
+      ],
+      "predicted_event_ids": [
+        "da_chap_hanh_mot_nua_thoi_han_cam_cu_tru_hoac_quan_che_va_cai_tao_tot",
+        "mien_phan_hinh_phat_con_lai",
+        "duoc_coi_nhu_da_chap_hanh_xong_hinh_phat",
+        "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_02_nam_den_05_nam",
+        "phat_cai_tao_khong_giam_giu_tu_02_nam_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+        "phat_cai_tao_khong_giam_giu_den_01_nam_hoac_phat_tu_tu_03_thang_den_02_nam",
+        "phat_cai_tao_khong_giam_giu_den_02_nam_hoac_bi_phat_tu_tu_03_thang_den_02_nam",
+        "phat_cai_tao_khong_giam_giu_den_03_nam_hoac_phat_tu_tu_03_thang_den_02_nam"
+      ],
+      "gold_event_ids": [
+        "da_chap_hanh_mot_nua_thoi_han_cam_cu_tru_hoac_quan_che_va_cai_tao_tot",
+        "mien_phan_hinh_phat_con_lai",
+        "duoc_coi_nhu_da_chap_hanh_xong_hinh_phat"
+      ],
+      "predicted_path": [
+        {
+          "source_event_id": "da_chap_hanh_mot_nua_thoi_han_cam_cu_tru_hoac_quan_che_va_cai_tao_tot",
+          "target_event_id": "mien_phan_hinh_phat_con_lai"
+        },
+        {
+          "source_event_id": "mien_phan_hinh_phat_con_lai",
+          "target_event_id": "duoc_coi_nhu_da_chap_hanh_xong_hinh_phat"
+        }
+      ],
+      "gold_path": [
+        {
+          "hop": 1,
+          "source_event_id": "da_chap_hanh_mot_nua_thoi_han_cam_cu_tru_hoac_quan_che_va_cai_tao_tot",
+          "source_event_name": "Đã chấp hành một nửa thời hạn cấm cư trú hoặc quản chế và cải tạo tốt",
+          "target_event_id": "mien_phan_hinh_phat_con_lai",
+          "target_event_name": "Có thể được miễn phần hình phạt còn lại",
+          "rule_id": "176",
+          "article_id": "62"
+        },
+        {
+          "hop": 2,
+          "source_event_id": "mien_phan_hinh_phat_con_lai",
+          "source_event_name": "Có thể được miễn phần hình phạt còn lại",
+          "target_event_id": "duoc_coi_nhu_da_chap_hanh_xong_hinh_phat",
+          "target_event_name": "Được coi như đã chấp hành xong hình phạt",
+          "rule_id": "203",
+          "article_id": "73"
+        }
+      ],
+      "predicted_answer": "Chưa đủ căn cứ từ dữ liệu được cung cấp để kết luận chắc chắn. [E1] [E2]",
+      "gold_answer": "Hệ quả cuối cùng là “Được coi như đã chấp hành xong hình phạt”. Chuỗi suy luận: Đã chấp hành một nửa thời hạn cấm cư trú hoặc quản chế và cải tạo tốt → Có thể được miễn phần hình phạt còn lại → Được coi như đã chấp hành xong hình phạt.",
+      "predicted_citations": [
+        "Điều 62",
+        "Điều 73"
+      ],
+      "gold_citations": [
+        "Điều 62",
+        "Điều 73"
+      ]
+    },
+    {
+      "id": "BLHS_MH_0002",
+      "question": "Từ sự kiện “Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm d khoản này”, sau khi trải qua bước trung gian, kết quả pháp lý cuối cùng nào có thể phát sinh?",
+      "question_type": "forward_multihop",
+      "difficulty": "medium",
+      "error_types": [
+        "PATH_MISMATCH",
+        "LOW_ANSWER_F1"
+      ],
+      "predicted_rule_ids": [
+        "1493",
+        "1597",
+        "166",
+        "1494",
+        "1629",
+        "1525",
+        "1590",
+        "1582",
+        "1598",
+        "1557",
+        "1489",
+        "1621"
+      ],
+      "gold_rule_ids": [
+        "1494",
+        "166"
+      ],
+      "predicted_event_ids": [
+        "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam",
+        "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_d_khoan_nay",
+        "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_g_khoan_nay",
+        "phat_tu_tu_10_nam_den_15_nam",
+        "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "gold_event_ids": [
+        "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_d_khoan_nay",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "predicted_path": [
+        {
+          "source_event_id": "cac_chat_ma_tuy_khac_o_the_long_co_the_tich_22_lit_tro_len",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh"
+        },
+        {
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam"
+        }
+      ],
+      "gold_path": [
+        {
+          "hop": 1,
+          "source_event_id": "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_d_khoan_nay",
+          "source_event_name": "Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm d khoản này",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Bị phạt tù chung thân hoặc tử hình",
+          "rule_id": "1494",
+          "article_id": "248"
+        },
+        {
+          "hop": 2,
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Bị phạt tù chung thân hoặc tử hình",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+          "target_event_name": "Thời hiệu thi hành bản án 20 năm",
+          "rule_id": "166",
+          "article_id": "60"
+        }
+      ],
+      "predicted_answer": "Hệ quả cuối cùng là xác định thời hiệu thi hành bản án là 20 năm [E1] [E2] [E3].",
+      "gold_answer": "Hệ quả cuối cùng là “Thời hiệu thi hành bản án 20 năm”. Chuỗi suy luận: Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm d khoản này → Bị phạt tù chung thân hoặc tử hình → Thời hiệu thi hành bản án 20 năm.",
+      "predicted_citations": [
+        "Điều 248",
+        "Điều 251",
+        "Điều 60"
+      ],
+      "gold_citations": [
+        "Điều 248",
+        "Điều 60"
+      ]
+    },
+    {
+      "id": "BLHS_MH_0003",
+      "question": "Trong graph nhân quả, “Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên” cuối cùng dẫn đến trạng thái pháp lý nào?",
+      "question_type": "forward_multihop",
+      "difficulty": "medium",
+      "error_types": [
+        "LOW_ANSWER_F1"
+      ],
+      "predicted_rule_ids": [
+        "1491",
+        "1592",
+        "166",
+        "1543",
+        "1481",
+        "1534",
+        "1474",
+        "1567",
+        "1486",
+        "1584",
+        "1519",
+        "1576"
+      ],
+      "gold_rule_ids": [
+        "1491",
+        "166"
+      ],
+      "predicted_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam",
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_05_gam_den_duoi_30_gam",
+        "phat_tu_tu_07_nam_den_15_nam",
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_tu_30_gam_den_duoi_100_gam",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "gold_event_ids": [
+        "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "predicted_path": [
+        {
+          "source_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh"
+        },
+        {
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam"
+        }
+      ],
+      "gold_path": [
+        {
+          "hop": 1,
+          "source_event_id": "heroine_cocaine_methamphetamine_amphetamine_ketamine_fentanyl_mdma_hoac_xlr_11_co_khoi_luong_03_kilogam_tro_len",
+          "source_event_name": "Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Bị phạt tù chung thân hoặc tử hình",
+          "rule_id": "1491",
+          "article_id": "248"
+        },
+        {
+          "hop": 2,
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Bị phạt tù chung thân hoặc tử hình",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+          "target_event_name": "Thời hiệu thi hành bản án 20 năm",
+          "rule_id": "166",
+          "article_id": "60"
+        }
+      ],
+      "predicted_answer": "Hệ quả cuối cùng là xác định thời hiệu thi hành bản án là 20 năm [E1] [E2] [E3].",
+      "gold_answer": "Hệ quả cuối cùng là “Thời hiệu thi hành bản án 20 năm”. Chuỗi suy luận: Heroine, Cocaine, Methamphetamine, Amphetamine, Ketamine, Fentanyl, MDMA hoặc XLR-11 có khối lượng 03 kilôgam trở lên → Bị phạt tù chung thân hoặc tử hình → Thời hiệu thi hành bản án 20 năm.",
+      "predicted_citations": [
+        "Điều 248",
+        "Điều 251",
+        "Điều 60"
+      ],
+      "gold_citations": [
+        "Điều 248",
+        "Điều 60"
+      ]
+    },
+    {
+      "id": "BLHS_MH_0004",
+      "question": "Hãy xác định hệ quả cuối cùng của chuỗi bắt đầu từ “Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm g khoản này”.",
+      "question_type": "forward_multihop",
+      "difficulty": "medium",
+      "error_types": [
+        "LOW_ANSWER_F1"
+      ],
+      "predicted_rule_ids": [
+        "1598",
+        "166",
+        "1494",
+        "1629",
+        "1621",
+        "1525",
+        "1582",
+        "1590",
+        "1517",
+        "1489",
+        "1549",
+        "1557"
+      ],
+      "gold_rule_ids": [
+        "1598",
+        "166"
+      ],
+      "predicted_event_ids": [
+        "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_g_khoan_nay",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam",
+        "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_d_khoan_nay",
+        "phat_tu_tu_10_nam_den_15_nam",
+        "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "phat_tu_tu_15_nam_den_20_nam",
+        "phat_tu_20_nam_hoac_tu_chung_than"
+      ],
+      "gold_event_ids": [
+        "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_g_khoan_nay",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "predicted_path": [
+        {
+          "source_event_id": "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_g_khoan_nay",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh"
+        },
+        {
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam"
+        }
+      ],
+      "gold_path": [
+        {
+          "hop": 1,
+          "source_event_id": "co_02_chat_ma_tuy_tro_len_ma_tong_khoi_luong_hoac_the_tich_cua_cac_chat_do_tuong_duong_voi_khoi_luong_hoac_the_tich_chat_ma_tuy_quy_dinh_tai_mot_trong_cac_diem_tu_diem_a_den_diem_g_khoan_nay",
+          "source_event_name": "Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm g khoản này",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Bị phạt tù chung thân hoặc tử hình",
+          "rule_id": "1598",
+          "article_id": "251"
+        },
+        {
+          "hop": 2,
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Bị phạt tù chung thân hoặc tử hình",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+          "target_event_name": "Thời hiệu thi hành bản án 20 năm",
+          "rule_id": "166",
+          "article_id": "60"
+        }
+      ],
+      "predicted_answer": "Hệ quả cuối cùng là xác định thời hiệu thi hành bản án là 20 năm [E1] [E2].",
+      "gold_answer": "Hệ quả cuối cùng là “Thời hiệu thi hành bản án 20 năm”. Chuỗi suy luận: Có 02 chất ma túy trở lên mà tổng khối lượng hoặc thể tích của các chất đó tương đương với khối lượng hoặc thể tích chất ma túy quy định tại một trong các điểm từ điểm a đến điểm g khoản này → Bị phạt tù chung thân hoặc tử hình → Thời hiệu thi hành bản án 20 năm.",
+      "predicted_citations": [
+        "Điều 251",
+        "Điều 60"
+      ],
+      "gold_citations": [
+        "Điều 251",
+        "Điều 60"
+      ]
+    },
+    {
+      "id": "BLHS_MH_0005",
+      "question": "Khi xảy ra “Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 150 kilôgam trở lên”, chuỗi hai bước trong dữ liệu dẫn tới kết quả nào?",
+      "question_type": "forward_multihop",
+      "difficulty": "medium",
+      "error_types": [
+        "LOW_ANSWER_F1"
+      ],
+      "predicted_rule_ids": [
+        "1593",
+        "166",
+        "1520",
+        "1624",
+        "1616",
+        "1544",
+        "1577",
+        "1512",
+        "1552",
+        "1585",
+        "1607",
+        "1503"
+      ],
+      "gold_rule_ids": [
+        "1593",
+        "166"
+      ],
+      "predicted_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam",
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_75_kilogam_tro_len",
+        "phat_tu_tu_15_nam_den_20_nam_hoac_tu_chung_than",
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_tu_25_kilogam_den_duoi_75_kilogam",
+        "phat_tu_tu_10_nam_den_15_nam",
+        "phat_tu_tu_15_nam_den_20_nam"
+      ],
+      "gold_event_ids": [
+        "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+        "phat_tu_chung_than_hoac_tu_hinh",
+        "thoi_hieu_thi_hanh_ban_an_20_nam"
+      ],
+      "predicted_path": [
+        {
+          "source_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh"
+        },
+        {
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam"
+        }
+      ],
+      "gold_path": [
+        {
+          "hop": 1,
+          "source_event_id": "la_cay_coca_la_khat_la_cay_catha_edulis_la_re_than_canh_hoa_qua_cua_cay_can_sa_hoac_bo_phan_cua_cay_khac_co_chua_chat_ma_tuy_do_chinh_phu_quy_dinh_co_khoi_luong_150_kilogam_tro_len",
+          "source_event_name": "Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 150 kilôgam trở lên",
+          "target_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "target_event_name": "Bị phạt tù chung thân hoặc tử hình",
+          "rule_id": "1593",
+          "article_id": "251"
+        },
+        {
+          "hop": 2,
+          "source_event_id": "phat_tu_chung_than_hoac_tu_hinh",
+          "source_event_name": "Bị phạt tù chung thân hoặc tử hình",
+          "target_event_id": "thoi_hieu_thi_hanh_ban_an_20_nam",
+          "target_event_name": "Thời hiệu thi hành bản án 20 năm",
+          "rule_id": "166",
+          "article_id": "60"
+        }
+      ],
+      "predicted_answer": "Hệ quả cuối cùng là xác định thời hiệu thi hành bản án là 20 năm [E1] [E2].",
+      "gold_answer": "Hệ quả cuối cùng là “Thời hiệu thi hành bản án 20 năm”. Chuỗi suy luận: Lá cây côca; lá khát (lá cây Catha edulis); lá, rễ, thân, cành, hoa, quả của cây cần sa hoặc bộ phận của cây khác có chứa chất ma túy do Chính phủ quy định có khối lượng 150 kilôgam trở lên → Bị phạt tù chung thân hoặc tử hình → Thời hiệu thi hành bản án 20 năm.",
+      "predicted_citations": [
+        "Điều 251",
+        "Điều 60"
+      ],
+      "gold_citations": [
+        "Điều 251",
+        "Điều 60"
+      ]
+    }
+  ]
+}
