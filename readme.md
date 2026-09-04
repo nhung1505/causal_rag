@@ -80,3 +80,44 @@ python 5_5_generate_pipeline_predictions.py \
   --benchmark data/blhs_multihop_benchmark_250.json \
   --predictions data/pipeline_predictions.json \
   --output-dir evaluation_results
+
+
+  -----
+
+  python 5_5_generate_pipeline_predictions.py \
+  --benchmark data/blhs_multihop_benchmark_250.json \
+  --counterfactual-mode structural_scm \
+  --rules data/blhs_rules_final_all_normalized.json \
+  --provider extractive \
+  --disable-semantic-mapping \
+  --output data/pipeline_predictions_structural_scm.json \
+  --jsonl-output data/pipeline_predictions_structural_scm.jsonl \
+  --errors-output data/pipeline_errors_structural_scm.json \
+  --run-log data/pipeline_run_log_structural_scm.json \
+  --work-dir data/pipeline_intermediate_structural_scm \
+  --resume
+
+python 5_5_generate_pipeline_predictions.py \
+  --benchmark data/blhs_multihop_benchmark_250.json \
+  --counterfactual-mode path_ablation \
+  --rules data/blhs_rules_final_all_normalized.json \
+  --provider extractive \
+  --disable-semantic-mapping \
+  --output data/pipeline_predictions_path_ablation.json \
+  --jsonl-output data/pipeline_predictions_path_ablation.jsonl \
+  --errors-output data/pipeline_errors_path_ablation.json \
+  --run-log data/pipeline_run_log_path_ablation.json \
+  --work-dir data/pipeline_intermediate_path_ablation \
+  --resume
+
+python 7_compute_evaluation_metrics.py \
+  --benchmark data/blhs_multihop_benchmark_250.json \
+  --predictions data/pipeline_predictions_structural_scm.json \
+  --output-dir evaluation_metrics_structural_scm \
+  --strict
+
+python 7_compute_evaluation_metrics.py \
+  --benchmark data/blhs_multihop_benchmark_250.json \
+  --predictions data/pipeline_predictions_path_ablation.json \
+  --output-dir evaluation_metrics_path_ablation \
+  --strict

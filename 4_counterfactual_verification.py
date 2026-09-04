@@ -2,12 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-Step 4 v3.1 - Query-aware counterfactual verification.
+Step 4 v4.0 - Query-aware structural counterfactual verification.
 
-Khác bản cũ ở ba điểm cốt lõi:
-1. Chọn primary multi-hop path thay vì lấy trung bình mọi path.
-2. Tách path validity khỏi mediator necessity.
-3. Xuất final_decision theo claim cụ thể trong query.
+Mặc định, Step 4 dùng ``causal_core.LegalSCM`` để:
+1. Xác nhận factual causal chain bằng các legal rule mechanisms.
+2. Thực hiện hard ``do(mediator=FALSE)`` và suy luận lại outcome.
+3. Đánh giá claim cụ thể trong query từ factual/counterfactual worlds.
+
+Node-deletion reachability được giữ dưới mode ``path_ablation`` và luôn được
+lưu như baseline diagnostic khi chạy mode ``structural_scm``.
 """
 
 from __future__ import annotations
@@ -23,6 +26,12 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 
+from causal_core import (
+    CounterfactualStatus,
+    EventState,
+    LegalSCM,
+)
+
 
 # ============================================================
 # DEFAULT CONFIGURATION
@@ -30,11 +39,19 @@ import pandas as pd
 
 GRAPH_PATH = "data/legal_causal_knowledge_graph.graphml"
 MEMORY_PATH = "data/causal_memory.csv"
+RULES_PATH = "data/blhs_rules_final_all_normalized.json"
 RETRIEVAL_RESULT_PATH = "data/retrieval_result.json"
 OUTPUT_PATH = "data/counterfactual_verification_result.json"
 
-# Phiên bản mới để phân biệt rõ với file Step 4 cũ.
-STEP4_VERSION = "3.1-query-aware-primary-path"
+STRUCTURAL_SCM_MODE = "structural_scm"
+PATH_ABLATION_MODE = "path_ablation"
+DEFAULT_COUNTERFACTUAL_MODE = STRUCTURAL_SCM_MODE
+
+# Giữ `query-aware` để Step 5.5 nhận diện compatibility.
+STEP4_VERSION = "4.0-query-aware-legal-scm"
+
+# Cache model theo file + mtime để batch không parse 2.884 rules mỗi câu.
+_LEGAL_SCM_CACHE: dict[tuple[str, int], LegalSCM] = {}
 
 # Điểm thưởng cho evidence thuộc primary path.
 PRIMARY_PATH_EVIDENCE_BONUS = 0.12
@@ -160,6 +177,19 @@ class MediatorIntervention:
     necessity_score: float
     explanation: str
 
+    # Structural SCM metadata. Baseline records keep the defaults below.
+    verification_method: str = "node_deletion_reachability"
+    intervention_assignment: dict[str, str] = field(default_factory=dict)
+    structural_status: str = ""
+    factual_mediator_state: str = ""
+    factual_outcome: str = ""
+    counterfactual_outcome: str = ""
+    outcome_changed: Optional[bool] = None
+    disabled_rule_ids: list[str] = field(default_factory=list)
+    newly_activated_rule_ids: list[str] = field(default_factory=list)
+    alternative_outcome_rule_ids: list[str] = field(default_factory=list)
+    recomputed_context_event_ids: list[str] = field(default_factory=list)
+
 
 @dataclass
 class PathVerification:
@@ -214,6 +244,9 @@ class PathVerification:
     opposite_outcome_candidates: list[dict[str, Any]] = field(
         default_factory=list
     )
+
+    # Compact audit payload; downstream Step 5 ignores unknown additive fields.
+    counterfactual_summary: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -545,6 +578,7 @@ class CounterfactualResourceStore:
         graph_path: str,
         memory_path: str,
         retrieval_result_path: str,
+        rules_path: Optional[str] = RULES_PATH,
 
         # Giữ lại các tham số dưới đây để tương thích với
         # 5_5_generate_pipeline_predictions.py và CLI cũ.
@@ -559,6 +593,9 @@ class CounterfactualResourceStore:
         self.retrieval_result_path = Path(
             retrieval_result_path
         )
+        self.rules_path = Path(rules_path) if rules_path else None
+        self.legal_scm: Optional[LegalSCM] = None
+        self.scm_load_error = ""
 
         # Chỉ lưu để compatibility, không dùng trong thuật toán.
         self.embeddings_path = (
@@ -579,6 +616,7 @@ class CounterfactualResourceStore:
         self.retrieval_result = (
             self._load_retrieval_result()
         )
+        self.legal_scm = self._load_legal_scm()
 
         self._validate_resources()
         self._build_lookup_tables()
@@ -592,6 +630,57 @@ class CounterfactualResourceStore:
     # --------------------------------------------------------
     # LOADERS
     # --------------------------------------------------------
+
+    def _load_legal_scm(self) -> Optional[LegalSCM]:
+        if self.rules_path is None:
+            self.scm_load_error = "Không cấu hình rules_path."
+            return None
+        if not self.rules_path.exists():
+            self.scm_load_error = (
+                f"Không tìm thấy normalized rules: {self.rules_path}"
+            )
+            print("Warning:", self.scm_load_error)
+            return None
+
+        resolved = self.rules_path.resolve()
+        cache_key = (str(resolved), resolved.stat().st_mtime_ns)
+        cached = _LEGAL_SCM_CACHE.get(cache_key)
+        if cached is not None:
+            print(f"Using cached LegalSCM: {resolved}")
+            return cached
+
+        print(f"Loading LegalSCM rules: {resolved}")
+        try:
+            with resolved.open("r", encoding="utf-8") as file:
+                records = json.load(file)
+            if not isinstance(records, list):
+                raise ValueError("Normalized rules phải là JSON array.")
+            valid_records = [
+                item for item in records if isinstance(item, dict)
+            ]
+            if len(valid_records) != len(records):
+                raise ValueError(
+                    "Normalized rules chứa record không phải JSON object."
+                )
+            model = LegalSCM.from_legacy_records(valid_records)
+        except Exception as error:
+            self.scm_load_error = f"{type(error).__name__}: {error}"
+            print("Warning: không thể load LegalSCM:", self.scm_load_error)
+            return None
+
+        # Xóa cache cũ của cùng file sau khi nội dung thay đổi.
+        for old_key in list(_LEGAL_SCM_CACHE):
+            if old_key[0] == str(resolved) and old_key != cache_key:
+                _LEGAL_SCM_CACHE.pop(old_key, None)
+        _LEGAL_SCM_CACHE[cache_key] = model
+        print(
+            "LegalSCM loaded:",
+            len(model.rules),
+            "rules,",
+            len(model.event_ids),
+            "events",
+        )
+        return model
 
     def _load_graph(
         self,
@@ -1768,6 +1857,508 @@ class CounterfactualPathVerifier:
 
 
 # ============================================================
+# LEGAL SCM STRUCTURAL VERIFICATION
+# ============================================================
+
+class StructuralCounterfactualVerifier:
+    """Run LegalSCM while preserving node-deletion output as diagnostics."""
+
+    METHOD = "legal_scm_do_intervention"
+
+    def __init__(
+        self,
+        *,
+        store: CounterfactualResourceStore,
+        baseline_verifier: CounterfactualPathVerifier,
+    ) -> None:
+        self.store = store
+        self.baseline_verifier = baseline_verifier
+
+    def verify_path(
+        self,
+        *,
+        path_id: int,
+        original_path: dict[str, Any],
+        max_hops: int = DEFAULT_MAX_CF_HOPS,
+        max_paths: int = DEFAULT_MAX_CF_PATHS,
+        max_mediators: int = DEFAULT_MAX_MEDIATORS_PER_PATH,
+        **_: Any,
+    ) -> PathVerification:
+        baseline = self.baseline_verifier.verify_path(
+            path_id=path_id,
+            original_path=original_path,
+            max_hops=max_hops,
+            max_paths=max_paths,
+            max_mediators=max_mediators,
+        )
+        summary = {
+            "engine": "LegalSCM",
+            "mode": STRUCTURAL_SCM_MODE,
+            "factual_context": {},
+            "outcome_event_id": baseline.original_outcome_event_id,
+            "factual_outcome": "unknown",
+            "path_rule_coverage": {},
+            "interventions": [],
+            "baseline": self._baseline_summary(baseline),
+            "fallback_used": False,
+            "fallback_reason": "",
+        }
+
+        scm = self.store.legal_scm
+        if scm is None:
+            return self._fallback(
+                baseline,
+                summary,
+                self.store.scm_load_error or "LegalSCM chưa được khởi tạo.",
+            )
+        if baseline.status == "CONTRADICTED":
+            return self._fallback(
+                baseline,
+                summary,
+                "Path không tạo thành chuỗi CAUSES hợp lệ trong graph.",
+            )
+        if len(baseline.original_event_ids) < 2:
+            return self._fallback(
+                baseline,
+                summary,
+                "Path không có đủ hai event để chạy structural inference.",
+            )
+
+        event_nodes = baseline.original_event_nodes
+        event_ids = baseline.original_event_ids
+        seed_event_id = event_ids[0]
+        outcome_event_id = event_ids[-1]
+        factual_context = {seed_event_id: EventState.TRUE}
+        summary["factual_context"] = {seed_event_id: EventState.TRUE.value}
+        summary["outcome_event_id"] = outcome_event_id
+
+        try:
+            factual = scm.infer(factual_context)
+        except Exception as error:
+            return self._fallback(
+                baseline,
+                summary,
+                f"Factual inference lỗi: {type(error).__name__}: {error}",
+            )
+
+        coverage = self._path_rule_coverage(
+            event_nodes=event_nodes,
+            activated_rule_ids=set(factual.activated_rule_ids),
+        )
+        summary["factual_outcome"] = factual.state_of(
+            outcome_event_id
+        ).value
+        summary["factual_states"] = {
+            event_id: factual.state_of(event_id).value
+            for event_id in event_ids
+        }
+        summary["factual_iterations"] = factual.iterations
+        summary["factual_conflicting_event_ids"] = [
+            event_id
+            for event_id in factual.conflicting_event_ids
+            if event_id in set(event_ids)
+        ]
+        summary["path_rule_coverage"] = coverage
+
+        factual_path_supported = (
+            factual.state_of(outcome_event_id) is EventState.TRUE
+            and bool(coverage.get("all_hops_covered"))
+            and not summary["factual_conflicting_event_ids"]
+        )
+
+        if len(event_ids) == 2:
+            baseline.intervention_type = "LEGAL_SCM_FACTUAL_VALIDATION"
+            baseline.counterfactual_summary = summary
+            if factual_path_supported:
+                baseline.status = "SUPPORTED"
+                baseline.consistency_score = clamp(
+                    max(
+                        DIRECT_PATH_SUPPORT_SCORE,
+                        baseline.original_path_score,
+                    )
+                )
+                baseline.explanation = (
+                    "LegalSCM kích hoạt rule mechanism của path một hop và "
+                    "suy ra factual outcome=TRUE; không có mediator để do-intervention."
+                )
+            else:
+                baseline.status = "UNRESOLVED"
+                baseline.consistency_score = UNRESOLVED_BASE_SCORE
+                baseline.explanation = (
+                    "Graph có direct edge nhưng LegalSCM không xác nhận được "
+                    "factual outcome hoặc rule mechanism của hop."
+                )
+            return baseline
+
+        baseline_by_mediator = {
+            safe_string(item.get("mediator_event_id")): item
+            for item in baseline.mediator_interventions
+            if isinstance(item, dict)
+        }
+        mediator_ids = event_ids[1:-1][:max_mediators]
+        mediator_nodes = event_nodes[1:-1][:max_mediators]
+
+        if not factual_path_supported:
+            baseline.intervention_type = "LEGAL_SCM_DO_INTERVENTION"
+            baseline.status = "UNRESOLVED"
+            baseline.consistency_score = UNRESOLVED_BASE_SCORE
+            baseline.explanation = (
+                "LegalSCM không xác nhận được factual chain trước intervention; "
+                "không gán nhãn necessity từ topology đơn thuần."
+            )
+            baseline.mediator_interventions = [
+                asdict(
+                    self._unresolved_intervention(
+                        mediator_index=index,
+                        mediator_node=mediator_node,
+                        mediator_id=mediator_id,
+                        baseline_item=baseline_by_mediator.get(
+                            mediator_id,
+                            {},
+                        ),
+                        factual=factual,
+                        outcome_event_id=outcome_event_id,
+                        explanation=(
+                            "Factual outcome/rule coverage không đủ để thực hiện "
+                            "structural necessity test."
+                        ),
+                    )
+                )
+                for index, (mediator_node, mediator_id) in enumerate(
+                    zip(mediator_nodes, mediator_ids),
+                    start=1,
+                )
+            ]
+            summary["interventions"] = [
+                self._compact_intervention(item)
+                for item in baseline.mediator_interventions
+            ]
+            baseline.counterfactual_summary = summary
+            return baseline
+
+        structural_interventions: list[MediatorIntervention] = []
+        for mediator_index, (mediator_node, mediator_id) in enumerate(
+            zip(mediator_nodes, mediator_ids),
+            start=1,
+        ):
+            baseline_item = baseline_by_mediator.get(mediator_id, {})
+            try:
+                result = scm.counterfactual(
+                    factual_context,
+                    interventions={mediator_id: EventState.FALSE},
+                    outcome_event_id=outcome_event_id,
+                    recompute_endogenous_context=False,
+                    recompute_outcome=True,
+                )
+                intervention = self._from_scm_result(
+                    mediator_index=mediator_index,
+                    mediator_node=mediator_node,
+                    mediator_id=mediator_id,
+                    baseline_item=baseline_item,
+                    result=result,
+                )
+            except Exception as error:
+                intervention = self._unresolved_intervention(
+                    mediator_index=mediator_index,
+                    mediator_node=mediator_node,
+                    mediator_id=mediator_id,
+                    baseline_item=baseline_item,
+                    factual=factual,
+                    outcome_event_id=outcome_event_id,
+                    explanation=(
+                        "LegalSCM intervention lỗi: "
+                        f"{type(error).__name__}: {error}"
+                    ),
+                )
+            structural_interventions.append(intervention)
+
+        if not structural_interventions:
+            return self._fallback(
+                baseline,
+                summary,
+                "Không xác định được mediator để chạy LegalSCM.",
+            )
+
+        baseline.intervention_type = "LEGAL_SCM_DO_INTERVENTION"
+        baseline.mediator_interventions = [
+            asdict(item) for item in structural_interventions
+        ]
+        baseline.status = "SUPPORTED"
+        average_necessity = sum(
+            item.necessity_score for item in structural_interventions
+        ) / len(structural_interventions)
+        baseline.consistency_score = clamp(
+            max(
+                0.52,
+                0.55 * average_necessity
+                + 0.45 * baseline.original_path_score,
+            )
+        )
+
+        counts = {
+            status: sum(
+                item.intervention_status == status
+                for item in structural_interventions
+            )
+            for status in ("NECESSARY", "NON_NECESSARY", "UNRESOLVED")
+        }
+        baseline.explanation = (
+            "Factual path được LegalSCM xác nhận; hard do-intervention cho thấy "
+            f"{counts['NECESSARY']} mediator cần thiết, "
+            f"{counts['NON_NECESSARY']} không cần thiết và "
+            f"{counts['UNRESOLVED']} chưa xác định."
+        )
+        summary["interventions"] = [
+            self._compact_intervention(item)
+            for item in baseline.mediator_interventions
+        ]
+        baseline.counterfactual_summary = summary
+        return baseline
+
+    def _path_rule_coverage(
+        self,
+        *,
+        event_nodes: list[str],
+        activated_rule_ids: set[str],
+    ) -> dict[str, Any]:
+        scm = self.store.legal_scm
+        per_hop: list[dict[str, Any]] = []
+        all_expected: list[str] = []
+        all_activated: list[str] = []
+        all_missing: list[str] = []
+
+        for hop, (source, target) in enumerate(
+            zip(event_nodes[:-1], event_nodes[1:]),
+            start=1,
+        ):
+            edge = self.store.causal_event_graph[source][target]
+            expected = ensure_string_list(edge.get("rule_ids"))
+            known = [
+                rule_id
+                for rule_id in expected
+                if scm is not None and rule_id in scm.rule_by_id
+            ]
+            missing = [
+                rule_id
+                for rule_id in expected
+                if scm is None or rule_id not in scm.rule_by_id
+            ]
+            activated = [
+                rule_id for rule_id in known if rule_id in activated_rule_ids
+            ]
+            per_hop.append({
+                "hop": hop,
+                "source_event_id": event_id_from_node(
+                    self.store.graph,
+                    source,
+                ),
+                "target_event_id": event_id_from_node(
+                    self.store.graph,
+                    target,
+                ),
+                "expected_rule_ids": expected,
+                "activated_rule_ids": activated,
+                "missing_rule_ids": missing,
+                "covered": bool(activated),
+            })
+            all_expected.extend(expected)
+            all_activated.extend(activated)
+            all_missing.extend(missing)
+
+        return {
+            "all_hops_covered": bool(per_hop)
+            and all(item["covered"] for item in per_hop),
+            "expected_rule_ids": unique_preserve_order(all_expected),
+            "activated_rule_ids": unique_preserve_order(all_activated),
+            "missing_rule_ids": unique_preserve_order(all_missing),
+            "per_hop": per_hop,
+        }
+
+    def _from_scm_result(
+        self,
+        *,
+        mediator_index: int,
+        mediator_node: str,
+        mediator_id: str,
+        baseline_item: dict[str, Any],
+        result: Any,
+    ) -> MediatorIntervention:
+        factual_mediator = result.factual.state_of(mediator_id)
+        factual_outcome = result.factual_outcome
+        counterfactual_outcome = result.counterfactual_outcome
+
+        if (
+            result.status is CounterfactualStatus.NECESSARY
+            and factual_mediator is EventState.TRUE
+            and factual_outcome is EventState.TRUE
+            and counterfactual_outcome is EventState.FALSE
+        ):
+            status = "NECESSARY"
+            necessity_score = NECESSARY_MEDIATOR_SCORE
+            explanation = (
+                "LegalSCM: do(mediator=FALSE) làm outcome đổi TRUE→FALSE."
+            )
+        elif (
+            result.status is CounterfactualStatus.NON_NECESSARY
+            and factual_mediator is EventState.TRUE
+            and factual_outcome is EventState.TRUE
+            and counterfactual_outcome is EventState.TRUE
+        ):
+            status = "NON_NECESSARY"
+            necessity_score = NON_NECESSARY_SCORE
+            explanation = (
+                "LegalSCM: sau do(mediator=FALSE), outcome vẫn TRUE nhờ "
+                "mechanism khác đang hoạt động."
+            )
+        else:
+            status = "UNRESOLVED"
+            necessity_score = UNRESOLVED_BASE_SCORE
+            explanation = (
+                "LegalSCM không đủ điều kiện gán necessity: "
+                f"status={result.status.value}, "
+                f"mediator={factual_mediator.value}, "
+                f"outcome={factual_outcome.value}→{counterfactual_outcome.value}."
+            )
+
+        return MediatorIntervention(
+            mediator_index=mediator_index,
+            mediator_event_node=mediator_node,
+            mediator_event_id=mediator_id,
+            mediator_event_name=event_name_from_node(
+                self.store.graph,
+                mediator_node,
+            ),
+            removed_nodes=[],
+            alternative_paths=list(
+                baseline_item.get("alternative_paths") or []
+            ),
+            best_alternative_path_score=safe_float(
+                baseline_item.get("best_alternative_path_score")
+            ),
+            intervention_status=status,
+            necessity_score=necessity_score,
+            explanation=explanation,
+            verification_method=self.METHOD,
+            intervention_assignment={mediator_id: EventState.FALSE.value},
+            structural_status=result.status.value,
+            factual_mediator_state=factual_mediator.value,
+            factual_outcome=factual_outcome.value,
+            counterfactual_outcome=counterfactual_outcome.value,
+            outcome_changed=result.outcome_changed,
+            disabled_rule_ids=list(result.disabled_rule_ids),
+            newly_activated_rule_ids=list(result.newly_activated_rule_ids),
+            alternative_outcome_rule_ids=list(
+                result.alternative_outcome_rule_ids
+            ),
+            recomputed_context_event_ids=list(
+                result.recomputed_context_event_ids
+            ),
+        )
+
+    def _unresolved_intervention(
+        self,
+        *,
+        mediator_index: int,
+        mediator_node: str,
+        mediator_id: str,
+        baseline_item: dict[str, Any],
+        factual: Any,
+        outcome_event_id: str,
+        explanation: str,
+    ) -> MediatorIntervention:
+        return MediatorIntervention(
+            mediator_index=mediator_index,
+            mediator_event_node=mediator_node,
+            mediator_event_id=mediator_id,
+            mediator_event_name=event_name_from_node(
+                self.store.graph,
+                mediator_node,
+            ),
+            removed_nodes=[],
+            alternative_paths=list(
+                baseline_item.get("alternative_paths") or []
+            ),
+            best_alternative_path_score=safe_float(
+                baseline_item.get("best_alternative_path_score")
+            ),
+            intervention_status="UNRESOLVED",
+            necessity_score=UNRESOLVED_BASE_SCORE,
+            explanation=explanation,
+            verification_method=self.METHOD,
+            intervention_assignment={mediator_id: EventState.FALSE.value},
+            structural_status=CounterfactualStatus.INDETERMINATE.value,
+            factual_mediator_state=factual.state_of(mediator_id).value,
+            factual_outcome=factual.state_of(outcome_event_id).value,
+            counterfactual_outcome=EventState.UNKNOWN.value,
+        )
+
+    @staticmethod
+    def _compact_intervention(item: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "mediator_event_id": safe_string(item.get("mediator_event_id")),
+            "assignment": dict(item.get("intervention_assignment") or {}),
+            "status": safe_string(item.get("structural_status")),
+            "mapped_status": safe_string(item.get("intervention_status")),
+            "factual_mediator_state": safe_string(
+                item.get("factual_mediator_state")
+            ),
+            "factual_outcome": safe_string(item.get("factual_outcome")),
+            "counterfactual_outcome": safe_string(
+                item.get("counterfactual_outcome")
+            ),
+            "outcome_changed": item.get("outcome_changed"),
+            "disabled_rule_ids": list(item.get("disabled_rule_ids") or []),
+            "newly_activated_rule_ids": list(
+                item.get("newly_activated_rule_ids") or []
+            ),
+            "alternative_outcome_rule_ids": list(
+                item.get("alternative_outcome_rule_ids") or []
+            ),
+        }
+
+    @staticmethod
+    def _baseline_summary(baseline: PathVerification) -> dict[str, Any]:
+        return {
+            "method": "node_deletion_reachability",
+            "path_status": baseline.status,
+            "interventions": [
+                {
+                    "mediator_event_id": safe_string(
+                        item.get("mediator_event_id")
+                    ),
+                    "status": safe_string(
+                        item.get("intervention_status")
+                    ),
+                    "alternative_path_count": len(
+                        item.get("alternative_paths") or []
+                    ),
+                    "best_alternative_path_score": safe_float(
+                        item.get("best_alternative_path_score")
+                    ),
+                }
+                for item in baseline.mediator_interventions
+                if isinstance(item, dict)
+            ],
+        }
+
+    @staticmethod
+    def _fallback(
+        baseline: PathVerification,
+        summary: dict[str, Any],
+        reason: str,
+    ) -> PathVerification:
+        summary["fallback_used"] = True
+        summary["fallback_reason"] = reason
+        baseline.counterfactual_summary = summary
+        baseline.explanation = (
+            baseline.explanation
+            + " Structural SCM fallback: "
+            + reason
+        ).strip()
+        return baseline
+
+
+# ============================================================
 # EVIDENCE VERIFICATION
 # ============================================================
 
@@ -2101,6 +2692,36 @@ class QueryAwareClaimVerifier:
             })
             return "UNCERTAIN", UNRESOLVED_BASE_SCORE, explanation, analysis
 
+        primary_summary = (
+            primary.counterfactual_summary
+            if isinstance(primary.counterfactual_summary, dict)
+            else {}
+        )
+        structural_summary = (
+            primary_summary.get("engine") == "LegalSCM"
+        )
+        structural_fallback = bool(
+            primary_summary.get("fallback_used")
+        )
+        path_verification_method = (
+            StructuralCounterfactualVerifier.METHOD
+            if structural_summary and not structural_fallback
+            else "node_deletion_reachability"
+        )
+        analysis.update({
+            "counterfactual_mode": safe_string(
+                primary_summary.get("mode")
+            ) or PATH_ABLATION_MODE,
+            "path_verification_method": path_verification_method,
+            "structural_fallback_used": structural_fallback,
+            "structural_fallback_reason": safe_string(
+                primary_summary.get("fallback_reason")
+            ),
+            "factual_outcome": safe_string(
+                primary_summary.get("factual_outcome")
+            ),
+        })
+
         base_score = clamp(
             max(primary.consistency_score, primary.original_path_score)
         )
@@ -2182,7 +2803,42 @@ class QueryAwareClaimVerifier:
             intervention.get("intervention_status")
         ).upper()
         alternative_paths = intervention.get("alternative_paths") or []
-        has_alternative = bool(alternative_paths)
+        verification_method = safe_string(
+            intervention.get("verification_method")
+        ) or "node_deletion_reachability"
+        is_structural = (
+            verification_method
+            == StructuralCounterfactualVerifier.METHOD
+        )
+        structural_status = safe_string(
+            intervention.get("structural_status")
+        ).upper()
+        factual_mediator_state = safe_string(
+            intervention.get("factual_mediator_state")
+        ).lower()
+        factual_outcome = safe_string(
+            intervention.get("factual_outcome")
+        ).lower()
+        counterfactual_outcome = safe_string(
+            intervention.get("counterfactual_outcome")
+        ).lower()
+
+        # Với LegalSCM, topology chỉ là diagnostic. Tín hiệu quyết định là
+        # trạng thái outcome trong thế giới được suy luận lại sau hard do().
+        # Baseline cũ tiếp tục dùng sự tồn tại của alternative path.
+        has_alternative = (
+            counterfactual_outcome == EventState.TRUE.value
+            if is_structural
+            else bool(alternative_paths)
+        )
+        outcome_disappears = (
+            counterfactual_outcome == EventState.FALSE.value
+            if is_structural
+            else (
+                intervention_status == "NECESSARY"
+                and not has_alternative
+            )
+        )
 
         analysis.update({
             "matched_mediator_id": safe_string(
@@ -2192,7 +2848,22 @@ class QueryAwareClaimVerifier:
                 intervention.get("mediator_event_name")
             ),
             "intervention_status": intervention_status,
+            "verification_method": verification_method,
+            "structural_result_used": is_structural,
+            "structural_status": structural_status,
+            "factual_mediator_state": factual_mediator_state,
+            "factual_outcome": factual_outcome,
+            "counterfactual_outcome": counterfactual_outcome,
+            "outcome_changed": intervention.get("outcome_changed"),
+            "counterfactual_outcome_remains": has_alternative,
+            "counterfactual_signal_source": (
+                "legal_scm_world_state"
+                if is_structural
+                else "node_deletion_reachability"
+            ),
+            # Các alternative path vẫn được báo cáo để làm ablation audit.
             "alternative_path_count": len(alternative_paths),
+            "baseline_alternative_path_count": len(alternative_paths),
             "best_alternative_path_score": safe_float(
                 intervention.get("best_alternative_path_score")
             ),
@@ -2200,17 +2871,37 @@ class QueryAwareClaimVerifier:
 
         if claim_type == "REMOVE_MEDIATOR_OUTCOME_REMAINS":
             if has_alternative or intervention_status == "NON_NECESSARY":
+                explanation = (
+                    "LegalSCM suy luận outcome vẫn TRUE sau "
+                    "do(mediator=FALSE); mediator không cần thiết trong "
+                    "factual context này."
+                    if is_structural
+                    else (
+                        "Sau khi xóa mediator khỏi graph vẫn tồn tại causal "
+                        "path thay thế tới outcome."
+                    )
+                )
                 return (
                     "SUPPORTED",
                     max(0.65, base_score),
-                    "Sau khi loại mediator vẫn tồn tại causal path thay thế tới outcome.",
+                    explanation,
                     analysis,
                 )
-            if intervention_status == "NECESSARY":
+            if outcome_disappears or intervention_status == "NECESSARY":
+                explanation = (
+                    "LegalSCM suy luận outcome đổi TRUE→FALSE sau "
+                    "do(mediator=FALSE); mediator là structurally necessary "
+                    "trong factual context này."
+                    if is_structural
+                    else (
+                        "Sau khi xóa mediator, outcome không còn reachable "
+                        "trong giới hạn tìm kiếm."
+                    )
+                )
                 return (
                     "REJECT_DIRECT_CLAIM",
                     max(0.65, base_score),
-                    "Sau khi loại mediator, outcome không còn reachable trong giới hạn tìm kiếm.",
+                    explanation,
                     analysis,
                 )
 
@@ -2218,18 +2909,37 @@ class QueryAwareClaimVerifier:
             "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS",
             "MEDIATOR_NECESSARY_CLAIM",
         }:
-            if intervention_status == "NECESSARY" and not has_alternative:
+            if outcome_disappears and intervention_status == "NECESSARY":
+                explanation = (
+                    "LegalSCM xác nhận do(mediator=FALSE) làm outcome đổi "
+                    "TRUE→FALSE; mediator cần thiết trong factual context."
+                    if is_structural
+                    else (
+                        "Node-deletion không tìm thấy đường thay thế; mediator "
+                        "cần thiết theo reachability baseline."
+                    )
+                )
                 return (
                     "SUPPORTED",
                     max(0.65, base_score),
-                    "Intervention cho thấy mediator cần thiết để duy trì đường tới outcome.",
+                    explanation,
                     analysis,
                 )
             if has_alternative or intervention_status == "NON_NECESSARY":
+                explanation = (
+                    "LegalSCM suy luận outcome vẫn TRUE sau "
+                    "do(mediator=FALSE), nên mediator không phải điều kiện "
+                    "cần thiết trong factual context."
+                    if is_structural
+                    else (
+                        "Node-deletion tìm thấy đường thay thế nên mediator "
+                        "không phải mắt xích bắt buộc."
+                    )
+                )
                 return (
                     "REJECT_DIRECT_CLAIM",
                     max(0.65, base_score),
-                    "Tồn tại đường thay thế nên mediator không phải mắt xích bắt buộc.",
+                    explanation,
                     analysis,
                 )
 
@@ -2328,6 +3038,10 @@ class CounterfactualVerificationPipeline:
             store=store,
             searcher=self.searcher,
         )
+        self.structural_verifier = StructuralCounterfactualVerifier(
+            store=store,
+            baseline_verifier=self.path_verifier,
+        )
         self.evidence_verifier = EvidenceVerifier(store)
         self.primary_path_selector = PrimaryPathSelector(store)
         self.claim_verifier = QueryAwareClaimVerifier(store)
@@ -2335,6 +3049,7 @@ class CounterfactualVerificationPipeline:
     def run(
         self,
         *,
+        counterfactual_mode: str = DEFAULT_COUNTERFACTUAL_MODE,
         max_cf_hops: int = DEFAULT_MAX_CF_HOPS,
         max_cf_paths: int = DEFAULT_MAX_CF_PATHS,
         verified_top_k: int = DEFAULT_VERIFIED_TOP_K,
@@ -2345,6 +3060,25 @@ class CounterfactualVerificationPipeline:
         mapping_threshold: float = 0.42,
         **_: Any,
     ) -> VerificationResult:
+        valid_modes = {STRUCTURAL_SCM_MODE, PATH_ABLATION_MODE}
+        if counterfactual_mode not in valid_modes:
+            choices = ", ".join(sorted(valid_modes))
+            raise ValueError(
+                f"counterfactual_mode phải thuộc {{{choices}}}, "
+                f"nhận được: {counterfactual_mode!r}."
+            )
+
+        selected_path_verifier = (
+            self.structural_verifier
+            if counterfactual_mode == STRUCTURAL_SCM_MODE
+            else self.path_verifier
+        )
+        verification_method = (
+            StructuralCounterfactualVerifier.METHOD
+            if counterfactual_mode == STRUCTURAL_SCM_MODE
+            else "node_deletion_reachability"
+        )
+
         original_paths = self.store.retrieval_result.get("causal_paths", [])
         path_results: list[PathVerification] = []
         print(f"\nVerifying {len(original_paths)} causal paths...")
@@ -2356,7 +3090,7 @@ class CounterfactualVerificationPipeline:
                     explanation="Causal path không phải JSON object.",
                 )
             else:
-                verification = self.path_verifier.verify_path(
+                verification = selected_path_verifier.verify_path(
                     path_id=path_id,
                     original_path=path,
                     max_hops=max_cf_hops,
@@ -2409,6 +3143,22 @@ class CounterfactualVerificationPipeline:
             status: sum(item.status == status for item in path_results)
             for status in ("SUPPORTED", "CONTRADICTED", "UNRESOLVED")
         }
+        structural_summaries = [
+            item.counterfactual_summary
+            for item in path_results
+            if (
+                isinstance(item.counterfactual_summary, dict)
+                and item.counterfactual_summary.get("engine") == "LegalSCM"
+            )
+        ]
+        structural_paths = sum(
+            not bool(summary.get("fallback_used"))
+            for summary in structural_summaries
+        )
+        structural_fallback_paths = sum(
+            bool(summary.get("fallback_used"))
+            for summary in structural_summaries
+        )
 
         primary_results = [
             item
@@ -2456,7 +3206,15 @@ class CounterfactualVerificationPipeline:
                 "keep_threshold": keep_threshold,
                 "reject_threshold": reject_threshold,
                 "alternative_path_threshold": DEFAULT_ALTERNATIVE_PATH_THRESHOLD,
-                "verification_method": "query_aware_graph_intervention_v3",
+                "counterfactual_mode": counterfactual_mode,
+                "verification_method": verification_method,
+                "rules_path": (
+                    str(self.store.rules_path)
+                    if self.store.rules_path is not None
+                    else ""
+                ),
+                "legal_scm_loaded": self.store.legal_scm is not None,
+                "scm_load_error": self.store.scm_load_error,
                 "step4_version": STEP4_VERSION,
                 "semantic_mapping_enabled": False,
                 "model_name": self.store.model_name,
@@ -2467,6 +3225,15 @@ class CounterfactualVerificationPipeline:
                 "total_paths": len(path_results),
                 "path_status_counts": status_counts,
                 "status_counts": status_counts,
+                "counterfactual_mode": counterfactual_mode,
+                "structural_paths": structural_paths,
+                "structural_fallback_paths": structural_fallback_paths,
+                "path_ablation_paths": (
+                    len(path_results)
+                    if counterfactual_mode == PATH_ABLATION_MODE
+                    else 0
+                ),
+                "legal_scm_loaded": self.store.legal_scm is not None,
                 "original_evidence": len(self.store.retrieval_result.get("evidence", [])),
                 "total_evidence": len(self.store.retrieval_result.get("evidence", [])),
                 "verified_evidence": len(verified),
@@ -2487,9 +3254,7 @@ class CounterfactualVerificationPipeline:
             decision_explanation=decision_explanation,
             primary_path_ids=primary_path_ids,
             query_analysis=query_analysis,
-            verification_method=(
-                "query_aware_graph_intervention_v3"
-            ),
+            verification_method=verification_method,
         )
 
 
@@ -2497,8 +3262,10 @@ def run_counterfactual_verification(
     *,
     graph_path: str = GRAPH_PATH,
     memory_path: str = MEMORY_PATH,
+    rules_path: Optional[str] = RULES_PATH,
     retrieval_result_path: str = RETRIEVAL_RESULT_PATH,
     output_path: str = OUTPUT_PATH,
+    counterfactual_mode: str = DEFAULT_COUNTERFACTUAL_MODE,
     embeddings_path: Optional[str] = None,
     counterfactual_map_path: Optional[str] = None,
     model_name: Optional[str] = None,
@@ -2514,12 +3281,14 @@ def run_counterfactual_verification(
         graph_path=graph_path,
         memory_path=memory_path,
         retrieval_result_path=retrieval_result_path,
+        rules_path=rules_path,
         embeddings_path=embeddings_path,
         counterfactual_map_path=counterfactual_map_path,
         model_name=model_name,
         enable_semantic_mapping=enable_semantic_mapping,
     )
     result = CounterfactualVerificationPipeline(store).run(
+        counterfactual_mode=counterfactual_mode,
         max_cf_hops=max_cf_hops,
         max_cf_paths=max_cf_paths,
         verified_top_k=verified_top_k,
@@ -2562,11 +3331,22 @@ def print_summary(result: VerificationResult | dict[str, Any]) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Counterfactual verification bằng do(remove mediator).")
+    parser = argparse.ArgumentParser(
+        description=(
+            "Counterfactual verification bằng LegalSCM do-intervention "
+            "hoặc node-deletion ablation."
+        )
+    )
     parser.add_argument("--graph", default=GRAPH_PATH)
     parser.add_argument("--memory", default=MEMORY_PATH)
+    parser.add_argument("--rules", default=RULES_PATH)
     parser.add_argument("--retrieval-result", default=RETRIEVAL_RESULT_PATH)
     parser.add_argument("--output", default=OUTPUT_PATH)
+    parser.add_argument(
+        "--counterfactual-mode",
+        choices=(STRUCTURAL_SCM_MODE, PATH_ABLATION_MODE),
+        default=DEFAULT_COUNTERFACTUAL_MODE,
+    )
     parser.add_argument("--max-cf-hops", type=int, default=DEFAULT_MAX_CF_HOPS)
     parser.add_argument("--max-cf-paths", type=int, default=DEFAULT_MAX_CF_PATHS)
     parser.add_argument("--verified-top-k", type=int, default=DEFAULT_VERIFIED_TOP_K)
@@ -2593,8 +3373,10 @@ def main() -> None:
     payload = run_counterfactual_verification(
         graph_path=args.graph,
         memory_path=args.memory,
+        rules_path=args.rules,
         retrieval_result_path=args.retrieval_result,
         output_path=args.output,
+        counterfactual_mode=args.counterfactual_mode,
         max_cf_hops=args.max_cf_hops,
         max_cf_paths=args.max_cf_paths,
         verified_top_k=args.verified_top_k,

@@ -53,6 +53,7 @@ from __future__ import annotations
 
 import argparse
 import importlib.util
+import inspect
 import json
 import os
 import sys
@@ -90,6 +91,11 @@ DEFAULT_RETRIEVER_MODEL = "BAAI/bge-m3"
 DEFAULT_VERIFIER_MODEL = "BAAI/bge-m3"
 DEFAULT_PROVIDER = "extractive"
 DEFAULT_ANSWER_MODEL = "qwen3:8b"
+
+COUNTERFACTUAL_MODES = (
+    "structural_scm",
+    "path_ablation",
+)
 
 PIPELINE_RUNNER_VERSION = "2.0-primary-path-aware"
 
@@ -1029,6 +1035,24 @@ class BatchPipelineRunner:
 
         self._initialize_retriever()
 
+    @staticmethod
+    def _accepts_keyword(
+        callable_object: Any,
+        keyword: str,
+    ) -> bool:
+        try:
+            signature = inspect.signature(callable_object)
+        except (TypeError, ValueError):
+            return False
+
+        return (
+            keyword in signature.parameters
+            or any(
+                parameter.kind is inspect.Parameter.VAR_KEYWORD
+                for parameter in signature.parameters.values()
+            )
+        )
+
     def _validate_module_compatibility(self) -> None:
         verifier_version = safe_string(
             getattr(self.verifier_module, "STEP4_VERSION", "")
@@ -1044,6 +1068,48 @@ class BatchPipelineRunner:
                 "Hãy dùng --verifier-script "
                 "4_counterfactual_verification.py "
                 "hoặc thêm --allow-legacy-verifier nếu thực sự cần chạy bản cũ."
+            )
+
+        required_verifier_symbols = {
+            "CounterfactualResourceStore",
+            "CounterfactualVerificationPipeline",
+        }
+        missing_verifier_symbols = [
+            name
+            for name in required_verifier_symbols
+            if not hasattr(self.verifier_module, name)
+        ]
+        if missing_verifier_symbols:
+            raise RuntimeError(
+                "File Step 4 thiếu thành phần bắt buộc: "
+                + ", ".join(sorted(missing_verifier_symbols))
+            )
+
+        verifier_store_class = (
+            self.verifier_module.CounterfactualResourceStore
+        )
+        verifier_pipeline_class = (
+            self.verifier_module.CounterfactualVerificationPipeline
+        )
+        if (
+            self.args.rules_path is not None
+            and not self._accepts_keyword(
+                verifier_store_class,
+                "rules_path",
+            )
+        ):
+            raise RuntimeError(
+                "Step 4 hiện tại không hỗ trợ --rules/--rules-path."
+            )
+        if (
+            self.args.counterfactual_mode is not None
+            and not self._accepts_keyword(
+                verifier_pipeline_class.run,
+                "counterfactual_mode",
+            )
+        ):
+            raise RuntimeError(
+                "Step 4 hiện tại không hỗ trợ --counterfactual-mode."
             )
 
         required_answer_symbols = {
@@ -1128,17 +1194,25 @@ class BatchPipelineRunner:
         write_json(retrieval_path, retrieval_data)
 
         # ---------------- STEP 4 ----------------
+        verifier_store_kwargs: dict[str, Any] = {
+            "graph_path": self.args.graph,
+            "memory_path": self.args.memory,
+            "embeddings_path": self.args.embeddings,
+            "retrieval_result_path": str(retrieval_path),
+            "counterfactual_map_path": self.args.counterfactual_map,
+            "model_name": self.args.verifier_model,
+            "enable_semantic_mapping": (
+                not self.args.disable_semantic_mapping
+            ),
+        }
+        # Chỉ forward option mới khi người dùng truyền để giữ compatibility
+        # với verifier cũ và default nội bộ của Step 4.
+        if self.args.rules_path is not None:
+            verifier_store_kwargs["rules_path"] = self.args.rules_path
+
         verifier_store = (
             self.verifier_module.CounterfactualResourceStore(
-                graph_path=self.args.graph,
-                memory_path=self.args.memory,
-                embeddings_path=self.args.embeddings,
-                retrieval_result_path=str(retrieval_path),
-                counterfactual_map_path=self.args.counterfactual_map,
-                model_name=self.args.verifier_model,
-                enable_semantic_mapping=(
-                    not self.args.disable_semantic_mapping
-                ),
+                **verifier_store_kwargs
             )
         )
 
@@ -1148,15 +1222,23 @@ class BatchPipelineRunner:
             )
         )
 
+        verifier_run_kwargs: dict[str, Any] = {
+            "cf_top_k": self.args.cf_top_k,
+            "mapping_top_k": self.args.mapping_top_k,
+            "mapping_threshold": self.args.mapping_threshold,
+            "max_cf_hops": self.args.max_cf_hops,
+            "max_cf_paths": self.args.max_cf_paths,
+            "verified_top_k": self.args.verified_top_k,
+            "keep_threshold": self.args.keep_threshold,
+            "reject_threshold": self.args.reject_threshold,
+        }
+        if self.args.counterfactual_mode is not None:
+            verifier_run_kwargs["counterfactual_mode"] = (
+                self.args.counterfactual_mode
+            )
+
         verification_result = verifier_pipeline.run(
-            cf_top_k=self.args.cf_top_k,
-            mapping_top_k=self.args.mapping_top_k,
-            mapping_threshold=self.args.mapping_threshold,
-            max_cf_hops=self.args.max_cf_hops,
-            max_cf_paths=self.args.max_cf_paths,
-            verified_top_k=self.args.verified_top_k,
-            keep_threshold=self.args.keep_threshold,
-            reject_threshold=self.args.reject_threshold,
+            **verifier_run_kwargs
         )
         verification_data = to_serializable(
             verification_result
@@ -1349,6 +1431,16 @@ def parse_args() -> argparse.Namespace:
         "--counterfactual-map",
         default=DEFAULT_CF_MAP,
     )
+    parser.add_argument(
+        "--rules",
+        "--rules-path",
+        dest="rules_path",
+        default=None,
+        help=(
+            "Normalized legal rules cho LegalSCM. Bỏ trống để dùng "
+            "default của Step 4."
+        ),
+    )
 
     # Range/resume/error.
     parser.add_argument("--start-index", type=int, default=0)
@@ -1388,6 +1480,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--verifier-model",
         default=DEFAULT_VERIFIER_MODEL,
+    )
+    parser.add_argument(
+        "--counterfactual-mode",
+        choices=COUNTERFACTUAL_MODES,
+        default=None,
+        help=(
+            "Chọn LegalSCM structural verification hoặc node-deletion "
+            "ablation. Bỏ trống để dùng default của Step 4."
+        ),
     )
     parser.add_argument("--cf-top-k", type=int, default=5)
     parser.add_argument("--mapping-top-k", type=int, default=5)
@@ -1461,6 +1562,11 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError(
             "Cần thỏa mãn 0 <= reject-threshold "
             "<= keep-threshold <= 1."
+        )
+
+    if args.rules_path is not None and not Path(args.rules_path).exists():
+        raise FileNotFoundError(
+            f"Không tìm thấy normalized rules: {args.rules_path}"
         )
 
     for script_path in (
@@ -1624,6 +1730,14 @@ def main() -> int:
     print("Benchmark :", benchmark_path)
     print("Questions :", total)
     print("Provider  :", args.provider)
+    print(
+        "CF mode   :",
+        args.counterfactual_mode or "Step 4 default",
+    )
+    print(
+        "Rules     :",
+        args.rules_path or "Step 4 default",
+    )
     print("Output    :", output_path)
     print("=" * 78)
 
