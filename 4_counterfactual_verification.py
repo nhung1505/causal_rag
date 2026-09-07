@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Step 4 v4.0 - Query-aware structural counterfactual verification.
+Step 4 v4.1 - Query-aware structural counterfactual verification.
 
 Mặc định, Step 4 dùng ``causal_core.LegalSCM`` để:
 1. Xác nhận factual causal chain bằng các legal rule mechanisms.
@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Iterable, Optional
@@ -48,7 +49,7 @@ PATH_ABLATION_MODE = "path_ablation"
 DEFAULT_COUNTERFACTUAL_MODE = STRUCTURAL_SCM_MODE
 
 # Giữ `query-aware` để Step 5.5 nhận diện compatibility.
-STEP4_VERSION = "4.0-query-aware-legal-scm"
+STEP4_VERSION = "4.1-query-aware-legal-scm"
 
 # Cache model theo file + mtime để batch không parse 2.884 rules mỗi câu.
 _LEGAL_SCM_CACHE: dict[tuple[str, int], LegalSCM] = {}
@@ -2527,6 +2528,8 @@ class QueryAwareClaimVerifier:
     “chuỗi edge có hợp lệ không”; lớp này trả lời phát biểu cụ thể trong query.
     """
 
+    INTENT_DETECTION_VERSION = "2.0-explicit-intervention"
+
     DIRECT_TERMS = (
         "trực tiếp",
         "không qua trung gian",
@@ -2539,39 +2542,69 @@ class QueryAwareClaimVerifier:
         "nếu bỏ",
         "khi loại bỏ",
         "khi bỏ",
+        "nếu không có",
+        "khi không có",
         "giả sử không có",
         "trong trường hợp không có",
         "nếu không xảy ra",
+    )
+    REMOVE_PATTERNS = (
+        r"\b(?:nếu|khi|giả sử)\s+(?:loại\s+bỏ|loại|bỏ)\b",
+        r"\b(?:nếu|khi|giả sử|trong\s+trường\s+hợp)\s+không\s+có\b",
+        # Match “Nếu M không xảy ra ...” nhưng không match
+        # “Nếu A thì Y không xảy ra ...”.
+        r"\b(?:nếu|giả\s+sử)\s+(?:(?!\bthì\b).){1,160}?\bkhông\s+(?:xảy\s+ra|tồn\s+tại|hiện\s+diện|được\s+thực\s+hiện)\b",
+        r"\bdo\s*\([^)]*=\s*(?:false|0)\s*\)",
     )
     REMAINS_TERMS = (
         "vẫn xảy ra",
         "vẫn dẫn đến",
         "vẫn xuất hiện",
         "vẫn có",
-        "còn xảy ra",
         "có còn xảy ra",
         "tiếp tục xảy ra",
     )
     DISAPPEARS_TERMS = (
         "không còn xảy ra",
+        "không còn dẫn đến",
         "không xảy ra nữa",
         "sẽ không xảy ra",
-        "không còn",
         "biến mất",
         "chấm dứt",
     )
-    NECESSARY_TERMS = (
-        "cần thiết",
-        "bắt buộc",
-        "không thể thiếu",
-        "mắt xích duy nhất",
-        "điều kiện duy nhất",
+    NECESSITY_CLAIM_TERMS = (
+        "có cần thiết",
+        "có thực sự cần thiết",
+        "có bắt buộc",
+        "có phải là điều kiện",
+        "có phải là mắt xích",
+        "là điều kiện cần thiết",
+        "là điều kiện bắt buộc",
+        "là mắt xích bắt buộc",
+        "là mắt xích duy nhất",
+        "điều kiện duy nhất để",
+        "không thể thiếu để",
     )
-    COUNTERFACTUAL_TERMS = (
-        "nếu",
-        "giả sử",
+    NECESSITY_CLAIM_PATTERNS = (
+        r"\bcó\s+(?:thực\s+sự\s+)?(?:cần\s+thiết|bắt\s+buộc)\b",
+        r"\bcó\s+phải\s+(?:là\s+)?[^?.!]{0,120}\b(?:điều\s+kiện|mắt\s+xích)\b[^?.!]{0,80}\b(?:cần\s+thiết|bắt\s+buộc|duy\s+nhất)\b",
+        r"\blà\s+(?:một\s+)?(?:điều\s+kiện|mắt\s+xích)\s+(?:cần\s+thiết|bắt\s+buộc|duy\s+nhất)\b",
+        r"\b(?:điều\s+kiện|mắt\s+xích)\s+duy\s+nhất\b",
+        r"\bkhông\s+thể\s+thiếu\s+để\b",
+    )
+    EXPLICIT_COUNTERFACTUAL_TERMS = (
         "phản thực tế",
         "counterfactual",
+        "can thiệp",
+        "intervention",
+    )
+    EXPLICIT_COUNTERFACTUAL_PATTERNS = (
+        r"\bdo\s*\(",
+    )
+    CONDITIONAL_TERMS = (
+        "nếu",
+        "giả sử",
+        "trong trường hợp",
     )
 
     def __init__(
@@ -2589,6 +2622,13 @@ class QueryAwareClaimVerifier:
     def _contains_any(text: str, terms: Iterable[str]) -> bool:
         return any(term in text for term in terms)
 
+    @staticmethod
+    def _matches_any_pattern(
+        text: str,
+        patterns: Iterable[str],
+    ) -> bool:
+        return any(re.search(pattern, text) for pattern in patterns)
+
     def analyze_query(
         self,
         query: str,
@@ -2596,24 +2636,65 @@ class QueryAwareClaimVerifier:
         normalized = self._normalize(query)
 
         has_direct = self._contains_any(normalized, self.DIRECT_TERMS)
-        has_remove = self._contains_any(normalized, self.REMOVE_TERMS)
-        has_remains = self._contains_any(normalized, self.REMAINS_TERMS)
-        has_disappears = self._contains_any(normalized, self.DISAPPEARS_TERMS)
-        has_necessary = self._contains_any(normalized, self.NECESSARY_TERMS)
-        has_counterfactual = self._contains_any(
+        has_remove = (
+            self._contains_any(normalized, self.REMOVE_TERMS)
+            or self._matches_any_pattern(
+                normalized,
+                self.REMOVE_PATTERNS,
+            )
+        )
+        has_disappears = self._contains_any(
             normalized,
-            self.COUNTERFACTUAL_TERMS,
+            self.DISAPPEARS_TERMS,
+        )
+        # “không còn xảy ra” chứa substring “còn xảy ra”; tín hiệu phủ định
+        # phải thắng để không đảo claim thành OUTCOME_REMAINS.
+        has_remains = (
+            not has_disappears
+            and self._contains_any(normalized, self.REMAINS_TERMS)
+        )
+        has_necessary = (
+            self._contains_any(
+                normalized,
+                self.NECESSITY_CLAIM_TERMS,
+            )
+            or self._matches_any_pattern(
+                normalized,
+                self.NECESSITY_CLAIM_PATTERNS,
+            )
+        )
+        has_explicit_counterfactual = (
+            self._contains_any(
+                normalized,
+                self.EXPLICIT_COUNTERFACTUAL_TERMS,
+            )
+            or self._matches_any_pattern(
+                normalized,
+                self.EXPLICIT_COUNTERFACTUAL_PATTERNS,
+            )
+        )
+        has_conditional = self._contains_any(
+            normalized,
+            self.CONDITIONAL_TERMS,
+        )
+        has_counterfactual = has_remove or has_explicit_counterfactual
+        conditional_antecedent_only = (
+            has_conditional and not has_counterfactual
         )
 
-        if has_direct:
-            claim_type = "DIRECT_CAUSAL_CLAIM"
+        # Explicit intervention có ưu tiên cao nhất. Một antecedent “Nếu A”
+        # đơn thuần chỉ mô tả factual context và vẫn là STANDARD_CAUSAL.
+        if has_remove and has_disappears:
+            claim_type = "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS"
         elif has_remove and has_remains:
             claim_type = "REMOVE_MEDIATOR_OUTCOME_REMAINS"
-        elif has_remove and has_disappears:
-            claim_type = "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS"
         elif has_necessary:
             claim_type = "MEDIATOR_NECESSARY_CLAIM"
-        elif has_counterfactual:
+        elif has_remove:
+            claim_type = "COUNTERFACTUAL_UNSPECIFIED"
+        elif has_direct:
+            claim_type = "DIRECT_CAUSAL_CLAIM"
+        elif has_explicit_counterfactual:
             claim_type = "COUNTERFACTUAL_UNSPECIFIED"
         else:
             claim_type = "STANDARD_CAUSAL"
@@ -2621,11 +2702,18 @@ class QueryAwareClaimVerifier:
         return {
             "normalized_query": normalized,
             "claim_type": claim_type,
+            "intent_detection_version": self.INTENT_DETECTION_VERSION,
             "has_direct_indicator": has_direct,
             "has_remove_indicator": has_remove,
             "has_remains_indicator": has_remains,
             "has_disappears_indicator": has_disappears,
             "has_necessary_indicator": has_necessary,
+            "has_counterfactual_indicator": has_counterfactual,
+            "has_explicit_counterfactual_indicator": (
+                has_explicit_counterfactual
+            ),
+            "has_conditional_indicator": has_conditional,
+            "conditional_antecedent_only": conditional_antecedent_only,
         }
 
     def _select_mediator_intervention(
