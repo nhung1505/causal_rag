@@ -1,0 +1,469 @@
+{
+  "query": "Người phạm tội chưa đạt phải chịu trách nhiệm hình sự như thế nào?",
+  "answer": "Hệ quả cuối cùng là “Chịu trách nhiệm hình sự”. Chuỗi suy luận: “Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn” → “Phạm tội chưa đạt” → “Chịu trách nhiệm hình sự”. [E1] [E2]",
+  "provider": "extractive",
+  "model": "extractive",
+  "selected_evidence": [
+    {
+      "evidence_index": 1,
+      "rule_id": "31",
+      "article_id": "15",
+      "article_title": "Phạm tội chưa đạt",
+      "legal_subject": "Người phạm tội",
+      "condition": "cố ý thực hiện tội phạm nhưng không thực hiện được đến cùng vì nguyên nhân ngoài ý muốn",
+      "effect": "được xác định là phạm tội chưa đạt",
+      "condition_event": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "condition_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "effect_event": "pham_toi_chua_dat",
+      "effect_event_name": "Phạm tội chưa đạt",
+      "causal_type": "",
+      "verification_score": 0.7520328172078133,
+      "original_final_score": 0.6679991813659669,
+      "counterfactual_support_score": 0.7139698078900576,
+      "final_selection_score": 0.850111675128907,
+      "decision": "KEEP",
+      "path_ids": [
+        0,
+        4
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold.",
+        "Evidence thuộc primary multi-hop path."
+      ],
+      "is_primary_path_evidence": true,
+      "primary_path_position": 0
+    },
+    {
+      "evidence_index": 2,
+      "rule_id": "32",
+      "article_id": "15",
+      "article_title": "Phạm tội chưa đạt",
+      "legal_subject": "Người phạm tội",
+      "condition": "phạm tội chưa đạt",
+      "effect": "phải chịu trách nhiệm hình sự về tội phạm chưa đạt",
+      "condition_event": "pham_toi_chua_dat",
+      "condition_event_name": "Phạm tội chưa đạt",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.754222250255108,
+      "original_final_score": 0.7350228425025941,
+      "counterfactual_support_score": 0.7093132052600385,
+      "final_selection_score": 0.8672638165422082,
+      "decision": "KEEP",
+      "path_ids": [
+        0,
+        3,
+        11
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold.",
+        "Evidence thuộc primary multi-hop path."
+      ],
+      "is_primary_path_evidence": true,
+      "primary_path_position": 1
+    },
+    {
+      "evidence_index": 3,
+      "rule_id": "47",
+      "article_id": "22",
+      "article_title": "Phòng vệ chính đáng",
+      "legal_subject": "Người phòng vệ",
+      "condition": "chống trả rõ ràng quá mức cần thiết và không phù hợp với tính chất, mức độ nguy hiểm của hành vi xâm hại",
+      "effect": "được xác định là vượt quá giới hạn phòng vệ chính đáng",
+      "condition_event": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "condition_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "effect_event": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "effect_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "causal_type": "",
+      "verification_score": 0.6289314654116631,
+      "original_final_score": 0.5643192283555429,
+      "counterfactual_support_score": 0.7279396157801152,
+      "final_selection_score": 0.5647364821617346,
+      "decision": "KEEP",
+      "path_ids": [
+        1
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "is_primary_path_evidence": false,
+      "primary_path_position": -1
+    },
+    {
+      "evidence_index": 4,
+      "rule_id": "207",
+      "article_id": "76",
+      "article_title": "Phạm vi chịu trách nhiệm hình sự của pháp nhân thương mại[30]",
+      "legal_subject": "Pháp nhân thương mại",
+      "condition": "phạm một trong các tội thuộc phạm vi Điều 76",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "LIABILITY",
+      "verification_score": 0.6497162626023534,
+      "original_final_score": 0.5251117006430357,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5611360564619357,
+      "decision": "KEEP",
+      "path_ids": [
+        2
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "is_primary_path_evidence": false,
+      "primary_path_position": -1
+    },
+    {
+      "evidence_index": 5,
+      "rule_id": "48",
+      "article_id": "22",
+      "article_title": "Phòng vệ chính đáng",
+      "legal_subject": "Người phòng vệ",
+      "condition": "vượt quá giới hạn phòng vệ chính đáng",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "condition_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.615568129755497,
+      "original_final_score": 0.5798782340928476,
+      "counterfactual_support_score": 0.7139698078900576,
+      "final_selection_score": 0.559849094584469,
+      "decision": "KEEP",
+      "path_ids": [
+        1,
+        15
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "is_primary_path_evidence": false,
+      "primary_path_position": -1
+    },
+    {
+      "evidence_index": 6,
+      "rule_id": "2",
+      "article_id": "2",
+      "article_title": "Cơ sở của trách nhiệm hình sự",
+      "legal_subject": "Pháp nhân thương mại",
+      "condition": "phạm một tội được quy định tại Điều 76 Bộ luật Hình sự",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.6475695893998388,
+      "original_final_score": 0.5208183542380065,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.558989383259421,
+      "decision": "KEEP",
+      "path_ids": [
+        2
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "is_primary_path_evidence": false,
+      "primary_path_position": -1
+    },
+    {
+      "evidence_index": 7,
+      "rule_id": "26",
+      "article_id": "12",
+      "article_title": "Tuổi chịu trách nhiệm hình sự",
+      "legal_subject": "Người từ đủ 16 tuổi trở lên",
+      "condition": "thực hiện tội phạm",
+      "effect": "phải chịu trách nhiệm hình sự về mọi tội phạm, trừ trường hợp luật quy định khác",
+      "condition_event": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+      "condition_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5861286260390282,
+      "original_final_score": 0.5451436635456761,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5343502289059331,
+      "decision": "KEEP",
+      "path_ids": [
+        7
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "is_primary_path_evidence": false,
+      "primary_path_position": -1
+    },
+    {
+      "evidence_index": 8,
+      "rule_id": "27",
+      "article_id": "12",
+      "article_title": "Tuổi chịu trách nhiệm hình sự",
+      "legal_subject": "Người từ đủ 14 đến dưới 16 tuổi",
+      "condition": "thực hiện tội phạm rất nghiêm trọng hoặc đặc biệt nghiêm trọng thuộc danh mục luật định",
+      "effect": "phải chịu trách nhiệm hình sự",
+      "condition_event": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+      "condition_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+      "effect_event": "chiu_trach_nhiem_hinh_su",
+      "effect_event_name": "Chịu trách nhiệm hình sự",
+      "causal_type": "",
+      "verification_score": 0.5838798885148764,
+      "original_final_score": 0.540613541994098,
+      "counterfactual_support_score": 0.7,
+      "final_selection_score": 0.5320933297559627,
+      "decision": "KEEP",
+      "path_ids": [
+        8,
+        24
+      ],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "is_primary_path_evidence": false,
+      "primary_path_position": -1
+    }
+  ],
+  "selected_paths": [
+    {
+      "path_index": 1,
+      "original_path_id": 0,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7279396157801152,
+      "path_score": 0.5787547017335892,
+      "hop_count": 2,
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "Factual path được LegalSCM xác nhận; hard do-intervention cho thấy 1 mediator cần thiết, 0 không cần thiết và 0 chưa xác định.",
+      "event_ids": [
+        "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "pham_toi_chua_dat",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "event_names": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "Phạm tội chưa đạt",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "31",
+        "32"
+      ],
+      "article_ids": [
+        "15"
+      ],
+      "is_primary": true
+    },
+    {
+      "path_index": 2,
+      "original_path_id": 1,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7279396157801152,
+      "path_score": 0.5787547017335892,
+      "hop_count": 2,
+      "seed_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "seed_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "Factual path được LegalSCM xác nhận; hard do-intervention cho thấy 1 mediator cần thiết, 0 không cần thiết và 0 chưa xác định.",
+      "event_ids": [
+        "chong_tra_ro_rang_qua_muc_can_thiet",
+        "vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "event_names": [
+        "Chống trả rõ ràng quá mức cần thiết",
+        "Vượt quá giới hạn phòng vệ chính đáng",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "47",
+        "48"
+      ],
+      "article_ids": [
+        "22"
+      ],
+      "is_primary": false
+    },
+    {
+      "path_index": 3,
+      "original_path_id": 2,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "path_score": 0.6676633769513783,
+      "hop_count": 1,
+      "seed_event_id": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "seed_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "event_ids": [
+        "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "event_names": [
+        "Pháp nhân thương mại phạm tội thuộc Điều 76",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "2",
+        "207"
+      ],
+      "article_ids": [
+        "2",
+        "76"
+      ],
+      "is_primary": false
+    },
+    {
+      "path_index": 4,
+      "original_path_id": 4,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "path_score": 0.4949069167375565,
+      "hop_count": 1,
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "outcome_event_id": "pham_toi_chua_dat",
+      "outcome_event_name": "Phạm tội chưa đạt",
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "event_ids": [
+        "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "pham_toi_chua_dat"
+      ],
+      "event_names": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "Phạm tội chưa đạt"
+      ],
+      "rule_ids": [
+        "31"
+      ],
+      "article_ids": [
+        "15"
+      ],
+      "is_primary": false
+    },
+    {
+      "path_index": 5,
+      "original_path_id": 3,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "path_score": 0.4949069167375565,
+      "hop_count": 1,
+      "seed_event_id": "pham_toi_chua_dat",
+      "seed_event_name": "Phạm tội chưa đạt",
+      "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "outcome_event_name": "Chịu trách nhiệm hình sự",
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "event_ids": [
+        "pham_toi_chua_dat",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "event_names": [
+        "Phạm tội chưa đạt",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "rule_ids": [
+        "32"
+      ],
+      "article_ids": [
+        "15"
+      ],
+      "is_primary": false
+    },
+    {
+      "path_index": 6,
+      "original_path_id": 5,
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "path_score": 0.49445737743377693,
+      "hop_count": 1,
+      "seed_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+      "seed_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+      "outcome_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+      "outcome_event_name": "Áp dụng không quá ba phần tư mức phạt",
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "event_ids": [
+        "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "ap_dung_khong_qua_ba_phan_tu_muc_phat"
+      ],
+      "event_names": [
+        "Phạm tội chưa đạt có khung tù có thời hạn",
+        "Áp dụng không quá ba phần tư mức phạt"
+      ],
+      "rule_ids": [
+        "158"
+      ],
+      "article_ids": [
+        "57"
+      ],
+      "is_primary": false
+    }
+  ],
+  "citations_used": [
+    "E1",
+    "E2"
+  ],
+  "confidence": 0.7279396157801152,
+  "consistency_score": 0.7279396157801152,
+  "final_decision": "SUPPORTED",
+  "decision_score": 0.7279396157801152,
+  "decision_explanation": "Primary multi-hop path hợp lệ và hỗ trợ quan hệ nguyên nhân → hệ quả được hỏi.",
+  "primary_path_ids": [
+    0
+  ],
+  "query_analysis": {
+    "normalized_query": "người phạm tội chưa đạt phải chịu trách nhiệm hình sự như thế nào?",
+    "claim_type": "STANDARD_CAUSAL",
+    "intent_detection_version": "2.0-explicit-intervention",
+    "has_direct_indicator": false,
+    "has_remove_indicator": false,
+    "has_remains_indicator": false,
+    "has_disappears_indicator": false,
+    "has_necessary_indicator": false,
+    "has_counterfactual_indicator": false,
+    "has_explicit_counterfactual_indicator": false,
+    "has_conditional_indicator": false,
+    "conditional_antecedent_only": false,
+    "counterfactual_mode": "structural_scm",
+    "path_verification_method": "legal_scm_do_intervention",
+    "structural_fallback_used": false,
+    "structural_fallback_reason": "",
+    "factual_outcome": "true"
+  },
+  "answer_intent": "FINAL_OUTCOME",
+  "generation_metadata": {
+    "step5_version": "5.1-query-aware-grounded-answer",
+    "step4_version": "4.1-query-aware-legal-scm",
+    "intent_detection_version": "2.0-explicit-intervention",
+    "answer_intent": "FINAL_OUTCOME",
+    "counterfactual_signal_source": "",
+    "structural_result_used": false,
+    "structural_fallback_used": false,
+    "requested_provider": "extractive",
+    "requested_model": "qwen3:8b",
+    "elapsed_seconds": 0.0,
+    "max_evidence": 8,
+    "max_paths": 6,
+    "max_context_chars": 18000,
+    "max_tokens": 1200,
+    "temperature": 0.1,
+    "min_verification_score": 0.45,
+    "include_uncertain": false,
+    "fallback_to_extractive": true,
+    "generation_error": "",
+    "validation_warnings": [],
+    "system_prompt_chars": 1243,
+    "user_prompt_chars": 6100,
+    "primary_path_rule_ids": [
+      "31",
+      "32"
+    ]
+  }
+}

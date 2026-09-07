@@ -1,0 +1,2996 @@
+{
+  "query": "Người phạm tội chưa đạt phải chịu trách nhiệm hình sự như thế nào?",
+  "configuration": {
+    "cf_top_k": 5,
+    "mapping_top_k": 5,
+    "mapping_threshold": 0.42,
+    "max_cf_hops": 3,
+    "max_cf_paths": 30,
+    "verified_top_k": 10,
+    "keep_threshold": 0.52,
+    "reject_threshold": 0.34,
+    "alternative_path_threshold": 0.35,
+    "counterfactual_mode": "structural_scm",
+    "verification_method": "legal_scm_do_intervention",
+    "rules_path": "data/blhs_rules_final_all_normalized.json",
+    "legal_scm_loaded": true,
+    "scm_load_error": "",
+    "step4_version": "4.1-query-aware-legal-scm",
+    "semantic_mapping_enabled": false,
+    "model_name": ""
+  },
+  "statistics": {
+    "original_paths": 27,
+    "total_paths": 27,
+    "path_status_counts": {
+      "SUPPORTED": 27,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "status_counts": {
+      "SUPPORTED": 27,
+      "CONTRADICTED": 0,
+      "UNRESOLVED": 0
+    },
+    "counterfactual_mode": "structural_scm",
+    "structural_paths": 27,
+    "structural_fallback_paths": 0,
+    "path_ablation_paths": 0,
+    "legal_scm_loaded": true,
+    "original_evidence": 12,
+    "total_evidence": 12,
+    "verified_evidence": 10,
+    "uncertain_evidence": 0,
+    "removed_evidence": 0,
+    "primary_path_ids": [
+      0
+    ],
+    "final_decision": "SUPPORTED",
+    "decision_score": 0.7279396157801152
+  },
+  "path_verifications": [
+    {
+      "original_path_id": 0,
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "pham_toi_chua_dat",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "Phạm tội chưa đạt",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "31",
+        "32"
+      ],
+      "original_article_ids": [
+        "15"
+      ],
+      "original_path_score": 0.5787547017335892,
+      "original_hop_count": 2,
+      "intervention_type": "LEGAL_SCM_DO_INTERVENTION",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::pham_toi_chua_dat",
+          "mediator_event_id": "pham_toi_chua_dat",
+          "mediator_event_name": "Phạm tội chưa đạt",
+          "removed_nodes": [],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "LegalSCM: do(mediator=FALSE) làm outcome đổi TRUE→FALSE.",
+          "verification_method": "legal_scm_do_intervention",
+          "intervention_assignment": {
+            "pham_toi_chua_dat": "false"
+          },
+          "structural_status": "NECESSARY",
+          "factual_mediator_state": "true",
+          "factual_outcome": "true",
+          "counterfactual_outcome": "false",
+          "outcome_changed": true,
+          "disabled_rule_ids": [
+            "31",
+            "32"
+          ],
+          "newly_activated_rule_ids": [],
+          "alternative_outcome_rule_ids": [],
+          "recomputed_context_event_ids": []
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7279396157801152,
+      "explanation": "Factual path được LegalSCM xác nhận; hard do-intervention cho thấy 1 mediator cần thiết, 0 không cần thiết và 0 chưa xác định.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "31",
+            "32"
+          ],
+          "activated_rule_ids": [
+            "31",
+            "32"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+              "target_event_id": "pham_toi_chua_dat",
+              "expected_rule_ids": [
+                "31"
+              ],
+              "activated_rule_ids": [
+                "31"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            },
+            {
+              "hop": 2,
+              "source_event_id": "pham_toi_chua_dat",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "32"
+              ],
+              "activated_rule_ids": [
+                "32"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [
+          {
+            "mediator_event_id": "pham_toi_chua_dat",
+            "assignment": {
+              "pham_toi_chua_dat": "false"
+            },
+            "status": "NECESSARY",
+            "mapped_status": "NECESSARY",
+            "factual_mediator_state": "true",
+            "factual_outcome": "true",
+            "counterfactual_outcome": "false",
+            "outcome_changed": true,
+            "disabled_rule_ids": [
+              "31",
+              "32"
+            ],
+            "newly_activated_rule_ids": [],
+            "alternative_outcome_rule_ids": []
+          }
+        ],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": [
+            {
+              "mediator_event_id": "pham_toi_chua_dat",
+              "status": "NECESSARY",
+              "alternative_path_count": 0,
+              "best_alternative_path_score": 0.0
+            }
+          ]
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon": "true",
+          "pham_toi_chua_dat": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 3,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 1,
+      "seed_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+      "seed_event_name": "Chống trả rõ ràng quá mức cần thiết",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::chong_tra_ro_rang_qua_muc_can_thiet",
+        "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "chong_tra_ro_rang_qua_muc_can_thiet",
+        "vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Chống trả rõ ràng quá mức cần thiết",
+        "Vượt quá giới hạn phòng vệ chính đáng",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "47",
+        "48"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.5787547017335892,
+      "original_hop_count": 2,
+      "intervention_type": "LEGAL_SCM_DO_INTERVENTION",
+      "mediator_interventions": [
+        {
+          "mediator_index": 1,
+          "mediator_event_node": "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "mediator_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+          "mediator_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+          "removed_nodes": [],
+          "alternative_paths": [],
+          "best_alternative_path_score": 0.0,
+          "intervention_status": "NECESSARY",
+          "necessity_score": 0.85,
+          "explanation": "LegalSCM: do(mediator=FALSE) làm outcome đổi TRUE→FALSE.",
+          "verification_method": "legal_scm_do_intervention",
+          "intervention_assignment": {
+            "vuot_qua_gioi_han_phong_ve_chinh_dang": "false"
+          },
+          "structural_status": "NECESSARY",
+          "factual_mediator_state": "true",
+          "factual_outcome": "true",
+          "counterfactual_outcome": "false",
+          "outcome_changed": true,
+          "disabled_rule_ids": [
+            "47",
+            "48",
+            "106"
+          ],
+          "newly_activated_rule_ids": [],
+          "alternative_outcome_rule_ids": [],
+          "recomputed_context_event_ids": []
+        }
+      ],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7279396157801152,
+      "explanation": "Factual path được LegalSCM xác nhận; hard do-intervention cho thấy 1 mediator cần thiết, 0 không cần thiết và 0 chưa xác định.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "chong_tra_ro_rang_qua_muc_can_thiet": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "47",
+            "48"
+          ],
+          "activated_rule_ids": [
+            "47",
+            "48"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "chong_tra_ro_rang_qua_muc_can_thiet",
+              "target_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+              "expected_rule_ids": [
+                "47"
+              ],
+              "activated_rule_ids": [
+                "47"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            },
+            {
+              "hop": 2,
+              "source_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "48"
+              ],
+              "activated_rule_ids": [
+                "48"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [
+          {
+            "mediator_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+            "assignment": {
+              "vuot_qua_gioi_han_phong_ve_chinh_dang": "false"
+            },
+            "status": "NECESSARY",
+            "mapped_status": "NECESSARY",
+            "factual_mediator_state": "true",
+            "factual_outcome": "true",
+            "counterfactual_outcome": "false",
+            "outcome_changed": true,
+            "disabled_rule_ids": [
+              "47",
+              "48",
+              "106"
+            ],
+            "newly_activated_rule_ids": [],
+            "alternative_outcome_rule_ids": []
+          }
+        ],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": [
+            {
+              "mediator_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+              "status": "NECESSARY",
+              "alternative_path_count": 0,
+              "best_alternative_path_score": 0.0
+            }
+          ]
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "chong_tra_ro_rang_qua_muc_can_thiet": "true",
+          "vuot_qua_gioi_han_phong_ve_chinh_dang": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 3,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 2,
+      "seed_event_id": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+      "seed_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Pháp nhân thương mại phạm tội thuộc Điều 76",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "2",
+        "207"
+      ],
+      "original_article_ids": [
+        "2",
+        "76"
+      ],
+      "original_path_score": 0.6676633769513783,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "2",
+            "207"
+          ],
+          "activated_rule_ids": [
+            "2",
+            "207"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "2",
+                "207"
+              ],
+              "activated_rule_ids": [
+                "2",
+                "207"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 3,
+      "seed_event_id": "pham_toi_chua_dat",
+      "seed_event_name": "Phạm tội chưa đạt",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "pham_toi_chua_dat",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Phạm tội chưa đạt",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "32"
+      ],
+      "original_article_ids": [
+        "15"
+      ],
+      "original_path_score": 0.4949069167375565,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "pham_toi_chua_dat": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "32"
+          ],
+          "activated_rule_ids": [
+            "32"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "pham_toi_chua_dat",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "32"
+              ],
+              "activated_rule_ids": [
+                "32"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "pham_toi_chua_dat": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 4,
+      "seed_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+      "seed_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+      "original_outcome_event_id": "pham_toi_chua_dat",
+      "original_outcome_event_name": "Phạm tội chưa đạt",
+      "original_event_nodes": [
+        "EVENT::co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "EVENT::pham_toi_chua_dat"
+      ],
+      "original_event_ids": [
+        "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "pham_toi_chua_dat"
+      ],
+      "original_event_names": [
+        "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "Phạm tội chưa đạt"
+      ],
+      "original_rule_ids": [
+        "31"
+      ],
+      "original_article_ids": [
+        "15"
+      ],
+      "original_path_score": 0.4949069167375565,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon": "true"
+        },
+        "outcome_event_id": "pham_toi_chua_dat",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "31"
+          ],
+          "activated_rule_ids": [
+            "31"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+              "target_event_id": "pham_toi_chua_dat",
+              "expected_rule_ids": [
+                "31"
+              ],
+              "activated_rule_ids": [
+                "31"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon": "true",
+          "pham_toi_chua_dat": "true"
+        },
+        "factual_iterations": 3,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 5,
+      "seed_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+      "seed_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+      "original_outcome_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+      "original_outcome_event_name": "Áp dụng không quá ba phần tư mức phạt",
+      "original_event_nodes": [
+        "EVENT::pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "EVENT::ap_dung_khong_qua_ba_phan_tu_muc_phat"
+      ],
+      "original_event_ids": [
+        "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "ap_dung_khong_qua_ba_phan_tu_muc_phat"
+      ],
+      "original_event_names": [
+        "Phạm tội chưa đạt có khung tù có thời hạn",
+        "Áp dụng không quá ba phần tư mức phạt"
+      ],
+      "original_rule_ids": [
+        "158"
+      ],
+      "original_article_ids": [
+        "57"
+      ],
+      "original_path_score": 0.49445737743377693,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "pham_toi_chua_dat_co_khung_tu_co_thoi_han": "true"
+        },
+        "outcome_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "158"
+          ],
+          "activated_rule_ids": [
+            "158"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+              "target_event_id": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+              "expected_rule_ids": [
+                "158"
+              ],
+              "activated_rule_ids": [
+                "158"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "pham_toi_chua_dat_co_khung_tu_co_thoi_han": "true",
+          "ap_dung_khong_qua_ba_phan_tu_muc_phat": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 6,
+      "seed_event_id": "pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+      "seed_event_name": "Phạm tội được Bộ luật Hình sự quy định",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Phạm tội được Bộ luật Hình sự quy định",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "1"
+      ],
+      "original_article_ids": [
+        "2"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "pham_toi_duoc_bo_luat_hinh_su_quy_dinh": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "1"
+          ],
+          "activated_rule_ids": [
+            "1"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "pham_toi_duoc_bo_luat_hinh_su_quy_dinh",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "1"
+              ],
+              "activated_rule_ids": [
+                "1"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "pham_toi_duoc_bo_luat_hinh_su_quy_dinh": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 7,
+      "seed_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+      "seed_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Người từ đủ 16 tuổi thực hiện tội phạm",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "26"
+      ],
+      "original_article_ids": [
+        "12"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "26"
+          ],
+          "activated_rule_ids": [
+            "26"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "26"
+              ],
+              "activated_rule_ids": [
+                "26"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 8,
+      "seed_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+      "seed_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "27"
+      ],
+      "original_article_ids": [
+        "12"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "27"
+          ],
+          "activated_rule_ids": [
+            "27"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "27"
+              ],
+              "activated_rule_ids": [
+                "27"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 9,
+      "seed_event_id": "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+      "seed_event_name": "Mất khả năng nhận thức do tự sử dụng chất kích thích",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Mất khả năng nhận thức do tự sử dụng chất kích thích",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "28"
+      ],
+      "original_article_ids": [
+        "13"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "28"
+          ],
+          "activated_rule_ids": [
+            "28"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "28"
+              ],
+              "activated_rule_ids": [
+                "28"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "mat_kha_nang_nhan_thuc_do_tu_su_dung_chat_kich_thich": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 10,
+      "seed_event_id": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+      "seed_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "30"
+      ],
+      "original_article_ids": [
+        "14"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "30"
+          ],
+          "activated_rule_ids": [
+            "30"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "30"
+              ],
+              "activated_rule_ids": [
+                "30"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 11,
+      "seed_event_id": "pham_toi_chua_dat",
+      "seed_event_name": "Phạm tội chưa đạt",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::pham_toi_chua_dat",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "pham_toi_chua_dat",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Phạm tội chưa đạt",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "32"
+      ],
+      "original_article_ids": [
+        "15"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "pham_toi_chua_dat": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "32"
+          ],
+          "activated_rule_ids": [
+            "32"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "pham_toi_chua_dat",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "32"
+              ],
+              "activated_rule_ids": [
+                "32"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "pham_toi_chua_dat": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 12,
+      "seed_event_id": "hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+      "seed_event_name": "Hành vi đã thực hiện cấu thành tội khác",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Hành vi đã thực hiện cấu thành tội khác",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "35"
+      ],
+      "original_article_ids": [
+        "16"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "hanh_vi_da_thuc_hien_cau_thanh_toi_khac": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "35"
+          ],
+          "activated_rule_ids": [
+            "35"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "hanh_vi_da_thuc_hien_cau_thanh_toi_khac",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "35"
+              ],
+              "activated_rule_ids": [
+                "35"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "hanh_vi_da_thuc_hien_cau_thanh_toi_khac": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 13,
+      "seed_event_id": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+      "seed_event_name": "Che giấu tội phạm sau khi tội phạm được thực hiện",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Che giấu tội phạm sau khi tội phạm được thực hiện",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "39"
+      ],
+      "original_article_ids": [
+        "18"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "39"
+          ],
+          "activated_rule_ids": [
+            "39"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "39"
+              ],
+              "activated_rule_ids": [
+                "39"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "che_giau_toi_pham_sau_khi_toi_pham_duoc_thuc_hien": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 14,
+      "seed_event_id": "biet_ro_toi_pham_nhung_khong_to_giac",
+      "seed_event_name": "Biết rõ tội phạm nhưng không tố giác",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::biet_ro_toi_pham_nhung_khong_to_giac",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "biet_ro_toi_pham_nhung_khong_to_giac",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Biết rõ tội phạm nhưng không tố giác",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "41"
+      ],
+      "original_article_ids": [
+        "19"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "biet_ro_toi_pham_nhung_khong_to_giac": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "41"
+          ],
+          "activated_rule_ids": [
+            "41"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "biet_ro_toi_pham_nhung_khong_to_giac",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "41"
+              ],
+              "activated_rule_ids": [
+                "41"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "biet_ro_toi_pham_nhung_khong_to_giac": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 15,
+      "seed_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+      "seed_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Vượt quá giới hạn phòng vệ chính đáng",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "48"
+      ],
+      "original_article_ids": [
+        "22"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "vuot_qua_gioi_han_phong_ve_chinh_dang": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "48"
+          ],
+          "activated_rule_ids": [
+            "48"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "48"
+              ],
+              "activated_rule_ids": [
+                "48"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "vuot_qua_gioi_han_phong_ve_chinh_dang": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 16,
+      "seed_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+      "seed_event_name": "Vượt quá yêu cầu của tình thế cấp thiết",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Vượt quá yêu cầu của tình thế cấp thiết",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "51"
+      ],
+      "original_article_ids": [
+        "23"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "51"
+          ],
+          "activated_rule_ids": [
+            "51"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "51"
+              ],
+              "activated_rule_ids": [
+                "51"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "vuot_qua_yeu_cau_cua_tinh_the_cap_thiet": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 17,
+      "seed_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+      "seed_event_name": "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Vượt quá mức cần thiết khi bắt giữ người phạm tội",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "53"
+      ],
+      "original_article_ids": [
+        "24"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "53"
+          ],
+          "activated_rule_ids": [
+            "53"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "53"
+              ],
+              "activated_rule_ids": [
+                "53"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "vuot_qua_muc_can_thiet_khi_bat_giu_nguoi_pham_toi": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 18,
+      "seed_event_id": "vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai",
+      "seed_event_name": "Vi phạm quy trình phòng ngừa và gây thiệt hại",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Vi phạm quy trình phòng ngừa và gây thiệt hại",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "55"
+      ],
+      "original_article_ids": [
+        "25"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "55"
+          ],
+          "activated_rule_ids": [
+            "55"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "55"
+              ],
+              "activated_rule_ids": [
+                "55"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "vi_pham_quy_trinh_phong_ngua_va_gay_thiet_hai": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 19,
+      "seed_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+      "seed_event_name": "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Duy trì mệnh lệnh gây thiệt hại sau khi được báo cáo",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "57"
+      ],
+      "original_article_ids": [
+        "26"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "57"
+          ],
+          "activated_rule_ids": [
+            "57"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "57"
+              ],
+              "activated_rule_ids": [
+                "57"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "duy_tri_menh_lenh_gay_thiet_hai_sau_khi_duoc_bao_cao": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 20,
+      "seed_event_id": "phap_nhan_thuong_mai_pham_toi",
+      "seed_event_name": "Pháp nhân thương mại phạm tội",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::phap_nhan_thuong_mai_pham_toi",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "phap_nhan_thuong_mai_pham_toi",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Pháp nhân thương mại phạm tội",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "204"
+      ],
+      "original_article_ids": [
+        "74"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "phap_nhan_thuong_mai_pham_toi": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "204"
+          ],
+          "activated_rule_ids": [
+            "204"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "phap_nhan_thuong_mai_pham_toi",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "204"
+              ],
+              "activated_rule_ids": [
+                "204"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "phap_nhan_thuong_mai_pham_toi": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 21,
+      "seed_event_id": "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+      "seed_event_name": "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Đủ điều kiện chịu trách nhiệm hình sự của pháp nhân",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "205"
+      ],
+      "original_article_ids": [
+        "75"
+      ],
+      "original_path_score": 0.49100470173358923,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "205"
+          ],
+          "activated_rule_ids": [
+            "205"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "205"
+              ],
+              "activated_rule_ids": [
+                "205"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "du_dieu_kien_chiu_trach_nhiem_hinh_su_cua_phap_nhan": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 22,
+      "seed_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+      "seed_event_name": "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+      "original_outcome_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+      "original_outcome_event_name": "Áp dụng hình phạt tù không quá 20 năm",
+      "original_event_nodes": [
+        "EVENT::pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+        "EVENT::ap_dung_hinh_phat_tu_khong_qua_20_nam"
+      ],
+      "original_event_ids": [
+        "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+        "ap_dung_hinh_phat_tu_khong_qua_20_nam"
+      ],
+      "original_event_names": [
+        "Phạm tội chưa đạt có khung tù chung thân hoặc tử hình",
+        "Áp dụng hình phạt tù không quá 20 năm"
+      ],
+      "original_rule_ids": [
+        "157"
+      ],
+      "original_article_ids": [
+        "57"
+      ],
+      "original_path_score": 0.48938095033168794,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh": "true"
+        },
+        "outcome_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "157"
+          ],
+          "activated_rule_ids": [
+            "157"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh",
+              "target_event_id": "ap_dung_hinh_phat_tu_khong_qua_20_nam",
+              "expected_rule_ids": [
+                "157"
+              ],
+              "activated_rule_ids": [
+                "157"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "pham_toi_chua_dat_co_khung_tu_chung_than_hoac_tu_hinh": "true",
+          "ap_dung_hinh_phat_tu_khong_qua_20_nam": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 23,
+      "seed_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+      "seed_event_name": "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+      "original_outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+      "original_outcome_event_name": "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:",
+      "original_event_nodes": [
+        "EVENT::pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+        "EVENT::phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_ids": [
+        "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+        "phat_tu_tu_05_nam_den_10_nam"
+      ],
+      "original_event_names": [
+        "Phạm tội đối với người từ đủ 16 tuổi đến dưới 18 tuổi",
+        "Phạt tù từ 05 năm đến 10 năm || Phạt tù từ 05 năm đến 10 năm:"
+      ],
+      "original_rule_ids": [
+        "376"
+      ],
+      "original_article_ids": [
+        "141"
+      ],
+      "original_path_score": 0.4865740470290184,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi": "true"
+        },
+        "outcome_event_id": "phat_tu_tu_05_nam_den_10_nam",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "376"
+          ],
+          "activated_rule_ids": [
+            "376"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi",
+              "target_event_id": "phat_tu_tu_05_nam_den_10_nam",
+              "expected_rule_ids": [
+                "376"
+              ],
+              "activated_rule_ids": [
+                "376"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "pham_toi_doi_voi_nguoi_tu_du_16_tuoi_den_duoi_18_tuoi": "true",
+          "phat_tu_tu_05_nam_den_10_nam": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 24,
+      "seed_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+      "seed_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+      "original_outcome_event_id": "chiu_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Chịu trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+        "EVENT::chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+        "chiu_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+        "Chịu trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "27"
+      ],
+      "original_article_ids": [
+        "12"
+      ],
+      "original_path_score": 0.48427561491727833,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc": "true"
+        },
+        "outcome_event_id": "chiu_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "27"
+          ],
+          "activated_rule_ids": [
+            "27"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+              "target_event_id": "chiu_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "27"
+              ],
+              "activated_rule_ids": [
+                "27"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc": "true",
+          "chiu_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 25,
+      "seed_event_id": "nguoi_pham_toi_du_70_tuoi_tro_len",
+      "seed_event_name": "Người phạm tội đủ 70 tuổi trở lên",
+      "original_outcome_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+      "original_outcome_event_name": "Có tình tiết giảm nhẹ trách nhiệm hình sự",
+      "original_event_nodes": [
+        "EVENT::nguoi_pham_toi_du_70_tuoi_tro_len",
+        "EVENT::co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su"
+      ],
+      "original_event_ids": [
+        "nguoi_pham_toi_du_70_tuoi_tro_len",
+        "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su"
+      ],
+      "original_event_names": [
+        "Người phạm tội đủ 70 tuổi trở lên",
+        "Có tình tiết giảm nhẹ trách nhiệm hình sự"
+      ],
+      "original_rule_ids": [
+        "117"
+      ],
+      "original_article_ids": [
+        "51"
+      ],
+      "original_path_score": 0.4840929065942765,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "nguoi_pham_toi_du_70_tuoi_tro_len": "true"
+        },
+        "outcome_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "117"
+          ],
+          "activated_rule_ids": [
+            "117"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "nguoi_pham_toi_du_70_tuoi_tro_len",
+              "target_event_id": "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su",
+              "expected_rule_ids": [
+                "117"
+              ],
+              "activated_rule_ids": [
+                "117"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "nguoi_pham_toi_du_70_tuoi_tro_len": "true",
+          "co_tinh_tiet_giam_nhe_trach_nhiem_hinh_su": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    },
+    {
+      "original_path_id": 26,
+      "seed_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+      "seed_event_name": "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+      "original_outcome_event_id": "phat_tu_tu_07_nam_den_12_nam",
+      "original_outcome_event_name": "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm",
+      "original_event_nodes": [
+        "EVENT::nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "EVENT::phat_tu_tu_07_nam_den_12_nam"
+      ],
+      "original_event_ids": [
+        "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+        "phat_tu_tu_07_nam_den_12_nam"
+      ],
+      "original_event_names": [
+        "Người không bị truy cứu trách nhiệm hình sự tiếp tục thực hiện tội phạm rất nghiêm trọng hoặc tội phạm đặc biệt nghiêm trọng",
+        "Phạt tù từ 07 năm đến 12 năm: || Phạt tù từ 07 năm đến 12 năm"
+      ],
+      "original_rule_ids": [
+        "2586"
+      ],
+      "original_article_ids": [
+        "369"
+      ],
+      "original_path_score": 0.48264157831668864,
+      "original_hop_count": 1,
+      "intervention_type": "LEGAL_SCM_FACTUAL_VALIDATION",
+      "mediator_interventions": [],
+      "status": "SUPPORTED",
+      "consistency_score": 0.7,
+      "explanation": "LegalSCM kích hoạt rule mechanism của path một hop và suy ra factual outcome=TRUE; không có mediator để do-intervention.",
+      "counterfactual_candidates": [],
+      "counterfactual_to_same_outcome": [],
+      "counterfactual_to_opposite_outcome": [],
+      "opposite_outcome_candidates": [],
+      "counterfactual_summary": {
+        "engine": "LegalSCM",
+        "mode": "structural_scm",
+        "factual_context": {
+          "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong": "true"
+        },
+        "outcome_event_id": "phat_tu_tu_07_nam_den_12_nam",
+        "factual_outcome": "true",
+        "path_rule_coverage": {
+          "all_hops_covered": true,
+          "expected_rule_ids": [
+            "2586"
+          ],
+          "activated_rule_ids": [
+            "2586"
+          ],
+          "missing_rule_ids": [],
+          "per_hop": [
+            {
+              "hop": 1,
+              "source_event_id": "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong",
+              "target_event_id": "phat_tu_tu_07_nam_den_12_nam",
+              "expected_rule_ids": [
+                "2586"
+              ],
+              "activated_rule_ids": [
+                "2586"
+              ],
+              "missing_rule_ids": [],
+              "covered": true
+            }
+          ]
+        },
+        "interventions": [],
+        "baseline": {
+          "method": "node_deletion_reachability",
+          "path_status": "SUPPORTED",
+          "interventions": []
+        },
+        "fallback_used": false,
+        "fallback_reason": "",
+        "factual_states": {
+          "nguoi_khong_bi_truy_cuu_trach_nhiem_hinh_su_tiep_tuc_thuc_hien_toi_pham_rat_nghiem_trong_hoac_toi_pham_dac_biet_nghiem_trong": "true",
+          "phat_tu_tu_07_nam_den_12_nam": "true"
+        },
+        "factual_iterations": 2,
+        "factual_conflicting_event_ids": []
+      }
+    }
+  ],
+  "verified_evidence": [
+    {
+      "original_rank": 1,
+      "rule_id": "32",
+      "article_id": "15",
+      "original_final_score": 0.7350228425025941,
+      "semantic_score": 0.6865041851997375,
+      "graph_score": 0.7086449122428895,
+      "path_support_score": 0.5215554400682451,
+      "counterfactual_support_score": 0.7093132052600385,
+      "verification_score": 0.754222250255108,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0,
+        3,
+        11
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold.",
+        "Evidence thuộc primary multi-hop path."
+      ],
+      "original_evidence": {
+        "rank": 1,
+        "rule_id": "32",
+        "rule_node_id": "RULE::32",
+        "article_id": "15",
+        "article_title": "Phạm tội chưa đạt",
+        "legal_subject": "Người phạm tội",
+        "condition": "phạm tội chưa đạt",
+        "effect": "phải chịu trách nhiệm hình sự về tội phạm chưa đạt",
+        "condition_event": "pham_toi_chua_dat",
+        "condition_event_name": "Phạm tội chưa đạt",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.6865041851997375,
+        "graph_score": 0.7086449122428895,
+        "seed_event_score": 0.621740460395813,
+        "direct_rule_score": 0.6865041255950928,
+        "path_priority_score": 1.0,
+        "final_score": 0.7350228425025941,
+        "matched_seed_events": [
+          "Phạm tội chưa đạt",
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          0,
+          3,
+          11
+        ]
+      }
+    },
+    {
+      "original_rank": 2,
+      "rule_id": "31",
+      "article_id": "15",
+      "original_final_score": 0.6679991813659669,
+      "semantic_score": 0.6272280216217041,
+      "graph_score": 0.7086449122428895,
+      "path_support_score": 0.5368308092355729,
+      "counterfactual_support_score": 0.7139698078900576,
+      "verification_score": 0.7520328172078133,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        0,
+        4
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold.",
+        "Evidence thuộc primary multi-hop path."
+      ],
+      "original_evidence": {
+        "rank": 2,
+        "rule_id": "31",
+        "rule_node_id": "RULE::31",
+        "article_id": "15",
+        "article_title": "Phạm tội chưa đạt",
+        "legal_subject": "Người phạm tội",
+        "condition": "cố ý thực hiện tội phạm nhưng không thực hiện được đến cùng vì nguyên nhân ngoài ý muốn",
+        "effect": "được xác định là phạm tội chưa đạt",
+        "condition_event": "co_y_thuc_hien_toi_pham_nhung_khong_hoan_thanh_ngoai_y_muon",
+        "condition_event_name": "Cố ý thực hiện tội phạm nhưng không hoàn thành ngoài ý muốn",
+        "effect_event": "pham_toi_chua_dat",
+        "effect_event_name": "Phạm tội chưa đạt",
+        "causal_type": "",
+        "semantic_score": 0.6272280216217041,
+        "graph_score": 0.7086449122428895,
+        "seed_event_score": 0.621740460395813,
+        "direct_rule_score": 0.0,
+        "path_priority_score": 1.0,
+        "final_score": 0.6679991813659669,
+        "matched_seed_events": [
+          "Phạm tội chưa đạt",
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          0,
+          4
+        ]
+      }
+    },
+    {
+      "original_rank": 7,
+      "rule_id": "207",
+      "article_id": "76",
+      "original_final_score": 0.5251117006430357,
+      "semantic_score": 0.5801789164543152,
+      "graph_score": 0.5655396623438513,
+      "path_support_score": 0.6676633769513783,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6497162626023534,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 7,
+        "rule_id": "207",
+        "rule_node_id": "RULE::207",
+        "article_id": "76",
+        "article_title": "Phạm vi chịu trách nhiệm hình sự của pháp nhân thương mại[30]",
+        "legal_subject": "Pháp nhân thương mại",
+        "condition": "phạm một trong các tội thuộc phạm vi Điều 76",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+        "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "LIABILITY",
+        "semantic_score": 0.5801789164543152,
+        "graph_score": 0.5655396623438513,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.0,
+        "path_priority_score": 0.5,
+        "final_score": 0.5251117006430357,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          2
+        ]
+      }
+    },
+    {
+      "original_rank": 9,
+      "rule_id": "2",
+      "article_id": "2",
+      "original_final_score": 0.5208183542380065,
+      "semantic_score": 0.5667622089385986,
+      "graph_score": 0.5655396623438513,
+      "path_support_score": 0.6676633769513783,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.6475695893998388,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        2
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 9,
+        "rule_id": "2",
+        "rule_node_id": "RULE::2",
+        "article_id": "2",
+        "article_title": "Cơ sở của trách nhiệm hình sự",
+        "legal_subject": "Pháp nhân thương mại",
+        "condition": "phạm một tội được quy định tại Điều 76 Bộ luật Hình sự",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "phap_nhan_thuong_mai_pham_toi_thuoc_dieu_76",
+        "condition_event_name": "Pháp nhân thương mại phạm tội thuộc Điều 76",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.5667622089385986,
+        "graph_score": 0.5655396623438513,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.0,
+        "path_priority_score": 0.5,
+        "final_score": 0.5208183542380065,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          2
+        ]
+      }
+    },
+    {
+      "original_rank": 4,
+      "rule_id": "47",
+      "article_id": "22",
+      "original_final_score": 0.5643192283555429,
+      "semantic_score": 0.48033571243286133,
+      "graph_score": 0.7086449122428895,
+      "path_support_score": 0.5787547017335892,
+      "counterfactual_support_score": 0.7279396157801152,
+      "verification_score": 0.6289314654116631,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 4,
+        "rule_id": "47",
+        "rule_node_id": "RULE::47",
+        "article_id": "22",
+        "article_title": "Phòng vệ chính đáng",
+        "legal_subject": "Người phòng vệ",
+        "condition": "chống trả rõ ràng quá mức cần thiết và không phù hợp với tính chất, mức độ nguy hiểm của hành vi xâm hại",
+        "effect": "được xác định là vượt quá giới hạn phòng vệ chính đáng",
+        "condition_event": "chong_tra_ro_rang_qua_muc_can_thiet",
+        "condition_event_name": "Chống trả rõ ràng quá mức cần thiết",
+        "effect_event": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "effect_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+        "causal_type": "",
+        "semantic_score": 0.48033571243286133,
+        "graph_score": 0.7086449122428895,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.0,
+        "path_priority_score": 0.6309297535714575,
+        "final_score": 0.5643192283555429,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "original_rank": 3,
+      "rule_id": "48",
+      "article_id": "22",
+      "original_final_score": 0.5798782340928476,
+      "semantic_score": 0.5289576053619385,
+      "graph_score": 0.7086449122428895,
+      "path_support_score": 0.5348797017335892,
+      "counterfactual_support_score": 0.7139698078900576,
+      "verification_score": 0.615568129755497,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        1,
+        15
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 3,
+        "rule_id": "48",
+        "rule_node_id": "RULE::48",
+        "article_id": "22",
+        "article_title": "Phòng vệ chính đáng",
+        "legal_subject": "Người phòng vệ",
+        "condition": "vượt quá giới hạn phòng vệ chính đáng",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "vuot_qua_gioi_han_phong_ve_chinh_dang",
+        "condition_event_name": "Vượt quá giới hạn phòng vệ chính đáng",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.5289576053619385,
+        "graph_score": 0.7086449122428895,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.0,
+        "path_priority_score": 0.6309297535714575,
+        "final_score": 0.5798782340928476,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          1,
+          15
+        ]
+      }
+    },
+    {
+      "original_rank": 5,
+      "rule_id": "26",
+      "article_id": "12",
+      "original_final_score": 0.5451436635456761,
+      "semantic_score": 0.6739784479141235,
+      "graph_score": 0.48364491224288947,
+      "path_support_score": 0.49100470173358923,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5861286260390282,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        7
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 5,
+        "rule_id": "26",
+        "rule_node_id": "RULE::26",
+        "article_id": "12",
+        "article_title": "Tuổi chịu trách nhiệm hình sự",
+        "legal_subject": "Người từ đủ 16 tuổi trở lên",
+        "condition": "thực hiện tội phạm",
+        "effect": "phải chịu trách nhiệm hình sự về mọi tội phạm, trừ trường hợp luật quy định khác",
+        "condition_event": "nguoi_tu_du_16_tuoi_thuc_hien_toi_pham",
+        "condition_event_name": "Người từ đủ 16 tuổi thực hiện tội phạm",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.6739784479141235,
+        "graph_score": 0.48364491224288947,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.6739784479141235,
+        "path_priority_score": 0.31546487678572877,
+        "final_score": 0.5451436635456761,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          7
+        ]
+      }
+    },
+    {
+      "original_rank": 6,
+      "rule_id": "27",
+      "article_id": "12",
+      "original_final_score": 0.540613541994098,
+      "semantic_score": 0.667914628982544,
+      "graph_score": 0.48364491224288947,
+      "path_support_score": 0.4876401583254338,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5838798885148764,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        8,
+        24
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 6,
+        "rule_id": "27",
+        "rule_node_id": "RULE::27",
+        "article_id": "12",
+        "article_title": "Tuổi chịu trách nhiệm hình sự",
+        "legal_subject": "Người từ đủ 14 đến dưới 16 tuổi",
+        "condition": "thực hiện tội phạm rất nghiêm trọng hoặc đặc biệt nghiêm trọng thuộc danh mục luật định",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "nguoi_tu_du_14_den_duoi_16_tuoi_pham_toi_thuoc_danh_muc",
+        "condition_event_name": "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.667914628982544,
+        "graph_score": 0.48364491224288947,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.667914628982544,
+        "path_priority_score": 0.3010299956639812,
+        "final_score": 0.540613541994098,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự",
+          "Người từ đủ 14 đến dưới 16 tuổi phạm tội thuộc danh mục"
+        ],
+        "path_ids": [
+          8,
+          24
+        ]
+      }
+    },
+    {
+      "original_rank": 8,
+      "rule_id": "30",
+      "article_id": "14",
+      "original_final_score": 0.5222642102974528,
+      "semantic_score": 0.6293600797653198,
+      "graph_score": 0.48364491224288947,
+      "path_support_score": 0.49100470173358923,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5789896871352196,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        10
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 8,
+        "rule_id": "30",
+        "rule_node_id": "RULE::30",
+        "article_id": "14",
+        "article_title": "Chuẩn bị phạm tội[7]",
+        "legal_subject": "Người chuẩn bị phạm tội",
+        "condition": "chuẩn bị phạm một trong các tội được liệt kê tại khoản 2 Điều 14",
+        "effect": "phải chịu trách nhiệm hình sự",
+        "condition_event": "chuan_bi_pham_toi_thuoc_danh_muc_phai_chiu_trach_nhiem",
+        "condition_event_name": "Chuẩn bị phạm tội thuộc danh mục phải chịu trách nhiệm",
+        "effect_event": "chiu_trach_nhiem_hinh_su",
+        "effect_event_name": "Chịu trách nhiệm hình sự",
+        "causal_type": "",
+        "semantic_score": 0.6293600797653198,
+        "graph_score": 0.48364491224288947,
+        "seed_event_score": 0.6086016893386841,
+        "direct_rule_score": 0.6293600797653198,
+        "path_priority_score": 0.27894294565112987,
+        "final_score": 0.5222642102974528,
+        "matched_seed_events": [
+          "Chịu trách nhiệm hình sự"
+        ],
+        "path_ids": [
+          10
+        ]
+      }
+    },
+    {
+      "original_rank": 11,
+      "rule_id": "158",
+      "article_id": "57",
+      "original_final_score": 0.4885941685813401,
+      "semantic_score": 0.6149009466171265,
+      "graph_score": 0.48992250442504887,
+      "path_support_score": 0.49445737743377693,
+      "counterfactual_support_score": 0.7,
+      "verification_score": 0.5788671055030823,
+      "decision": "KEEP",
+      "verified_path_ids": [
+        5
+      ],
+      "rejected_path_ids": [],
+      "unresolved_path_ids": [],
+      "reasons": [
+        "Có path SUPPORTED và verification score đạt keep threshold."
+      ],
+      "original_evidence": {
+        "rank": 11,
+        "rule_id": "158",
+        "rule_node_id": "RULE::158",
+        "article_id": "57",
+        "article_title": "Quyết định hình phạt trong trường hợp chuẩn bị phạm tội, phạm tội chưa đạt",
+        "legal_subject": "Tòa án",
+        "condition": "người phạm tội chưa đạt và khung hình phạt là tù có thời hạn",
+        "effect": "áp dụng mức phạt không quá ba phần tư mức luật định",
+        "condition_event": "pham_toi_chua_dat_co_khung_tu_co_thoi_han",
+        "condition_event_name": "Phạm tội chưa đạt có khung tù có thời hạn",
+        "effect_event": "ap_dung_khong_qua_ba_phan_tu_muc_phat",
+        "effect_event_name": "Áp dụng không quá ba phần tư mức phạt",
+        "causal_type": "SANCTION",
+        "semantic_score": 0.6149009466171265,
+        "graph_score": 0.48992250442504887,
+        "seed_event_score": 0.6202268600463867,
+        "direct_rule_score": 0.0,
+        "path_priority_score": 0.3562071871080222,
+        "final_score": 0.4885941685813401,
+        "matched_seed_events": [
+          "Phạm tội chưa đạt có khung tù có thời hạn"
+        ],
+        "path_ids": [
+          5
+        ]
+      }
+    }
+  ],
+  "uncertain_evidence": [],
+  "removed_evidence": [],
+  "consistency_score": 0.7279396157801152,
+  "confidence": 0.7279396157801152,
+  "final_decision": "SUPPORTED",
+  "decision_score": 0.7279396157801152,
+  "decision_explanation": "Primary multi-hop path hợp lệ và hỗ trợ quan hệ nguyên nhân → hệ quả được hỏi.",
+  "primary_path_ids": [
+    0
+  ],
+  "query_analysis": {
+    "normalized_query": "người phạm tội chưa đạt phải chịu trách nhiệm hình sự như thế nào?",
+    "claim_type": "STANDARD_CAUSAL",
+    "intent_detection_version": "2.0-explicit-intervention",
+    "has_direct_indicator": false,
+    "has_remove_indicator": false,
+    "has_remains_indicator": false,
+    "has_disappears_indicator": false,
+    "has_necessary_indicator": false,
+    "has_counterfactual_indicator": false,
+    "has_explicit_counterfactual_indicator": false,
+    "has_conditional_indicator": false,
+    "conditional_antecedent_only": false,
+    "counterfactual_mode": "structural_scm",
+    "path_verification_method": "legal_scm_do_intervention",
+    "structural_fallback_used": false,
+    "structural_fallback_reason": "",
+    "factual_outcome": "true"
+  },
+  "verification_method": "legal_scm_do_intervention"
+}
