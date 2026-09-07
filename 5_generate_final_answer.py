@@ -1726,7 +1726,17 @@ class ExtractiveFallbackProvider(BaseLLMProvider):
 
     def _final_outcome_answer(self, primary_path: FinalPath) -> str:
         names = self._path_names(primary_path)
-        outcome = self._clean_label(
+        primary_evidence = [
+            item for item in self.evidence if item.is_primary_path_evidence
+        ]
+        if not primary_evidence:
+            primary_evidence = list(self.evidence)
+
+        final_rule = self._find_final_rule(primary_path, primary_evidence)
+        legal_effect = self._clean_label(
+            final_rule.effect if final_rule is not None else ""
+        )
+        outcome = legal_effect or self._clean_label(
             primary_path.outcome_event_name
             or primary_path.outcome_event_id
             or (names[-1] if names else "")
