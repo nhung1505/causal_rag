@@ -97,7 +97,7 @@ COUNTERFACTUAL_MODES = (
     "path_ablation",
 )
 
-PIPELINE_RUNNER_VERSION = "2.0-primary-path-aware"
+PIPELINE_RUNNER_VERSION = "2.1-query-aware-answer"
 
 
 # ============================================================
@@ -987,6 +987,12 @@ def build_prediction(
                 final_answer.get("query_analysis")
                 or query_analysis
             ),
+            "answer_intent": safe_string(
+                final_answer.get("answer_intent")
+                or (final_answer.get("generation_metadata") or {}).get(
+                    "answer_intent"
+                )
+            ),
             "confidence": safe_float(final_answer.get("confidence")),
             "consistency_score": safe_float(
                 final_answer.get("consistency_score")
@@ -998,6 +1004,19 @@ def build_prediction(
         "pipeline_metadata": {
             "status": "SUCCESS",
             "runner_version": PIPELINE_RUNNER_VERSION,
+            "step4_version": safe_string(
+                (verification.get("configuration") or {}).get(
+                    "step4_version"
+                )
+            ),
+            "step5_version": safe_string(
+                (final_answer.get("generation_metadata") or {}).get(
+                    "step5_version"
+                )
+            ),
+            "answer_intent": safe_string(
+                final_answer.get("answer_intent")
+            ),
             "elapsed_seconds": round(elapsed_seconds, 4),
             "completed_at_utc": now_iso(),
         },
@@ -1056,6 +1075,9 @@ class BatchPipelineRunner:
     def _validate_module_compatibility(self) -> None:
         verifier_version = safe_string(
             getattr(self.verifier_module, "STEP4_VERSION", "")
+        )
+        answer_version = safe_string(
+            getattr(self.answer_module, "STEP5_VERSION", "")
         )
 
         if (
@@ -1130,6 +1152,10 @@ class BatchPipelineRunner:
         print(
             "Step 4 version:",
             verifier_version or "legacy/unknown",
+        )
+        print(
+            "Step 5 version:",
+            answer_version or "legacy/unknown",
         )
         print(
             "Pipeline runner version:",
@@ -1602,7 +1628,7 @@ def save_predictions(
     payload = {
         "metadata": {
             "name": "BLHS CausalRAG Pipeline Predictions",
-            "version": "2.0-primary-path-aware",
+            "version": PIPELINE_RUNNER_VERSION,
             "created_at_utc": now_iso(),
             "run_started_at_utc": run_started_at,
             "benchmark": str(benchmark_path),

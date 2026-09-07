@@ -1,0 +1,384 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\IfFontExistsTF{TeX Gyre Termes}
+  {\setmainfont{TeX Gyre Termes}}
+  {\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{}}
+\IfFontExistsTF{TeX Gyre Heros}
+  {\setsansfont{TeX Gyre Heros}}
+  {\IfFontExistsTF{Arial}{\setsansfont{Arial}}{}}
+\IfFontExistsTF{Latin Modern Mono}
+  {\setmonofont{Latin Modern Mono}[Scale=MatchLowercase]}
+  {\IfFontExistsTF{Consolas}{\setmonofont{Consolas}[Scale=MatchLowercase]}{}}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
+\newcommand{\todo}[1]{\textcolor{red!75!black}{\textbf{TODO:} #1}}
+\newcommand{\stateT}{\mathsf{T}}
+\newcommand{\stateF}{\mathsf{F}}
+\newcommand{\stateU}{\mathsf{U}}
+\newcommand{\doop}{\operatorname{do}}
+\newcommand{\system}{\textsc{CausalRAG}}
+\setlist{nosep,leftmargin=*}
+
+\title{Structural Counterfactual Verification over Legal Causal Graphs\\for Multi-Hop Retrieval-Augmented Question Answering}
+\author{\todo{Insert author names, affiliations, and contact email}}
+\date{Draft v1 --- 4 September 2026}
+
+\hypersetup{
+  pdftitle={Structural Counterfactual Verification over Legal Causal Graphs for Multi-Hop Retrieval-Augmented Question Answering},
+  pdfauthor={Authors to be added}
+}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textcolor{red!75!black}{\textbf{Draft status:} preliminary Step~4 v4.0 results; the paired v4.1 rerun is pending.}\par
+\small\todo{Select the target venue and add funding/acknowledgment information before submission.}
+\end{center}
+
+\begin{abstract}
+We study multi-hop question answering over Vietnamese criminal-law rules by combining dense retrieval with an explicit \emph{legal causal graph} and structural counterfactual verification. From 2,884 normalized rules, the implemented pipeline constructs a heterogeneous graph containing 5,134 nodes, including 1,814 legal-event nodes, and 2,884 rule-provenanced \textsc{causes} edges (2,122 unique event pairs). Query and rule/event representations are retrieved with a multilingual embedding model, expanded over bounded causal paths, and reranked using semantic, graph-support, bridge-event, and path-priority signals. A deterministic normative model, \textsc{LegalSCM}, then evaluates three-valued rule mechanisms and compares a factual world for an oriented path $A\rightarrow M\rightarrow Y$ with an intervened world under $\doop(M=\stateF)$. We explicitly distinguish this intervention from a node-deletion reachability ablation.
+
+On a graph-derived benchmark of 250 questions, preliminary v4.0 runs achieved complete prediction coverage, Rule Recall@5 of 0.6953, Event Recall@5 of 0.7466, top-1 exact-path accuracy of 0.3520, verification accuracy of 0.8720, and answer token F1 of 0.2374. Structural and node-deletion modes produced identical reported quality metrics, while structural verification required 3.25$\times$ the mean per-sample runtime. Moreover, all 20 samples flagged as counterfactual test absent direct edges rather than mediator interventions, and every emitted structural intervention in an auxiliary audit was labeled \textsc{necessary}. These findings do not establish an accuracy advantage for the structural model; instead, they expose a benchmark--method mismatch and motivate a balanced intervention benchmark with \textsc{necessary}, \textsc{non-necessary}, and \textsc{indeterminate} cases. The model is normative over encoded legal rules, not a method for causal discovery or observational effect estimation.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+Retrieval-augmented generation (RAG) gives a language model access to non-parametric evidence at inference time \citep{lewis2020rag}. However, conventional similarity retrieval does not by itself represent the ordered mechanisms required by many multi-hop questions. A response can retrieve individually relevant rules while omitting the bridge event that connects a legal condition to its final consequence. Graph-based retrieval addresses part of this problem by making relationships traversable \citep{edge2024graphrag,gutierrez2024hipporag}, but a generic entity graph and a \emph{causal graph} are not interchangeable: the latter assigns directional condition--effect semantics to edges.
+
+This work focuses on Vietnamese criminal-law questions whose supporting reasoning can be represented as rule-provenanced event chains. For example, a query may require the sequence $A\rightarrow M\rightarrow Y$, where one legal condition activates an intermediate legal status and that status activates a final consequence. The central question is not only whether the graph contains this path, but also what the implemented rule model predicts if the mediator is set absent. Deleting $M$ from a graph and checking reachability is a useful topology baseline, yet it is not equivalent to the intervention $\doop(M=\stateF)$ in a structural causal model \citep{pearl2009causality}. The former edits a search space; the latter disables incoming mechanisms, fixes the variable, and recomputes downstream states.
+
+We present \system, an implemented pipeline that emphasizes the legal causal graph throughout retrieval and verification. Its current contribution is methodological and diagnostic rather than a claim of state-of-the-art performance. In particular, directly related work already explores causal graphs and counterfactual reasoning in RAG \citep{wang2025causalrag,wang2026causalrag2,khadilkar2025causalcounterfactualrag,qin2026cfrag}. Our scope is narrower: a rule-derived legal graph, an auditable deterministic normative model, and an explicit comparison between hard intervention and node-deletion reachability.
+
+The draft makes four concrete contributions:
+\begin{enumerate}
+  \item an end-to-end architecture that builds and retrieves over a typed legal causal graph while preserving rule and article provenance;
+  \item a three-valued fixed-point \textsc{LegalSCM} with hard interventions, conflict reporting, and factual/counterfactual traces;
+  \item a query-aware verification layer that distinguishes ordinary conditionals, direct-edge claims, and explicit mediator-removal claims; and
+  \item a transparent preliminary evaluation that reports a null quality ablation, runtime overhead, intent-version mismatch, and inadequacy of the current counterfactual subset.
+\end{enumerate}
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{RAG, graph retrieval, and multi-hop QA}
+RAG combines parametric generation with externally retrieved evidence \citep{lewis2020rag}. Multi-hop QA datasets such as HotpotQA demonstrate that answer quality and explainability depend on retrieving multiple supporting facts in the correct relation \citep{yang2018hotpotqa}. GraphRAG organizes entities and community summaries for global question-focused summarization \citep{edge2024graphrag}, while HippoRAG combines a knowledge graph and graph propagation for associative retrieval \citep{gutierrez2024hipporag}. These approaches motivate structured retrieval, but their graph edges need not encode legal condition--effect mechanisms. Our retriever instead traverses only normalized \textsc{causes} relations between legal events and keeps the supporting rule identifiers on each hop. Dense seed retrieval uses BGE-M3, a multilingual embedding model \citep{chen2024bgem3}.
+
+\subsection{Causal and counterfactual RAG}
+Recent systems explicitly connect causal structure and RAG. CausalRAG traces causal relationships during retrieval \citep{wang2025causalrag}, and CausalRAG2 studies hierarchical causal knowledge-graph organization \citep{wang2026causalrag2}. Causal-Counterfactual RAG combines causal evidence with hypothetical alternatives \citep{khadilkar2025causalcounterfactualrag}; CF-RAG uses counterfactual queries to separate causally decisive from correlated evidence \citep{qin2026cfrag}. These studies preclude an unsupported priority claim for the general combination of causality, counterfactual reasoning, and RAG. The distinguishing design studied here is an executable normative rule model over legal events, together with a diagnostic ablation that makes the semantic difference between $\doop(M=\stateF)$ and node deletion explicit. A systematic head-to-head comparison with these systems remains future work.
+
+\subsection{Legal QA and retrieval benchmarks}
+CaseHOLD evaluates legal holding selection \citep{zheng2021casehold}; LegalBench collects a broad range of expert-designed legal reasoning tasks \citep{guha2023legalbench}; and LegalBench-RAG focuses on precise legal retrieval \citep{alami2024legalbenchrag}. These resources establish the need for domain-specific evaluation, but they do not directly evaluate Vietnamese criminal-law event chains under structural intervention. Our current benchmark is graph-derived and therefore complementary rather than directly comparable. It also lacks independent expert validation, a limitation discussed in \S\ref{sec:limitations}.
+
+\section{Problem Formulation and Scope}
+\label{sec:problem}
+
+\subsection{Rule-derived legal causal graph}
+Let the heterogeneous graph be $G=(V,E)$ with node partitions for articles, rules, legal events, and legal subjects:
+\[
+V=V_{\mathrm{article}}\cup V_{\mathrm{rule}}\cup V_{\mathrm{event}}\cup V_{\mathrm{subject}}.
+\]
+Each normalized rule $r$ links a condition event $C_r$ to an effect event $E_r$. The heterogeneous graph stores article/rule/subject membership and a directed event edge $C_r\rightarrow E_r$ labeled \textsc{causes}. Parallel rules may support the same event pair; their rule and article identifiers are retained as provenance. The event projection $G_E$ collapses parallel edges while retaining their support count and identifiers.
+
+The canonical schema can represent a mechanism
+\[
+r:\quad \bigwedge_{\ell\in\mathcal{C}_r}\ell
+\ \wedge\ \neg\bigvee_{z\in\mathcal{X}_r}z
+\ \Longrightarrow\ (E_r=s_r),
+\]
+where $\mathcal{C}_r$ is a set of condition literals and $\mathcal{X}_r$ a set of exceptions. The current legacy corpus adapter, however, instantiates exactly one positive condition, no exception, and one positive effect. Thus exception handling is an engine capability, not an empirically evaluated property of the present corpus.
+
+\subsection{Multi-hop and counterfactual tasks}
+Given a Vietnamese query $q$, the retrieval task is to return relevant rules, events, and an ordered causal path. For a two-hop query, a candidate path is oriented as $P=(A,M,Y)$. The factual verification task asks whether rule mechanisms activated from context $\{A=\stateT\}$ support $Y=\stateT$ and cover both hops. An explicit mediator-removal claim additionally asks for the state of $Y$ under $\doop(M=\stateF)$.
+
+We separate three notions that are often conflated:
+\begin{enumerate}
+  \item \textbf{path existence}: $A\leadsto Y$ occurs in the encoded event graph;
+  \item \textbf{bounded reachability necessity}: removing $M$ eliminates all discovered $A\leadsto Y$ paths under a fixed search budget; and
+  \item \textbf{structural necessity in a context}: the normative model yields $Y=\stateT$ factually and $Y=\stateF$ after $\doop(M=\stateF)$.
+\end{enumerate}
+Only the third is treated as a structural counterfactual result in this paper.
+
+\subsection{Interpretive boundary}
+The word \emph{causal} refers to the direction encoded by normalized legal condition--effect rules. We do not learn the graph from observational data, identify population effects, estimate ATE/CATE, or claim that an edge establishes real-world physical or legal causation. \textsc{LegalSCM} is a deterministic normative inference model over the supplied encoding. Its output is only as valid as the extraction, normalization, modality handling, and legal currency of those rules.
+
+\section{System and Method}
+\label{sec:method}
+
+\begin{figure}[t]
+\centering
+\fbox{\begin{minipage}{0.94\linewidth}
+\centering\small
+Normalized legal rules $\rightarrow$ typed legal causal graph $G$
+$\rightarrow$ rule/event embedding memory $\rightarrow$ semantic event seeds
+$\rightarrow$ bounded causal path expansion $\rightarrow$ path-aware rule evidence
+$\rightarrow$ query-aware structural verification $\rightarrow$ grounded answer and citations.
+\end{minipage}}
+\caption{Implemented \system{} pipeline. The graph is causal in the rule-encoding sense; it is not a generic document/entity graph.}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Graph construction and causal memory}
+Step~1 creates a directed heterogeneous multigraph with node types \textsc{article}, \textsc{rule}, \textsc{event}, and \textsc{subject}, and edge types \textsc{has-rule}, \textsc{has-subject}, \textsc{has-condition}, \textsc{has-effect}, and \textsc{causes}. A \textsc{causes} edge contains rule/article provenance, normalized and original event information, modalities, source metadata, and quality fields. The event projection merges parallel edges and records a support count.
+
+Step~2 constructs a joint memory of rule and event records. Rule texts concatenate subject, condition, effect, normalized event identifiers/names, modality, causal type, and article metadata. Event texts aggregate aliases, contexts, roles, and article occurrences. BGE-M3 generates normalized vectors, and an inner-product FAISS index supports dense retrieval. Inner product is used as a relevance signal; it is not interpreted as legal confidence or a calibrated probability.
+
+\subsection{Causal multi-hop retrieval}
+For query $q$, the retriever selects up to eight event seeds and eight direct rule hits from a semantic pool of 100. It expands each event forward, backward, or in both directions with maximum depth $H=2$ and at most 30 retained paths per event. The lexical direction heuristic favors backward expansion for cause-seeking questions and forward expansion for consequence-seeking questions.
+
+For path $P$ with $h$ edges and per-edge support counts $c_i$, define
+\begin{align}
+ s_{\mathrm{sup}}(P)
+ &=\min\!\left(1,\frac{1}{h\log 4}\sum_{i=1}^{h}\log(1+\max(1,c_i))\right),\\
+ s_{\mathrm{path}}(P)
+ &=\operatorname{clip}\!\left(0.54s_{\mathrm{seed}}+0.28s_{\mathrm{sup}}
+ +b_{\mathrm{bridge}}+b_{\mathrm{hop}},0,1\right),
+ \label{eq:path}
+\end{align}
+where $b_{\mathrm{bridge}}=\min(0.18,0.06n_{\mathrm{bridge}})$ and $b_{\mathrm{hop}}=0.18$ for exactly $H$ hops (otherwise $0.03h/H$). Candidate rules are then reranked by
+\begin{equation}
+ s_{\mathrm{rule}}=0.32s_{\mathrm{sem}}+0.36s_{\mathrm{graph}}
+ +0.10s_{\mathrm{seed}}+0.07s_{\mathrm{direct}}+0.15s_{\mathrm{priority}}.
+ \label{eq:rule}
+\end{equation}
+At most 200 candidate rules are scored and 12 evidence rules are returned. These hand-set scores prioritize complete two-hop paths; they are not learned or calibrated.
+
+\subsection{Three-valued normative LegalSCM}
+Each event variable has state $X_e\in\{\stateT,\stateF,\stateU\}$. Rules are repeatedly evaluated until support assignments stabilize. A rule activates when all condition literals match settled states and no exception literal matches. Events produced by at least one rule are treated as endogenous and default to $\stateF$ if no active mechanism supports them; roots remain $\stateU$ unless context supplies a state. If both $\stateT$ and $\stateF$ support an event, its effective state is $\stateU$ and the conflict is reported rather than resolved by priority.
+
+A hard intervention on event $M$ takes precedence over context, blocks every rule whose effect is $M$, and fixes its support to the assigned value. For an oriented path $A\rightarrow M\rightarrow Y$, Step~4 evaluates
+\begin{equation}
+ w_F=\operatorname{Infer}(\{A=\stateT\}),\qquad
+ w_{\doop}=\operatorname{Infer}(\{A=\stateT\},\doop(M=\stateF)).
+ \label{eq:do}
+\end{equation}
+The implementation uses \texttt{recompute\_endogenous\_context=False} and \texttt{recompute\_outcome=True}; the supplied context contains only the root seed $A$. The engine returns factual/intervened states, activated and blocked rule identifiers, conflicts, traces, disabled mechanisms, newly activated mechanisms, and alternative rules producing the outcome.
+
+For removal interventions, the full engine labels a result \textsc{necessary} when $M_F=\stateT$, $Y_F=\stateT$, and $Y_{\doop}=\stateF$; \textsc{non-necessary} when $M_F=\stateT$, $Y_F=\stateT$, and $Y_{\doop}=\stateT$; and \textsc{indeterminate} if required states are unknown. It also supports \textsc{sufficient}, \textsc{no-effect}, and generic \textsc{outcome-changed} statuses. The Step~4 path verifier maps only the conditions needed by mediator-removal claims to \textsc{necessary}, \textsc{non-necessary}, or \textsc{unresolved}.
+
+\subsection{Structural path and claim verification}
+Before intervention, each retrieved path must form consecutive \textsc{causes} edges, yield factual $Y=\stateT$, activate at least one expected supporting rule per hop, and contain no conflict on its path events. For each mediator, Step~4 runs Equation~\ref{eq:do}. Structural failure is explicit: if rules cannot be loaded, inference fails, or the path cannot be normalized, the system records a fallback reason and returns the topology baseline rather than silently presenting it as a structural result.
+
+A primary path is selected by status, exact two-hop completion, hop coverage, structural consistency, path score, and stable path order. A regex/lexicon layer classifies queries as standard causal, direct causal, explicit mediator-removal with outcome remaining/disappearing, mediator-necessity, or underspecified counterfactual. In v4.1, an ordinary conditional such as ``if $A$, then what is $Y$?'' remains standard causal; explicit removal, absence, or $\doop(\cdot=\stateF)$ language is required to trigger a counterfactual intent. This layer is heuristic, not a learned semantic parser.
+
+Evidence verification combines path support, counterfactual consistency, semantic relevance, and graph score with weights 0.38, 0.32, 0.16, and 0.14. Evidence on the primary path receives a 0.12 bonus. The benchmark run uses the deterministic extractive answer provider, which follows the Step~4 decision and selected rules. Citation repair checks identifier validity but does not prove semantic entailment.
+
+\subsection{Node-deletion reachability ablation}
+The \texttt{path\_ablation} mode removes a mediator node from $G_E$ and enumerates simple alternative $A\leadsto Y$ paths with cutoff three and at most 30 results. No alternative gives \textsc{necessary}; a best alternative score of at least 0.35 gives \textsc{non-necessary}; a weaker discovered alternative gives \textsc{partially-necessary}. This is a bounded topology diagnostic:
+\[
+G_{-M}=G_E[V_{\mathrm{event}}\setminus\{M\}].
+\]
+It neither fixes a variable's structural value nor recomputes rule mechanisms and therefore must not be called an implementation of the do-operator.
+
+\section{Data and Experimental Protocol}
+\label{sec:experiments}
+
+\subsection{Rules and graph}
+The current normalized corpus contains 2,884 rule records. Table~\ref{tab:graph} distinguishes heterogeneous multiedges from unique event pairs, which were previously both described informally as ``causal edges.''
+
+\begin{table}[t]
+\centering
+\small
+\caption{Rule and graph inventory used by the preliminary experiments.}
+\label{tab:graph}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Item & Count \\
+\midrule
+Normalized rules / \textsc{causes} rule edges & 2,884 \\
+Legal event nodes & 1,814 \\
+Article nodes & 395 \\
+Rule nodes & 2,884 \\
+Subject nodes & 41 \\
+All heterogeneous nodes & 5,134 \\
+All heterogeneous edges & 14,420 \\
+Unique event-to-event causal pairs & 2,122 \\
+Bridge event nodes & 14 \\
+Enumerated two-hop chains & 112 \\
+Weakly connected components & 248 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Benchmark}
+The BLHS benchmark contains 250 Vietnamese questions generated from graph-supported structures. Table~\ref{tab:benchmark} gives its exact distribution. All questions have gold rules and events; 236 have a linear gold path. The remaining 14 branch/convergence samples are still included in the official path-metric denominator even though a single linear path cannot represent their full support structure.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Question distribution in the 250-sample benchmark.}
+\label{tab:benchmark}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Question type & Count \\
+\midrule
+Forward multi-hop & 70 \\
+Reverse reasoning & 45 \\
+Bridge event & 40 \\
+Causal-chain explanation & 35 \\
+Positive yes/no & 20 \\
+Direct-edge counterexample & 20 \\
+Branch reasoning & 4 \\
+Convergence reasoning & 10 \\
+Bridge/convergence fallback & 6 \\
+\midrule
+Total & 250 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+There are 230 gold \textsc{supported} decisions and 20 \textsc{reject-direct-claim} decisions. The latter 20 are all marked \texttt{requires\_counterfactual=true}, but their gold target only states that $A\rightarrow Y$ is absent while $A\rightarrow M\rightarrow Y$ exists. They do not specify factual/intervened states or $\doop(M=\stateF)$.
+
+\subsection{Compared modes and version provenance}
+We compare \texttt{structural\_scm} with \texttt{path\_ablation} while holding retrieval, primary-path selection, evidence selection, and extractive generation fixed. Both runs completed 250/250 samples without pipeline errors. The saved predictions identify Step~4 as \texttt{4.0-query-aware-legal-scm}. Source code now identifies v4.1, whose intent detector corrects false counterfactual triggers caused by ordinary Vietnamese conditionals. Because a full paired v4.1 rerun is pending, all numerical results below remain labeled preliminary v4.0.
+
+An auxiliary audit of the structural artifacts counted 8,882 structurally evaluated paths, no structural fallbacks, and 3,393 mediator-intervention records; all emitted interventions were \textsc{necessary}. These counts are not currently aggregated by Step~7 and are therefore diagnostic rather than official metrics.
+
+\subsection{Metrics}
+We report Rule/Event Recall@5, ordered top-1 exact-path accuracy, oracle exact-path accuracy over retrieved candidates, verification accuracy, answer token F1/exact match, citation F1, and runtime. Oracle path accuracy diagnoses candidate generation and must not be interpreted as deployable performance. Step~7 computes verification macro-F1 and balanced accuracy only over classes with nonzero gold support; because \textsc{uncertain} has zero gold support, these values appear high despite 32 \textsc{uncertain} predictions. The flagged ``counterfactual subset'' is reported only with the direct-edge-negative qualification above.
+
+\section{Preliminary Results}
+\label{sec:results}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Preliminary Step~4 v4.0 results. Identical quality values mean that the present artifacts do not demonstrate a structural-SCM accuracy gain.}
+\label{tab:results}
+\begin{tabularx}{\linewidth}{@{}Xrr@{}}
+\toprule
+Metric & Structural SCM & Path ablation \\
+\midrule
+Prediction coverage & 1.000000 & 1.000000 \\
+Rule Recall@5 & 0.695333 & 0.695333 \\
+Event Recall@5 & 0.746600 & 0.746600 \\
+Top-1 exact path & 0.352000 & 0.352000 \\
+Oracle exact path & 0.712000 & 0.712000 \\
+Verification accuracy & 0.872000 & 0.872000 \\
+Verification macro-F1$^{\dagger}$ & 0.962617 & 0.962617 \\
+Balanced accuracy$^{\dagger}$ & 0.930435 & 0.930435 \\
+Flagged subset verification$^{\ddagger}$ & 1.000000 & 1.000000 \\
+Flagged-subset answer token F1 & 0.257788 & 0.257788 \\
+Overall answer token F1 & 0.237401 & 0.237401 \\
+Answer exact match & 0.000000 & 0.000000 \\
+Citation F1 & 0.539204 & 0.539204 \\
+Mean runtime (s/sample) & 3.891816 & 1.195917 \\
+Observed wall time (s) & 1291.6548 & 450.3882 \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}
+\parbox{\linewidth}{\footnotesize $^{\dagger}$Averages exclude labels with zero gold support. $^{\ddagger}$The 20 flagged samples are absent-direct-edge tests, not gold structural interventions.}
+\end{table}
+
+\subsection{Retrieval and path ranking}
+Rule and event recall indicate that relevant material is often retrieved, but selecting the correct ordered path remains difficult. The gap between top-1 exact path (35.2\%) and oracle exact path (71.2\%) corresponds to 90 cases in which an exact candidate exists but is not ranked first; 72 cases have no exact candidate. Thus ranking and primary-path selection are at least as important as candidate generation. Reverse-reasoning questions are the weakest group (top-1 exact 8.89\%, oracle exact 26.67\%), suggesting that direction detection and backward path ranking require targeted improvement.
+
+\subsection{Verification and answer generation}
+The v4.0 confusion matrix contains 198 correctly supported samples, 32 gold-supported samples predicted \textsc{uncertain}, and all 20 direct-edge negatives correctly rejected. Verification accuracy is therefore 87.2\%. The 96.26\% macro-F1 should not be read independently of the zero-support-class convention. End-to-end answer quality remains low: token F1 is 23.74\%, normalized exact match is zero, and citation F1 is 53.92\%. A high verification score consequently does not imply a complete natural-language answer.
+
+\subsection{Null ablation and cost}
+All quality metrics consumed by Step~7 are identical across modes, and the prior paired audit found no differences in evaluated decisions, selected paths, answers, or citations. The structural mode nevertheless provides world states and rule-level intervention traces that node deletion cannot provide. This additional computation costs 3.254$\times$ in mean per-sample runtime and 2.868$\times$ in observed wall time. Because the runs were sequential and the logs do not pin hardware or cache warmth, these ratios are observational, not a controlled systems benchmark.
+
+The scientifically defensible conclusion is therefore a \emph{null quality ablation under the current benchmark}, not structural superiority. The trace may still be useful for audit, but its utility requires separate human or task-based evaluation.
+
+\section{Error Analysis and Benchmark Validity}
+\label{sec:analysis}
+
+\subsection{Intent-version mismatch}
+In v4.0, ordinary questions beginning with Vietnamese ``Nếu'' (``if'') could be treated as underspecified counterfactuals, causing a structurally supported path to yield \textsc{uncertain}. Current v4.1 source requires explicit removal/absence/intervention cues, applies grammar-aware necessity patterns, and gives negative ``no longer occurs'' wording precedence over overlapping ``still occurs'' text. Static validation on all 250 queries yields 230 \textsc{standard-causal} and 20 \textsc{direct-causal-claim} classifications with no expected-type mismatch; 12 synthetic intent cases also pass. This is code-level validation, not an end-to-end v4.1 result. \todo{Replace v4.0 tables only after importing complete paired v4.1 runs; do not report a projected accuracy as measured performance.}
+
+\subsection{Counterfactual-label mismatch}
+Every one of the 20 gold-flagged samples is a direct-edge claim. These questions are answered by testing whether $A\rightarrow Y$ exists and therefore bypass mediator world-state reasoning. Only 23 v4.0 queries used the \texttt{legal\_scm\_world\_state} decision signal, and none belonged to the gold-flagged subset. Consequently, 100\% accuracy on that subset does not validate Equation~\ref{eq:do}.
+
+\subsection{Lack of discriminative interventions}
+All 3,393 emitted interventions in the auxiliary audit were labeled \textsc{necessary}; no \textsc{non-necessary} or \textsc{indeterminate} intervention was exercised. A model that always predicts necessity for an eligible retrieved chain would therefore look successful on this diagnostic distribution. Balanced intervention labels and active alternative mechanisms are required to distinguish structural recomputation from topology deletion.
+
+\subsection{Path and answer errors}
+Four branch and ten convergence samples have no single complete linear gold path, yet they contribute zeros to the official linear-path metric. Conditional on the 236 samples with a linear gold path, simple sensitivity arithmetic gives 88/236=37.29\% top-1 exact and 178/236=75.42\% oracle exact; these are not official Step~7 values. Separately, extractive answers are shorter than gold answers on average (21.9 versus 45.1 tokens), contributing to low recall and zero exact match. Future evaluation should separate factual decision correctness, explanation completeness, and citation entailment.
+
+\section{Limitations, Threats to Validity, and Responsible Use}
+\label{sec:limitations}
+\begin{enumerate}
+  \item \textbf{Graph-derived circularity.} Questions and negatives are constructed from the same graph being retrieved. Results measure recovery of an encoding, not external legal truth or out-of-distribution generalization.
+  \item \textbf{No independent legal audit.} Rules, event normalization, benchmark answers, and citations have not yet received documented independent expert review. The system must not be used as legal advice.
+  \item \textbf{Normative simplification.} Modal language such as ``may'' can be converted into deterministic positive mechanisms. The current adapter has one condition and no exceptions; it does not evaluate rule priority, defeasibility, legal hierarchy, temporal validity, or competing interpretations.
+  \item \textbf{Restricted counterfactual model.} The factual context is $\{A=\stateT\}$, roots otherwise remain unknown, and endogenous events use a closed-world default. There is no latent-variable abduction step. Results are context-specific simulations, not fully identified real-world counterfactuals.
+  \item \textbf{Bounded search.} Two-hop retrieval and three-hop ablation can miss longer alternatives. ``No alternative path'' means none was found within the configured graph and budget.
+  \item \textbf{Heuristic intent and entity matching.} Vietnamese regex cues and substring mediator matching may fail under paraphrase, ambiguity, negation, or unseen terminology.
+  \item \textbf{Metric limitations.} The current counterfactual flag measures direct-edge negatives; linear path metrics penalize non-linear structures; macro-F1 omits the zero-support class; citation validity is identifier-level rather than semantic entailment.
+  \item \textbf{Version and runtime confounds.} Reported artifacts use v4.0 while source is v4.1. Runtime lacks pinned hardware and cold/warm-cache controls.
+  \item \textbf{Limited external comparison.} This draft does not yet compare against vanilla RAG, generic graph RAG, LLM-only systems, or published causal/counterfactual RAG implementations under a shared protocol.
+\end{enumerate}
+
+\section{Next Experimental Stage}
+\label{sec:future}
+The immediate next stage has two parts. First, both modes must be rerun with v4.1 from identical cached retrieval inputs, with commit/data hashes, hardware, and per-sample paired differences recorded. The report should aggregate SCM attempted/used paths, hop coverage, fallback reasons, intervention classes, and outcome transitions.
+
+Second, a balanced structural-counterfactual benchmark should define each item as
+\[
+(q,\ C_F,\ \doop(M=m),\ Y_F,\ Y_{\doop},\ z),
+\]
+where $C_F$ is the factual context and $z$ is a gold status. At minimum, the set should balance \textsc{necessary}, \textsc{non-necessary}, and \textsc{indeterminate}; additional \textsc{sufficient} and \textsc{no-effect} cases would exercise the full engine. Non-necessary cases must contain active alternative mechanisms, while indeterminate cases should expose unknown roots, conflicts, or incomplete rules. Legal experts should review both factual and intervened interpretations.
+
+Further work should add conjunctive conditions and encoded exceptions, improve reverse path ranking, evaluate non-linear path sets, compare against external baselines, and measure whether rule/world traces help human reviewers detect incorrect answers. \todo{Pre-register final hypotheses, primary metrics, and exclusion rules before running the definitive benchmark.}
+
+\section{Conclusion}
+\label{sec:conclusion}
+This paper draft describes a CausalRAG pipeline in which the central retrieval object is a legal causal graph and the verification object is an executable normative rule model. The implementation can validate an oriented factual chain and recompute an outcome after a hard mediator intervention, while retaining node deletion as an explicitly weaker topology ablation. Preliminary v4.0 results show useful retrieval coverage but substantial path-ranking and answer-generation errors, identical quality metrics between verification modes, and significant structural runtime overhead. Most importantly, the existing ``counterfactual'' subset does not test structural intervention and the emitted interventions lack label diversity. The next defensible claim therefore depends not on another aggregate accuracy number, but on a version-aligned, expert-reviewed, balanced structural-counterfactual benchmark.
+
+\appendix
+
+\section{Reproducibility Checklist}
+\label{app:reproducibility}
+The implementation stages corresponding to this draft are:
+\begin{itemize}
+  \item \path{1_build_legal_causal_graph.py}: graph construction;
+  \item \path{2_build_causal_memory.py}: rule/event memory and FAISS index;
+  \item \path{3_multi_hop_causal_retriever.py}: semantic seeds, causal expansion, and reranking;
+  \item \path{causal_core/schema.py} and \path{causal_core/legal_scm.py}: canonical rules and normative structural inference;
+  \item \path{4_counterfactual_verification.py}: structural verification, topology ablation, and query-aware claims;
+  \item \path{5_generate_final_answer.py}: evidence selection and answer construction;
+  \item \path{5_5_generate_pipeline_predictions.py}: batched Steps~3--5;
+  \item \path{7_compute_evaluation_metrics.py}: metrics and grouped diagnostics.
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Principal fixed settings in the preliminary runs.}
+\label{tab:hyperparameters}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Component & Setting \\
+\midrule
+Embedding model & \texttt{BAAI/bge-m3} \\
+Semantic pool / event seeds / direct rules & 100 / 8 / 8 \\
+Retrieval hops / paths per seed & 2 / 30 \\
+Candidate / returned evidence rules & 200 / 12 \\
+Counterfactual search hops / paths & 3 / 30 \\
+Evidence keep / reject thresholds & 0.52 / 0.34 \\
+Answer provider & deterministic extractive \\
+Structural context / intervention & $\{A=\stateT\}$ / $\doop(M=\stateF)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\todo{Before submission, add repository URL, immutable commit, licenses, environment lockfile, random seeds, model revision, exact commands, hardware, artifact hashes, and paired v4.1 outputs.}
+
+\section{Claim Boundary Checklist}
+\label{app:claims}
+To prevent claim drift, the final manuscript should preserve the following statements: (i) the graph is derived from normalized rules rather than discovered from observations; (ii) \texttt{path\_ablation} is not a do-intervention; (iii) preliminary modes have equal reported quality; (iv) 100\% accuracy on the flagged subset tests absent direct edges, not structural counterfactual validity; (v) v4.1 end-to-end metrics are pending; and (vi) the system is a research prototype, not legal advice.
+
+\bibliographystyle{plainnat}
+\bibliography{../references}
+
+\end{document}

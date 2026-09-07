@@ -7,17 +7,19 @@ Sinh câu trả lời cuối cùng từ:
     - kết quả retrieval của bước 3;
     - kết quả counterfactual verification của bước 4.
 
-Phiên bản này ưu tiên causal path chính (primary path) và tương thích với cả:
-    1. output bước 4 mới có final_decision / primary_path_ids / query_analysis;
-    2. output bước 4 cũ chỉ có path_verifications và các nhóm evidence.
+Phiên bản 5.1 tiêu thụ trực tiếp schema query-aware của Step 4 v4.1,
+đồng thời giữ fallback có kiểm soát cho artifact cũ.
 
 Các nguyên tắc chính:
     - Evidence thuộc primary path được chọn trước và giữ đúng thứ tự rule trên path.
-    - Câu trả lời extractive lấy hệ quả của rule cuối causal path, không lấy rule có
-      semantic score cao nhất một cách máy móc.
-    - Prompt truyền trực tiếp final_decision để LLM không kết luận trái bước 4.
-    - Citation fallback chỉ dùng evidence thuộc primary path, không tự động thêm
-      toàn bộ evidence.
+    - Answer intent được suy ra từ chính câu hỏi, không đọc question_type/gold label:
+      hệ quả cuối, nguyên nhân khởi đầu, cầu nối, giải thích chuỗi, yes/no,
+      phân nhánh, hội tụ hoặc xác minh claim direct/counterfactual.
+    - Claim phản thực tế dùng world-state/intervention semantics của Step 4;
+      node-deletion không được trình bày như hard do-intervention.
+    - Prompt truyền final_decision, query_analysis và answer_intent để LLM không
+      kết luận trái Step 4 hoặc trả sai loại thông tin.
+    - Citation extractive được khử trùng theo causal edge và ưu tiên primary path.
     - Giữ nguyên API class/hàm mà 5_5_generate_pipeline_predictions.py đang gọi.
 """
 
@@ -67,6 +69,25 @@ PRIMARY_PATH_BONUS_WEIGHT = 0.10
 SUPPORTED = "SUPPORTED"
 REJECT_DIRECT_CLAIM = "REJECT_DIRECT_CLAIM"
 UNCERTAIN = "UNCERTAIN"
+
+STEP5_VERSION = "5.1-query-aware-grounded-answer"
+
+ANSWER_INTENT_FINAL_OUTCOME = "FINAL_OUTCOME"
+ANSWER_INTENT_INITIAL_CAUSE = "INITIAL_CAUSE"
+ANSWER_INTENT_BRIDGE_EVENT = "BRIDGE_EVENT"
+ANSWER_INTENT_CHAIN_EXPLANATION = "CHAIN_EXPLANATION"
+ANSWER_INTENT_YES_NO = "YES_NO"
+ANSWER_INTENT_BRANCH = "BRANCH"
+ANSWER_INTENT_CONVERGENCE = "CONVERGENCE"
+ANSWER_INTENT_CLAIM_VERIFICATION = "CLAIM_VERIFICATION"
+
+COUNTERFACTUAL_CLAIM_TYPES = {
+    "DIRECT_CAUSAL_CLAIM",
+    "REMOVE_MEDIATOR_OUTCOME_REMAINS",
+    "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS",
+    "MEDIATOR_NECESSARY_CLAIM",
+    "COUNTERFACTUAL_UNSPECIFIED",
+}
 
 
 # ============================================================
@@ -143,6 +164,7 @@ class GeneratedAnswer:
     decision_explanation: str
     primary_path_ids: list[int]
     query_analysis: dict[str, Any]
+    answer_intent: str
 
     generation_metadata: dict[str, Any]
 
@@ -228,6 +250,97 @@ def normalize_decision(value: Any) -> str:
     }
 
     return aliases.get(text, text or UNCERTAIN)
+
+
+def infer_answer_intent(
+    query: Any,
+    query_analysis: Optional[Mapping[str, Any]] = None,
+) -> str:
+    """Suy ra dạng câu trả lời chỉ từ query và phân tích claim của Step 4.
+
+    Không dùng ``question_type`` hoặc gold label của benchmark. Claim phản
+    thực tế/direct-edge luôn ưu tiên semantics Step 4; các intent còn lại chỉ
+    quyết định cách trình bày cùng một primary causal path.
+    """
+
+    analysis = as_mapping(query_analysis)
+    claim_type = safe_string(
+        analysis.get("claim_type")
+    ).upper() or "STANDARD_CAUSAL"
+    if claim_type in COUNTERFACTUAL_CLAIM_TYPES:
+        return ANSWER_INTENT_CLAIM_VERIFICATION
+
+    normalized = " ".join(safe_string(query).lower().split())
+
+    if any(
+        marker in normalized
+        for marker in (
+            "phân nhánh",
+            "những hệ quả pháp lý nào",
+            "các nhánh",
+        )
+    ):
+        return ANSWER_INTENT_BRANCH
+
+    if any(
+        marker in normalized
+        for marker in (
+            "hội tụ",
+            "những điều kiện ban đầu nào",
+            "các điều kiện hội tụ",
+        )
+    ):
+        return ANSWER_INTENT_CONVERGENCE
+
+    if any(
+        marker in normalized
+        for marker in (
+            "điều kiện ban đầu nào",
+            "sự kiện khởi đầu",
+            "suy ngược",
+            "bắt nguồn từ sự kiện nào",
+            "truy ngược",
+            "sự kiện đầu tiên",
+        )
+    ):
+        return ANSWER_INTENT_INITIAL_CAUSE
+
+    if any(
+        marker in normalized
+        for marker in (
+            "sự kiện nào là cầu nối",
+            "bước pháp lý trung gian",
+            "sự kiện trung gian nào",
+            "mắt xích còn thiếu",
+            "vừa là kết quả của bước thứ nhất",
+        )
+    ):
+        return ANSWER_INTENT_BRIDGE_EVENT
+
+    if any(
+        marker in normalized
+        for marker in (
+            "hãy giải thích chuỗi",
+            "trình bày hai bước",
+            "mô tả đường suy luận",
+            "vì sao theo graph",
+            "nêu đầy đủ mắt xích",
+        )
+    ):
+        return ANSWER_INTENT_CHAIN_EXPLANATION
+
+    if any(
+        marker in normalized
+        for marker in (
+            "hay không",
+            "đúng hay sai",
+            "có tồn tại chuỗi",
+            "nhận định sau",
+        )
+    ):
+        return ANSWER_INTENT_YES_NO
+
+    return ANSWER_INTENT_FINAL_OUTCOME
 
 
 def load_json(path: str | Path) -> dict[str, Any]:
@@ -459,6 +572,17 @@ class FinalAnswerInputStore:
         }
 
     @property
+    def answer_intent(self) -> str:
+        return infer_answer_intent(self.query, self.query_analysis)
+
+    @property
+    def step4_version(self) -> str:
+        configuration = as_mapping(
+            self.verification_result.get("configuration")
+        )
+        return safe_string(configuration.get("step4_version"))
+
+    @property
     def path_verifications(self) -> list[dict[str, Any]]:
         return [
             dict(item)
@@ -607,9 +731,42 @@ class FinalContextSelector:
             )
             paths.append(path)
 
+        primary_path = next(
+            (item for item in paths if item.is_primary),
+            paths[0] if paths else None,
+        )
+        answer_intent = self.store.answer_intent
+
+        def structure_key(path: FinalPath, *, prefix: bool) -> tuple[str, ...]:
+            values = path.event_ids or path.event_names
+            normalized = tuple(safe_string(value).lower() for value in values)
+            return normalized[:2] if prefix else normalized[-2:]
+
+        def matches_answer_structure(path: FinalPath) -> bool:
+            if primary_path is None:
+                return False
+            if answer_intent == ANSWER_INTENT_BRANCH:
+                candidate = structure_key(path, prefix=True)
+                reference = structure_key(primary_path, prefix=True)
+                return (
+                    len(candidate) == 2
+                    and len(reference) == 2
+                    and candidate == reference
+                )
+            if answer_intent == ANSWER_INTENT_CONVERGENCE:
+                candidate = structure_key(path, prefix=False)
+                reference = structure_key(primary_path, prefix=False)
+                return (
+                    len(candidate) == 2
+                    and len(reference) == 2
+                    and candidate == reference
+                )
+            return False
+
         paths.sort(
             key=lambda item: (
                 item.is_primary,
+                matches_answer_structure(item),
                 item.status.upper() == "SUPPORTED",
                 item.hop_count == 2,
                 item.hop_count,
@@ -640,13 +797,42 @@ class FinalContextSelector:
         if not primary_paths and selected_paths:
             primary_paths = [selected_paths[0]]
 
+        required_paths = list(primary_paths)
+        if (
+            primary_paths
+            and self.store.answer_intent
+            in {ANSWER_INTENT_BRANCH, ANSWER_INTENT_CONVERGENCE}
+        ):
+            reference = primary_paths[0]
+            use_prefix = self.store.answer_intent == ANSWER_INTENT_BRANCH
+
+            def structure_key(path: FinalPath) -> tuple[str, ...]:
+                values = path.event_ids or path.event_names
+                normalized = tuple(
+                    safe_string(value).lower() for value in values
+                )
+                return normalized[:2] if use_prefix else normalized[-2:]
+
+            reference_key = structure_key(reference)
+            if len(reference_key) == 2:
+                required_paths = [
+                    path
+                    for path in selected_paths
+                    if (
+                        safe_string(path.status).upper() == SUPPORTED
+                        and structure_key(path) == reference_key
+                    )
+                ]
+                if reference not in required_paths:
+                    required_paths.insert(0, reference)
+
         primary_rule_order = unique_preserve_order(
             rule_id
-            for path in primary_paths
+            for path in required_paths
             for rule_id in path.rule_ids
         )
         primary_path_ids = {
-            path.original_path_id for path in primary_paths
+            path.original_path_id for path in required_paths
         }
 
         verification_items = self._verification_evidence_items(
@@ -962,14 +1148,16 @@ Chỉ trả lời dựa trên evidence, causal path và kết quả xác minh đ
 Quy tắc bắt buộc:
 1. Không bổ sung điều luật, hình phạt, điều kiện hoặc ngoại lệ không có trong evidence.
 2. Không đưa ra kết luận trái với FINAL_DECISION.
-3. Với FINAL_DECISION=SUPPORTED, trả lời trực tiếp hệ quả cuối của primary causal path.
-4. Với FINAL_DECISION=REJECT_DIRECT_CLAIM, nêu rõ claim trong câu hỏi không được dữ liệu hỗ trợ.
-5. Với FINAL_DECISION=UNCERTAIN, phải nói rõ chưa đủ căn cứ.
-6. Mỗi nhận định pháp lý quan trọng phải gắn citation [E1], [E2], ... có trong ngữ cảnh.
-7. Ưu tiên evidence thuộc PRIMARY PATH và giữ đúng thứ tự chuỗi.
-8. Không sử dụng causal path như nguồn luật độc lập; path chỉ thể hiện thứ tự suy luận.
-9. Trả lời ngắn gọn, trực tiếp bằng tiếng Việt. Không nhắc tên file, JSON, pipeline hay điểm số kỹ thuật.
-10. Không tạo citation hoặc tài liệu ngoài danh sách evidence."""
+3. Tuân thủ ANSWER_INTENT: trả đúng loại thông tin được hỏi (hệ quả, nguyên nhân khởi đầu, sự kiện cầu nối, chuỗi, yes/no, phân nhánh, hội tụ hoặc xác minh claim).
+4. Với claim direct/counterfactual, diễn đạt theo query_analysis và world-state; không thay bằng hệ quả thực tế chung chung.
+5. Không gọi node-deletion reachability là can thiệp do hoặc kết quả cấu trúc.
+6. Với FINAL_DECISION=REJECT_DIRECT_CLAIM, nêu rõ claim trong câu hỏi không được dữ liệu hỗ trợ.
+7. Với FINAL_DECISION=UNCERTAIN, phải nói rõ chưa đủ căn cứ và không suy đoán nhị phân.
+8. Mỗi nhận định pháp lý quan trọng phải gắn citation [E1], [E2], ... có trong ngữ cảnh.
+9. Ưu tiên evidence thuộc PRIMARY PATH và giữ đúng thứ tự chuỗi.
+10. Không sử dụng causal path như nguồn luật độc lập; path chỉ thể hiện thứ tự suy luận.
+11. Trả lời ngắn gọn, trực tiếp bằng tiếng Việt. Không nhắc tên file, JSON, pipeline hay điểm số kỹ thuật.
+12. Không tạo citation hoặc tài liệu ngoài danh sách evidence."""
 
     def build(
         self,
@@ -981,6 +1169,7 @@ Quy tắc bắt buộc:
         decision_score: float,
         decision_explanation: str,
         query_analysis: dict[str, Any],
+        answer_intent: str,
         global_confidence: float,
         consistency_score: float,
         max_context_chars: int,
@@ -990,9 +1179,21 @@ Quy tắc bắt buộc:
 
 KẾT QUẢ XÁC MINH CLAIM:
 - FINAL_DECISION: {final_decision}
+- ANSWER_INTENT: {answer_intent}
 - Decision score: {decision_score:.4f}
 - Claim type: {safe_string(query_analysis.get('claim_type')) or 'STANDARD_CAUSAL'}
 - Giải thích: {decision_explanation or 'Không có giải thích bổ sung'}
+
+NGỮ NGHĨA CAN THIỆP/CLAIM TỪ STEP 4:
+- Intent detector: {safe_string(query_analysis.get('intent_detection_version')) or 'legacy/unknown'}
+- Mediator: {safe_string(query_analysis.get('matched_mediator_name') or query_analysis.get('matched_mediator_id')) or 'Không áp dụng'}
+- Trạng thái mediator thực tế: {safe_string(query_analysis.get('factual_mediator_state')) or 'Không áp dụng'}
+- Outcome thực tế: {safe_string(query_analysis.get('factual_outcome')) or 'Không áp dụng'}
+- Outcome sau can thiệp: {safe_string(query_analysis.get('counterfactual_outcome')) or 'Không áp dụng'}
+- Trạng thái intervention: {safe_string(query_analysis.get('intervention_status') or query_analysis.get('structural_status')) or 'Không áp dụng'}
+- Nguồn tín hiệu: {safe_string(query_analysis.get('counterfactual_signal_source') or query_analysis.get('path_verification_method')) or 'Không áp dụng'}
+- Structural result used: {bool(query_analysis.get('structural_result_used'))}
+- Structural fallback used: {bool(query_analysis.get('structural_fallback_used'))}
 
 ĐỘ TIN CẬY TOÀN CỤC:
 - confidence = {global_confidence:.4f}
@@ -1005,11 +1206,14 @@ CAUSAL PATH ĐÃ CHỌN:
 {self._build_path_context(paths)}
 
 YÊU CẦU ĐẦU RA:
-- Viết câu trả lời ngắn, trả lời đúng trọng tâm câu hỏi.
-- Nếu hỏi hệ quả cuối cùng, lấy effect của rule cuối PRIMARY PATH.
-- Khi path gồm nhiều bước, có thể giải thích một câu ngắn theo thứ tự E1 → E2.
-- Chỉ dùng citation của evidence thực sự được dùng.
-- Không liệt kê toàn bộ evidence nếu không cần thiết.
+- Trả đúng ANSWER_INTENT, không mặc định mọi câu hỏi đều hỏi hệ quả cuối.
+- INITIAL_CAUSE: chỉ ra sự kiện khởi đầu và chuỗi đầy đủ theo chiều nhân quả.
+- BRIDGE_EVENT: chỉ ra sự kiện trung gian của PRIMARY PATH.
+- CHAIN_EXPLANATION: trình bày từng hop theo đúng thứ tự và căn cứ tương ứng.
+- YES_NO hoặc CLAIM_VERIFICATION: mở đầu bằng Có/Không/Chưa đủ căn cứ phù hợp FINAL_DECISION.
+- BRANCH/CONVERGENCE: chỉ liệt kê các nhánh/path thực sự có trong context.
+- FINAL_OUTCOME: ưu tiên tên outcome event của PRIMARY PATH; dùng effect của rule cuối để bổ sung nếu cần.
+- Chỉ dùng citation của evidence thực sự được dùng; không liệt kê toàn bộ evidence nếu không cần thiết.
 """
 
         return self.SYSTEM_PROMPT, truncate_text(user_prompt, max_context_chars)
@@ -1219,12 +1423,16 @@ class ExtractiveFallbackProvider(BaseLLMProvider):
         final_decision: str,
         decision_explanation: str,
         confidence: float,
+        query_analysis: Mapping[str, Any],
+        answer_intent: str,
     ) -> None:
         self.evidence = evidence
         self.paths = paths
         self.final_decision = normalize_decision(final_decision)
-        self.decision_explanation = decision_explanation
+        self.decision_explanation = safe_string(decision_explanation)
         self.confidence = confidence
+        self.query_analysis = as_mapping(query_analysis)
+        self.answer_intent = safe_string(answer_intent).upper()
 
     def generate(
         self,
@@ -1248,49 +1456,381 @@ class ExtractiveFallbackProvider(BaseLLMProvider):
         if not primary_evidence:
             primary_evidence = list(self.evidence)
 
-        citation_text = " ".join(
-            f"[E{item.evidence_index}]" for item in primary_evidence
+        chain_evidence = self._deduplicate_path_evidence(primary_evidence)
+        citation_evidence = (
+            self._deduplicate_path_evidence(self.evidence)
+            if self.answer_intent
+            in {ANSWER_INTENT_BRANCH, ANSWER_INTENT_CONVERGENCE}
+            else chain_evidence
         )
-
-        if self.final_decision == REJECT_DIRECT_CLAIM:
-            explanation = self.decision_explanation or (
-                "Quan hệ được nêu trong câu hỏi không được causal graph hỗ trợ."
-            )
-            return f"Không. {explanation} {citation_text}".strip()
+        citation_text = self._citation_text(citation_evidence)
 
         if self.final_decision == UNCERTAIN:
-            return (
-                "Chưa đủ căn cứ từ dữ liệu được cung cấp để kết luận chắc chắn. "
-                f"{citation_text}"
-            ).strip()
+            detail = self.decision_explanation
+            answer = "Chưa đủ căn cứ từ dữ liệu được cung cấp để kết luận chắc chắn."
+            if detail:
+                answer = f"{answer} {detail}"
+            return self._append_citations(answer, citation_text)
 
-        if not self.evidence:
-            return "Chưa đủ căn cứ từ dữ liệu được cung cấp để trả lời câu hỏi."
+        if self.final_decision == REJECT_DIRECT_CLAIM:
+            return self._claim_answer(
+                supported=False,
+                primary_path=primary_path,
+                citation_text=citation_text,
+            )
 
-        final_rule = self._find_final_rule(primary_path, primary_evidence)
-        if final_rule is None:
-            final_rule = primary_evidence[-1] if primary_evidence else self.evidence[0]
+        if self.answer_intent == ANSWER_INTENT_CLAIM_VERIFICATION:
+            return self._claim_answer(
+                supported=True,
+                primary_path=primary_path,
+                citation_text=citation_text,
+            )
 
-        final_citation = f"[E{final_rule.evidence_index}]"
-        path_citations = citation_text or final_citation
+        if primary_path is None:
+            return self._append_citations(
+                "Chưa đủ căn cứ từ dữ liệu được cung cấp để trả lời câu hỏi.",
+                citation_text,
+            )
 
-        if final_rule.effect:
-            return (
-                f"Hệ quả cuối cùng là {final_rule.effect} "
-                f"{path_citations}."
-            ).strip()
+        if self.answer_intent == ANSWER_INTENT_INITIAL_CAUSE:
+            answer = self._initial_cause_answer(primary_path)
+        elif self.answer_intent == ANSWER_INTENT_BRIDGE_EVENT:
+            answer = self._bridge_answer(primary_path)
+        elif self.answer_intent == ANSWER_INTENT_CHAIN_EXPLANATION:
+            answer = self._chain_explanation(primary_path, chain_evidence)
+        elif self.answer_intent == ANSWER_INTENT_YES_NO:
+            answer = self._yes_no_answer(primary_path)
+        elif self.answer_intent == ANSWER_INTENT_BRANCH:
+            answer = self._branch_answer(primary_path)
+        elif self.answer_intent == ANSWER_INTENT_CONVERGENCE:
+            answer = self._convergence_answer(primary_path)
+        else:
+            answer = self._final_outcome_answer(primary_path)
 
-        outcome = ""
-        if primary_path is not None:
-            outcome = primary_path.outcome_event_name or primary_path.outcome_event_id
+        if not answer:
+            final_rule = self._find_final_rule(primary_path, primary_evidence)
+            fallback_outcome = (
+                self._clean_label(final_rule.effect)
+                if final_rule is not None
+                else ""
+            )
+            answer = (
+                f"Hệ quả cuối cùng là {self._quote(fallback_outcome)}."
+                if fallback_outcome
+                else "Chưa đủ căn cứ để xác định nội dung được hỏi."
+            )
 
-        if outcome:
-            return f"Hệ quả cuối cùng là {outcome} {path_citations}."
+        if self.answer_intent == ANSWER_INTENT_CHAIN_EXPLANATION:
+            return answer
+        return self._append_citations(answer, citation_text)
 
+    def _claim_answer(
+        self,
+        *,
+        supported: bool,
+        primary_path: Optional[FinalPath],
+        citation_text: str,
+    ) -> str:
+        claim_type = safe_string(
+            self.query_analysis.get("claim_type")
+        ).upper()
+        names = self._path_names(primary_path)
+
+        if claim_type == "DIRECT_CAUSAL_CLAIM" and len(names) >= 2:
+            start = self._quote(names[0])
+            outcome = self._quote(names[-1])
+            if supported:
+                answer = (
+                    f"Có. Graph có cạnh CAUSES trực tiếp từ {start} "
+                    f"đến {outcome}."
+                )
+            else:
+                answer = (
+                    f"Không. Graph không thể hiện một cạnh trực tiếp từ "
+                    f"{start} đến {outcome}."
+                )
+                mediators = names[1:-1]
+                if mediators:
+                    mediator_text = ", ".join(
+                        self._quote(item) for item in mediators
+                    )
+                    answer += (
+                        " Kết quả này chỉ được hỗ trợ qua sự kiện "
+                        f"trung gian {mediator_text}."
+                    )
+            return self._append_citations(answer, citation_text)
+
+        prefix = "Có." if supported else "Không."
+        explanation = self.decision_explanation
+        if not explanation:
+            mediator = safe_string(
+                self.query_analysis.get("matched_mediator_name")
+                or self.query_analysis.get("matched_mediator_id")
+            )
+            factual_outcome = safe_string(
+                self.query_analysis.get("factual_outcome")
+            )
+            counterfactual_outcome = safe_string(
+                self.query_analysis.get("counterfactual_outcome")
+            )
+            if mediator and counterfactual_outcome:
+                explanation = (
+                    f"Sau khi đặt {self._quote(mediator)} vắng mặt, "
+                    f"outcome chuyển từ {factual_outcome or 'không rõ'} "
+                    f"sang {counterfactual_outcome}."
+                )
+            else:
+                explanation = "Claim được đối chiếu với primary causal path."
+
+        return self._append_citations(
+            f"{prefix} {explanation}",
+            citation_text,
+        )
+
+    def _initial_cause_answer(self, primary_path: FinalPath) -> str:
+        names = self._path_names(primary_path)
+        if not names:
+            return ""
+        answer = f"Sự kiện khởi đầu là {self._quote(names[0])}."
+        if len(names) >= 2:
+            answer += " Chuỗi đầy đủ: " + " → ".join(
+                self._quote(item) for item in names
+            ) + "."
+        return answer
+
+    def _bridge_answer(self, primary_path: FinalPath) -> str:
+        names = self._path_names(primary_path)
+        if len(names) < 3:
+            return ""
+        mediators = names[1:-1]
+        if len(mediators) == 1:
+            return f"Sự kiện trung gian là {self._quote(mediators[0])}."
+        return "Các sự kiện trung gian lần lượt là " + " → ".join(
+            self._quote(item) for item in mediators
+        ) + "."
+
+    def _chain_explanation(
+        self,
+        primary_path: FinalPath,
+        chain_evidence: list[FinalEvidence],
+    ) -> str:
+        names = self._path_names(primary_path)
+        event_ids = list(primary_path.event_ids)
+        if len(names) < 2:
+            return ""
+
+        steps: list[str] = []
+        for index, (source, target) in enumerate(
+            zip(names, names[1:]),
+            start=1,
+        ):
+            evidence = self._evidence_for_hop(
+                hop_index=index - 1,
+                source_id=(
+                    event_ids[index - 1]
+                    if index - 1 < len(event_ids)
+                    else ""
+                ),
+                target_id=(
+                    event_ids[index]
+                    if index < len(event_ids)
+                    else ""
+                ),
+                source_name=source,
+                target_name=target,
+                evidence=chain_evidence,
+            )
+            article = ""
+            citation = ""
+            if evidence is not None:
+                if evidence.article_id:
+                    article = f" theo Điều {evidence.article_id}"
+                citation = f" [E{evidence.evidence_index}]"
+            steps.append(
+                f"Bước {index}: {self._quote(source)} dẫn đến "
+                f"{self._quote(target)}{article}.{citation}"
+            )
+        return " ".join(steps)
+
+    def _yes_no_answer(self, primary_path: FinalPath) -> str:
+        names = self._path_names(primary_path)
+        if len(names) < 2:
+            return "Có. Dữ liệu hỗ trợ quan hệ được hỏi."
         return (
-            "Chưa đủ căn cứ từ dữ liệu được cung cấp để xác định hệ quả cuối cùng. "
-            f"{path_citations}"
-        ).strip()
+            "Có. Dữ liệu hỗ trợ chuỗi "
+            + " → ".join(self._quote(item) for item in names)
+            + "."
+        )
+
+    def _branch_answer(self, primary_path: FinalPath) -> str:
+        primary_ids = list(primary_path.event_ids)
+        primary_names = self._path_names(primary_path)
+        if len(primary_names) < 3:
+            return ""
+
+        outcomes: list[str] = []
+        for path in self.paths:
+            if safe_string(path.status).upper() != SUPPORTED:
+                continue
+            names = self._path_names(path)
+            if len(names) < 3:
+                continue
+            same_prefix = (
+                len(primary_ids) >= 2
+                and len(path.event_ids) >= 2
+                and path.event_ids[:2] == primary_ids[:2]
+            ) or names[:2] == primary_names[:2]
+            if same_prefix:
+                outcomes.append(names[-1])
+
+        outcomes = unique_preserve_order(outcomes)
+        if not outcomes:
+            outcomes = [primary_names[-1]]
+        return (
+            f"Sau bước {self._quote(primary_names[1])}, các nhánh được "
+            "ghi nhận gồm: "
+            + "; ".join(self._quote(item) for item in outcomes)
+            + "."
+        )
+
+    def _convergence_answer(self, primary_path: FinalPath) -> str:
+        primary_ids = list(primary_path.event_ids)
+        primary_names = self._path_names(primary_path)
+        if len(primary_names) < 3:
+            return ""
+
+        conditions: list[str] = []
+        for path in self.paths:
+            if safe_string(path.status).upper() != SUPPORTED:
+                continue
+            names = self._path_names(path)
+            if len(names) < 3:
+                continue
+            same_suffix = (
+                len(primary_ids) >= 2
+                and len(path.event_ids) >= 2
+                and path.event_ids[-2:] == primary_ids[-2:]
+            ) or names[-2:] == primary_names[-2:]
+            if same_suffix:
+                conditions.append(names[0])
+
+        conditions = unique_preserve_order(conditions)
+        if not conditions:
+            conditions = [primary_names[0]]
+        return (
+            "Các điều kiện hội tụ gồm: "
+            + "; ".join(self._quote(item) for item in conditions)
+            + f". Chúng cùng dẫn đến {self._quote(primary_names[-2])}, "
+            f"sau đó đến {self._quote(primary_names[-1])}."
+        )
+
+    def _final_outcome_answer(self, primary_path: FinalPath) -> str:
+        names = self._path_names(primary_path)
+        outcome = self._clean_label(
+            primary_path.outcome_event_name
+            or primary_path.outcome_event_id
+            or (names[-1] if names else "")
+        )
+        if not outcome:
+            return ""
+
+        answer = f"Hệ quả cuối cùng là {self._quote(outcome)}."
+        if len(names) >= 2:
+            answer += " Chuỗi suy luận: " + " → ".join(
+                self._quote(item) for item in names
+            ) + "."
+        return answer
+
+    @staticmethod
+    def _path_names(path: Optional[FinalPath]) -> list[str]:
+        if path is None:
+            return []
+        values = path.event_names or path.event_ids
+        return [
+            ExtractiveFallbackProvider._clean_label(value)
+            for value in values
+            if ExtractiveFallbackProvider._clean_label(value)
+        ]
+
+    @staticmethod
+    def _clean_label(value: Any) -> str:
+        text = safe_string(value).strip("“”\"")
+        return text.rstrip(" .:;")
+
+    @staticmethod
+    def _quote(value: Any) -> str:
+        text = ExtractiveFallbackProvider._clean_label(value)
+        return f"“{text}”" if text else "“không xác định”"
+
+    @staticmethod
+    def _deduplicate_path_evidence(
+        evidence: list[FinalEvidence],
+    ) -> list[FinalEvidence]:
+        ordered = sorted(
+            evidence,
+            key=lambda item: (
+                item.primary_path_position < 0,
+                item.primary_path_position,
+                item.evidence_index,
+            ),
+        )
+        result: list[FinalEvidence] = []
+        seen_edges: set[tuple[str, str]] = set()
+        for item in ordered:
+            edge = (
+                safe_string(item.condition_event or item.condition_event_name),
+                safe_string(item.effect_event or item.effect_event_name),
+            )
+            if edge != ("", "") and edge in seen_edges:
+                continue
+            seen_edges.add(edge)
+            result.append(item)
+        return result
+
+    @staticmethod
+    def _citation_text(evidence: list[FinalEvidence]) -> str:
+        return " ".join(
+            f"[E{item.evidence_index}]" for item in evidence
+        )
+
+    @staticmethod
+    def _append_citations(text: str, citation_text: str) -> str:
+        answer = safe_string(text)
+        if answer and answer[-1] not in ".!?":
+            answer += "."
+        return f"{answer} {citation_text}".strip()
+
+    @staticmethod
+    def _evidence_for_hop(
+        *,
+        hop_index: int,
+        source_id: str,
+        target_id: str,
+        source_name: str,
+        target_name: str,
+        evidence: list[FinalEvidence],
+    ) -> Optional[FinalEvidence]:
+        for item in evidence:
+            if (
+                source_id
+                and target_id
+                and safe_string(item.condition_event) == source_id
+                and safe_string(item.effect_event) == target_id
+            ):
+                return item
+
+        normalized_source = safe_string(source_name).lower()
+        normalized_target = safe_string(target_name).lower()
+        for item in evidence:
+            if (
+                safe_string(item.condition_event_name).lower()
+                == normalized_source
+                and safe_string(item.effect_event_name).lower()
+                == normalized_target
+            ):
+                return item
+
+        return evidence[hop_index] if hop_index < len(evidence) else None
 
     @staticmethod
     def _find_final_rule(
@@ -1481,6 +2021,7 @@ class FinalAnswerPipeline:
             decision_score=self.store.decision_score,
             decision_explanation=self.store.decision_explanation,
             query_analysis=self.store.query_analysis,
+            answer_intent=self.store.answer_intent,
             global_confidence=self.store.confidence,
             consistency_score=self.store.consistency_score,
             max_context_chars=max_context_chars,
@@ -1562,7 +2103,27 @@ class FinalAnswerPipeline:
             decision_explanation=self.store.decision_explanation,
             primary_path_ids=self.store.primary_path_ids,
             query_analysis=self.store.query_analysis,
+            answer_intent=self.store.answer_intent,
             generation_metadata={
+                "step5_version": STEP5_VERSION,
+                "step4_version": self.store.step4_version,
+                "intent_detection_version": safe_string(
+                    self.store.query_analysis.get(
+                        "intent_detection_version"
+                    )
+                ),
+                "answer_intent": self.store.answer_intent,
+                "counterfactual_signal_source": safe_string(
+                    self.store.query_analysis.get(
+                        "counterfactual_signal_source"
+                    )
+                ),
+                "structural_result_used": bool(
+                    self.store.query_analysis.get("structural_result_used")
+                ),
+                "structural_fallback_used": bool(
+                    self.store.query_analysis.get("structural_fallback_used")
+                ),
                 "requested_provider": provider_name,
                 "requested_model": model,
                 "elapsed_seconds": round(elapsed, 4),
@@ -1598,6 +2159,8 @@ class FinalAnswerPipeline:
             final_decision=self.store.final_decision,
             decision_explanation=self.store.decision_explanation,
             confidence=self.store.confidence,
+            query_analysis=self.store.query_analysis,
+            answer_intent=self.store.answer_intent,
         )
 
     def _create_provider(
@@ -1643,6 +2206,13 @@ def print_summary(result: GeneratedAnswer) -> None:
     print("=" * 76)
     print("Query:", result.query)
     print("Provider:", result.provider, "| Model:", result.model)
+    print(
+        "Step 5 version:",
+        safe_string(result.generation_metadata.get("step5_version"))
+        or STEP5_VERSION,
+        "| Answer intent:",
+        result.answer_intent,
+    )
     print(
         "Decision:",
         result.final_decision,

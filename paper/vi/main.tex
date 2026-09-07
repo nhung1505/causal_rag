@@ -1,0 +1,384 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\IfFontExistsTF{TeX Gyre Termes}
+  {\setmainfont{TeX Gyre Termes}}
+  {\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{}}
+\IfFontExistsTF{TeX Gyre Heros}
+  {\setsansfont{TeX Gyre Heros}}
+  {\IfFontExistsTF{Arial}{\setsansfont{Arial}}{}}
+\IfFontExistsTF{Latin Modern Mono}
+  {\setmonofont{Latin Modern Mono}[Scale=MatchLowercase]}
+  {\IfFontExistsTF{Consolas}{\setmonofont{Consolas}[Scale=MatchLowercase]}{}}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx,array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
+\newcommand{\todo}[1]{\textcolor{red!75!black}{\textbf{TODO:} #1}}
+\newcommand{\stateT}{\mathsf{T}}
+\newcommand{\stateF}{\mathsf{F}}
+\newcommand{\stateU}{\mathsf{U}}
+\newcommand{\doop}{\operatorname{do}}
+\newcommand{\system}{\textsc{CausalRAG}}
+\setlist{nosep,leftmargin=*}
+
+\title{Xác minh phản thực tế có cấu trúc trên đồ thị nhân quả pháp luật\\cho hỏi đáp đa bước tăng cường truy xuất}
+\author{\todo{Bổ sung tên tác giả, cơ quan và email liên hệ}}
+\date{Bản nháp v1 --- ngày 4 tháng 9 năm 2026}
+
+\hypersetup{
+  pdftitle={Xác minh phản thực tế có cấu trúc trên đồ thị nhân quả pháp luật cho hỏi đáp đa bước tăng cường truy xuất},
+  pdfauthor={Sẽ bổ sung tác giả}
+}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\small\textcolor{red!75!black}{\textbf{Trạng thái bản nháp:} kết quả sơ bộ của Bước~4 v4.0; đang chờ chạy lại đối sánh v4.1.}\par
+\small\todo{Chọn venue mục tiêu và bổ sung thông tin tài trợ/lời cảm ơn trước khi nộp.}
+\end{center}
+
+\begin{abstract}
+Chúng tôi nghiên cứu hỏi đáp đa bước trên các quy tắc của Bộ luật Hình sự Việt Nam bằng cách kết hợp truy xuất dày đặc với một \emph{đồ thị nhân quả pháp luật} tường minh và xác minh phản thực tế có cấu trúc. Từ 2.884 quy tắc đã chuẩn hóa, pipeline hiện thực xây dựng đồ thị không đồng nhất có 5.134 nút, trong đó có 1.814 nút sự kiện pháp luật, và 2.884 cạnh \textsc{causes} gắn nguồn gốc quy tắc (2.122 cặp sự kiện duy nhất). Biểu diễn của truy vấn và quy tắc/sự kiện được truy xuất bằng mô hình embedding đa ngôn ngữ, mở rộng trên các đường nhân quả có giới hạn, rồi xếp hạng lại bằng tín hiệu ngữ nghĩa, độ hỗ trợ của đồ thị, sự kiện cầu nối và độ ưu tiên của đường đi. Sau đó, một mô hình chuẩn tắc tất định, \textsc{LegalSCM}, đánh giá các cơ chế quy tắc ba giá trị và so sánh thế giới thực tế của đường có hướng $A\rightarrow M\rightarrow Y$ với thế giới được can thiệp dưới $\doop(M=\stateF)$. Chúng tôi phân biệt rõ phép can thiệp này với ablation khả đạt bằng cách xóa nút.
+
+Trên benchmark 250 câu hỏi được sinh từ đồ thị, các lần chạy sơ bộ v4.0 đạt độ phủ dự đoán đầy đủ, Rule Recall@5 là 0,6953, Event Recall@5 là 0,7466, độ chính xác đường exact top-1 là 0,3520, độ chính xác xác minh là 0,8720 và answer token F1 là 0,2374. Chế độ cấu trúc và chế độ xóa nút cho cùng các metric chất lượng được báo cáo, trong khi xác minh cấu trúc cần thời gian trung bình mỗi mẫu cao gấp 3,25 lần. Hơn nữa, cả 20 mẫu được đánh dấu phản thực tế chỉ kiểm tra cạnh trực tiếp không tồn tại chứ không kiểm tra can thiệp lên biến trung gian, và mọi can thiệp cấu trúc được phát ra trong một đợt audit phụ đều mang nhãn \textsc{necessary}. Các kết quả này không chứng minh lợi thế độ chính xác của mô hình cấu trúc; thay vào đó, chúng cho thấy sự không khớp giữa benchmark và phương pháp, đồng thời thúc đẩy xây dựng benchmark can thiệp cân bằng với các lớp \textsc{necessary}, \textsc{non-necessary} và \textsc{indeterminate}. Mô hình mang tính chuẩn tắc trên các quy tắc pháp luật đã mã hóa, không phải phương pháp khám phá nhân quả hay ước lượng hiệu ứng từ dữ liệu quan sát.
+\end{abstract}
+
+\section{Giới thiệu}
+\label{sec:introduction}
+Retrieval-augmented generation (RAG) cho phép mô hình ngôn ngữ truy cập bằng chứng phi tham số tại thời điểm suy luận \citep{lewis2020rag}. Tuy nhiên, truy xuất theo độ tương đồng thông thường không tự biểu diễn các cơ chế có thứ tự mà nhiều câu hỏi đa bước đòi hỏi. Một câu trả lời có thể truy xuất các quy tắc liên quan riêng lẻ nhưng bỏ sót sự kiện cầu nối giữa điều kiện pháp luật và hệ quả cuối cùng. Truy xuất dựa trên đồ thị giải quyết một phần vấn đề bằng cách cho phép duyệt quan hệ \citep{edge2024graphrag,gutierrez2024hipporag}, nhưng đồ thị thực thể chung và \emph{đồ thị nhân quả} không đồng nhất: đồ thị nhân quả gán ngữ nghĩa điều kiện--hệ quả có hướng cho các cạnh.
+
+Công trình này tập trung vào câu hỏi luật hình sự Việt Nam mà suy luận hỗ trợ có thể biểu diễn bằng chuỗi sự kiện gắn nguồn gốc quy tắc. Chẳng hạn, một truy vấn có thể cần chuỗi $A\rightarrow M\rightarrow Y$, trong đó một điều kiện pháp luật kích hoạt trạng thái pháp luật trung gian và trạng thái này kích hoạt hệ quả cuối. Vấn đề trung tâm không chỉ là đồ thị có đường này hay không, mà còn là mô hình quy tắc đã hiện thực dự đoán gì khi đặt biến trung gian thành vắng mặt. Xóa $M$ khỏi đồ thị rồi kiểm tra khả đạt là một baseline tô-pô hữu ích, nhưng không tương đương với can thiệp $\doop(M=\stateF)$ trong mô hình nhân quả cấu trúc \citep{pearl2009causality}. Phép thứ nhất sửa không gian tìm kiếm; phép thứ hai vô hiệu hóa các cơ chế đi vào, cố định biến và suy luận lại trạng thái phía sau.
+
+Chúng tôi trình bày \system, một pipeline hiện thực nhấn mạnh đồ thị nhân quả pháp luật xuyên suốt truy xuất và xác minh. Đóng góp hiện tại mang tính phương pháp và chẩn đoán, không phải tuyên bố đạt kết quả tốt nhất. Cụ thể, các công trình liên quan trực tiếp đã nghiên cứu đồ thị nhân quả và suy luận phản thực tế trong RAG \citep{wang2025causalrag,wang2026causalrag2,khadilkar2025causalcounterfactualrag,qin2026cfrag}. Phạm vi của chúng tôi hẹp hơn: đồ thị pháp luật dẫn xuất từ quy tắc, mô hình chuẩn tắc tất định có thể audit, và so sánh tường minh giữa can thiệp cứng với khả đạt sau khi xóa nút.
+
+Bản nháp có bốn đóng góp cụ thể:
+\begin{enumerate}
+  \item kiến trúc end-to-end xây dựng và truy xuất trên đồ thị nhân quả pháp luật có kiểu, đồng thời bảo toàn nguồn gốc quy tắc và điều luật;
+  \item \textsc{LegalSCM} điểm bất động ba giá trị với can thiệp cứng, báo cáo xung đột và vết suy luận thực tế/phản thực tế;
+  \item tầng xác minh nhận biết truy vấn, phân biệt câu điều kiện thông thường, khẳng định cạnh trực tiếp và khẳng định loại bỏ biến trung gian tường minh; và
+  \item đánh giá sơ bộ minh bạch, báo cáo ablation chất lượng bằng nhau, chi phí thời gian, lệch phiên bản intent và sự chưa phù hợp của tập phản thực tế hiện tại.
+\end{enumerate}
+
+\section{Công trình liên quan}
+\label{sec:related}
+
+\subsection{RAG, truy xuất đồ thị và hỏi đáp đa bước}
+RAG kết hợp sinh tham số với bằng chứng truy xuất bên ngoài \citep{lewis2020rag}. Các bộ dữ liệu hỏi đáp đa bước như HotpotQA cho thấy chất lượng và khả năng giải thích phụ thuộc vào việc truy xuất nhiều bằng chứng hỗ trợ theo đúng quan hệ \citep{yang2018hotpotqa}. GraphRAG tổ chức thực thể và tóm tắt cộng đồng cho bài toán tóm tắt toàn cục theo truy vấn \citep{edge2024graphrag}, còn HippoRAG kết hợp đồ thị tri thức với lan truyền trên đồ thị để truy xuất liên tưởng \citep{gutierrez2024hipporag}. Các hướng này tạo động lực cho truy xuất có cấu trúc, nhưng cạnh của chúng không nhất thiết mã hóa cơ chế điều kiện--hệ quả pháp luật. Retriever của chúng tôi chỉ duyệt quan hệ \textsc{causes} đã chuẩn hóa giữa các sự kiện pháp luật và giữ định danh quy tắc hỗ trợ trên từng hop. Truy xuất seed dày đặc dùng BGE-M3, một mô hình embedding đa ngôn ngữ \citep{chen2024bgem3}.
+
+\subsection{RAG nhân quả và phản thực tế}
+Các hệ thống gần đây kết nối tường minh cấu trúc nhân quả với RAG. CausalRAG lần theo quan hệ nhân quả trong truy xuất \citep{wang2025causalrag}, còn CausalRAG2 nghiên cứu cách tổ chức đồ thị tri thức nhân quả phân cấp \citep{wang2026causalrag2}. Causal-Counterfactual RAG kết hợp bằng chứng nhân quả với các phương án giả định \citep{khadilkar2025causalcounterfactualrag}; CF-RAG dùng truy vấn phản thực tế để phân biệt bằng chứng quyết định về mặt nhân quả với bằng chứng tương quan \citep{qin2026cfrag}. Vì vậy, không thể đưa ra tuyên bố ưu tiên thiếu căn cứ cho tổ hợp chung giữa nhân quả, phản thực tế và RAG. Khác biệt thiết kế được khảo sát ở đây là mô hình quy tắc chuẩn tắc có thể thực thi trên sự kiện pháp luật, cùng ablation chẩn đoán làm rõ khác biệt ngữ nghĩa giữa $\doop(M=\stateF)$ và xóa nút. So sánh hệ thống trực tiếp với các công trình này vẫn là việc tương lai.
+
+\subsection{Benchmark hỏi đáp và truy xuất pháp luật}
+CaseHOLD đánh giá lựa chọn phán quyết pháp lý \citep{zheng2021casehold}; LegalBench tập hợp nhiều tác vụ suy luận pháp luật do chuyên gia thiết kế \citep{guha2023legalbench}; LegalBench-RAG tập trung vào truy xuất pháp luật chính xác \citep{alami2024legalbenchrag}. Các tài nguyên này khẳng định nhu cầu đánh giá theo miền, nhưng không trực tiếp đánh giá chuỗi sự kiện luật hình sự Việt Nam dưới can thiệp cấu trúc. Benchmark hiện tại của chúng tôi được dẫn xuất từ đồ thị nên mang tính bổ sung chứ không thể so sánh trực tiếp. Benchmark cũng chưa có thẩm định độc lập bởi chuyên gia, một hạn chế được thảo luận tại \S\ref{sec:limitations}.
+
+\section{Phát biểu bài toán và phạm vi}
+\label{sec:problem}
+
+\subsection{Đồ thị nhân quả pháp luật dẫn xuất từ quy tắc}
+Gọi đồ thị không đồng nhất là $G=(V,E)$ với các phân hoạch nút cho điều luật, quy tắc, sự kiện pháp luật và chủ thể pháp luật:
+\[
+V=V_{\mathrm{article}}\cup V_{\mathrm{rule}}\cup V_{\mathrm{event}}\cup V_{\mathrm{subject}}.
+\]
+Mỗi quy tắc chuẩn hóa $r$ nối sự kiện điều kiện $C_r$ với sự kiện hệ quả $E_r$. Đồ thị không đồng nhất lưu quan hệ thành viên điều luật/quy tắc/chủ thể và một cạnh sự kiện có hướng $C_r\rightarrow E_r$ gắn nhãn \textsc{causes}. Nhiều quy tắc song song có thể hỗ trợ cùng một cặp sự kiện; định danh quy tắc và điều luật được giữ làm nguồn gốc. Phép chiếu sự kiện $G_E$ gộp các cạnh song song nhưng giữ số lượng hỗ trợ và các định danh này.
+
+Schema chuẩn có thể biểu diễn cơ chế
+\[
+r:\quad \bigwedge_{\ell\in\mathcal{C}_r}\ell
+\ \wedge\ \neg\bigvee_{z\in\mathcal{X}_r}z
+\ \Longrightarrow\ (E_r=s_r),
+\]
+trong đó $\mathcal{C}_r$ là tập literal điều kiện và $\mathcal{X}_r$ là tập ngoại lệ. Tuy nhiên, adapter corpus legacy hiện tại tạo đúng một điều kiện dương, không có ngoại lệ và một hệ quả dương. Do đó, xử lý ngoại lệ là năng lực của engine, không phải thuộc tính đã được đánh giá thực nghiệm trên corpus hiện tại.
+
+\subsection{Tác vụ đa bước và phản thực tế}
+Với truy vấn tiếng Việt $q$, tác vụ truy xuất cần trả về các quy tắc, sự kiện liên quan và một đường nhân quả có thứ tự. Với câu hỏi hai hop, đường ứng viên được định hướng là $P=(A,M,Y)$. Tác vụ xác minh thực tế kiểm tra liệu các cơ chế quy tắc được kích hoạt từ ngữ cảnh $\{A=\stateT\}$ có hỗ trợ $Y=\stateT$ và bao phủ cả hai hop hay không. Một khẳng định loại bỏ biến trung gian tường minh còn yêu cầu trạng thái của $Y$ dưới $\doop(M=\stateF)$.
+
+Chúng tôi tách ba khái niệm thường bị trộn lẫn:
+\begin{enumerate}
+  \item \textbf{sự tồn tại của đường}: $A\leadsto Y$ xuất hiện trong đồ thị sự kiện đã mã hóa;
+  \item \textbf{tính cần thiết theo khả đạt có giới hạn}: xóa $M$ làm mất mọi đường $A\leadsto Y$ được tìm thấy dưới ngân sách tìm kiếm cố định; và
+  \item \textbf{tính cần thiết cấu trúc trong một ngữ cảnh}: mô hình chuẩn tắc cho $Y=\stateT$ trong thế giới thực tế và $Y=\stateF$ sau $\doop(M=\stateF)$.
+\end{enumerate}
+Chỉ khái niệm thứ ba được xem là kết quả phản thực tế cấu trúc trong bài báo này.
+
+\subsection{Ranh giới diễn giải}
+Từ \emph{nhân quả} chỉ hướng được mã hóa bởi các quy tắc điều kiện--hệ quả pháp luật đã chuẩn hóa. Chúng tôi không học đồ thị từ dữ liệu quan sát, không định danh hiệu ứng quần thể, không ước lượng ATE/CATE và không khẳng định một cạnh chứng minh quan hệ nhân quả vật lý hay pháp lý ngoài đời thực. \textsc{LegalSCM} là mô hình suy luận chuẩn tắc tất định trên mã hóa đầu vào. Đầu ra chỉ đáng tin bằng chất lượng trích xuất, chuẩn hóa, xử lý tình thái và tính cập nhật pháp lý của các quy tắc đó.
+
+\section{Hệ thống và phương pháp}
+\label{sec:method}
+
+\begin{figure}[t]
+\centering
+\fbox{\begin{minipage}{0.94\linewidth}
+\centering\small
+Quy tắc pháp luật chuẩn hóa $\rightarrow$ đồ thị nhân quả pháp luật có kiểu $G$
+$\rightarrow$ bộ nhớ embedding quy tắc/sự kiện $\rightarrow$ seed sự kiện ngữ nghĩa
+$\rightarrow$ mở rộng đường nhân quả có giới hạn $\rightarrow$ bằng chứng quy tắc nhận biết đường
+$\rightarrow$ xác minh cấu trúc nhận biết truy vấn $\rightarrow$ câu trả lời và trích dẫn có căn cứ.
+\end{minipage}}
+\caption{Pipeline \system{} đã hiện thực. Đồ thị mang tính nhân quả theo nghĩa mã hóa quy tắc; đây không phải đồ thị tài liệu/thực thể chung.}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Xây dựng đồ thị và bộ nhớ nhân quả}
+Bước~1 tạo đa đồ thị không đồng nhất có hướng với các kiểu nút \textsc{article}, \textsc{rule}, \textsc{event}, \textsc{subject} và các kiểu cạnh \textsc{has-rule}, \textsc{has-subject}, \textsc{has-condition}, \textsc{has-effect}, \textsc{causes}. Mỗi cạnh \textsc{causes} chứa nguồn gốc quy tắc/điều luật, thông tin sự kiện đã chuẩn hóa và nguyên bản, tình thái, nguồn dữ liệu và trường chất lượng. Phép chiếu sự kiện gộp các cạnh song song và ghi số lượng hỗ trợ.
+
+Bước~2 tạo bộ nhớ chung gồm bản ghi quy tắc và sự kiện. Văn bản quy tắc nối chủ thể, điều kiện, hệ quả, định danh/tên sự kiện chuẩn hóa, tình thái, loại nhân quả và metadata điều luật. Văn bản sự kiện tổng hợp bí danh, ngữ cảnh, vai trò và lần xuất hiện trong điều luật. BGE-M3 sinh vector đã chuẩn hóa và chỉ mục FAISS inner-product hỗ trợ truy xuất dày đặc. Inner product chỉ là tín hiệu liên quan, không được diễn giải thành độ tin cậy pháp lý hay xác suất đã hiệu chỉnh.
+
+\subsection{Truy xuất nhân quả đa bước}
+Với truy vấn $q$, retriever chọn tối đa tám seed sự kiện và tám hit quy tắc trực tiếp từ pool ngữ nghĩa 100 phần tử. Mỗi sự kiện được mở rộng theo hướng xuôi, ngược hoặc cả hai với độ sâu tối đa $H=2$ và tối đa 30 đường giữ lại trên mỗi sự kiện. Heuristic hướng từ vựng ưu tiên mở rộng ngược cho câu hỏi tìm nguyên nhân và mở rộng xuôi cho câu hỏi tìm hệ quả.
+
+Với đường $P$ có $h$ cạnh và số hỗ trợ trên từng cạnh $c_i$, định nghĩa
+\begin{align}
+ s_{\mathrm{sup}}(P)
+ &=\min\!\left(1,\frac{1}{h\log 4}\sum_{i=1}^{h}\log(1+\max(1,c_i))\right),\\
+ s_{\mathrm{path}}(P)
+ &=\operatorname{clip}\!\left(0.54s_{\mathrm{seed}}+0.28s_{\mathrm{sup}}
+ +b_{\mathrm{bridge}}+b_{\mathrm{hop}},0,1\right),
+ \label{eq:path}
+\end{align}
+trong đó $b_{\mathrm{bridge}}=\min(0.18,0.06n_{\mathrm{bridge}})$ và $b_{\mathrm{hop}}=0.18$ khi đạt đúng $H$ hop (ngược lại là $0.03h/H$). Các quy tắc ứng viên tiếp tục được xếp hạng theo
+\begin{equation}
+ s_{\mathrm{rule}}=0.32s_{\mathrm{sem}}+0.36s_{\mathrm{graph}}
+ +0.10s_{\mathrm{seed}}+0.07s_{\mathrm{direct}}+0.15s_{\mathrm{priority}}.
+ \label{eq:rule}
+\end{equation}
+Hệ thống chấm tối đa 200 quy tắc ứng viên và trả về 12 quy tắc bằng chứng. Các điểm đặt thủ công này ưu tiên đường hai hop hoàn chỉnh; chúng không được học và không phải xác suất đã hiệu chỉnh.
+
+\subsection{LegalSCM chuẩn tắc ba giá trị}
+Mỗi biến sự kiện có trạng thái $X_e\in\{\stateT,\stateF,\stateU\}$. Các quy tắc được đánh giá lặp lại đến khi gán hỗ trợ ổn định. Một quy tắc kích hoạt khi mọi literal điều kiện khớp trạng thái đã xác định và không literal ngoại lệ nào khớp. Sự kiện được sinh bởi ít nhất một quy tắc được xem là nội sinh và mặc định là $\stateF$ nếu không cơ chế hoạt động nào hỗ trợ; sự kiện gốc giữ $\stateU$ nếu ngữ cảnh không cung cấp trạng thái. Nếu một sự kiện đồng thời nhận hỗ trợ $\stateT$ và $\stateF$, trạng thái hiệu lực của nó là $\stateU$ và xung đột được báo cáo thay vì giải quyết bằng ưu tiên.
+
+Can thiệp cứng lên sự kiện $M$ có ưu tiên cao hơn ngữ cảnh, chặn mọi quy tắc có hệ quả là $M$ và cố định hỗ trợ của nó thành giá trị được gán. Với đường có hướng $A\rightarrow M\rightarrow Y$, Bước~4 đánh giá
+\begin{equation}
+ w_F=\operatorname{Infer}(\{A=\stateT\}),\qquad
+ w_{\doop}=\operatorname{Infer}(\{A=\stateT\},\doop(M=\stateF)).
+ \label{eq:do}
+\end{equation}
+Hiện thực sử dụng \texttt{recompute\_endogenous\_context=False} và \texttt{recompute\_outcome=True}; ngữ cảnh cung cấp chỉ gồm seed gốc $A$. Engine trả về trạng thái thực tế/can thiệp, định danh quy tắc kích hoạt và bị chặn, xung đột, vết suy luận, cơ chế bị vô hiệu, cơ chế mới kích hoạt và quy tắc thay thế sinh outcome.
+
+Với can thiệp loại bỏ, engine đầy đủ gán \textsc{necessary} khi $M_F=\stateT$, $Y_F=\stateT$ và $Y_{\doop}=\stateF$; gán \textsc{non-necessary} khi $M_F=\stateT$, $Y_F=\stateT$ và $Y_{\doop}=\stateT$; và gán \textsc{indeterminate} nếu trạng thái cần thiết chưa biết. Engine còn hỗ trợ \textsc{sufficient}, \textsc{no-effect} và \textsc{outcome-changed}. Bộ xác minh đường ở Bước~4 chỉ ánh xạ các điều kiện cần cho khẳng định loại bỏ biến trung gian thành \textsc{necessary}, \textsc{non-necessary} hoặc \textsc{unresolved}.
+
+\subsection{Xác minh đường cấu trúc và khẳng định}
+Trước can thiệp, mỗi đường truy xuất phải tạo thành các cạnh \textsc{causes} liên tiếp, cho $Y=\stateT$ ở thế giới thực tế, kích hoạt ít nhất một quy tắc hỗ trợ kỳ vọng trên mỗi hop và không có xung đột trên sự kiện thuộc đường. Với mỗi biến trung gian, Bước~4 chạy Phương trình~\ref{eq:do}. Lỗi cấu trúc được ghi tường minh: nếu không nạp được quy tắc, suy luận lỗi hoặc không chuẩn hóa được đường, hệ thống ghi lý do fallback và trả baseline tô-pô thay vì âm thầm trình bày nó như kết quả cấu trúc.
+
+Đường chính được chọn theo trạng thái, mức hoàn thành đúng hai hop, độ bao phủ hop, tính nhất quán cấu trúc, điểm đường và thứ tự đường ổn định. Tầng regex/từ vựng phân loại truy vấn thành nhân quả chuẩn, nhân quả trực tiếp, loại bỏ biến trung gian tường minh với outcome còn/mất, tính cần thiết của biến trung gian, hoặc phản thực tế thiếu đặc tả. Trong v4.1, câu điều kiện thông thường như ``nếu $A$ thì $Y$ là gì?'' vẫn là nhân quả chuẩn; chỉ ngôn ngữ loại bỏ, vắng mặt hoặc $\doop(\cdot=\stateF)$ tường minh mới kích hoạt intent phản thực tế. Tầng này là heuristic, không phải parser ngữ nghĩa học máy.
+
+Xác minh bằng chứng kết hợp độ hỗ trợ đường, tính nhất quán phản thực tế, độ liên quan ngữ nghĩa và điểm đồ thị với trọng số lần lượt 0,38; 0,32; 0,16; 0,14. Bằng chứng trên đường chính nhận bonus 0,12. Lần chạy benchmark dùng bộ sinh extractive tất định, tuân theo quyết định Bước~4 và các quy tắc đã chọn. Bộ sửa trích dẫn chỉ kiểm tra tính hợp lệ của định danh, không chứng minh quan hệ kéo theo ngữ nghĩa.
+
+\subsection{Ablation khả đạt bằng xóa nút}
+Chế độ \texttt{path\_ablation} xóa nút trung gian khỏi $G_E$ rồi liệt kê đường đơn thay thế $A\leadsto Y$ với cutoff ba hop và tối đa 30 kết quả. Không có đường thay thế cho nhãn \textsc{necessary}; điểm đường thay thế tốt nhất ít nhất 0,35 cho \textsc{non-necessary}; đường thay thế yếu hơn cho \textsc{partially-necessary}. Đây là chẩn đoán tô-pô có giới hạn:
+\[
+G_{-M}=G_E[V_{\mathrm{event}}\setminus\{M\}].
+\]
+Phương pháp này không cố định giá trị cấu trúc của biến và không suy luận lại cơ chế quy tắc, vì vậy không được gọi là hiện thực toán tử do.
+
+\section{Dữ liệu và giao thức thực nghiệm}
+\label{sec:experiments}
+
+\subsection{Quy tắc và đồ thị}
+Corpus chuẩn hóa hiện tại có 2.884 bản ghi quy tắc. Bảng~\ref{tab:graph} phân biệt multiedge không đồng nhất với cặp sự kiện duy nhất, hai đại lượng trước đây đôi khi đều được mô tả không chính thức là ``cạnh nhân quả''.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Thống kê quy tắc và đồ thị dùng trong thực nghiệm sơ bộ.}
+\label{tab:graph}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Hạng mục & Số lượng \\
+\midrule
+Quy tắc chuẩn hóa / cạnh quy tắc \textsc{causes} & 2.884 \\
+Nút sự kiện pháp luật & 1.814 \\
+Nút điều luật & 395 \\
+Nút quy tắc & 2.884 \\
+Nút chủ thể & 41 \\
+Tổng nút không đồng nhất & 5.134 \\
+Tổng cạnh không đồng nhất & 14.420 \\
+Cặp nhân quả sự kiện--sự kiện duy nhất & 2.122 \\
+Nút sự kiện cầu nối & 14 \\
+Chuỗi hai hop được liệt kê & 112 \\
+Thành phần liên thông yếu & 248 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Benchmark}
+Benchmark BLHS gồm 250 câu hỏi tiếng Việt được sinh từ cấu trúc có hỗ trợ trong đồ thị. Bảng~\ref{tab:benchmark} trình bày phân phối chính xác. Tất cả câu hỏi có gold rule và gold event; 236 câu có đường gold tuyến tính. 14 mẫu branch/convergence còn lại vẫn nằm trong mẫu số metric đường chính thức, dù một đường tuyến tính đơn không thể biểu diễn đầy đủ cấu trúc hỗ trợ của chúng.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Phân phối loại câu hỏi trong benchmark 250 mẫu.}
+\label{tab:benchmark}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Loại câu hỏi & Số lượng \\
+\midrule
+Đa bước xuôi & 70 \\
+Suy luận ngược & 45 \\
+Sự kiện cầu nối & 40 \\
+Giải thích chuỗi nhân quả & 35 \\
+Có/không dương & 20 \\
+Phản ví dụ cạnh trực tiếp & 20 \\
+Suy luận phân nhánh & 4 \\
+Suy luận hội tụ & 10 \\
+Fallback cầu nối/hội tụ & 6 \\
+\midrule
+Tổng & 250 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Có 230 quyết định gold \textsc{supported} và 20 quyết định \textsc{reject-direct-claim}. Cả 20 mẫu sau được gắn \texttt{requires\_counterfactual=true}, nhưng mục tiêu gold chỉ nói rằng $A\rightarrow Y$ không tồn tại trong khi $A\rightarrow M\rightarrow Y$ tồn tại. Chúng không đặc tả trạng thái thực tế/can thiệp hay $\doop(M=\stateF)$.
+
+\subsection{Các chế độ so sánh và nguồn gốc phiên bản}
+Chúng tôi so sánh \texttt{structural\_scm} với \texttt{path\_ablation}, đồng thời giữ cố định truy xuất, chọn đường chính, chọn bằng chứng và sinh extractive. Cả hai lần chạy hoàn thành 250/250 mẫu mà không có lỗi pipeline. Prediction đã lưu nhận diện Bước~4 là \texttt{4.0-query-aware-legal-scm}. Mã nguồn hiện tại là v4.1, trong đó intent detector sửa lỗi câu điều kiện tiếng Việt thông thường bị kích hoạt nhầm thành phản thực tế. Vì đang chờ chạy lại đầy đủ theo cặp với v4.1, mọi kết quả số bên dưới vẫn được ghi là sơ bộ v4.0.
+
+Một đợt audit phụ trên artifact cấu trúc đếm được 8.882 đường được đánh giá bằng cấu trúc, không có fallback cấu trúc và 3.393 bản ghi can thiệp biến trung gian; tất cả can thiệp được phát ra đều là \textsc{necessary}. Bước~7 hiện chưa tổng hợp các bộ đếm này, vì vậy chúng là số chẩn đoán chứ không phải metric benchmark chính thức.
+
+\subsection{Metric}
+Chúng tôi báo cáo Rule/Event Recall@5, độ chính xác ordered exact path top-1, độ chính xác oracle exact path trên ứng viên truy xuất, độ chính xác xác minh, answer token F1/exact match, citation F1 và thời gian chạy. Oracle path chỉ chẩn đoán sinh ứng viên và không được diễn giải thành hiệu năng triển khai. Bước~7 tính macro-F1 xác minh và balanced accuracy chỉ trên các lớp có gold support khác 0; vì lớp \textsc{uncertain} có gold support bằng 0, các giá trị này vẫn cao dù có 32 dự đoán \textsc{uncertain}. ``Tập con phản thực tế'' được đánh dấu chỉ được báo cáo kèm điều kiện đây là các mẫu âm cạnh trực tiếp như trên.
+
+\section{Kết quả sơ bộ}
+\label{sec:results}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Kết quả sơ bộ Bước~4 v4.0. Các giá trị chất lượng giống nhau cho thấy artifact hiện tại không chứng minh mức tăng độ chính xác từ structural SCM.}
+\label{tab:results}
+\begin{tabularx}{\linewidth}{@{}Xrr@{}}
+\toprule
+Metric & Structural SCM & Path ablation \\
+\midrule
+Độ phủ dự đoán & 1,000000 & 1,000000 \\
+Rule Recall@5 & 0,695333 & 0,695333 \\
+Event Recall@5 & 0,746600 & 0,746600 \\
+Top-1 exact path & 0,352000 & 0,352000 \\
+Oracle exact path & 0,712000 & 0,712000 \\
+Độ chính xác xác minh & 0,872000 & 0,872000 \\
+Macro-F1 xác minh$^{\dagger}$ & 0,962617 & 0,962617 \\
+Balanced accuracy$^{\dagger}$ & 0,930435 & 0,930435 \\
+Xác minh tập được đánh dấu$^{\ddagger}$ & 1,000000 & 1,000000 \\
+Answer token F1 của tập được đánh dấu & 0,257788 & 0,257788 \\
+Answer token F1 tổng thể & 0,237401 & 0,237401 \\
+Answer exact match & 0,000000 & 0,000000 \\
+Citation F1 & 0,539204 & 0,539204 \\
+Thời gian trung bình (giây/mẫu) & 3,891816 & 1,195917 \\
+Wall time quan sát (giây) & 1291,6548 & 450,3882 \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}
+\parbox{\linewidth}{\footnotesize $^{\dagger}$Trung bình loại các nhãn có gold support bằng 0. $^{\ddagger}$20 mẫu được đánh dấu kiểm tra cạnh trực tiếp không tồn tại, không phải can thiệp cấu trúc có gold.}
+\end{table}
+
+\subsection{Truy xuất và xếp hạng đường}
+Recall quy tắc và sự kiện cho thấy tài liệu liên quan thường được truy xuất, nhưng chọn đúng đường có thứ tự vẫn khó. Khoảng cách giữa top-1 exact path (35,2\%) và oracle exact path (71,2\%) tương ứng với 90 trường hợp có ứng viên exact nhưng không được xếp hạng đầu; 72 trường hợp không có ứng viên exact. Do đó, xếp hạng và chọn đường chính ít nhất quan trọng ngang với sinh ứng viên. Câu hỏi suy luận ngược là nhóm yếu nhất (top-1 exact 8,89\%, oracle exact 26,67\%), cho thấy cần cải thiện có mục tiêu cho nhận diện hướng và xếp hạng đường ngược.
+
+\subsection{Xác minh và sinh câu trả lời}
+Ma trận nhầm lẫn v4.0 gồm 198 mẫu supported được dự đoán đúng, 32 mẫu gold-supported bị dự đoán \textsc{uncertain}, và cả 20 mẫu âm cạnh trực tiếp bị bác bỏ đúng. Độ chính xác xác minh vì vậy là 87,2\%. Macro-F1 96,26\% không nên được đọc tách khỏi quy ước bỏ lớp có support bằng 0. Chất lượng câu trả lời end-to-end còn thấp: token F1 là 23,74\%, exact match chuẩn hóa bằng 0 và citation F1 là 53,92\%. Vì vậy, điểm xác minh cao không kéo theo câu trả lời ngôn ngữ tự nhiên đầy đủ.
+
+\subsection{Ablation bằng nhau và chi phí}
+Mọi metric chất lượng mà Bước~7 sử dụng đều giống nhau giữa hai chế độ, và đợt audit theo cặp trước đó không tìm thấy khác biệt ở các trường quyết định, đường được chọn, câu trả lời hay trích dẫn được đánh giá. Tuy vậy, chế độ cấu trúc cung cấp trạng thái thế giới và vết can thiệp cấp quy tắc mà xóa nút không thể cung cấp. Phần tính toán bổ sung này làm thời gian trung bình mỗi mẫu tăng 3,254 lần và wall time quan sát tăng 2,868 lần. Do hai lần chạy thực hiện tuần tự và log không cố định phần cứng hay trạng thái cache, các tỷ lệ này chỉ mang tính quan sát, không phải benchmark hệ thống có kiểm soát.
+
+Kết luận có thể bảo vệ về khoa học là \emph{ablation chất lượng bằng nhau trên benchmark hiện tại}, không phải structural SCM tốt hơn. Vết suy luận vẫn có thể hữu ích cho audit, nhưng lợi ích đó cần được đánh giá riêng với con người hoặc tác vụ cụ thể.
+
+\section{Phân tích lỗi và tính hợp lệ của benchmark}
+\label{sec:analysis}
+
+\subsection{Không khớp phiên bản intent}
+Trong v4.0, câu hỏi thông thường bắt đầu bằng ``Nếu'' có thể bị coi là phản thực tế thiếu đặc tả, làm một đường có hỗ trợ cấu trúc vẫn cho \textsc{uncertain}. Mã nguồn v4.1 hiện tại yêu cầu cue loại bỏ/vắng mặt/can thiệp tường minh, dùng mẫu ngữ pháp cho tính cần thiết và cho cụm phủ định ``không còn xảy ra'' ưu tiên trước phần chữ chồng lấp ``còn xảy ra''. Kiểm tra tĩnh trên toàn bộ 250 truy vấn cho 230 phân loại \textsc{standard-causal} và 20 \textsc{direct-causal-claim} mà không lệch loại kỳ vọng; 12 ca intent tổng hợp cũng đạt. Đây là kiểm tra cấp mã, không phải kết quả end-to-end v4.1. \todo{Chỉ thay bảng v4.0 sau khi nhập đủ hai lần chạy v4.1; không báo cáo độ chính xác dự phóng như kết quả đã đo.}
+
+\subsection{Không khớp nhãn phản thực tế}
+Cả 20 mẫu gold được đánh dấu đều là khẳng định cạnh trực tiếp. Các câu này được trả lời bằng cách kiểm tra $A\rightarrow Y$ có tồn tại hay không, vì vậy bỏ qua suy luận trạng thái thế giới của biến trung gian. Chỉ 23 truy vấn v4.0 sử dụng tín hiệu quyết định \texttt{legal\_scm\_world\_state}, và không truy vấn nào thuộc tập gold được đánh dấu. Do đó, độ chính xác 100\% trên tập này không xác nhận Phương trình~\ref{eq:do}.
+
+\subsection{Thiếu can thiệp có khả năng phân biệt}
+Cả 3.393 can thiệp được phát ra trong audit phụ đều mang nhãn \textsc{necessary}; không có can thiệp \textsc{non-necessary} hoặc \textsc{indeterminate}. Một mô hình luôn đoán cần thiết cho chuỗi truy xuất đủ điều kiện vì vậy vẫn có vẻ thành công trên phân phối chẩn đoán này. Cần nhãn can thiệp cân bằng và các cơ chế thay thế đang hoạt động để phân biệt suy luận lại cấu trúc với xóa tô-pô.
+
+\subsection{Lỗi đường và câu trả lời}
+Bốn mẫu phân nhánh và mười mẫu hội tụ không có một đường gold tuyến tính hoàn chỉnh, nhưng vẫn đóng góp giá trị 0 vào metric đường tuyến tính chính thức. Nếu điều kiện hóa trên 236 mẫu có đường gold tuyến tính, phép tính độ nhạy đơn giản cho top-1 exact là 88/236=37,29\% và oracle exact là 178/236=75,42\%; đây không phải giá trị chính thức của Bước~7. Ngoài ra, câu trả lời extractive ngắn hơn gold trung bình (21,9 so với 45,1 token), góp phần làm recall thấp và exact match bằng 0. Đánh giá tương lai nên tách độ đúng của quyết định sự kiện, độ đầy đủ của giải thích và quan hệ kéo theo của trích dẫn.
+
+\section{Hạn chế, nguy cơ đối với tính hợp lệ và sử dụng có trách nhiệm}
+\label{sec:limitations}
+\begin{enumerate}
+  \item \textbf{Tính vòng do dẫn xuất từ đồ thị.} Câu hỏi và mẫu âm được xây từ chính đồ thị cần truy xuất. Kết quả đo khả năng khôi phục một mã hóa, không đo chân lý pháp lý bên ngoài hay khả năng tổng quát ngoài phân phối.
+  \item \textbf{Chưa có audit pháp lý độc lập.} Quy tắc, chuẩn hóa sự kiện, đáp án benchmark và trích dẫn chưa có quy trình thẩm định độc lập bởi chuyên gia được ghi nhận. Hệ thống không được dùng làm tư vấn pháp luật.
+  \item \textbf{Đơn giản hóa chuẩn tắc.} Ngôn ngữ tình thái như ``có thể'' có thể bị chuyển thành cơ chế dương tất định. Adapter hiện tại có một điều kiện và không có ngoại lệ; chưa đánh giá ưu tiên quy tắc, suy luận khả bác, thứ bậc pháp luật, hiệu lực theo thời gian hay cách diễn giải cạnh tranh.
+  \item \textbf{Mô hình phản thực tế hạn chế.} Ngữ cảnh thực tế là $\{A=\stateT\}$, các gốc khác giữ unknown và sự kiện nội sinh dùng mặc định closed-world. Không có bước abduction biến ẩn. Kết quả là mô phỏng theo ngữ cảnh, không phải phản thực tế thế giới thực đã định danh đầy đủ.
+  \item \textbf{Tìm kiếm có giới hạn.} Truy xuất hai hop và ablation ba hop có thể bỏ sót phương án dài hơn. ``Không có đường thay thế'' chỉ có nghĩa không tìm thấy trong đồ thị và ngân sách cấu hình.
+  \item \textbf{Intent và đối sánh thực thể dạng heuristic.} Cue regex tiếng Việt và so khớp substring cho biến trung gian có thể lỗi trước diễn đạt lại, mơ hồ, phủ định hoặc thuật ngữ chưa thấy.
+  \item \textbf{Hạn chế metric.} Cờ phản thực tế hiện đo mẫu âm cạnh trực tiếp; metric đường tuyến tính phạt cấu trúc phi tuyến; macro-F1 bỏ lớp có support bằng 0; độ hợp lệ trích dẫn mới ở cấp định danh thay vì kéo theo ngữ nghĩa.
+  \item \textbf{Nhiễu do phiên bản và runtime.} Artifact báo cáo dùng v4.0 trong khi source là v4.1. Runtime chưa cố định phần cứng và kiểm soát cache lạnh/nóng.
+  \item \textbf{So sánh bên ngoài còn hạn chế.} Bản nháp chưa so sánh vanilla RAG, graph RAG chung, hệ thống chỉ LLM hoặc các hiện thực causal/counterfactual RAG đã công bố dưới cùng giao thức.
+\end{enumerate}
+
+\section{Giai đoạn thực nghiệm tiếp theo}
+\label{sec:future}
+Giai đoạn ngay tiếp theo gồm hai phần. Thứ nhất, cần chạy lại cả hai chế độ bằng v4.1 từ cùng input truy xuất đã cache, đồng thời ghi commit/hash dữ liệu, phần cứng và khác biệt theo cặp từng mẫu. Báo cáo cần tổng hợp số đường SCM được thử/được dùng, độ bao phủ hop, lý do fallback, phân phối lớp can thiệp và chuyển trạng thái outcome.
+
+Thứ hai, benchmark phản thực tế cấu trúc cân bằng nên định nghĩa mỗi mẫu dưới dạng
+\[
+(q,\ C_F,\ \doop(M=m),\ Y_F,\ Y_{\doop},\ z),
+\]
+trong đó $C_F$ là ngữ cảnh thực tế và $z$ là trạng thái gold. Tối thiểu cần cân bằng \textsc{necessary}, \textsc{non-necessary} và \textsc{indeterminate}; thêm các ca \textsc{sufficient} và \textsc{no-effect} sẽ kiểm tra đầy đủ engine. Ca non-necessary phải chứa cơ chế thay thế đang hoạt động, còn ca indeterminate nên bộc lộ gốc unknown, xung đột hoặc quy tắc chưa đầy đủ. Chuyên gia pháp luật cần thẩm định cả diễn giải thực tế lẫn can thiệp.
+
+Các hướng tiếp theo gồm thêm điều kiện hội và ngoại lệ đã mã hóa, cải thiện xếp hạng đường ngược, đánh giá tập đường phi tuyến, so sánh baseline bên ngoài và đo xem vết quy tắc/thế giới có giúp người đánh giá phát hiện câu trả lời sai hay không. \todo{Đăng ký trước giả thuyết, metric chính và quy tắc loại mẫu trước khi chạy benchmark quyết định.}
+
+\section{Kết luận}
+\label{sec:conclusion}
+Bản nháp mô tả pipeline CausalRAG trong đó đối tượng truy xuất trung tâm là đồ thị nhân quả pháp luật và đối tượng xác minh là mô hình quy tắc chuẩn tắc có thể thực thi. Hiện thực có thể xác minh chuỗi thực tế có hướng và suy luận lại outcome sau can thiệp cứng lên biến trung gian, đồng thời giữ xóa nút như một ablation tô-pô yếu hơn được ghi rõ. Kết quả sơ bộ v4.0 cho thấy độ phủ truy xuất hữu ích nhưng còn nhiều lỗi xếp hạng đường và sinh câu trả lời, metric chất lượng giống nhau giữa hai chế độ xác minh và chi phí runtime cấu trúc đáng kể. Quan trọng nhất, tập ``phản thực tế'' hiện tại không kiểm tra can thiệp cấu trúc và các can thiệp được phát ra không đa dạng nhãn. Vì vậy, tuyên bố có thể bảo vệ tiếp theo không phụ thuộc vào thêm một số accuracy tổng hợp, mà phụ thuộc vào benchmark phản thực tế cấu trúc cân bằng, được thẩm định bởi chuyên gia và khớp phiên bản.
+
+\appendix
+
+\section{Danh sách kiểm tra khả năng tái lập}
+\label{app:reproducibility}
+Các giai đoạn hiện thực tương ứng với bản nháp gồm:
+\begin{itemize}
+  \item \path{1_build_legal_causal_graph.py}: xây dựng đồ thị;
+  \item \path{2_build_causal_memory.py}: bộ nhớ quy tắc/sự kiện và chỉ mục FAISS;
+  \item \path{3_multi_hop_causal_retriever.py}: seed ngữ nghĩa, mở rộng nhân quả và xếp hạng lại;
+  \item \path{causal_core/schema.py} và \path{causal_core/legal_scm.py}: quy tắc chuẩn và suy luận cấu trúc chuẩn tắc;
+  \item \path{4_counterfactual_verification.py}: xác minh cấu trúc, ablation tô-pô và khẳng định nhận biết truy vấn;
+  \item \path{5_generate_final_answer.py}: chọn bằng chứng và tạo câu trả lời;
+  \item \path{5_5_generate_pipeline_predictions.py}: chạy batch Bước~3--5;
+  \item \path{7_compute_evaluation_metrics.py}: metric và chẩn đoán theo nhóm.
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Các thiết lập cố định chính trong lần chạy sơ bộ.}
+\label{tab:hyperparameters}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Thành phần & Thiết lập \\
+\midrule
+Mô hình embedding & \texttt{BAAI/bge-m3} \\
+Pool ngữ nghĩa / seed sự kiện / quy tắc trực tiếp & 100 / 8 / 8 \\
+Hop truy xuất / đường trên mỗi seed & 2 / 30 \\
+Quy tắc ứng viên / bằng chứng trả về & 200 / 12 \\
+Hop / đường tìm kiếm phản thực tế & 3 / 30 \\
+Ngưỡng giữ / loại bằng chứng & 0,52 / 0,34 \\
+Bộ sinh câu trả lời & extractive tất định \\
+Ngữ cảnh / can thiệp cấu trúc & $\{A=\stateT\}$ / $\doop(M=\stateF)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\todo{Trước khi nộp, bổ sung URL repository, commit bất biến, giấy phép, lockfile môi trường, random seed, revision mô hình, lệnh chạy chính xác, phần cứng, hash artifact và output v4.1 theo cặp.}
+
+\section{Danh sách kiểm tra ranh giới tuyên bố}
+\label{app:claims}
+Để tránh trượt claim, bản cuối cần giữ các phát biểu sau: (i) đồ thị được dẫn xuất từ quy tắc chuẩn hóa chứ không được khám phá từ quan sát; (ii) \texttt{path\_ablation} không phải can thiệp do; (iii) hai chế độ sơ bộ có chất lượng được báo cáo bằng nhau; (iv) độ chính xác 100\% trên tập được đánh dấu kiểm tra cạnh trực tiếp không tồn tại chứ không kiểm tra tính hợp lệ phản thực tế cấu trúc; (v) metric end-to-end v4.1 đang chờ; và (vi) hệ thống là prototype nghiên cứu, không phải tư vấn pháp luật.
+
+\bibliographystyle{plainnat}
+\bibliography{../references}
+
+\end{document}
