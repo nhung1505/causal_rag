@@ -1,0 +1,192 @@
+\section{Công trình liên quan}
+\label{sec:related-work}
+
+\subsection{Retrieval-Augmented Generation và hỏi--đáp nhiều bước}
+
+Retrieval-Augmented Generation (RAG) được đề xuất như một kiến trúc kết hợp
+khả năng sinh của mô hình ngôn ngữ với một bộ nhớ tri thức bên ngoài
+\cite{lewis2020rag}. Thay vì chỉ dựa vào tri thức được mã hóa trong tham số
+mô hình, RAG truy hồi các đoạn văn liên quan đến truy vấn và sử dụng chúng
+làm ngữ cảnh cho quá trình sinh. Cơ chế này giúp cập nhật nguồn tri thức mà
+không cần huấn luyện lại toàn bộ mô hình, đồng thời tạo điều kiện để truy
+vết câu trả lời về các tài liệu nguồn.
+
+Phần lớn pipeline RAG cơ bản thực hiện truy hồi ở mức đoạn văn và xếp hạng
+các ứng viên dựa trên độ tương đồng giữa biểu diễn truy vấn và biểu diễn tài
+liệu. Cách tiếp cận này giả định rằng một hoặc một số đoạn được xếp hạng cao
+chứa đủ thông tin để trả lời câu hỏi. Tuy nhiên, giả định đó không luôn đúng
+đối với câu hỏi nhiều bước. Trong những trường hợp này, bằng chứng thứ nhất
+có thể xác định một sự kiện trung gian, còn bằng chứng thứ hai mới liên kết
+sự kiện trung gian với kết luận cuối cùng. Nếu mỗi bằng chứng được xếp hạng
+độc lập, hệ thống có thể truy hồi đúng từng mảnh thông tin nhưng không nhận
+ra thứ tự suy luận giữa chúng.
+
+HotpotQA là một trong những benchmark có ảnh hưởng đối với hỏi--đáp nhiều
+bước, trong đó hệ thống không chỉ phải đưa ra câu trả lời mà còn phải xác
+định các supporting facts được sử dụng
+\cite{yang2018hotpotqa}. Các nghiên cứu trên dạng tác vụ này cho thấy chất
+lượng truy hồi từng đoạn riêng lẻ và chất lượng khôi phục toàn bộ chuỗi suy
+luận là hai vấn đề khác nhau. Điều này đặc biệt quan trọng trong miền pháp
+luật, nơi thứ tự áp dụng quy tắc có thể quyết định ý nghĩa của kết luận:
+một điều kiện ban đầu làm phát sinh trạng thái pháp lý trung gian và trạng
+thái đó tiếp tục kích hoạt một hệ quả pháp lý khác.
+
+Bên cạnh cấu trúc truy hồi, chất lượng biểu diễn truy vấn và tài liệu cũng
+ảnh hưởng trực tiếp đến khả năng tìm đúng rule hoặc event. BGE-M3 hỗ trợ
+nhiều cơ chế biểu diễn và truy hồi trong một mô hình đa ngôn ngữ, bao gồm
+dense retrieval, sparse retrieval và multi-vector retrieval
+\cite{chen2024bgem3}. Trong nghiên cứu này, BGE-M3 được sử dụng để mã hóa
+các rule và event tiếng Việt. Tuy nhiên, embedding chỉ cung cấp tín hiệu
+tương đồng ngữ nghĩa; cấu trúc suy luận nhiều bước vẫn cần được khôi phục
+thông qua đồ thị và quá trình mở rộng causal path.
+
+\subsection{Graph-based RAG và truy hồi theo đường dẫn}
+
+Graph-based RAG thay thế hoặc bổ sung kho đoạn văn độc lập bằng một biểu
+diễn đồ thị, trong đó node mô tả thực thể, sự kiện, khái niệm hoặc tài liệu,
+còn edge mô tả quan hệ giữa các node. Cấu trúc này cho phép truy hồi không
+chỉ dựa trên độ tương đồng trực tiếp với truy vấn mà còn dựa trên các node
+lân cận, đường đi và cộng đồng trong graph.
+
+GraphRAG tổ chức tri thức được trích xuất thành graph và sử dụng các bản tóm
+tắt theo cộng đồng để hỗ trợ truy vấn cần tổng hợp thông tin ở phạm vi rộng
+\cite{edge2024graphrag}. Mục tiêu chính của cách tiếp cận này là khai thác
+cấu trúc toàn cục của corpus thay vì chỉ lấy các đoạn văn gần nhất với truy
+vấn. HippoRAG khai thác graph như một dạng bộ nhớ liên kết, cho phép lan
+truyền tín hiệu từ các khái niệm được kích hoạt bởi truy vấn tới những node
+có quan hệ nhiều bước \cite{gutierrez2024hipporag}. Các nghiên cứu này cho
+thấy graph có thể cải thiện khả năng kết nối những bằng chứng không đồng
+thời có độ tương đồng cao với câu hỏi.
+
+Dù vậy, graph connectivity không tự động tương đương với tính hợp lệ của
+một chuỗi suy luận. Một đường đi có thể tồn tại vì hai sự kiện cùng xuất
+hiện trong một tài liệu, cùng liên quan đến một thực thể hoặc được kết nối
+bởi một loại quan hệ không có hướng nhân quả. Trong miền pháp luật, sự khác
+biệt này càng quan trọng vì hệ thống cần phân biệt quan hệ tham chiếu, quan
+hệ cùng điều luật và quan hệ điều kiện--hệ quả.
+
+Nghiên cứu này sử dụng một graph dị thể trong đó causal path được giới hạn
+bởi các cạnh \texttt{CAUSES} hình thành từ quy tắc pháp luật đã chuẩn hóa.
+Mỗi hop của đường dẫn phải được liên kết với ít nhất một rule và căn cứ điều
+luật tương ứng. Do đó, đơn vị truy hồi chính không chỉ là node hoặc đoạn văn
+mà là một chuỗi có thứ tự:
+
+\[
+v_0 \xrightarrow{r_1} v_1
+    \xrightarrow{r_2} \cdots
+    \xrightarrow{r_h} v_h,
+\]
+
+trong đó \(v_i\) là sự kiện và \(r_i\) là quy tắc pháp luật hỗ trợ bước
+chuyển. Biểu diễn này không khẳng định rằng mọi cạnh trong graph là một quan
+hệ nhân quả thực nghiệm; nó chỉ mã hóa hướng suy diễn quy phạm từ điều kiện
+đến hệ quả theo corpus được sử dụng.
+
+\subsection{Mô hình nhân quả cấu trúc và suy luận phản thực tế}
+
+Structural Causal Model cung cấp ngôn ngữ hình thức để biểu diễn các biến,
+cơ chế cấu trúc và kết quả của can thiệp
+\cite{pearl2009causality}. Điểm quan trọng phân biệt can thiệp với quan sát
+là phép toán \(do(\cdot)\). Khi thực hiện \(do(M=m)\), giá trị của biến
+\(M\) được gán cưỡng bức và cơ chế thông thường tạo ra \(M\) bị thay thế.
+Sau đó, các biến hậu duệ được suy luận lại theo những cơ chế cấu trúc còn
+lại. Cách diễn giải này khác với việc chỉ xóa một node khỏi graph và kiểm
+tra xem giữa hai node khác còn tồn tại đường đi hay không.
+
+Các nghiên cứu gần đây đã bắt đầu kết hợp causal reasoning với RAG.
+CausalRAG khai thác cấu trúc nhân quả để hỗ trợ quá trình truy hồi và suy
+luận thay vì chỉ dựa trên liên kết ngữ nghĩa
+\cite{wang2025causalrag}. Các hướng causal-counterfactual RAG tiếp tục khảo
+sát cách sử dụng claim phản thực tế hoặc thay đổi ngữ cảnh để kiểm tra tính
+ổn định của câu trả lời
+\cite{khadilkar2025causalcounterfactualrag}. CF-RAG thể hiện sự quan tâm
+ngày càng tăng đối với counterfactual reasoning trong các hệ thống RAG
+\cite{qin2026cfrag}. Các công trình này cho thấy việc bổ sung cấu trúc nhân
+quả có thể hỗ trợ phân biệt giữa bằng chứng chỉ có tương quan ngữ nghĩa và
+bằng chứng có vai trò trong một cơ chế suy luận.
+
+Nghiên cứu hiện tại có phạm vi khác với causal discovery hoặc causal effect
+estimation. Hệ thống không học hướng cạnh từ dữ liệu quan sát và không ước
+lượng một đại lượng tác động trung bình. Thay vào đó, hướng điều
+kiện--hệ quả được lấy từ các quy tắc pháp luật đã chuẩn hóa. LegalSCM sử
+dụng các rule này như cơ chế tất định để kiểm tra factual path và mô phỏng
+việc gán một mediator về trạng thái \(\mathrm{FALSE}\). Vì vậy, kết quả
+counterfactual của LegalSCM chỉ có ý nghĩa trong phạm vi mô hình quy phạm và
+corpus đầu vào.
+
+Một khác biệt khác của nghiên cứu này là phân tích claim theo truy vấn. Hệ
+thống không thực hiện can thiệp trên mọi câu hỏi. Đối với câu hỏi nhân quả
+thông thường, LegalSCM chủ yếu kiểm tra khả năng kích hoạt factual path. Đối
+với claim về cạnh trực tiếp, hệ thống kiểm tra cấu trúc edge thay vì suy
+diễn rằng một đường hai bước tương đương với quan hệ trực tiếp. Hard
+intervention chỉ được diễn giải khi truy vấn thực sự đề cập đến việc loại
+bỏ hoặc giả định sự vắng mặt của một mediator.
+
+\subsection{Hỏi--đáp và suy luận trong miền pháp luật}
+
+Các benchmark pháp luật hiện có bao phủ nhiều dạng bài toán, từ phân loại
+và dự đoán kết quả đến truy hồi căn cứ và trả lời câu hỏi. CaseHOLD đánh giá
+khả năng lựa chọn holding phù hợp trong các vụ án, qua đó nhấn mạnh yêu cầu
+phân biệt giữa những phương án pháp lý có nội dung gần nhau
+\cite{zheng2021casehold}. LegalBench tập hợp nhiều tác vụ nhằm đánh giá các
+năng lực pháp lý khác nhau của mô hình ngôn ngữ, bao gồm nhận diện quy tắc,
+áp dụng quy tắc và suy luận trên tình huống
+\cite{guha2023legalbench}.
+
+Trong khi đó, LegalBench-RAG tập trung rõ hơn vào vai trò của retrieval
+trong các ứng dụng pháp luật \cite{alami2024legalbenchrags}. Hướng nghiên
+cứu này phù hợp với yêu cầu thực tế rằng câu trả lời pháp lý cần được gắn
+với tài liệu hoặc điều luật nguồn. Tuy nhiên, việc truy hồi đúng tài liệu
+chưa bảo đảm rằng mô hình đã áp dụng các quy tắc theo đúng thứ tự. Citation
+cũng có thể đúng ở mức điều luật nhưng chưa chắc hỗ trợ trực tiếp kết luận
+được sinh ra.
+
+So với các benchmark trên, bộ đánh giá được sử dụng trong nghiên cứu này có
+phạm vi hẹp hơn về hệ thống pháp luật nhưng tập trung cụ thể vào cấu trúc
+suy luận đa bước trong Bộ luật Hình sự Việt Nam. Mỗi câu hỏi được liên kết
+với gold rule, gold event, gold path, gold answer và gold citation. Các dạng
+câu hỏi bao gồm suy luận thuận, suy luận ngược, tìm bridge event, giải thích
+chuỗi, kiểm tra cạnh trực tiếp, phân nhánh và hội tụ.
+
+Tuy nhiên, bộ đánh giá hiện tại được sinh từ cùng graph nguồn và chưa trải
+qua quy trình thẩm định đầy đủ bởi chuyên gia pháp luật. Do đó, nghiên cứu
+không coi đây là một benchmark pháp lý có tính chuẩn tắc hoặc có khả năng
+đại diện cho mọi dạng suy luận trong Bộ luật Hình sự. Nó được sử dụng như
+một testbed có kiểm soát để đánh giá khả năng khôi phục đường dẫn, xác minh
+claim và sinh câu trả lời từ graph.
+
+\subsection{Định vị nghiên cứu}
+
+Nghiên cứu này không xem từng thành phần riêng lẻ---embedding retrieval,
+graph traversal, SCM hoặc extractive answer generation---là một đóng góp
+hoàn toàn mới. Đóng góp nằm ở cách các thành phần được tích hợp và giới hạn
+cho bài toán suy luận pháp luật:
+
+\begin{enumerate}
+    \item Rule và event được biểu diễn đồng thời trong bộ nhớ vector và đồ
+    thị nhân quả dị thể.
+
+    \item Kết quả retrieval được tổ chức thành causal path có thứ tự, trong
+    đó mỗi hop được gắn với rule và căn cứ pháp luật.
+
+    \item Query analysis quyết định loại claim và dạng câu trả lời mà không
+    sử dụng nhãn benchmark.
+
+    \item LegalSCM kiểm tra factual path và hard intervention trong phạm vi
+    mô hình quy phạm, trong khi node-deletion reachability được giữ như một
+    baseline riêng biệt.
+
+    \item Câu trả lời cuối cùng được sinh theo answer intent và chỉ sử dụng
+    citation từ những rule thực sự tham gia vào đường suy luận được chọn.
+
+    \item Structural SCM và path ablation được đánh giá theo paired setup để
+    phân biệt tác động lên chất lượng với chi phí tính toán và khả năng diễn
+    giải.
+\end{enumerate}
+
+So sánh thực nghiệm cho thấy structural SCM và path ablation đạt các quality
+metric giống nhau trên benchmark hiện tại. Kết quả này khác với một tuyên
+bố về tính vượt trội của SCM: nó chỉ ra rằng tập câu hỏi hiện có chưa đủ
+nhạy để phân biệt hai semantics can thiệp. Phát hiện này đồng thời đặt ra
+yêu cầu xây dựng các mẫu có ground truth về factual world, mediator
+intervention và counterfactual outcome trong các nghiên cứu tiếp theo.

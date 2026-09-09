@@ -1,5 +1,6 @@
 % Shared bibliography for paper/en/main.tex and paper/vi/main.tex.
-% Metadata was checked against publisher, proceedings, ACL Anthology, or arXiv pages.
+% Metadata was checked against publisher, proceedings, ACL Anthology, arXiv,
+% ICLR, or the identifying information of the cited Vietnamese legislation.
 
 @book{pearl2009causality,
   author    = {Judea Pearl},
@@ -47,18 +48,22 @@
   author    = {Bernal Jim{\'e}nez Guti{\'e}rrez and Yiheng Shu and Yu Gu and Michihiro Yasunaga and Yu Su},
   title     = {{HippoRAG}: Neurobiologically Inspired Long-Term Memory for Large Language Models},
   booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {37},
   year      = {2024},
-  doi       = {10.52202/079017-1902},
   url       = {https://proceedings.neurips.cc/paper_files/paper/2024/hash/6ddc001d07ca4f319af96a3024f6dbd1-Abstract-Conference.html}
 }
 
-@article{wang2025causalrag,
-  author  = {Nengbo Wang and Xiaotian Han and Jagdip Singh and Jing Ma and Vipin Chaudhary},
-  title   = {{CausalRAG}: Integrating Causal Graphs into Retrieval-Augmented Generation},
-  journal = {arXiv preprint arXiv:2503.19878},
-  year    = {2025},
-  doi     = {10.48550/arXiv.2503.19878},
-  url     = {https://arxiv.org/abs/2503.19878}
+@inproceedings{wang2025causalrag,
+  author    = {Nengbo Wang and Xiaotian Han and Jagdip Singh and Jing Ma and Vipin Chaudhary},
+  title     = {{CausalRAG}: Integrating Causal Graphs into Retrieval-Augmented Generation},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2025},
+  pages     = {22680--22693},
+  publisher = {Association for Computational Linguistics},
+  address   = {Vienna, Austria},
+  month     = jul,
+  year      = {2025},
+  doi       = {10.18653/v1/2025.findings-acl.1165},
+  url       = {https://aclanthology.org/2025.findings-acl.1165/}
 }
 
 @article{wang2026causalrag2,
@@ -92,7 +97,6 @@
   title     = {{LegalBench}: A Collaboratively Built Benchmark for Measuring Legal Reasoning in Large Language Models},
   booktitle = {Advances in Neural Information Processing Systems: Datasets and Benchmarks Track},
   year      = {2023},
-  doi       = {10.52202/075280-1915},
   url       = {https://proceedings.neurips.cc/paper_files/paper/2023/hash/89e44582fd28ddfea1ea4dcb0ebbf4b0-Abstract-Datasets_and_Benchmarks.html}
 }
 
@@ -100,12 +104,14 @@
   author    = {Lucia Zheng and Neel Guha and Brandon R. Anderson and Peter Henderson and Daniel E. Ho},
   title     = {When Does Pretraining Help? Assessing Self-Supervised Learning for Law and the {CaseHOLD} Dataset},
   booktitle = {Proceedings of the Eighteenth International Conference on Artificial Intelligence and Law},
+  pages     = {159--168},
+  publisher = {Association for Computing Machinery},
   year      = {2021},
   doi       = {10.1145/3462757.3466088},
-  url       = {https://arxiv.org/abs/2104.08671}
+  url       = {https://doi.org/10.1145/3462757.3466088}
 }
 
-@article{alami2024legalbenchrag,
+@article{alami2024legalbenchrags,
   author  = {Ghita Houir Alami},
   title   = {{LegalBench-RAG}: A Benchmark for Retrieval-Augmented Generation in the Legal Domain},
   journal = {arXiv preprint arXiv:2408.10343},
@@ -114,11 +120,56 @@
   url     = {https://arxiv.org/abs/2408.10343}
 }
 
-@article{chen2024bgem3,
-  author  = {Jianlv Chen and Shitao Xiao and Peitian Zhang and Kun Luo and Defu Lian and Zheng Liu},
-  title   = {{BGE M3-Embedding}: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation},
-  journal = {arXiv preprint arXiv:2402.03216},
-  year    = {2024},
-  doi     = {10.48550/arXiv.2402.03216},
-  url     = {https://arxiv.org/abs/2402.03216}
+@inproceedings{chen2024bgem3,
+  author    = {Jianlyu Chen and Shitao Xiao and Peitian Zhang and Kun Luo and Defu Lian and Zheng Liu},
+  title     = {{M3-Embedding}: Multi-Linguality, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2024},
+  pages     = {2318--2335},
+  publisher = {Association for Computational Linguistics},
+  address   = {Bangkok, Thailand},
+  month     = aug,
+  year      = {2024},
+  doi       = {10.18653/v1/2024.findings-acl.137},
+  url       = {https://aclanthology.org/2024.findings-acl.137/}
+}
+
+@article{johnson2019billion,
+  author  = {Jeff Johnson and Matthijs Douze and Herv{\'e} J{\'e}gou},
+  title   = {Billion-Scale Similarity Search with {GPU}s},
+  journal = {IEEE Transactions on Big Data},
+  volume  = {7},
+  number  = {3},
+  pages   = {535--547},
+  year    = {2019},
+  doi     = {10.1109/TBDATA.2019.2921572},
+  url     = {https://arxiv.org/abs/1702.08734}
+}
+
+@inproceedings{lin2004rouge,
+  author    = {Chin-Yew Lin},
+  title     = {{ROUGE}: A Package for Automatic Evaluation of Summaries},
+  booktitle = {Text Summarization Branches Out},
+  pages     = {74--81},
+  publisher = {Association for Computational Linguistics},
+  address   = {Barcelona, Spain},
+  year      = {2004},
+  url       = {https://aclanthology.org/W04-1013/}
+}
+
+@misc{quochoi2015blhs,
+  author       = {{Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam}},
+  title        = {Bộ luật Hình sự số 100/2015/QH13},
+  year         = {2015},
+  month        = nov,
+  howpublished = {Văn bản luật},
+  note         = {Thông qua ngày 27 tháng 11 năm 2015}
+}
+
+@misc{quochoi2017suadoiblhs,
+  author       = {{Quốc hội nước Cộng hòa xã hội chủ nghĩa Việt Nam}},
+  title        = {Luật số 12/2017/QH14 sửa đổi, bổ sung một số điều của Bộ luật Hình sự số 100/2015/QH13},
+  year         = {2017},
+  month        = jun,
+  howpublished = {Văn bản luật},
+  note         = {Thông qua ngày 20 tháng 6 năm 2017}
 }

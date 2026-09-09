@@ -1,0 +1,726 @@
+\section{Phương pháp đề xuất}
+\label{sec:method}
+
+\subsection{Tổng quan pipeline}
+
+Pipeline được thiết kế thành các bước độc lập nhưng trao đổi với nhau thông
+qua các artifact JSON có schema xác định. Cách tổ chức này cho phép kiểm tra
+từng giai đoạn, chạy lại một bước mà không phải thực thi toàn bộ pipeline và
+so sánh các phương pháp xác minh trên cùng kết quả retrieval.
+
+Luồng xử lý tổng thể gồm năm giai đoạn:
+
+\begin{enumerate}
+    \item chuẩn hóa văn bản pháp luật thành các quy tắc điều
+    kiện--hệ quả;
+
+    \item xây dựng đồ thị nhân quả pháp luật và causal memory;
+
+    \item truy hồi event, rule và causal path nhiều bước;
+
+    \item phân tích claim theo truy vấn và xác minh bằng LegalSCM hoặc path
+    ablation;
+
+    \item lựa chọn evidence, xác định answer intent và sinh câu trả lời có
+    citation.
+\end{enumerate}
+
+Với truy vấn đầu vào \(q\), pipeline tạo ra một tập candidate event, một tập
+candidate rule và một tập causal path. Các path sau đó được xác minh để chọn
+primary path. Câu trả lời cuối cùng được sinh từ primary path, quyết định
+xác minh và những evidence pháp luật đã được giữ lại.
+
+\begin{figure*}[t]
+    \centering
+    % Thay bằng hình pipeline chính thức khi hoàn thiện paper:
+    % \includegraphics[width=0.95\textwidth]{figures/causalrag_pipeline.pdf}
+    \fbox{
+        \parbox{0.92\textwidth}{
+        \centering
+        Văn bản pháp luật
+        \(\rightarrow\) Chuẩn hóa quy tắc
+        \(\rightarrow\) Đồ thị nhân quả và causal memory
+        \(\rightarrow\) Truy hồi đa bước
+        \(\rightarrow\) Query-aware verification
+        \(\rightarrow\) Sinh câu trả lời và citation
+        }
+    }
+    \caption{Kiến trúc tổng thể của pipeline CausalRAG cho suy luận pháp
+    luật hình sự Việt Nam.}
+    \label{fig:pipeline}
+\end{figure*}
+
+\subsection{Chuẩn hóa quy tắc pháp luật}
+
+Đầu vào ban đầu là các điều khoản pháp luật ở dạng văn bản. Mục tiêu của
+bước chuẩn hóa là chuyển nội dung văn bản thành các đơn vị có thể được sử
+dụng trong retrieval và graph reasoning. Mỗi quy tắc được lưu với các trường
+chính:
+
+\begin{itemize}
+    \item mã định danh quy tắc;
+    \item mã và tiêu đề điều luật;
+    \item chủ thể pháp luật;
+    \item điều kiện áp dụng;
+    \item hệ quả pháp lý;
+    \item event ID và event name của điều kiện;
+    \item event ID và event name của hệ quả;
+    \item loại quan hệ nhân quả hoặc loại hệ quả nếu có.
+\end{itemize}
+
+Event ID được chuẩn hóa thành chuỗi không dấu và dùng dấu gạch dưới để kết
+nối các token. Event name giữ lại biểu diễn tiếng Việt có thể đọc được. Việc
+tách ID khỏi name giúp hệ thống sử dụng ID ổn định cho graph matching, đồng
+thời sử dụng name cho semantic retrieval và sinh câu trả lời.
+
+Ví dụ, một quy tắc có thể được chuẩn hóa thành:
+
+\begin{quote}
+Điều kiện: ``cố ý thực hiện tội phạm nhưng không thực hiện được đến cùng vì
+nguyên nhân ngoài ý muốn'';
+
+Hệ quả: ``được xác định là phạm tội chưa đạt'';
+
+Căn cứ: Điều 15 Bộ luật Hình sự.
+\end{quote}
+
+Quy tắc này tạo quan hệ:
+
+\[
+\texttt{co\_y\_thuc\_hien\_toi\_pham\_nhung\_khong\_hoan\_thanh}
+\rightarrow
+\texttt{pham\_toi\_chua\_dat}.
+\]
+
+Nếu một event vừa là hệ quả của quy tắc trước vừa là điều kiện của quy tắc
+sau, hai rule có thể được nối thành một causal path nhiều bước.
+
+\subsection{Xây dựng đồ thị nhân quả dị thể}
+
+Từ tập rule đã chuẩn hóa, hệ thống tạo ba nhóm node chính: event, rule và
+article. Mỗi rule được kết nối với event điều kiện, event hệ quả và điều luật
+nguồn. Đồng thời, một cạnh \texttt{CAUSES} được tạo từ event điều kiện đến
+event hệ quả.
+
+Việc lưu rule dưới dạng node riêng biệt giúp bảo toàn thông tin pháp lý mà
+một event-to-event edge đơn giản có thể làm mất, chẳng hạn:
+
+\begin{itemize}
+    \item nhiều quy tắc cùng nối một cặp event;
+    \item các quy tắc có cùng outcome nhưng khác điều kiện;
+    \item cùng một event xuất hiện trong nhiều điều luật;
+    \item một quan hệ được hỗ trợ bởi nhiều căn cứ pháp luật.
+\end{itemize}
+
+Đối với graph traversal, hệ thống sử dụng projection trên các event và cạnh
+\texttt{CAUSES}. Tuy nhiên, mỗi cạnh vẫn lưu rule ID và article ID để có thể
+truy ngược từ path về evidence gốc.
+
+Từ graph đầy đủ, hệ thống đồng thời trích xuất các chuỗi hai bước:
+
+\[
+v_0 \rightarrow v_1 \rightarrow v_2.
+\]
+
+Các chuỗi này được dùng để kiểm tra cấu trúc graph, hỗ trợ xây dựng benchmark
+và tạo candidate path trong retrieval.
+
+\subsection{Xây dựng causal memory}
+
+Graph traversal yêu cầu một seed event phù hợp với truy vấn. Tuy nhiên,
+event name trong graph không nhất thiết xuất hiện nguyên văn trong câu hỏi.
+Do đó, hệ thống xây dựng một causal memory chứa cả rule record và event
+record.
+
+Mỗi rule record bao gồm:
+
+\begin{itemize}
+    \item nội dung điều kiện và hệ quả;
+    \item chủ thể;
+    \item điều luật;
+    \item condition event và effect event;
+    \item metadata liên kết với graph.
+\end{itemize}
+
+Mỗi event record bao gồm:
+
+\begin{itemize}
+    \item event ID và event name;
+    \item vai trò điều kiện, mediator hoặc hệ quả;
+    \item các rule và article liên quan;
+    \item graph node ID tương ứng.
+\end{itemize}
+
+Các record được chuyển thành biểu diễn vector bằng BGE-M3
+\cite{chen2024bgem3}. Chỉ mục vector được xây dựng bằng FAISS để hỗ trợ tìm
+kiếm lân cận gần trên tập memory
+\cite{johnson2019billion}. Trong thực nghiệm, cùng một embedding space được
+sử dụng cho truy vấn, rule text và event text.
+
+Với truy vấn \(q\), embedding truy vấn được tính bởi:
+
+\begin{equation}
+\mathbf{z}_q
+=
+f_{\theta}(q),
+\end{equation}
+
+trong đó \(f_{\theta}\) là encoder BGE-M3. Độ tương đồng ngữ nghĩa giữa truy
+vấn và memory record \(m_i\) được tính bằng cosine similarity:
+
+\begin{equation}
+s_{\mathrm{sem}}
+\left(
+q,m_i
+\right)
+=
+\frac{
+    \mathbf{z}_q^\top \mathbf{z}_{m_i}
+}{
+    \left\Vert\mathbf{z}_q\right\Vert
+    \left\Vert\mathbf{z}_{m_i}\right\Vert
+}.
+\end{equation}
+
+Semantic score chỉ được sử dụng để tạo và xếp hạng ứng viên. Việc một record
+có semantic score cao không tự động làm cho nó trở thành evidence cuối cùng.
+
+\subsection{Truy hồi event và rule ứng viên}
+
+Bước retrieval thực hiện hai nhánh song song.
+
+Nhánh thứ nhất truy hồi các event có độ tương đồng cao với truy vấn. Các
+event này được dùng làm seed cho graph traversal. Mỗi seed record lưu:
+
+\begin{itemize}
+    \item event ID;
+    \item graph node ID;
+    \item event name;
+    \item semantic score;
+    \item vai trò của event;
+    \item phương pháp retrieval.
+\end{itemize}
+
+Nhánh thứ hai truy hồi trực tiếp các rule có nội dung gần với truy vấn. Direct
+rule retrieval giúp giữ lại những rule phù hợp ngay cả khi event name không
+khớp tốt với cách diễn đạt trong câu hỏi.
+
+Các ứng viên có điểm dưới ngưỡng tối thiểu bị loại bỏ. Trong cấu hình chính,
+hệ thống lấy tối đa tám seed event và tám direct rule hit trước khi mở rộng
+graph. Một semantic pool lớn hơn được giữ tạm thời để tránh loại bỏ sớm các
+ứng viên có thể tham gia vào một path tốt.
+
+\subsection{Mở rộng causal path nhiều bước}
+
+Từ mỗi seed event, retriever duyệt các cạnh \texttt{CAUSES} theo hướng được
+cấu hình. Thực nghiệm sử dụng \texttt{direction=both}, cho phép tìm kiếm theo
+chiều thuận và chiều ngược. Tùy theo vị trí của event trong truy vấn, một
+seed có thể đóng vai trò nguyên nhân, mediator hoặc outcome.
+
+Quá trình mở rộng bị giới hạn bởi:
+
+\begin{itemize}
+    \item số hop tối đa;
+    \item số path tối đa trên mỗi seed event;
+    \item số candidate rule tối đa;
+    \item ngưỡng semantic score của event và rule.
+\end{itemize}
+
+Mỗi candidate path lưu:
+
+\begin{itemize}
+    \item danh sách event ID và event name theo thứ tự nhân quả;
+    \item danh sách rule ID hỗ trợ từng hop;
+    \item danh sách article ID;
+    \item seed event và outcome event;
+    \item số hop;
+    \item semantic và graph score;
+    \item giải thích cấu trúc của path.
+\end{itemize}
+
+Retriever ưu tiên path có cấu trúc liên tục, rule đầy đủ cho từng hop và mức
+liên quan cao với truy vấn. Các path trùng nhau được hợp nhất theo chuỗi event
+và rule. Kết quả retrieval cuối cùng gồm candidate path, evidence rule và
+các event đã truy hồi.
+
+Cách thiết kế này tách biệt hai khái niệm:
+
+\begin{itemize}
+    \item \emph{path retrieval}: gold path có xuất hiện trong tập ứng viên
+    hay không;
+
+    \item \emph{path ranking}: gold path có được xếp ở vị trí đầu tiên hay
+    không.
+\end{itemize}
+
+Sự phân biệt này được phản ánh trong hai metric Oracle Exact Path và Top-1
+Exact Path ở Phần~\ref{sec:results}.
+
+\subsection{Phân tích truy vấn theo claim}
+
+Kết quả retrieval được chuyển sang bước query-aware verification. Trước khi
+xác minh path, hệ thống chuẩn hóa truy vấn bằng cách chuyển về chữ thường,
+loại bỏ khoảng trắng dư và nhận diện các nhóm tín hiệu ngôn ngữ.
+
+Các nhóm tín hiệu chính gồm:
+
+\begin{itemize}
+    \item tín hiệu về quan hệ trực tiếp, chẳng hạn ``trực tiếp'' hoặc
+    ``cạnh trực tiếp'';
+
+    \item tín hiệu loại bỏ hoặc giả định vắng mặt của mediator;
+
+    \item tín hiệu outcome vẫn giữ nguyên;
+
+    \item tín hiệu outcome biến mất;
+
+    \item tín hiệu hỏi về tính cần thiết;
+
+    \item tín hiệu phản thực tế hoặc điều kiện giả định.
+\end{itemize}
+
+Từ các tín hiệu này, query analyzer tạo một object
+\texttt{query\_analysis} chứa:
+
+\begin{itemize}
+    \item normalized query;
+    \item claim type;
+    \item phiên bản intent detector;
+    \item các cờ direct, remove, remains, disappears và necessary;
+    \item mediator được ánh xạ;
+    \item factual outcome và counterfactual outcome nếu có;
+    \item phương pháp xác minh;
+    \item trạng thái structural fallback.
+\end{itemize}
+
+Đối với câu hỏi phản thực tế, mediator được ánh xạ tới event trên candidate
+path bằng exact matching hoặc semantic matching. Nếu không tìm được mediator
+đủ tin cậy, hệ thống không tự động giả định một event tùy ý mà giữ kết quả ở
+trạng thái chưa xác định hoặc sử dụng fallback có ghi nhận lý do.
+
+\subsection{Khởi tạo LegalSCM}
+
+LegalSCM được xây dựng trực tiếp từ tập rule đã chuẩn hóa. Mỗi event được ánh
+xạ thành một biến nội sinh ba giá trị:
+
+\[
+X_v
+\in
+\left\{
+    \mathrm{TRUE},
+    \mathrm{FALSE},
+    \mathrm{UNKNOWN}
+\right\}.
+\]
+
+Mỗi rule được chuyển thành một mechanism liên kết condition event với effect
+event. Với phiên bản corpus hiện tại, một mechanism cơ bản có dạng:
+
+\begin{equation}
+X_{e_i}
+\leftarrow
+f_{r_i}
+\left(
+    X_{c_i}
+\right).
+\end{equation}
+
+Khi \(X_{c_i}=\mathrm{TRUE}\), rule \(r_i\) có thể kích hoạt và suy ra effect
+event. Nếu condition chưa xác định, rule chưa đủ căn cứ để kích hoạt.
+LegalSCM lặp qua các mechanism cho đến khi đạt fixed point hoặc đạt số vòng
+lặp tối đa.
+
+Các event gốc không được gán bởi factual context được giữ ở trạng thái
+\(\mathrm{UNKNOWN}\). Đối với event nội sinh, hệ thống áp dụng giả định
+closed-world có kiểm soát khi không có mechanism nào có thể kích hoạt nó.
+Nếu các mechanism tạo ra kết quả xung đột, trạng thái cuối được đặt thành
+\(\mathrm{UNKNOWN}\) thay vì buộc chọn một kết quả.
+
+LegalSCM được cache theo file rule và thời điểm sửa đổi. Cơ chế cache tránh
+việc phân tích lại toàn bộ tập 2.884 rule cho từng câu hỏi trong batch.
+
+\subsection{Xác nhận factual causal path}
+
+Với candidate path:
+
+\[
+p=
+\left(
+v_0,r_1,v_1,\ldots,r_h,v_h
+\right),
+\]
+
+hệ thống đặt seed event \(v_0\) vào factual context và thực hiện suy luận
+fixed point. Một path chỉ được xem là có factual support khi:
+
+\begin{enumerate}
+    \item outcome event \(v_h\) được suy ra ở trạng thái
+    \(\mathrm{TRUE}\);
+
+    \item các rule được kỳ vọng trên path xuất hiện trong tập rule đã kích
+    hoạt;
+
+    \item mỗi hop có ít nhất một mechanism phù hợp;
+
+    \item không có xung đột làm cho event quan trọng trở thành
+    \(\mathrm{UNKNOWN}\).
+\end{enumerate}
+
+Độ bao phủ rule của path được tính bằng:
+
+\begin{equation}
+\mathrm{Coverage}(p)
+=
+\frac{
+    \left|
+        \mathcal{R}_{p}
+        \cap
+        \mathcal{R}_{\mathrm{activated}}
+    \right|
+}{
+    \left|
+        \mathcal{R}_{p}
+    \right|
+},
+\end{equation}
+
+trong đó \(\mathcal{R}_{p}\) là tập rule được kỳ vọng trên path và
+\(\mathcal{R}_{\mathrm{activated}}\) là tập rule được kích hoạt trong factual
+world.
+
+Ngoài tỷ lệ bao phủ tổng thể, hệ thống lưu trạng thái bao phủ của từng hop.
+Trace này giúp phân biệt trường hợp outcome được suy ra qua đúng path đang
+xét với trường hợp outcome được kích hoạt bởi một rule khác ngoài path.
+
+\subsection{Hard intervention trên mediator}
+
+Đối với mỗi mediator \(M\) nằm bên trong một path nhiều bước, LegalSCM xây
+dựng một counterfactual world bằng phép:
+
+\[
+do
+\left(
+    M=\mathrm{FALSE}
+\right).
+\]
+
+Trong world này, mechanism thông thường tạo ra \(M\) bị thay thế bởi phép
+gán hằng \(\mathrm{FALSE}\). Những rule có điều kiện phụ thuộc vào \(M\) được
+đánh giá lại, sau đó trạng thái của các event hậu duệ được suy luận lại đến
+fixed point. Cách thực hiện này tuân theo semantics của intervention trong
+SCM \cite{pearl2009causality}.
+
+Với outcome \(Y\), hệ thống so sánh:
+
+\[
+Y^{F}
+=
+Y
+\left(
+W^{F}
+\right)
+\]
+
+và:
+
+\[
+Y^{CF}
+=
+Y
+\left(
+W^{F}
+\mid
+do(M=\mathrm{FALSE})
+\right).
+\]
+
+Nếu \(Y^{F}=\mathrm{TRUE}\) và \(Y^{CF}=\mathrm{FALSE}\), mediator được gán
+trạng thái \texttt{NECESSARY} trong context đang xét. Nếu outcome vẫn ở
+trạng thái \(\mathrm{TRUE}\), mediator không hoàn toàn cần thiết trong mô
+hình. Nếu factual hoặc counterfactual outcome không xác định, intervention
+được gán trạng thái chưa giải quyết.
+
+Mỗi intervention trace lưu:
+
+\begin{itemize}
+    \item mediator ID và mediator name;
+    \item intervention assignment;
+    \item factual mediator state;
+    \item factual outcome;
+    \item counterfactual outcome;
+    \item outcome có thay đổi hay không;
+    \item các rule bị vô hiệu hóa;
+    \item các rule mới được kích hoạt;
+    \item rule thay thế dẫn tới cùng outcome;
+    \item trạng thái và giải thích của intervention.
+\end{itemize}
+
+Những trường này được lưu trong output Step 4 nhằm phục vụ audit và không chỉ
+dùng để tính một decision label duy nhất.
+
+\subsection{Node-deletion path ablation}
+
+Path ablation được triển khai bằng cách loại mediator khỏi event graph, sau
+đó tìm các đường thay thế từ seed event đến outcome. Tìm kiếm đường thay thế
+được giới hạn bởi số hop và số path tối đa để kiểm soát chi phí.
+
+Với mỗi alternative path, hệ thống lưu:
+
+\begin{itemize}
+    \item chuỗi event thay thế;
+    \item số hop;
+    \item các rule hỗ trợ;
+    \item graph score;
+    \item điểm của đường thay thế tốt nhất.
+\end{itemize}
+
+Nếu không tìm được đường thay thế, mediator được xem là cần thiết theo tiêu
+chí reachability. Nếu một đường thay thế vượt ngưỡng điểm, outcome được xem
+là vẫn có thể tiếp cận sau khi xóa mediator.
+
+Khi chạy ở chế độ \texttt{structural\_scm}, kết quả path ablation vẫn được
+tính và lưu dưới dạng baseline diagnostic. Nếu LegalSCM không thể khởi tạo
+hoặc không thể xác minh path, hệ thống có thể sử dụng path ablation làm
+fallback, nhưng phải ghi rõ:
+
+\begin{itemize}
+    \item \texttt{structural\_fallback\_used};
+    \item lý do fallback;
+    \item phương pháp thực sự tạo ra kết quả.
+\end{itemize}
+
+Trong paired experiment, chế độ \texttt{path\_ablation} được chạy độc lập
+với cùng retrieval output và cùng hyperparameter, giúp so sánh hai engine mà
+không thay đổi các thành phần còn lại.
+
+\subsection{Xếp hạng và phân loại evidence}
+
+Mỗi rule evidence nhận một verification score kết hợp bốn tín hiệu:
+
+\begin{itemize}
+    \item mức hỗ trợ từ các factual path;
+    \item mức hỗ trợ từ counterfactual verification;
+    \item semantic relevance với truy vấn;
+    \item graph relevance và retrieval score.
+\end{itemize}
+
+Evidence thuộc primary causal path nhận thêm điểm ưu tiên. Dựa trên
+verification score, evidence được chia thành ba nhóm:
+
+\begin{description}
+    \item[\texttt{KEEP}] Evidence đủ mạnh để được chuyển sang bước sinh câu
+    trả lời.
+
+    \item[\texttt{UNCERTAIN}] Evidence có liên quan nhưng chưa đủ mức hỗ trợ.
+
+    \item[\texttt{REMOVE}] Evidence không đạt ngưỡng hoặc bị kết quả xác
+    minh bác bỏ.
+\end{description}
+
+Trong cấu hình thực nghiệm, keep threshold được đặt bằng \(0{,}52\), còn
+reject threshold bằng \(0{,}34\). Evidence thuộc primary path được giữ theo
+đúng thứ tự rule trên path, thay vì chỉ sắp xếp theo verification score.
+
+\subsection{Chọn primary path và quyết định cuối}
+
+Các path được xếp hạng dựa trên:
+
+\begin{itemize}
+    \item trạng thái factual support;
+    \item độ đầy đủ của path;
+    \item số hop;
+    \item consistency score;
+    \item graph và retrieval score;
+    \item mức phù hợp với loại claim.
+\end{itemize}
+
+Hệ thống ưu tiên path ở trạng thái \texttt{SUPPORTED}, có đủ hai hop đối với
+câu hỏi nhiều bước và có consistency score cao. Path đứng đầu được chọn làm
+primary path, trong khi các path còn lại được giữ làm supporting path hoặc
+phục vụ branch/convergence reasoning.
+
+Khác với phiên bản quyết định theo đa số path, phiên bản query-aware tạo
+final decision từ loại claim và primary path. Cụ thể:
+
+\begin{itemize}
+    \item với claim nhân quả chuẩn, hệ thống kiểm tra factual support của
+    primary path;
+
+    \item với direct claim, hệ thống kiểm tra cạnh trực tiếp thay vì chỉ
+    kiểm tra reachability;
+
+    \item với mediator claim, hệ thống so sánh factual và counterfactual
+    outcome;
+
+    \item nếu mediator mapping hoặc trạng thái world chưa xác định, quyết
+    định được chuyển thành \texttt{UNCERTAIN}.
+\end{itemize}
+
+Output xác minh gồm:
+
+\begin{itemize}
+    \item \texttt{final\_decision};
+    \item \texttt{decision\_score};
+    \item \texttt{decision\_explanation};
+    \item \texttt{primary\_path\_ids};
+    \item \texttt{query\_analysis};
+    \item \texttt{path\_verifications};
+    \item evidence được giữ, chưa chắc chắn và bị loại;
+    \item configuration và phiên bản Step 4.
+\end{itemize}
+
+\subsection{Suy luận answer intent}
+
+Bước sinh câu trả lời nhận toàn bộ output của verification thay vì chỉ nhận
+một danh sách rule. Answer intent được suy ra từ query text và
+\texttt{query\_analysis}. Các claim direct hoặc counterfactual luôn được ưu
+tiên ánh xạ thành \texttt{CLAIM\_VERIFICATION}, nhằm giữ nguyên semantics của
+Step 4.
+
+Đối với các câu hỏi còn lại, hệ thống nhận diện các mẫu ngôn ngữ liên quan
+đến:
+
+\begin{itemize}
+    \item hệ quả cuối;
+    \item nguyên nhân ban đầu;
+    \item sự kiện cầu nối;
+    \item giải thích chuỗi;
+    \item câu hỏi có/không;
+    \item phân nhánh;
+    \item hội tụ.
+\end{itemize}
+
+Quá trình này không sử dụng \texttt{question\_type}. Do đó, cùng một cơ chế
+có thể được áp dụng cho truy vấn ngoài benchmark nếu cách diễn đạt chứa tín
+hiệu tương ứng.
+
+\subsection{Lựa chọn path và evidence cho câu trả lời}
+
+Step 5 lựa chọn path trước, sau đó lựa chọn evidence theo các path đã chọn.
+Primary path luôn được giữ nếu tồn tại.
+
+Đối với câu hỏi tuyến tính, evidence thuộc primary path được đưa lên trước
+và giữ theo thứ tự causal. Đối với branch reasoning, hệ thống giữ các path
+có chung prefix với primary path. Đối với convergence reasoning, hệ thống
+giữ các path có chung suffix. Cơ chế này tránh trường hợp chỉ chọn một path
+và làm mất các nhánh cần thiết để trả lời.
+
+Evidence cuối cùng được lựa chọn từ:
+
+\begin{enumerate}
+    \item rule thuộc primary path;
+    \item rule thuộc các path cấu trúc liên quan;
+    \item evidence bổ sung đã được Step 4 xác minh;
+    \item retrieval evidence fallback nếu verification không giữ được
+    evidence nào.
+\end{enumerate}
+
+Các rule trùng nhau được loại bỏ theo rule ID. Khi tạo citation, các evidence
+biểu diễn cùng một causal edge tiếp tục được khử trùng để tránh liệt kê lặp
+lại nhiều căn cứ tương đương.
+
+\subsection{Sinh câu trả lời extractive}
+
+Mặc dù implementation hỗ trợ các provider bên ngoài như Ollama, OpenAI
+compatible API và Gemini, thực nghiệm chính sử dụng extractive provider.
+Lựa chọn này giúp kết quả có tính tất định và tách ảnh hưởng của retrieval
+và verification khỏi biến thiên của mô hình sinh.
+
+Extractive provider tạo câu trả lời theo answer intent:
+
+\begin{description}
+    \item[\texttt{FINAL\_OUTCOME}] Sử dụng nội dung \texttt{effect} đầy đủ
+    của rule cuối trên primary path. Nếu không tìm được rule tương ứng, hệ
+    thống fallback về outcome event name.
+
+    \item[\texttt{INITIAL\_CAUSE}] Trả về event đầu tiên và chuỗi nhân quả
+    đầy đủ.
+
+    \item[\texttt{BRIDGE\_EVENT}] Trả về một hoặc nhiều mediator nằm giữa
+    seed và outcome.
+
+    \item[\texttt{CHAIN\_EXPLANATION}] Trình bày từng hop theo thứ tự, kèm
+    citation của rule hỗ trợ hop đó.
+
+    \item[\texttt{YES\_NO}] Mở đầu bằng ``Có'', ``Không'' hoặc ``Chưa đủ căn
+    cứ'', phù hợp với final decision.
+
+    \item[\texttt{BRANCH}] Tổng hợp outcome của các path có chung prefix.
+
+    \item[\texttt{CONVERGENCE}] Tổng hợp các điều kiện đầu vào của những path
+    có chung suffix.
+
+    \item[\texttt{CLAIM\_VERIFICATION}] Trả lời trực tiếp claim và sử dụng
+    decision explanation của Step 4.
+\end{description}
+
+Ví dụ, với primary path:
+
+\[
+\text{Cố ý thực hiện tội phạm nhưng không hoàn thành}
+\rightarrow
+\text{Phạm tội chưa đạt}
+\rightarrow
+\text{Chịu trách nhiệm hình sự},
+\]
+
+rule cuối chứa effect ``phải chịu trách nhiệm hình sự về tội phạm chưa đạt''.
+Do đó, câu trả lời sử dụng effect đầy đủ này thay vì chỉ sử dụng event label
+chung ``Chịu trách nhiệm hình sự''.
+
+\subsection{Citation và kiểm tra đầu ra}
+
+Mỗi evidence được gán một chỉ số \([E_i]\). Answer validator trích xuất các
+citation xuất hiện trong câu trả lời và kiểm tra chúng với danh sách evidence
+đã chọn.
+
+Quá trình kiểm tra gồm:
+
+\begin{itemize}
+    \item loại citation không tồn tại;
+    \item ưu tiên citation thuộc primary path;
+    \item bổ sung citation nếu câu trả lời sử dụng evidence nhưng thiếu đánh
+    dấu;
+    \item lưu validation warning;
+    \item ánh xạ evidence citation về article ID cho bước đánh giá.
+\end{itemize}
+
+Output cuối cùng lưu đồng thời citation dạng chỉ số evidence và căn cứ dạng
+``Điều \(X\)''. Điều này cho phép kiểm tra cả grounding nội bộ của câu trả
+lời và độ chính xác so với gold citation.
+
+\subsection{Provenance và khả năng tái lập}
+
+Mỗi artifact lưu phiên bản của bước tạo ra nó. Trong thí nghiệm chính:
+
+\begin{itemize}
+    \item Step 4 sử dụng phiên bản
+    \texttt{4.1-query-aware-legal-scm};
+
+    \item Step 5 sử dụng phiên bản
+    \texttt{5.1-query-aware-grounded-answer};
+
+    \item batch runner sử dụng phiên bản
+    \texttt{2.1-query-aware-answer};
+
+    \item evaluator sử dụng phiên bản
+    \texttt{2.0-current-pipeline-schema}.
+\end{itemize}
+
+Generation metadata còn lưu:
+
+\begin{itemize}
+    \item answer intent;
+    \item phiên bản intent detector;
+    \item counterfactual signal source;
+    \item Step 4 và Step 5 version;
+    \item structural result hoặc structural fallback;
+    \item provider và model;
+    \item thời gian thực thi;
+    \item số evidence và path được sử dụng;
+    \item danh sách rule thuộc primary path.
+\end{itemize}
+
+Nhờ provenance này, kết quả từ các phiên bản pipeline khác nhau có thể được
+phân biệt, tránh trường hợp so sánh artifact cũ và mới dưới cùng một nhãn
+thực nghiệm.

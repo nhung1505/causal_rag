@@ -1,0 +1,116 @@
+\section{Hướng phát triển và giai đoạn thực nghiệm tiếp theo}
+\label{sec:future}
+
+Kết quả v4.1/v5.1 xác định hai vấn đề ưu tiên: path ranking, đặc biệt đối với
+reverse reasoning, và độ nhạy thấp của benchmark đối với structural
+intervention. Giai đoạn tiếp theo cần cải thiện hai vấn đề này một cách tách
+biệt để tránh gộp thay đổi retrieval với thay đổi verification engine.
+
+\subsection{Query-aware retrieval và path reranking}
+
+Answer intent và vai trò nguyên nhân--trung gian--hệ quả nên được xác định
+trước khi chọn primary path. Đối với reverse reasoning, outcome được phát
+hiện trong truy vấn cần được cố định làm điểm cuối, sau đó hệ thống thực hiện
+backward search có ràng buộc để tìm predecessor. Path reranker có thể kết hợp
+semantic score với các đặc trưng lexical và cấu trúc, bao gồm số điều, mức
+hình phạt, vị trí event trên path, rule condition/effect và độ đặc hiệu của
+outcome.
+
+Mỗi thay đổi retrieval cần được đánh giá trước verification trên cùng
+candidate pool. Các metric chính gồm Rule/Event Recall, Oracle Path, Top-1
+Path và ranking error. Chỉ sau khi retrieval được đóng băng mới chạy lại
+paired structural SCM--path ablation, qua đó giữ được khả năng quy kết chênh
+lệch cho verification engine.
+
+\subsection{Benchmark nhạy với intervention}
+
+Một benchmark structural-counterfactual mới nên biểu diễn mỗi mẫu dưới dạng:
+
+\begin{equation}
+\left(
+q,\,
+C_F,\,
+\doop(M=m),\,
+Y_F,\,
+Y_{\doop(M=m)},\,
+z
+\right),
+\label{eq:future-counterfactual-item}
+\end{equation}
+
+trong đó $q$ là truy vấn, $C_F$ là factual context, $M$ là mediator bị can
+thiệp, $Y_F$ và $Y_{\doop(M=m)}$ lần lượt là factual và counterfactual
+outcome, còn $z$ là nhãn quan hệ. Tối thiểu, benchmark cần cân bằng ba nhãn:
+
+\begin{itemize}
+    \item \texttt{NECESSARY}: can thiệp lên mediator làm thay đổi outcome;
+    \item \texttt{NON\_NECESSARY}: outcome vẫn được duy trì bởi một mechanism
+    thay thế đang hoạt động;
+    \item \texttt{INDETERMINATE}: dữ kiện, root state hoặc rule không đủ để
+    kết luận.
+\end{itemize}
+
+Các nhóm \texttt{SUFFICIENT}, \texttt{NO\_EFFECT} và conflict có thể được
+bổ sung để kiểm tra nhiều nhánh của engine. Benchmark phải chứa các cặp mà
+node deletion và hard intervention đưa ra kết quả khác nhau; nếu không,
+paired ablation vẫn không phân biệt được semantics của hai phương pháp.
+
+Mỗi mẫu cần được chuyên gia kiểm tra ở cả factual world và intervened world.
+Gold annotation nên bao gồm rule được dùng, rule bị vô hiệu hóa, mechanism
+thay thế, state của mediator/outcome và giải thích bằng ngôn ngữ tự nhiên.
+
+\subsection{Mở rộng biểu diễn quy tắc và LegalSCM}
+
+Mô hình tiếp theo cần hỗ trợ điều kiện hội, phủ định, ngoại lệ, rule priority
+và hiệu lực theo thời gian. Một rule tổng quát có thể được biểu diễn bằng
+nhiều literal ở vế điều kiện thay vì một positive condition duy nhất. Khi có
+xung đột, hệ thống cần phân biệt rõ \texttt{FALSE} với
+\texttt{UNKNOWN}, đồng thời ghi lại quy tắc nào tạo ra từng state.
+
+Event schema cũng cần tách canonical ID, alias và preferred display name.
+Alias được dùng cho retrieval, còn preferred name được dùng trong câu trả
+lời. Thay đổi này vừa giảm nhiễu semantic vừa tránh đưa chuỗi
+\texttt{||} vào output.
+
+\subsection{Đánh giá cấu trúc phi tuyến và citation}
+
+Branch và convergence nên được đánh giá bằng path-set hoặc subgraph metric,
+không ép thành một chuỗi duy nhất. Các metric dự kiến gồm branch outcome
+coverage, convergence input coverage, subgraph edge F1 và graph edit
+distance.
+
+Đối với citation, cần chuyển từ so khớp tập article sang assertion-level
+grounding. Mỗi assertion trong short answer hoặc explanation phải được ánh
+xạ tới rule và article hỗ trợ. Chuyên gia sau đó có thể đánh giá ba tiêu chí
+riêng biệt: article có liên quan, article có entail assertion và citation có
+đủ để hỗ trợ kết luận hay không.
+
+\subsection{Đánh giá bên ngoài và đánh giá con người}
+
+Thực nghiệm tương lai cần bổ sung các baseline được chạy dưới cùng corpus và
+giao thức, bao gồm vanilla RAG, graph RAG không có verification, LLM-only và
+các phương pháp causal/counterfactual RAG có thể tái lập. Một test set độc
+lập do chuyên gia biên soạn cần được tách khỏi graph-construction pipeline.
+
+Ngoài metric tự động, nghiên cứu cần đo liệu LegalSCM trace có thực sự giúp
+người đánh giá:
+
+\begin{itemize}
+    \item phát hiện path hoặc citation sai nhanh hơn;
+    \item hiểu sự khác nhau giữa factual và counterfactual world;
+    \item nhận biết mechanism thay thế;
+    \item hiệu chỉnh mức tin cậy vào câu trả lời.
+\end{itemize}
+
+\subsection{Tăng cường khả năng tái lập}
+
+Trước một lần chạy kết luận, cần cố định commit code, revision của embedding
+model, dependency lockfile, random seed, cấu hình server và hash của toàn bộ
+input/output artifact. Hai mode phải bắt đầu từ cùng cached retrieval output
+và ghi paired difference ở mức từng sample. Runtime nên được lặp nhiều lần
+trong điều kiện cold cache và warm cache.
+
+Các giả thuyết, primary metric, exclusion rule và subgroup analysis cần được
+xác định trước khi xem kết quả cuối. Cách tổ chức này giúp ngăn việc lựa chọn
+metric hậu nghiệm và làm rõ liệu cải thiện đến từ retrieval, verification hay
+answer generation.

@@ -1,0 +1,183 @@
+\section{Hạn chế, nguy cơ đối với tính hợp lệ và sử dụng có trách nhiệm}
+\label{sec:limitations}
+
+Mặc dù thực nghiệm được thiết kế theo dạng paired comparison và toàn bộ
+$250$ mẫu đều được xử lý thành công, kết quả cần được diễn giải trong phạm
+vi của corpus, benchmark và implementation hiện tại. Phần này phân tích các
+nguy cơ đối với tính hợp lệ cấu trúc, nội tại, ngoại tại và kết luận, đồng
+thời xác định giới hạn sử dụng của hệ thống.
+
+\subsection{Tính hợp lệ cấu trúc}
+
+\paragraph{Quan hệ điều kiện--hệ quả không đồng nhất với quan hệ nhân quả
+thực nghiệm.}
+
+Đồ thị được xây dựng bằng cách thao tác hóa các quy tắc pháp luật thành quan
+hệ điều kiện--hệ quả. Các cạnh \texttt{CAUSES} biểu diễn cơ chế quy phạm đã
+được mã hóa, không phải quan hệ nhân quả được khám phá từ dữ liệu quan sát
+hoặc ước lượng từ thí nghiệm. Vì vậy, LegalSCM chỉ là mô hình nhân quả cấu
+trúc pháp lý trong phạm vi biểu diễn quy tắc đã cho. Kết quả của phép
+$\doop(M=m)$ là kết quả của mô phỏng trên mô hình này, không phải ước lượng
+tác động nhân quả trong thế giới thực \cite{pearl2009causality}.
+
+\paragraph{Counterfactual subset chưa đo đầy đủ hard intervention.}
+
+Hai mươi mẫu được gắn cờ \texttt{requires\_counterfactual=true} chủ yếu là
+các direct-edge negative: graph chứa đường $A\rightarrow M\rightarrow Y$
+nhưng không chứa cạnh trực tiếp $A\rightarrow Y$. Chúng đo khả năng phân
+biệt quan hệ trực tiếp và gián tiếp tốt hơn là khả năng dự đoán một
+counterfactual world sau can thiệp. Do đó, Counterfactual Accuracy
+$100\%$ không xác nhận tính đúng đắn tổng quát của structural intervention.
+
+\paragraph{Gold path tuyến tính không bao phủ cấu trúc phi tuyến.}
+
+Trong $250$ mẫu, chỉ $236$ mẫu có gold path tuyến tính. Bốn mẫu branch và
+mười mẫu convergence không có một chuỗi duy nhất biểu diễn đầy đủ cấu trúc
+cần trả lời, nhưng evaluator hiện vẫn chấm bằng exact linear path. Vì vậy,
+Top-1 Exact Path và Oracle Exact Path bằng $0\%$ ở hai nhóm này có thể phản
+ánh giới hạn của metric thay vì lỗi hoàn toàn của hệ thống.
+
+\paragraph{Metric câu trả lời và citation chỉ là proxy.}
+
+Token F1 và ROUGE-L đo mức chồng lấp bề mặt, không bảo đảm một câu trả lời
+đúng về mặt pháp lý. Citation metric so sánh tập định danh điều luật nhưng
+chưa kiểm tra semantic entailment giữa từng assertion và điều luật được
+trích dẫn. Normalized Exact Match cũng không phù hợp với câu trả lời có thêm
+giải thích và marker evidence. Vì vậy, các metric tự động không thể thay thế
+đánh giá của chuyên gia.
+
+\subsection{Tính hợp lệ nội tại}
+
+\paragraph{Tính vòng tròn giữa graph và benchmark.}
+
+Câu hỏi, gold rule, gold event và nhiều negative được xây dựng từ cùng graph
+mà hệ thống truy hồi. Thiết kế này hữu ích để kiểm tra khả năng khôi phục một
+encoding đã biết, nhưng có thể làm tăng độ tương thích giữa benchmark và
+biểu diễn của pipeline. Kết quả không chứng minh hệ thống có thể xử lý một
+câu hỏi pháp luật được tạo độc lập hoặc một cách diễn đạt ngoài phân bố.
+
+\paragraph{Paired ablation được kiểm soát nhưng chưa đủ phân biệt.}
+
+Hai cấu hình dùng cùng benchmark, retrieval resource, threshold, answer
+generator và evaluator; biến thay đổi là
+\texttt{counterfactual\_mode}. Điều này giảm confound trong so sánh. Tuy
+nhiên, benchmark thiếu các trường hợp có mechanism thay thế, exception,
+conflict hoặc unknown root làm hard intervention và node deletion đưa ra kết
+quả khác nhau. Vì thế, null quality result có thể đến từ độ nhạy thấp của
+benchmark chứ không chứng minh hai phương pháp tương đương.
+
+\paragraph{Query analysis và event matching còn mang tính heuristic.}
+
+Việc xác định claim type, answer intent và mediator dựa một phần trên biểu
+thức chính quy tiếng Việt, từ khóa và semantic mapping. Các heuristic này có
+thể thất bại trước phủ định phức tạp, cách diễn đạt mới, thuật ngữ đồng âm
+hoặc truy vấn chứa nhiều claim. Sai sót ở đây có thể ảnh hưởng đồng thời đến
+verification decision và dạng câu trả lời.
+
+\paragraph{Runtime chưa được tái lập trên phần cứng được công bố.}
+
+Hai run được thực hiện trên cùng server, nhưng hệ điều hành, phiên bản
+Python, CPU, RAM và GPU chưa được điền vào Bảng~\ref{tab:environment}. Thời
+gian structural SCM cao hơn khoảng $3{,}23$ lần theo trung bình mỗi mẫu và
+$2{,}85$ lần theo wall-clock chỉ có giá trị đối với môi trường đã chạy. Chưa
+có thí nghiệm lặp với cold cache, warm cache hoặc nhiều cấu hình phần cứng.
+
+\subsection{Hạn chế dữ liệu và mô hình}
+
+\paragraph{Chuẩn hóa quy tắc có thể làm mất sắc thái pháp lý.}
+
+Corpus chuyển văn bản luật thành condition, effect, subject và article.
+Quá trình này có thể giản lược các biểu thức tình thái như ``có thể'', điều
+kiện kết hợp, ngoại lệ, dẫn chiếu chéo và phạm vi áp dụng. Event
+canonicalization cũng có thể hợp nhất hai biểu thức gần nghĩa nhưng khác
+biệt về pháp lý, hoặc giữ nhiều alias trong cùng display name.
+
+\paragraph{LegalSCM là mô hình tất định và giới hạn.}
+
+Mô hình sử dụng ba trạng thái
+$\{\mathrm{TRUE},\mathrm{FALSE},\mathrm{UNKNOWN}\}$ và fixed-point
+inference trên các rule đã mã hóa. Phiên bản hiện tại chưa biểu diễn đầy đủ:
+
+\begin{itemize}
+    \item nhiều điều kiện đồng thời và các cấu trúc điều kiện lồng nhau;
+    \item negation, exception và defeasible rule;
+    \item thứ bậc văn bản, ưu tiên quy tắc và xung đột cách giải thích;
+    \item hiệu lực theo thời gian và thay đổi của pháp luật;
+    \item xác suất, mức độ tin cậy hoặc bất định nhận thức;
+    \item bước abduction từ dữ kiện quan sát sang factual context.
+\end{itemize}
+
+Do đó, LegalSCM không phải mô hình hoàn chỉnh của suy luận pháp lý hoặc quan
+hệ nhân quả ngoài đời thực.
+
+\paragraph{Search bị giới hạn bởi ngân sách.}
+
+Retriever mở rộng tối đa hai hop, trong khi path ablation tìm alternative
+path tối đa ba hop và giới hạn số candidate. Phát biểu ``không tồn tại đường
+thay thế'' trong artifact chỉ có nghĩa là không tìm thấy đường trong graph
+và ngân sách cấu hình, không phải chứng minh không tồn tại bất kỳ cơ chế
+pháp lý nào khác.
+
+\subsection{Tính hợp lệ ngoại tại}
+
+Corpus chỉ tập trung vào Bộ luật Hình sự Việt Nam năm 2015 và các nội dung
+sửa đổi được đưa vào dữ liệu. Nghiên cứu chưa đánh giá:
+
+\begin{itemize}
+    \item văn bản pháp luật thuộc lĩnh vực dân sự, hành chính hoặc thương mại;
+    \item án lệ, nghị quyết hướng dẫn, hồ sơ vụ án hoặc thực tiễn xét xử;
+    \item văn bản mới hoặc cách diễn đạt không xuất hiện trong corpus;
+    \item câu hỏi do người dùng thực tế hoặc chuyên gia độc lập biên soạn;
+    \item ngôn ngữ khác ngoài tiếng Việt;
+    \item graph có quy mô và độ sâu lớn hơn đáng kể.
+\end{itemize}
+
+Do benchmark tổng hợp được tạo từ cùng nguồn graph, không thể suy rộng trực
+tiếp kết quả sang hỏi--đáp pháp luật mở hoặc sang hệ thống tư vấn pháp lý
+trong thực tế.
+
+\subsection{Tính hợp lệ kết luận}
+
+Benchmark gồm $250$ mẫu, trong đó một số nhóm rất nhỏ, chẳng hạn branch chỉ
+có bốn mẫu và bridge-convergence fallback có sáu mẫu. Các tỷ lệ theo nhóm
+này có phương sai lớn và không nên được xem là ước lượng ổn định.
+
+Nghiên cứu mới có một run hoàn chỉnh cho mỗi chế độ trên bộ artifact chính,
+chưa báo cáo confidence interval hoặc kiểm định thống kê theo mẫu. Do hai
+cấu hình tạo quality metric giống hệt nhau, không có cơ sở để tuyên bố
+structural SCM cải thiện accuracy. Tương tự, Oracle Exact Path chỉ là phân
+tích upper bound trên candidate set và không đại diện cho hiệu năng có thể
+triển khai của Top-1 selector.
+
+Difficulty label cũng chưa được hiệu chỉnh độc lập với question type. Việc
+nhóm hard đạt Answer F1 cao hơn nhóm medium phản ánh thành phần mẫu, không
+chứng minh hệ thống xử lý câu hỏi khó tốt hơn.
+
+\subsection{Thẩm định chuyên gia và tính cập nhật pháp luật}
+
+Rules, event normalization, câu hỏi, gold answer, gold path và citation chưa
+được một nhóm chuyên gia pháp luật độc lập thẩm định đầy đủ. Ngoài ra, corpus
+phải được gắn phiên bản và ngày hiệu lực để tránh sử dụng một quy định đã bị
+sửa đổi hoặc hết hiệu lực. Cho đến khi hoàn thành hai yêu cầu này, kết quả
+chỉ nên được xem là đánh giá kỹ thuật trên một benchmark nghiên cứu.
+
+\subsection{Sử dụng có trách nhiệm}
+
+Hệ thống là nguyên mẫu nghiên cứu, không phải công cụ tư vấn pháp lý và
+không được dùng để tự động đưa ra quyết định ảnh hưởng đến quyền hoặc nghĩa
+vụ của cá nhân. Một câu trả lời có citation vẫn có thể dựa trên path sai,
+điều luật thiếu hoặc biểu diễn quy tắc không đầy đủ.
+
+Nếu được phát triển thành ứng dụng hỗ trợ, hệ thống cần:
+
+\begin{itemize}
+    \item hiển thị rõ trạng thái \texttt{UNCERTAIN} và không ép thành kết luận;
+    \item cho phép kiểm tra từng rule, article và hop của path;
+    \item ghi lại phiên bản corpus, model, code và thời điểm truy vấn;
+    \item cảnh báo rằng output cần được chuyên gia xác minh;
+    \item bảo vệ dữ liệu cá nhân nếu sau này xử lý hồ sơ hoặc tình huống thật;
+    \item duy trì cơ chế cập nhật và thu hồi tri thức pháp luật lỗi thời.
+\end{itemize}
+
+Các hạn chế trên xác định ranh giới cho mọi tuyên bố của nghiên cứu và là cơ
+sở cho giai đoạn thực nghiệm tiếp theo.

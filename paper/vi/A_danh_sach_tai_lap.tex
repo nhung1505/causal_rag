@@ -1,0 +1,132 @@
+\section{Danh sách kiểm tra khả năng tái lập}
+\label{app:reproducibility}
+
+\subsection{Các thành phần triển khai}
+
+Các bước triển khai tương ứng với kết quả trong bài gồm:
+
+\begin{itemize}
+    \item \path{1_build_legal_causal_graph.py}: xây dựng đồ thị pháp luật;
+    \item \path{2_build_causal_memory.py}: xây dựng memory cho rule/event và
+    chỉ mục FAISS;
+    \item \path{3_multi_hop_causal_retriever.py}: truy hồi seed, mở rộng và
+    xếp hạng causal path;
+    \item \path{causal_core/schema.py} và
+    \path{causal_core/legal_scm.py}: canonical rule và structural inference;
+    \item \path{4_counterfactual_verification.py}: query-aware verification,
+    structural intervention và path ablation;
+    \item \path{5_generate_final_answer.py}: chọn evidence và tạo câu trả lời;
+    \item \path{5_5_generate_pipeline_predictions.py}: batch runner cho
+    Steps~3--5;
+    \item \path{7_compute_evaluation_metrics.py}: tính metric và diagnostic
+    theo nhóm.
+\end{itemize}
+
+\subsection{Phiên bản và cấu hình chính}
+
+\begin{table}[h]
+    \centering
+    \small
+    \caption{Phiên bản và cấu hình cố định của thực nghiệm chính.}
+    \label{tab:repro-settings}
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \textbf{Thành phần} & \textbf{Thiết lập} \\
+        \midrule
+        Benchmark & \texttt{2.0}, $250$ mẫu \\
+        Step 4 & \texttt{4.1-query-aware-legal-scm} \\
+        Step 5 & \texttt{5.1-query-aware-grounded-answer} \\
+        Batch runner & \texttt{2.1-query-aware-answer} \\
+        Evaluator & \texttt{2.0-current-pipeline-schema} \\
+        Embedding & \texttt{BAAI/bge-m3} \\
+        Retrieval hop / CF hop & $2$ / $3$ \\
+        Answer provider & \texttt{extractive} \\
+        Structural intervention & $\doop(M=\stateF)$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Các threshold đầy đủ được báo cáo trong
+Bảng~\ref{tab:retrieval-hyperparameters},
+Bảng~\ref{tab:verification-hyperparameters} và
+Bảng~\ref{tab:generation-hyperparameters}.
+
+\subsection{Input và paired artifact}
+
+Các input chính gồm:
+
+\begin{itemize}
+    \item \path{data/blhs_multihop_benchmark_250.json};
+    \item \path{data/blhs_rules_final_all_normalized.json};
+    \item graph, causal memory và FAISS index được hai mode dùng chung.
+\end{itemize}
+
+Các prediction và evaluation directory được sử dụng để báo cáo kết quả là:
+
+\begin{itemize}
+    \item \path{data/pipeline_predictions_structural_scm_v41_step5_v51.json};
+    \item \path{data/pipeline_predictions_path_ablation_v41_step5_v51.json};
+    \item \path{evaluation_results/structural_scm_v41_step5_v51/};
+    \item \path{evaluation_results/path_ablation_v41_step5_v51/}.
+\end{itemize}
+
+Artifact cũ tại
+\path{evaluation_metrics_path_ablation_v41/} và prediction được tạo bởi
+runner \texttt{2.0-primary-path-aware} không thuộc paired experiment chính
+và không được dùng để tính các bảng trong bài.
+
+\subsection{Mẫu lệnh chạy batch}
+
+Với \texttt{MODE} lần lượt là \texttt{structural\_scm} và
+\texttt{path\_ablation}, batch được chạy theo mẫu:
+
+\begin{verbatim}
+python 5_5_generate_pipeline_predictions.py ^
+  --benchmark data/blhs_multihop_benchmark_250.json ^
+  --provider extractive ^
+  --counterfactual-mode MODE ^
+  --rules data/blhs_rules_final_all_normalized.json ^
+  --output data/pipeline_predictions_MODE_v41_step5_v51.json ^
+  --jsonl-output data/pipeline_predictions_MODE_v41_step5_v51.jsonl ^
+  --errors-output data/pipeline_errors_MODE_v41_step5_v51.json ^
+  --run-log data/pipeline_run_log_MODE_v41_step5_v51.json ^
+  --work-dir data/pipeline_intermediate_MODE_v41_step5_v51 ^
+  --checkpoint-every 1 --resume
+\end{verbatim}
+
+Khi chạy trên Linux, ký tự nối dòng \texttt{\^{}} được thay bằng dấu gạch
+chéo ngược. Step 7 được chạy với cùng benchmark, prediction tương ứng,
+\texttt{--k-values 1 3 5 10} và \texttt{--strict}.
+
+\subsection{Schema trace tối thiểu}
+
+Mỗi prediction cần giữ tối thiểu các trường provenance sau:
+
+\begin{itemize}
+    \item sample ID, query và benchmark version;
+    \item retrieval result, candidate path và primary path ID;
+    \item query analysis, claim type và answer intent;
+    \item final verification decision và verification score;
+    \item factual/intervention state nếu dùng structural SCM;
+    \item evidence ID, rule ID, event ID và article citation;
+    \item Step 4, Step 5, runner và evaluator version;
+    \item thời gian xử lý và lỗi, nếu có.
+\end{itemize}
+
+\subsection{Kiểm tra trước khi công bố}
+
+Các mục sau vẫn phải được bổ sung từ đúng server và repository đã tạo
+artifact; không được suy đoán:
+
+\begin{itemize}
+    \item hệ điều hành, phiên bản Python, CPU, RAM và GPU;
+    \item revision chính xác của embedding model và dependency lockfile;
+    \item immutable Git commit và repository URL công khai;
+    \item hash của benchmark, rule corpus, graph, memory và prediction;
+    \item random seed và trạng thái cache;
+    \item giấy phép của code, dữ liệu và model;
+    \item thông tin tác giả liên hệ, tài trợ và venue.
+\end{itemize}
+
+\todo{Điền thông tin phần cứng/server, commit, artifact hash và email tác giả
+trước khi nộp bản thảo.}

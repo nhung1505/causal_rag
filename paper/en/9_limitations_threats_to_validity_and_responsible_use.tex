@@ -1,0 +1,201 @@
+\section{Limitations, threats to validity, and responsible use}
+\label{sec:limitations}
+
+Although the experiments were designed as a paired comparison and all
+$250$ samples were processed successfully, the results must be interpreted
+within the scope of the current corpus, benchmark, and implementation. This
+section analyzes threats to construct, internal, external, and conclusion
+validity, while also defining the limits on the system's use.
+
+\subsection{Construct validity}
+
+\paragraph{Normative condition--effect relations are not equivalent to
+experimentally established causal relations.}
+
+The graph was constructed by operationalizing legal rules as normative
+condition--effect relations. The \texttt{CAUSES} edges represent encoded
+normative mechanisms, not causal relations discovered from observational
+data or estimated through experiments. LegalSCM is therefore only a
+structural causal model of legal norms within the scope of the given rule
+representation. The result of an intervention $\doop(M=m)$ is the result of
+a simulation on this model, not an estimate of a causal effect in the real
+world \cite{pearl2009causality}.
+
+\paragraph{The counterfactual subset does not fully measure hard
+intervention.}
+
+The twenty samples flagged with
+\texttt{requires\_counterfactual=true} are primarily direct-edge negatives:
+the graph contains a path $A\rightarrow M\rightarrow Y$ but does not contain
+a direct edge $A\rightarrow Y$. They measure the ability to distinguish
+direct from indirect relations more than the ability to predict a
+counterfactual world following an intervention. Consequently, a
+Counterfactual Accuracy of $100\%$ does not validate the general correctness
+of structural intervention.
+
+\paragraph{Linear gold paths do not cover nonlinear structures.}
+
+Of the $250$ samples, only $236$ have linear gold paths. Four branch samples
+and ten convergence samples do not have a single chain that fully represents
+the structure required to answer the question, yet the current evaluator
+still uses exact linear-path matching. Therefore, Top-1 Exact Path and Oracle
+Exact Path scores of $0\%$ for these two groups may reflect a limitation of
+the metric rather than a complete system failure.
+
+\paragraph{Answer and citation metrics are only proxies.}
+
+Token F1 and ROUGE-L measure surface overlap and do not guarantee a legally
+correct answer. The citation metric compares sets of statutory article
+identifiers but does not verify semantic entailment between each assertion
+and the cited article. Normalized Exact Match is also unsuitable for answers
+that include additional explanations and evidence markers. Automated metrics
+therefore cannot replace expert evaluation.
+
+\subsection{Internal validity}
+
+\paragraph{Circularity between the graph and the benchmark.}
+
+The questions, gold rules, gold events, and many negative examples were
+constructed from the same graph used by the system for retrieval. This design
+is useful for testing the ability to recover a known encoding, but it may
+increase compatibility between the benchmark and the pipeline's
+representation. The results do not demonstrate that the system can handle an
+independently authored legal question or an out-of-distribution formulation.
+
+\paragraph{The paired ablation is controlled but not sufficiently
+discriminative.}
+
+The two configurations use the same benchmark, retrieval resources,
+thresholds, answer generator, and evaluator; the changed variable is
+\texttt{counterfactual\_mode}. This reduces confounding in the comparison.
+However, the benchmark lacks cases involving an alternative mechanism,
+exception, conflict, or unknown root for which hard intervention and node
+deletion yield different results. The null quality result may therefore be
+due to the benchmark's low sensitivity and does not establish that the two
+methods are equivalent.
+
+\paragraph{Query analysis and event matching remain heuristic.}
+
+The identification of claim type, answer intent, and mediator relies in part
+on Vietnamese regular expressions, keywords, and semantic mappings. These
+heuristics may fail on complex negation, novel formulations, homonymous
+terms, or queries containing multiple claims. Errors at this stage may affect
+both the verification decision and the form of the answer.
+
+\paragraph{Runtime has not been reproduced on disclosed hardware.}
+
+The two runs were executed on the same server, but the operating system,
+Python version, CPU, RAM, and GPU have not yet been entered in
+Table~\ref{tab:environment}. The structural SCM's approximately $3.23$ times
+higher mean runtime per sample and $2.85$ times higher wall-clock runtime are
+valid only for the environment in which the runs were conducted. No repeated
+experiments have been performed with cold caches, warm caches, or multiple
+hardware configurations.
+
+\subsection{Data and model limitations}
+
+\paragraph{Rule normalization may lose legal nuance.}
+
+The corpus transforms statutory text into conditions, effects, subjects, and
+articles. This process may simplify modal expressions such as ``may,''
+conjunctive conditions, exceptions, cross-references, and scopes of
+application. Event canonicalization may also merge two near-synonymous
+expressions that differ legally, or retain multiple aliases within the same
+display name.
+
+\paragraph{LegalSCM is deterministic and limited.}
+
+The model uses three states
+$\{\mathrm{TRUE},\mathrm{FALSE},\mathrm{UNKNOWN}\}$ and fixed-point
+inference over the encoded rules. The current version does not fully
+represent:
+
+\begin{itemize}
+    \item multiple simultaneous conditions and nested conditional structures;
+    \item negation, exceptions, and defeasible rules;
+    \item document hierarchy, rule priority, and interpretive conflicts;
+    \item temporal validity and changes in the law;
+    \item probability, confidence levels, or epistemic uncertainty;
+    \item the abduction step from observed facts to a factual context.
+\end{itemize}
+
+LegalSCM is therefore not a complete model of legal reasoning or real-world
+causality.
+
+\paragraph{Search is constrained by a budget.}
+
+The retriever expands at most two hops, whereas path ablation searches for
+alternative paths of at most three hops and limits the number of candidates.
+The statement ``no alternative path exists'' in the artifacts means only that
+no path was found within the graph and the configured search budget; it does
+not prove that no other legal mechanism exists.
+
+\subsection{External validity}
+
+The corpus focuses only on the Vietnamese Penal Code of 2015 and the amended
+content included in the data. The study has not evaluated:
+
+\begin{itemize}
+    \item legal documents in civil, administrative, or commercial law;
+    \item case law, guiding resolutions, case files, or adjudicative practice;
+    \item new documents or formulations absent from the corpus;
+    \item questions authored by real users or independent experts;
+    \item languages other than Vietnamese;
+    \item graphs of substantially greater scale and depth.
+\end{itemize}
+
+Because the synthetic benchmark was generated from the same source graph,
+the results cannot be directly generalized to open-domain legal question
+answering or real-world legal advisory systems.
+
+\subsection{Conclusion validity}
+
+The benchmark contains $250$ samples, with some very small groups, such as
+only four branch samples and six bridge-convergence fallback samples.
+Group-level rates for these categories have high variance and should not be
+regarded as stable estimates.
+
+The study includes only one complete run per mode for the primary artifacts
+and does not report confidence intervals or sample-level statistical tests.
+Because the two configurations produce identical quality metrics, there is
+no basis for claiming that structural SCM improves accuracy. Similarly,
+Oracle Exact Path is only an upper-bound analysis over the candidate set and
+does not represent the deployable performance of the Top-1 selector.
+
+The difficulty labels have also not been calibrated independently of question
+type. The higher Answer F1 for the hard group than for the medium group
+reflects sample composition and does not demonstrate that the system handles
+hard questions better.
+
+\subsection{Expert validation and legal currency}
+
+The rules, event normalization, questions, gold answers, gold paths, and
+citations have not been fully validated by an independent panel of legal
+experts. In addition, the corpus must be versioned and annotated with
+effective dates to prevent the use of provisions that have been amended or
+are no longer in force. Until both requirements are satisfied, the results
+should be regarded only as a technical evaluation on a research benchmark.
+
+\subsection{Responsible use}
+
+The system is a research prototype, not a legal advisory tool, and must not
+be used to make automated decisions that affect an individual's rights or
+obligations. An answer with citations may still rely on an incorrect path,
+missing statutory provisions, or an incomplete rule representation.
+
+If developed into a support application, the system should:
+
+\begin{itemize}
+    \item clearly display the \texttt{UNCERTAIN} state rather than forcing it
+    into a conclusion;
+    \item allow inspection of every rule, article, and hop in the path;
+    \item record the corpus version, model, code, and query time;
+    \item warn that the output must be verified by an expert;
+    \item protect personal data if real case files or scenarios are processed
+    in the future;
+    \item maintain mechanisms for updating and withdrawing outdated legal
+    knowledge.
+\end{itemize}
+
+These limitations define the boundaries of every claim made in this study
+and provide the basis for the next experimental stage.

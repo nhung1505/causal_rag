@@ -1,0 +1,197 @@
+\section{Related Work}
+\label{sec:related-work}
+
+\subsection{Retrieval-Augmented Generation and Multi-Hop Question Answering}
+
+Retrieval-Augmented Generation (RAG) was introduced as an architecture that
+combines the generative capabilities of language models with an external
+knowledge memory \cite{lewis2020rag}. Rather than relying solely on
+knowledge encoded in model parameters, RAG retrieves passages relevant to a
+query and uses them as context for generation. This mechanism allows the
+knowledge source to be updated without retraining the entire model, while
+also making it possible to trace answers back to source documents.
+
+Most basic RAG pipelines perform passage-level retrieval and rank candidates
+according to the similarity between query and document representations. This
+approach assumes that one or more highly ranked passages contain sufficient
+information to answer the question. However, this assumption does not always
+hold for multi-hop questions. In such cases, the first piece of evidence may
+identify an intermediate event, while a second piece of evidence links that
+intermediate event to the final conclusion. If each piece of evidence is
+ranked independently, the system may retrieve the correct information
+fragments but fail to recognize their reasoning order.
+
+HotpotQA is one of the influential benchmarks for multi-hop question
+answering, in which a system must not only provide an answer but also
+identify the supporting facts used \cite{yang2018hotpotqa}. Research on this
+type of task shows that the quality of retrieving individual passages and
+the quality of recovering the complete reasoning chain are distinct
+problems. This distinction is particularly important in the legal domain,
+where the order in which rules are applied may determine the meaning of the
+conclusion: an initial condition gives rise to an intermediate legal state,
+and that state subsequently triggers another legal effect.
+
+In addition to retrieval structure, the quality of query and document
+representations directly affects the ability to identify the correct rule or
+event. BGE-M3 supports multiple representation and retrieval mechanisms in a
+single multilingual model, including dense retrieval, sparse retrieval, and
+multi-vector retrieval \cite{chen2024bgem3}. In this study, BGE-M3 is used to
+encode Vietnamese rules and events. Nevertheless, embeddings provide only a
+semantic-similarity signal; the multi-hop reasoning structure must still be
+recovered through the graph and causal-path expansion.
+
+\subsection{Graph-Based RAG and Path-Based Retrieval}
+
+Graph-based RAG replaces or augments a repository of independent passages
+with a graph representation, in which nodes describe entities, events,
+concepts, or documents and edges describe relations among the nodes. This
+structure enables retrieval based not only on direct similarity to the query
+but also on neighboring nodes, paths, and communities in the graph.
+
+GraphRAG organizes extracted knowledge into a graph and uses community-level
+summaries to support queries that require broad information synthesis
+\cite{edge2024graphrag}. The primary objective of this approach is to
+exploit the global structure of the corpus rather than retrieve only the
+passages nearest to the query. HippoRAG uses a graph as a form of associative
+memory, allowing signals to propagate from concepts activated by the query
+to nodes connected over multiple hops \cite{gutierrez2024hipporag}. These
+studies show that graphs can improve the ability to connect pieces of
+evidence that are not simultaneously highly similar to a question.
+
+Nevertheless, graph connectivity is not automatically equivalent to the
+validity of a reasoning chain. A path may exist because two events occur in
+the same document, concern the same entity, or are connected by a relation
+that is not causally directed. This distinction is even more important in
+the legal domain because a system must distinguish among reference
+relations, co-occurrence within a statutory provision, and
+condition--effect relations.
+
+This study uses a heterogeneous graph in which causal paths are restricted
+to \texttt{CAUSES} edges derived from normalized legal rules. Each hop in a
+path must be linked to at least one rule and its corresponding statutory
+basis. Thus, the principal retrieval unit is not merely a node or passage,
+but an ordered chain:
+
+\[
+v_0 \xrightarrow{r_1} v_1
+    \xrightarrow{r_2} \cdots
+    \xrightarrow{r_h} v_h,
+\]
+
+where \(v_i\) is an event and \(r_i\) is the legal rule supporting the
+transition. This representation does not assert that every edge in the
+graph is an empirical causal relation; it encodes only the normative
+direction of inference from condition to effect according to the corpus in
+use.
+
+\subsection{Structural Causal Models and Counterfactual Reasoning}
+
+Structural Causal Models provide a formal language for representing
+variables, structural mechanisms, and the results of interventions
+\cite{pearl2009causality}. The key distinction between intervention and
+observation is the \(do(\cdot)\) operator. When \(do(M=m)\) is performed, the
+value of variable \(M\) is forcibly assigned and the ordinary mechanism that
+generates \(M\) is replaced. Descendant variables are then re-inferred under
+the remaining structural mechanisms. This interpretation differs from
+merely deleting a node from a graph and checking whether a path remains
+between two other nodes.
+
+Recent studies have begun to combine causal reasoning with RAG. CausalRAG
+uses causal structure to support retrieval and reasoning rather than relying
+solely on semantic associations \cite{wang2025causalrag}. Research on
+causal-counterfactual RAG further investigates the use of counterfactual
+claims or contextual changes to examine answer stability
+\cite{khadilkar2025causalcounterfactualrag}. CF-RAG reflects the growing
+interest in counterfactual reasoning within RAG systems
+\cite{qin2026cfrag}. These works suggest that incorporating causal structure
+can help distinguish evidence that is merely semantically correlated from
+evidence that plays a role in a reasoning mechanism.
+
+The present study has a different scope from causal discovery or causal
+effect estimation. The system neither learns edge directions from
+observational data nor estimates an average effect quantity. Instead, the
+condition--effect direction is obtained from normalized legal rules.
+LegalSCM uses these rules as deterministic mechanisms to validate factual
+paths and simulate assigning a mediator the \(\mathrm{FALSE}\) state.
+Consequently, the counterfactual result of LegalSCM is meaningful only within
+the scope of the normative model and the input corpus.
+
+Another distinction of this study is its query-based claim analysis. The
+system does not perform an intervention for every question. For standard
+causal questions, LegalSCM primarily checks whether the factual path can be
+activated. For claims about a direct edge, the system checks edge structure
+rather than inferring that a two-hop path is equivalent to a direct
+relation. A hard intervention is interpreted only when the query actually
+refers to removing a mediator or assuming its absence.
+
+\subsection{Question Answering and Reasoning in the Legal Domain}
+
+Existing legal benchmarks cover a wide range of problems, from
+classification and outcome prediction to authority retrieval and question
+answering. CaseHOLD evaluates the ability to select the appropriate holding
+in legal cases, thereby emphasizing the need to distinguish among legally
+plausible options with similar content \cite{zheng2021casehold}. LegalBench
+brings together numerous tasks designed to evaluate different legal
+capabilities of language models, including rule identification, rule
+application, and scenario-based reasoning \cite{guha2023legalbench}.
+
+LegalBench-RAG, meanwhile, focuses more explicitly on the role of retrieval
+in legal applications \cite{alami2024legalbenchrags}. This research
+direction aligns with the practical requirement that legal answers be tied
+to source documents or statutory provisions. However, retrieving the correct
+document does not guarantee that the model has applied the rules in the
+correct order. A citation may also identify the correct provision without
+directly supporting the generated conclusion.
+
+Compared with these benchmarks, the evaluation set used in this study is
+narrower in terms of the legal system covered but focuses specifically on
+multi-hop reasoning structures in the Vietnamese Penal Code. Each question
+is linked to gold rules, gold events, a gold path, a gold answer, and gold
+citations. The question types include forward reasoning, reverse reasoning,
+bridge-event identification, chain explanation, direct-edge checking,
+branching, and convergence.
+
+However, the current evaluation set is generated from the same source graph
+and has not undergone a complete review process by legal experts.
+Accordingly, this study does not treat it as a normative legal benchmark or
+as representative of every form of reasoning in the Penal Code. It is used
+as a controlled testbed for evaluating path recovery, claim verification,
+and answer generation from the graph.
+
+\subsection{Positioning of This Study}
+
+This study does not regard any individual component---embedding retrieval,
+graph traversal, an SCM, or extractive answer generation---as an entirely
+novel contribution. The contribution lies in how these components are
+integrated and scoped for legal reasoning:
+
+\begin{enumerate}
+    \item Rules and events are represented simultaneously in vector memory
+    and a heterogeneous legal causal graph.
+
+    \item Retrieval results are organized into ordered causal paths, with
+    each hop linked to a rule and statutory basis.
+
+    \item Query analysis determines the claim type and answer format without
+    using benchmark labels.
+
+    \item LegalSCM validates factual paths and hard interventions within the
+    scope of the normative model, while node-deletion reachability is
+    retained as a separate baseline.
+
+    \item The final answer is generated according to the answer intent and
+    uses citations only from rules that actually participate in the selected
+    reasoning path.
+
+    \item Structural SCM and path ablation are evaluated in a paired setup to
+    distinguish their effects on quality from their computational cost and
+    interpretability.
+\end{enumerate}
+
+The empirical comparison shows that structural SCM and path ablation attain
+identical quality metrics on the current benchmark. Rather than supporting a
+claim of SCM superiority, this result indicates that the present question
+set is not sufficiently sensitive to distinguish the two intervention
+semantics. This finding also motivates the construction of samples with
+ground truth for the factual world, mediator intervention, and
+counterfactual outcome in future work.

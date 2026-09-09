@@ -1,0 +1,492 @@
+\section{Phát biểu bài toán và phạm vi}
+\label{sec:problem}
+
+\subsection{Ký hiệu và biểu diễn quy tắc pháp luật}
+
+Gọi \(\mathcal{R}=\{r_1,r_2,\ldots,r_n\}\) là tập các quy tắc pháp luật đã
+được chuẩn hóa từ corpus. Mỗi quy tắc \(r_i\) được biểu diễn bởi bộ:
+
+\begin{equation}
+r_i =
+\left(
+    c_i,\,
+    e_i,\,
+    s_i,\,
+    a_i
+\right),
+\label{eq:rule}
+\end{equation}
+
+trong đó:
+
+\begin{itemize}
+    \item \(c_i\) là điều kiện áp dụng của quy tắc;
+    \item \(e_i\) là hệ quả pháp lý phát sinh khi điều kiện được thỏa mãn;
+    \item \(s_i\) là chủ thể pháp luật liên quan;
+    \item \(a_i\) là căn cứ điều luật của quy tắc.
+\end{itemize}
+
+Điều kiện \(c_i\) và hệ quả \(e_i\) được ánh xạ thành hai sự kiện pháp lý
+tương ứng \(v_i^{c}\) và \(v_i^{e}\). Trong phạm vi mô hình, quy tắc \(r_i\)
+định nghĩa một quan hệ có hướng:
+
+\begin{equation}
+v_i^{c}
+\xrightarrow{r_i}
+v_i^{e}.
+\end{equation}
+
+Quan hệ này được gọi là quan hệ điều kiện--hệ quả pháp luật. Thuật ngữ
+\emph{causal} trong bài báo được sử dụng theo nghĩa thao tác hóa này: sự
+kiện điều kiện kích hoạt một rule mechanism và rule mechanism làm phát sinh
+sự kiện hệ quả. Quan hệ đó không được hiểu là một quan hệ nhân quả được
+khám phá hoặc ước lượng từ dữ liệu quan sát.
+
+Phiên bản corpus được sử dụng trong thực nghiệm hiện chủ yếu ánh xạ mỗi quy
+tắc thành một điều kiện dương và một hệ quả dương. Các cấu trúc phức tạp hơn
+như nhiều điều kiện đồng thời, ngoại lệ, phủ định, thứ tự ưu tiên giữa các
+quy tắc hoặc xung đột chuẩn tắc chưa được biểu diễn đầy đủ. Giới hạn này
+được thảo luận chi tiết tại Phần~\ref{sec:limitations}.
+
+\subsection{Đồ thị nhân quả pháp luật}
+
+Từ tập quy tắc \(\mathcal{R}\), hệ thống xây dựng một đồ thị dị thể:
+
+\begin{equation}
+\mathcal{G}
+=
+\left(
+    \mathcal{V},
+    \mathcal{E}
+\right),
+\end{equation}
+
+với tập node:
+
+\begin{equation}
+\mathcal{V}
+=
+\mathcal{V}_{\mathrm{event}}
+\cup
+\mathcal{V}_{\mathrm{rule}}
+\cup
+\mathcal{V}_{\mathrm{article}},
+\end{equation}
+
+trong đó:
+
+\begin{itemize}
+    \item \(\mathcal{V}_{\mathrm{event}}\) chứa các sự kiện pháp lý;
+    \item \(\mathcal{V}_{\mathrm{rule}}\) chứa các quy tắc đã chuẩn hóa;
+    \item \(\mathcal{V}_{\mathrm{article}}\) chứa các điều luật hoặc căn cứ
+    pháp lý.
+\end{itemize}
+
+Tập edge \(\mathcal{E}\) biểu diễn các quan hệ giữa event, rule và article.
+Trong đó, các cạnh \texttt{CAUSES} kết nối event điều kiện với event hệ quả.
+Một cặp event có thể được hỗ trợ bởi nhiều quy tắc khác nhau; vì vậy, graph
+cho phép nhiều cạnh hoặc nhiều rule mechanism giữa cùng một cặp node.
+
+Việc lưu đồng thời event, rule và article cho phép hệ thống thực hiện ba tác
+vụ liên quan nhưng không đồng nhất:
+
+\begin{enumerate}
+    \item truy hồi event phù hợp với truy vấn;
+    \item khôi phục causal path giữa các event;
+    \item truy vết từng hop của path về rule và điều luật hỗ trợ.
+\end{enumerate}
+
+\subsection{Causal path và suy luận nhiều bước}
+
+Một causal path có độ dài \(h\) được định nghĩa là một chuỗi có thứ tự:
+
+\begin{equation}
+p =
+\left(
+    v_0,\,
+    r_1,\,
+    v_1,\,
+    r_2,\,
+    \ldots,\,
+    r_h,\,
+    v_h
+\right),
+\label{eq:path}
+\end{equation}
+
+sao cho với mỗi \(j \in \{1,\ldots,h\}\), quy tắc \(r_j\) hỗ trợ quan hệ:
+
+\[
+v_{j-1}
+\xrightarrow{r_j}
+v_j.
+\]
+
+Trong đó:
+
+\begin{itemize}
+    \item \(v_0\) là seed event hoặc nguyên nhân khởi đầu;
+    \item \(v_h\) là outcome event;
+    \item \(v_1,\ldots,v_{h-1}\) là các mediator;
+    \item \(r_1,\ldots,r_h\) là các quy tắc hỗ trợ từng hop.
+\end{itemize}
+
+Trong cấu hình thực nghiệm chính, hệ thống truy hồi các path có tối đa hai
+hop, tức là \(h \leq 2\). Một đường hai bước có dạng:
+
+\[
+v_0
+\xrightarrow{r_1}
+v_1
+\xrightarrow{r_2}
+v_2,
+\]
+
+trong đó \(v_1\) vừa là hệ quả của quy tắc \(r_1\), vừa là điều kiện của
+quy tắc \(r_2\).
+
+Giới hạn hai hop được lựa chọn vì benchmark hiện tại chủ yếu được xây dựng
+từ các chuỗi hai bước có trong graph. Đây không phải giới hạn lý thuyết của
+biểu diễn path; tuy nhiên, khi tăng số hop, không gian ứng viên và khả năng
+tích lũy lỗi truy hồi cũng tăng đáng kể.
+
+\subsection{Phân biệt quan hệ trực tiếp và quan hệ gián tiếp}
+
+Cho hai event \(A\) và \(C\), một quan hệ trực tiếp tồn tại khi graph chứa
+ít nhất một rule mechanism:
+
+\[
+A \xrightarrow{r} C.
+\]
+
+Ngược lại, nếu graph chỉ chứa một đường:
+
+\[
+A \xrightarrow{r_1} B \xrightarrow{r_2} C,
+\]
+
+thì hệ thống có thể kết luận rằng \(A\) liên quan đến \(C\) thông qua
+mediator \(B\), nhưng không được kết luận rằng tồn tại một cạnh trực tiếp
+\(A \rightarrow C\).
+
+Sự phân biệt này đặc biệt quan trọng đối với các câu hỏi như:
+
+\begin{quote}
+``\(A\) có trực tiếp dẫn đến \(C\) hay không?''
+\end{quote}
+
+Nếu graph chỉ hỗ trợ đường hai bước qua \(B\), claim trực tiếp phải bị bác
+bỏ, ngay cả khi \(C\) vẫn có thể được suy ra gián tiếp từ \(A\).
+
+\subsection{Truy vấn và các loại claim}
+
+Gọi \(q\) là một truy vấn ngôn ngữ tự nhiên. Hệ thống phân tích \(q\) để
+xác định loại quan hệ mà người dùng yêu cầu. Các loại claim chính gồm:
+
+\begin{description}
+    \item[\texttt{STANDARD\_CAUSAL}] Truy vấn yêu cầu xác định hoặc giải
+    thích một quan hệ điều kiện--hệ quả thông thường.
+
+    \item[\texttt{DIRECT\_CAUSAL\_CLAIM}] Truy vấn khẳng định hoặc hỏi về
+    sự tồn tại của một cạnh trực tiếp giữa hai event.
+
+    \item[\texttt{REMOVE\_MEDIATOR\_OUTCOME\_REMAINS}] Truy vấn cho rằng
+    outcome vẫn xuất hiện khi mediator bị loại bỏ.
+
+    \item[\texttt{REMOVE\_MEDIATOR\_OUTCOME\_DISAPPEARS}] Truy vấn cho rằng
+    outcome biến mất khi mediator bị loại bỏ.
+
+    \item[\texttt{MEDIATOR\_NECESSARY\_CLAIM}] Truy vấn hỏi liệu mediator
+    có cần thiết đối với outcome hay không.
+
+    \item[\texttt{COUNTERFACTUAL\_UNSPECIFIED}] Truy vấn chứa tín hiệu phản
+    thực tế nhưng chưa chỉ rõ outcome được kỳ vọng giữ nguyên hay biến mất.
+\end{description}
+
+Việc xác định claim chỉ dựa trên nội dung truy vấn và cấu trúc sự kiện được
+truy hồi. Hệ thống không sử dụng \texttt{question\_type}, nhãn quyết định
+chuẩn, gold path hoặc gold answer của benchmark.
+
+\subsection{Factual world và counterfactual world}
+
+Mỗi event \(v \in \mathcal{V}_{\mathrm{event}}\) được liên kết với một biến
+trạng thái:
+
+\begin{equation}
+X_v
+\in
+\left\{
+    \mathrm{TRUE},
+    \mathrm{FALSE},
+    \mathrm{UNKNOWN}
+\right\}.
+\end{equation}
+
+Ba trạng thái được diễn giải như sau:
+
+\begin{itemize}
+    \item \(\mathrm{TRUE}\): event được suy ra là xảy ra trong world đang
+    xét;
+    \item \(\mathrm{FALSE}\): event được suy ra là không xảy ra;
+    \item \(\mathrm{UNKNOWN}\): chưa đủ căn cứ để xác định hoặc có xung đột
+    giữa các cơ chế suy luận.
+\end{itemize}
+
+Factual world \(W^{F}\) được xác định từ seed event và các rule mechanism
+được kích hoạt trong graph. Với một causal path:
+
+\[
+A \rightarrow M \rightarrow Y,
+\]
+
+hệ thống trước hết kiểm tra các trạng thái factual:
+
+\[
+X_A^{F},\quad X_M^{F},\quad X_Y^{F}.
+\]
+
+Để đánh giá vai trò của mediator \(M\), LegalSCM thực hiện hard
+intervention:
+
+\begin{equation}
+do
+\left(
+    X_M = \mathrm{FALSE}
+\right).
+\label{eq:do}
+\end{equation}
+
+Theo semantics của can thiệp trong SCM
+\cite{pearl2009causality}, phép toán trong
+Phương trình~\ref{eq:do} không chỉ thay đổi giá trị của \(M\). Nó còn thay
+thế cơ chế cấu trúc thông thường tạo ra \(M\), tương đương với việc cắt các
+cơ chế đầu vào của mediator trong world được can thiệp.
+
+Counterfactual world tương ứng được ký hiệu:
+
+\[
+W^{CF}_{M}
+=
+W^{F}
+\mid
+do
+\left(
+    X_M = \mathrm{FALSE}
+\right).
+\]
+
+Sau can thiệp, LegalSCM suy luận lại trạng thái của outcome:
+
+\[
+X_Y^{CF}
+=
+X_Y
+\left(
+    W^{CF}_{M}
+\right).
+\]
+
+Việc so sánh \(X_Y^{F}\) và \(X_Y^{CF}\) cho phép phân biệt các trường hợp:
+
+\begin{itemize}
+    \item nếu
+    \(X_Y^{F}=\mathrm{TRUE}\) và
+    \(X_Y^{CF}=\mathrm{FALSE}\),
+    mediator được xem là cần thiết trong mô hình đang xét;
+
+    \item nếu
+    \(X_Y^{F}=\mathrm{TRUE}\) và
+    \(X_Y^{CF}=\mathrm{TRUE}\),
+    outcome vẫn có thể được duy trì sau can thiệp;
+
+    \item nếu một trong hai trạng thái là
+    \(\mathrm{UNKNOWN}\),
+    kết quả can thiệp chưa đủ để đưa ra kết luận chắc chắn.
+\end{itemize}
+
+Khái niệm ``cần thiết'' ở đây chỉ có ý nghĩa tương đối với các rule mechanism
+và factual context được đưa vào LegalSCM. Nó không chứng minh tính cần thiết
+pháp lý trong mọi tình huống thực tế.
+
+\subsection{Path ablation}
+
+Để tạo baseline, nghiên cứu sử dụng một phép path ablation. Với cùng đường:
+
+\[
+A \rightarrow M \rightarrow Y,
+\]
+
+mediator \(M\) được loại khỏi graph, sau đó hệ thống tìm các đường thay thế
+từ \(A\) đến \(Y\). Nếu không còn đường phù hợp, mediator được xem là cần
+thiết theo tiêu chí reachability. Nếu tồn tại đường thay thế đạt ngưỡng
+điểm, outcome được xem là vẫn có thể tiếp cận.
+
+Path ablation và hard intervention giải quyết hai bài toán khác nhau:
+
+\begin{itemize}
+    \item path ablation hỏi liệu graph sau khi xóa \(M\) còn chứa đường từ
+    \(A\) đến \(Y\) hay không;
+
+    \item LegalSCM hỏi trạng thái của \(Y\) thay đổi như thế nào khi
+    \(M\) bị gán cưỡng bức về \(\mathrm{FALSE}\) và các cơ chế liên quan
+    được suy luận lại.
+\end{itemize}
+
+Vì vậy, kết quả path ablation không được diễn giải như kết quả của phép
+\(do(\cdot)\). Trong nghiên cứu này, path ablation chỉ được sử dụng làm
+baseline để đánh giá chênh lệch về chất lượng, chi phí và mức độ chi tiết
+của trace.
+
+\subsection{Quyết định xác minh}
+
+Với truy vấn \(q\), tập path ứng viên \(\mathcal{P}_q\) và kết quả phân tích
+claim, hệ thống tạo một quyết định:
+
+\begin{equation}
+D_q
+\in
+\left\{
+    \texttt{SUPPORTED},
+    \texttt{REJECT\_DIRECT\_CLAIM},
+    \texttt{UNCERTAIN}
+\right\}.
+\end{equation}
+
+Các nhãn được diễn giải như sau:
+
+\begin{description}
+    \item[\texttt{SUPPORTED}] Cấu trúc graph và kết quả xác minh hỗ trợ claim
+    được phát hiện trong truy vấn.
+
+    \item[\texttt{REJECT\_DIRECT\_CLAIM}] Claim trực tiếp hoặc claim cần bác
+    bỏ không phù hợp với cấu trúc path và kết quả xác minh. Ví dụ, truy vấn
+    khẳng định \(A\) trực tiếp dẫn đến \(C\), nhưng graph chỉ hỗ trợ
+    \(A \rightarrow B \rightarrow C\).
+
+    \item[\texttt{UNCERTAIN}] Hệ thống không tìm được path đủ tin cậy, factual
+    path không thể được xác nhận hoặc kết quả can thiệp chứa trạng thái chưa
+    xác định.
+\end{description}
+
+Ngoài nhãn \(D_q\), hệ thống lưu một decision score, phần giải thích, primary
+path, loại claim và các trường factual/counterfactual liên quan. Các trường
+này được chuyển nguyên vẹn sang bước sinh câu trả lời nhằm hạn chế trường
+hợp answer generator đưa ra kết luận trái với bước xác minh.
+
+\subsection{Dạng câu trả lời}
+
+Loại claim xác định semantics của quyết định, trong khi answer intent xác
+định dạng thông tin cần trình bày. Hệ thống hỗ trợ các answer intent sau:
+
+\begin{description}
+    \item[\texttt{FINAL\_OUTCOME}] Trả về hệ quả cuối cùng của primary path.
+
+    \item[\texttt{INITIAL\_CAUSE}] Trả về nguyên nhân hoặc sự kiện khởi đầu.
+
+    \item[\texttt{BRIDGE\_EVENT}] Trả về mediator nằm giữa nguyên nhân và
+    outcome.
+
+    \item[\texttt{CHAIN\_EXPLANATION}] Trình bày lần lượt từng hop cùng căn
+    cứ điều luật tương ứng.
+
+    \item[\texttt{YES\_NO}] Trả lời có, không hoặc chưa đủ căn cứ, phù hợp
+    với quyết định xác minh.
+
+    \item[\texttt{BRANCH}] Trình bày nhiều outcome có chung một prefix nhân
+    quả.
+
+    \item[\texttt{CONVERGENCE}] Trình bày nhiều điều kiện ban đầu hội tụ vào
+    cùng một suffix hoặc outcome.
+
+    \item[\texttt{CLAIM\_VERIFICATION}] Trả lời trực tiếp về tính đúng hoặc
+    sai của claim direct/counterfactual.
+\end{description}
+
+Answer intent được suy ra từ truy vấn và kết quả query analysis của bước xác
+minh. Tương tự claim detection, quá trình này không đọc nhãn loại câu hỏi
+hoặc gold answer.
+
+\subsection{Đầu ra của bài toán}
+
+Toàn bộ pipeline có thể được mô tả như ánh xạ:
+
+\begin{equation}
+F:
+\left(
+    q,\,
+    \mathcal{R},\,
+    \mathcal{G}
+\right)
+\longrightarrow
+\left(
+    \widehat{\mathcal{E}}_q,\,
+    \widehat{\mathcal{P}}_q,\,
+    D_q,\,
+    A_q,\,
+    C_q,\,
+    M_q
+\right),
+\end{equation}
+
+trong đó:
+
+\begin{itemize}
+    \item \(\widehat{\mathcal{E}}_q\) là tập evidence được truy hồi;
+    \item \(\widehat{\mathcal{P}}_q\) là các causal path ứng viên và primary
+    path được chọn;
+    \item \(D_q\) là quyết định xác minh;
+    \item \(A_q\) là câu trả lời cuối cùng;
+    \item \(C_q\) là tập citation được sử dụng;
+    \item \(M_q\) là metadata về truy hồi, factual world, intervention,
+    counterfactual world và quá trình sinh câu trả lời.
+\end{itemize}
+
+Một đầu ra được xem là tốt khi đồng thời thỏa mãn nhiều tiêu chí:
+
+\begin{enumerate}
+    \item rule và event liên quan được truy hồi;
+    \item primary path phản ánh đúng thứ tự suy luận;
+    \item quyết định xác minh phù hợp với loại claim;
+    \item câu trả lời đúng answer intent;
+    \item citation thực sự hỗ trợ các hop được sử dụng;
+    \item metadata cho phép truy vết và tái lập quá trình xử lý.
+\end{enumerate}
+
+\subsection{Phạm vi và các giả định}
+
+Nghiên cứu được thực hiện dưới các giả định và giới hạn sau:
+
+\begin{enumerate}
+    \item \textbf{Quan hệ quy phạm thay cho causal discovery.}
+    Hướng cạnh được lấy từ cấu trúc điều kiện--hệ quả của quy tắc pháp luật,
+    không được học từ dữ liệu quan sát.
+
+    \item \textbf{Suy luận tất định ba giá trị.}
+    LegalSCM không biểu diễn xác suất. Các event được gán
+    \(\mathrm{TRUE}\), \(\mathrm{FALSE}\) hoặc \(\mathrm{UNKNOWN}\).
+
+    \item \textbf{Can thiệp giới hạn.}
+    Thực nghiệm hiện tại chỉ tập trung vào việc đặt mediator về
+    \(\mathrm{FALSE}\). Các can thiệp đa biến hoặc can thiệp trên giá trị
+    liên tục nằm ngoài phạm vi nghiên cứu.
+
+    \item \textbf{Đường dẫn ngắn.}
+    Cấu hình đánh giá chính giới hạn causal path ở tối đa hai hop.
+
+    \item \textbf{Biểu diễn quy tắc đơn giản hóa.}
+    Corpus hiện chưa bao phủ đầy đủ ngoại lệ, phủ định, nhiều điều kiện đồng
+    thời và ưu tiên giữa các quy tắc.
+
+    \item \textbf{Sinh câu trả lời extractive.}
+    Thực nghiệm chính sử dụng answer generator theo mẫu, không đánh giá khả
+    năng diễn đạt của một mô hình ngôn ngữ sinh tự do.
+
+    \item \textbf{Benchmark cùng nguồn graph.}
+    Các câu hỏi được sinh từ graph dùng trong pipeline. Vì vậy, kết quả đánh
+    giá phản ánh khả năng khôi phục và xử lý cấu trúc đã mã hóa, không phản
+    ánh đầy đủ khả năng tổng quát hóa sang corpus pháp luật độc lập.
+
+    \item \textbf{Không thay thế tư vấn pháp lý.}
+    Hệ thống được xây dựng cho mục đích nghiên cứu và không được sử dụng như
+    một nguồn tư vấn hoặc kết luận pháp lý chính thức.
+\end{enumerate}

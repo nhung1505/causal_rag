@@ -1,0 +1,740 @@
+\section{Proposed Method}
+\label{sec:method}
+
+\subsection{Pipeline Overview}
+
+The pipeline is designed as a sequence of independent stages that exchange
+data through JSON artifacts with defined schemas. This organization allows
+each stage to be inspected, an individual stage to be rerun without
+executing the entire pipeline, and different verification methods to be
+compared on the same retrieval results.
+
+The overall processing flow comprises five stages:
+
+\begin{enumerate}
+    \item normalizing legal text into condition--effect rules;
+
+    \item constructing the legal causal graph and causal memory;
+
+    \item retrieving events, rules, and multi-hop causal paths;
+
+    \item analyzing claims from the query and performing verification with
+    LegalSCM or path ablation;
+
+    \item selecting evidence, determining the answer intent, and generating
+    an answer with citations.
+\end{enumerate}
+
+Given an input query \(q\), the pipeline produces a set of candidate events,
+a set of candidate rules, and a set of causal paths. The paths are then
+verified to select a primary path. The final answer is generated from the
+primary path, the verification decision, and the retained legal evidence.
+
+\begin{figure*}[t]
+    \centering
+    % Replace with the official pipeline figure when the paper is finalized:
+    % \includegraphics[width=0.95\textwidth]{figures/causalrag_pipeline.pdf}
+    \fbox{
+        \parbox{0.92\textwidth}{
+        \centering
+        Legal text
+        \(\rightarrow\) Rule normalization
+        \(\rightarrow\) Legal causal graph and causal memory
+        \(\rightarrow\) Multi-hop retrieval
+        \(\rightarrow\) Query-aware verification
+        \(\rightarrow\) Answer and citation generation
+        }
+    }
+    \caption{Overall architecture of the CausalRAG pipeline for reasoning
+    over Vietnamese criminal law.}
+    \label{fig:pipeline}
+\end{figure*}
+
+\subsection{Legal Rule Normalization}
+
+The initial input consists of statutory provisions in textual form. The goal
+of the normalization stage is to transform the text into units that can be
+used for retrieval and graph reasoning. Each rule is stored with the
+following principal fields:
+
+\begin{itemize}
+    \item rule identifier;
+    \item statutory provision identifier and title;
+    \item legal subject;
+    \item applicability condition;
+    \item legal effect;
+    \item event ID and event name for the condition;
+    \item event ID and event name for the effect;
+    \item causal-relation type or effect type, when available.
+\end{itemize}
+
+An event ID is normalized as an unaccented string whose tokens are joined by
+underscores. The event name retains a human-readable Vietnamese
+representation. Separating the ID from the name allows the system to use a
+stable ID for graph matching while using the name for semantic retrieval and
+answer generation.
+
+For example, a rule may be normalized as:
+
+\begin{quote}
+Condition: ``intentionally committing an offense but failing to complete it
+for reasons beyond the offender's control'';
+
+Effect: ``is classified as an attempted crime'';
+
+Authority: Article 15 of the Penal Code.
+\end{quote}
+
+This rule creates the relation:
+
+\[
+\texttt{co\_y\_thuc\_hien\_toi\_pham\_nhung\_khong\_hoan\_thanh}
+\rightarrow
+\texttt{pham\_toi\_chua\_dat}.
+\]
+
+If an event is both the effect of a preceding rule and the condition of a
+subsequent rule, the two rules can be connected into a multi-hop causal path.
+
+\subsection{Construction of the Heterogeneous Legal Causal Graph}
+
+From the normalized rule set, the system creates three principal groups of
+nodes: events, rules, and statutory provisions. Each rule is connected to
+its condition event, effect event, and source provision. In addition, a
+\texttt{CAUSES} edge is created from the condition event to the effect event.
+
+Representing rules as separate nodes preserves legal information that a
+simple event-to-event edge could lose, including:
+
+\begin{itemize}
+    \item multiple rules connecting the same pair of events;
+    \item rules with the same outcome but different conditions;
+    \item the same event appearing in multiple statutory provisions;
+    \item a relation supported by multiple legal authorities.
+\end{itemize}
+
+For graph traversal, the system uses a projection over events and
+\texttt{CAUSES} edges. Each edge nevertheless retains its rule ID and article
+ID so that a path can be traced back to its original evidence.
+
+The system also extracts two-hop chains from the complete graph:
+
+\[
+v_0 \rightarrow v_1 \rightarrow v_2.
+\]
+
+These chains are used to inspect graph structure, support benchmark
+construction, and generate candidate paths during retrieval.
+
+\subsection{Construction of Causal Memory}
+
+Graph traversal requires a seed event relevant to the query. However, an
+event name in the graph may not occur verbatim in the question. The system
+therefore constructs a causal memory containing both rule records and event
+records.
+
+Each rule record includes:
+
+\begin{itemize}
+    \item condition and effect text;
+    \item legal subject;
+    \item statutory provision;
+    \item condition event and effect event;
+    \item metadata linking the record to the graph.
+\end{itemize}
+
+Each event record includes:
+
+\begin{itemize}
+    \item event ID and event name;
+    \item the event's role as a condition, mediator, or effect;
+    \item related rules and statutory provisions;
+    \item the corresponding graph node ID.
+\end{itemize}
+
+The records are converted into vector representations using BGE-M3
+\cite{chen2024bgem3}. A vector index is constructed with FAISS to support
+nearest-neighbor search over the memory \cite{johnson2019billion}. In the
+experiments, the same embedding space is used for queries, rule text, and
+event text.
+
+For a query \(q\), the query embedding is computed as:
+
+\begin{equation}
+\mathbf{z}_q
+=
+f_{\theta}(q),
+\end{equation}
+
+where \(f_{\theta}\) is the BGE-M3 encoder. The semantic similarity between
+the query and memory record \(m_i\) is computed using cosine similarity:
+
+\begin{equation}
+s_{\mathrm{sem}}
+\left(
+q,m_i
+\right)
+=
+\frac{
+    \mathbf{z}_q^\top \mathbf{z}_{m_i}
+}{
+    \left\Vert\mathbf{z}_q\right\Vert
+    \left\Vert\mathbf{z}_{m_i}\right\Vert
+}.
+\end{equation}
+
+The semantic score is used only to generate and rank candidates. A record
+with a high semantic score does not automatically become final evidence.
+
+\subsection{Candidate Event and Rule Retrieval}
+
+The retrieval stage operates through two parallel branches.
+
+The first branch retrieves events with high similarity to the query. These
+events are used as seeds for graph traversal. Each seed record stores:
+
+\begin{itemize}
+    \item event ID;
+    \item graph node ID;
+    \item event name;
+    \item semantic score;
+    \item event role;
+    \item retrieval method.
+\end{itemize}
+
+The second branch directly retrieves rules whose content is similar to the
+query. Direct rule retrieval retains relevant rules even when their event
+names do not closely match the phrasing of the question.
+
+Candidates with scores below the minimum threshold are discarded. In the
+main configuration, the system selects at most eight seed events and eight
+direct rule hits before graph expansion. A larger semantic pool is retained
+temporarily to avoid prematurely discarding candidates that may participate
+in a strong path.
+
+\subsection{Multi-Hop Causal-Path Expansion}
+
+From each seed event, the retriever traverses \texttt{CAUSES} edges in the
+configured direction. The experiments use \texttt{direction=both}, enabling
+both forward and reverse search. Depending on the position of an event in
+the query, a seed may serve as a cause, mediator, or outcome.
+
+Expansion is constrained by:
+
+\begin{itemize}
+    \item the maximum number of hops;
+    \item the maximum number of paths per seed event;
+    \item the maximum number of candidate rules;
+    \item the semantic-score thresholds for events and rules.
+\end{itemize}
+
+Each candidate path stores:
+
+\begin{itemize}
+    \item the ordered lists of event IDs and event names;
+    \item the list of rule IDs supporting the individual hops;
+    \item the list of article IDs;
+    \item the seed event and outcome event;
+    \item the number of hops;
+    \item semantic and graph scores;
+    \item a structural explanation of the path.
+\end{itemize}
+
+The retriever prioritizes paths that are structurally continuous, have a
+complete rule for every hop, and are highly relevant to the query. Duplicate
+paths are merged according to their event and rule sequences. The final
+retrieval result contains candidate paths, rule evidence, and retrieved
+events.
+
+This design separates two concepts:
+
+\begin{itemize}
+    \item \emph{path retrieval}: whether the gold path appears in the
+    candidate set;
+
+    \item \emph{path ranking}: whether the gold path is ranked first.
+\end{itemize}
+
+This distinction is reflected by the Oracle Exact Path and Top-1 Exact Path
+metrics in Section~\ref{sec:results}.
+
+\subsection{Query Analysis by Claim Type}
+
+The retrieval result is passed to query-aware verification. Before paths are
+verified, the system normalizes the query by converting it to lowercase,
+removing redundant whitespace, and recognizing groups of linguistic signals.
+
+The main signal groups include:
+
+\begin{itemize}
+    \item signals of a direct relation, such as ``directly'' or ``direct
+    edge'';
+
+    \item signals indicating mediator removal or an assumption that the
+    mediator is absent;
+
+    \item signals that the outcome remains;
+
+    \item signals that the outcome disappears;
+
+    \item signals asking about necessity;
+
+    \item counterfactual or hypothetical-condition signals.
+\end{itemize}
+
+From these signals, the query analyzer creates a
+\texttt{query\_analysis} object containing:
+
+\begin{itemize}
+    \item the normalized query;
+    \item the claim type;
+    \item the intent-detector version;
+    \item the direct, remove, remains, disappears, and necessary flags;
+    \item the mapped mediator;
+    \item the factual outcome and counterfactual outcome, when available;
+    \item the verification method;
+    \item the structural-fallback status.
+\end{itemize}
+
+For counterfactual questions, the mediator is mapped to an event on a
+candidate path using exact matching or semantic matching. If no mediator can
+be identified with sufficient confidence, the system does not automatically
+assume an arbitrary event; instead, it retains an undetermined result or
+uses a fallback while recording the reason.
+
+\subsection{LegalSCM Initialization}
+
+LegalSCM is constructed directly from the normalized rule set. Each event is
+mapped to a three-valued endogenous variable:
+
+\[
+X_v
+\in
+\left\{
+    \mathrm{TRUE},
+    \mathrm{FALSE},
+    \mathrm{UNKNOWN}
+\right\}.
+\]
+
+Each rule is converted into a mechanism linking a condition event to an
+effect event. In the current corpus version, a basic mechanism has the form:
+
+\begin{equation}
+X_{e_i}
+\leftarrow
+f_{r_i}
+\left(
+    X_{c_i}
+\right).
+\end{equation}
+
+When \(X_{c_i}=\mathrm{TRUE}\), rule \(r_i\) can activate and infer the effect
+event. If the condition is undetermined, the rule lacks sufficient support
+to activate. LegalSCM iterates over the mechanisms until reaching a fixed
+point or the maximum number of iterations.
+
+Root events not assigned by the factual context remain in the
+\(\mathrm{UNKNOWN}\) state. For endogenous events, the system applies a
+controlled closed-world assumption when no mechanism can activate them. If
+mechanisms produce conflicting results, the final state is set to
+\(\mathrm{UNKNOWN}\) rather than forcing a choice.
+
+LegalSCM is cached according to the rule file and its modification time. The
+cache prevents the complete set of 2,884 rules from being parsed again for
+every question in a batch.
+
+\subsection{Factual Causal-Path Validation}
+
+For a candidate path:
+
+\[
+p=
+\left(
+v_0,r_1,v_1,\ldots,r_h,v_h
+\right),
+\]
+
+the system places seed event \(v_0\) in the factual context and performs
+fixed-point inference. A path is considered factually supported only when:
+
+\begin{enumerate}
+    \item outcome event \(v_h\) is inferred to be in the
+    \(\mathrm{TRUE}\) state;
+
+    \item the rules expected along the path occur in the set of activated
+    rules;
+
+    \item each hop has at least one matching mechanism;
+
+    \item no conflict causes a critical event to become
+    \(\mathrm{UNKNOWN}\).
+\end{enumerate}
+
+The rule coverage of a path is computed as:
+
+\begin{equation}
+\mathrm{Coverage}(p)
+=
+\frac{
+    \left|
+        \mathcal{R}_{p}
+        \cap
+        \mathcal{R}_{\mathrm{activated}}
+    \right|
+}{
+    \left|
+        \mathcal{R}_{p}
+    \right|
+},
+\end{equation}
+
+where \(\mathcal{R}_{p}\) is the set of rules expected along the path and
+\(\mathcal{R}_{\mathrm{activated}}\) is the set of rules activated in the
+factual world.
+
+In addition to aggregate coverage, the system records the coverage state of
+each hop. This trace distinguishes cases in which the outcome is inferred
+through the path under consideration from cases in which the outcome is
+activated by another rule outside that path.
+
+\subsection{Hard Intervention on a Mediator}
+
+For each mediator \(M\) within a multi-hop path, LegalSCM constructs a
+counterfactual world through the operation:
+
+\[
+do
+\left(
+    M=\mathrm{FALSE}
+\right).
+\]
+
+In this world, the ordinary mechanism that generates \(M\) is replaced by
+the constant assignment \(\mathrm{FALSE}\). Rules whose conditions depend on
+\(M\) are reevaluated, after which the states of descendant events are
+re-inferred to a fixed point. This implementation follows the intervention
+semantics of SCMs \cite{pearl2009causality}.
+
+For outcome \(Y\), the system compares:
+
+\[
+Y^{F}
+=
+Y
+\left(
+W^{F}
+\right)
+\]
+
+with:
+
+\[
+Y^{CF}
+=
+Y
+\left(
+W^{F}
+\mid
+do(M=\mathrm{FALSE})
+\right).
+\]
+
+If \(Y^{F}=\mathrm{TRUE}\) and \(Y^{CF}=\mathrm{FALSE}\), the mediator is
+assigned the \texttt{NECESSARY} status in the context under consideration.
+If the outcome remains \(\mathrm{TRUE}\), the mediator is not wholly
+necessary within the model. If the factual or counterfactual outcome is
+undetermined, the intervention is assigned an unresolved status.
+
+Each intervention trace records:
+
+\begin{itemize}
+    \item mediator ID and mediator name;
+    \item intervention assignment;
+    \item factual mediator state;
+    \item factual outcome;
+    \item counterfactual outcome;
+    \item whether the outcome changes;
+    \item disabled rules;
+    \item newly activated rules;
+    \item alternative rules leading to the same outcome;
+    \item intervention status and explanation.
+\end{itemize}
+
+These fields are stored in the Step 4 output for auditing and are not used
+merely to compute a single decision label.
+
+\subsection{Node-Deletion Path Ablation}
+
+Path ablation is implemented by removing the mediator from the event graph
+and then searching for alternative paths from the seed event to the outcome.
+The search for alternative paths is constrained by the maximum number of
+hops and paths to control cost.
+
+For each alternative path, the system records:
+
+\begin{itemize}
+    \item the alternative event sequence;
+    \item the number of hops;
+    \item supporting rules;
+    \item graph score;
+    \item the score of the best alternative path.
+\end{itemize}
+
+If no alternative path is found, the mediator is considered necessary under
+the reachability criterion. If an alternative path exceeds the score
+threshold, the outcome is considered still reachable after the mediator is
+deleted.
+
+When the system runs in \texttt{structural\_scm} mode, the path-ablation
+result is still computed and stored as a baseline diagnostic. If LegalSCM
+cannot be initialized or cannot verify a path, the system may use path
+ablation as a fallback, but it must explicitly record:
+
+\begin{itemize}
+    \item \texttt{structural\_fallback\_used};
+    \item the reason for the fallback;
+    \item the method that actually produced the result.
+\end{itemize}
+
+In the paired experiment, \texttt{path\_ablation} mode is run independently
+with the same retrieval output and hyperparameters, enabling the two engines
+to be compared without changing any other component.
+
+\subsection{Evidence Ranking and Classification}
+
+Each rule evidence item receives a verification score that combines four
+signals:
+
+\begin{itemize}
+    \item the degree of support from factual paths;
+    \item the degree of support from counterfactual verification;
+    \item semantic relevance to the query;
+    \item graph relevance and retrieval score.
+\end{itemize}
+
+Evidence on the primary causal path receives an additional priority score.
+Based on the verification score, evidence is divided into three groups:
+
+\begin{description}
+    \item[\texttt{KEEP}] Evidence strong enough to be passed to the answer
+    generation stage.
+
+    \item[\texttt{UNCERTAIN}] Evidence that is relevant but not sufficiently
+    supported.
+
+    \item[\texttt{REMOVE}] Evidence that does not meet the threshold or is
+    rejected by the verification result.
+\end{description}
+
+In the experimental configuration, the keep threshold is set to \(0.52\),
+whereas the reject threshold is \(0.34\). Evidence on the primary path is
+retained in the path's rule order rather than being sorted only by
+verification score.
+
+\subsection{Primary-Path Selection and Final Decision}
+
+Paths are ranked according to:
+
+\begin{itemize}
+    \item factual-support status;
+    \item path completeness;
+    \item number of hops;
+    \item consistency score;
+    \item graph and retrieval scores;
+    \item compatibility with the claim type.
+\end{itemize}
+
+The system prioritizes paths with \texttt{SUPPORTED} status, complete two-hop
+structure for multi-hop questions, and high consistency scores. The
+highest-ranked path is selected as the primary path, while the remaining
+paths are retained as supporting paths or for branch/convergence reasoning.
+
+Unlike an earlier majority-over-paths decision rule, the query-aware version
+produces the final decision from the claim type and the primary path.
+Specifically:
+
+\begin{itemize}
+    \item for a standard causal claim, the system checks the factual support
+    of the primary path;
+
+    \item for a direct claim, the system checks for a direct edge rather than
+    merely checking reachability;
+
+    \item for a mediator claim, the system compares factual and
+    counterfactual outcomes;
+
+    \item if the mediator mapping or a world state is undetermined, the
+    decision becomes \texttt{UNCERTAIN}.
+\end{itemize}
+
+The verification output includes:
+
+\begin{itemize}
+    \item \texttt{final\_decision};
+    \item \texttt{decision\_score};
+    \item \texttt{decision\_explanation};
+    \item \texttt{primary\_path\_ids};
+    \item \texttt{query\_analysis};
+    \item \texttt{path\_verifications};
+    \item retained, uncertain, and removed evidence;
+    \item the Step 4 configuration and version.
+\end{itemize}
+
+\subsection{Answer-Intent Inference}
+
+The answer-generation stage receives the complete verification output rather
+than only a list of rules. The answer intent is inferred from the query text
+and \texttt{query\_analysis}. Direct or counterfactual claims are always
+preferentially mapped to \texttt{CLAIM\_VERIFICATION} to preserve the
+semantics of Step 4.
+
+For the remaining questions, the system recognizes linguistic patterns
+related to:
+
+\begin{itemize}
+    \item the final effect;
+    \item the initial cause;
+    \item the bridge event;
+    \item chain explanation;
+    \item yes/no questions;
+    \item branching;
+    \item convergence.
+\end{itemize}
+
+This process does not use \texttt{question\_type}. Therefore, the same
+mechanism can be applied to queries outside the benchmark when their phrasing
+contains the corresponding signals.
+
+\subsection{Path and Evidence Selection for the Answer}
+
+Step 5 selects paths first and then selects evidence according to the chosen
+paths. The primary path is always retained when one exists.
+
+For linear questions, evidence on the primary path is placed first and
+retained in causal order. For branch reasoning, the system retains paths
+that share a common prefix with the primary path. For convergence reasoning,
+the system retains paths with a common suffix. This mechanism avoids the
+loss of branches required for the answer that would result from selecting
+only one path.
+
+The final evidence is selected from:
+
+\begin{enumerate}
+    \item rules on the primary path;
+    \item rules on structurally related paths;
+    \item supplementary evidence verified by Step 4;
+    \item retrieval-evidence fallback if verification retains no evidence.
+\end{enumerate}
+
+Duplicate rules are removed by rule ID. When citations are created, evidence
+items representing the same causal edge are further deduplicated to avoid
+repeatedly listing equivalent authorities.
+
+\subsection{Extractive Answer Generation}
+
+Although the implementation supports external providers such as Ollama,
+OpenAI-compatible APIs, and Gemini, the main experiments use the extractive
+provider. This choice makes the results deterministic and separates the
+effects of retrieval and verification from the variability of a generative
+model.
+
+The extractive provider generates an answer according to the answer intent:
+
+\begin{description}
+    \item[\texttt{FINAL\_OUTCOME}] Use the complete \texttt{effect} content
+    of the final rule on the primary path. If no corresponding rule can be
+    found, the system falls back to the outcome event name.
+
+    \item[\texttt{INITIAL\_CAUSE}] Return the first event and the complete
+    causal chain.
+
+    \item[\texttt{BRIDGE\_EVENT}] Return one or more mediators between the
+    seed and the outcome.
+
+    \item[\texttt{CHAIN\_EXPLANATION}] Present each hop in order, with a
+    citation to the rule supporting that hop.
+
+    \item[\texttt{YES\_NO}] Begin with ``Yes,'' ``No,'' or ``Insufficient
+    evidence,'' consistently with the final decision.
+
+    \item[\texttt{BRANCH}] Aggregate the outcomes of paths with a common
+    prefix.
+
+    \item[\texttt{CONVERGENCE}] Aggregate the input conditions of paths with
+    a common suffix.
+
+    \item[\texttt{CLAIM\_VERIFICATION}] Answer the claim directly and use
+    the decision explanation from Step 4.
+\end{description}
+
+For example, consider the primary path:
+
+\[
+\text{Intentional commission of an offense without completion}
+\rightarrow
+\text{Attempted crime}
+\rightarrow
+\text{Criminal liability},
+\]
+
+where the final rule contains the effect ``must bear criminal liability for
+the attempted offense.'' The answer therefore uses this complete effect
+rather than only the general event label ``Criminal liability.''
+
+\subsection{Citation and Output Validation}
+
+Each evidence item is assigned an index \([E_i]\). The answer validator
+extracts citations appearing in the answer and checks them against the list
+of selected evidence.
+
+The validation procedure includes:
+
+\begin{itemize}
+    \item removing nonexistent citations;
+    \item prioritizing citations on the primary path;
+    \item adding a citation when the answer uses evidence but lacks a marker;
+    \item recording validation warnings;
+    \item mapping evidence citations to article IDs for evaluation.
+\end{itemize}
+
+The final output stores both evidence-index citations and authorities of the
+form ``Article \(X\).'' This enables checks of both the answer's internal
+grounding and its accuracy against gold citations.
+
+\subsection{Provenance and Reproducibility}
+
+Each artifact records the version of the stage that produced it. In the main
+experiment:
+
+\begin{itemize}
+    \item Step 4 uses version
+    \texttt{4.1-query-aware-legal-scm};
+
+    \item Step 5 uses version
+    \texttt{5.1-query-aware-grounded-answer};
+
+    \item the batch runner uses version
+    \texttt{2.1-query-aware-answer};
+
+    \item the evaluator uses version
+    \texttt{2.0-current-pipeline-schema}.
+\end{itemize}
+
+The generation metadata also records:
+
+\begin{itemize}
+    \item answer intent;
+    \item intent-detector version;
+    \item counterfactual-signal source;
+    \item Step 4 and Step 5 versions;
+    \item structural result or structural fallback;
+    \item provider and model;
+    \item execution time;
+    \item the number of evidence items and paths used;
+    \item the list of rules on the primary path.
+\end{itemize}
+
+This provenance allows results from different pipeline versions to be
+distinguished, preventing old and new artifacts from being compared under
+the same experimental label.

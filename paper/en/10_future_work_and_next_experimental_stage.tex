@@ -1,0 +1,124 @@
+\section{Future work and the next experimental stage}
+\label{sec:future}
+
+The v4.1/v5.1 results identify two priorities: path ranking, especially for
+reverse reasoning, and the benchmark's low sensitivity to structural
+intervention. The next stage should address these two issues separately to
+avoid conflating retrieval changes with changes to the verification engine.
+
+\subsection{Query-aware retrieval and path reranking}
+
+Answer intent and the roles of cause, mediator, and effect should be
+identified before the primary path is selected. For reverse reasoning, the
+outcome detected in the query should be fixed as the endpoint, after which
+the system should perform constrained backward search to find a predecessor.
+The path reranker may combine semantic scores with lexical and structural
+features, including article number, penalty level, event position on the
+path, rule condition/effect, and outcome specificity.
+
+Each retrieval change should be evaluated before verification on the same
+candidate pool. The primary metrics should include Rule/Event Recall, Oracle
+Path, Top-1 Path, and ranking error. Only after retrieval has been frozen
+should the paired structural SCM--path ablation experiment be rerun, thereby
+preserving the ability to attribute any difference to the verification
+engine.
+
+\subsection{An intervention-sensitive benchmark}
+
+A new structural-counterfactual benchmark should represent each sample as:
+
+\begin{equation}
+\left(
+q,\,
+C_F,\,
+\doop(M=m),\,
+Y_F,\,
+Y_{\doop(M=m)},\,
+z
+\right),
+\label{eq:future-counterfactual-item}
+\end{equation}
+
+where $q$ is the query, $C_F$ is the factual context, $M$ is the intervened
+mediator, $Y_F$ and $Y_{\doop(M=m)}$ are the factual and counterfactual
+outcomes, respectively, and $z$ is the relation label. At a minimum, the
+benchmark should balance three labels:
+
+\begin{itemize}
+    \item \texttt{NECESSARY}: intervening on the mediator changes the outcome;
+    \item \texttt{NON\_NECESSARY}: the outcome is maintained by an active
+    alternative mechanism;
+    \item \texttt{INDETERMINATE}: the facts, root state, or rules are
+    insufficient to support a conclusion.
+\end{itemize}
+
+The \texttt{SUFFICIENT}, \texttt{NO\_EFFECT}, and conflict groups may be
+added to test additional branches of the engine. The benchmark must contain
+pairs for which node deletion and hard intervention yield different results;
+otherwise, the paired ablation will remain unable to distinguish the
+semantics of the two methods.
+
+Each sample should be reviewed by experts in both the factual and intervened
+worlds. Gold annotations should include the rule applied, the rule disabled,
+the alternative mechanism, the states of the mediator and outcome, and a
+natural-language explanation.
+
+\subsection{Extending rule representation and LegalSCM}
+
+The next model should support conjunctive conditions, negation, exceptions,
+rule priority, and temporal validity. A general rule may be represented by
+multiple literals in its antecedent rather than by a single positive
+condition. When conflicts arise, the system must clearly distinguish
+\texttt{FALSE} from \texttt{UNKNOWN} and record which rules produce each
+state.
+
+The event schema should also separate the canonical ID, aliases, and
+preferred display name. Aliases should be used for retrieval, whereas the
+preferred name should be used in answers. This change would both reduce
+semantic noise and prevent strings containing \texttt{||} from appearing in
+the output.
+
+\subsection{Evaluation of nonlinear structures and citations}
+
+Branch and convergence structures should be evaluated with path-set or
+subgraph metrics rather than being forced into a single chain. Planned
+metrics include branch outcome coverage, convergence input coverage,
+subgraph edge F1, and graph edit distance.
+
+For citations, evaluation should move from article-set matching to
+assertion-level grounding. Each assertion in the short answer or explanation
+must be mapped to a supporting rule and article. Experts can then assess
+three separate criteria: whether the article is relevant, whether it entails
+the assertion, and whether the citation is sufficient to support the
+conclusion.
+
+\subsection{External and human evaluation}
+
+Future experiments should include baselines run with the same corpus and
+protocol, including vanilla RAG, graph RAG without verification, LLM-only,
+and reproducible causal/counterfactual RAG methods. An independent test set
+authored by experts should be separated from the graph-construction pipeline.
+
+Beyond automated metrics, the study should measure whether the LegalSCM
+trace actually helps evaluators:
+
+\begin{itemize}
+    \item detect an incorrect path or citation more quickly;
+    \item understand the difference between factual and counterfactual worlds;
+    \item recognize an alternative mechanism;
+    \item calibrate their confidence in the answer.
+\end{itemize}
+
+\subsection{Strengthening reproducibility}
+
+Before a conclusive run, the code commit, embedding-model revision,
+dependency lockfile, random seed, server configuration, and hashes of all
+input/output artifacts should be fixed. Both modes must start from the same
+cached retrieval output and record paired differences at the sample level.
+Runtime should be measured repeatedly under both cold-cache and warm-cache
+conditions.
+
+The hypotheses, primary metrics, exclusion rules, and subgroup analyses
+should be specified before the final results are examined. This organization
+helps prevent post hoc metric selection and clarifies whether an improvement
+comes from retrieval, verification, or answer generation.

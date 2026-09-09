@@ -1,0 +1,43 @@
+\begin{abstract}
+\noindent
+Retrieval-Augmented Generation (RAG) systems can provide information from
+external knowledge sources, but they still face difficulties with legal
+questions that require connecting multiple rules, identifying reasoning
+paths, and examining counterfactual assumptions. This study presents a
+CausalRAG pipeline for question answering in Vietnamese criminal law, in
+which legal rules are normalized into condition--effect relations and
+organized as a heterogeneous legal causal graph. The system combines a
+BGE-M3-based vector memory, multi-hop causal-path retrieval, query-aware
+claim verification, and the generation of answers grounded in statutory
+provisions.
+
+The central verification component of the system is a Legal Structural
+Causal Model (LegalSCM), a deterministic normative reasoning model with a
+three-valued state space. LegalSCM validates factual causal paths and
+performs a hard intervention by assigning an intermediate event the
+\(\mathrm{FALSE}\) state, severing its corresponding incoming mechanisms,
+and re-inferring the outcome. A baseline based on node deletion and graph
+reachability is used to conduct a paired ablation.
+
+Experiments are conducted on 2,884 rules, 1,814 events, and a synthetic
+evaluation set comprising 250 multi-hop questions. The system achieves a
+Rule Recall@5 of 69.93\%, an Event Recall@5 of 74.66\%, a verification
+accuracy of 92.00\%, an Answer Token F1 of 68.69\%, and a Citation F1 of
+62.86\%. Top-1 Exact Path reaches 35.20\%, whereas Oracle Exact Path reaches
+71.20\%, indicating that path ranking remains the principal bottleneck. The
+paired ablation reveals no difference in quality between LegalSCM and path
+ablation on the current benchmark; however, LegalSCM provides clearer
+intervention semantics and more detailed reasoning traces, at an average
+processing time approximately 3.23 times higher. The results demonstrate
+the potential of combining graph-based retrieval, structured verification,
+and grounded answer generation, while also highlighting the need for
+counterfactual benchmarks that are more sensitive to intervention
+mechanisms.
+\end{abstract}
+
+\vspace{0.35em}
+\noindent\textbf{Keywords:}
+Retrieval-Augmented Generation; CausalRAG; causal graph;
+structural causal model; counterfactual reasoning;
+legal question answering; Vietnamese Penal Code.
+\vspace{0.6em}

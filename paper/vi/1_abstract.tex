@@ -1,0 +1,40 @@
+\begin{abstract}
+\noindent
+Các hệ thống sinh tăng cường truy hồi (Retrieval-Augmented Generation, RAG)
+có khả năng cung cấp thông tin từ nguồn tri thức bên ngoài, nhưng vẫn gặp khó
+khăn đối với các câu hỏi pháp luật yêu cầu kết nối nhiều quy tắc, xác định
+đường suy luận và kiểm tra các giả định phản thực tế. Nghiên cứu này trình
+bày một pipeline CausalRAG cho hỏi--đáp pháp luật hình sự Việt Nam, trong đó
+các quy tắc pháp luật được chuẩn hóa thành quan hệ điều kiện--hệ quả và tổ
+chức dưới dạng đồ thị nhân quả dị thể. Hệ thống kết hợp bộ nhớ vector sử dụng
+BGE-M3, truy hồi đường dẫn nhân quả nhiều bước, xác minh claim theo nội dung
+truy vấn và sinh câu trả lời có căn cứ điều luật.
+
+Thành phần xác minh trung tâm của hệ thống là mô hình nhân quả cấu trúc pháp
+lý (Legal Structural Causal Model, LegalSCM), một mô hình suy luận quy phạm
+tất định với miền trạng thái ba giá trị. LegalSCM xác nhận factual causal
+path và thực hiện hard intervention bằng cách gán sự kiện trung gian về
+trạng thái sai, cắt các cơ chế đầu vào tương ứng và suy luận lại outcome.
+Một baseline dựa trên xóa node và kiểm tra khả năng tiếp cận trên đồ thị
+được sử dụng để thực hiện paired ablation.
+
+Thực nghiệm được tiến hành trên 2.884 quy tắc, 1.814 sự kiện và một bộ đánh
+giá tổng hợp gồm 250 câu hỏi đa bước. Hệ thống đạt Rule Recall@5 là 69,93\%,
+Event Recall@5 là 74,66\%, độ chính xác xác minh 92,00\%, Answer Token F1 là
+68,69\% và Citation F1 là 62,86\%. Top-1 Exact Path đạt 35,20\%, trong khi
+Oracle Exact Path đạt 71,20\%, cho thấy xếp hạng đường dẫn vẫn là nút thắt
+chính. Paired ablation không ghi nhận khác biệt về chất lượng giữa
+LegalSCM và path ablation trên benchmark hiện tại; tuy nhiên, LegalSCM cung
+cấp semantics can thiệp và trace suy luận chi tiết hơn với thời gian xử lý
+trung bình cao hơn khoảng 3,23 lần. Kết quả cho thấy tiềm năng của việc kết
+hợp truy hồi theo đồ thị, xác minh có cấu trúc và sinh câu trả lời có căn cứ,
+đồng thời chỉ ra nhu cầu xây dựng benchmark phản thực tế nhạy hơn với cơ chế
+can thiệp.
+\end{abstract}
+
+\vspace{0.35em}
+\noindent\textbf{Từ khóa:}
+Retrieval-Augmented Generation; CausalRAG; đồ thị nhân quả;
+mô hình nhân quả cấu trúc; suy luận phản thực tế;
+hỏi--đáp pháp luật; Bộ luật Hình sự Việt Nam.
+\vspace{0.6em}

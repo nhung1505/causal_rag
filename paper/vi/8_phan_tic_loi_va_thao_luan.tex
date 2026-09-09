@@ -1,0 +1,604 @@
+\section{Phân tích lỗi và thảo luận}
+\label{sec:discussion}
+
+\subsection{Tổng quan các nguồn lỗi}
+
+Kết quả thực nghiệm cho thấy lỗi của pipeline không tập trung tại một thành
+phần duy nhất mà có thể lan truyền qua nhiều bước. Một lỗi retrieval có thể
+làm mất gold event hoặc gold rule; từ đó gold path không xuất hiện trong
+candidate set, verifier xác minh một path khác và answer generator tạo câu
+trả lời nhất quán với path sai đó.
+
+Ngược lại, ngay cả khi gold path đã xuất hiện trong candidate set, hệ thống
+vẫn có thể chọn sai primary path. Trong trường hợp này, retrieval coverage
+có thể cao nhưng Top-1 Exact Path, answer và citation vẫn thấp. Các nhóm lỗi
+chính được tóm tắt trong Bảng~\ref{tab:error-summary}.
+
+\begin{table}[t]
+    \centering
+    \caption{Các nguồn lỗi chính được quan sát trong thực nghiệm.}
+    \label{tab:error-summary}
+    \begin{tabular}{p{0.28\linewidth}p{0.22\linewidth}p{0.38\linewidth}}
+        \hline
+        \textbf{Nguồn lỗi} & \textbf{Tín hiệu định lượng} &
+        \textbf{Ảnh hưởng} \\
+        \hline
+        Path retrieval &
+        Error rate \(28{,}80\%\) &
+        Gold path không xuất hiện trong candidate set. \\
+
+        Path ranking &
+        Error rate \(36{,}00\%\) &
+        Gold path đã được truy hồi nhưng không được chọn làm primary path. \\
+
+        Reverse reasoning &
+        Answer F1 \(32{,}67\%\) &
+        Sai seed hoặc sai predecessor dẫn đến sai path, decision và answer. \\
+
+        Verification abstention &
+        \(20\) mẫu supported bị dự đoán uncertain &
+        Giảm accuracy nhưng tránh tạo quyết định khẳng định sai. \\
+
+        Citation selection &
+        Citation F1 \(62{,}86\%\) &
+        Thiếu gold article hoặc bổ sung article từ path cạnh tranh. \\
+
+        Metric cho cấu trúc phi tuyến &
+        Exact path bằng \(0\%\) ở branch/convergence &
+        Metric tuyến tính không phản ánh đầy đủ chất lượng câu trả lời. \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Khoảng cách giữa path retrieval và path ranking}
+
+Một trong những kết quả đáng chú ý nhất là khoảng cách giữa Top-1 Exact Path
+và Oracle Exact Path. Top-1 chỉ đạt \(35{,}20\%\), trong khi Oracle đạt
+\(71{,}20\%\). Như vậy, trong một tỷ lệ lớn câu hỏi, retriever đã tạo được
+một candidate path phù hợp với gold nhưng scoring function chưa xếp path đó
+ở vị trí đầu tiên.
+
+Có ba nguyên nhân chính có thể giải thích hiện tượng này.
+
+\paragraph{Nhiều path có chung prefix hoặc mediator.}
+
+Một event trung gian có thể dẫn đến nhiều outcome khác nhau thông qua các
+rule thuộc nhiều điều luật. Ví dụ, các event như ``tái phạm nguy hiểm'' hoặc
+``phạm tội có tổ chức'' có thể liên kết với nhiều khung hình phạt. Các path
+này có chung seed hoặc mediator nên đạt semantic và graph score gần nhau.
+Nếu truy vấn chứa thông tin phân biệt outcome nhưng thông tin đó chưa được
+đưa đủ mạnh vào scoring function, hệ thống có thể chọn một path hợp lệ về
+cấu trúc nhưng sai về hệ quả cụ thể.
+
+\paragraph{Outcome có nội dung ngữ nghĩa gần nhau.}
+
+Nhiều effect event cùng mô tả hình phạt tù, phạt tiền hoặc trách nhiệm hình
+sự nhưng khác nhau về mức hình phạt và điều luật. Embedding có thể đánh giá
+các event này là gần nhau trong không gian vector. Một khác biệt nhỏ về con
+số hoặc phạm vi hình phạt có ý nghĩa pháp lý lớn nhưng không nhất thiết tạo
+ra khoảng cách embedding đủ lớn.
+
+\paragraph{Path score chưa sử dụng đầy đủ answer intent.}
+
+Retriever chạy trước khi Step 5 xác định answer intent. Mặc dù truy vấn đã
+được sử dụng trong semantic retrieval, scoring function chưa áp đặt ràng
+buộc rõ ràng rằng reverse question phải ưu tiên path có outcome khớp truy
+vấn và trả về predecessor, hoặc branch question phải giữ nhiều path có chung
+prefix. Vì vậy, path ranking chủ yếu dựa trên relevance và graph score thay
+vì vai trò mà từng event cần đóng trong câu trả lời.
+
+Kết quả Oracle cho thấy chỉ cải thiện candidate generation là chưa đủ. Một
+hướng ưu tiên cao hơn là xây dựng query-aware path reranker, trong đó query
+intent được xác định trước hoặc đồng thời với retrieval. Reranker có thể sử
+dụng các đặc trưng:
+
+\begin{itemize}
+    \item mức khớp giữa seed event và phần nguyên nhân của truy vấn;
+    \item mức khớp giữa outcome event và phần kết quả của truy vấn;
+    \item vai trò kỳ vọng của event được hỏi;
+    \item mức khớp với rule condition và rule effect đầy đủ;
+    \item article hoặc mức hình phạt xuất hiện trong câu hỏi;
+    \item tính liên tục của toàn bộ path;
+    \item độ đặc hiệu của event thay vì chỉ semantic similarity tổng quát.
+\end{itemize}
+
+\subsection{Lỗi path retrieval}
+
+Path Retrieval Error Rate đạt \(28{,}80\%\), nghĩa là gần ba phần mười số mẫu
+không có gold path hoàn chỉnh trong candidate set. Lỗi này không thể được
+khắc phục chỉ bằng cách thay đổi Step 4 hoặc Step 5.
+
+Một số nguyên nhân gồm:
+
+\begin{itemize}
+    \item seed event đúng không nằm trong top-\(k\);
+    \item semantic score thấp do cách diễn đạt trong câu hỏi khác event name;
+    \item candidate pool bị chiếm bởi nhiều event có nội dung hình phạt gần
+    nhau;
+    \item graph traversal bắt đầu từ một event đúng về chủ đề nhưng sai vai
+    trò;
+    \item giới hạn số path trên mỗi seed loại bỏ gold path trước bước
+    reranking;
+    \item gold rule không xuất hiện đủ trong candidate rule pool.
+\end{itemize}
+
+Rule Recall@5 và Event Recall@5 lần lượt đạt \(69{,}93\%\) và \(74{,}66\%\),
+cho thấy retriever thường lấy được một phần path nhưng chưa luôn lấy đủ mọi
+hop. Điều này phù hợp với Top-1 Edge F1 \(54{,}13\%\), cao hơn Exact Path
+nhưng vẫn thấp hơn Oracle Event F1.
+
+Các cải tiến retrieval có thể bao gồm:
+
+\begin{enumerate}
+    \item tách query thành biểu diễn nguyên nhân, mediator và outcome trước
+    khi tìm seed;
+
+    \item thực hiện retrieval riêng cho condition text và effect text;
+
+    \item kết hợp dense score với sparse lexical matching cho số điều,
+    khoảng tiền và mức hình phạt;
+
+    \item tăng tính đa dạng của seed event thay vì lấy nhiều event gần nhau
+    về ngữ nghĩa;
+
+    \item thực hiện constrained backward search cho reverse reasoning;
+
+    \item dùng rule-aware reranker trên toàn bộ path thay vì xếp từng event
+    độc lập.
+\end{enumerate}
+
+\subsection{Reverse reasoning là điểm yếu chính}
+
+Reverse reasoning là nhóm có hiệu năng thấp nhất ở hầu hết metric:
+
+\begin{itemize}
+    \item Rule Recall@5: \(46{,}67\%\);
+    \item Event Recall@5: \(42{,}22\%\);
+    \item Top-1 Exact Path: \(8{,}89\%\);
+    \item Oracle Exact Path: \(26{,}67\%\);
+    \item Verification Accuracy: \(60{,}00\%\);
+    \item Answer Token F1: \(32{,}67\%\);
+    \item Citation F1: \(36{,}32\%\).
+\end{itemize}
+
+Trong forward reasoning, truy vấn thường nêu rõ condition event và yêu cầu
+tìm outcome. Condition event có thể được dùng trực tiếp làm seed, sau đó
+graph được mở rộng theo hướng \texttt{CAUSES}. Trong reverse reasoning, truy
+vấn thường bắt đầu từ outcome và yêu cầu tìm nguyên nhân. Một outcome như
+``chịu trách nhiệm hình sự'', ``được giảm nhẹ'' hoặc một mức hình phạt có thể
+có nhiều predecessor thuộc các điều luật khác nhau. Do đó, bài toán ngược có
+mức nhập nhằng cao hơn.
+
+Mặc dù retriever được cấu hình \texttt{direction=both}, việc cho phép duyệt
+cạnh ngược chưa đủ để giải quyết vấn đề. Hệ thống còn phải xác định rằng
+outcome được nhắc đến trong truy vấn nên được cố định làm điểm cuối, sau đó
+xếp hạng các predecessor dựa trên toàn bộ nội dung câu hỏi.
+
+Trong \(45\) reverse question, Verification Accuracy \(60\%\) tương ứng với
+\(27\) quyết định đúng và \(18\) mẫu bị chuyển thành
+\texttt{UNCERTAIN}. Hai mẫu \texttt{SUPPORTED} còn lại bị chuyển thành
+\texttt{UNCERTAIN} thuộc nhóm yes/no positive, tạo thành tổng \(20\) lỗi xác
+minh trong confusion matrix.
+
+Answer generator đã hỗ trợ intent \texttt{INITIAL\_CAUSE}, nhưng nó chỉ có
+thể trả nguyên nhân đầu tiên của primary path được chọn. Nếu upstream
+retriever hoặc verifier chọn sai path, việc định dạng đúng answer intent
+không thể khôi phục gold cause. Kết quả này cho thấy lỗi reverse reasoning
+chủ yếu nằm trước Step 5.
+
+Một cải tiến trực tiếp là thực hiện backward retrieval có ràng buộc:
+
+\begin{equation}
+\widehat{p}
+=
+\arg\max_{p}
+S(p \mid q)
+\quad
+\text{sao cho}
+\quad
+\mathrm{outcome}(p)
+=
+v_q^{\mathrm{outcome}},
+\end{equation}
+
+trong đó \(v_q^{\mathrm{outcome}}\) là outcome event được ánh xạ từ truy vấn.
+Sau khi outcome được cố định, hệ thống mới xếp hạng các path đi ngược về seed
+event.
+
+\subsection{Hành vi abstention của verifier}
+
+Confusion matrix cho thấy verifier không nhầm lẫn trực tiếp giữa hai lớp có
+gold support:
+
+\begin{itemize}
+    \item không có gold \texttt{SUPPORTED} nào bị dự đoán thành
+    \texttt{REJECT\_DIRECT\_CLAIM};
+
+    \item không có gold \texttt{REJECT\_DIRECT\_CLAIM} nào bị dự đoán thành
+    \texttt{SUPPORTED};
+
+    \item toàn bộ \(20\) lỗi là gold \texttt{SUPPORTED} bị chuyển thành
+    \texttt{UNCERTAIN}.
+\end{itemize}
+
+Hành vi này tạo ra precision \(100\%\) cho cả lớp \texttt{SUPPORTED} và
+\texttt{REJECT\_DIRECT\_CLAIM}, nhưng làm giảm recall của lớp
+\texttt{SUPPORTED} xuống \(91{,}30\%\).
+
+Trong một hệ thống pháp luật, việc chuyển sang \texttt{UNCERTAIN} khi thiếu
+evidence có thể an toàn hơn việc đưa ra một kết luận khẳng định sai. Tuy
+nhiên, benchmark hiện không chứa gold \texttt{UNCERTAIN}, nên chưa thể đánh
+giá liệu threshold abstention có được hiệu chỉnh phù hợp hay không.
+
+Một benchmark tương lai nên chứa ít nhất ba loại mẫu:
+
+\begin{enumerate}
+    \item claim được hỗ trợ;
+    \item claim bị bác bỏ;
+    \item claim thực sự không đủ căn cứ.
+\end{enumerate}
+
+Khi đó, có thể đánh giá coverage--risk trade-off thay vì chỉ báo cáo
+accuracy và Macro-F1.
+
+\subsection{Hiệu quả của direct-claim detection}
+
+Tất cả \(20\) yes/no counterexample đều được phân loại đúng. Đây là kết quả
+tích cực của query-aware claim detection: hệ thống nhận ra rằng câu hỏi yêu
+cầu kiểm tra quan hệ trực tiếp và không xem một đường hai bước là bằng chứng
+cho cạnh trực tiếp.
+
+Tuy nhiên, kết quả này chủ yếu đến từ việc kết hợp:
+
+\begin{itemize}
+    \item direct indicator trong query;
+    \item cấu trúc cạnh của graph;
+    \item sự phân biệt giữa direct edge và indirect path.
+\end{itemize}
+
+Nó không nhất thiết yêu cầu hard intervention. Vì vậy, không nên sử dụng độ
+chính xác \(100\%\) trên subset này để kết luận LegalSCM có ưu thế về
+counterfactual reasoning.
+
+\subsection{Chất lượng câu trả lời và độ dài đầu ra}
+
+Answer Token Recall đạt \(75{,}40\%\), cao hơn Token Precision
+\(65{,}34\%\). Câu trả lời thường bao phủ nội dung gold nhưng bổ sung:
+
+\begin{itemize}
+    \item câu dẫn như ``Hệ quả cuối cùng là'';
+    \item toàn bộ causal chain;
+    \item giải thích quyết định;
+    \item citation marker \([E_i]\).
+\end{itemize}
+
+Các thành phần bổ sung tăng khả năng giải thích nhưng làm giảm token
+precision. Prediction có trung bình \(48{,}18\) token, trong khi gold answer
+có trung bình \(45{,}07\) token.
+
+Normalized Exact Match bằng \(0\%\) cho thấy exact string matching không phù
+hợp với dạng câu trả lời có giải thích. Token F1 và ROUGE-L F1 phản ánh chất
+lượng tốt hơn, nhưng vẫn chưa đánh giá đầy đủ tính đúng đắn pháp lý.
+
+Một hướng cải tiến là tách đầu ra thành hai trường:
+
+\begin{itemize}
+    \item \texttt{short\_answer}: câu trả lời trực tiếp, ngắn gọn;
+    \item \texttt{explanation}: causal chain và căn cứ.
+\end{itemize}
+
+Khi đó, short answer có thể được đánh giá bằng exact match hoặc token F1,
+còn explanation được đánh giá riêng bằng path grounding và citation.
+
+\subsection{Ảnh hưởng của event canonicalization}
+
+Một số event name trong graph chứa nhiều cách diễn đạt được nối bằng ký hiệu
+\texttt{||}. Ví dụ, một node có thể có tên:
+
+\begin{quote}
+``Có thể được miễn phần hình phạt còn lại
+\texttt{||}
+Được miễn phần hình phạt còn lại''.
+\end{quote}
+
+Việc đưa toàn bộ chuỗi canonicalized name vào câu trả lời làm tăng số token
+không xuất hiện trong gold answer và giảm tính tự nhiên. Nó cũng có thể làm
+semantic retrieval ưu tiên các event có nhiều biến thể ngôn ngữ hơn.
+
+Cần tách rõ:
+
+\begin{itemize}
+    \item canonical event ID;
+    \item danh sách alias;
+    \item preferred display name.
+\end{itemize}
+
+Retriever có thể sử dụng toàn bộ alias, trong khi answer generator chỉ sử
+dụng preferred display name.
+
+\subsection{Phân tích citation}
+
+Citation F1 đạt \(62{,}86\%\), thấp hơn Answer Token F1. Hai nguồn lỗi chính
+là citation miss và extra citation.
+
+\paragraph{Citation miss.}
+
+Nếu retriever chọn đúng event nhưng thiếu một rule trên gold path, câu trả
+lời có thể vẫn chứa phần lớn nội dung gold nhưng thiếu article tương ứng.
+Điều này làm answer F1 cao hơn citation recall.
+
+\paragraph{Extra citation.}
+
+Khi nhiều rule cùng hỗ trợ một causal edge hoặc nhiều path chia sẻ outcome,
+Step 5 có thể giữ thêm evidence đã được xác minh nhưng không thuộc gold
+citation set. Nếu citation từ evidence bổ sung xuất hiện trong câu trả lời,
+citation precision giảm.
+
+Việc khử trùng theo causal edge đã hạn chế citation lặp lại, nhưng chưa giải
+quyết hoàn toàn trường hợp nhiều điều luật cùng dẫn đến event tương tự. Một
+cải tiến là chỉ gắn citation theo từng assertion cụ thể trong answer thay vì
+thêm tất cả citation ở cuối câu.
+
+Ví dụ, với chain explanation:
+
+\[
+A \xrightarrow{r_1} B \xrightarrow{r_2} C,
+\]
+
+câu trả lời nên gắn:
+
+\begin{quote}
+Bước 1: \(A\) dẫn đến \(B\) [Điều \(a_1\)].
+Bước 2: \(B\) dẫn đến \(C\) [Điều \(a_2\)].
+\end{quote}
+
+Cách này làm rõ article nào hỗ trợ hop nào và tạo điều kiện đánh giá
+citation grounding ở mức assertion.
+
+\subsection{Branch và convergence}
+
+Branch reasoning và convergence reasoning đặt ra vấn đề cho metric exact
+path. Một branch có thể được biểu diễn bởi tập path:
+
+\[
+\mathcal{P}_{\mathrm{branch}}
+=
+\{
+A \rightarrow B \rightarrow C_1,\,
+A \rightarrow B \rightarrow C_2,\,
+\ldots
+\},
+\]
+
+trong khi convergence có dạng:
+
+\[
+\mathcal{P}_{\mathrm{convergence}}
+=
+\{
+A_1 \rightarrow B \rightarrow C,\,
+A_2 \rightarrow B \rightarrow C,\,
+\ldots
+\}.
+\]
+
+Không có một chuỗi tuyến tính duy nhất đại diện đầy đủ cho các cấu trúc này.
+Do đó, Top-1 và Oracle Exact Path có thể bằng \(0\%\) ngay cả khi answer
+generator liệt kê đúng nhiều nhánh hoặc nhiều điều kiện hội tụ.
+
+Kết quả thực nghiệm minh họa rõ vấn đề:
+
+\begin{itemize}
+    \item branch reasoning có Top-1 Exact Path \(0\%\) nhưng Answer Token F1
+    \(69{,}33\%\);
+
+    \item convergence reasoning có Top-1 Exact Path \(0\%\) nhưng Answer
+    Token F1 \(84{,}32\%\).
+\end{itemize}
+
+Một evaluator phù hợp hơn nên sử dụng:
+
+\begin{itemize}
+    \item Path-set Precision, Recall và F1;
+    \item branch outcome coverage;
+    \item convergence input coverage;
+    \item subgraph edge F1;
+    \item graph edit distance;
+    \item assertion-level citation accuracy.
+\end{itemize}
+
+Vì chưa có các metric này, kết quả path của branch và convergence chỉ được
+xem là diagnostic.
+
+\subsection{Ảnh hưởng của thành phần dữ liệu lên difficulty}
+
+Nhóm hard đạt Answer Token F1 \(81{,}25\%\), cao hơn nhóm medium
+\(63{,}90\%\). Verification Accuracy của nhóm hard cũng đạt \(100\%\), trong
+khi nhóm medium đạt \(88{,}95\%\).
+
+Kết quả này không phù hợp với cách diễn giải thông thường rằng mẫu hard phải
+khó hơn mẫu medium. Nguyên nhân là difficulty label chịu ảnh hưởng của
+question type. Nhóm hard chứa nhiều chain, counterexample và cấu trúc có gold
+answer rõ ràng theo template. Nhóm medium lại chứa nhiều reverse question,
+là nhóm mà retriever hiện xử lý kém.
+
+Do đó, difficulty hiện tại chưa phải một thang đo đã được hiệu chỉnh độc lập.
+Nghiên cứu không sử dụng kết quả này để kết luận hệ thống hoạt động tốt hơn
+trên câu hỏi khó. Trong tương lai, difficulty nên được xác định từ các yếu
+tố có thể đo được, chẳng hạn:
+
+\begin{itemize}
+    \item số candidate path cạnh tranh;
+    \item bậc vào và bậc ra của mediator;
+    \item độ tương đồng giữa các outcome;
+    \item số rule hỗ trợ;
+    \item số hop;
+    \item mức lexical overlap giữa query và gold event;
+    \item mức đồng thuận của chuyên gia.
+\end{itemize}
+
+\subsection{Giải thích null quality ablation}
+
+Kết quả paired cho thấy structural SCM và path ablation đạt quality metric
+giống hệt nhau. Có một số nguyên nhân hợp lý cho kết quả này.
+
+\paragraph{Retrieval không thay đổi.}
+
+Hai engine được áp dụng sau Step 3. Vì vậy, rule, event và candidate path ban
+đầu giống nhau.
+
+\paragraph{Phần lớn factual path đơn giản.}
+
+Corpus hiện chủ yếu chứa rule có một điều kiện dương và một hệ quả dương.
+Trên các path đơn giản này, fixed-point inference và reachability thường dẫn
+đến cùng kết luận supported.
+
+\paragraph{Counterfactual subset không nhạy với intervention semantics.}
+
+Hai mươi counterfactual sample chủ yếu kiểm tra cạnh trực tiếp. Cả structural
+SCM và path ablation có thể bác bỏ claim dựa trên cấu trúc
+\(A \rightarrow B \rightarrow C\) mà không cần tạo ra khác biệt về
+counterfactual outcome.
+
+\paragraph{Thiếu cơ chế thay thế phức tạp.}
+
+Benchmark chưa bao phủ đầy đủ các tình huống trong đó xóa node và hard
+intervention tạo kết quả khác nhau, chẳng hạn:
+
+\begin{itemize}
+    \item mediator có nhiều cơ chế đầu vào;
+    \item intervention làm kích hoạt một rule thay thế;
+    \item outcome có nhiều cơ chế cấu trúc cạnh tranh;
+    \item rule có exception hoặc negation;
+    \item nhiều mediator bị can thiệp đồng thời;
+    \item xung đột làm outcome trở thành \(\mathrm{UNKNOWN}\).
+\end{itemize}
+
+\paragraph{Step 5 nhận cùng quyết định và primary path.}
+
+Khi hai verifier trả cùng final decision, primary path và evidence được giữ,
+answer generator tạo cùng answer và citation. Vì vậy, answer metric không
+thể phân biệt hai engine.
+
+Kết quả này không chứng minh hai phương pháp tương đương về mặt lý thuyết.
+Hard intervention thay thế mechanism của biến, trong khi node deletion chỉ
+thay đổi topology và reachability của graph
+\cite{pearl2009causality}. Null result chỉ cho thấy benchmark hiện tại không
+làm lộ ra khác biệt đó.
+
+\subsection{Đánh đổi giữa semantics và runtime}
+
+Structural SCM cần trung bình \(3{,}890\) giây trên mỗi mẫu, trong khi path
+ablation cần \(1{,}205\) giây. Structural SCM chậm hơn khoảng \(3{,}23\) lần.
+
+Chi phí bổ sung đến từ:
+
+\begin{itemize}
+    \item khởi tạo hoặc truy cập LegalSCM;
+    \item xây dựng factual context;
+    \item fixed-point inference;
+    \item kiểm tra rule coverage;
+    \item thực hiện intervention cho từng mediator;
+    \item suy luận lại counterfactual world;
+    \item tạo trace chi tiết;
+    \item tính node-deletion baseline diagnostic.
+\end{itemize}
+
+Đổi lại, structural SCM lưu được thông tin mà path ablation không cung cấp:
+
+\begin{itemize}
+    \item factual state của mediator và outcome;
+    \item intervention assignment;
+    \item counterfactual outcome;
+    \item outcome có thay đổi hay không;
+    \item rule bị vô hiệu hóa;
+    \item rule mới được kích hoạt;
+    \item conflicting event;
+    \item số vòng lặp fixed point.
+\end{itemize}
+
+Các trường này có thể hữu ích cho auditability và phân tích lỗi. Tuy nhiên,
+nghiên cứu hiện chưa có expert evaluation để định lượng giá trị của trace.
+Vì vậy, không nên chuyển lợi ích về khả năng diễn giải thành một tuyên bố về
+độ chính xác.
+
+\subsection{Yêu cầu đối với benchmark phản thực tế tương lai}
+
+Để đánh giá đúng LegalSCM, benchmark tương lai cần gán ground truth không chỉ
+cho final decision mà còn cho world state và intervention trace. Một
+counterfactual sample nên chứa:
+
+\begin{itemize}
+    \item factual context;
+    \item mediator được can thiệp;
+    \item factual mediator state;
+    \item factual outcome;
+    \item intervention assignment;
+    \item counterfactual outcome;
+    \item outcome changed flag;
+    \item các mechanism bị vô hiệu hóa;
+    \item các mechanism thay thế;
+    \item giải thích được chuyên gia xác nhận.
+\end{itemize}
+
+Benchmark cũng cần chứa các cặp trường hợp mà node deletion và hard
+intervention cho kết quả khác nhau. Chỉ khi đó paired ablation mới có khả
+năng kiểm tra giá trị gia tăng của structural semantics.
+
+\subsection{Hàm ý đối với triển khai thực tế}
+
+Kết quả hiện tại cho thấy pipeline có thể tạo câu trả lời grounded trên toàn
+bộ benchmark và phân loại đúng các direct-edge negative claim. Tuy nhiên,
+Top-1 Exact Path \(35{,}20\%\), Citation F1 \(62{,}86\%\) và hiệu năng thấp
+trên reverse reasoning chưa đủ để hỗ trợ triển khai như một hệ thống tư vấn
+pháp lý tự động.
+
+Trong một ứng dụng thực tế, output nên được trình bày như một gợi ý có căn
+cứ và cần cho phép người dùng:
+
+\begin{itemize}
+    \item xem rule và article nguồn;
+    \item kiểm tra từng hop của causal path;
+    \item xem các supporting path khác;
+    \item nhận biết khi hệ thống trả \texttt{UNCERTAIN};
+    \item phân biệt factual inference với counterfactual intervention;
+    \item biết phiên bản corpus và thời điểm cập nhật.
+\end{itemize}
+
+Hệ thống không nên ẩn uncertainty hoặc chỉ hiển thị final answer mà không
+cho phép kiểm tra evidence.
+
+\subsection{Ưu tiên cải tiến}
+
+Từ kết quả thực nghiệm, các hướng cải tiến được ưu tiên theo thứ tự sau:
+
+\begin{enumerate}
+    \item \textbf{Query-aware path reranking.}
+    Đưa answer intent và event role vào scoring trước khi chọn primary path.
+
+    \item \textbf{Backward retrieval cho reverse reasoning.}
+    Cố định outcome được nhắc trong truy vấn và tìm predecessor có điều kiện.
+
+    \item \textbf{Hybrid lexical--dense retrieval.}
+    Bổ sung sparse matching cho số điều, mức tiền và khung hình phạt.
+
+    \item \textbf{Preferred event display name.}
+    Tách canonical ID, alias và tên hiển thị để loại chuỗi
+    \texttt{||} khỏi câu trả lời.
+
+    \item \textbf{Assertion-level citation.}
+    Gắn từng article với hop hoặc assertion cụ thể.
+
+    \item \textbf{Subgraph evaluation.}
+    Bổ sung metric path-set cho branch và convergence.
+
+    \item \textbf{Intervention-sensitive benchmark.}
+    Xây dựng gold factual/counterfactual world có thẩm định chuyên gia.
+
+    \item \textbf{Mở rộng LegalSCM.}
+    Hỗ trợ nhiều điều kiện, negation, exception, conflict và rule priority.
+\end{enumerate}
+
+Các cải tiến này nên được triển khai trong một iteration mới và đánh giá bằng
+một paired experiment mới. Chúng không được trộn với kết quả v4.1/v5.1 đã
+đóng băng trong nghiên cứu hiện tại.

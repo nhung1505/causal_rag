@@ -1,0 +1,637 @@
+\section{Error Analysis and Discussion}
+\label{sec:discussion}
+
+\subsection{Overview of Error Sources}
+
+The experimental results show that pipeline errors are not concentrated in
+a single component but may propagate across multiple stages. A retrieval
+error may remove a gold event or gold rule; consequently, the gold path is
+absent from the candidate set, the verifier evaluates a different path, and
+the answer generator produces an answer that is internally consistent with
+that incorrect path.
+
+Conversely, even when the gold path is present in the candidate set, the
+system may still select the wrong primary path. In this case, retrieval
+coverage may be high while Top-1 Exact Path, answer, and citation scores
+remain low. The principal error categories are summarized in
+Table~\ref{tab:error-summary}.
+
+\begin{table}[t]
+    \centering
+    \caption{Principal error sources observed in the experiments.}
+    \label{tab:error-summary}
+    \begin{tabular}{p{0.28\linewidth}p{0.22\linewidth}p{0.38\linewidth}}
+        \hline
+        \textbf{Error source} & \textbf{Quantitative signal} &
+        \textbf{Effect} \\
+        \hline
+        Path retrieval &
+        Error rate \(28.80\%\) &
+        The gold path is absent from the candidate set. \\
+
+        Path ranking &
+        Error rate \(36.00\%\) &
+        The gold path has been retrieved but is not selected as the primary
+        path. \\
+
+        Reverse reasoning &
+        Answer F1 \(32.67\%\) &
+        An incorrect seed or predecessor leads to an incorrect path,
+        decision, and answer. \\
+
+        Verification abstention &
+        \(20\) supported samples predicted as uncertain &
+        Reduces accuracy but avoids issuing an incorrect affirmative
+        decision. \\
+
+        Citation selection &
+        Citation F1 \(62.86\%\) &
+        Omits a gold article or adds an article from a competing path. \\
+
+        Metric for nonlinear structures &
+        Exact path is \(0\%\) for branch/convergence &
+        A linear metric does not fully reflect answer quality. \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{The Gap Between Path Retrieval and Path Ranking}
+
+One of the most notable findings is the gap between Top-1 Exact Path and
+Oracle Exact Path. Top-1 reaches only \(35.20\%\), whereas Oracle reaches
+\(71.20\%\). Thus, for a substantial proportion of questions, the retriever
+has generated a candidate path compatible with the gold path, but the
+scoring function does not rank that path first. Top-1 is the deployable
+path-selection result, whereas Oracle is a diagnostic measure of candidate
+set potential rather than a deployable system score.
+
+Three principal factors may explain this phenomenon.
+
+\paragraph{Multiple paths share a prefix or mediator.}
+
+An intermediate event may lead to several different outcomes through rules
+from multiple legal articles. For example, events such as ``dangerous
+recidivism'' or ``organized crime'' may be linked to multiple sentencing
+ranges. These paths share a seed or mediator and therefore receive similar
+semantic and graph scores. If the query contains information that
+distinguishes the intended outcome but this information is not weighted
+strongly enough by the scoring function, the system may select a path that
+is structurally valid but leads to the wrong specific consequence.
+
+\paragraph{Outcomes have similar semantic content.}
+
+Many effect events describe imprisonment, fines, or criminal liability but
+differ in the magnitude of the penalty or the governing article. An
+embedding model may place these events close together in vector space. A
+small difference in a numerical value or sentencing range can be legally
+material without necessarily producing a sufficiently large embedding
+distance.
+
+\paragraph{The path score does not fully incorporate answer intent.}
+
+The retriever runs before Step 5 determines the answer intent. Although the
+query is used in semantic retrieval, the scoring function does not impose an
+explicit constraint that a reverse question should prioritize a path whose
+outcome matches the query and return its predecessor, or that a branch
+question should retain multiple paths with a shared prefix. Consequently,
+path ranking is driven primarily by relevance and graph scores rather than
+by the role that each event must play in the answer.
+
+The Oracle result shows that improving candidate generation alone is
+insufficient. A higher-priority direction is to construct a query-aware path
+reranker in which query intent is determined before or jointly with
+retrieval. Such a reranker could use the following features:
+
+\begin{itemize}
+    \item the match between the seed event and the causal part of the query;
+    \item the match between the outcome event and the consequence part of
+    the query;
+    \item the expected role of the event being queried;
+    \item the match against the complete rule condition and rule effect;
+    \item an article number or penalty magnitude mentioned in the question;
+    \item the continuity of the complete path;
+    \item event specificity rather than only general semantic similarity.
+\end{itemize}
+
+\subsection{Path-Retrieval Errors}
+
+The Path Retrieval Error Rate is \(28.80\%\), meaning that nearly three in
+ten samples do not contain the complete gold path in the candidate set.
+This error cannot be corrected solely by modifying Step 4 or Step 5.
+
+Potential causes include:
+
+\begin{itemize}
+    \item the correct seed event is not in the top-\(k\);
+    \item the semantic score is low because the wording of the question
+    differs from the event name;
+    \item the candidate pool is dominated by many semantically similar
+    sentencing events;
+    \item graph traversal begins from an event that is topically correct but
+    has the wrong role;
+    \item the per-seed path limit removes the gold path before reranking;
+    \item the candidate rule pool does not contain enough gold rules.
+\end{itemize}
+
+Rule Recall@5 and Event Recall@5 reach \(69.93\%\) and \(74.66\%\),
+respectively, indicating that the retriever often recovers part of a path
+but does not always recover every hop. This observation is consistent with
+a Top-1 Edge F1 of \(54.13\%\), which is higher than Exact Path but remains
+lower than Oracle Event F1.
+
+Potential retrieval improvements include:
+
+\begin{enumerate}
+    \item decomposing the query into representations of the cause, mediator,
+    and outcome before seed retrieval;
+
+    \item retrieving condition text and effect text separately;
+
+    \item combining dense scores with sparse lexical matching for article
+    numbers, monetary ranges, and sentencing ranges;
+
+    \item increasing seed-event diversity instead of retrieving many events
+    that are semantically similar;
+
+    \item performing constrained backward search for reverse reasoning;
+
+    \item applying a rule-aware reranker to complete paths rather than
+    ranking individual events independently.
+\end{enumerate}
+
+\subsection{Reverse Reasoning as the Principal Weakness}
+
+Reverse reasoning is the lowest-performing group on most metrics:
+
+\begin{itemize}
+    \item Rule Recall@5: \(46.67\%\);
+    \item Event Recall@5: \(42.22\%\);
+    \item Top-1 Exact Path: \(8.89\%\);
+    \item Oracle Exact Path: \(26.67\%\);
+    \item Verification Accuracy: \(60.00\%\);
+    \item Answer Token F1: \(32.67\%\);
+    \item Citation F1: \(36.32\%\).
+\end{itemize}
+
+In forward reasoning, a query generally states the condition event explicitly
+and asks for the outcome. The condition event can be used directly as the
+seed, after which the graph is expanded along \texttt{CAUSES} edges. In
+reverse reasoning, the query generally begins with an outcome and asks for
+its cause. An outcome such as ``incurs criminal liability,'' ``receives a
+mitigated sentence,'' or a particular penalty range may have many
+predecessors under different legal articles. The inverse problem is
+therefore more ambiguous.
+
+Although the retriever is configured with \texttt{direction=both}, allowing
+reverse edge traversal is insufficient. The system must also recognize that
+the outcome mentioned in the query should be fixed as the endpoint and then
+rank predecessors against the complete question content.
+
+Among the \(45\) reverse questions, a Verification Accuracy of \(60\%\)
+corresponds to \(27\) correct decisions and \(18\) samples assigned to
+\texttt{UNCERTAIN}. The other two \texttt{SUPPORTED} samples assigned to
+\texttt{UNCERTAIN} belong to the yes/no positive group, yielding the total
+of \(20\) verification errors in the confusion matrix.
+
+The answer generator supports the \texttt{INITIAL\_CAUSE} intent, but it can
+only return the first cause on the selected primary path. If the upstream
+retriever or verifier selects the wrong path, correctly formatting the
+answer intent cannot recover the gold cause. This result shows that
+reverse-reasoning errors arise primarily before Step 5.
+
+A direct improvement is to perform constrained backward retrieval:
+
+\begin{equation}
+\widehat{p}
+=
+\arg\max_{p}
+S(p \mid q)
+\quad
+\text{subject to}
+\quad
+\mathrm{outcome}(p)
+=
+v_q^{\mathrm{outcome}},
+\end{equation}
+
+where \(v_q^{\mathrm{outcome}}\) is the outcome event mapped from the query.
+After fixing the outcome, the system can rank paths backward toward the seed
+event.
+
+\subsection{Verifier Abstention Behavior}
+
+The confusion matrix shows that the verifier does not directly confuse the
+two classes represented in the gold data:
+
+\begin{itemize}
+    \item no gold \texttt{SUPPORTED} sample is predicted as
+    \texttt{REJECT\_DIRECT\_CLAIM};
+
+    \item no gold \texttt{REJECT\_DIRECT\_CLAIM} sample is predicted as
+    \texttt{SUPPORTED};
+
+    \item all \(20\) errors are gold \texttt{SUPPORTED} samples assigned to
+    \texttt{UNCERTAIN}.
+\end{itemize}
+
+This behavior produces \(100\%\) precision for both \texttt{SUPPORTED} and
+\texttt{REJECT\_DIRECT\_CLAIM}, but reduces recall for the
+\texttt{SUPPORTED} class to \(91.30\%\).
+
+In a legal system, assigning \texttt{UNCERTAIN} when evidence is insufficient
+may be safer than issuing an incorrect affirmative conclusion. However, the
+current benchmark contains no gold \texttt{UNCERTAIN} samples, so it cannot
+determine whether the abstention threshold is appropriately calibrated.
+
+A future benchmark should contain at least three types of samples:
+
+\begin{enumerate}
+    \item supported claims;
+    \item rejected claims;
+    \item claims for which the available grounds are genuinely
+    insufficient.
+\end{enumerate}
+
+Such a benchmark would support evaluation of the coverage--risk trade-off
+rather than only Accuracy and Macro-F1.
+
+\subsection{Effectiveness of Direct-Claim Detection}
+
+All \(20\) yes/no counterexamples are classified correctly. This is a
+positive result for query-aware claim detection: the system recognizes that
+the question asks whether a direct relation holds and does not treat a
+two-step path as evidence for a direct edge.
+
+However, this result primarily follows from the combination of:
+
+\begin{itemize}
+    \item a direct indicator in the query;
+    \item the edge structure of the graph;
+    \item the distinction between a direct edge and an indirect path.
+\end{itemize}
+
+It does not necessarily require a hard intervention. Therefore, the
+\(100\%\) accuracy on this \(20\)-sample direct-edge-negative subset should
+not be used to claim that LegalSCM has an advantage in counterfactual
+reasoning.
+
+\subsection{Answer Quality and Output Length}
+
+Answer Token Recall reaches \(75.40\%\), exceeding the Token Precision of
+\(65.34\%\). Answers generally cover the gold content but add:
+
+\begin{itemize}
+    \item an introductory phrase such as ``The final consequence is'';
+    \item the complete causal chain;
+    \item an explanation of the decision;
+    \item citation markers \([E_i]\).
+\end{itemize}
+
+These additions improve explainability but reduce token precision. A
+prediction contains an average of \(48.18\) tokens, whereas a gold answer
+contains an average of \(45.07\) tokens.
+
+A Normalized Exact Match of \(0\%\) shows that exact string matching is
+unsuitable for explanatory answers. Token F1 and ROUGE-L F1 provide more
+informative measures, but they still do not fully evaluate legal
+correctness.
+
+One improvement would be to separate the output into two fields:
+
+\begin{itemize}
+    \item \texttt{short\_answer}: a concise, direct answer;
+    \item \texttt{explanation}: the causal chain and legal grounds.
+\end{itemize}
+
+The short answer could then be evaluated using exact match or token F1,
+while the explanation could be evaluated separately using path grounding
+and citations.
+
+\subsection{Effect of Event Canonicalization}
+
+Some event names in the graph contain multiple phrasings joined by the
+\texttt{||} symbol. For example, a node may have the following name:
+
+\begin{quote}
+``May be exempted from serving the remainder of the sentence
+\texttt{||}
+Is exempted from serving the remainder of the sentence.''
+\end{quote}
+
+Including the entire canonicalized name in an answer increases the number of
+tokens absent from the gold answer and reduces naturalness. It may also
+cause semantic retrieval to favor events with more linguistic variants.
+
+The following elements should be separated explicitly:
+
+\begin{itemize}
+    \item the canonical event ID;
+    \item the alias list;
+    \item the preferred display name.
+\end{itemize}
+
+The retriever could use all aliases, whereas the answer generator would use
+only the preferred display name.
+
+\subsection{Citation Analysis}
+
+Citation F1 reaches \(62.86\%\), which is lower than Answer Token F1. The
+two principal error sources are citation misses and extra citations.
+
+\paragraph{Citation miss.}
+
+If the retriever selects the correct event but omits a rule on the gold path,
+the answer may still contain most of the gold content while omitting the
+corresponding article. This causes answer F1 to exceed citation recall.
+
+\paragraph{Extra citation.}
+
+When several rules support the same causal edge or several paths share an
+outcome, Step 5 may retain additional verified evidence that is not part of
+the gold citation set. If a citation from this additional evidence appears
+in the answer, citation precision decreases.
+
+Deduplication by causal edge has limited repeated citations but has not fully
+resolved cases in which multiple articles lead to similar events. One
+improvement would be to attach citations to individual assertions in the
+answer rather than append all citations at the end.
+
+For example, for a chain explanation:
+
+\[
+A \xrightarrow{r_1} B \xrightarrow{r_2} C,
+\]
+
+the answer should attach citations as follows:
+
+\begin{quote}
+Step 1: \(A\) leads to \(B\) [Article \(a_1\)].
+Step 2: \(B\) leads to \(C\) [Article \(a_2\)].
+\end{quote}
+
+This presentation clarifies which article supports each hop and facilitates
+assertion-level citation-grounding evaluation.
+
+\subsection{Branch and Convergence Structures}
+
+Branch reasoning and convergence reasoning pose a problem for the exact-path
+metric. A branch may be represented by a set of paths:
+
+\[
+\mathcal{P}_{\mathrm{branch}}
+=
+\{
+A \rightarrow B \rightarrow C_1,\,
+A \rightarrow B \rightarrow C_2,\,
+\ldots
+\},
+\]
+
+whereas a convergence structure has the form:
+
+\[
+\mathcal{P}_{\mathrm{convergence}}
+=
+\{
+A_1 \rightarrow B \rightarrow C,\,
+A_2 \rightarrow B \rightarrow C,\,
+\ldots
+\}.
+\]
+
+No single linear sequence fully represents these structures. Consequently,
+Top-1 and Oracle Exact Path may both be \(0\%\) even when the answer
+generator correctly enumerates multiple branches or convergent conditions.
+
+The experimental results illustrate this issue clearly:
+
+\begin{itemize}
+    \item branch reasoning has a Top-1 Exact Path of \(0\%\) but an Answer
+    Token F1 of \(69.33\%\);
+
+    \item convergence reasoning has a Top-1 Exact Path of \(0\%\) but an
+    Answer Token F1 of \(84.32\%\).
+\end{itemize}
+
+A more appropriate evaluator should use:
+
+\begin{itemize}
+    \item Path-set Precision, Recall, and F1;
+    \item branch outcome coverage;
+    \item convergence input coverage;
+    \item subgraph edge F1;
+    \item graph edit distance;
+    \item assertion-level citation accuracy.
+\end{itemize}
+
+Because these metrics are not yet available, path results for branch and
+convergence questions are treated only as diagnostic.
+
+\subsection{Effect of Data Composition on Difficulty}
+
+The hard group achieves an Answer Token F1 of \(81.25\%\), exceeding the
+\(63.90\%\) of the medium group. Verification Accuracy for the hard group is
+also \(100\%\), compared with \(88.95\%\) for the medium group.
+
+This result is inconsistent with the conventional interpretation that hard
+samples should be more difficult than medium samples. The reason is that the
+difficulty label is affected by question type. The hard group contains many
+chain, counterexample, and structurally templated samples with clearly
+specified gold answers. The medium group contains many reverse questions,
+which the current retriever handles poorly.
+
+Consequently, the current difficulty labels do not constitute an
+independently calibrated scale. This study does not use these results to
+claim that the system performs better on difficult questions. In future
+work, difficulty should be defined using measurable factors such as:
+
+\begin{itemize}
+    \item the number of competing candidate paths;
+    \item the in-degree and out-degree of the mediator;
+    \item similarity among outcomes;
+    \item the number of supporting rules;
+    \item the number of hops;
+    \item lexical overlap between the query and the gold event;
+    \item expert agreement.
+\end{itemize}
+
+\subsection{Explaining the Null Quality Ablation}
+
+The paired results show that the structural SCM and path ablation achieve
+identical values on every quality metric. Several factors plausibly explain
+this result.
+
+\paragraph{Retrieval is unchanged.}
+
+The two engines are applied after Step 3. Therefore, the initial rules,
+events, and candidate paths are identical.
+
+\paragraph{Most factual paths are simple.}
+
+The current corpus consists primarily of rules with one positive condition
+and one positive effect. On these simple paths, fixed-point inference and
+reachability generally yield the same supported conclusion.
+
+\paragraph{The counterfactual subset is not sensitive to intervention
+semantics.}
+
+The twenty counterfactual samples primarily test direct edges. Both the
+structural SCM and path ablation can reject the claim based on the
+\(A \rightarrow B \rightarrow C\) structure without producing a difference
+in counterfactual outcomes.
+
+\paragraph{Complex alternative mechanisms are absent.}
+
+The benchmark does not yet provide sufficient coverage of cases in which
+node deletion and hard intervention yield different results, including:
+
+\begin{itemize}
+    \item a mediator with multiple input mechanisms;
+    \item an intervention that activates an alternative rule;
+    \item an outcome with multiple competing structural mechanisms;
+    \item a rule with an exception or negation;
+    \item simultaneous interventions on multiple mediators;
+    \item a conflict that causes an outcome to become
+    \(\mathrm{UNKNOWN}\).
+\end{itemize}
+
+\paragraph{Step 5 receives the same decision and primary path.}
+
+When the two verifiers return the same final decision and retain the same
+primary path and evidence, the answer generator produces the same answer and
+citations. The answer metrics therefore cannot distinguish between the two
+engines.
+
+This null result does not establish that the two methods are theoretically
+equivalent. A hard intervention replaces the mechanism of a variable,
+whereas node deletion changes only graph topology and reachability
+\cite{pearl2009causality}. The null result shows only that the current
+benchmark does not expose this difference.
+
+\subsection{Trade-off Between Semantics and Runtime}
+
+The structural SCM requires an average of \(3.890\) seconds per sample,
+whereas path ablation requires \(1.205\) seconds. The structural SCM is
+approximately \(3.23\) times slower per sample; the corresponding batch
+wall-clock ratio is approximately \(2.85\).
+
+The additional costs arise from:
+
+\begin{itemize}
+    \item initializing or accessing LegalSCM;
+    \item constructing the factual context;
+    \item fixed-point inference;
+    \item rule-coverage checks;
+    \item performing an intervention on each mediator;
+    \item rerunning inference in the counterfactual world;
+    \item generating detailed traces;
+    \item computing the node-deletion baseline diagnostic.
+\end{itemize}
+
+In return, the structural SCM records information that path ablation does not
+provide:
+
+\begin{itemize}
+    \item the factual state of the mediator and outcome;
+    \item the intervention assignment;
+    \item the counterfactual outcome;
+    \item whether the outcome changes;
+    \item disabled rules;
+    \item newly activated rules;
+    \item conflicting events;
+    \item the number of fixed-point iterations.
+\end{itemize}
+
+These fields may be useful for auditability and error analysis. However, the
+current study does not include an expert evaluation that quantifies the
+value of these traces. Their interpretability benefit should therefore not
+be recast as an accuracy claim. In particular, every measured quality metric
+is identical between the structural SCM and path ablation in the current
+paired experiment.
+
+\subsection{Requirements for a Future Counterfactual Benchmark}
+
+To evaluate LegalSCM appropriately, a future benchmark must provide ground
+truth not only for the final decision but also for world states and
+intervention traces. A counterfactual sample should include:
+
+\begin{itemize}
+    \item the factual context;
+    \item the intervened mediator;
+    \item the factual mediator state;
+    \item the factual outcome;
+    \item the intervention assignment;
+    \item the counterfactual outcome;
+    \item an outcome-changed flag;
+    \item disabled mechanisms;
+    \item alternative mechanisms;
+    \item an expert-validated explanation.
+\end{itemize}
+
+The benchmark should also contain paired cases in which node deletion and
+hard intervention produce different results. Only then can a paired
+ablation test the added value of structural semantics.
+
+\subsection{Implications for Practical Deployment}
+
+The current results show that the pipeline can produce grounded answers for
+the entire benchmark and correctly classify the direct-edge negative claims.
+However, a Top-1 Exact Path of \(35.20\%\), a Citation F1 of \(62.86\%\),
+and weak reverse-reasoning performance are not sufficient to support
+deployment as an automated legal advisory system. The \(35.20\%\) Top-1
+score is the deployable path-selection result; the \(71.20\%\) Oracle score
+is diagnostic and must not be presented as deployed performance.
+
+In a practical application, the output should be presented as an
+evidence-grounded suggestion, and users should be able to:
+
+\begin{itemize}
+    \item inspect the source rules and articles;
+    \item verify each hop in the causal path;
+    \item inspect alternative supporting paths;
+    \item recognize when the system returns \texttt{UNCERTAIN};
+    \item distinguish factual inference from counterfactual intervention;
+    \item identify the corpus version and update date.
+\end{itemize}
+
+The system should neither conceal uncertainty nor display only the final
+answer without enabling evidence inspection.
+
+\subsection{Improvement Priorities}
+
+Based on the experimental results, improvements are prioritized as follows:
+
+\begin{enumerate}
+    \item \textbf{Query-aware path reranking.}
+    Incorporate answer intent and event role into scoring before selecting
+    the primary path.
+
+    \item \textbf{Backward retrieval for reverse reasoning.}
+    Fix the outcome mentioned in the query and retrieve conditional
+    predecessors.
+
+    \item \textbf{Hybrid lexical--dense retrieval.}
+    Add sparse matching for article numbers, monetary amounts, and
+    sentencing ranges.
+
+    \item \textbf{Preferred event display name.}
+    Separate the canonical ID, aliases, and display name to remove
+    \texttt{||} strings from answers.
+
+    \item \textbf{Assertion-level citation.}
+    Attach each article to a specific hop or assertion.
+
+    \item \textbf{Subgraph evaluation.}
+    Add path-set metrics for branch and convergence structures.
+
+    \item \textbf{Intervention-sensitive benchmark.}
+    Construct expert-validated gold factual and counterfactual worlds.
+
+    \item \textbf{Extend LegalSCM.}
+    Support multiple conditions, negation, exceptions, conflicts, and rule
+    priorities.
+\end{enumerate}
+
+These improvements should be implemented in a new iteration and evaluated
+through a new paired experiment. They must not be mixed with the frozen
+v4.1/v5.1 results in the current study.

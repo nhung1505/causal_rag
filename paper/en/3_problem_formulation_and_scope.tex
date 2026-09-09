@@ -1,0 +1,511 @@
+\section{Problem Formulation and Scope}
+\label{sec:problem}
+
+\subsection{Notation and Representation of Legal Rules}
+
+Let \(\mathcal{R}=\{r_1,r_2,\ldots,r_n\}\) denote the set of legal rules
+normalized from the corpus. Each rule \(r_i\) is represented by the tuple:
+
+\begin{equation}
+r_i =
+\left(
+    c_i,\,
+    e_i,\,
+    s_i,\,
+    a_i
+\right),
+\label{eq:rule}
+\end{equation}
+
+where:
+
+\begin{itemize}
+    \item \(c_i\) is the applicability condition of the rule;
+    \item \(e_i\) is the legal effect that arises when the condition is
+    satisfied;
+    \item \(s_i\) is the relevant legal subject;
+    \item \(a_i\) is the statutory basis of the rule.
+\end{itemize}
+
+Condition \(c_i\) and effect \(e_i\) are mapped to the corresponding legal
+events \(v_i^{c}\) and \(v_i^{e}\). Within the scope of the model, rule
+\(r_i\) defines a directed relation:
+
+\begin{equation}
+v_i^{c}
+\xrightarrow{r_i}
+v_i^{e}.
+\end{equation}
+
+This relation is referred to as a legal condition--effect relation. The term
+\emph{causal} is used in this paper in this operationalized sense: the
+condition event activates a rule mechanism, and the rule mechanism gives
+rise to the effect event. The relation is not interpreted as a causal
+relation discovered or estimated from observational data.
+
+The corpus version used in the experiments currently maps each rule
+primarily to one positive condition and one positive effect. More complex
+structures, such as multiple simultaneous conditions, exceptions, negation,
+priority orderings among rules, or normative conflicts, are not yet fully
+represented. This limitation is discussed in detail in
+Section~\ref{sec:limitations}.
+
+\subsection{Legal Causal Graph}
+
+From the rule set \(\mathcal{R}\), the system constructs a heterogeneous
+graph:
+
+\begin{equation}
+\mathcal{G}
+=
+\left(
+    \mathcal{V},
+    \mathcal{E}
+\right),
+\end{equation}
+
+with the node set:
+
+\begin{equation}
+\mathcal{V}
+=
+\mathcal{V}_{\mathrm{event}}
+\cup
+\mathcal{V}_{\mathrm{rule}}
+\cup
+\mathcal{V}_{\mathrm{article}},
+\end{equation}
+
+where:
+
+\begin{itemize}
+    \item \(\mathcal{V}_{\mathrm{event}}\) contains legal events;
+    \item \(\mathcal{V}_{\mathrm{rule}}\) contains normalized rules;
+    \item \(\mathcal{V}_{\mathrm{article}}\) contains statutory provisions
+    or legal authorities.
+\end{itemize}
+
+The edge set \(\mathcal{E}\) represents relations among events, rules, and
+statutory provisions. In particular, \texttt{CAUSES} edges connect condition
+events to effect events. A pair of events may be supported by multiple
+different rules; the graph therefore permits multiple edges or multiple rule
+mechanisms between the same pair of nodes.
+
+Storing events, rules, and statutory provisions together enables the system
+to perform three related but non-identical tasks:
+
+\begin{enumerate}
+    \item retrieving events relevant to the query;
+    \item recovering causal paths among events;
+    \item tracing each path hop back to its supporting rule and statutory
+    provision.
+\end{enumerate}
+
+\subsection{Causal Paths and Multi-Hop Reasoning}
+
+A causal path of length \(h\) is defined as an ordered chain:
+
+\begin{equation}
+p =
+\left(
+    v_0,\,
+    r_1,\,
+    v_1,\,
+    r_2,\,
+    \ldots,\,
+    r_h,\,
+    v_h
+\right),
+\label{eq:path}
+\end{equation}
+
+such that for every \(j \in \{1,\ldots,h\}\), rule \(r_j\) supports the
+relation:
+
+\[
+v_{j-1}
+\xrightarrow{r_j}
+v_j.
+\]
+
+Here:
+
+\begin{itemize}
+    \item \(v_0\) is the seed event or initial cause;
+    \item \(v_h\) is the outcome event;
+    \item \(v_1,\ldots,v_{h-1}\) are mediators;
+    \item \(r_1,\ldots,r_h\) are the rules supporting the individual hops.
+\end{itemize}
+
+In the main experimental configuration, the system retrieves paths of at
+most two hops, that is, \(h \leq 2\). A two-hop path has the form:
+
+\[
+v_0
+\xrightarrow{r_1}
+v_1
+\xrightarrow{r_2}
+v_2,
+\]
+
+where \(v_1\) is both the effect of rule \(r_1\) and the condition of rule
+\(r_2\).
+
+The two-hop limit was selected because the current benchmark is constructed
+primarily from two-hop chains present in the graph. This is not a
+theoretical limitation of the path representation; however, increasing the
+number of hops substantially expands the candidate space and the potential
+for retrieval errors to accumulate.
+
+\subsection{Distinguishing Direct and Indirect Relations}
+
+For two events \(A\) and \(C\), a direct relation exists when the graph
+contains at least one rule mechanism:
+
+\[
+A \xrightarrow{r} C.
+\]
+
+Conversely, if the graph contains only a path:
+
+\[
+A \xrightarrow{r_1} B \xrightarrow{r_2} C,
+\]
+
+then the system may conclude that \(A\) is related to \(C\) through mediator
+\(B\), but it must not conclude that a direct edge \(A \rightarrow C\)
+exists.
+
+This distinction is particularly important for questions such as:
+
+\begin{quote}
+``Does \(A\) directly lead to \(C\)?''
+\end{quote}
+
+If the graph supports only a two-hop path through \(B\), the direct claim
+must be rejected even if \(C\) can still be inferred indirectly from \(A\).
+
+\subsection{Queries and Claim Types}
+
+Let \(q\) denote a natural-language query. The system analyzes \(q\) to
+identify the type of relation requested by the user. The main claim types
+are:
+
+\begin{description}
+    \item[\texttt{STANDARD\_CAUSAL}] The query requests the identification or
+    explanation of a standard condition--effect relation.
+
+    \item[\texttt{DIRECT\_CAUSAL\_CLAIM}] The query asserts or asks about the
+    existence of a direct edge between two events.
+
+    \item[\texttt{REMOVE\_MEDIATOR\_OUTCOME\_REMAINS}] The query claims that
+    the outcome still occurs when the mediator is removed.
+
+    \item[\texttt{REMOVE\_MEDIATOR\_OUTCOME\_DISAPPEARS}] The query claims
+    that the outcome disappears when the mediator is removed.
+
+    \item[\texttt{MEDIATOR\_NECESSARY\_CLAIM}] The query asks whether the
+    mediator is necessary for the outcome.
+
+    \item[\texttt{COUNTERFACTUAL\_UNSPECIFIED}] The query contains a
+    counterfactual signal but does not specify whether the outcome is
+    expected to remain or disappear.
+\end{description}
+
+Claim identification relies only on the query content and the retrieved
+event structure. The system does not use \texttt{question\_type}, the
+reference decision label, the gold path, or the gold answer from the
+benchmark.
+
+\subsection{Factual World and Counterfactual World}
+
+Each event \(v \in \mathcal{V}_{\mathrm{event}}\) is associated with a state
+variable:
+
+\begin{equation}
+X_v
+\in
+\left\{
+    \mathrm{TRUE},
+    \mathrm{FALSE},
+    \mathrm{UNKNOWN}
+\right\}.
+\end{equation}
+
+The three states are interpreted as follows:
+
+\begin{itemize}
+    \item \(\mathrm{TRUE}\): the event is inferred to occur in the world
+    under consideration;
+    \item \(\mathrm{FALSE}\): the event is inferred not to occur;
+    \item \(\mathrm{UNKNOWN}\): the evidence is insufficient to determine
+    the event state, or the reasoning mechanisms conflict.
+\end{itemize}
+
+The factual world \(W^{F}\) is determined from the seed event and the rule
+mechanisms activated in the graph. For a causal path:
+
+\[
+A \rightarrow M \rightarrow Y,
+\]
+
+the system first checks the factual states:
+
+\[
+X_A^{F},\quad X_M^{F},\quad X_Y^{F}.
+\]
+
+To evaluate the role of mediator \(M\), LegalSCM performs the hard
+intervention:
+
+\begin{equation}
+do
+\left(
+    X_M = \mathrm{FALSE}
+\right).
+\label{eq:do}
+\end{equation}
+
+Under the intervention semantics of SCMs
+\cite{pearl2009causality}, the operation in Equation~\ref{eq:do} does not
+merely change the value of \(M\). It also replaces the ordinary structural
+mechanism that generates \(M\), equivalently severing the mediator's
+incoming mechanisms in the intervened world.
+
+The corresponding counterfactual world is denoted by:
+
+\[
+W^{CF}_{M}
+=
+W^{F}
+\mid
+do
+\left(
+    X_M = \mathrm{FALSE}
+\right).
+\]
+
+After the intervention, LegalSCM re-infers the outcome state:
+
+\[
+X_Y^{CF}
+=
+X_Y
+\left(
+    W^{CF}_{M}
+\right).
+\]
+
+Comparing \(X_Y^{F}\) with \(X_Y^{CF}\) distinguishes the following cases:
+
+\begin{itemize}
+    \item if
+    \(X_Y^{F}=\mathrm{TRUE}\) and
+    \(X_Y^{CF}=\mathrm{FALSE}\),
+    the mediator is considered necessary within the model under
+    consideration;
+
+    \item if
+    \(X_Y^{F}=\mathrm{TRUE}\) and
+    \(X_Y^{CF}=\mathrm{TRUE}\),
+    the outcome can still be sustained after the intervention;
+
+    \item if either state is
+    \(\mathrm{UNKNOWN}\),
+    the intervention result is insufficient for a definitive conclusion.
+\end{itemize}
+
+The notion of ``necessity'' here is meaningful only relative to the rule
+mechanisms and factual context supplied to LegalSCM. It does not establish
+legal necessity in every real-world situation.
+
+\subsection{Path Ablation}
+
+As a baseline, the study uses a path-ablation procedure. For the same path:
+
+\[
+A \rightarrow M \rightarrow Y,
+\]
+
+mediator \(M\) is removed from the graph, after which the system searches for
+alternative paths from \(A\) to \(Y\). If no suitable path remains, the
+mediator is considered necessary according to the reachability criterion. If
+an alternative path reaches the score threshold, the outcome is considered
+still reachable.
+
+Path ablation and hard intervention address two different questions:
+
+\begin{itemize}
+    \item path ablation asks whether the graph contains a path from \(A\) to
+    \(Y\) after \(M\) is deleted;
+
+    \item LegalSCM asks how the state of \(Y\) changes when \(M\) is forcibly
+    assigned \(\mathrm{FALSE}\) and the relevant mechanisms are re-inferred.
+\end{itemize}
+
+Accordingly, the path-ablation result is not interpreted as the result of a
+\(do(\cdot)\) operation. In this study, path ablation is used only as a
+baseline for evaluating differences in quality, cost, and trace detail.
+
+\subsection{Verification Decision}
+
+Given a query \(q\), a set of candidate paths \(\mathcal{P}_q\), and the
+claim-analysis result, the system produces a decision:
+
+\begin{equation}
+D_q
+\in
+\left\{
+    \texttt{SUPPORTED},
+    \texttt{REJECT\_DIRECT\_CLAIM},
+    \texttt{UNCERTAIN}
+\right\}.
+\end{equation}
+
+The labels are interpreted as follows:
+
+\begin{description}
+    \item[\texttt{SUPPORTED}] The graph structure and verification result
+    support the claim detected in the query.
+
+    \item[\texttt{REJECT\_DIRECT\_CLAIM}] A direct claim, or another claim
+    requiring rejection, is inconsistent with the path structure and
+    verification result. For example, the query asserts that \(A\) directly
+    leads to \(C\), but the graph supports only
+    \(A \rightarrow B \rightarrow C\).
+
+    \item[\texttt{UNCERTAIN}] The system cannot identify a sufficiently
+    reliable path, the factual path cannot be confirmed, or the intervention
+    result contains an undetermined state.
+\end{description}
+
+In addition to label \(D_q\), the system records a decision score, an
+explanation, the primary path, the claim type, and the relevant factual and
+counterfactual fields. These fields are passed unchanged to the answer
+generation stage to reduce the risk that the answer generator produces a
+conclusion that contradicts the verification stage.
+
+\subsection{Answer Formats}
+
+The claim type determines the semantics of the decision, whereas the answer
+intent determines the form of information to be presented. The system
+supports the following answer intents:
+
+\begin{description}
+    \item[\texttt{FINAL\_OUTCOME}] Return the final effect of the primary
+    path.
+
+    \item[\texttt{INITIAL\_CAUSE}] Return the initial cause or event.
+
+    \item[\texttt{BRIDGE\_EVENT}] Return the mediator between the cause and
+    the outcome.
+
+    \item[\texttt{CHAIN\_EXPLANATION}] Present each hop in sequence together
+    with its corresponding statutory basis.
+
+    \item[\texttt{YES\_NO}] Return yes, no, or insufficient evidence, as
+    appropriate for the verification decision.
+
+    \item[\texttt{BRANCH}] Present multiple outcomes that share a common
+    causal prefix.
+
+    \item[\texttt{CONVERGENCE}] Present multiple initial conditions that
+    converge on the same suffix or outcome.
+
+    \item[\texttt{CLAIM\_VERIFICATION}] Answer directly whether a direct or
+    counterfactual claim is true or false.
+\end{description}
+
+The answer intent is inferred from the query and the query-analysis result
+from the verification stage. As with claim detection, this process does not
+read a question-type label or gold answer.
+
+\subsection{Problem Output}
+
+The complete pipeline can be described as the mapping:
+
+\begin{equation}
+F:
+\left(
+    q,\,
+    \mathcal{R},\,
+    \mathcal{G}
+\right)
+\longrightarrow
+\left(
+    \widehat{\mathcal{E}}_q,\,
+    \widehat{\mathcal{P}}_q,\,
+    D_q,\,
+    A_q,\,
+    C_q,\,
+    M_q
+\right),
+\end{equation}
+
+where:
+
+\begin{itemize}
+    \item \(\widehat{\mathcal{E}}_q\) is the set of retrieved evidence;
+    \item \(\widehat{\mathcal{P}}_q\) comprises the candidate causal paths
+    and the selected primary path;
+    \item \(D_q\) is the verification decision;
+    \item \(A_q\) is the final answer;
+    \item \(C_q\) is the set of citations used;
+    \item \(M_q\) is metadata describing retrieval, the factual world, the
+    intervention, the counterfactual world, and answer generation.
+\end{itemize}
+
+An output is considered successful when it simultaneously satisfies several
+criteria:
+
+\begin{enumerate}
+    \item the relevant rules and events are retrieved;
+    \item the primary path reflects the correct reasoning order;
+    \item the verification decision is consistent with the claim type;
+    \item the answer matches the answer intent;
+    \item the citations genuinely support the hops used;
+    \item the metadata makes the processing procedure traceable and
+    reproducible.
+\end{enumerate}
+
+\subsection{Scope and Assumptions}
+
+The study is conducted under the following assumptions and limitations:
+
+\begin{enumerate}
+    \item \textbf{Normative relations rather than causal discovery.}
+    Edge directions are obtained from the condition--effect structure of
+    legal rules and are not learned from observational data.
+
+    \item \textbf{Deterministic three-valued reasoning.}
+    LegalSCM does not represent probabilities. Events are assigned
+    \(\mathrm{TRUE}\), \(\mathrm{FALSE}\), or \(\mathrm{UNKNOWN}\).
+
+    \item \textbf{Limited interventions.}
+    The current experiments focus only on setting a mediator to
+    \(\mathrm{FALSE}\). Multivariable interventions and interventions on
+    continuous values are outside the scope of this study.
+
+    \item \textbf{Short paths.}
+    The main evaluation configuration limits causal paths to at most two
+    hops.
+
+    \item \textbf{Simplified rule representation.}
+    The current corpus does not fully cover exceptions, negation, multiple
+    simultaneous conditions, or priority among rules.
+
+    \item \textbf{Extractive answer generation.}
+    The main experiments use a template-based answer generator and do not
+    evaluate the expressive capability of a free-form generative language
+    model.
+
+    \item \textbf{Benchmark derived from the same graph.}
+    The questions are generated from the graph used in the pipeline.
+    Consequently, the evaluation results reflect the ability to recover and
+    process encoded structures rather than fully demonstrating
+    generalization to an independent legal corpus.
+
+    \item \textbf{Not a substitute for legal advice.}
+    The system is developed for research purposes and must not be used as a
+    source of official legal advice or legal conclusions.
+\end{enumerate}

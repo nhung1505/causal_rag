@@ -1,0 +1,135 @@
+\section{Reproducibility checklist}
+\label{app:reproducibility}
+
+\subsection{Implementation components}
+
+The implementation steps corresponding to the results reported in the paper
+are:
+
+\begin{itemize}
+    \item \path{1_build_legal_causal_graph.py}: construct the legal graph;
+    \item \path{2_build_causal_memory.py}: construct rule/event memory and
+    the FAISS index;
+    \item \path{3_multi_hop_causal_retriever.py}: retrieve seeds, expand, and
+    rank causal paths;
+    \item \path{causal_core/schema.py} and
+    \path{causal_core/legal_scm.py}: implement canonical rules and structural
+    inference;
+    \item \path{4_counterfactual_verification.py}: perform query-aware
+    verification, structural intervention, and path ablation;
+    \item \path{5_generate_final_answer.py}: select evidence and generate
+    answers;
+    \item \path{5_5_generate_pipeline_predictions.py}: provide the batch
+    runner for Steps~3--5;
+    \item \path{7_compute_evaluation_metrics.py}: compute metrics and
+    group-level diagnostics.
+\end{itemize}
+
+\subsection{Versions and principal settings}
+
+\begin{table}[h]
+    \centering
+    \small
+    \caption{Fixed versions and settings for the main experiment.}
+    \label{tab:repro-settings}
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \textbf{Component} & \textbf{Setting} \\
+        \midrule
+        Benchmark & \texttt{2.0}, $250$ samples \\
+        Step 4 & \texttt{4.1-query-aware-legal-scm} \\
+        Step 5 & \texttt{5.1-query-aware-grounded-answer} \\
+        Batch runner & \texttt{2.1-query-aware-answer} \\
+        Evaluator & \texttt{2.0-current-pipeline-schema} \\
+        Embedding & \texttt{BAAI/bge-m3} \\
+        Retrieval hop / CF hop & $2$ / $3$ \\
+        Answer provider & \texttt{extractive} \\
+        Structural intervention & $\doop(M=\stateF)$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The complete thresholds are reported in
+Table~\ref{tab:retrieval-hyperparameters},
+Table~\ref{tab:verification-hyperparameters}, and
+Table~\ref{tab:generation-hyperparameters}.
+
+\subsection{Inputs and paired artifacts}
+
+The principal inputs are:
+
+\begin{itemize}
+    \item \path{data/blhs_multihop_benchmark_250.json};
+    \item \path{data/blhs_rules_final_all_normalized.json};
+    \item the graph, causal memory, and FAISS index shared by both modes.
+\end{itemize}
+
+The prediction and evaluation directories used to report the results are:
+
+\begin{itemize}
+    \item \path{data/pipeline_predictions_structural_scm_v41_step5_v51.json};
+    \item \path{data/pipeline_predictions_path_ablation_v41_step5_v51.json};
+    \item \path{evaluation_results/structural_scm_v41_step5_v51/};
+    \item \path{evaluation_results/path_ablation_v41_step5_v51/}.
+\end{itemize}
+
+The older artifacts in
+\path{evaluation_metrics_path_ablation_v41/} and the predictions generated
+by runner \texttt{2.0-primary-path-aware} are not part of the main paired
+experiment and were not used to compute the tables in the paper.
+
+\subsection{Sample batch command}
+
+With \texttt{MODE} set in turn to \texttt{structural\_scm} and
+\texttt{path\_ablation}, the batch was run using the following template:
+
+\begin{verbatim}
+python 5_5_generate_pipeline_predictions.py ^
+  --benchmark data/blhs_multihop_benchmark_250.json ^
+  --provider extractive ^
+  --counterfactual-mode MODE ^
+  --rules data/blhs_rules_final_all_normalized.json ^
+  --output data/pipeline_predictions_MODE_v41_step5_v51.json ^
+  --jsonl-output data/pipeline_predictions_MODE_v41_step5_v51.jsonl ^
+  --errors-output data/pipeline_errors_MODE_v41_step5_v51.json ^
+  --run-log data/pipeline_run_log_MODE_v41_step5_v51.json ^
+  --work-dir data/pipeline_intermediate_MODE_v41_step5_v51 ^
+  --checkpoint-every 1 --resume
+\end{verbatim}
+
+On Linux, the \texttt{\^{}} line-continuation character is replaced with a
+backslash. Step 7 was run with the same benchmark and corresponding
+predictions, with \texttt{--k-values 1 3 5 10} and \texttt{--strict}.
+
+\subsection{Minimum trace schema}
+
+Each prediction must retain at least the following provenance fields:
+
+\begin{itemize}
+    \item sample ID, query, and benchmark version;
+    \item retrieval result, candidate path, and primary path ID;
+    \item query analysis, claim type, and answer intent;
+    \item final verification decision and verification score;
+    \item factual/intervention state when structural SCM is used;
+    \item evidence ID, rule ID, event ID, and article citation;
+    \item Step 4, Step 5, runner, and evaluator versions;
+    \item processing time and errors, if any.
+\end{itemize}
+
+\subsection{Pre-publication checks}
+
+The following items must still be added from the exact server and repository
+that produced the artifacts; they must not be inferred:
+
+\begin{itemize}
+    \item operating system, Python version, CPU, RAM, and GPU;
+    \item exact embedding-model revision and dependency lockfile;
+    \item immutable Git commit and public repository URL;
+    \item hashes of the benchmark, rule corpus, graph, memory, and predictions;
+    \item random seed and cache state;
+    \item licenses for the code, data, and model;
+    \item corresponding-author information, funding, and venue.
+\end{itemize}
+
+\todo{Fill in the hardware/server information, commit, artifact hash, and
+author email before submitting the manuscript.}

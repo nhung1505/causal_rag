@@ -1,0 +1,483 @@
+\section{Dữ liệu và benchmark}
+\label{sec:data}
+
+\subsection{Nguồn dữ liệu pháp luật}
+
+Corpus được xây dựng từ nội dung của Bộ luật Hình sự Việt Nam năm 2015 và
+các nội dung sửa đổi, bổ sung có liên quan
+\cite{quochoi2015blhs,quochoi2017suadoiblhs}. Nguồn dữ liệu tập trung vào
+các quy định mô tả điều kiện áp dụng và hệ quả pháp lý trong luật hình sự.
+Nghiên cứu không sử dụng bản án, hồ sơ vụ án, dữ liệu cá nhân hoặc dữ liệu
+hành vi thực tế.
+
+Đơn vị đầu vào của pipeline không phải toàn bộ điều luật dưới dạng một đoạn
+văn duy nhất, mà là các quy tắc đã được phân tách và chuẩn hóa. Một điều luật
+có thể tạo ra nhiều rule nếu nó chứa nhiều cặp điều kiện--hệ quả khác nhau.
+Ngược lại, nhiều điều luật có thể dẫn đến cùng một effect event nhưng áp
+dụng cho các điều kiện hoặc chủ thể khác nhau.
+
+Mỗi rule record chứa tối thiểu các trường:
+
+\begin{itemize}
+    \item \texttt{rule\_id}: mã định danh duy nhất của quy tắc;
+    \item \texttt{article\_id}: số điều luật;
+    \item \texttt{article\_title}: tiêu đề điều luật;
+    \item \texttt{legal\_subject}: chủ thể pháp luật;
+    \item \texttt{condition}: điều kiện áp dụng;
+    \item \texttt{effect}: hệ quả pháp lý;
+    \item \texttt{condition\_event}: mã event điều kiện;
+    \item \texttt{condition\_event\_name}: tên đọc được của event điều kiện;
+    \item \texttt{effect\_event}: mã event hệ quả;
+    \item \texttt{effect\_event\_name}: tên đọc được của event hệ quả;
+    \item \texttt{causal\_type}: loại quan hệ hoặc loại hệ quả nếu có.
+\end{itemize}
+
+Corpus pháp luật được sử dụng như một nguồn tri thức quy phạm. Hệ thống
+không suy ra rằng các quan hệ điều kiện--hệ quả trong corpus phản ánh quan
+hệ nhân quả thống kê ngoài thực tế. Mọi kết luận của pipeline đều bị giới
+hạn bởi nội dung rule đã được mã hóa.
+
+\subsection{Quy trình chuẩn hóa quy tắc}
+
+Quá trình chuẩn hóa nhằm chuyển văn bản pháp luật thành một schema thống
+nhất cho graph construction, vector indexing và evaluation. Quy trình gồm
+các bước chính sau:
+
+\begin{enumerate}
+    \item xác định điều luật và tiêu đề tương ứng;
+
+    \item tách nội dung thành điều kiện áp dụng và hệ quả pháp lý;
+
+    \item xác định chủ thể chịu tác động của quy tắc;
+
+    \item chuẩn hóa condition và effect thành các event name ngắn gọn;
+
+    \item tạo event ID ổn định từ event name;
+
+    \item gán rule ID và liên kết rule với article ID;
+
+    \item kiểm tra các trường bắt buộc và loại bỏ record không đủ thông tin.
+\end{enumerate}
+
+Event ID được chuẩn hóa bằng cách chuyển nội dung sang chữ thường, bỏ dấu
+tiếng Việt, thay khoảng trắng bằng dấu gạch dưới và loại bỏ ký tự không cần
+thiết. Ví dụ:
+
+\begin{quote}
+Event name: ``Phạm tội chưa đạt'';
+
+Event ID: \texttt{pham\_toi\_chua\_dat}.
+\end{quote}
+
+Các cách diễn đạt pháp luật khác nhau nhưng có cùng ý nghĩa có thể được ánh
+xạ về cùng một event ID. Ngược lại, những hệ quả có khác biệt đáng kể về mức
+phạt, đối tượng hoặc điều kiện áp dụng được giữ thành các event riêng biệt.
+Việc chuẩn hóa này giúp giảm trùng lặp bề mặt nhưng vẫn bảo toàn sự khác biệt
+cần thiết cho suy luận pháp luật.
+
+Quy trình hiện tại không thực hiện chuẩn hóa đầy đủ đối với mọi ngoại lệ,
+phủ định, tham chiếu chéo hoặc cấu trúc nhiều điều kiện. Phần lớn rule trong
+corpus thực nghiệm được biểu diễn dưới dạng một condition event dương và một
+effect event dương. Do đó, corpus phù hợp nhất với suy luận chuỗi điều
+kiện--hệ quả ngắn.
+
+\subsection{Thống kê corpus và đồ thị}
+
+Corpus sau chuẩn hóa gồm \(2\,884\) rule và \(1\,814\) event. Đồ thị dị thể
+được xây dựng từ corpus chứa \(5\,134\) node và \(14\,420\) edge. Các thống
+kê chính được trình bày trong Bảng~\ref{tab:graph}.
+
+\begin{table}[t]
+    \centering
+    \caption{Thống kê corpus và đồ thị nhân quả pháp luật.}
+    \label{tab:graph}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Thành phần} & \textbf{Số lượng} \\
+        \hline
+        Quy tắc pháp luật & \(2\,884\) \\
+        Sự kiện pháp lý & \(1\,814\) \\
+        Tổng số node & \(5\,134\) \\
+        Tổng số edge & \(14\,420\) \\
+        Cạnh \texttt{CAUSES} & \(2\,884\) \\
+        Cặp event có hướng duy nhất & \(2\,122\) \\
+        Chuỗi nhân quả hai bước & \(112\) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Số cạnh \texttt{CAUSES} bằng số rule vì mỗi rule tạo ít nhất một quan hệ từ
+condition event đến effect event. Tuy nhiên, số cặp event duy nhất nhỏ hơn
+số cạnh \texttt{CAUSES}, cho thấy một số cặp event được hỗ trợ bởi nhiều rule
+hoặc nhiều căn cứ pháp luật khác nhau.
+
+Tổng số edge lớn hơn đáng kể so với số cạnh \texttt{CAUSES} vì graph còn lưu
+các liên kết dị thể giữa event, rule và article. Các edge này hỗ trợ truy
+vết nguồn evidence nhưng không được xem là causal edge khi thực hiện path
+traversal.
+
+Từ projection event--event, hệ thống xác định \(112\) chuỗi nhân quả hai
+bước có dạng:
+
+\[
+v_0 \rightarrow v_1 \rightarrow v_2.
+\]
+
+Một chuỗi có thể được sử dụng để tạo nhiều câu hỏi với các answer intent
+khác nhau, chẳng hạn hỏi outcome, hỏi nguyên nhân, hỏi mediator hoặc yêu cầu
+giải thích toàn bộ path. Vì vậy, số câu hỏi benchmark có thể lớn hơn số
+chuỗi hai bước duy nhất.
+
+\subsection{Mục tiêu xây dựng benchmark}
+
+Benchmark được xây dựng nhằm đánh giá riêng biệt các năng lực sau:
+
+\begin{enumerate}
+    \item truy hồi đúng rule và article;
+    \item truy hồi đúng event;
+    \item khôi phục causal path theo đúng thứ tự;
+    \item phân biệt quan hệ trực tiếp và quan hệ qua mediator;
+    \item xác minh claim theo nội dung câu hỏi;
+    \item sinh câu trả lời đúng answer intent;
+    \item trích dẫn đúng căn cứ pháp luật.
+\end{enumerate}
+
+Thiết kế benchmark nhấn mạnh việc đánh giá supporting path thay vì chỉ đánh
+giá câu trả lời cuối. Cách tiếp cận này tương đồng với nguyên tắc đánh giá
+supporting facts trong hỏi--đáp nhiều bước
+\cite{yang2018hotpotqa}, nhưng được điều chỉnh cho cấu trúc rule và event
+của corpus pháp luật.
+
+Benchmark không nhằm thay thế các bộ đánh giá pháp luật tổng quát như
+LegalBench \cite{guha2023legalbench}. Nó được sử dụng như một testbed có
+kiểm soát để kiểm tra pipeline trên chính loại cấu trúc nhân quả pháp luật
+mà hệ thống được thiết kế để xử lý.
+
+\subsection{Quy trình tạo câu hỏi}
+
+Các câu hỏi được tạo từ causal path, rule và article có trong graph. Với một
+đường hai bước:
+
+\[
+A \xrightarrow{r_1} B \xrightarrow{r_2} C,
+\]
+
+hệ thống có thể tạo các dạng câu hỏi sau:
+
+\begin{description}
+    \item[Forward multihop] Cho \(A\), yêu cầu xác định hệ quả cuối \(C\).
+
+    \item[Reverse reasoning] Cho \(C\) hoặc chuỗi kết quả, yêu cầu xác định
+    nguyên nhân ban đầu \(A\).
+
+    \item[Bridge event] Cho \(A\) và \(C\), yêu cầu xác định mediator \(B\).
+
+    \item[Causal chain explanation] Yêu cầu trình bày toàn bộ
+    \(A \rightarrow B \rightarrow C\) và các căn cứ tương ứng.
+
+    \item[Yes/no positive] Hỏi liệu quan hệ hoặc chuỗi được nêu có được graph
+    hỗ trợ hay không.
+
+    \item[Yes/no counterexample] Khẳng định một quan hệ trực tiếp
+    \(A \rightarrow C\) trong khi graph chỉ hỗ trợ đường gián tiếp
+    \(A \rightarrow B \rightarrow C\).
+
+    \item[Branch reasoning] Yêu cầu tổng hợp nhiều outcome có chung prefix
+    hoặc mediator.
+
+    \item[Convergence reasoning] Yêu cầu tổng hợp nhiều điều kiện ban đầu
+    cùng dẫn tới một suffix hoặc outcome.
+
+    \item[Bridge-convergence fallback] Sử dụng cấu trúc hội tụ trong trường
+    hợp không đủ điều kiện tạo một mẫu convergence hoàn chỉnh, nhưng vẫn có
+    thể tạo câu hỏi về bridge hoặc path chính.
+\end{description}
+
+Các câu hỏi được tạo theo template có kiểm soát và sử dụng event name đọc
+được thay vì event ID. Việc dùng template giúp xác định gold answer và gold
+path một cách nhất quán, nhưng cũng có thể tạo ra các mẫu ngôn ngữ lặp lại.
+Đây là một nguy cơ đối với khả năng tổng quát hóa và được xem là hạn chế của
+benchmark.
+
+\subsection{Phân bố loại câu hỏi}
+
+Benchmark chứa tổng cộng \(250\) câu hỏi. Phân bố thực tế được trình bày
+trong Bảng~\ref{tab:benchmark}.
+
+\begin{table}[t]
+    \centering
+    \caption{Phân bố các loại câu hỏi trong benchmark.}
+    \label{tab:benchmark}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Loại câu hỏi} & \textbf{Số lượng} \\
+        \hline
+        Forward multihop & \(70\) \\
+        Reverse reasoning & \(45\) \\
+        Bridge event & \(40\) \\
+        Causal chain explanation & \(35\) \\
+        Yes/no positive & \(20\) \\
+        Yes/no counterexample & \(20\) \\
+        Branch reasoning & \(4\) \\
+        Convergence reasoning & \(10\) \\
+        Bridge-convergence fallback & \(6\) \\
+        \hline
+        \textbf{Tổng cộng} & \(\mathbf{250}\) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Bốn nhóm forward multihop, reverse reasoning, bridge event và causal chain
+explanation chiếm phần lớn benchmark. Điều này phù hợp với mục tiêu chính là
+đánh giá suy luận trên chuỗi hai bước. Các câu branch và convergence có số
+lượng nhỏ hơn do graph chỉ chứa một số cấu trúc thỏa mãn yêu cầu nhiều path
+cùng prefix hoặc suffix.
+
+\subsection{Ground truth và schema đánh giá}
+
+Mỗi benchmark sample có một mã định danh duy nhất và chứa hai nhóm trường:
+trường mô tả câu hỏi và trường phục vụ evaluation.
+
+Các trường mô tả chính gồm:
+
+\begin{itemize}
+    \item \texttt{id};
+    \item \texttt{question};
+    \item \texttt{question\_type};
+    \item metadata về nguồn path hoặc cấu trúc tạo câu hỏi.
+\end{itemize}
+
+Object \texttt{evaluation} chứa ground truth cho các lớp đánh giá khác nhau:
+
+\begin{description}
+    \item[Retrieval ground truth]
+    Bao gồm \texttt{gold\_rule\_ids},
+    \texttt{gold\_article\_ids} và kích thước retrieval kỳ vọng.
+
+    \item[Event ground truth]
+    Bao gồm \texttt{gold\_event\_ids}, tên các event và final event.
+
+    \item[Path ground truth]
+    Bao gồm các bước của gold path theo thứ tự
+    source event--target event.
+
+    \item[Verification ground truth]
+    Bao gồm \texttt{requires\_counterfactual},
+    \texttt{gold\_decision} và target của quá trình xác minh.
+
+    \item[Answer ground truth]
+    Chứa câu trả lời tham chiếu phù hợp với question type.
+
+    \item[Citation ground truth]
+    Chứa các article ID được kỳ vọng hỗ trợ câu trả lời.
+
+    \item[Difficulty metadata]
+    Chứa độ khó của retrieval, reasoning, generation và một overall score.
+\end{description}
+
+Toàn bộ \(250\) câu hỏi có evaluation object, gold rule, gold event, gold
+answer và gold citation. Có \(236\) câu hỏi có một gold path tuyến tính rõ
+ràng. Các câu branch và convergence còn lại yêu cầu đánh giá trên nhiều path
+hoặc một cấu trúc con thay vì một chuỗi tuyến tính duy nhất.
+
+\subsection{Gold verification decision}
+
+Phân bố gold decision gồm:
+
+\begin{table}[t]
+    \centering
+    \caption{Phân bố gold verification decision.}
+    \label{tab:gold-decision}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Gold decision} & \textbf{Số lượng} \\
+        \hline
+        \texttt{SUPPORTED} & \(230\) \\
+        \texttt{REJECT\_DIRECT\_CLAIM} & \(20\) \\
+        \texttt{UNCERTAIN} & \(0\) \\
+        \hline
+        \textbf{Tổng cộng} & \(\mathbf{250}\) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Benchmark mất cân bằng mạnh về nhãn quyết định: \(92\%\) mẫu thuộc lớp
+\texttt{SUPPORTED}, trong khi chỉ \(8\%\) thuộc lớp
+\texttt{REJECT\_DIRECT\_CLAIM}. Vì vậy, verification accuracy không đủ để
+đánh giá độc lập. Nghiên cứu báo cáo thêm Macro-F1, Balanced Accuracy và
+confusion matrix.
+
+Benchmark không chứa gold sample thuộc lớp \texttt{UNCERTAIN}. Do đó, khả
+năng phát hiện thiếu bằng chứng hoặc trạng thái chưa xác định chưa được đánh
+giá trực tiếp bằng một lớp gold riêng biệt.
+
+\subsection{Counterfactual subset}
+
+Benchmark đánh dấu \(20\) câu hỏi là yêu cầu xác minh counterfactual. Tuy
+nhiên, việc kiểm tra nội dung cho thấy các mẫu này chủ yếu là
+yes/no counterexample về quan hệ trực tiếp. Với đường:
+
+\[
+A \rightarrow B \rightarrow C,
+\]
+
+câu hỏi có thể khẳng định rằng \(A\) trực tiếp dẫn đến \(C\). Gold decision
+khi đó là \texttt{REJECT\_DIRECT\_CLAIM} vì graph không chứa cạnh trực tiếp
+\(A \rightarrow C\).
+
+Các mẫu này đánh giá tốt khả năng phân biệt direct edge và indirect path,
+nhưng không cung cấp ground truth đầy đủ cho phép can thiệp:
+
+\[
+do(B=\mathrm{FALSE}).
+\]
+
+Cụ thể, benchmark chưa gán nhãn chuyên gia cho:
+
+\begin{itemize}
+    \item factual state của mediator;
+    \item factual state của outcome;
+    \item counterfactual outcome sau intervention;
+    \item các rule bị vô hiệu hóa;
+    \item đường thay thế sau intervention;
+    \item mediator có thực sự cần thiết trong mô hình pháp lý hay không.
+\end{itemize}
+
+Vì vậy, metric ``counterfactual verification accuracy'' trong nghiên cứu
+hiện tại chủ yếu phản ánh khả năng xử lý direct-edge negative claims. Nó
+không được diễn giải như bằng chứng rằng LegalSCM đã được xác nhận trên một
+benchmark hard-intervention hoàn chỉnh.
+
+\subsection{Độ khó của benchmark}
+
+Benchmark gán difficulty metadata dựa trên đặc điểm retrieval, reasoning và
+generation của từng mẫu. Trong tập hiện tại:
+
+\begin{itemize}
+    \item \(181\) câu được gán mức \texttt{medium};
+    \item \(69\) câu được gán mức \texttt{hard};
+    \item không có câu thuộc mức \texttt{easy}.
+\end{itemize}
+
+Các mẫu hard thường yêu cầu một trong các đặc điểm:
+
+\begin{itemize}
+    \item nhiều rule hoặc article hỗ trợ;
+    \item nhiều candidate path có chung mediator hoặc outcome;
+    \item cấu trúc branch hoặc convergence;
+    \item phân biệt direct edge với indirect path;
+    \item câu trả lời cần tổng hợp nhiều thành phần.
+\end{itemize}
+
+Difficulty label được sử dụng để phân tích kết quả theo nhóm, không được
+truyền vào retriever, verifier hoặc answer generator.
+
+\subsection{Kiểm soát rò rỉ nhãn đánh giá}
+
+Do benchmark chứa \texttt{question\_type}, gold path và gold answer, cần
+ngăn các trường này ảnh hưởng đến prediction. Pipeline áp dụng các nguyên
+tắc sau:
+
+\begin{enumerate}
+    \item Step 3 chỉ nhận chuỗi \texttt{question}, không nhận evaluation
+    object.
+
+    \item Step 4 chỉ nhận retrieval result và query text được lưu trong
+    artifact.
+
+    \item Claim type được suy ra từ query text, không đọc
+    \texttt{question\_type}.
+
+    \item Step 5 suy ra answer intent từ query text và
+    \texttt{query\_analysis} của Step 4.
+
+    \item Gold rule, gold event, gold path, gold decision và gold answer chỉ
+    được Step 7 sử dụng sau khi toàn bộ prediction đã được tạo.
+
+    \item Batch runner có thể sao chép \texttt{question\_type} vào prediction
+    để phục vụ phân tích theo nhóm, nhưng trường này không được chuyển vào
+    các hàm retrieval, verification hoặc answer generation.
+\end{enumerate}
+
+Cơ chế này ngăn hệ thống sử dụng trực tiếp loại câu hỏi hoặc nhãn chuẩn để
+chọn answer template. Đây là điều kiện cần để kết quả answer intent phản ánh
+khả năng phân tích truy vấn thay vì rò rỉ từ benchmark.
+
+\subsection{Tính toàn vẹn của paired experiment}
+
+Hai run chính sử dụng cùng:
+
+\begin{itemize}
+    \item benchmark \(250\) câu;
+    \item graph, causal memory, embedding và FAISS index;
+    \item retriever và toàn bộ retrieval hyperparameter;
+    \item query analyzer;
+    \item Step 5 và extractive answer provider;
+    \item evaluator và tập metric.
+\end{itemize}
+
+Khác biệt duy nhất là chế độ xác minh:
+
+\begin{itemize}
+    \item \texttt{structural\_scm};
+    \item \texttt{path\_ablation}.
+\end{itemize}
+
+Cả hai run đều tạo đủ \(250/250\) prediction và không ghi nhận lỗi pipeline.
+Việc giữ nguyên các thành phần còn lại cho phép xem đây là một paired
+ablation hợp lệ ở mức implementation.
+
+Các artifact cũ được tạo bằng runner hoặc Step 5 trước đó không được đưa vào
+paired comparison. Cụ thể, chỉ các file có hậu tố
+\texttt{\_v41\_step5\_v51} được sử dụng cho kết quả chính.
+
+\subsection{Hạn chế và nguy cơ đối với tính hợp lệ của benchmark}
+
+Benchmark hiện tại có một số hạn chế quan trọng.
+
+\paragraph{Cùng nguồn graph.}
+
+Câu hỏi và ground truth được tạo từ cùng graph mà pipeline sử dụng. Điều này
+giúp kiểm soát cấu trúc suy luận nhưng có thể đánh giá cao khả năng khôi
+phục các quan hệ đã được mã hóa. Benchmark chưa kiểm tra đầy đủ khả năng tổng
+quát hóa sang một corpus hoặc graph độc lập.
+
+\paragraph{Ảnh hưởng của template.}
+
+Nhiều câu hỏi được tạo theo template. Các cụm từ như ``hệ quả cuối cùng'',
+``sự kiện trung gian'', ``trực tiếp'' hoặc ``điều kiện ban đầu'' có thể giúp
+query analyzer nhận diện answer intent. Hiệu năng trên câu hỏi tự nhiên có
+cách diễn đạt đa dạng hơn có thể thấp hơn.
+
+\paragraph{Thiếu thẩm định chuyên gia.}
+
+Benchmark chưa được chuyên gia pháp luật rà soát toàn bộ ở mức từng câu,
+từng path và từng answer. Gold data phản ánh cấu trúc graph và rule đã chuẩn
+hóa, không phải kết luận pháp lý chính thức.
+
+\paragraph{Counterfactual coverage hạn chế.}
+
+Counterfactual subset chỉ có \(20\) mẫu và chủ yếu kiểm tra direct-edge
+negative claims. Benchmark chưa đủ nhạy để phân biệt hard intervention với
+node-deletion reachability.
+
+\paragraph{Gold path tuyến tính.}
+
+Metric exact path dựa trên một chuỗi tuyến tính, trong khi branch và
+convergence có thể yêu cầu một tập path hoặc subgraph. Do đó, exact path
+bằng không ở các nhóm này không nhất thiết đồng nghĩa với câu trả lời sai.
+
+\paragraph{Rule representation đơn giản hóa.}
+
+Corpus chưa biểu diễn đầy đủ negation, exception, nhiều điều kiện đồng thời,
+rule priority và xung đột pháp lý. Benchmark vì thế cũng chưa đánh giá các
+năng lực này.
+
+\paragraph{Phạm vi miền hẹp.}
+
+Benchmark chỉ tập trung vào Bộ luật Hình sự và không đại diện cho các lĩnh
+vực pháp luật khác như dân sự, hành chính, lao động hoặc tố tụng.
+
+Do các hạn chế trên, kết quả thực nghiệm nên được hiểu là đánh giá nội bộ
+trên một testbed có kiểm soát. Chúng không được sử dụng để kết luận rằng hệ
+thống có thể đưa ra tư vấn pháp lý đáng tin cậy trong môi trường thực tế.

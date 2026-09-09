@@ -1,0 +1,53 @@
+\section{Claim boundary checklist}
+\label{app:claims}
+
+To prevent claim drift among the code, artifacts, and manuscript, the final
+version must preserve the following boundaries:
+
+\begin{enumerate}
+    \item The graph is constructed from normalized legal rules; it is not
+    discovered from observational data and does not provide causal-effect
+    estimates.
+
+    \item LegalSCM is a deterministic normative inference model over encoded
+    events and rules; it is not a complete model of real-world causality or
+    of the legal system as a whole.
+
+    \item \texttt{path\_ablation} is a bounded node-deletion reachability
+    baseline, not the $\doop(\cdot)$ operator under SCM semantics.
+
+    \item Structural SCM and path ablation achieve identical quality metrics
+    on the paired v4.1/v5.1 benchmark. There is no empirical evidence that
+    the structural mode has higher accuracy.
+
+    \item The observed benefit of the structural mode is its intervention
+    semantics and more detailed traces; this benefit has not been evaluated
+    through a user study or expert audit.
+
+    \item Counterfactual Accuracy of $100\%$ reflects only the $20$
+    direct-edge negative samples and does not fully validate hard-intervention
+    validity.
+
+    \item Top-1 Exact Path of $35.20\%$ is the deployable metric. Oracle
+    Exact Path of $71.20\%$ is only an upper-bound diagnostic and must not be
+    substituted for Top-1 in performance claims.
+
+    \item Exact linear-path matching is not fully appropriate for branch and
+    convergence structures; the $0\%$ result for these two groups must not be
+    interpreted independently of the answer metrics and gold structure.
+
+    \item The benchmark was generated from the same graph and has not been
+    fully validated by independent legal experts. The results measure the
+    recovery of an encoding within the scope of the study and do not
+    demonstrate external legal correctness.
+
+    \item Runtime is compared only within the same server environment used
+    for the runs. Before absolute values are published, the hardware,
+    software, and cache conditions must be reported.
+
+    \item The system is a research prototype, not legal advice, and must not
+    be used to make automated legal decisions about individuals.
+\end{enumerate}
+
+Every summary, slide, or translation of the paper must preserve these limits
+and must not turn a diagnostic result into a stronger conclusion.

@@ -1,0 +1,504 @@
+\section{Data and Benchmark}
+\label{sec:data}
+
+\subsection{Legal Data Sources}
+
+The corpus was constructed from the 2015 Vietnamese Penal Code and the
+relevant amendments and supplements
+\cite{quochoi2015blhs,quochoi2017suadoiblhs}. The data source focuses on
+provisions that describe conditions of applicability and legal effects in
+criminal law. The study does not use judgments, case files, personal data,
+or empirical behavioral data.
+
+The input unit of the pipeline is not an entire legal article represented as
+a single passage, but rather a set of segmented and normalized rules. A legal
+article may yield multiple rules if it contains several distinct
+condition--effect pairs. Conversely, multiple legal articles may lead to the
+same effect event while applying to different conditions or legal subjects.
+
+Each rule record contains at least the following fields:
+
+\begin{itemize}
+    \item \texttt{rule\_id}: the unique identifier of the rule;
+    \item \texttt{article\_id}: the legal article number;
+    \item \texttt{article\_title}: the title of the legal article;
+    \item \texttt{legal\_subject}: the legal subject;
+    \item \texttt{condition}: the condition of applicability;
+    \item \texttt{effect}: the legal effect;
+    \item \texttt{condition\_event}: the condition event identifier;
+    \item \texttt{condition\_event\_name}: the human-readable name of the
+    condition event;
+    \item \texttt{effect\_event}: the effect event identifier;
+    \item \texttt{effect\_event\_name}: the human-readable name of the effect
+    event;
+    \item \texttt{causal\_type}: the relation type or effect type, when
+    available.
+\end{itemize}
+
+The legal corpus is used as a source of normative knowledge. The system does
+not infer that the condition--effect relations in the corpus represent
+statistical causal relations in the empirical world. All conclusions produced
+by the pipeline are bounded by the content of the encoded rules.
+
+\subsection{Rule Normalization Procedure}
+
+The normalization process converts legal text into a unified schema for graph
+construction, vector indexing, and evaluation. The procedure consists of the
+following main steps:
+
+\begin{enumerate}
+    \item identify the legal article and its corresponding title;
+
+    \item segment the content into a condition of applicability and a legal
+    effect;
+
+    \item identify the subject affected by the rule;
+
+    \item normalize the condition and effect into concise event names;
+
+    \item create a stable event ID from the event name;
+
+    \item assign a rule ID and link the rule to an article ID;
+
+    \item validate the required fields and remove records with insufficient
+    information.
+\end{enumerate}
+
+An event ID is normalized by converting the content to lowercase, removing
+Vietnamese diacritics, replacing spaces with underscores, and removing
+unnecessary characters. For example:
+
+\begin{quote}
+Event name: ``Phạm tội chưa đạt'';
+
+Event ID: \texttt{pham\_toi\_chua\_dat}.
+\end{quote}
+
+Different legal expressions with the same meaning may be mapped to the same
+event ID. Conversely, effects that differ materially in penalty level,
+applicable subject, or condition are retained as distinct events. This
+normalization reduces surface-form duplication while preserving the
+distinctions necessary for legal reasoning.
+
+The current procedure does not fully normalize every exception, negation,
+cross-reference, or multi-condition structure. Most rules in the experimental
+corpus are represented by one positive condition event and one positive effect
+event. The corpus is therefore most suitable for reasoning over short
+condition--effect chains.
+
+\subsection{Corpus and Graph Statistics}
+
+The normalized corpus contains \(2\,884\) rules and \(1\,814\) events. The
+heterogeneous graph constructed from the corpus contains \(5\,134\) nodes and
+\(14\,420\) edges. The main statistics are presented in
+Table~\ref{tab:graph}.
+
+\begin{table}[t]
+    \centering
+    \caption{Statistics of the legal corpus and causal graph.}
+    \label{tab:graph}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Component} & \textbf{Count} \\
+        \hline
+        Legal rules & \(2\,884\) \\
+        Legal events & \(1\,814\) \\
+        Total nodes & \(5\,134\) \\
+        Total edges & \(14\,420\) \\
+        \texttt{CAUSES} edges & \(2\,884\) \\
+        Unique directed event pairs & \(2\,122\) \\
+        Two-hop causal chains & \(112\) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The number of \texttt{CAUSES} edges equals the number of rules because each
+rule creates at least one relation from a condition event to an effect event.
+However, the number of unique event pairs is lower than the number of
+\texttt{CAUSES} edges, indicating that some event pairs are supported by
+multiple rules or multiple legal grounds.
+
+The total number of edges is substantially larger than the number of
+\texttt{CAUSES} edges because the graph also stores heterogeneous links among
+events, rules, and articles. These edges support evidence provenance but are
+not treated as causal edges during path traversal.
+
+From the event--event projection, the system identifies \(112\) two-hop
+causal chains of the form:
+
+\[
+v_0 \rightarrow v_1 \rightarrow v_2.
+\]
+
+A chain may be used to generate multiple questions with different answer
+intents, such as asking for the outcome, the cause, the mediator, or an
+explanation of the complete path. Consequently, the number of benchmark
+questions may exceed the number of unique two-hop chains.
+
+\subsection{Benchmark Construction Objectives}
+
+The benchmark was constructed to separately evaluate the following
+capabilities:
+
+\begin{enumerate}
+    \item retrieving the correct rules and articles;
+    \item retrieving the correct events;
+    \item recovering the causal path in the correct order;
+    \item distinguishing a direct relation from a relation mediated by an
+    intermediate event;
+    \item verifying the claim expressed in the question;
+    \item generating an answer that satisfies the answer intent;
+    \item citing the correct legal grounds.
+\end{enumerate}
+
+The benchmark design emphasizes evaluation of the supporting path rather than
+only the final answer. This approach is consistent with the principle of
+evaluating supporting facts in multi-hop question answering
+\cite{yang2018hotpotqa}, but is adapted to the rule and event structure of the
+legal corpus.
+
+The benchmark is not intended to replace general legal evaluation suites such
+as LegalBench \cite{guha2023legalbench}. It is used as a controlled testbed for
+evaluating the pipeline on the specific type of legal causal structure that
+the system is designed to process.
+
+\subsection{Question Generation Procedure}
+
+Questions are generated from causal paths, rules, and articles contained in
+the graph. Given a two-hop path:
+
+\[
+A \xrightarrow{r_1} B \xrightarrow{r_2} C,
+\]
+
+the system can generate the following question types:
+
+\begin{description}
+    \item[Forward multihop] Given \(A\), identify the final effect \(C\).
+
+    \item[Reverse reasoning] Given \(C\) or a sequence of results, identify
+    the initial cause \(A\).
+
+    \item[Bridge event] Given \(A\) and \(C\), identify the mediator \(B\).
+
+    \item[Causal chain explanation] Present the complete
+    \(A \rightarrow B \rightarrow C\) chain and the corresponding legal
+    grounds.
+
+    \item[Yes/no positive] Determine whether the stated relation or chain is
+    supported by the graph.
+
+    \item[Yes/no counterexample] Assert a direct relation
+    \(A \rightarrow C\) when the graph supports only the indirect path
+    \(A \rightarrow B \rightarrow C\).
+
+    \item[Branch reasoning] Aggregate multiple outcomes that share a common
+    prefix or mediator.
+
+    \item[Convergence reasoning] Aggregate multiple initial conditions that
+    lead to a common suffix or outcome.
+
+    \item[Bridge-convergence fallback] Use a convergent structure when the
+    requirements for generating a complete convergence sample are not met,
+    while still allowing a question about the bridge event or main path to be
+    generated.
+\end{description}
+
+The questions are generated from controlled templates and use human-readable
+event names rather than event IDs. Templates make it possible to define the
+gold answer and gold path consistently, but they may also produce repetitive
+linguistic patterns. This is a threat to generalizability and is treated as a
+benchmark limitation.
+
+\subsection{Question-Type Distribution}
+
+The benchmark contains a total of \(250\) questions. The observed distribution
+is presented in Table~\ref{tab:benchmark}.
+
+\begin{table}[t]
+    \centering
+    \caption{Distribution of question types in the benchmark.}
+    \label{tab:benchmark}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Question type} & \textbf{Count} \\
+        \hline
+        Forward multihop & \(70\) \\
+        Reverse reasoning & \(45\) \\
+        Bridge event & \(40\) \\
+        Causal chain explanation & \(35\) \\
+        Yes/no positive & \(20\) \\
+        Yes/no counterexample & \(20\) \\
+        Branch reasoning & \(4\) \\
+        Convergence reasoning & \(10\) \\
+        Bridge-convergence fallback & \(6\) \\
+        \hline
+        \textbf{Total} & \(\mathbf{250}\) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The four categories of forward multihop, reverse reasoning, bridge event, and
+causal chain explanation constitute most of the benchmark. This distribution
+is consistent with the primary objective of evaluating reasoning over two-hop
+chains. Branch and convergence questions are less frequent because the graph
+contains only a limited number of structures satisfying the requirements for
+multiple paths with a common prefix or suffix.
+
+\subsection{Ground Truth and Evaluation Schema}
+
+Each benchmark sample has a unique identifier and contains two groups of
+fields: fields describing the question and fields used for evaluation.
+
+The main descriptive fields include:
+
+\begin{itemize}
+    \item \texttt{id};
+    \item \texttt{question};
+    \item \texttt{question\_type};
+    \item metadata about the source path or structure used to generate the
+    question.
+\end{itemize}
+
+The \texttt{evaluation} object contains ground truth for the different
+layers of evaluation:
+
+\begin{description}
+    \item[Retrieval ground truth]
+    Includes \texttt{gold\_rule\_ids},
+    \texttt{gold\_article\_ids}, and the expected retrieval size.
+
+    \item[Event ground truth]
+    Includes \texttt{gold\_event\_ids}, event names, and the final event.
+
+    \item[Path ground truth]
+    Includes the ordered steps of the gold path as source event--target event
+    pairs.
+
+    \item[Verification ground truth]
+    Includes \texttt{requires\_counterfactual},
+    \texttt{gold\_decision}, and the verification target.
+
+    \item[Answer ground truth]
+    Contains the reference answer appropriate to the question type.
+
+    \item[Citation ground truth]
+    Contains the article IDs expected to support the answer.
+
+    \item[Difficulty metadata]
+    Contains retrieval, reasoning, and generation difficulty, together with an
+    overall score.
+\end{description}
+
+All \(250\) questions have an evaluation object, gold rules, gold events, a
+gold answer, and gold citations. A total of \(236\) questions have a clearly
+defined linear gold path. The remaining branch and convergence questions
+require evaluation over multiple paths or a subgraph rather than a single
+linear chain.
+
+\subsection{Gold Verification Decisions}
+
+The distribution of gold decisions is as follows:
+
+\begin{table}[t]
+    \centering
+    \caption{Distribution of gold verification decisions.}
+    \label{tab:gold-decision}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Gold decision} & \textbf{Count} \\
+        \hline
+        \texttt{SUPPORTED} & \(230\) \\
+        \texttt{REJECT\_DIRECT\_CLAIM} & \(20\) \\
+        \texttt{UNCERTAIN} & \(0\) \\
+        \hline
+        \textbf{Total} & \(\mathbf{250}\) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The benchmark is strongly imbalanced with respect to decision labels: \(92\%\)
+of the samples belong to the \texttt{SUPPORTED} class, whereas only \(8\%\)
+belong to the \texttt{REJECT\_DIRECT\_CLAIM} class. Verification accuracy is
+therefore insufficient as a standalone evaluation measure. The study also
+reports Macro-F1, Balanced Accuracy, and a confusion matrix.
+
+The benchmark contains no gold sample in the \texttt{UNCERTAIN} class.
+Consequently, the ability to detect insufficient evidence or an indeterminate
+state is not directly evaluated through a separate gold class.
+
+\subsection{Counterfactual Subset}
+
+The benchmark marks \(20\) questions as requiring counterfactual verification.
+However, content inspection shows that these samples are primarily yes/no
+counterexamples concerning direct relations. Given the path:
+
+\[
+A \rightarrow B \rightarrow C,
+\]
+
+a question may assert that \(A\) directly leads to \(C\). The gold decision is
+then \texttt{REJECT\_DIRECT\_CLAIM} because the graph contains no direct edge
+\(A \rightarrow C\).
+
+These samples effectively evaluate the ability to distinguish a direct edge
+from an indirect path, but they do not provide complete ground truth for the
+intervention:
+
+\[
+do(B=\mathrm{FALSE}).
+\]
+
+Specifically, the benchmark does not yet include expert annotations for:
+
+\begin{itemize}
+    \item the factual state of the mediator;
+    \item the factual state of the outcome;
+    \item the counterfactual outcome after intervention;
+    \item the rules disabled by the intervention;
+    \item alternative paths after intervention;
+    \item whether the mediator is genuinely necessary in the legal model.
+\end{itemize}
+
+Accordingly, the ``counterfactual verification accuracy'' metric in the
+current study primarily reflects the ability to process negative direct-edge
+claims. It is not interpreted as evidence that LegalSCM has been validated on
+a comprehensive hard-intervention benchmark.
+
+\subsection{Benchmark Difficulty}
+
+The benchmark assigns difficulty metadata based on the retrieval, reasoning,
+and generation characteristics of each sample. In the current dataset:
+
+\begin{itemize}
+    \item \(181\) questions are labeled \texttt{medium};
+    \item \(69\) questions are labeled \texttt{hard};
+    \item no question is labeled \texttt{easy}.
+\end{itemize}
+
+Hard samples typically require one of the following characteristics:
+
+\begin{itemize}
+    \item multiple supporting rules or articles;
+    \item multiple candidate paths sharing a mediator or outcome;
+    \item a branch or convergence structure;
+    \item distinguishing a direct edge from an indirect path;
+    \item an answer that aggregates multiple components.
+\end{itemize}
+
+The difficulty label is used for subgroup analysis and is not provided to the
+retriever, verifier, or answer generator.
+
+\subsection{Evaluation-Label Leakage Control}
+
+Because the benchmark contains \texttt{question\_type}, gold paths, and gold
+answers, these fields must be prevented from influencing prediction. The
+pipeline applies the following principles:
+
+\begin{enumerate}
+    \item Step 3 receives only the \texttt{question} string and does not
+    receive the evaluation object.
+
+    \item Step 4 receives only the retrieval result and the query text stored
+    in the artifact.
+
+    \item The claim type is inferred from the query text and does not read
+    \texttt{question\_type}.
+
+    \item Step 5 infers the answer intent from the query text and the
+    \texttt{query\_analysis} produced by Step 4.
+
+    \item Gold rules, gold events, gold paths, gold decisions, and gold answers
+    are used only by Step 7 after all predictions have been generated.
+
+    \item The batch runner may copy \texttt{question\_type} into a prediction
+    for subgroup analysis, but this field is not passed to the retrieval,
+    verification, or answer-generation functions.
+\end{enumerate}
+
+This mechanism prevents the system from directly using the question type or
+gold label to select an answer template. This is necessary for answer-intent
+results to reflect query-analysis capability rather than leakage from the
+benchmark.
+
+\subsection{Integrity of the Paired Experiment}
+
+The two principal runs use the same:
+
+\begin{itemize}
+    \item benchmark of \(250\) questions;
+    \item graph, causal memory, embeddings, and FAISS index;
+    \item retriever and all retrieval hyperparameters;
+    \item query analyzer;
+    \item Step 5 and the extractive answer provider;
+    \item evaluator and metric set.
+\end{itemize}
+
+The only difference is the verification mode:
+
+\begin{itemize}
+    \item \texttt{structural\_scm};
+    \item \texttt{path\_ablation}.
+\end{itemize}
+
+Both runs generate all \(250/250\) predictions and record no pipeline errors.
+Holding all other components fixed makes this a valid paired ablation at the
+implementation level.
+
+Older artifacts generated by earlier versions of the runner or Step 5 are not
+included in the paired comparison. Specifically, only files with the suffix
+\texttt{\_v41\_step5\_v51} are used for the main results.
+
+\subsection{Limitations and Threats to Benchmark Validity}
+
+The current benchmark has several important limitations.
+
+\paragraph{Shared graph source.}
+
+The questions and ground truth are generated from the same graph used by the
+pipeline. This provides control over the reasoning structure but may
+overestimate the ability to recover encoded relations. The benchmark does not
+yet thoroughly evaluate generalization to an independent corpus or graph.
+
+\paragraph{Template effects.}
+
+Many questions are generated from templates. Phrases such as ``final effect,''
+``intermediate event,'' ``directly,'' or ``initial condition'' may help the
+query analyzer identify the answer intent. Performance may be lower on natural
+questions with more diverse formulations.
+
+\paragraph{Lack of expert validation.}
+
+The benchmark has not been comprehensively reviewed by legal experts at the
+level of every question, path, and answer. The gold data reflect the structure
+of the graph and normalized rules rather than official legal conclusions.
+
+\paragraph{Limited counterfactual coverage.}
+
+The counterfactual subset contains only \(20\) samples and primarily evaluates
+negative direct-edge claims. The benchmark is not sufficiently sensitive to
+distinguish hard intervention from node-deletion reachability.
+
+\paragraph{Linear gold paths.}
+
+The exact-path metric is based on a single linear chain, whereas branch and
+convergence questions may require a set of paths or a subgraph. Consequently,
+an exact-path score of zero for these groups does not necessarily imply an
+incorrect answer.
+
+\paragraph{Simplified rule representation.}
+
+The corpus does not fully represent negation, exceptions, multiple concurrent
+conditions, rule priority, or legal conflicts. The benchmark therefore does
+not evaluate these capabilities either.
+
+\paragraph{Narrow domain scope.}
+
+The benchmark focuses exclusively on the Penal Code and is not representative
+of other areas of law, such as civil, administrative, labor, or procedural
+law.
+
+In light of these limitations, the experimental results should be understood
+as an internal evaluation on a controlled testbed. They must not be used to
+conclude that the system can provide reliable legal advice in real-world
+settings.

@@ -1,0 +1,719 @@
+\section{Experimental Setup}
+\label{sec:experimental-setup}
+
+\subsection{Evaluation Objectives}
+
+The experiments were designed to evaluate the complete pipeline from
+retrieval to the final answer while separately assessing the quality of each
+component. Five research questions were formulated as follows:
+
+\begin{description}
+    \item[RQ1 --- Retrieval quality.]
+    Does the system retrieve the rules, events, and articles relevant to the
+    question?
+
+    \item[RQ2 --- Causal-path quality.]
+    Does the system recover the correct ordering of events and rules along the
+    gold causal path? If the gold path appears in the candidate set, does the
+    system rank it first?
+
+    \item[RQ3 --- Verification quality.]
+    Does the query-aware verifier correctly classify supported claims and
+    direct-edge claims that should be rejected?
+
+    \item[RQ4 --- Answer quality.]
+    Does the answer generator return the requested type of information,
+    preserve the content of the gold answer, and cite the correct legal
+    articles?
+
+    \item[RQ5 --- Effect of the verification engine.]
+    How do Structural SCM and node-deletion path ablation differ in output
+    quality, processing time, and trace detail?
+\end{description}
+
+In addition to aggregate results, the study analyzes metrics by question type,
+difficulty, and counterfactual requirement to identify the principal error
+groups.
+
+\subsection{Evaluation Protocol}
+
+The experiments use the complete benchmark of \(250\) questions. No training
+or fine-tuning is performed on the benchmark. The system receives only the
+question as input at inference time; the evaluation fields are reserved for
+Step 7.
+
+No train--validation--test split is used because the principal pipeline
+components are not trained on the benchmark. However, because the benchmark is
+generated from the same graph used by the retriever, the results constitute a
+closed-corpus evaluation rather than an assessment of out-of-domain
+generalization.
+
+Each configuration executes the following steps in sequence:
+
+\begin{enumerate}
+    \item retrieve events, rules, and causal paths;
+    \item verify the paths and claim;
+    \item generate an extractive answer;
+    \item normalize the prediction to the common schema;
+    \item compute metrics using Step 7.
+\end{enumerate}
+
+The evaluator is run with the \texttt{strict} option. Evaluation therefore
+stops if any prediction is missing or if a prediction contains an ID not
+present in the benchmark. Both paired runs must contain all \(250\) predictions
+and have no pipeline errors before they are included in the comparison.
+
+\subsection{Component Versions}
+
+The versions used in the principal experiments are presented in
+Table~\ref{tab:versions}.
+
+\begin{table}[t]
+    \centering
+    \caption{Versions of the components in the experimental pipeline.}
+    \label{tab:versions}
+    \begin{tabular}{ll}
+        \hline
+        \textbf{Component} & \textbf{Version} \\
+        \hline
+        Benchmark & \texttt{2.0} \\
+        Step 4 verifier & \texttt{4.1-query-aware-legal-scm} \\
+        Step 5 answer generator & \texttt{5.1-query-aware-grounded-answer} \\
+        Batch runner & \texttt{2.1-query-aware-answer} \\
+        Step 7 evaluator & \texttt{2.0-current-pipeline-schema} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Version information is stored directly in the artifact metadata. A prediction
+without the correct version provenance is not considered part of the principal
+paired experiment.
+
+\subsection{Execution Environment}
+
+The two paired runs were executed in the same server environment and used the
+same resources. To ensure reproducibility, the final version of the paper must
+include complete hardware and software information in
+Table~\ref{tab:environment}.
+
+\begin{table}[t]
+    \centering
+    \caption{Execution environment. The hardware fields must be completed
+    using information from the server on which the experiments were run before
+    publication.}
+    \label{tab:environment}
+    \begin{tabular}{ll}
+        \hline
+        \textbf{Component} & \textbf{Information} \\
+        \hline
+        Operating system & \textit{[To be completed from server]} \\
+        Python version & \textit{[To be completed from server]} \\
+        CPU & \textit{[To be completed from server]} \\
+        RAM & \textit{[To be completed from server]} \\
+        GPU, if used & \textit{[To be completed from server]} \\
+        Embedding model & \texttt{BAAI/bge-m3} \\
+        Vector index & FAISS \\
+        Answer provider & Extractive \\
+        \hline
+    \end{tabular}
+\end{table}
+
+BGE-M3 is used for semantic retrieval and semantic mapping
+\cite{chen2024bgem3}. FAISS is used for nearest-neighbor search over the
+causal memory \cite{johnson2019billion}.
+
+CPU, RAM, GPU, and library-version information is not inferred from the
+artifacts. These fields must be obtained directly from the experimental
+server. This is particularly important when reporting runtime.
+
+\subsection{Retrieval Configuration}
+
+The two paired runs use the same embeddings, graph, causal memory, and FAISS
+index. The Step 3 hyperparameters are presented in
+Table~\ref{tab:retrieval-hyperparameters}.
+
+\begin{table}[t]
+    \centering
+    \caption{Hyperparameters of the multi-hop causal retriever.}
+    \label{tab:retrieval-hyperparameters}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Parameter} & \textbf{Value} \\
+        \hline
+        \texttt{event\_top\_k} & \(8\) \\
+        \texttt{direct\_rule\_top\_k} & \(8\) \\
+        \texttt{semantic\_pool\_size} & \(100\) \\
+        \texttt{max\_hops} & \(2\) \\
+        \texttt{max\_paths\_per\_event} & \(30\) \\
+        \texttt{max\_candidate\_rules} & \(200\) \\
+        \texttt{final\_top\_k} & \(12\) \\
+        \texttt{min\_event\_score} & \(0.20\) \\
+        \texttt{min\_rule\_score} & \(0.15\) \\
+        \texttt{direction} & \texttt{both} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+The \texttt{direction=both} option allows the retriever to traverse the graph
+in both the forward and reverse directions. This is necessary because the
+benchmark includes both forward multihop and reverse-reasoning questions.
+However, bidirectional traversal does not guarantee that paths will be ranked
+appropriately for the answer intent; this effect is analyzed in
+Section~\ref{sec:discussion}.
+
+\subsection{Query-Aware Verification Configuration}
+
+The shared Step 4 hyperparameters are presented in
+Table~\ref{tab:verification-hyperparameters}.
+
+\begin{table}[t]
+    \centering
+    \caption{Hyperparameters of query-aware verification.}
+    \label{tab:verification-hyperparameters}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Parameter} & \textbf{Value} \\
+        \hline
+        \texttt{cf\_top\_k} & \(5\) \\
+        \texttt{mapping\_top\_k} & \(5\) \\
+        \texttt{mapping\_threshold} & \(0.42\) \\
+        \texttt{max\_cf\_hops} & \(3\) \\
+        \texttt{max\_cf\_paths} & \(30\) \\
+        \texttt{verified\_top\_k} & \(10\) \\
+        \texttt{keep\_threshold} & \(0.52\) \\
+        \texttt{reject\_threshold} & \(0.34\) \\
+        Alternative path threshold & \(0.35\) \\
+        Semantic mapping & Enabled \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Semantic mapping is enabled in both runs. Thus, the difference between
+Structural SCM and path ablation does not arise because one configuration uses
+embedding-based mapping while the other does not.
+
+\subsection{Two Verification Modes}
+
+The paired experiment comprises two configurations.
+
+\subsubsection{Structural SCM}
+
+The first configuration uses:
+
+\begin{verbatim}
+counterfactual_mode = structural_scm
+\end{verbatim}
+
+LegalSCM performs:
+
+\begin{itemize}
+    \item factual path validation;
+    \item rule-coverage checking;
+    \item three-valued fixed-point inference over the normative encoding;
+    \item hard intervention on the mediator;
+    \item renewed inference of the counterfactual outcome;
+    \item recording of disabled rules, newly activated rules, and the
+    intervention trace.
+\end{itemize}
+
+The node-deletion baseline is retained in the trace as a diagnostic, but the
+final structural result is prioritized when LegalSCM completes successfully.
+
+\subsubsection{Path Ablation}
+
+The second configuration uses:
+
+\begin{verbatim}
+counterfactual_mode = path_ablation
+\end{verbatim}
+
+The mediator is removed from the graph, and the system searches for a bounded
+alternative path from the seed event to the outcome. This configuration does
+not perform structural fixed-point inference and is not interpreted as a
+\(do(\cdot)\) intervention.
+
+\subsubsection{Conditions for Paired Comparison}
+
+The two runs use the same:
+
+\begin{itemize}
+    \item benchmark of \(250\) questions;
+    \item retriever and retrieval-output schema;
+    \item embedding model and semantic mapping;
+    \item graph, rule corpus, memory, and index;
+    \item verification thresholds;
+    \item Step 5 answer generator;
+    \item extractive provider;
+    \item evaluator and metrics.
+\end{itemize}
+
+The only independent variable is \texttt{counterfactual\_mode}. Therefore,
+the difference between the two runs can be attributed to the verification
+engine within the scope of the current implementation.
+
+\subsection{Answer-Generation Configuration}
+
+The Step 5 hyperparameters are presented in
+Table~\ref{tab:generation-hyperparameters}.
+
+\begin{table}[t]
+    \centering
+    \caption{Hyperparameters of answer generation.}
+    \label{tab:generation-hyperparameters}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Parameter} & \textbf{Value} \\
+        \hline
+        Provider & \texttt{extractive} \\
+        \texttt{max\_evidence} & \(8\) \\
+        \texttt{answer\_max\_paths} & \(6\) \\
+        \texttt{max\_context\_chars} & \(18\,000\) \\
+        \texttt{max\_tokens} & \(1\,200\) \\
+        \texttt{temperature} & \(0.1\) \\
+        \texttt{timeout} & \(180\) seconds \\
+        \texttt{min\_verification\_score} & \(0.45\) \\
+        Include uncertain evidence & No \\
+        Extractive fallback & Enabled \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Because the primary provider is extractive, the \texttt{max\_tokens} and
+\texttt{temperature} parameters do not directly affect answer content in the
+paired experiment. They are retained in the configuration so that the same
+schema can support other generative providers.
+
+Neither an LLM judge nor LLM generation is used in the principal results. This
+choice reduces stochastic variation and enables direct analysis of the effects
+of retrieval, verification, and answer intent.
+
+\subsection{Evaluator Configuration}
+
+Step 7 is run with the following values:
+
+\[
+k \in \{1,3,5,10\}.
+\]
+
+The evaluator uses:
+
+\begin{itemize}
+    \item all \(250\) gold samples;
+    \item all \(250\) predictions;
+    \item \texttt{strict} mode;
+    \item the same metric implementation for both configurations;
+    \item separate output directories for Structural SCM and path ablation.
+\end{itemize}
+
+The principal result directories are:
+
+\begin{verbatim}
+evaluation_results/structural_scm_v41_step5_v51/
+evaluation_results/path_ablation_v41_step5_v51/
+\end{verbatim}
+
+Older reports without the \texttt{step5\_v51} suffix are not used in the
+paired comparison.
+
+\subsection{Retrieval Metrics}
+
+Let \(\mathcal{G}\) denote the set of gold IDs and
+\(\widehat{\mathcal{R}}_k\) the top \(k\) ranked IDs. Precision and Recall at
+\(k\) are computed as:
+
+\begin{equation}
+\mathrm{Precision@}k
+=
+\frac{
+    \left|
+        \widehat{\mathcal{R}}_k
+        \cap
+        \mathcal{G}
+    \right|
+}{
+    k
+},
+\end{equation}
+
+\begin{equation}
+\mathrm{Recall@}k
+=
+\frac{
+    \left|
+        \widehat{\mathcal{R}}_k
+        \cap
+        \mathcal{G}
+    \right|
+}{
+    \left|\mathcal{G}\right|
+}.
+\end{equation}
+
+Hit@\(k\) is assigned a value of \(1\) if at least one gold item appears in
+the top \(k\), and \(0\) otherwise.
+
+The metrics are computed separately for:
+
+\begin{itemize}
+    \item rule IDs;
+    \item event IDs;
+    \item article IDs.
+\end{itemize}
+
+The evaluator also reports:
+
+\begin{itemize}
+    \item Macro Precision, Recall, and F1;
+    \item Micro Precision, Recall, and F1;
+    \item Exact Set Match;
+    \item Mean Reciprocal Rank (MRR);
+    \item Mean Average Precision (MAP).
+\end{itemize}
+
+In the paper, Rule Recall@5 and Event Recall@5 are used as the principal
+retrieval metrics because a benchmark sample may contain multiple gold rules
+or events along the same path.
+
+\subsection{Causal-Path Metrics}
+
+The gold path and predicted path are normalized into sequences of directed
+edges:
+
+\[
+\left[
+(v_0,v_1),
+(v_1,v_2),
+\ldots,
+(v_{h-1},v_h)
+\right].
+\]
+
+\paragraph{Top-1 Exact Path Match.}
+
+This metric is assigned a value of \(1\) if the path selected by the pipeline
+as the primary path exactly matches the gold path in edge order, and \(0\)
+otherwise.
+
+\paragraph{Oracle Exact Path Match.}
+
+The evaluator examines the candidate paths returned by the retriever and
+selects the path that best matches the gold path. The oracle metric is used
+only to diagnose retrieval capability; it does not represent the path actually
+used by the system to generate the answer.
+
+The gap:
+
+\[
+\mathrm{OracleExact}
+-
+\mathrm{Top1Exact}
+\]
+
+is used to identify path-ranking errors. If both the oracle and top-1 results
+are incorrect, the error is more likely to lie in path retrieval.
+
+\paragraph{Edge-level metrics.}
+
+Predicted edges and gold edges are treated as two sets for computing precision,
+recall, and F1.
+
+\paragraph{Event-level metrics.}
+
+The set of events appearing on the predicted path is compared with the set of
+events on the gold path.
+
+\paragraph{Final Event Accuracy.}
+
+This metric checks whether the final outcome event of the predicted path
+matches the gold final event.
+
+\paragraph{Path Rule F1.}
+
+The set of rules supporting the predicted path is compared with the gold rules
+for the path.
+
+For branch and convergence questions, a linear exact-path metric does not fully
+represent the structure that must be predicted. Their path metrics are
+therefore reported but must be interpreted jointly with answer and citation
+metrics.
+
+\subsection{Verification Metrics}
+
+The verification decision has three labels:
+
+\[
+\mathcal{D}
+=
+\{
+\texttt{SUPPORTED},
+\texttt{REJECT\_DIRECT\_CLAIM},
+\texttt{UNCERTAIN}
+\}.
+\]
+
+Accuracy is computed as:
+
+\begin{equation}
+\mathrm{Accuracy}
+=
+\frac{
+    \text{number of predictions with the correct decision}
+}{
+    \text{total number of predictions}
+}.
+\end{equation}
+
+Because the benchmark has imbalanced labels, the evaluator also reports:
+
+\begin{itemize}
+    \item per-class precision, recall, and F1;
+    \item Macro-F1 over classes with gold support;
+    \item Balanced Accuracy;
+    \item a confusion matrix.
+\end{itemize}
+
+Balanced Accuracy is the mean recall over classes represented in the gold
+data:
+
+\begin{equation}
+\mathrm{BalancedAccuracy}
+=
+\frac{1}{|\mathcal{D}^{+}|}
+\sum_{d \in \mathcal{D}^{+}}
+\mathrm{Recall}_d,
+\end{equation}
+
+where \(\mathcal{D}^{+}\) is the set of classes with at least one gold
+sample.
+
+Counterfactual verification accuracy is reported separately for samples with
+\texttt{requires\_counterfactual=true}. However, as discussed in
+Section~\ref{sec:data}, this subset primarily evaluates negative direct-edge
+claims.
+
+\subsection{Answer Metrics}
+
+Before evaluation, the predicted answer and gold answer are:
+
+\begin{itemize}
+    \item converted to lowercase;
+    \item normalized for whitespace;
+    \item stripped of unnecessary punctuation;
+    \item tokenized;
+    \item retained in Vietnamese.
+\end{itemize}
+
+Token Precision and Token Recall are computed from the number of overlapping
+tokens between the prediction and the gold answer:
+
+\begin{equation}
+P_{\mathrm{token}}
+=
+\frac{
+    |\widehat{T} \cap T|
+}{
+    |\widehat{T}|
+},
+\end{equation}
+
+\begin{equation}
+R_{\mathrm{token}}
+=
+\frac{
+    |\widehat{T} \cap T|
+}{
+    |T|
+},
+\end{equation}
+
+where \(\widehat{T}\) and \(T\) are the token multisets of the predicted and
+gold answers, respectively.
+
+Answer Token F1 is computed as:
+
+\begin{equation}
+F1_{\mathrm{token}}
+=
+\frac{
+    2P_{\mathrm{token}}R_{\mathrm{token}}
+}{
+    P_{\mathrm{token}}+R_{\mathrm{token}}
+}.
+\end{equation}
+
+If both precision and recall are \(0\), F1 is set to \(0\).
+
+ROUGE-L F1 is computed from the longest common subsequence between the
+prediction and the gold answer \cite{lin2004rouge}. This metric retains some
+information about token order that bag-of-token F1 does not capture.
+
+The evaluator also reports Normalized Exact Match. However, because extractive
+answers often include an additional causal chain and citations, Exact Match is
+not selected as a principal metric.
+
+\subsection{Citation Metrics}
+
+Citations are normalized to article IDs. For example:
+
+\[
+\text{``Article 15''}
+\longrightarrow
+\texttt{15}.
+\]
+
+Duplicate citations are removed before evaluation. Given the set of predicted
+citations \(\widehat{\mathcal{C}}\) and the set of gold citations
+\(\mathcal{C}\), the evaluator computes:
+
+\begin{equation}
+P_{\mathrm{citation}}
+=
+\frac{
+    |
+    \widehat{\mathcal{C}}
+    \cap
+    \mathcal{C}
+    |
+}{
+    |
+    \widehat{\mathcal{C}}
+    |
+},
+\end{equation}
+
+\begin{equation}
+R_{\mathrm{citation}}
+=
+\frac{
+    |
+    \widehat{\mathcal{C}}
+    \cap
+    \mathcal{C}
+    |
+}{
+    |
+    \mathcal{C}
+    |
+},
+\end{equation}
+
+and the corresponding harmonic F1. Citation Exact Match is assigned a value
+of \(1\) when the two sets of article IDs are identical.
+
+Citation F1 evaluates whether the correct legal articles are selected, but it
+does not by itself establish that the answer's explanation is consistent with
+the complete content of those articles.
+
+\subsection{Runtime Measurement}
+
+The batch runner records the end-to-end runtime for each sample, including
+retrieval, verification, and answer generation. Step 7 reports:
+
+\begin{itemize}
+    \item average runtime per sample;
+    \item median runtime per sample.
+\end{itemize}
+
+The run log also records the wall-clock time of the complete batch. The two
+types of runtime are reported separately:
+
+\begin{itemize}
+    \item per-sample runtime reflects the processing time recorded for each
+    question;
+    \item batch wall-clock time additionally includes model initialization,
+    resource loading, checkpointing, and artifact writing.
+\end{itemize}
+
+Because the hardware information has not yet been fully populated, runtime is
+used only for relative comparison between two configurations executed on the
+same server and is not treated as a speed benchmark that generalizes to other
+environments.
+
+\subsection{Error Analysis}
+
+Step 7 assigns one or more error types to each sample. The principal error
+groups are:
+
+\begin{description}
+    \item[\texttt{RULE\_RETRIEVAL\_MISS}]
+    The gold rules are not fully present in the top-\(k\) results.
+
+    \item[\texttt{EVENT\_RETRIEVAL\_MISS}]
+    The gold events are not fully retrieved.
+
+    \item[\texttt{TOP1\_PATH\_MISMATCH}]
+    The primary path does not match the gold path.
+
+    \item[\texttt{PATH\_RANKING\_ERROR}]
+    The gold path appears in the candidate set but is not ranked first.
+
+    \item[\texttt{PATH\_RETRIEVAL\_ERROR}]
+    The gold path does not appear in the candidate set.
+
+    \item[\texttt{VERIFICATION\_ERROR}]
+    The predicted decision differs from the gold decision.
+
+    \item[\texttt{LOW\_ANSWER\_TOKEN\_F1}]
+    The answer's token overlap is below the error-analysis threshold.
+
+    \item[\texttt{CITATION\_MISS}]
+    At least one gold citation is missing.
+
+    \item[\texttt{EXTRA\_CITATION}]
+    The answer contains a citation not included in the gold set.
+
+    \item[\texttt{PIPELINE\_ERROR}]
+    The sample does not produce a complete prediction.
+\end{description}
+
+Error types are used only for post-inference analysis and are not used to
+adjust predictions.
+
+\subsection{Subgroup Analysis}
+
+Metrics are aggregated in three ways:
+
+\begin{enumerate}
+    \item by question type;
+    \item by difficulty;
+    \item by the \texttt{requires\_counterfactual} flag.
+\end{enumerate}
+
+Analysis by question type identifies the system's strengths and weaknesses on
+forward, reverse, bridge, chain, branch, and convergence questions. Analysis
+by difficulty measures degradation on samples with many candidate rules or
+complex structures. Analysis of the counterfactual subset separately evaluates
+the direct claims that should be rejected.
+
+\subsection{Principles for Interpreting the Paired Ablation}
+
+The paired experiment is interpreted according to the following principles:
+
+\begin{enumerate}
+    \item If retrieval and path metrics are identical, this is expected because
+    the verification engine is applied after retrieval.
+
+    \item If verification or answer metrics differ, the difference may be
+    related to the final decision, primary path, or evidence retained by Step
+    4.
+
+    \item If quality metrics are identical but runtime differs, no conclusion
+    should be drawn that Structural SCM improves accuracy.
+
+    \item A more detailed trace is an auditability benefit, not a quality
+    improvement unless it is separately evaluated through a metric or expert
+    study.
+
+    \item Oracle Exact Path must not be substituted for Top-1 Exact Path when
+    reporting deployable performance.
+
+    \item Counterfactual accuracy on \(20\) negative direct-edge samples must
+    not be treated as comprehensive validation of hard-intervention reasoning.
+\end{enumerate}
+
+Because the two configurations are deterministic and were each run only once
+on the same benchmark, the study reports a descriptive paired comparison. No
+statistical significance test is performed, and no standard deviation across
+multiple random seeds is reported. When the two configurations produce
+identical results, the outcome is described as a \emph{null quality
+ablation}, not as evidence of general equivalence across all datasets.

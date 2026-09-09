@@ -1,0 +1,41 @@
+\section{Kết luận}
+\label{sec:conclusion}
+
+Nghiên cứu này trình bày một pipeline CausalRAG cho hỏi--đáp pháp luật hình
+sự Việt Nam, trong đó đối tượng truy hồi trung tâm là đồ thị điều kiện--hệ
+quả pháp luật và đối tượng xác minh là một mô hình quy tắc có thể thực thi.
+Pipeline kết hợp chuẩn hóa quy tắc, causal memory, truy hồi event/rule nhiều
+bước, xếp hạng causal path, query-aware verification và sinh câu trả lời
+extractive có citation.
+
+LegalSCM được xây dựng như một mô hình nhân quả cấu trúc pháp lý tất định ba
+giá trị. Mô hình có thể xác nhận factual path, thực hiện hard intervention
+trên mediator và suy luận lại outcome trong phạm vi graph đã mã hóa. Song
+song với đó, path ablation được giữ như một baseline reachability sau khi
+xóa node và không được xem là cách cài đặt phép $do(\cdot)$.
+
+Trên benchmark $250$ câu hỏi, pipeline đạt Rule Recall@5 $69{,}93\%$, Event
+Recall@5 $74{,}66\%$, Top-1 Exact Path $35{,}20\%$, Oracle Exact Path
+$71{,}20\%$, Verification Accuracy $92{,}00\%$, Answer Token F1
+$68{,}69\%$, ROUGE-L F1 $67{,}67\%$ và Citation F1 $62{,}86\%$. Khoảng
+cách $36$ điểm phần trăm giữa Top-1 và Oracle Exact Path cho thấy path
+ranking là điểm nghẽn chính. Reverse reasoning là nhóm yếu nhất, trong khi
+metric path tuyến tính chưa phản ánh phù hợp branch và convergence.
+
+Paired ablation không ghi nhận bất kỳ chênh lệch quality metric nào giữa
+structural SCM và path ablation. Đây là một null quality result, không phải
+bằng chứng về ưu thế của structural verification hoặc sự tương đương lý
+thuyết giữa hai phương pháp. Structural SCM cung cấp intervention semantics
+và world-state trace chi tiết hơn, nhưng cần thời gian trung bình trên mỗi
+mẫu cao hơn khoảng $3{,}23$ lần. Benchmark hiện tại, đặc biệt là $20$ mẫu
+direct-edge negative, chưa đủ nhạy để định lượng lợi ích accuracy của hard
+intervention.
+
+Đóng góp chính của nghiên cứu vì vậy nằm ở việc xây dựng và kiểm tra một
+pipeline có ranh giới tuyên bố rõ ràng, cung cấp paired artifact có thể truy
+vết và xác định chính xác các nút thắt còn lại. Bước tiếp theo có tính quyết
+định không phải chỉ là tăng một aggregate score, mà là xây dựng benchmark
+structural-counterfactual cân bằng, được chuyên gia thẩm định, đồng thời cải
+thiện query-aware path ranking và reverse retrieval. Cho đến khi hoàn thành
+các bước đó, hệ thống cần được xem là nguyên mẫu nghiên cứu hỗ trợ phân tích,
+không phải công cụ tư vấn hoặc ra quyết định pháp lý.

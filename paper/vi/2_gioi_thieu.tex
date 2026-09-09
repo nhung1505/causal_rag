@@ -1,0 +1,153 @@
+\section{Giới thiệu}
+\label{sec:introduction}
+
+Các hệ thống hỏi--đáp pháp luật không chỉ cần tìm được văn bản có nội dung
+liên quan mà còn phải xác định đúng điều kiện áp dụng, hệ quả pháp lý và căn
+cứ điều luật của từng kết luận. Trong nhiều trường hợp, câu trả lời không
+xuất hiện trực tiếp trong một điều khoản riêng lẻ mà phải được hình thành
+bằng cách kết nối nhiều quy tắc. Một điều kiện ban đầu có thể làm phát sinh
+một trạng thái pháp lý trung gian, sau đó trạng thái này tiếp tục kích hoạt
+một hệ quả khác. Ngoài suy luận theo chiều thuận, người sử dụng còn có thể
+yêu cầu truy ngược nguyên nhân, xác định sự kiện trung gian, kiểm tra một
+quan hệ có phải là quan hệ trực tiếp hay không, hoặc đánh giá điều gì xảy ra
+nếu một mắt xích trong chuỗi suy luận không còn tồn tại. Các benchmark pháp
+luật như CaseHOLD và LegalBench đã cho thấy tính đa dạng và độ khó của các
+tác vụ suy luận pháp lý, trong khi LegalBench-RAG nhấn mạnh thêm vai trò của
+khâu truy hồi trong các hệ thống hỏi--đáp pháp luật
+\cite{zheng2021casehold,guha2023legalbench,alami2024legalbenchrags}.
+
+Retrieval-Augmented Generation (RAG) kết hợp mô hình sinh ngôn ngữ với nguồn
+tri thức được truy hồi từ bên ngoài nhằm tăng tính xác thực và khả năng truy
+vết của câu trả lời \cite{lewis2020rag}. Tuy nhiên, kiến trúc RAG truyền
+thống thường biểu diễn corpus dưới dạng các đoạn văn tương đối độc lập và
+xếp hạng chúng chủ yếu dựa trên độ tương đồng ngữ nghĩa với truy vấn. Cách
+tiếp cận này có thể hoạt động tốt đối với câu hỏi một bước, nhưng gặp khó
+khăn khi bằng chứng cần thiết được phân tán trên nhiều quy tắc hoặc khi thứ
+tự liên kết giữa các bằng chứng quyết định ý nghĩa của câu trả lời. Các tác
+vụ hỏi--đáp nhiều bước, tiêu biểu như HotpotQA, đã chỉ ra rằng việc truy hồi
+đúng từng đoạn riêng lẻ chưa bảo đảm hệ thống khôi phục được toàn bộ đường
+suy luận \cite{yang2018hotpotqa}.
+
+Các phương pháp RAG dựa trên đồ thị giải quyết một phần hạn chế này bằng cách
+biểu diễn thực thể, sự kiện hoặc đoạn tri thức dưới dạng node và quan hệ giữa
+chúng dưới dạng edge. GraphRAG sử dụng cấu trúc đồ thị để hỗ trợ truy vấn và
+tổng hợp thông tin ở phạm vi rộng, trong khi HippoRAG kết hợp truy hồi dựa
+trên đồ thị với cơ chế liên kết nhiều bước
+\cite{edge2024graphrag,gutierrez2024hipporag}. So với truy hồi các đoạn văn
+độc lập, biểu diễn đồ thị giúp hệ thống giữ lại cấu trúc liên kết giữa các
+mảnh bằng chứng. Tuy vậy, một đường đi bất kỳ trên đồ thị không nhất thiết
+tương ứng với một chuỗi suy luận hợp lệ. Đối với miền pháp luật, hệ thống
+còn phải phân biệt giữa quan hệ điều kiện--hệ quả được quy tắc hỗ trợ, quan
+hệ trực tiếp, quan hệ thông qua sự kiện trung gian và đường thay thế dẫn đến
+cùng một outcome.
+
+Mô hình nhân quả cấu trúc (Structural Causal Model, SCM) cung cấp một khuôn
+khổ hình thức để mô tả cơ chế sinh giá trị của các biến và phân tích kết quả
+của can thiệp \cite{pearl2009causality}. Gần đây, một số nghiên cứu đã khảo
+sát việc kết hợp causal reasoning hoặc counterfactual reasoning với RAG
+\cite{wang2025causalrag,khadilkar2025causalcounterfactualrag,qin2026cfrag}.
+Các hướng nghiên cứu này cho thấy tiềm năng của việc bổ sung cấu trúc nhân
+quả vào quá trình truy hồi và sinh câu trả lời. Tuy nhiên, việc áp dụng các
+khái niệm nhân quả vào pháp luật cần được giới hạn cẩn trọng. Quan hệ được
+sử dụng trong nghiên cứu này là quan hệ điều kiện--hệ quả được thao tác hóa
+từ quy tắc pháp luật, không phải quan hệ nhân quả được khám phá hoặc ước
+lượng từ dữ liệu quan sát. Vì vậy, mô hình được xây dựng nên được hiểu là
+một mô hình suy luận quy phạm có cấu trúc, phục vụ kiểm tra tính nhất quán
+của chuỗi quy tắc và phân tích can thiệp trong phạm vi đồ thị đã cho.
+
+Trên cơ sở đó, nghiên cứu này trình bày một pipeline CausalRAG cho hỏi--đáp
+pháp luật hình sự Việt Nam. Pipeline bắt đầu bằng việc chuẩn hóa quy tắc
+pháp luật thành các thành phần điều kiện, hệ quả, chủ thể và căn cứ điều
+luật. Các điều kiện và hệ quả được ánh xạ thành sự kiện trong một đồ thị
+nhân quả dị thể, trong đó các quy tắc đóng vai trò là cơ chế nối sự kiện
+điều kiện với sự kiện hệ quả. Song song với đồ thị, hệ thống xây dựng bộ nhớ
+vector cho rule và event để truy hồi các seed event liên quan đến truy vấn.
+Từ các seed event, retriever mở rộng và xếp hạng các causal path có độ dài
+tối đa hai hop, sau đó chuyển các đường dẫn ứng viên sang bước xác minh.
+
+Khác với cách ra quyết định chỉ dựa trên số lượng path được hỗ trợ, thành
+phần xác minh của chúng tôi phân tích nội dung cụ thể của truy vấn để xác
+định loại claim đang được hỏi. Hệ thống phân biệt câu hỏi nhân quả chuẩn,
+claim về cạnh trực tiếp, claim loại bỏ mediator, claim về tính cần thiết của
+mediator và claim phản thực tế chưa xác định rõ. Việc phân tích này chỉ sử
+dụng văn bản truy vấn và cấu trúc được truy hồi, không sử dụng
+\texttt{question\_type}, câu trả lời chuẩn hoặc các nhãn đánh giá của
+benchmark.
+
+Để xác minh đường suy luận, chúng tôi xây dựng một mô hình nhân quả cấu trúc
+pháp lý (Legal Structural Causal Model, LegalSCM). LegalSCM là một mô hình
+suy luận tất định với miền trạng thái ba giá trị
+$\{\mathrm{TRUE},\mathrm{FALSE},\mathrm{UNKNOWN}\}$. Đối với mỗi causal
+path, mô hình kiểm tra liệu các cơ chế pháp lý tương ứng có thể kích hoạt
+toàn bộ factual path hay không. Khi truy vấn yêu cầu phân tích phản thực tế,
+LegalSCM thực hiện hard intervention $do(M=\mathrm{FALSE})$ trên mediator
+$M$, cắt các cơ chế đầu vào của mediator và suy luận lại outcome. Nghiên cứu
+đồng thời sử dụng một baseline đơn giản hơn, trong đó mediator được xóa khỏi
+đồ thị và hệ thống kiểm tra liệu còn tồn tại đường thay thế đến outcome hay
+không. Baseline này được gọi là \emph{path ablation}; nó phản ánh
+reachability sau khi xóa node và không được diễn giải như một hard
+intervention đầy đủ.
+
+Kết quả xác minh được chuyển tới bước sinh câu trả lời theo intent. Thay vì
+mặc định mọi câu hỏi đều yêu cầu hệ quả cuối cùng, hệ thống hỗ trợ nhiều dạng
+đầu ra, bao gồm hệ quả cuối, nguyên nhân khởi đầu, sự kiện cầu nối, giải
+thích từng bước, câu trả lời có/không, cấu trúc phân nhánh, cấu trúc hội tụ
+và xác minh claim. Câu trả lời extractive được hình thành từ primary causal
+path, ưu tiên nội dung hệ quả đầy đủ của quy tắc cuối và chỉ trích dẫn những
+evidence thực sự được sử dụng.
+
+Thực nghiệm được thực hiện trên corpus gồm 2.884 quy tắc và 1.814 sự kiện
+được chuẩn hóa từ Bộ luật Hình sự Việt Nam. Đồ thị thu được chứa 5.134 node,
+14.420 edge và 112 chuỗi nhân quả hai bước. Hệ thống được đánh giá trên một
+benchmark tổng hợp gồm 250 câu hỏi, bao phủ suy luận thuận, suy luận ngược,
+tìm sự kiện trung gian, giải thích chuỗi, câu hỏi có/không, phân nhánh và hội
+tụ. Trên toàn bộ benchmark, hệ thống đạt Rule Recall@5 là $69{,}93\%$, Event
+Recall@5 là $74{,}66\%$, độ chính xác xác minh là $92{,}00\%$, Answer Token
+F1 là $68{,}69\%$ và Citation F1 là $62{,}86\%$. Khoảng cách giữa Top-1
+Exact Path ($35{,}20\%$) và Oracle Exact Path ($71{,}20\%$) cho thấy nhiều
+đường dẫn đúng đã xuất hiện trong tập ứng viên nhưng chưa được xếp ở vị trí
+đầu tiên.
+
+Paired ablation giữa LegalSCM và path ablation không ghi nhận khác biệt về
+các quality metric trên benchmark hiện tại. Hai phương pháp đạt cùng độ
+chính xác xác minh, Answer Token F1 và Citation F1. Tuy nhiên, LegalSCM cần
+trung bình $3{,}890$ giây cho mỗi mẫu, so với $1{,}205$ giây của path
+ablation, tương ứng chi phí thời gian cao hơn khoảng $3{,}23$ lần. Kết quả
+này không cung cấp bằng chứng rằng structural verification cải thiện độ
+chính xác trên benchmark hiện tại; thay vào đó, lợi ích quan sát được của
+LegalSCM nằm ở semantics can thiệp rõ ràng hơn và khả năng tạo trace về
+factual world, intervention assignment và counterfactual outcome.
+
+Các đóng góp chính của nghiên cứu gồm:
+
+\begin{itemize}
+    \item Đề xuất một pipeline end-to-end kết hợp bộ nhớ vector, đồ thị nhân
+    quả pháp luật, truy hồi nhiều bước, xác minh theo truy vấn và sinh câu
+    trả lời có căn cứ điều luật.
+
+    \item Xây dựng LegalSCM ba giá trị để kiểm tra factual causal path và
+    thực hiện hard intervention trên sự kiện trung gian trong phạm vi các
+    quy tắc pháp luật đã chuẩn hóa.
+
+    \item Xây dựng một bộ đánh giá tổng hợp gồm 250 câu hỏi, bao phủ nhiều
+    dạng suy luận pháp luật theo chiều thuận, chiều ngược, qua mediator,
+    phân nhánh và hội tụ.
+
+    \item Thực hiện paired ablation giữa structural SCM và node-deletion
+    path ablation, qua đó xác định một null quality result trên benchmark
+    hiện tại và định lượng chi phí thời gian của structural verification.
+
+    \item Phân tích các giới hạn còn tồn tại, đặc biệt là lỗi xếp hạng causal
+    path, hiệu năng thấp trên reverse reasoning và sự thiếu hụt các mẫu
+    counterfactual có ground truth can thiệp.
+\end{itemize}
+
+Phần còn lại của bài báo được tổ chức như sau. Phần~\ref{sec:related-work}
+trình bày các công trình liên quan về RAG, graph-based RAG, causal reasoning
+và hỏi--đáp pháp luật. Phần~\ref{sec:problem} phát biểu bài toán và xác định
+phạm vi tuyên bố. Phần~\ref{sec:method} mô tả pipeline và LegalSCM.
+Phần~\ref{sec:data} trình bày corpus và benchmark. Thiết lập và kết quả thực
+nghiệm lần lượt được trình bày trong Phần~\ref{sec:experimental-setup} và
+Phần~\ref{sec:results}. Phần~\ref{sec:discussion} phân tích lỗi và thảo
+luận kết quả. Cuối cùng, các hạn chế và kết luận được trình bày trong
+Phần~\ref{sec:limitations} và Phần~\ref{sec:conclusion}.

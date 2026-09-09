@@ -1,0 +1,51 @@
+\section{Danh sách kiểm tra ranh giới tuyên bố}
+\label{app:claims}
+
+Để tránh claim drift giữa code, artifact và bản thảo, phiên bản cuối cần giữ
+nguyên các ranh giới sau:
+
+\begin{enumerate}
+    \item Đồ thị được xây dựng từ quy tắc pháp luật đã chuẩn hóa; nó không
+    được khám phá từ dữ liệu quan sát và không cung cấp causal-effect
+    estimate.
+
+    \item LegalSCM là mô hình suy luận quy phạm tất định trên các event và
+    rule đã mã hóa; nó không phải mô hình đầy đủ của quan hệ nhân quả thực tế
+    hoặc toàn bộ hệ thống pháp luật.
+
+    \item \texttt{path\_ablation} là bounded node-deletion reachability
+    baseline, không phải phép $\doop(\cdot)$ theo semantics của SCM.
+
+    \item Structural SCM và path ablation đạt các quality metric giống hệt
+    nhau trên paired benchmark v4.1/v5.1. Không có bằng chứng thực nghiệm cho
+    tuyên bố structural mode có accuracy cao hơn.
+
+    \item Lợi ích quan sát được của structural mode là intervention semantics
+    và trace chi tiết hơn; lợi ích này chưa được đánh giá bằng nghiên cứu
+    người dùng hoặc expert audit.
+
+    \item Counterfactual Accuracy $100\%$ chỉ phản ánh $20$ direct-edge
+    negative sample, không xác nhận đầy đủ hard-intervention validity.
+
+    \item Top-1 Exact Path $35{,}20\%$ là metric có thể triển khai. Oracle
+    Exact Path $71{,}20\%$ chỉ là upper-bound diagnostic và không được dùng
+    thay cho Top-1 khi tuyên bố hiệu năng.
+
+    \item Exact path tuyến tính không phù hợp đầy đủ với branch và
+    convergence; kết quả $0\%$ ở hai nhóm này không được diễn giải độc lập
+    với answer metric và cấu trúc gold.
+
+    \item Benchmark được tạo từ cùng graph và chưa được chuyên gia pháp luật
+    độc lập thẩm định đầy đủ. Kết quả đo khả năng khôi phục encoding trong
+    phạm vi nghiên cứu, không chứng minh tính đúng đắn pháp lý bên ngoài.
+
+    \item Runtime chỉ được so sánh trên cùng môi trường server đã chạy. Trước
+    khi công bố con số tuyệt đối, phải bổ sung phần cứng, phần mềm và điều
+    kiện cache.
+
+    \item Hệ thống là nguyên mẫu nghiên cứu, không phải tư vấn pháp lý và
+    không được dùng để tự động đưa ra quyết định pháp lý đối với cá nhân.
+\end{enumerate}
+
+Mọi phiên bản tóm tắt, slide hoặc bản dịch của bài báo cần giữ các giới hạn
+trên và không chuyển một kết quả diagnostic thành kết luận mạnh hơn.

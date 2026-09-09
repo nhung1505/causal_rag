@@ -1,0 +1,43 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+This study presents a CausalRAG pipeline for Vietnamese criminal-law
+question answering, in which the central retrieval object is a graph of
+normative legal condition--effect relations and the verification object is
+an executable rule model. The pipeline combines rule normalization, causal
+memory, multi-hop event/rule retrieval, causal-path ranking, query-aware
+verification, and extractive answer generation with citations.
+
+LegalSCM is constructed as a deterministic three-valued structural causal
+model of legal norms. Within the scope of the encoded graph, the model can
+validate a factual path, perform a hard intervention on a mediator, and
+re-infer the outcome. In parallel, path ablation is retained as a
+reachability baseline after node deletion and is not treated as an
+implementation of the $\doop(\cdot)$ operator.
+
+On the $250$-question benchmark, the pipeline achieves Rule Recall@5 of
+$69.93\%$, Event Recall@5 of $74.66\%$, Top-1 Exact Path of $35.20\%$,
+Oracle Exact Path of $71.20\%$, Verification Accuracy of $92.00\%$, Answer
+Token F1 of $68.69\%$, ROUGE-L F1 of $67.67\%$, and Citation F1 of
+$62.86\%$. The $36$-percentage-point gap between Top-1 and Oracle Exact Path
+indicates that path ranking is the principal bottleneck. Reverse reasoning
+is the weakest group, whereas the linear path metric does not appropriately
+capture branch and convergence structures.
+
+The paired ablation records no difference in any quality metric between
+structural SCM and path ablation. This is a null quality result, not evidence
+of superior structural verification or of theoretical equivalence between
+the two methods. Structural SCM provides intervention semantics and more
+detailed world-state traces, but requires approximately $3.23$ times more
+mean runtime per sample. The current benchmark, particularly its $20$
+direct-edge negative samples, is not sufficiently sensitive to quantify any
+accuracy benefit of hard intervention.
+
+The study's main contribution therefore lies in constructing and evaluating
+a pipeline with clearly bounded claims, providing traceable paired
+artifacts, and precisely identifying the remaining bottlenecks. The decisive
+next step is not merely to increase an aggregate score, but to construct a
+balanced, expert-validated structural-counterfactual benchmark while
+improving query-aware path ranking and reverse retrieval. Until these steps
+are completed, the system should be regarded as a research prototype for
+supporting analysis, not as a legal advisory or decision-making tool.

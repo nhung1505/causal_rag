@@ -1,0 +1,700 @@
+\section{Thiết lập thực nghiệm}
+\label{sec:experimental-setup}
+
+\subsection{Mục tiêu đánh giá}
+
+Thực nghiệm được thiết kế để đánh giá toàn bộ pipeline từ retrieval đến câu
+trả lời cuối cùng, đồng thời tách riêng chất lượng của từng thành phần. Năm
+câu hỏi nghiên cứu được đặt ra như sau:
+
+\begin{description}
+    \item[RQ1 --- Chất lượng retrieval.]
+    Hệ thống có truy hồi đúng rule, event và article liên quan đến câu hỏi
+    hay không?
+
+    \item[RQ2 --- Chất lượng causal path.]
+    Hệ thống có khôi phục đúng thứ tự các event và rule trên gold causal
+    path hay không? Nếu gold path đã xuất hiện trong tập ứng viên, hệ thống
+    có xếp nó ở vị trí đầu tiên hay không?
+
+    \item[RQ3 --- Chất lượng xác minh.]
+    Query-aware verifier có phân loại đúng các claim được hỗ trợ và các claim
+    về cạnh trực tiếp cần bị bác bỏ hay không?
+
+    \item[RQ4 --- Chất lượng câu trả lời.]
+    Answer generator có trả đúng loại thông tin được hỏi, giữ được nội dung
+    của gold answer và trích dẫn đúng điều luật hay không?
+
+    \item[RQ5 --- Ảnh hưởng của verification engine.]
+    Structural SCM và node-deletion path ablation khác nhau như thế nào về
+    chất lượng đầu ra, thời gian xử lý và mức độ chi tiết của trace?
+\end{description}
+
+Ngoài kết quả tổng thể, nghiên cứu phân tích metric theo question type, độ
+khó và yêu cầu counterfactual để xác định các nhóm lỗi chính.
+
+\subsection{Giao thức đánh giá}
+
+Thực nghiệm sử dụng toàn bộ benchmark gồm \(250\) câu hỏi. Không có bước
+huấn luyện hoặc fine-tuning trên benchmark. Hệ thống chỉ sử dụng câu hỏi làm
+đầu vào tại thời điểm inference; các trường evaluation được giữ riêng cho
+Step 7.
+
+Không thực hiện chia train--validation--test vì các thành phần chính của
+pipeline không được huấn luyện trên benchmark. Tuy nhiên, benchmark được sinh
+từ cùng graph mà retriever sử dụng, nên kết quả được xem là đánh giá
+closed-corpus chứ không phải đánh giá khả năng tổng quát hóa ngoài miền.
+
+Mỗi cấu hình chạy lần lượt các bước:
+
+\begin{enumerate}
+    \item truy hồi event, rule và causal path;
+    \item xác minh path và claim;
+    \item sinh câu trả lời extractive;
+    \item chuẩn hóa prediction về schema chung;
+    \item tính metric bằng Step 7.
+\end{enumerate}
+
+Evaluator được chạy với tùy chọn \texttt{strict}. Do đó, quá trình đánh giá
+sẽ dừng nếu thiếu prediction hoặc nếu prediction chứa ID không thuộc
+benchmark. Cả hai paired run đều phải có đủ \(250\) prediction và không có
+pipeline error mới được đưa vào so sánh.
+
+\subsection{Phiên bản các thành phần}
+
+Các phiên bản được sử dụng trong thực nghiệm chính được trình bày trong
+Bảng~\ref{tab:versions}.
+
+\begin{table}[t]
+    \centering
+    \caption{Phiên bản các thành phần trong pipeline thực nghiệm.}
+    \label{tab:versions}
+    \begin{tabular}{ll}
+        \hline
+        \textbf{Thành phần} & \textbf{Phiên bản} \\
+        \hline
+        Benchmark & \texttt{2.0} \\
+        Step 4 verifier & \texttt{4.1-query-aware-legal-scm} \\
+        Step 5 answer generator & \texttt{5.1-query-aware-grounded-answer} \\
+        Batch runner & \texttt{2.1-query-aware-answer} \\
+        Step 7 evaluator & \texttt{2.0-current-pipeline-schema} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Phiên bản được lưu trực tiếp trong metadata của artifact. Prediction không
+có đúng version provenance không được xem là thuộc paired experiment chính.
+
+\subsection{Môi trường thực thi}
+
+Hai paired run được thực hiện trong cùng một môi trường server và sử dụng
+cùng bộ resource. Để bảo đảm khả năng tái lập, phiên bản cuối của paper cần
+bổ sung đầy đủ thông tin phần cứng và phần mềm trong
+Bảng~\ref{tab:environment}.
+
+\begin{table}[t]
+    \centering
+    \caption{Môi trường thực thi. Các trường phần cứng cần được điền từ
+    server đã chạy thí nghiệm trước khi công bố.}
+    \label{tab:environment}
+    \begin{tabular}{ll}
+        \hline
+        \textbf{Thành phần} & \textbf{Thông tin} \\
+        \hline
+        Hệ điều hành & \textit{[Bổ sung từ server]} \\
+        Phiên bản Python & \textit{[Bổ sung từ server]} \\
+        CPU & \textit{[Bổ sung từ server]} \\
+        RAM & \textit{[Bổ sung từ server]} \\
+        GPU, nếu sử dụng & \textit{[Bổ sung từ server]} \\
+        Embedding model & \texttt{BAAI/bge-m3} \\
+        Vector index & FAISS \\
+        Answer provider & Extractive \\
+        \hline
+    \end{tabular}
+\end{table}
+
+BGE-M3 được sử dụng cho semantic retrieval và semantic mapping
+\cite{chen2024bgem3}. FAISS được sử dụng để tìm kiếm lân cận gần trên causal
+memory \cite{johnson2019billion}.
+
+Thông tin CPU, RAM, GPU và phiên bản thư viện không được suy đoán từ artifact.
+Các trường này cần được lấy trực tiếp từ server thực nghiệm. Điều này đặc
+biệt quan trọng khi báo cáo runtime.
+
+\subsection{Cấu hình retrieval}
+
+Hai paired run sử dụng cùng embedding, graph, causal memory và FAISS index.
+Các hyperparameter của Step 3 được trình bày trong
+Bảng~\ref{tab:retrieval-hyperparameters}.
+
+\begin{table}[t]
+    \centering
+    \caption{Hyperparameter của multi-hop causal retriever.}
+    \label{tab:retrieval-hyperparameters}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Tham số} & \textbf{Giá trị} \\
+        \hline
+        \texttt{event\_top\_k} & \(8\) \\
+        \texttt{direct\_rule\_top\_k} & \(8\) \\
+        \texttt{semantic\_pool\_size} & \(100\) \\
+        \texttt{max\_hops} & \(2\) \\
+        \texttt{max\_paths\_per\_event} & \(30\) \\
+        \texttt{max\_candidate\_rules} & \(200\) \\
+        \texttt{final\_top\_k} & \(12\) \\
+        \texttt{min\_event\_score} & \(0{,}20\) \\
+        \texttt{min\_rule\_score} & \(0{,}15\) \\
+        \texttt{direction} & \texttt{both} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Tùy chọn \texttt{direction=both} cho phép retriever duyệt graph theo cả chiều
+thuận và chiều ngược. Việc này cần thiết vì benchmark bao gồm cả forward
+multihop và reverse reasoning. Tuy nhiên, việc cho phép hai hướng không bảo
+đảm path được xếp hạng phù hợp với answer intent; ảnh hưởng này được phân
+tích trong Phần~\ref{sec:discussion}.
+
+\subsection{Cấu hình query-aware verification}
+
+Các hyperparameter chung của Step 4 được trình bày trong
+Bảng~\ref{tab:verification-hyperparameters}.
+
+\begin{table}[t]
+    \centering
+    \caption{Hyperparameter của query-aware verification.}
+    \label{tab:verification-hyperparameters}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Tham số} & \textbf{Giá trị} \\
+        \hline
+        \texttt{cf\_top\_k} & \(5\) \\
+        \texttt{mapping\_top\_k} & \(5\) \\
+        \texttt{mapping\_threshold} & \(0{,}42\) \\
+        \texttt{max\_cf\_hops} & \(3\) \\
+        \texttt{max\_cf\_paths} & \(30\) \\
+        \texttt{verified\_top\_k} & \(10\) \\
+        \texttt{keep\_threshold} & \(0{,}52\) \\
+        \texttt{reject\_threshold} & \(0{,}34\) \\
+        Alternative path threshold & \(0{,}35\) \\
+        Semantic mapping & Bật \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Semantic mapping được bật trong cả hai run. Vì vậy, sự khác biệt giữa
+structural SCM và path ablation không xuất phát từ việc một cấu hình sử dụng
+embedding mapping còn cấu hình kia thì không.
+
+\subsection{Hai chế độ xác minh}
+
+Paired experiment gồm hai cấu hình.
+
+\subsubsection{Structural SCM}
+
+Cấu hình thứ nhất sử dụng:
+
+\begin{verbatim}
+counterfactual_mode = structural_scm
+\end{verbatim}
+
+LegalSCM thực hiện:
+
+\begin{itemize}
+    \item factual path validation;
+    \item kiểm tra rule coverage;
+    \item suy luận fixed point ba giá trị;
+    \item hard intervention trên mediator;
+    \item suy luận lại counterfactual outcome;
+    \item lưu disabled rule, newly activated rule và intervention trace.
+\end{itemize}
+
+Node-deletion baseline vẫn được lưu trong trace dưới dạng diagnostic, nhưng
+final structural result được ưu tiên khi LegalSCM xử lý thành công.
+
+\subsubsection{Path ablation}
+
+Cấu hình thứ hai sử dụng:
+
+\begin{verbatim}
+counterfactual_mode = path_ablation
+\end{verbatim}
+
+Mediator được xóa khỏi graph và hệ thống tìm bounded alternative path từ
+seed event đến outcome. Cấu hình này không thực hiện structural fixed-point
+inference và không được diễn giải như phép \(do(\cdot)\).
+
+\subsubsection{Điều kiện paired comparison}
+
+Hai run sử dụng cùng:
+
+\begin{itemize}
+    \item \(250\) câu hỏi benchmark;
+    \item retriever và retrieval output schema;
+    \item embedding model và semantic mapping;
+    \item graph, rule corpus, memory và index;
+    \item verification threshold;
+    \item Step 5 answer generator;
+    \item extractive provider;
+    \item evaluator và metric.
+\end{itemize}
+
+Biến độc lập duy nhất là \texttt{counterfactual\_mode}. Vì vậy, chênh lệch
+giữa hai run có thể được quy về verification engine trong phạm vi
+implementation hiện tại.
+
+\subsection{Cấu hình sinh câu trả lời}
+
+Các hyperparameter của Step 5 được trình bày trong
+Bảng~\ref{tab:generation-hyperparameters}.
+
+\begin{table}[t]
+    \centering
+    \caption{Hyperparameter của answer generation.}
+    \label{tab:generation-hyperparameters}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Tham số} & \textbf{Giá trị} \\
+        \hline
+        Provider & \texttt{extractive} \\
+        \texttt{max\_evidence} & \(8\) \\
+        \texttt{answer\_max\_paths} & \(6\) \\
+        \texttt{max\_context\_chars} & \(18\,000\) \\
+        \texttt{max\_tokens} & \(1\,200\) \\
+        \texttt{temperature} & \(0{,}1\) \\
+        \texttt{timeout} & \(180\) giây \\
+        \texttt{min\_verification\_score} & \(0{,}45\) \\
+        Include uncertain evidence & Không \\
+        Extractive fallback & Bật \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Do provider chính là extractive, các tham số \texttt{max\_tokens} và
+\texttt{temperature} không ảnh hưởng trực tiếp đến nội dung câu trả lời
+trong paired experiment. Chúng được giữ trong configuration để cùng schema
+có thể hỗ trợ các provider sinh khác.
+
+Không sử dụng LLM judge hoặc LLM generation trong kết quả chính. Lựa chọn
+này giúp giảm biến thiên ngẫu nhiên và cho phép phân tích trực tiếp ảnh
+hưởng của retrieval, verification và answer intent.
+
+\subsection{Cấu hình evaluator}
+
+Step 7 được chạy với các giá trị:
+
+\[
+k \in \{1,3,5,10\}.
+\]
+
+Evaluator sử dụng:
+
+\begin{itemize}
+    \item toàn bộ \(250\) gold sample;
+    \item toàn bộ \(250\) prediction;
+    \item chế độ \texttt{strict};
+    \item cùng một metric implementation cho hai cấu hình;
+    \item thư mục output riêng cho structural SCM và path ablation.
+\end{itemize}
+
+Các thư mục kết quả chính là:
+
+\begin{verbatim}
+evaluation_results/structural_scm_v41_step5_v51/
+evaluation_results/path_ablation_v41_step5_v51/
+\end{verbatim}
+
+Các report cũ không có hậu tố \texttt{step5\_v51} không được sử dụng trong
+paired comparison.
+
+\subsection{Metric retrieval}
+
+Gọi \(\mathcal{G}\) là tập gold ID và
+\(\widehat{\mathcal{R}}_k\) là \(k\) ID được xếp hạng cao nhất. Precision và
+Recall tại \(k\) được tính bởi:
+
+\begin{equation}
+\mathrm{Precision@}k
+=
+\frac{
+    \left|
+        \widehat{\mathcal{R}}_k
+        \cap
+        \mathcal{G}
+    \right|
+}{
+    k
+},
+\end{equation}
+
+\begin{equation}
+\mathrm{Recall@}k
+=
+\frac{
+    \left|
+        \widehat{\mathcal{R}}_k
+        \cap
+        \mathcal{G}
+    \right|
+}{
+    \left|\mathcal{G}\right|
+}.
+\end{equation}
+
+Hit@\(k\) nhận giá trị \(1\) nếu ít nhất một gold item xuất hiện trong top
+\(k\), ngược lại nhận giá trị \(0\).
+
+Các metric được tính riêng cho:
+
+\begin{itemize}
+    \item rule ID;
+    \item event ID;
+    \item article ID.
+\end{itemize}
+
+Evaluator còn báo cáo:
+
+\begin{itemize}
+    \item Macro Precision, Recall và F1;
+    \item Micro Precision, Recall và F1;
+    \item Exact Set Match;
+    \item Mean Reciprocal Rank (MRR);
+    \item Mean Average Precision (MAP).
+\end{itemize}
+
+Trong paper, Rule Recall@5 và Event Recall@5 được sử dụng làm các retrieval
+metric chính vì benchmark có thể có nhiều gold rule hoặc event trên cùng một
+path.
+
+\subsection{Metric causal path}
+
+Gold path và predicted path được chuẩn hóa thành chuỗi cạnh có hướng:
+
+\[
+\left[
+(v_0,v_1),
+(v_1,v_2),
+\ldots,
+(v_{h-1},v_h)
+\right].
+\]
+
+\paragraph{Top-1 Exact Path Match.}
+
+Metric nhận giá trị \(1\) nếu path được pipeline chọn làm primary path trùng
+hoàn toàn với gold path về thứ tự cạnh, ngược lại nhận giá trị \(0\).
+
+\paragraph{Oracle Exact Path Match.}
+
+Evaluator duyệt các candidate path được retriever trả về và chọn path khớp
+gold tốt nhất. Oracle metric chỉ dùng để chẩn đoán khả năng retrieval; nó
+không phản ánh path mà hệ thống thực sự sử dụng khi sinh câu trả lời.
+
+Khoảng cách:
+
+\[
+\mathrm{OracleExact}
+-
+\mathrm{Top1Exact}
+\]
+
+được sử dụng để nhận diện lỗi path ranking. Nếu cả oracle và top-1 đều sai,
+lỗi có khả năng nằm ở path retrieval.
+
+\paragraph{Edge-level metrics.}
+
+Predicted edge và gold edge được xem như hai tập để tính precision, recall
+và F1.
+
+\paragraph{Event-level metrics.}
+
+Tập event xuất hiện trên predicted path được so sánh với tập event trên gold
+path.
+
+\paragraph{Final Event Accuracy.}
+
+Metric kiểm tra outcome event cuối của predicted path có trùng với gold final
+event hay không.
+
+\paragraph{Path Rule F1.}
+
+Tập rule hỗ trợ predicted path được so sánh với gold rule của path.
+
+Đối với branch và convergence, exact path tuyến tính không phản ánh đầy đủ
+cấu trúc cần dự đoán. Vì vậy, kết quả path metric của các nhóm này được báo
+cáo nhưng phải diễn giải cùng answer và citation metric.
+
+\subsection{Metric xác minh}
+
+Verification decision có ba nhãn:
+
+\[
+\mathcal{D}
+=
+\{
+\texttt{SUPPORTED},
+\texttt{REJECT\_DIRECT\_CLAIM},
+\texttt{UNCERTAIN}
+\}.
+\]
+
+Accuracy được tính bằng:
+
+\begin{equation}
+\mathrm{Accuracy}
+=
+\frac{
+    \text{số prediction có decision đúng}
+}{
+    \text{tổng số prediction}
+}.
+\end{equation}
+
+Do benchmark mất cân bằng nhãn, evaluator báo cáo thêm:
+
+\begin{itemize}
+    \item precision, recall và F1 theo từng lớp;
+    \item Macro-F1 trên các lớp có gold support;
+    \item Balanced Accuracy;
+    \item confusion matrix.
+\end{itemize}
+
+Balanced Accuracy là trung bình recall của các lớp có mặt trong gold data:
+
+\begin{equation}
+\mathrm{BalancedAccuracy}
+=
+\frac{1}{|\mathcal{D}^{+}|}
+\sum_{d \in \mathcal{D}^{+}}
+\mathrm{Recall}_d,
+\end{equation}
+
+trong đó \(\mathcal{D}^{+}\) là tập các lớp có ít nhất một gold sample.
+
+Counterfactual verification accuracy được báo cáo riêng trên các mẫu có
+\texttt{requires\_counterfactual=true}. Tuy nhiên, như đã trình bày tại
+Phần~\ref{sec:data}, subset này chủ yếu đánh giá direct-edge negative claims.
+
+\subsection{Metric câu trả lời}
+
+Trước khi đánh giá, predicted answer và gold answer được:
+
+\begin{itemize}
+    \item chuyển về chữ thường;
+    \item chuẩn hóa khoảng trắng;
+    \item loại dấu câu không cần thiết;
+    \item tách thành token;
+    \item giữ nội dung tiếng Việt.
+\end{itemize}
+
+Token Precision và Token Recall được tính từ số token giao nhau giữa
+prediction và gold:
+
+\begin{equation}
+P_{\mathrm{token}}
+=
+\frac{
+    |\widehat{T} \cap T|
+}{
+    |\widehat{T}|
+},
+\end{equation}
+
+\begin{equation}
+R_{\mathrm{token}}
+=
+\frac{
+    |\widehat{T} \cap T|
+}{
+    |T|
+},
+\end{equation}
+
+trong đó \(\widehat{T}\) và \(T\) lần lượt là multiset token của prediction
+và gold answer.
+
+Answer Token F1 được tính bởi:
+
+\begin{equation}
+F1_{\mathrm{token}}
+=
+\frac{
+    2P_{\mathrm{token}}R_{\mathrm{token}}
+}{
+    P_{\mathrm{token}}+R_{\mathrm{token}}
+}.
+\end{equation}
+
+Nếu cả precision và recall bằng \(0\), F1 được đặt bằng \(0\).
+
+ROUGE-L F1 được tính dựa trên longest common subsequence giữa prediction và
+gold answer \cite{lin2004rouge}. Metric này giữ lại một phần thông tin về thứ
+tự token mà bag-of-token F1 không phản ánh.
+
+Evaluator còn báo cáo Normalized Exact Match. Tuy nhiên, do câu trả lời
+extractive thường bổ sung causal chain và citation, Exact Match không được
+chọn làm metric chính.
+
+\subsection{Metric citation}
+
+Citation được chuẩn hóa về article ID. Ví dụ:
+
+\[
+\text{``Điều 15''}
+\longrightarrow
+\texttt{15}.
+\]
+
+Các citation trùng lặp bị loại bỏ trước khi đánh giá. Với tập predicted
+citation \(\widehat{\mathcal{C}}\) và gold citation \(\mathcal{C}\), evaluator
+tính:
+
+\begin{equation}
+P_{\mathrm{citation}}
+=
+\frac{
+    |
+    \widehat{\mathcal{C}}
+    \cap
+    \mathcal{C}
+    |
+}{
+    |
+    \widehat{\mathcal{C}}
+    |
+},
+\end{equation}
+
+\begin{equation}
+R_{\mathrm{citation}}
+=
+\frac{
+    |
+    \widehat{\mathcal{C}}
+    \cap
+    \mathcal{C}
+    |
+}{
+    |
+    \mathcal{C}
+    |
+},
+\end{equation}
+
+và harmonic F1 tương ứng. Citation Exact Match nhận giá trị \(1\) khi hai
+tập article ID giống hoàn toàn.
+
+Citation F1 đánh giá việc chọn đúng điều luật, nhưng không tự động chứng minh
+rằng phần diễn giải của câu trả lời phù hợp với toàn bộ nội dung điều luật.
+
+\subsection{Đo thời gian xử lý}
+
+Batch runner lưu thời gian end-to-end của từng mẫu, bao gồm retrieval,
+verification và answer generation. Step 7 báo cáo:
+
+\begin{itemize}
+    \item average runtime trên mỗi mẫu;
+    \item median runtime trên mỗi mẫu.
+\end{itemize}
+
+Run log còn lưu wall-clock time của toàn bộ batch. Hai loại runtime được báo
+cáo riêng:
+
+\begin{itemize}
+    \item per-sample runtime phản ánh thời gian xử lý được ghi cho từng câu;
+    \item batch wall-clock time còn bao gồm khởi tạo model, đọc resource,
+    checkpoint và ghi artifact.
+\end{itemize}
+
+Do thông tin phần cứng chưa được điền đầy đủ, runtime chỉ được sử dụng để so
+sánh tương đối giữa hai cấu hình chạy trên cùng server, không được xem là
+benchmark tốc độ có thể tổng quát sang môi trường khác.
+
+\subsection{Phân tích lỗi}
+
+Step 7 gán một hoặc nhiều error type cho từng sample. Các nhóm lỗi chính
+gồm:
+
+\begin{description}
+    \item[\texttt{RULE\_RETRIEVAL\_MISS}]
+    Gold rule không xuất hiện đầy đủ trong top-\(k\).
+
+    \item[\texttt{EVENT\_RETRIEVAL\_MISS}]
+    Gold event không được truy hồi đầy đủ.
+
+    \item[\texttt{TOP1\_PATH\_MISMATCH}]
+    Primary path không trùng gold path.
+
+    \item[\texttt{PATH\_RANKING\_ERROR}]
+    Gold path xuất hiện trong candidate set nhưng không được xếp đầu.
+
+    \item[\texttt{PATH\_RETRIEVAL\_ERROR}]
+    Gold path không xuất hiện trong candidate set.
+
+    \item[\texttt{VERIFICATION\_ERROR}]
+    Predicted decision khác gold decision.
+
+    \item[\texttt{LOW\_ANSWER\_TOKEN\_F1}]
+    Token overlap của câu trả lời thấp hơn ngưỡng phân tích lỗi.
+
+    \item[\texttt{CITATION\_MISS}]
+    Thiếu ít nhất một gold citation.
+
+    \item[\texttt{EXTRA\_CITATION}]
+    Câu trả lời chứa citation không thuộc gold set.
+
+    \item[\texttt{PIPELINE\_ERROR}]
+    Sample không tạo được prediction hoàn chỉnh.
+\end{description}
+
+Error type chỉ phục vụ phân tích sau inference và không được sử dụng để điều
+chỉnh prediction.
+
+\subsection{Phân tích theo nhóm}
+
+Metric được tổng hợp theo ba cách:
+
+\begin{enumerate}
+    \item theo question type;
+    \item theo difficulty;
+    \item theo cờ \texttt{requires\_counterfactual}.
+\end{enumerate}
+
+Phân tích theo question type giúp xác định hệ thống mạnh hoặc yếu ở forward,
+reverse, bridge, chain, branch và convergence. Phân tích theo difficulty
+kiểm tra mức suy giảm trên các mẫu có nhiều candidate rule hoặc cấu trúc
+phức tạp. Phân tích counterfactual subset cho phép kiểm tra riêng các direct
+claim bị bác bỏ.
+
+\subsection{Nguyên tắc diễn giải paired ablation}
+
+Paired experiment được diễn giải theo các nguyên tắc sau:
+
+\begin{enumerate}
+    \item Nếu retrieval và path metric giống nhau, điều này được kỳ vọng vì
+    verification engine được áp dụng sau retrieval.
+
+    \item Nếu verification hoặc answer metric khác nhau, chênh lệch có thể
+    liên quan đến final decision, primary path hoặc evidence được Step 4 giữ
+    lại.
+
+    \item Nếu quality metric giống nhau nhưng runtime khác nhau, không được
+    kết luận structural SCM cải thiện độ chính xác.
+
+    \item Trace chi tiết hơn là một lợi ích về auditability, không phải một
+    quality improvement trừ khi được đánh giá bằng metric hoặc expert study
+    riêng.
+
+    \item Không sử dụng Oracle Exact Path thay cho Top-1 Exact Path khi báo
+    cáo hiệu năng deployable.
+
+    \item Không xem counterfactual accuracy trên \(20\) direct-edge negative
+    samples là xác nhận đầy đủ cho hard-intervention reasoning.
+\end{enumerate}
+
+Do hai cấu hình tất định và chỉ được chạy một lần trên cùng benchmark, nghiên
+cứu báo cáo descriptive paired comparison. Không thực hiện kiểm định ý nghĩa
+thống kê hoặc báo cáo độ lệch chuẩn giữa nhiều random seed. Khi hai cấu hình
+cho kết quả giống hệt nhau, kết quả được mô tả là \emph{null quality
+ablation}, không phải bằng chứng về sự tương đương tổng quát trên mọi bộ dữ
+liệu.

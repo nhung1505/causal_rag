@@ -1,0 +1,157 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Legal question-answering systems must not only retrieve text with relevant
+content but also correctly identify the applicable conditions, legal
+effects, and statutory basis for each conclusion. In many cases, the answer
+does not appear directly in a single provision but must instead be derived
+by connecting multiple rules. An initial condition may give rise to an
+intermediate legal state, which may then trigger another effect. In addition
+to forward reasoning, users may ask the system to trace causes backward,
+identify intermediate events, determine whether a relation is direct, or
+assess what would happen if a link in the reasoning chain were absent. Legal
+benchmarks such as CaseHOLD and LegalBench have demonstrated the diversity
+and difficulty of legal reasoning tasks, while LegalBench-RAG further
+emphasizes the role of retrieval in legal question-answering systems
+\cite{zheng2021casehold,guha2023legalbench,alami2024legalbenchrags}.
+
+Retrieval-Augmented Generation (RAG) combines a generative language model
+with externally retrieved knowledge sources to improve the factuality and
+traceability of answers \cite{lewis2020rag}. However, conventional RAG
+architectures typically represent a corpus as relatively independent text
+passages and rank them primarily according to their semantic similarity to
+the query. This approach may work well for single-hop questions, but it
+struggles when the required evidence is distributed across multiple rules
+or when the order in which the evidence is connected determines the meaning
+of the answer. Multi-hop question-answering tasks, notably HotpotQA, have
+shown that correctly retrieving individual passages does not guarantee that
+a system will recover the complete reasoning path \cite{yang2018hotpotqa}.
+
+Graph-based RAG methods partially address this limitation by representing
+entities, events, or knowledge units as nodes and the relations among them
+as edges. GraphRAG uses graph structure to support querying and information
+synthesis at broad scope, whereas HippoRAG combines graph-based retrieval
+with a multi-hop association mechanism
+\cite{edge2024graphrag,gutierrez2024hipporag}. Compared with retrieving
+independent passages, graph representations allow the system to preserve
+the linkage structure among pieces of evidence. Nevertheless, an arbitrary
+path through a graph does not necessarily correspond to a valid reasoning
+chain. In the legal domain, the system must additionally distinguish among
+rule-supported condition--effect relations, direct relations, relations
+mediated by intermediate events, and alternative paths leading to the same
+outcome.
+
+Structural Causal Models (SCMs) provide a formal framework for describing
+the mechanisms that generate variable values and for analyzing the results
+of interventions \cite{pearl2009causality}. Recently, several studies have
+investigated combining causal reasoning or counterfactual reasoning with RAG
+\cite{wang2025causalrag,khadilkar2025causalcounterfactualrag,qin2026cfrag}.
+These research directions demonstrate the potential of incorporating causal
+structure into retrieval and answer generation. However, applying causal
+concepts to law requires careful scope limitations. The relations used in
+this study are condition--effect relations operationalized from legal rules,
+not causal relations discovered or estimated from observational data.
+Accordingly, the resulting model should be understood as a structured
+normative reasoning model for checking the consistency of rule chains and
+analyzing interventions within the given graph.
+
+On this basis, this study presents a CausalRAG pipeline for question
+answering in Vietnamese criminal law. The pipeline begins by normalizing
+legal rules into conditions, effects, legal subjects, and statutory bases.
+Conditions and effects are mapped to events in a heterogeneous legal causal
+graph, in which rules serve as mechanisms connecting condition events to
+effect events. In parallel with the graph, the system constructs a vector
+memory for rules and events to retrieve query-relevant seed events. From
+these seed events, the retriever expands and ranks causal paths of up to two
+hops before passing the candidate paths to the verification stage.
+
+Unlike approaches that make decisions solely on the basis of the number of
+supported paths, our verification component analyzes the specific content
+of the query to identify the type of claim being asked. The system
+distinguishes standard causal questions, claims about direct edges, claims
+about removing a mediator, claims about mediator necessity, and
+counterfactual claims whose expected outcome is not explicitly specified.
+This analysis uses only the query text and the retrieved structure; it does
+not use \texttt{question\_type}, reference answers, or benchmark evaluation
+labels.
+
+To verify reasoning paths, we construct a Legal Structural Causal Model
+(LegalSCM). LegalSCM is a deterministic reasoning model with the
+three-valued state space
+\(\{\mathrm{TRUE},\mathrm{FALSE},\mathrm{UNKNOWN}\}\). For each causal path,
+the model checks whether the corresponding legal mechanisms can activate
+the entire factual path. When a query requires counterfactual analysis,
+LegalSCM performs a hard intervention \(do(M=\mathrm{FALSE})\) on mediator
+\(M\), severs the mediator's incoming mechanisms, and re-infers the outcome.
+The study also employs a simpler baseline in which the mediator is deleted
+from the graph and the system checks whether an alternative path to the
+outcome remains. This baseline is termed \emph{path ablation}; it captures
+reachability after node deletion and is not interpreted as a full hard
+intervention.
+
+The verification result is passed to intent-aware answer generation. Rather
+than assuming that every question asks for the final effect, the system
+supports multiple output forms, including the final effect, initial cause,
+bridge event, step-by-step explanation, yes/no answer, branching structure,
+convergent structure, and claim verification. The extractive answer is
+constructed from the primary causal path, prioritizes the complete effect
+text of the final rule, and cites only the evidence actually used.
+
+Experiments are conducted on a corpus of 2,884 rules and 1,814 events
+normalized from the Vietnamese Penal Code. The resulting graph contains
+5,134 nodes, 14,420 edges, and 112 two-hop causal chains. The system is
+evaluated on a synthetic benchmark comprising 250 questions that cover
+forward reasoning, reverse reasoning, intermediate-event identification,
+chain explanation, yes/no questions, branching, and convergence. Across the
+full benchmark, the system achieves a Rule Recall@5 of \(69.93\%\), an Event
+Recall@5 of \(74.66\%\), a verification accuracy of \(92.00\%\), an Answer
+Token F1 of \(68.69\%\), and a Citation F1 of \(62.86\%\). The gap between
+Top-1 Exact Path (\(35.20\%\)) and Oracle Exact Path (\(71.20\%\)) shows that
+many correct paths appear in the candidate set but are not ranked first.
+
+The paired ablation between LegalSCM and path ablation reveals no difference
+in the quality metrics on the current benchmark. The two methods attain the
+same verification accuracy, Answer Token F1, and Citation F1. However,
+LegalSCM requires an average of \(3.890\) seconds per sample, compared with
+\(1.205\) seconds for path ablation, corresponding to a time cost
+approximately \(3.23\) times higher. This result provides no evidence that
+structural verification improves accuracy on the current benchmark;
+instead, the observed benefit of LegalSCM lies in its clearer intervention
+semantics and its ability to produce traces of the factual world,
+intervention assignment, and counterfactual outcome.
+
+The main contributions of this study are as follows:
+
+\begin{itemize}
+    \item We propose an end-to-end pipeline that combines vector memory, a
+    legal causal graph, multi-hop retrieval, query-aware verification, and
+    answer generation grounded in statutory provisions.
+
+    \item We construct a three-valued LegalSCM to validate factual causal
+    paths and perform hard interventions on intermediate events within the
+    scope of normalized legal rules.
+
+    \item We construct a synthetic evaluation set comprising 250 questions
+    that cover multiple forms of forward, reverse, mediator-based,
+    branching, and convergent legal reasoning.
+
+    \item We conduct a paired ablation between structural SCM and
+    node-deletion path ablation, thereby identifying a null quality result
+    on the current benchmark and quantifying the time cost of structural
+    verification.
+
+    \item We analyze the remaining limitations, particularly causal-path
+    ranking errors, low performance on reverse reasoning, and the lack of
+    counterfactual samples with intervention ground truth.
+\end{itemize}
+
+The remainder of this paper is organized as follows.
+Section~\ref{sec:related-work} presents related work on RAG, graph-based RAG,
+causal reasoning, and legal question answering. Section~\ref{sec:problem}
+formulates the problem and defines the scope of the claims.
+Section~\ref{sec:method} describes the pipeline and LegalSCM.
+Section~\ref{sec:data} presents the corpus and benchmark. The experimental
+setup and results are presented in Sections~\ref{sec:experimental-setup}
+and~\ref{sec:results}, respectively. Section~\ref{sec:discussion} analyzes
+errors and discusses the results. Finally, the limitations and conclusion
+are presented in Sections~\ref{sec:limitations} and~\ref{sec:conclusion}.
