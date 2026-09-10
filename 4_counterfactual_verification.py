@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Step 4 v4.1 - Query-aware structural counterfactual verification.
+Step 4 v4.2 - Selective query-aware LegalSCM verification.
 
-Mặc định, Step 4 dùng ``causal_core.LegalSCM`` để:
-1. Xác nhận factual causal chain bằng các legal rule mechanisms.
-2. Thực hiện hard ``do(mediator=FALSE)`` và suy luận lại outcome.
-3. Đánh giá claim cụ thể trong query từ factual/counterfactual worlds.
+Step 4 phân tích raw query trước khi xác minh path và chọn route bảo thủ:
+1. Direct claim chỉ kiểm tra topology với endpoint grounding, không chạy SCM.
+2. Standard causal claim chỉ chạy LegalSCM factual validation.
+3. Explicit counterfactual/necessity claim mới chạy hard ``do()``.
 
-Node-deletion reachability được giữ dưới mode ``path_ablation`` và luôn được
-lưu như baseline diagnostic khi chạy mode ``structural_scm``.
+Mặc định chỉ Step-3 path id 0 được chạy structural verification; các path phụ
+chỉ được topology-validate. Node-deletion reachability vẫn có thể dùng dưới
+mode ``path_ablation`` và được lưu như diagnostic khi intervention được bật.
 """
 
 from __future__ import annotations
@@ -48,8 +49,8 @@ STRUCTURAL_SCM_MODE = "structural_scm"
 PATH_ABLATION_MODE = "path_ablation"
 DEFAULT_COUNTERFACTUAL_MODE = STRUCTURAL_SCM_MODE
 
-# Giữ `query-aware` để Step 5.5 nhận diện compatibility.
-STEP4_VERSION = "4.1-query-aware-legal-scm"
+# Giữ `query-aware` để Step 5.5 và runner nhận diện compatibility.
+STEP4_VERSION = "4.2-selective-query-aware-legal-scm"
 
 # Cache model theo file + mtime để batch không parse 2.884 rules mỗi câu.
 _LEGAL_SCM_CACHE: dict[tuple[str, int], LegalSCM] = {}
@@ -1628,6 +1629,7 @@ class CounterfactualPathVerifier:
         max_paths: int = DEFAULT_MAX_CF_PATHS,
         max_mediators: int = DEFAULT_MAX_MEDIATORS_PER_PATH,
         alternative_path_threshold: float = DEFAULT_ALTERNATIVE_PATH_THRESHOLD,
+        run_interventions: bool = True,
         **_: Any,
     ) -> PathVerification:
         event_nodes = self.store.get_path_event_nodes(original_path)
@@ -1741,6 +1743,21 @@ class CounterfactualPathVerifier:
                     "CAUSES edge tồn tại trong causal event graph."
                     if edge_exists else
                     "Path có hai EVENT node nhưng không tồn tại CAUSES edge tương ứng."
+                ),
+            )
+
+        # Khi route không cần intervention, chỉ xác nhận topology của toàn
+        # chuỗi. Không chạy node-deletion/alternative-path search.
+        if not run_interventions:
+            return PathVerification(
+                **base_kwargs,
+                intervention_type="TOPOLOGY_PATH_VALIDATION",
+                mediator_interventions=[],
+                status="SUPPORTED",
+                consistency_score=clamp(max(0.52, path_score)),
+                explanation=(
+                    "Các EVENT node tạo thành chuỗi CAUSES liên tiếp; "
+                    "route hiện tại không yêu cầu mediator intervention."
                 ),
             )
 
@@ -1883,6 +1900,7 @@ class StructuralCounterfactualVerifier:
         max_hops: int = DEFAULT_MAX_CF_HOPS,
         max_paths: int = DEFAULT_MAX_CF_PATHS,
         max_mediators: int = DEFAULT_MAX_MEDIATORS_PER_PATH,
+        run_interventions: bool = True,
         **_: Any,
     ) -> PathVerification:
         baseline = self.baseline_verifier.verify_path(
@@ -1891,6 +1909,7 @@ class StructuralCounterfactualVerifier:
             max_hops=max_hops,
             max_paths=max_paths,
             max_mediators=max_mediators,
+            run_interventions=run_interventions,
         )
         summary = {
             "engine": "LegalSCM",
@@ -1901,6 +1920,8 @@ class StructuralCounterfactualVerifier:
             "path_rule_coverage": {},
             "interventions": [],
             "baseline": self._baseline_summary(baseline),
+            "run_interventions": bool(run_interventions),
+            "structural_intervention_executed": False,
             "fallback_used": False,
             "fallback_reason": "",
         }
@@ -1966,6 +1987,30 @@ class StructuralCounterfactualVerifier:
             and bool(coverage.get("all_hops_covered"))
             and not summary["factual_conflicting_event_ids"]
         )
+
+        # STANDARD_CAUSAL chỉ cần factual validation. Không giữ mediator
+        # diagnostics từ baseline và tuyệt đối không gọi scm.counterfactual().
+        if not run_interventions:
+            baseline.intervention_type = "LEGAL_SCM_FACTUAL_VALIDATION"
+            baseline.mediator_interventions = []
+            baseline.counterfactual_summary = summary
+            if factual_path_supported:
+                baseline.status = "SUPPORTED"
+                baseline.consistency_score = clamp(
+                    max(0.52, baseline.original_path_score)
+                )
+                baseline.explanation = (
+                    "LegalSCM xác nhận factual outcome=TRUE và rule mechanism "
+                    "phủ đủ các hop; route không yêu cầu do-intervention."
+                )
+            else:
+                baseline.status = "UNRESOLVED"
+                baseline.consistency_score = UNRESOLVED_BASE_SCORE
+                baseline.explanation = (
+                    "LegalSCM chưa xác nhận đầy đủ factual outcome, rule "
+                    "coverage hoặc trạng thái không xung đột; không chạy do()."
+                )
+            return baseline
 
         if len(event_ids) == 2:
             baseline.intervention_type = "LEGAL_SCM_FACTUAL_VALIDATION"
@@ -2043,6 +2088,7 @@ class StructuralCounterfactualVerifier:
             start=1,
         ):
             baseline_item = baseline_by_mediator.get(mediator_id, {})
+            summary["structural_intervention_executed"] = True
             try:
                 result = scm.counterfactual(
                     factual_context,
@@ -2471,7 +2517,7 @@ class EvidenceVerifier:
 # ============================================================
 
 class PrimaryPathSelector:
-    """Chọn path đại diện thay vì lấy trung bình mọi candidate path."""
+    """Bảo toàn Step-3 path 0 trừ khi policy cho phép switch an toàn."""
 
     def __init__(
         self,
@@ -2479,46 +2525,92 @@ class PrimaryPathSelector:
     ) -> None:
         self.store = store
 
+    @staticmethod
+    def _selection_score(
+        item: PathVerification,
+        target_hops: int,
+    ) -> float:
+        status_score = {
+            "SUPPORTED": 1.0,
+            "UNRESOLVED": 0.5,
+            "CONTRADICTED": 0.0,
+        }.get(item.status, 0.0)
+        return clamp(
+            0.50 * status_score
+            + 0.30 * item.consistency_score
+            + 0.15 * item.original_path_score
+            + 0.05 * float(item.original_hop_count == target_hops)
+        )
+
     def select(
         self,
         path_results: list[PathVerification],
         *,
         target_hops: int = DEFAULT_TARGET_HOPS,
         top_k: int = 1,
+        allow_path_switch: bool = False,
+        switch_margin: float = 0.05,
+        preferred_path_id: int = 0,
     ) -> list[int]:
         if not path_results:
             return []
 
-        def status_priority(item: PathVerification) -> int:
-            return {
-                "SUPPORTED": 2,
-                "UNRESOLVED": 1,
-                "CONTRADICTED": 0,
-            }.get(item.status, 0)
+        by_id = {
+            item.original_path_id: item
+            for item in path_results
+        }
+        preferred = by_id.get(preferred_path_id)
 
-        ranked = sorted(
-            path_results,
-            key=lambda item: (
-                status_priority(item),
-                item.original_hop_count == target_hops,
-                min(item.original_hop_count, target_hops),
+        def rank_key(item: PathVerification) -> tuple[float, float, float, int]:
+            return (
+                self._selection_score(item, target_hops),
                 item.consistency_score,
                 item.original_path_score,
                 -item.original_path_id,
-            ),
-            reverse=True,
+            )
+
+        # Step 3 đã xếp hạng path 0. Khi rerank bị tắt, giữ path này
+        # tuyệt đối để verdict Step 4 và context của runner không lệch nhau.
+        if preferred is not None and not allow_path_switch:
+            return [preferred.original_path_id]
+
+        if preferred is not None:
+            candidates = [
+                item
+                for item in path_results
+                if (
+                    item.original_path_id != preferred.original_path_id
+                    and item.status == "SUPPORTED"
+                )
+            ]
+            if candidates:
+                best = max(candidates, key=rank_key)
+                improvement = (
+                    self._selection_score(best, target_hops)
+                    - self._selection_score(preferred, target_hops)
+                )
+                # Khi caller đã bật rerank, một contradicted preferred path có
+                # thể được thay ngay; các trạng thái khác vẫn cần đủ margin.
+                if (
+                    preferred.status == "CONTRADICTED"
+                    or improvement >= max(0.0, switch_margin)
+                ):
+                    return [best.original_path_id]
+            return [preferred.original_path_id]
+
+        # Chỉ dùng deterministic supported fallback khi retrieval không có
+        # path 0; không tự đổi endpoint nếu path 0 thực sự tồn tại.
+        supported = [
+            item for item in path_results if item.status == "SUPPORTED"
+        ]
+        if supported:
+            return [max(supported, key=rank_key).original_path_id]
+
+        deterministic = min(
+            path_results,
+            key=lambda item: item.original_path_id,
         )
-
-        selected = [
-            item.original_path_id
-            for item in ranked
-            if item.status != "CONTRADICTED"
-        ][:max(1, top_k)]
-
-        if selected:
-            return selected
-
-        return [ranked[0].original_path_id]
+        return [deterministic.original_path_id]
 
 
 class QueryAwareClaimVerifier:
@@ -2716,36 +2808,141 @@ class QueryAwareClaimVerifier:
             "conditional_antecedent_only": conditional_antecedent_only,
         }
 
+    @staticmethod
+    def _entity_tokens(value: str) -> list[str]:
+        stopwords = {
+            "cua", "của", "va", "và", "la", "là", "duoc", "được",
+            "bi", "bị", "cho", "trong", "khi", "neu", "nếu", "thi", "thì",
+            "mot", "một", "cac", "các", "co", "có", "khong", "không",
+        }
+        return [
+            token
+            for token in re.findall(r"[^\W_]+", value, flags=re.UNICODE)
+            if len(token) >= 2 and token not in stopwords
+        ]
+
+    def _entity_alignment(
+        self,
+        *,
+        normalized_query: str,
+        entity_id: Any,
+        entity_name: Any,
+        minimum_token_coverage: float = 0.80,
+    ) -> tuple[float, str]:
+        normalized_id = self._normalize(entity_id)
+        normalized_name = self._normalize(entity_name)
+
+        if normalized_id:
+            pattern = rf"(?<!\w){re.escape(normalized_id)}(?!\w)"
+            if re.search(pattern, normalized_query):
+                return 1.0, "exact_event_id"
+
+        if (
+            normalized_name
+            and len(normalized_name) >= 4
+            and normalized_name in normalized_query
+        ):
+            return 1.0, "exact_event_name"
+
+        name_tokens = self._entity_tokens(normalized_name)
+        if len(name_tokens) < 2:
+            return 0.0, "no_match"
+        query_tokens = set(self._entity_tokens(normalized_query))
+        coverage = sum(token in query_tokens for token in name_tokens) / len(
+            name_tokens
+        )
+        if coverage >= minimum_token_coverage:
+            return coverage, "event_name_token_coverage"
+        return 0.0, "no_match"
+
+    def _ground_direct_endpoints(
+        self,
+        *,
+        query: str,
+        path_results: list[PathVerification],
+        primary_path_ids: list[int],
+    ) -> Optional[dict[str, Any]]:
+        normalized_query = self._normalize(query)
+        primary_set = set(primary_path_ids)
+        ordered = sorted(
+            path_results,
+            key=lambda item: (
+                item.original_path_id not in primary_set,
+                item.original_path_id,
+            ),
+        )
+        best: Optional[dict[str, Any]] = None
+
+        for item in ordered:
+            if (
+                len(item.original_event_ids) < 2
+                or len(item.original_event_nodes) < 2
+                or len(item.original_event_names) < 2
+            ):
+                continue
+            cause_confidence, cause_source = self._entity_alignment(
+                normalized_query=normalized_query,
+                entity_id=item.original_event_ids[0],
+                entity_name=item.original_event_names[0],
+            )
+            effect_confidence, effect_source = self._entity_alignment(
+                normalized_query=normalized_query,
+                entity_id=item.original_event_ids[-1],
+                entity_name=item.original_event_names[-1],
+            )
+            confidence = min(cause_confidence, effect_confidence)
+            if confidence < 0.80:
+                continue
+
+            candidate = {
+                "path_id": item.original_path_id,
+                "cause_event_id": item.original_event_ids[0],
+                "cause_event_name": item.original_event_names[0],
+                "cause_event_node": item.original_event_nodes[0],
+                "effect_event_id": item.original_event_ids[-1],
+                "effect_event_name": item.original_event_names[-1],
+                "effect_event_node": item.original_event_nodes[-1],
+                "confidence": confidence,
+                "source": (
+                    ("primary_path" if item.original_path_id in primary_set else "candidate_path")
+                    + f":{cause_source}+{effect_source}"
+                ),
+            }
+            if item.original_path_id in primary_set:
+                return candidate
+            if best is None or candidate["confidence"] > best["confidence"]:
+                best = candidate
+
+        return best
+
     def _select_mediator_intervention(
         self,
         query: str,
         primary: PathVerification,
-    ) -> Optional[dict[str, Any]]:
+    ) -> tuple[Optional[dict[str, Any]], float, str]:
         interventions = primary.mediator_interventions or []
         if not interventions:
-            return None
+            return None, 0.0, "no_interventions"
 
         normalized_query = self._normalize(query)
+        best_item: Optional[dict[str, Any]] = None
+        best_confidence = 0.0
+        best_source = "no_match"
 
         for item in interventions:
-            mediator_name = self._normalize(
-                item.get("mediator_event_name")
+            confidence, source = self._entity_alignment(
+                normalized_query=normalized_query,
+                entity_id=item.get("mediator_event_id"),
+                entity_name=item.get("mediator_event_name"),
             )
-            mediator_id = self._normalize(
-                item.get("mediator_event_id")
-            )
+            if confidence > best_confidence:
+                best_item = item
+                best_confidence = confidence
+                best_source = source
 
-            if (
-                mediator_name
-                and mediator_name in normalized_query
-            ) or (
-                mediator_id
-                and mediator_id in normalized_query
-            ):
-                return item
-
-        # Benchmark hai hop thường chỉ có một mediator.
-        return interventions[0]
+        if best_item is not None and best_confidence >= 0.80:
+            return best_item, best_confidence, best_source
+        return None, 0.0, "no_conservative_match"
 
     def verify(
         self,
@@ -2753,8 +2950,13 @@ class QueryAwareClaimVerifier:
         query: str,
         path_results: list[PathVerification],
         primary_path_ids: list[int],
+        query_analysis: Optional[dict[str, Any]] = None,
     ) -> tuple[str, float, str, dict[str, Any]]:
-        analysis = self.analyze_query(query)
+        analysis = (
+            dict(query_analysis)
+            if isinstance(query_analysis, dict)
+            else self.analyze_query(query)
+        )
         claim_type = analysis["claim_type"]
 
         by_id = {
@@ -2775,8 +2977,13 @@ class QueryAwareClaimVerifier:
                 "Không chọn được primary path hợp lệ để xác minh claim."
             )
             analysis.update({
+                "primary_path_status": "MISSING",
                 "matched_mediator_id": "",
                 "matched_mediator_name": "",
+                "mediator_alignment_confidence": 0.0,
+                "mediator_alignment_source": "no_primary_path",
+                "endpoint_alignment_confidence": 0.0,
+                "endpoint_alignment_source": "no_primary_path",
             })
             return "UNCERTAIN", UNRESOLVED_BASE_SCORE, explanation, analysis
 
@@ -2794,7 +3001,11 @@ class QueryAwareClaimVerifier:
         path_verification_method = (
             StructuralCounterfactualVerifier.METHOD
             if structural_summary and not structural_fallback
-            else "node_deletion_reachability"
+            else "topology_validation"
+        )
+        path_rule_coverage = primary_summary.get("path_rule_coverage") or {}
+        conflicts = list(
+            primary_summary.get("factual_conflicting_event_ids") or []
         )
         analysis.update({
             "counterfactual_mode": safe_string(
@@ -2805,8 +3016,18 @@ class QueryAwareClaimVerifier:
             "structural_fallback_reason": safe_string(
                 primary_summary.get("fallback_reason")
             ),
+            "primary_path_status": primary.status,
+            "primary_path_id": primary.original_path_id,
+            "all_hops_covered": bool(
+                path_rule_coverage.get("all_hops_covered")
+            ),
+            "structural_conflict_count": len(conflicts),
+            "structural_conflicting_event_ids": conflicts,
             "factual_outcome": safe_string(
                 primary_summary.get("factual_outcome")
+            ),
+            "structural_intervention_executed": bool(
+                primary_summary.get("structural_intervention_executed")
             ),
         })
 
@@ -2814,38 +3035,32 @@ class QueryAwareClaimVerifier:
             max(primary.consistency_score, primary.original_path_score)
         )
 
-        if primary.status == "CONTRADICTED":
-            explanation = (
-                "Primary path không tạo thành chuỗi CAUSES hợp lệ trong graph."
-            )
-            return "REJECT_DIRECT_CLAIM", max(0.60, 1.0 - base_score), explanation, analysis
-
-        if claim_type == "STANDARD_CAUSAL":
-            if primary.status == "SUPPORTED":
-                explanation = (
-                    "Primary multi-hop path hợp lệ và hỗ trợ quan hệ "
-                    "nguyên nhân → hệ quả được hỏi."
-                )
-                return "SUPPORTED", max(0.55, base_score), explanation, analysis
-
-            return (
-                "UNCERTAIN",
-                max(UNRESOLVED_BASE_SCORE, base_score),
-                "Primary path chưa được xác minh đầy đủ.",
-                analysis,
-            )
-
         if claim_type == "DIRECT_CAUSAL_CLAIM":
-            start_node = (
-                primary.original_event_nodes[0]
-                if primary.original_event_nodes
-                else ""
+            grounded = self._ground_direct_endpoints(
+                query=query,
+                path_results=path_results,
+                primary_path_ids=primary_path_ids,
             )
-            end_node = (
-                primary.original_event_nodes[-1]
-                if primary.original_event_nodes
-                else ""
-            )
+            if grounded is None:
+                analysis.update({
+                    "grounded_cause_event_id": "",
+                    "grounded_cause_event_name": "",
+                    "grounded_cause_event_node": "",
+                    "grounded_effect_event_id": "",
+                    "grounded_effect_event_name": "",
+                    "grounded_effect_event_node": "",
+                    "endpoint_alignment_confidence": 0.0,
+                    "endpoint_alignment_source": "no_conservative_match",
+                })
+                return (
+                    "UNCERTAIN",
+                    UNRESOLVED_BASE_SCORE,
+                    "Không ground đủ chắc chắn cả cause và effect từ raw query.",
+                    analysis,
+                )
+
+            start_node = safe_string(grounded["cause_event_node"])
+            end_node = safe_string(grounded["effect_event_node"])
             direct_edge = bool(
                 start_node
                 and end_node
@@ -2854,23 +3069,64 @@ class QueryAwareClaimVerifier:
                     end_node,
                 )
             )
+            analysis.update({
+                "grounded_path_id": grounded["path_id"],
+                "grounded_cause_event_id": grounded["cause_event_id"],
+                "grounded_cause_event_name": grounded["cause_event_name"],
+                "grounded_cause_event_node": start_node,
+                "grounded_effect_event_id": grounded["effect_event_id"],
+                "grounded_effect_event_name": grounded["effect_event_name"],
+                "grounded_effect_event_node": end_node,
+                "endpoint_alignment_confidence": grounded["confidence"],
+                "endpoint_alignment_source": grounded["source"],
+                "grounded_direct_edge_exists": direct_edge,
+            })
 
             if direct_edge:
                 return (
                     "SUPPORTED",
                     max(0.65, base_score),
-                    "Graph có CAUSES edge trực tiếp giữa nguyên nhân và hệ quả.",
+                    "Grounded cause/effect có CAUSES edge trực tiếp trong graph.",
                     analysis,
                 )
 
             return (
                 "REJECT_DIRECT_CLAIM",
                 max(0.65, base_score),
-                "Graph chỉ hỗ trợ chuỗi qua mediator, không hỗ trợ quan hệ trực tiếp.",
+                "Grounded cause/effect không có CAUSES edge trực tiếp; graph chỉ hỗ trợ quan hệ gián tiếp hoặc không hỗ trợ.",
                 analysis,
             )
 
-        intervention = self._select_mediator_intervention(
+        # Thiếu factual support không phải bằng chứng phủ định. Đặc biệt với
+        # STANDARD_CAUSAL, UNRESOLVED/CONTRADICTED đều phải fallback UNCERTAIN.
+        if claim_type == "STANDARD_CAUSAL":
+            if primary.status == "SUPPORTED":
+                explanation = (
+                    "Primary path được factual validation và hỗ trợ quan hệ "
+                    "nguyên nhân → hệ quả được hỏi."
+                )
+                return "SUPPORTED", max(0.55, base_score), explanation, analysis
+
+            return (
+                "UNCERTAIN",
+                max(UNRESOLVED_BASE_SCORE, 0.5 * base_score),
+                "Primary path chưa được factual validation đầy đủ; không suy diễn phủ định.",
+                analysis,
+            )
+
+        if primary.status != "SUPPORTED":
+            return (
+                "UNCERTAIN",
+                max(UNRESOLVED_BASE_SCORE, 0.5 * base_score),
+                "Primary path chưa được xác minh đủ để đánh giá intervention claim.",
+                analysis,
+            )
+
+        (
+            intervention,
+            mediator_alignment_confidence,
+            mediator_alignment_source,
+        ) = self._select_mediator_intervention(
             query,
             primary,
         )
@@ -2879,11 +3135,13 @@ class QueryAwareClaimVerifier:
             analysis.update({
                 "matched_mediator_id": "",
                 "matched_mediator_name": "",
+                "mediator_alignment_confidence": mediator_alignment_confidence,
+                "mediator_alignment_source": mediator_alignment_source,
             })
             return (
                 "UNCERTAIN",
                 UNRESOLVED_BASE_SCORE,
-                "Không xác định được mediator để thực hiện counterfactual intervention.",
+                "Không ground được mediator trong query với confidence tối thiểu 0.80.",
                 analysis,
             )
 
@@ -2935,6 +3193,8 @@ class QueryAwareClaimVerifier:
             "matched_mediator_name": safe_string(
                 intervention.get("mediator_event_name")
             ),
+            "mediator_alignment_confidence": mediator_alignment_confidence,
+            "mediator_alignment_source": mediator_alignment_source,
             "intervention_status": intervention_status,
             "verification_method": verification_method,
             "structural_result_used": is_structural,
@@ -3063,21 +3323,18 @@ def promote_primary_path_evidence(
     new_removed: list[EvidenceVerification] = []
 
     for item in all_items:
-        related_ids = set(
-            item.verified_path_ids
-            + item.unresolved_path_ids
-            + item.rejected_path_ids
+        primary_supported = bool(
+            set(item.verified_path_ids) & primary_set
         )
-        belongs_to_primary = bool(related_ids & primary_set)
 
-        if belongs_to_primary and not item.rejected_path_ids:
+        if primary_supported and not item.rejected_path_ids:
             item.verification_score = clamp(
                 item.verification_score
                 + PRIMARY_PATH_EVIDENCE_BONUS
             )
             item.decision = "KEEP"
             item.reasons.append(
-                "Evidence thuộc primary multi-hop path."
+                "Evidence thuộc primary path đã thực sự SUPPORTED."
             )
             new_verified.append(item)
         elif item.decision == "KEEP":
@@ -3089,8 +3346,7 @@ def promote_primary_path_evidence(
 
     def sort_key(item: EvidenceVerification) -> tuple[float, float, int]:
         belongs = bool(
-            set(item.verified_path_ids + item.unresolved_path_ids)
-            & primary_set
+            set(item.verified_path_ids) & primary_set
         )
         return (
             float(belongs),
@@ -3146,6 +3402,9 @@ class CounterfactualVerificationPipeline:
         cf_top_k: int = 5,
         mapping_top_k: int = 5,
         mapping_threshold: float = 0.42,
+        allow_primary_path_switch: bool = False,
+        primary_path_switch_margin: float = 0.05,
+        structural_primary_path_only: bool = True,
         **_: Any,
     ) -> VerificationResult:
         valid_modes = {STRUCTURAL_SCM_MODE, PATH_ABLATION_MODE}
@@ -3156,20 +3415,60 @@ class CounterfactualVerificationPipeline:
                 f"nhận được: {counterfactual_mode!r}."
             )
 
-        selected_path_verifier = (
-            self.structural_verifier
-            if counterfactual_mode == STRUCTURAL_SCM_MODE
-            else self.path_verifier
+        # Route được quyết định duy nhất từ raw query runtime. Không đọc
+        # question_type, gold label hay requires_counterfactual.
+        query = safe_string(
+            self.store.retrieval_result.get("query")
         )
-        verification_method = (
-            StructuralCounterfactualVerifier.METHOD
-            if counterfactual_mode == STRUCTURAL_SCM_MODE
-            else "node_deletion_reachability"
-        )
+        route_analysis = self.claim_verifier.analyze_query(query)
+        claim_type = safe_string(route_analysis.get("claim_type"))
+        intervention_claim_types = {
+            "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS",
+            "REMOVE_MEDIATOR_OUTCOME_REMAINS",
+            "MEDIATOR_NECESSARY_CLAIM",
+            "COUNTERFACTUAL_UNSPECIFIED",
+        }
+        run_interventions = claim_type in intervention_claim_types
+
+        if claim_type == "DIRECT_CAUSAL_CLAIM":
+            verification_route = "grounded_direct_edge_topology"
+            verification_method = "grounded_direct_edge_topology"
+        elif claim_type == "STANDARD_CAUSAL":
+            verification_route = "legal_scm_factual_validation"
+            verification_method = (
+                "legal_scm_factual_validation"
+                if counterfactual_mode == STRUCTURAL_SCM_MODE
+                else "topology_validation"
+            )
+        else:
+            verification_route = "legal_scm_factual_do_intervention"
+            verification_method = (
+                StructuralCounterfactualVerifier.METHOD
+                if counterfactual_mode == STRUCTURAL_SCM_MODE
+                else "node_deletion_reachability"
+            )
+
+        route_analysis.update({
+            "verification_route": verification_route,
+            "structural_factual_validation_requested": bool(
+                counterfactual_mode == STRUCTURAL_SCM_MODE
+                and claim_type != "DIRECT_CAUSAL_CLAIM"
+            ),
+            "structural_intervention_requested": bool(
+                counterfactual_mode == STRUCTURAL_SCM_MODE
+                and run_interventions
+            ),
+            "structural_primary_path_only": bool(
+                structural_primary_path_only
+            ),
+        })
 
         original_paths = self.store.retrieval_result.get("causal_paths", [])
         path_results: list[PathVerification] = []
-        print(f"\nVerifying {len(original_paths)} causal paths...")
+        print(
+            f"\nVerifying {len(original_paths)} causal paths "
+            f"via {verification_route}..."
+        )
 
         for path_id, path in enumerate(original_paths):
             if not isinstance(path, dict):
@@ -3178,14 +3477,39 @@ class CounterfactualVerificationPipeline:
                     explanation="Causal path không phải JSON object.",
                 )
             else:
-                verification = selected_path_verifier.verify_path(
-                    path_id=path_id,
-                    original_path=path,
-                    max_hops=max_cf_hops,
-                    max_paths=max_cf_paths,
+                use_structural = bool(
+                    counterfactual_mode == STRUCTURAL_SCM_MODE
+                    and claim_type != "DIRECT_CAUSAL_CLAIM"
+                    and (
+                        path_id == 0
+                        or not structural_primary_path_only
+                    )
                 )
+                if use_structural:
+                    verification = self.structural_verifier.verify_path(
+                        path_id=path_id,
+                        original_path=path,
+                        max_hops=max_cf_hops,
+                        max_paths=max_cf_paths,
+                        run_interventions=run_interventions,
+                    )
+                else:
+                    baseline_interventions = bool(
+                        counterfactual_mode == PATH_ABLATION_MODE
+                        and run_interventions
+                    )
+                    verification = self.path_verifier.verify_path(
+                        path_id=path_id,
+                        original_path=path,
+                        max_hops=max_cf_hops,
+                        max_paths=max_cf_paths,
+                        run_interventions=baseline_interventions,
+                    )
             path_results.append(verification)
-            print(f"- Path {path_id}: {verification.status} score={verification.consistency_score:.4f}")
+            print(
+                f"- Path {path_id}: {verification.status} "
+                f"score={verification.consistency_score:.4f}"
+            )
 
         primary_path_ids = self.primary_path_selector.select(
             path_results,
@@ -3196,6 +3520,9 @@ class CounterfactualVerificationPipeline:
                 DEFAULT_TARGET_HOPS,
             ),
             top_k=1,
+            allow_path_switch=allow_primary_path_switch,
+            switch_margin=primary_path_switch_margin,
+            preferred_path_id=0,
         )
 
         verified, uncertain, removed = self.evidence_verifier.verify_all(
@@ -3213,9 +3540,6 @@ class CounterfactualVerificationPipeline:
             verified_top_k=verified_top_k,
         )
 
-        query = safe_string(
-            self.store.retrieval_result.get("query")
-        )
         (
             final_decision,
             decision_score,
@@ -3225,6 +3549,7 @@ class CounterfactualVerificationPipeline:
             query=query,
             path_results=path_results,
             primary_path_ids=primary_path_ids,
+            query_analysis=route_analysis,
         )
 
         status_counts = {
@@ -3246,6 +3571,16 @@ class CounterfactualVerificationPipeline:
         structural_fallback_paths = sum(
             bool(summary.get("fallback_used"))
             for summary in structural_summaries
+        )
+        structural_intervention_paths = sum(
+            bool(summary.get("structural_intervention_executed"))
+            for summary in structural_summaries
+        )
+        structural_intervention_executed = bool(
+            structural_intervention_paths
+        )
+        query_analysis["structural_intervention_executed"] = (
+            structural_intervention_executed
         )
 
         primary_results = [
@@ -3288,6 +3623,11 @@ class CounterfactualVerificationPipeline:
                 "cf_top_k": cf_top_k,
                 "mapping_top_k": mapping_top_k,
                 "mapping_threshold": mapping_threshold,
+                "verification_route": verification_route,
+                "structural_intervention_executed": structural_intervention_executed,
+                "structural_primary_path_only": bool(structural_primary_path_only),
+                "allow_primary_path_switch": bool(allow_primary_path_switch),
+                "primary_path_switch_margin": primary_path_switch_margin,
                 "max_cf_hops": max_cf_hops,
                 "max_cf_paths": max_cf_paths,
                 "verified_top_k": verified_top_k,
@@ -3314,6 +3654,9 @@ class CounterfactualVerificationPipeline:
                 "path_status_counts": status_counts,
                 "status_counts": status_counts,
                 "counterfactual_mode": counterfactual_mode,
+                "verification_route": verification_route,
+                "structural_intervention_executed": structural_intervention_executed,
+                "structural_intervention_paths": structural_intervention_paths,
                 "structural_paths": structural_paths,
                 "structural_fallback_paths": structural_fallback_paths,
                 "path_ablation_paths": (
@@ -3440,6 +3783,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--verified-top-k", type=int, default=DEFAULT_VERIFIED_TOP_K)
     parser.add_argument("--keep-threshold", type=float, default=DEFAULT_KEEP_THRESHOLD)
     parser.add_argument("--reject-threshold", type=float, default=DEFAULT_REJECT_THRESHOLD)
+    parser.add_argument(
+        "--allow-primary-path-switch",
+        action="store_true",
+        help="Cho phép Step 4 thay Step-3 path 0 khi candidate tốt hơn đủ margin.",
+    )
+    parser.add_argument(
+        "--primary-path-switch-margin",
+        type=float,
+        default=0.05,
+    )
     # Tham số cũ được giữ để script gọi ngoài không bị vỡ.
     parser.add_argument("--embeddings", default=None)
     parser.add_argument("--counterfactual-map", default=None)
@@ -3457,6 +3810,8 @@ def main() -> None:
         raise ValueError("max-cf-hops và max-cf-paths phải lớn hơn 0.")
     if not 0.0 <= args.reject_threshold <= args.keep_threshold <= 1.0:
         raise ValueError("Cần thỏa mãn 0 <= reject-threshold <= keep-threshold <= 1.")
+    if not 0.0 <= args.primary_path_switch_margin <= 1.0:
+        raise ValueError("primary-path-switch-margin phải thuộc [0, 1].")
 
     payload = run_counterfactual_verification(
         graph_path=args.graph,
@@ -3470,6 +3825,8 @@ def main() -> None:
         verified_top_k=args.verified_top_k,
         keep_threshold=args.keep_threshold,
         reject_threshold=args.reject_threshold,
+        allow_primary_path_switch=args.allow_primary_path_switch,
+        primary_path_switch_margin=args.primary_path_switch_margin,
         cf_top_k=args.cf_top_k,
         mapping_top_k=args.mapping_top_k,
         mapping_threshold=args.mapping_threshold,

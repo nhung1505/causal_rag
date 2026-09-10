@@ -17,9 +17,11 @@ causal_path_rag
     Question -> Step-3 causal path/rule retrieval -> qwen3:8b. Step 4 is not
     imported or called in this mode.
 full_legal_scm
-    Question -> Step 3 -> query-aware Step 4 with LegalSCM -> qwen3:8b.
-    Step-4 decisions are authoritative. Silent structural fallbacks are
-    converted to UNCERTAIN unless --allow-scm-fallback is explicitly set.
+    Question -> Step 3 -> selective query-aware Step 4 -> qwen3:8b.
+    Step-4 chỉ authoritative khi vượt commit gate; nếu không, runner dùng đúng
+    Step-3 path 0/raw evidence như causal_path_rag. Structural fallback chỉ
+    dùng cho chẩn đoán; --allow-scm-fallback không bỏ qua factual/world-state
+    gates cần thiết để verifier trở thành authoritative.
 
 This runner never reads gold/evaluation fields while generating predictions
 and never falls back to an extractive answer generator.
@@ -45,7 +47,7 @@ from typing import Any, Iterable, Mapping, Optional, Sequence
 from urllib import error, request
 
 
-RUNNER_VERSION = "1.0-system-level-common-generation"
+RUNNER_VERSION = "1.1-selective-scm-safe-step3-fallback"
 GENERATION_CONTRACT_VERSION = "1.0-common-ollama-json"
 PROMPT_VERSION = "1.0-legal-system-comparison"
 
@@ -82,6 +84,8 @@ DEFAULT_RETRIES = 1
 DEFAULT_SEED = 42
 DEFAULT_MAX_CONTEXT_CHARS = 18000
 DEFAULT_MAX_EVIDENCE = 8
+DEFAULT_SCM_COMMIT_THRESHOLD = 0.55
+DEFAULT_SCM_GROUNDING_THRESHOLD = 0.80
 
 DEFAULT_CORPUS = "data/1_raw_data.json"
 DEFAULT_ARTICLE_INDEX = "data/baselines/vanilla_rag_articles.index"
@@ -768,14 +772,34 @@ def select_primary_path(
     paths = retrieval.get("causal_paths") or []
     if not isinstance(paths, list):
         paths = []
-    primary_ids = unique_ints((verification or {}).get("primary_path_ids") or [])
-    path_id = primary_ids[0] if primary_ids else (0 if paths else -1)
-    if not (0 <= path_id < len(paths)):
-        path_id = 0 if paths else -1
-    path = paths[path_id] if path_id >= 0 and isinstance(paths[path_id], Mapping) else {}
-    if path_id >= 0 and not primary_ids:
-        primary_ids = [path_id]
-    return path_id, dict(path), primary_ids
+
+    def is_valid_path_id(path_id: int) -> bool:
+        return (
+            0 <= path_id < len(paths)
+            and isinstance(paths[path_id], Mapping)
+        )
+
+    requested_ids = unique_ints(
+        (verification or {}).get("primary_path_ids") or []
+    )
+    # Không giữ stale verifier IDs. Chỉ cần một ID invalid là reset toàn bộ
+    # selection về Step-3 path 0 (nếu path 0 hợp lệ).
+    if requested_ids and all(is_valid_path_id(item) for item in requested_ids):
+        path_id = requested_ids[0]
+        primary_ids = requested_ids
+    elif is_valid_path_id(0):
+        path_id = 0
+        primary_ids = [0]
+    else:
+        path_id = -1
+        primary_ids = []
+
+    path = (
+        dict(paths[path_id])
+        if path_id >= 0 and isinstance(paths[path_id], Mapping)
+        else {}
+    )
+    return path_id, path, primary_ids
 
 
 def unwrap_verified_evidence(item: Mapping[str, Any]) -> dict[str, Any]:
@@ -809,7 +833,14 @@ def select_causal_evidence(
         if isinstance(item, Mapping)
     ]
     candidates: list[dict[str, Any]] = []
+    removed_rule_ids: set[str] = set()
     if verification is not None:
+        removed_rule_ids = {
+            safe_string(unwrap_verified_evidence(item).get("rule_id"))
+            for item in verification.get("removed_evidence") or []
+            if isinstance(item, Mapping)
+        }
+        removed_rule_ids.discard("")
         candidates.extend(
             unwrap_verified_evidence(item)
             for item in verification.get("verified_evidence") or []
@@ -821,6 +852,21 @@ def select_causal_evidence(
                 for item in verification.get("uncertain_evidence") or []
                 if isinstance(item, Mapping)
             )
+
+        # Step-4 REMOVE là terminal trong verified-context mode: raw Step-3
+        # evidence không được resurrect rule đó qua preferred-path lookup.
+        raw_evidence = [
+            item
+            for item in raw_evidence
+            if safe_string(item.get("rule_id")) not in removed_rule_ids
+        ]
+        candidates = [
+            item
+            for item in candidates
+            if safe_string(item.get("rule_id")) not in removed_rule_ids
+        ]
+
+    # verification=None giữ nguyên behavior của Causal RAG hiện tại.
     if not candidates:
         candidates = raw_evidence
 
@@ -920,23 +966,45 @@ def detect_scm_guard(
     verification: Mapping[str, Any],
     *,
     allow_fallback: bool,
+    allow_context_rerank: bool = False,
+    valid_path_ids: Optional[Sequence[int]] = None,
+    commit_threshold: float = DEFAULT_SCM_COMMIT_THRESHOLD,
+    grounding_threshold: float = DEFAULT_SCM_GROUNDING_THRESHOLD,
 ) -> dict[str, Any]:
+    """Decide whether Step-4 may become authoritative for this sample.
+
+    The gate is intentionally conservative. A failed gate does not emit an
+    authoritative UNCERTAIN verdict; it asks the caller to use exact Step-3
+    context and let the common generator decide as in causal_path_rag.
+    """
+
     configuration = verification.get("configuration") or {}
     analysis = verification.get("query_analysis") or {}
     primary_ids = unique_ints(verification.get("primary_path_ids") or [])
+    primary_set = set(primary_ids)
+    valid_context_path_ids = (
+        set(unique_ints(valid_path_ids))
+        if valid_path_ids is not None
+        else None
+    )
     legal_scm_loaded = bool(configuration.get("legal_scm_loaded"))
+
+    primary_item: Mapping[str, Any] = {}
     fallback_used = bool(analysis.get("structural_fallback_used"))
     fallback_reasons: list[str] = []
     if safe_string(analysis.get("structural_fallback_reason")):
-        fallback_reasons.append(safe_string(analysis.get("structural_fallback_reason")))
+        fallback_reasons.append(
+            safe_string(analysis.get("structural_fallback_reason"))
+        )
 
-    primary_set = set(primary_ids)
     for item in verification.get("path_verifications") or []:
         if not isinstance(item, Mapping):
             continue
         path_id = safe_int(item.get("original_path_id"), -1)
         if primary_set and path_id not in primary_set:
             continue
+        if not primary_item and path_id in primary_set:
+            primary_item = item
         summary = item.get("counterfactual_summary") or {}
         if isinstance(summary, Mapping) and summary.get("fallback_used"):
             fallback_used = True
@@ -944,36 +1012,265 @@ def detect_scm_guard(
             if reason:
                 fallback_reasons.append(reason)
 
+    summary = primary_item.get("counterfactual_summary") or {}
+    if not isinstance(summary, Mapping):
+        summary = {}
+    coverage = summary.get("path_rule_coverage") or {}
+    if not isinstance(coverage, Mapping):
+        coverage = {}
+
     original_decision = normalize_decision(verification.get("final_decision"))
     original_score = clamp(verification.get("decision_score"), 0.35)
-    if not legal_scm_loaded:
-        status = "SCM_NOT_LOADED"
-        effective_decision = UNCERTAIN
-        effective_score = 0.0
-    elif not primary_ids:
-        status = "NO_PRIMARY_PATH"
-        effective_decision = UNCERTAIN
-        effective_score = min(original_score, 0.35)
-    elif fallback_used and not allow_fallback:
-        status = "STRUCTURAL_FALLBACK_BLOCKED"
-        effective_decision = UNCERTAIN
-        effective_score = min(original_score, 0.35)
-    elif fallback_used:
-        status = "STRUCTURAL_FALLBACK_ALLOWED"
-        effective_decision = original_decision
-        effective_score = original_score
-    else:
-        status = "STRUCTURAL_SCM_VERIFIED"
-        effective_decision = original_decision
-        effective_score = original_score
+    claim_type = safe_string(analysis.get("claim_type"))
+    verification_route = safe_string(analysis.get("verification_route"))
+    primary_status = safe_string(
+        analysis.get("primary_path_status") or primary_item.get("status")
+    ).upper()
+    all_hops_covered = bool(
+        analysis.get("all_hops_covered", coverage.get("all_hops_covered"))
+    )
+    conflict_count = safe_int(
+        analysis.get(
+            "structural_conflict_count",
+            len(summary.get("factual_conflicting_event_ids") or []),
+        ),
+        0,
+    )
+    factual_outcome = safe_string(
+        analysis.get("factual_outcome") or summary.get("factual_outcome")
+    ).lower()
+    intervention_executed = bool(
+        analysis.get(
+            "structural_intervention_executed",
+            summary.get("structural_intervention_executed"),
+        )
+    )
+    endpoint_confidence = clamp(
+        analysis.get("endpoint_alignment_confidence"),
+        0.0,
+    )
+    mediator_confidence = clamp(
+        analysis.get("mediator_alignment_confidence"),
+        0.0,
+    )
 
+    status = "VERIFIER_COMMITTED"
+    commit_reason = "Verifier decision passed the selective commit gate."
+    verifier_commit = True
+
+    def reject_gate(code: str, reason: str) -> None:
+        nonlocal status, commit_reason, verifier_commit
+        if verifier_commit:
+            status = code
+            commit_reason = reason
+            verifier_commit = False
+
+    if not primary_ids or not primary_item:
+        reject_gate(
+            "NO_PRIMARY_PATH",
+            "Verifier không có primary path hợp lệ để commit.",
+        )
+    if (
+        primary_ids
+        and valid_context_path_ids is not None
+        and primary_ids[0] not in valid_context_path_ids
+    ):
+        reject_gate(
+            "STALE_PRIMARY_PATH",
+            "Verifier primary path không tồn tại trong Step-3 retrieval hiện tại.",
+        )
+    if (
+        primary_ids
+        and not allow_context_rerank
+        and primary_ids[0] != 0
+    ):
+        reject_gate(
+            "PRIMARY_PATH_CONTEXT_MISMATCH",
+            "Verifier chọn path khác Step-3 path 0 trong khi context rerank bị tắt.",
+        )
+    if original_decision == UNCERTAIN:
+        reject_gate(
+            "DECISION_UNCERTAIN",
+            "Verifier trả UNCERTAIN nên không được authoritative commit.",
+        )
+    if original_score < commit_threshold:
+        reject_gate(
+            "SCORE_BELOW_COMMIT_THRESHOLD",
+            "Verifier score thấp hơn scm commit threshold.",
+        )
+    if fallback_used and not allow_fallback:
+        reject_gate(
+            "STRUCTURAL_FALLBACK_BLOCKED",
+            "Structural fallback bị chặn; dùng exact Step-3 context.",
+        )
+
+    if claim_type == "DIRECT_CAUSAL_CLAIM":
+        grounded_cause = safe_string(
+            analysis.get("grounded_cause_event_node")
+            or analysis.get("grounded_cause_event_id")
+        )
+        grounded_effect = safe_string(
+            analysis.get("grounded_effect_event_node")
+            or analysis.get("grounded_effect_event_id")
+        )
+        edge_exists = analysis.get("grounded_direct_edge_exists")
+        if verification_route != "grounded_direct_edge_topology":
+            reject_gate(
+                "DIRECT_ROUTE_MISMATCH",
+                "Direct claim không được xác minh bằng grounded topology route.",
+            )
+        if (
+            endpoint_confidence < grounding_threshold
+            or not grounded_cause
+            or not grounded_effect
+        ):
+            reject_gate(
+                "ENDPOINT_GROUNDING_INSUFFICIENT",
+                "Cause/effect grounding thiếu hoặc dưới threshold.",
+            )
+        if edge_exists not in (True, False):
+            reject_gate(
+                "DIRECT_EDGE_STATE_MISSING",
+                "Grounded direct-edge state chưa được xác định.",
+            )
+        if (
+            original_decision == SUPPORTED and edge_exists is not True
+        ) or (
+            original_decision == REJECT_DIRECT_CLAIM
+            and edge_exists is not False
+        ):
+            reject_gate(
+                "DIRECT_VERDICT_INCONSISTENT",
+                "Direct verdict không nhất quán với grounded edge state.",
+            )
+
+    elif claim_type == "STANDARD_CAUSAL":
+        if not legal_scm_loaded:
+            reject_gate(
+                "SCM_NOT_LOADED",
+                "STANDARD_CAUSAL cần LegalSCM factual validation.",
+            )
+        if verification_route != "legal_scm_factual_validation":
+            reject_gate(
+                "FACTUAL_ROUTE_MISMATCH",
+                "STANDARD_CAUSAL không đi qua factual-only route.",
+            )
+        if primary_status != "SUPPORTED":
+            reject_gate(
+                "FACTUAL_PRIMARY_NOT_SUPPORTED",
+                "Primary path chưa được factual validation là SUPPORTED.",
+            )
+        if not all_hops_covered:
+            reject_gate(
+                "FACTUAL_HOP_COVERAGE_INCOMPLETE",
+                "LegalSCM rule mechanisms chưa phủ đủ mọi hop.",
+            )
+        if conflict_count:
+            reject_gate(
+                "FACTUAL_STATE_CONFLICT",
+                "Factual inference có event-state conflict.",
+            )
+        if factual_outcome != "true":
+            reject_gate(
+                "FACTUAL_OUTCOME_NOT_TRUE",
+                "Factual outcome chưa được LegalSCM suy ra TRUE.",
+            )
+        if intervention_executed:
+            reject_gate(
+                "UNEXPECTED_STANDARD_INTERVENTION",
+                "STANDARD_CAUSAL không được chạy mediator do-intervention.",
+            )
+
+    elif claim_type in {
+        "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS",
+        "REMOVE_MEDIATOR_OUTCOME_REMAINS",
+        "MEDIATOR_NECESSARY_CLAIM",
+        "COUNTERFACTUAL_UNSPECIFIED",
+    }:
+        mediator_id = safe_string(analysis.get("matched_mediator_id"))
+        signal_source = safe_string(
+            analysis.get("counterfactual_signal_source")
+        )
+        structural_result_used = bool(analysis.get("structural_result_used"))
+        factual_mediator = safe_string(
+            analysis.get("factual_mediator_state")
+        ).lower()
+        counterfactual_outcome = safe_string(
+            analysis.get("counterfactual_outcome")
+        ).lower()
+        intervention_status = safe_string(
+            analysis.get("intervention_status")
+        ).upper()
+
+        if not legal_scm_loaded:
+            reject_gate(
+                "SCM_NOT_LOADED",
+                "Explicit intervention claim cần LegalSCM.",
+            )
+        if (
+            mediator_confidence < grounding_threshold
+            or not mediator_id
+        ):
+            reject_gate(
+                "MEDIATOR_GROUNDING_INSUFFICIENT",
+                "Mediator grounding thiếu hoặc dưới threshold.",
+            )
+        if (
+            not structural_result_used
+            or signal_source != "legal_scm_world_state"
+            or not intervention_executed
+        ):
+            reject_gate(
+                "STRUCTURAL_WORLD_STATE_NOT_USED",
+                "Intervention verdict không dựa trên LegalSCM world-state.",
+            )
+        if (
+            factual_mediator != "true"
+            or factual_outcome != "true"
+            or counterfactual_outcome not in {"true", "false"}
+            or intervention_status not in {"NECESSARY", "NON_NECESSARY"}
+        ):
+            reject_gate(
+                "INTERVENTION_WORLD_STATE_INDETERMINATE",
+                "Mediator/factual/counterfactual world states chưa quyết định.",
+            )
+    else:
+        reject_gate(
+            "UNSUPPORTED_CLAIM_ROUTE",
+            "Claim type không thuộc selective commit policy.",
+        )
+
+    # Gate fail không tạo một verdict UNCERTAIN mới. Authority để rỗng để
+    # caller dùng nguyên Step-3 prompt và quyết định của common generator.
+    effective_decision = original_decision if verifier_commit else ""
+    effective_score = original_score if verifier_commit else None
     return {
         "status": status,
+        "commit_reason": commit_reason,
+        "verifier_commit": verifier_commit,
+        "fallback_to_step3": not verifier_commit,
         "legal_scm_loaded": legal_scm_loaded,
         "primary_path_ids": primary_ids,
+        "primary_path_status": primary_status,
+        "claim_type": claim_type,
+        "verification_route": verification_route,
         "structural_fallback_used": fallback_used,
         "structural_fallback_reasons": unique(fallback_reasons),
+        "structural_intervention_executed": intervention_executed,
         "allow_scm_fallback": allow_fallback,
+        "allow_verified_context_rerank": allow_context_rerank,
+        "valid_retrieval_path_ids": (
+            sorted(valid_context_path_ids)
+            if valid_context_path_ids is not None
+            else None
+        ),
+        "scm_commit_threshold": commit_threshold,
+        "scm_grounding_threshold": grounding_threshold,
+        "endpoint_alignment_confidence": endpoint_confidence,
+        "mediator_alignment_confidence": mediator_confidence,
+        "all_hops_covered": all_hops_covered,
+        "structural_conflict_count": conflict_count,
+        "factual_outcome": factual_outcome,
         "original_decision": original_decision,
         "original_decision_score": original_score,
         "effective_decision": effective_decision,
@@ -1217,6 +1514,9 @@ class SystemBaselineRunner:
             verified_top_k=self.args.verified_top_k,
             keep_threshold=self.args.keep_threshold,
             reject_threshold=self.args.reject_threshold,
+            allow_primary_path_switch=bool(
+                getattr(self.args, "allow_verified_context_rerank", False)
+            ),
         )
         payload = to_serializable(result)
         write_json(verification_path, payload)
@@ -1228,47 +1528,117 @@ class SystemBaselineRunner:
         retrieval: Mapping[str, Any],
         verification: Optional[Mapping[str, Any]],
     ) -> PreparedContext:
-        path_id, primary_path, primary_ids = select_primary_path(retrieval, verification)
-        steps = normalize_path_steps(primary_path)
-        selected_evidence = select_causal_evidence(
-            retrieval=retrieval,
-            primary_path=primary_path,
-            verification=verification,
-            max_evidence=self.args.max_evidence,
-            include_uncertain=self.args.include_uncertain,
-        )
+        # Commit gate phải chạy trước mọi path/evidence selection. Khi gate
+        # fail, selection_verification=None tạo đúng Step-3 context như mode
+        # causal_path_rag; verifier diagnostics không được đi vào prompt.
+        full_mode = verification is not None
         scm_guard: Optional[dict[str, Any]] = None
+        verifier_commit = False
+        verified_context_rerank_applied = False
+        selection_verification: Optional[Mapping[str, Any]] = None
+        prompt_verification: Optional[Mapping[str, Any]] = None
         authoritative_decision = ""
         authoritative_score: Optional[float] = None
         verification_payload: dict[str, Any]
+
         if verification is None:
             verification_payload = {
                 "verification_method": "none",
                 "counterfactual_verification_enabled": False,
                 "final_decision": "",
-                "primary_path_ids": primary_ids,
+                "primary_path_ids": [],
             }
         else:
+            retrieval_paths = retrieval.get("causal_paths") or []
+            if not isinstance(retrieval_paths, list):
+                retrieval_paths = []
+            valid_path_ids = [
+                index
+                for index, item in enumerate(retrieval_paths)
+                if isinstance(item, Mapping)
+            ]
+            allow_context_rerank = bool(
+                getattr(
+                    self.args,
+                    "allow_verified_context_rerank",
+                    False,
+                )
+            )
             scm_guard = detect_scm_guard(
                 verification,
                 allow_fallback=self.args.allow_scm_fallback,
+                allow_context_rerank=allow_context_rerank,
+                valid_path_ids=valid_path_ids,
+                commit_threshold=getattr(
+                    self.args,
+                    "scm_commit_threshold",
+                    DEFAULT_SCM_COMMIT_THRESHOLD,
+                ),
+                grounding_threshold=getattr(
+                    self.args,
+                    "scm_grounding_threshold",
+                    DEFAULT_SCM_GROUNDING_THRESHOLD,
+                ),
             )
-            authoritative_decision = safe_string(scm_guard["effective_decision"])
-            authoritative_score = safe_float(
-                scm_guard["effective_decision_score"],
-                0.0,
-            )
-            verification_payload = dict(verification)
-            verification_payload["runner_scm_guard"] = scm_guard
-            verification_payload["effective_final_decision"] = authoritative_decision
-            verification_payload["effective_decision_score"] = authoritative_score
+            verifier_commit = bool(scm_guard.get("verifier_commit"))
+            if verifier_commit:
+                authoritative_decision = safe_string(
+                    scm_guard.get("effective_decision")
+                )
+                authoritative_score = safe_float(
+                    scm_guard.get("effective_decision_score"),
+                    0.0,
+                )
+                prompt_verification = verification
+                if allow_context_rerank:
+                    selection_verification = verification
+                    verified_context_rerank_applied = True
 
+            verification_payload = dict(verification)
+            verification_payload["verifier_original_final_decision"] = (
+                verification.get("final_decision")
+            )
+            verification_payload["verifier_original_decision_score"] = (
+                verification.get("decision_score")
+            )
+            verification_payload["runner_scm_guard"] = scm_guard
+            verification_payload["verifier_commit"] = verifier_commit
+            verification_payload["fallback_to_step3"] = not verifier_commit
+            verification_payload["effective_final_decision"] = safe_string(
+                scm_guard.get("effective_decision")
+            )
+            verification_payload["effective_decision_score"] = (
+                safe_float(
+                    scm_guard.get("effective_decision_score"),
+                    None,
+                )
+                if verifier_commit
+                else None
+            )
+
+        path_id, primary_path, primary_ids = select_primary_path(
+            retrieval,
+            selection_verification,
+        )
+        if verification is None:
+            verification_payload["primary_path_ids"] = primary_ids
+        steps = normalize_path_steps(primary_path)
+        selected_evidence = select_causal_evidence(
+            retrieval=retrieval,
+            primary_path=primary_path,
+            verification=selection_verification,
+            max_evidence=self.args.max_evidence,
+            include_uncertain=self.args.include_uncertain,
+        )
+
+        # verification block chỉ xuất hiện sau commit. Fallback prompt vì thế
+        # tương đương causal_path_rag với cùng retrieval payload.
         context_blocks = format_causal_context(
             primary_path_id=path_id,
             primary_path=primary_path,
             selected_evidence=selected_evidence,
-            verification=verification,
-            scm_guard=scm_guard,
+            verification=prompt_verification,
+            scm_guard=scm_guard if verifier_commit else None,
         )
         path_rules = path_rule_ids(primary_path, steps)
         path_articles = path_article_ids(primary_path, steps)
@@ -1315,12 +1685,12 @@ class SystemBaselineRunner:
             "statistics": retrieval.get("statistics") or {},
             "configuration": retrieval.get("configuration") or {},
         }
-        full_mode = verification is not None
+        step3_safe_fallback = bool(full_mode and not verifier_commit)
         return PreparedContext(
             mode=self.mode,
             policy=(
                 "VERIFIED_EVIDENCE_AND_AUTHORITATIVE_DECISION"
-                if full_mode
+                if verifier_commit
                 else "EVIDENCE_ONLY"
             ),
             context_blocks=context_blocks,
@@ -1347,6 +1717,12 @@ class SystemBaselineRunner:
                 "legal_scm_enabled": full_mode,
                 "step4_bypassed": not full_mode,
                 "scm_guard": scm_guard or {},
+                "verifier_commit": verifier_commit,
+                "step3_safe_fallback": step3_safe_fallback,
+                "verified_context_rerank_applied": (
+                    verified_context_rerank_applied
+                ),
+                "prompt_includes_verification": verifier_commit,
                 "selected_evidence_count": len(selected_evidence),
             },
         )
@@ -1360,16 +1736,25 @@ class SystemBaselineRunner:
         prompt_metadata: Mapping[str, Any],
         elapsed_seconds: float,
     ) -> dict[str, Any]:
+        verifier_commit = bool(
+            prepared.preparation_metadata.get("verifier_commit")
+        )
+        authoritative_applied = bool(
+            verifier_commit and prepared.authoritative_decision
+        )
         decision_overridden = bool(
-            prepared.authoritative_decision
+            authoritative_applied
             and generation.decision != prepared.authoritative_decision
         )
         final_decision = (
-            prepared.authoritative_decision or generation.decision
+            prepared.authoritative_decision
+            if authoritative_applied
+            else generation.decision
         )
         final_score = (
             prepared.authoritative_score
-            if prepared.authoritative_score is not None
+            if authoritative_applied
+            and prepared.authoritative_score is not None
             else generation.decision_score
         )
         applicability = metric_applicability(self.mode)
@@ -1421,9 +1806,7 @@ class SystemBaselineRunner:
                 "llm_decision_score": generation.decision_score,
                 "final_decision": final_decision,
                 "decision_score": final_score,
-                "authoritative_decision_applied": bool(
-                    prepared.authoritative_decision
-                ),
+                "authoritative_decision_applied": authoritative_applied,
                 "decision_overridden": decision_overridden,
                 "raw_response": generation.raw_response,
                 "response_metadata": generation.response_metadata,
@@ -1578,6 +1961,9 @@ def configuration_payload(args: argparse.Namespace) -> dict[str, Any]:
         "keep_threshold": args.keep_threshold,
         "reject_threshold": args.reject_threshold,
         "allow_scm_fallback": args.allow_scm_fallback,
+        "scm_commit_threshold": args.scm_commit_threshold,
+        "scm_grounding_threshold": args.scm_grounding_threshold,
+        "allow_verified_context_rerank": args.allow_verified_context_rerank,
         "include_uncertain": args.include_uncertain,
     }
 
@@ -1736,8 +2122,29 @@ def parse_args() -> argparse.Namespace:
         "--allow-scm-fallback",
         action="store_true",
         help=(
-            "Cho phép Step 4 dùng node-deletion result khi LegalSCM fallback. "
-            "Mặc định runner chuyển trường hợp này thành UNCERTAIN."
+            "Bỏ generic fallback veto chỉ để phân tích chẩn đoán. Các "
+            "factual/world-state gates vẫn bắt buộc, nên node-deletion không "
+            "tự trở thành authoritative LegalSCM result."
+        ),
+    )
+    verifier.add_argument(
+        "--scm-commit-threshold",
+        type=float,
+        default=DEFAULT_SCM_COMMIT_THRESHOLD,
+        help="Decision-score tối thiểu để verifier được authoritative commit.",
+    )
+    verifier.add_argument(
+        "--scm-grounding-threshold",
+        type=float,
+        default=DEFAULT_SCM_GROUNDING_THRESHOLD,
+        help="Grounding confidence tối thiểu cho endpoint/mediator bắt buộc.",
+    )
+    verifier.add_argument(
+        "--allow-verified-context-rerank",
+        action="store_true",
+        help=(
+            "Cho phép Step-4 primary/evidence rerank sau commit; mặc định vẫn "
+            "giữ nguyên Step-3 path 0 và raw evidence."
         ),
     )
     return parser.parse_args()
@@ -1810,6 +2217,10 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError(
             "Cần 0 <= reject-threshold <= keep-threshold <= 1."
         )
+    if not 0.0 <= args.scm_commit_threshold <= 1.0:
+        raise ValueError("--scm-commit-threshold phải thuộc [0, 1].")
+    if not 0.0 <= args.scm_grounding_threshold <= 1.0:
+        raise ValueError("--scm-grounding-threshold phải thuộc [0, 1].")
 
     required = [Path(args.benchmark)]
     if args.mode == "vanilla_rag":

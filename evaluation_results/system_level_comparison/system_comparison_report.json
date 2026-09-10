@@ -1,0 +1,850 @@
+{
+  "version": "1.0-system-level-paired-comparison",
+  "created_at_utc": "2026-09-09T04:39:16.492824+00:00",
+  "benchmark": "D:\\MAIN\\do_an\\causal_rag\\causal_rag\\data\\blhs_multihop_benchmark_250.json",
+  "benchmark_metadata": {
+    "name": "BLHS Multi-hop Causal QA Benchmark",
+    "version": "2.0",
+    "language": "vi",
+    "domain": "Bộ luật Hình sự Việt Nam",
+    "source_graph": "legal_causal_knowledge_graph.graphml",
+    "created_at_utc": "2026-07-23T16:23:37.658871+00:00",
+    "total_questions": 250,
+    "source_graph_statistics": {
+      "nodes": 5134,
+      "edges": 14420,
+      "causal_edges": 2884,
+      "two_hop_chains": 112
+    },
+    "target_distribution": {
+      "forward_multihop": 70,
+      "reverse_reasoning": 45,
+      "bridge_event": 40,
+      "causal_chain_explanation": 35,
+      "yes_no_positive": 20,
+      "yes_no_counterexample": 20,
+      "branch_or_convergence": 20
+    },
+    "actual_distribution": {
+      "forward_multihop": 70,
+      "reverse_reasoning": 45,
+      "bridge_event": 40,
+      "causal_chain_explanation": 35,
+      "yes_no_positive": 20,
+      "yes_no_counterexample": 20,
+      "branch_reasoning": 4,
+      "convergence_reasoning": 10,
+      "bridge_convergence_fallback": 6
+    },
+    "construction_notes": [
+      "Mọi câu hỏi được xây từ các node và cạnh CAUSES có trong graph nguồn.",
+      "Mẫu phản ví dụ chỉ phủ nhận cạnh trực tiếp A→C khi graph chỉ hỗ trợ A→B→C.",
+      "Không suy diễn thêm quan hệ pháp lý ngoài graph.",
+      "Các câu branch/convergence có thể chứa nhiều hơn hai supporting rules.",
+      "Bộ dữ liệu cần được rà soát thủ công trước khi công bố hoặc dùng làm gold benchmark chính thức.",
+      "Phiên bản 2.0 bổ sung ground truth chuẩn hóa cho retrieval, event retrieval, path, counterfactual verification, answer generation, citation và độ khó."
+    ],
+    "updated_at_utc": "2026-07-23T16:32:02.487441+00:00",
+    "evaluation_ready": true,
+    "evaluation_schema": {
+      "retrieval_ground_truth": [
+        "evaluation.gold_rule_ids",
+        "evaluation.gold_article_ids",
+        "evaluation.expected_retrieval_size"
+      ],
+      "event_ground_truth": [
+        "evaluation.gold_event_ids",
+        "evaluation.gold_events",
+        "evaluation.gold_final_event"
+      ],
+      "path_ground_truth": [
+        "evaluation.gold_path"
+      ],
+      "counterfactual_ground_truth": [
+        "evaluation.requires_counterfactual",
+        "evaluation.gold_decision",
+        "evaluation.counterfactual_verification_target"
+      ],
+      "answer_ground_truth": [
+        "evaluation.gold_answer"
+      ],
+      "citation_ground_truth": [
+        "evaluation.gold_citations"
+      ],
+      "difficulty_fields": [
+        "evaluation.difficulty.retrieval",
+        "evaluation.difficulty.reasoning",
+        "evaluation.difficulty.generation",
+        "evaluation.difficulty.overall_score"
+      ]
+    },
+    "recommended_evaluation_settings": {
+      "rule_retrieval_k": [
+        1,
+        3,
+        5,
+        10
+      ],
+      "event_retrieval_k": [
+        1,
+        3,
+        5,
+        10
+      ],
+      "max_graph_hops": 2,
+      "primary_retrieval_metric": "recall_at_5",
+      "primary_path_metric": "exact_path_accuracy",
+      "primary_answer_metric": "token_f1",
+      "primary_counterfactual_metric": "counterfactual_f1",
+      "primary_citation_metric": "citation_f1"
+    },
+    "validation_summary": {
+      "total_questions": 250,
+      "questions_with_evaluation": 250,
+      "questions_with_gold_rules": 250,
+      "questions_with_gold_events": 250,
+      "questions_with_linear_gold_path": 236,
+      "counterfactual_questions": 20,
+      "question_type_distribution": {
+        "forward_multihop": 70,
+        "reverse_reasoning": 45,
+        "bridge_event": 40,
+        "causal_chain_explanation": 35,
+        "yes_no_positive": 20,
+        "yes_no_counterexample": 20,
+        "branch_reasoning": 4,
+        "convergence_reasoning": 10,
+        "bridge_convergence_fallback": 6
+      },
+      "gold_decision_distribution": {
+        "SUPPORTED": 230,
+        "REJECT_DIRECT_CLAIM": 20
+      }
+    }
+  },
+  "prediction_paths": {
+    "llm_only": "D:\\MAIN\\do_an\\causal_rag\\causal_rag\\data\\baselines\\system_level\\llm_only_qwen3_8b_predictions.json",
+    "vanilla_rag": "D:\\MAIN\\do_an\\causal_rag\\causal_rag\\data\\baselines\\system_level\\vanilla_rag_qwen3_8b_predictions.json",
+    "causal_path_rag": "D:\\MAIN\\do_an\\causal_rag\\causal_rag\\data\\baselines\\system_level\\causal_path_rag_qwen3_8b_predictions.json",
+    "full_legal_scm": "D:\\MAIN\\do_an\\causal_rag\\causal_rag\\data\\baselines\\system_level\\full_legal_scm_qwen3_8b_predictions.json"
+  },
+  "reference_method": "full_legal_scm",
+  "k": 5,
+  "quality_scope": "all_gold_samples_failures_score_zero",
+  "generation_signatures": {
+    "llm_only": {
+      "generation_contract_version": "1.0-common-ollama-json",
+      "prompt_version": "1.0-legal-system-comparison",
+      "provider": "ollama",
+      "model": "qwen3:8b",
+      "temperature": 0.1,
+      "max_tokens": 1200.0,
+      "num_ctx": 32768.0,
+      "seed": 42.0,
+      "thinking": "disabled",
+      "format": "json",
+      "max_context_chars": 18000.0,
+      "extractive_fallback": false
+    },
+    "vanilla_rag": {
+      "generation_contract_version": "1.0-common-ollama-json",
+      "prompt_version": "1.0-legal-system-comparison",
+      "provider": "ollama",
+      "model": "qwen3:8b",
+      "temperature": 0.1,
+      "max_tokens": 1200.0,
+      "num_ctx": 32768.0,
+      "seed": 42.0,
+      "thinking": "disabled",
+      "format": "json",
+      "max_context_chars": 18000.0,
+      "extractive_fallback": false
+    },
+    "causal_path_rag": {
+      "generation_contract_version": "1.0-common-ollama-json",
+      "prompt_version": "1.0-legal-system-comparison",
+      "provider": "ollama",
+      "model": "qwen3:8b",
+      "temperature": 0.1,
+      "max_tokens": 1200.0,
+      "num_ctx": 32768.0,
+      "seed": 42.0,
+      "thinking": "disabled",
+      "format": "json",
+      "max_context_chars": 18000.0,
+      "extractive_fallback": false
+    },
+    "full_legal_scm": {
+      "generation_contract_version": "1.0-common-ollama-json",
+      "prompt_version": "1.0-legal-system-comparison",
+      "provider": "ollama",
+      "model": "qwen3:8b",
+      "temperature": 0.1,
+      "max_tokens": 1200.0,
+      "num_ctx": 32768.0,
+      "seed": 42.0,
+      "thinking": "disabled",
+      "format": "json",
+      "max_context_chars": 18000.0,
+      "extractive_fallback": false
+    }
+  },
+  "generation_contract_warnings": [],
+  "completeness_warnings": [],
+  "metric_applicability": {
+    "llm_only": {
+      "rule_retrieval": false,
+      "event_retrieval": false,
+      "article_retrieval": false,
+      "causal_path": false,
+      "counterfactual_verifier": false
+    },
+    "vanilla_rag": {
+      "rule_retrieval": false,
+      "event_retrieval": false,
+      "article_retrieval": true,
+      "causal_path": false,
+      "counterfactual_verifier": false
+    },
+    "causal_path_rag": {
+      "rule_retrieval": true,
+      "event_retrieval": true,
+      "article_retrieval": true,
+      "causal_path": true,
+      "counterfactual_verifier": false
+    },
+    "full_legal_scm": {
+      "rule_retrieval": true,
+      "event_retrieval": true,
+      "article_retrieval": true,
+      "causal_path": true,
+      "counterfactual_verifier": true
+    }
+  },
+  "aggregates": {
+    "llm_only": {
+      "sample_count": 250,
+      "prediction_coverage": 1.0,
+      "success_rate": 1.0,
+      "failed_or_missing_count": 0,
+      "quality_scope": "all_gold_samples_failures_score_zero",
+      "verification": {
+        "sample_count": 250,
+        "accuracy": 0.0,
+        "macro_f1": 0.0,
+        "balanced_accuracy": 0.0,
+        "per_class": {
+          "SUPPORTED": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 230
+          },
+          "REJECT_DIRECT_CLAIM": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 20
+          },
+          "UNCERTAIN": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          }
+        },
+        "confusion_matrix": {
+          "SUPPORTED": {
+            "REJECT_DIRECT_CLAIM": 0,
+            "SUPPORTED": 0,
+            "UNCERTAIN": 230
+          },
+          "REJECT_DIRECT_CLAIM": {
+            "REJECT_DIRECT_CLAIM": 0,
+            "SUPPORTED": 0,
+            "UNCERTAIN": 20
+          },
+          "UNCERTAIN": {
+            "REJECT_DIRECT_CLAIM": 0,
+            "SUPPORTED": 0,
+            "UNCERTAIN": 0
+          }
+        }
+      },
+      "answer": {
+        "token_precision": 0.235215,
+        "token_recall": 0.109489,
+        "token_f1": 0.129753,
+        "rouge_l_f1": 0.112723
+      },
+      "citation": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "retrieval": {
+        "rule_recall_at_k": null,
+        "rule_mrr": null,
+        "rule_map": null,
+        "event_recall_at_k": null,
+        "event_mrr": null,
+        "article_recall_at_k": null,
+        "article_mrr": null,
+        "article_map": null
+      },
+      "causal_path": {
+        "applicable_sample_count": 0,
+        "top1_exact_path_match": null,
+        "top1_edge_f1": null,
+        "oracle_exact_path_match": null,
+        "oracle_edge_f1": null
+      },
+      "counterfactual_subset": {
+        "sample_count": 20,
+        "decision_accuracy": 0.0,
+        "answer_token_f1": 0.101288,
+        "citation_f1": 0.0
+      },
+      "runtime": {
+        "average_seconds_successful_only": 0.847563,
+        "median_seconds_successful_only": 0.798283
+      },
+      "metric_applicability": {
+        "rule_retrieval": false,
+        "event_retrieval": false,
+        "article_retrieval": false,
+        "causal_path": false,
+        "counterfactual_verifier": false
+      }
+    },
+    "vanilla_rag": {
+      "sample_count": 250,
+      "prediction_coverage": 1.0,
+      "success_rate": 1.0,
+      "failed_or_missing_count": 0,
+      "quality_scope": "all_gold_samples_failures_score_zero",
+      "verification": {
+        "sample_count": 250,
+        "accuracy": 0.596,
+        "macro_f1": 0.694215,
+        "balanced_accuracy": 0.734783,
+        "per_class": {
+          "SUPPORTED": {
+            "precision": 0.984962,
+            "recall": 0.569565,
+            "f1": 0.721763,
+            "support": 230
+          },
+          "REJECT_DIRECT_CLAIM": {
+            "precision": 0.529412,
+            "recall": 0.9,
+            "f1": 0.666667,
+            "support": 20
+          },
+          "UNCERTAIN": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          }
+        },
+        "confusion_matrix": {
+          "SUPPORTED": {
+            "REJECT_DIRECT_CLAIM": 16,
+            "SUPPORTED": 131,
+            "UNCERTAIN": 83
+          },
+          "REJECT_DIRECT_CLAIM": {
+            "REJECT_DIRECT_CLAIM": 18,
+            "SUPPORTED": 2,
+            "UNCERTAIN": 0
+          },
+          "UNCERTAIN": {
+            "REJECT_DIRECT_CLAIM": 0,
+            "SUPPORTED": 0,
+            "UNCERTAIN": 0
+          }
+        }
+      },
+      "answer": {
+        "token_precision": 0.507513,
+        "token_recall": 0.206099,
+        "token_f1": 0.247055,
+        "rouge_l_f1": 0.227622
+      },
+      "citation": {
+        "precision": 0.493267,
+        "recall": 0.568667,
+        "f1": 0.497781
+      },
+      "retrieval": {
+        "rule_recall_at_k": null,
+        "rule_mrr": null,
+        "rule_map": null,
+        "event_recall_at_k": null,
+        "event_mrr": null,
+        "article_recall_at_k": 0.600667,
+        "article_mrr": 0.7284,
+        "article_map": 0.472933
+      },
+      "causal_path": {
+        "applicable_sample_count": 0,
+        "top1_exact_path_match": null,
+        "top1_edge_f1": null,
+        "oracle_exact_path_match": null,
+        "oracle_edge_f1": null
+      },
+      "counterfactual_subset": {
+        "sample_count": 20,
+        "decision_accuracy": 0.9,
+        "answer_token_f1": 0.251252,
+        "citation_f1": 0.701191
+      },
+      "runtime": {
+        "average_seconds_successful_only": 2.47502,
+        "median_seconds_successful_only": 2.267649
+      },
+      "metric_applicability": {
+        "rule_retrieval": false,
+        "event_retrieval": false,
+        "article_retrieval": true,
+        "causal_path": false,
+        "counterfactual_verifier": false
+      }
+    },
+    "causal_path_rag": {
+      "sample_count": 250,
+      "prediction_coverage": 1.0,
+      "success_rate": 1.0,
+      "failed_or_missing_count": 0,
+      "quality_scope": "all_gold_samples_failures_score_zero",
+      "verification": {
+        "sample_count": 250,
+        "accuracy": 0.908,
+        "macro_f1": 0.843606,
+        "balanced_accuracy": 0.881522,
+        "per_class": {
+          "SUPPORTED": {
+            "precision": 0.985915,
+            "recall": 0.913043,
+            "f1": 0.948081,
+            "support": 230
+          },
+          "REJECT_DIRECT_CLAIM": {
+            "precision": 0.653846,
+            "recall": 0.85,
+            "f1": 0.73913,
+            "support": 20
+          },
+          "UNCERTAIN": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          }
+        },
+        "confusion_matrix": {
+          "SUPPORTED": {
+            "REJECT_DIRECT_CLAIM": 9,
+            "SUPPORTED": 210,
+            "UNCERTAIN": 11
+          },
+          "REJECT_DIRECT_CLAIM": {
+            "REJECT_DIRECT_CLAIM": 17,
+            "SUPPORTED": 3,
+            "UNCERTAIN": 0
+          },
+          "UNCERTAIN": {
+            "REJECT_DIRECT_CLAIM": 0,
+            "SUPPORTED": 0,
+            "UNCERTAIN": 0
+          }
+        }
+      },
+      "answer": {
+        "token_precision": 0.757671,
+        "token_recall": 0.272428,
+        "token_f1": 0.365327,
+        "rouge_l_f1": 0.358157
+      },
+      "citation": {
+        "precision": 0.562751,
+        "recall": 0.697067,
+        "f1": 0.587043
+      },
+      "retrieval": {
+        "rule_recall_at_k": 0.712,
+        "rule_mrr": 0.7812,
+        "rule_map": 0.623889,
+        "event_recall_at_k": 0.747933,
+        "event_mrr": 0.804238,
+        "article_recall_at_k": 0.754,
+        "article_mrr": 0.828744,
+        "article_map": 0.676103
+      },
+      "causal_path": {
+        "applicable_sample_count": 236,
+        "top1_exact_path_match": 0.385593,
+        "top1_edge_f1": 0.581921,
+        "oracle_exact_path_match": 0.754237,
+        "oracle_edge_f1": 0.798023
+      },
+      "counterfactual_subset": {
+        "sample_count": 20,
+        "decision_accuracy": 0.85,
+        "answer_token_f1": 0.305418,
+        "citation_f1": 0.546111
+      },
+      "runtime": {
+        "average_seconds_successful_only": 2.120951,
+        "median_seconds_successful_only": 1.929364
+      },
+      "metric_applicability": {
+        "rule_retrieval": true,
+        "event_retrieval": true,
+        "article_retrieval": true,
+        "causal_path": true,
+        "counterfactual_verifier": false
+      }
+    },
+    "full_legal_scm": {
+      "sample_count": 250,
+      "prediction_coverage": 1.0,
+      "success_rate": 1.0,
+      "failed_or_missing_count": 0,
+      "quality_scope": "all_gold_samples_failures_score_zero",
+      "verification": {
+        "sample_count": 250,
+        "accuracy": 0.92,
+        "macro_f1": 0.977273,
+        "balanced_accuracy": 0.956522,
+        "per_class": {
+          "SUPPORTED": {
+            "precision": 1.0,
+            "recall": 0.913043,
+            "f1": 0.954545,
+            "support": 230
+          },
+          "REJECT_DIRECT_CLAIM": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 20
+          },
+          "UNCERTAIN": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 0
+          }
+        },
+        "confusion_matrix": {
+          "SUPPORTED": {
+            "REJECT_DIRECT_CLAIM": 0,
+            "SUPPORTED": 210,
+            "UNCERTAIN": 20
+          },
+          "REJECT_DIRECT_CLAIM": {
+            "REJECT_DIRECT_CLAIM": 20,
+            "SUPPORTED": 0,
+            "UNCERTAIN": 0
+          },
+          "UNCERTAIN": {
+            "REJECT_DIRECT_CLAIM": 0,
+            "SUPPORTED": 0,
+            "UNCERTAIN": 0
+          }
+        }
+      },
+      "answer": {
+        "token_precision": 0.735483,
+        "token_recall": 0.26834,
+        "token_f1": 0.357042,
+        "rouge_l_f1": 0.349044
+      },
+      "citation": {
+        "precision": 0.528233,
+        "recall": 0.663867,
+        "f1": 0.553929
+      },
+      "retrieval": {
+        "rule_recall_at_k": 0.708,
+        "rule_mrr": 0.772533,
+        "rule_map": 0.616794,
+        "event_recall_at_k": 0.7466,
+        "event_mrr": 0.797238,
+        "article_recall_at_k": 0.75,
+        "article_mrr": 0.823411,
+        "article_map": 0.671341
+      },
+      "causal_path": {
+        "applicable_sample_count": 236,
+        "top1_exact_path_match": 0.372881,
+        "top1_edge_f1": 0.573446,
+        "oracle_exact_path_match": 0.754237,
+        "oracle_edge_f1": 0.798023
+      },
+      "counterfactual_subset": {
+        "sample_count": 20,
+        "decision_accuracy": 1.0,
+        "answer_token_f1": 0.162441,
+        "citation_f1": 0.533889
+      },
+      "runtime": {
+        "average_seconds_successful_only": 5.950275,
+        "median_seconds_successful_only": 4.194069
+      },
+      "metric_applicability": {
+        "rule_retrieval": true,
+        "event_retrieval": true,
+        "article_retrieval": true,
+        "causal_path": true,
+        "counterfactual_verifier": true
+      }
+    }
+  },
+  "bootstrap_confidence_intervals": {
+    "llm_only": {
+      "decision_accuracy": {
+        "mean": 0.0,
+        "bootstrap_ci_95_low": 0.0,
+        "bootstrap_ci_95_high": 0.0
+      },
+      "answer_token_f1": {
+        "mean": 0.129753,
+        "bootstrap_ci_95_low": 0.115024,
+        "bootstrap_ci_95_high": 0.14489
+      },
+      "answer_rouge_l_f1": {
+        "mean": 0.112723,
+        "bootstrap_ci_95_low": 0.099928,
+        "bootstrap_ci_95_high": 0.12657
+      },
+      "citation_f1": {
+        "mean": 0.0,
+        "bootstrap_ci_95_low": 0.0,
+        "bootstrap_ci_95_high": 0.0
+      }
+    },
+    "vanilla_rag": {
+      "decision_accuracy": {
+        "mean": 0.596,
+        "bootstrap_ci_95_low": 0.536,
+        "bootstrap_ci_95_high": 0.656
+      },
+      "answer_token_f1": {
+        "mean": 0.247055,
+        "bootstrap_ci_95_low": 0.21959,
+        "bootstrap_ci_95_high": 0.274408
+      },
+      "answer_rouge_l_f1": {
+        "mean": 0.227622,
+        "bootstrap_ci_95_low": 0.201688,
+        "bootstrap_ci_95_high": 0.253912
+      },
+      "citation_f1": {
+        "mean": 0.497781,
+        "bootstrap_ci_95_low": 0.463171,
+        "bootstrap_ci_95_high": 0.53087
+      }
+    },
+    "causal_path_rag": {
+      "decision_accuracy": {
+        "mean": 0.908,
+        "bootstrap_ci_95_low": 0.872,
+        "bootstrap_ci_95_high": 0.944
+      },
+      "answer_token_f1": {
+        "mean": 0.365327,
+        "bootstrap_ci_95_low": 0.332271,
+        "bootstrap_ci_95_high": 0.399876
+      },
+      "answer_rouge_l_f1": {
+        "mean": 0.358157,
+        "bootstrap_ci_95_low": 0.324347,
+        "bootstrap_ci_95_high": 0.391732
+      },
+      "citation_f1": {
+        "mean": 0.587043,
+        "bootstrap_ci_95_low": 0.540575,
+        "bootstrap_ci_95_high": 0.632251
+      }
+    },
+    "full_legal_scm": {
+      "decision_accuracy": {
+        "mean": 0.92,
+        "bootstrap_ci_95_low": 0.888,
+        "bootstrap_ci_95_high": 0.952
+      },
+      "answer_token_f1": {
+        "mean": 0.357042,
+        "bootstrap_ci_95_low": 0.324622,
+        "bootstrap_ci_95_high": 0.389837
+      },
+      "answer_rouge_l_f1": {
+        "mean": 0.349044,
+        "bootstrap_ci_95_low": 0.316524,
+        "bootstrap_ci_95_high": 0.382192
+      },
+      "citation_f1": {
+        "mean": 0.553929,
+        "bootstrap_ci_95_low": 0.508158,
+        "bootstrap_ci_95_high": 0.60034
+      }
+    }
+  },
+  "paired_significance": [
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "llm_only",
+      "metric": "decision_accuracy",
+      "delta_reference_minus_comparator": 0.92,
+      "bootstrap_ci_95_low": 0.884,
+      "bootstrap_ci_95_high": 0.952,
+      "test": "exact_mcnemar",
+      "p_value": 0.0,
+      "reference_only_correct": 230,
+      "comparator_only_correct": 0,
+      "p_value_holm": 0.0
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "llm_only",
+      "metric": "answer_token_f1",
+      "delta_reference_minus_comparator": 0.227289,
+      "bootstrap_ci_95_low": 0.193438,
+      "bootstrap_ci_95_high": 0.261408,
+      "test": "paired_randomization",
+      "p_value": 0.0002,
+      "p_value_holm": 0.002
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "llm_only",
+      "metric": "answer_rouge_l_f1",
+      "delta_reference_minus_comparator": 0.236321,
+      "bootstrap_ci_95_low": 0.204362,
+      "bootstrap_ci_95_high": 0.269803,
+      "test": "paired_randomization",
+      "p_value": 0.0002,
+      "p_value_holm": 0.002
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "llm_only",
+      "metric": "citation_f1",
+      "delta_reference_minus_comparator": 0.553929,
+      "bootstrap_ci_95_low": 0.509172,
+      "bootstrap_ci_95_high": 0.599857,
+      "test": "paired_randomization",
+      "p_value": 0.0002,
+      "p_value_holm": 0.002
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "vanilla_rag",
+      "metric": "decision_accuracy",
+      "delta_reference_minus_comparator": 0.324,
+      "bootstrap_ci_95_low": 0.256,
+      "bootstrap_ci_95_high": 0.392,
+      "test": "exact_mcnemar",
+      "p_value": 0.0,
+      "reference_only_correct": 90,
+      "comparator_only_correct": 9,
+      "p_value_holm": 0.0
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "vanilla_rag",
+      "metric": "answer_token_f1",
+      "delta_reference_minus_comparator": 0.109987,
+      "bootstrap_ci_95_low": 0.07321,
+      "bootstrap_ci_95_high": 0.146156,
+      "test": "paired_randomization",
+      "p_value": 0.0002,
+      "p_value_holm": 0.002
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "vanilla_rag",
+      "metric": "answer_rouge_l_f1",
+      "delta_reference_minus_comparator": 0.121422,
+      "bootstrap_ci_95_low": 0.085623,
+      "bootstrap_ci_95_high": 0.157325,
+      "test": "paired_randomization",
+      "p_value": 0.0002,
+      "p_value_holm": 0.002
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "vanilla_rag",
+      "metric": "citation_f1",
+      "delta_reference_minus_comparator": 0.056148,
+      "bootstrap_ci_95_low": 0.00423,
+      "bootstrap_ci_95_high": 0.108894,
+      "test": "paired_randomization",
+      "p_value": 0.040192,
+      "p_value_holm": 0.160768
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "causal_path_rag",
+      "metric": "decision_accuracy",
+      "delta_reference_minus_comparator": 0.012,
+      "bootstrap_ci_95_low": -0.032,
+      "bootstrap_ci_95_high": 0.056,
+      "test": "exact_mcnemar",
+      "p_value": 0.7201,
+      "reference_only_correct": 17,
+      "comparator_only_correct": 14,
+      "p_value_holm": 0.829634
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "causal_path_rag",
+      "metric": "answer_token_f1",
+      "delta_reference_minus_comparator": -0.008285,
+      "bootstrap_ci_95_low": -0.025189,
+      "bootstrap_ci_95_high": 0.008418,
+      "test": "paired_randomization",
+      "p_value": 0.332733,
+      "p_value_holm": 0.829634
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "causal_path_rag",
+      "metric": "answer_rouge_l_f1",
+      "delta_reference_minus_comparator": -0.009113,
+      "bootstrap_ci_95_low": -0.025766,
+      "bootstrap_ci_95_high": 0.006551,
+      "test": "paired_randomization",
+      "p_value": 0.276545,
+      "p_value_holm": 0.829634
+    },
+    {
+      "reference_method": "full_legal_scm",
+      "comparator_method": "causal_path_rag",
+      "metric": "citation_f1",
+      "delta_reference_minus_comparator": -0.033114,
+      "bootstrap_ci_95_low": -0.057561,
+      "bootstrap_ci_95_high": -0.009787,
+      "test": "paired_randomization",
+      "p_value": 0.004199,
+      "p_value_holm": 0.020996
+    }
+  ],
+  "statistical_settings": {
+    "bootstrap_iterations": 5000,
+    "permutation_iterations": 5000,
+    "random_seed": 42,
+    "multiple_comparison_correction": "Holm",
+    "decision_test": "exact McNemar",
+    "continuous_metric_test": "paired randomization/sign-flip"
+  },
+  "metric_notes": {
+    "shared_metrics": "Decision, answer and citation metrics use all gold samples; missing/failed predictions receive zero.",
+    "retrieval_na": "Retrieval/path metrics are null when the component is not available for a method, not zero.",
+    "path_scope": "Linear path metrics exclude branch/convergence samples whose gold_path is empty.",
+    "oracle_path": "Oracle path remains diagnostic and is not a deployable score."
+  }
+}
