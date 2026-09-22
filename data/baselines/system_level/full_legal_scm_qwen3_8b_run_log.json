@@ -2,16 +2,52 @@
   "status": "COMPLETED",
   "method": "FULL_LEGAL_SCM",
   "mode": "full_legal_scm",
-  "runner_version": "1.1-selective-scm-safe-step3-fallback",
-  "generation_contract_version": "1.0-common-ollama-json",
-  "run_started_at_utc": "2026-09-10T03:14:49.279223+00:00",
-  "completed_at_utc": "2026-09-10T03:31:02.006330+00:00",
-  "elapsed_seconds": 972.727117,
+  "runner_version": "1.2-intervention-audit-forced-binary",
+  "generation_contract_version": "1.1-policy-audited-ollama-json",
+  "run_started_at_utc": "2026-09-22T07:04:38.391209+00:00",
+  "completed_at_utc": "2026-09-22T07:20:35.144145+00:00",
+  "elapsed_seconds": 956.752942,
   "benchmark": "/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/data/blhs_multihop_benchmark_250.json",
   "selected_samples": 250,
   "prediction_count": 250,
   "successful_prediction_count": 250,
   "failed_prediction_count": 0,
+  "run_audit": {
+    "prediction_count": 250,
+    "successful_prediction_count": 250,
+    "decision_counts": {
+      "REJECT_DIRECT_CLAIM": 27,
+      "SUPPORTED": 222,
+      "UNCERTAIN": 1
+    },
+    "abstention_count": 1,
+    "abstention_rate": 0.004,
+    "non_abstention_coverage": 0.996,
+    "decision_policy_violation_count": 0,
+    "claim_type_counts": {
+      "DIRECT_CAUSAL_CLAIM": 13,
+      "MEDIATOR_OMITTABLE_CLAIM": 7,
+      "STANDARD_CAUSAL": 230
+    },
+    "verification_route_counts": {
+      "grounded_direct_edge_topology": 13,
+      "legal_scm_factual_do_intervention": 7,
+      "legal_scm_factual_validation": 230
+    },
+    "guard_status_counts": {
+      "NO_PRIMARY_PATH": 20,
+      "VERIFIER_COMMITTED": 230
+    },
+    "verifier_committed_count": 230,
+    "step3_safe_fallback_count": 20,
+    "structural_intervention_requested_count": 7,
+    "structural_intervention_executed_count": 7,
+    "structural_result_used_count": 7,
+    "node_deletion_diagnostic_count": 7,
+    "supports_structural_intervention_claim": true
+  },
+  "minimum_structural_interventions": 0,
+  "intervention_coverage_requirement_met": true,
   "generated_this_run": 250,
   "skipped_this_run": 0,
   "configuration": {
@@ -25,6 +61,8 @@
     "retries": 1,
     "seed": 42,
     "thinking": "disabled",
+    "llm_decision_policy": "abstain_allowed",
+    "minimum_structural_interventions": 0,
     "format": "json",
     "max_context_chars": 18000,
     "max_evidence": 8,
@@ -51,7 +89,7 @@
     "allow_verified_context_rerank": false,
     "include_uncertain": false
   },
-  "configuration_fingerprint": "478073a26db44d00125532f121c96a2b7aad0956372134db2a2f46666d9be9ae",
+  "configuration_fingerprint": "7613d0cedad11a2b3e7e18e2528a89790bfd4cced5aed89dd336aee75d0fff6c",
   "output": "/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/data/baselines/system_level/full_legal_scm_qwen3_8b_predictions.json",
   "jsonl_output": "/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/data/baselines/system_level/full_legal_scm_qwen3_8b_predictions.jsonl"
 }

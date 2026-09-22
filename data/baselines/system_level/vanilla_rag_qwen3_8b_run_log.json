@@ -2,16 +2,47 @@
   "status": "COMPLETED",
   "method": "VANILLA_RAG",
   "mode": "vanilla_rag",
-  "runner_version": "1.1-selective-scm-safe-step3-fallback",
-  "generation_contract_version": "1.0-common-ollama-json",
-  "run_started_at_utc": "2026-09-10T02:29:45.707879+00:00",
-  "completed_at_utc": "2026-09-10T02:39:28.862795+00:00",
-  "elapsed_seconds": 583.154915,
+  "runner_version": "1.2-intervention-audit-forced-binary",
+  "generation_contract_version": "1.1-policy-audited-ollama-json",
+  "run_started_at_utc": "2026-09-22T04:22:18.327287+00:00",
+  "completed_at_utc": "2026-09-22T04:32:17.426571+00:00",
+  "elapsed_seconds": 599.099284,
   "benchmark": "/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/data/blhs_multihop_benchmark_250.json",
   "selected_samples": 250,
   "prediction_count": 250,
   "successful_prediction_count": 250,
   "failed_prediction_count": 0,
+  "run_audit": {
+    "prediction_count": 250,
+    "successful_prediction_count": 250,
+    "decision_counts": {
+      "REJECT_DIRECT_CLAIM": 94,
+      "SUPPORTED": 122,
+      "UNCERTAIN": 34
+    },
+    "abstention_count": 34,
+    "abstention_rate": 0.136,
+    "non_abstention_coverage": 0.864,
+    "decision_policy_violation_count": 0,
+    "claim_type_counts": {
+      "N/A": 250
+    },
+    "verification_route_counts": {
+      "N/A": 250
+    },
+    "guard_status_counts": {
+      "N/A": 250
+    },
+    "verifier_committed_count": 0,
+    "step3_safe_fallback_count": 0,
+    "structural_intervention_requested_count": 0,
+    "structural_intervention_executed_count": 0,
+    "structural_result_used_count": 0,
+    "node_deletion_diagnostic_count": 0,
+    "supports_structural_intervention_claim": false
+  },
+  "minimum_structural_interventions": 0,
+  "intervention_coverage_requirement_met": true,
   "generated_this_run": 250,
   "skipped_this_run": 0,
   "configuration": {
@@ -25,6 +56,8 @@
     "retries": 1,
     "seed": 42,
     "thinking": "disabled",
+    "llm_decision_policy": "abstain_allowed",
+    "minimum_structural_interventions": 0,
     "format": "json",
     "max_context_chars": 18000,
     "max_evidence": 8,
@@ -51,7 +84,7 @@
     "allow_verified_context_rerank": false,
     "include_uncertain": false
   },
-  "configuration_fingerprint": "fa256848cfa0f606846f7052af70fe82955328bfc69c2eba93b22289e2928ac4",
+  "configuration_fingerprint": "9d860ee008a1e78b7505e13ad6007a439ead1d1d267f9101ff827b1500295af1",
   "output": "/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/data/baselines/system_level/vanilla_rag_qwen3_8b_predictions.json",
   "jsonl_output": "/srv/jupyterhub/users/nhungnt/workspace/nhungnt/causal_rag/data/baselines/system_level/vanilla_rag_qwen3_8b_predictions.jsonl"
 }
