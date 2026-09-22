@@ -50,7 +50,7 @@ PATH_ABLATION_MODE = "path_ablation"
 DEFAULT_COUNTERFACTUAL_MODE = STRUCTURAL_SCM_MODE
 
 # Giữ `query-aware` để Step 5.5 và runner nhận diện compatibility.
-STEP4_VERSION = "4.2-selective-query-aware-legal-scm"
+STEP4_VERSION = "4.3-selective-query-aware-legal-scm"
 
 # Cache model theo file + mtime để batch không parse 2.884 rules mỗi câu.
 _LEGAL_SCM_CACHE: dict[tuple[str, int], LegalSCM] = {}
@@ -61,7 +61,7 @@ PRIMARY_PATH_EVIDENCE_BONUS = 0.12
 # Mục tiêu của benchmark hiện tại chủ yếu là chuỗi hai hop.
 DEFAULT_TARGET_HOPS = 2
 
-# Số hop tối đa khi tìm đường thay thế sau intervention.
+# Số hop tối đa khi tìm đường thay thế trong node-deletion diagnostic.
 DEFAULT_MAX_CF_HOPS = 3
 
 # Số đường thay thế tối đa được lưu cho mỗi intervention.
@@ -117,9 +117,9 @@ class AlternativeCausalPath:
 
         A -> B -> C
 
-    Intervention:
+    Node-deletion ablation:
 
-        remove(B)
+        delete(B) from the graph view
 
     Alternative path có thể là:
 
@@ -147,21 +147,15 @@ class AlternativeCausalPath:
 
 @dataclass
 class MediatorIntervention:
-    """
-    Kết quả một phép can thiệp do(remove mediator).
+    """Auditable result for one mediator perturbation.
 
-    intervention_status:
-        NECESSARY:
-            Sau khi loại mediator không còn đường từ seed đến outcome.
+    ``verification_method`` distinguishes two non-equivalent operations:
+    ``node_deletion_reachability`` removes a graph node for a bounded topology
+    diagnostic, whereas ``legal_scm_do_intervention`` fixes the mediator state,
+    disables its incoming rule mechanisms, and recomputes the structural world.
 
-        PARTIALLY_NECESSARY:
-            Có đường thay thế nhưng yếu hơn đáng kể so với original path.
-
-        NON_NECESSARY:
-            Có đường thay thế đủ mạnh; mediator không phải mắt xích bắt buộc.
-
-        UNRESOLVED:
-            Không đủ dữ liệu để thực hiện intervention.
+    ``intervention_status`` is NECESSARY, PARTIALLY_NECESSARY,
+    NON_NECESSARY, or UNRESOLVED relative to the selected method.
     """
 
     mediator_index: int
@@ -664,7 +658,7 @@ class CounterfactualResourceStore:
                 raise ValueError(
                     "Normalized rules chứa record không phải JSON object."
                 )
-            model = LegalSCM.from_legacy_records(valid_records)
+            model = LegalSCM.from_records(valid_records)
         except Exception as error:
             self.scm_load_error = f"{type(error).__name__}: {error}"
             print("Warning: không thể load LegalSCM:", self.scm_load_error)
@@ -1522,11 +1516,16 @@ class CounterfactualResourceStore:
         )   
 
 # ============================================================
-# MEDIATOR INTERVENTION SEARCH
+# NODE-DELETION REACHABILITY DIAGNOSTIC
 # ============================================================
 
-class CounterfactualGraphSearcher:
-    """Tìm đường thay thế từ seed tới outcome sau do(remove mediator)."""
+class NodeDeletionPathSearcher:
+    """Find bounded alternative paths in the induced graph ``G[V - {M}]``.
+
+    This is a topological ablation diagnostic.  It removes a node and its
+    incident edges from a NetworkX view; it does not fix an SCM variable or
+    replace a structural equation and must never be interpreted as ``do()``.
+    """
 
     def __init__(self, store: CounterfactualResourceStore) -> None:
         self.store = store
@@ -1598,27 +1597,32 @@ class CounterfactualGraphSearcher:
         )
 
 
+# Backward-compatible public alias for callers that imported the old,
+# semantically ambiguous name. New code should use NodeDeletionPathSearcher.
+CounterfactualGraphSearcher = NodeDeletionPathSearcher
+
+
 # ============================================================
 # PATH VERIFICATION
 # ============================================================
 
 class CounterfactualPathVerifier:
-    """
-    Xác minh path bằng can thiệp cấu trúc.
+    """Validate path topology and optionally run node-deletion ablation.
 
-    Điểm sửa quan trọng: path hai node (một hop) là path hợp lệ và được
-    SUPPORTED trực tiếp; không còn bị đánh UNRESOLVED chỉ vì không có mediator.
+    This compatibility class is the non-SCM baseline.  A one-hop path is valid
+    without a mediator; multi-hop ablation only asks whether bounded graph
+    reachability remains after deleting a mediator node.
     """
 
     def __init__(
         self,
         *,
         store: CounterfactualResourceStore,
-        searcher: Optional[CounterfactualGraphSearcher] = None,
+        searcher: Optional[NodeDeletionPathSearcher] = None,
         **_: Any,
     ) -> None:
         self.store = store
-        self.searcher = searcher or CounterfactualGraphSearcher(store)
+        self.searcher = searcher or NodeDeletionPathSearcher(store)
 
     def verify_path(
         self,
@@ -1693,7 +1697,7 @@ class CounterfactualPathVerifier:
                 original_article_ids=article_ids,
                 original_path_score=0.0,
                 original_hop_count=len(event_nodes) - 1,
-                intervention_type="STRUCTURAL_PATH_VALIDATION",
+                intervention_type="TOPOLOGY_PATH_VALIDATION_FAILED",
                 mediator_interventions=[],
                 status="CONTRADICTED",
                 consistency_score=0.10,
@@ -1803,11 +1807,11 @@ class CounterfactualPathVerifier:
         if not interventions:
             return PathVerification(
                 **base_kwargs,
-                intervention_type="REMOVE_MEDIATOR",
+                intervention_type="NODE_DELETION_ABLATION",
                 mediator_interventions=[],
                 status="UNRESOLVED",
                 consistency_score=UNRESOLVED_BASE_SCORE,
-                explanation="Không tìm được mediator hợp lệ để thực hiện intervention.",
+                explanation="Không tìm được mediator hợp lệ để chạy node-deletion ablation.",
             )
 
         non_necessary = sum(item.intervention_status == "NON_NECESSARY" for item in interventions)
@@ -1830,7 +1834,7 @@ class CounterfactualPathVerifier:
             )
         elif necessary > 0 or partially > 0:
             explanation = (
-                f"Path gốc hợp lệ; intervention cho thấy {necessary} mediator "
+                f"Path gốc hợp lệ; node-deletion diagnostic cho thấy {necessary} mediator "
                 f"cần thiết và {partially} mediator cần thiết một phần."
             )
         else:
@@ -1844,7 +1848,7 @@ class CounterfactualPathVerifier:
 
         return PathVerification(
             **base_kwargs,
-            intervention_type="REMOVE_MEDIATOR",
+            intervention_type="NODE_DELETION_ABLATION",
             mediator_interventions=[asdict(item) for item in interventions],
             status=status,
             consistency_score=consistency,
@@ -1866,7 +1870,7 @@ class CounterfactualPathVerifier:
             original_article_ids=[],
             original_path_score=0.0,
             original_hop_count=0,
-            intervention_type="REMOVE_MEDIATOR",
+            intervention_type="NODE_DELETION_ABLATION",
             mediator_interventions=[],
             status="UNRESOLVED",
             consistency_score=UNRESOLVED_BASE_SCORE,
@@ -2620,7 +2624,7 @@ class QueryAwareClaimVerifier:
     “chuỗi edge có hợp lệ không”; lớp này trả lời phát biểu cụ thể trong query.
     """
 
-    INTENT_DETECTION_VERSION = "2.0-explicit-intervention"
+    INTENT_DETECTION_VERSION = "2.1-omittable-mediator-polarity"
 
     DIRECT_TERMS = (
         "trực tiếp",
@@ -2683,6 +2687,16 @@ class QueryAwareClaimVerifier:
         r"\blà\s+(?:một\s+)?(?:điều\s+kiện|mắt\s+xích)\s+(?:cần\s+thiết|bắt\s+buộc|duy\s+nhất)\b",
         r"\b(?:điều\s+kiện|mắt\s+xích)\s+duy\s+nhất\b",
         r"\bkhông\s+thể\s+thiếu\s+để\b",
+    )
+    OMITTABLE_CLAIM_TERMS = (
+        "có thể bỏ qua",
+        "có thể loại bỏ",
+        "có thể không cần",
+        "có thể thiếu",
+    )
+    OMITTABLE_CLAIM_PATTERNS = (
+        r"\b(?:có\s+thể|liệu\s+có\s+thể|liệu)\s+(?:bỏ\s+qua|loại\s+bỏ)\b",
+        r"\bcó\s+thể\s+không\s+cần(?:\s+có)?\b",
     )
     EXPLICIT_COUNTERFACTUAL_TERMS = (
         "phản thực tế",
@@ -2755,6 +2769,16 @@ class QueryAwareClaimVerifier:
                 self.NECESSITY_CLAIM_PATTERNS,
             )
         )
+        has_omittable = (
+            self._contains_any(
+                normalized,
+                self.OMITTABLE_CLAIM_TERMS,
+            )
+            or self._matches_any_pattern(
+                normalized,
+                self.OMITTABLE_CLAIM_PATTERNS,
+            )
+        )
         has_explicit_counterfactual = (
             self._contains_any(
                 normalized,
@@ -2769,7 +2793,9 @@ class QueryAwareClaimVerifier:
             normalized,
             self.CONDITIONAL_TERMS,
         )
-        has_counterfactual = has_remove or has_explicit_counterfactual
+        has_counterfactual = (
+            has_remove or has_omittable or has_explicit_counterfactual
+        )
         conditional_antecedent_only = (
             has_conditional and not has_counterfactual
         )
@@ -2780,6 +2806,8 @@ class QueryAwareClaimVerifier:
             claim_type = "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS"
         elif has_remove and has_remains:
             claim_type = "REMOVE_MEDIATOR_OUTCOME_REMAINS"
+        elif has_omittable:
+            claim_type = "MEDIATOR_OMITTABLE_CLAIM"
         elif has_necessary:
             claim_type = "MEDIATOR_NECESSARY_CLAIM"
         elif has_remove:
@@ -2800,6 +2828,7 @@ class QueryAwareClaimVerifier:
             "has_remains_indicator": has_remains,
             "has_disappears_indicator": has_disappears,
             "has_necessary_indicator": has_necessary,
+            "has_omittable_indicator": has_omittable,
             "has_counterfactual_indicator": has_counterfactual,
             "has_explicit_counterfactual_indicator": (
                 has_explicit_counterfactual
@@ -3217,7 +3246,10 @@ class QueryAwareClaimVerifier:
             ),
         })
 
-        if claim_type == "REMOVE_MEDIATOR_OUTCOME_REMAINS":
+        if claim_type in {
+            "REMOVE_MEDIATOR_OUTCOME_REMAINS",
+            "MEDIATOR_OMITTABLE_CLAIM",
+        }:
             if has_alternative or intervention_status == "NON_NECESSARY":
                 explanation = (
                     "LegalSCM suy luận outcome vẫn TRUE sau "
@@ -3377,7 +3409,7 @@ def promote_primary_path_evidence(
 class CounterfactualVerificationPipeline:
     def __init__(self, store: CounterfactualResourceStore) -> None:
         self.store = store
-        self.searcher = CounterfactualGraphSearcher(store)
+        self.searcher = NodeDeletionPathSearcher(store)
         self.path_verifier = CounterfactualPathVerifier(
             store=store,
             searcher=self.searcher,
@@ -3426,6 +3458,7 @@ class CounterfactualVerificationPipeline:
             "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS",
             "REMOVE_MEDIATOR_OUTCOME_REMAINS",
             "MEDIATOR_NECESSARY_CLAIM",
+            "MEDIATOR_OMITTABLE_CLAIM",
             "COUNTERFACTUAL_UNSPECIFIED",
         }
         run_interventions = claim_type in intervention_claim_types
@@ -3617,6 +3650,12 @@ class CounterfactualVerificationPipeline:
             f"score={decision_score:.4f}",
         )
 
+        rule_encoding_summary = (
+            self.store.legal_scm.to_sparse_rule_encoding().summary()
+            if self.store.legal_scm is not None
+            else {}
+        )
+
         return VerificationResult(
             query=query,
             configuration={
@@ -3642,6 +3681,7 @@ class CounterfactualVerificationPipeline:
                     else ""
                 ),
                 "legal_scm_loaded": self.store.legal_scm is not None,
+                "rule_semantics": rule_encoding_summary,
                 "scm_load_error": self.store.scm_load_error,
                 "step4_version": STEP4_VERSION,
                 "semantic_mapping_enabled": False,

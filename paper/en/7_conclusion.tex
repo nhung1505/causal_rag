@@ -1,0 +1,69 @@
+% =========================================================
+% VII. DISCUSSION AND LIMITATIONS
+% =========================================================
+\section{Discussion and Limitations}
+\label{sec:discussion_limitations}
+
+The controlled experiment shows that structured event--rule retrieval and
+selective verification improve exact decision labels. Full LegalSCM reaches
+96.80\% accuracy versus 90.80\% for Causal Path RAG, with a statistically
+significant paired gain. Since both systems expose identical retrieval and path
+outputs, and all 17 Full-only gains occur after verifier commitment, the
+difference is localized to committed factual validation and grounded
+direct-edge checks.
+
+The result does not imply a uniform quality gain. Answer F1 and ROUGE-L are
+slightly lower for Full, and their paired differences, as well as the Citation
+F1 difference, are not significant. Structured-label correctness and lexical
+answer overlap therefore remain distinct objectives. Three erroneous cases
+also contain prose that conflicts with the structured decision, motivating an
+explicit generation-consistency constraint.
+
+The closed-book LLM result is strongly prompt- and task-dependent. Its 0\%
+accuracy arises because all 250 successful outputs abstain as
+\textsc{uncertain}, while the gold set contains no abstention class. It is not
+evidence that Qwen3-8B has zero legal knowledge. The 230/20 gold-label imbalance
+also makes raw accuracy easy to inflate, so Balanced Accuracy, Macro-F1, class
+coverage, and the confusion matrix should accompany it.
+
+Most importantly, the reported experiment does not validate structural
+mediator intervention. The 20 negative samples are direct-edge counterexamples,
+and the saved Full run executes zero $do(X_M=0)$ operations. The 95\% subset
+score measures grounded direct-edge topology. The hard-intervention mechanism
+is implemented and formally separated from $G^{-M}$ node deletion, but requires
+a new benchmark with explicit removal/necessity queries before effectiveness
+claims can be made. Likewise, the engine supports conjunctive bodies and
+alternative disjunctive mechanisms, whereas the current imported rules are
+unary positive rules; rich AND/OR behavior is not empirically tested.
+
+Top-1 Exact Path remains 38.56\% versus 75.42\% Oracle Exact Path. Seven of the
+eight Full errors occur after a missing-primary-path fallback, confirming that
+first-hop retrieval and path ranking remain bottlenecks. In addition, the
+benchmark is small, graph-derived, and built from the same structured resource
+used by the system. Manual expert review, out-of-graph legal questions, and
+external-domain testing are needed for external validity.
+
+Finally, LegalSCM depends on rule extraction, event normalization, endpoint and
+mediator grounding, and graph construction. It is a deterministic normative
+rule model, not causal discovery or effect estimation. Its $do(\cdot)$ operator
+is meaningful only relative to encoded mechanisms and lacks the exogenous
+abduction layer required for full unit-level counterfactual analysis.
+
+% =========================================================
+% VIII. CONCLUSION
+% =========================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+LegalSCM-RAG combines causal-path retrieval, three-valued rule inference, and a
+selective commit gate for Vietnamese multi-hop legal QA. On the current
+250-question benchmark, it improves decision accuracy over Causal Path RAG by
+6.0 points with paired statistical support, but does not significantly improve
+answer or citation metrics.
+
+The strongest supported conclusion is therefore that selective factual and
+direct-claim verification improves decision reliability in this controlled
+setting. Future work will construct explicit mediator-intervention and
+multi-antecedent rule benchmarks, improve first-hop retrieval and endpoint
+grounding, enforce answer--decision consistency, and obtain expert evaluation
+on legal questions not generated from the source graph.

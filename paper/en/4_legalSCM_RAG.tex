@@ -1,0 +1,167 @@
+% =========================================================
+% IV. LEGALSCM-RAG
+% =========================================================
+\section{LegalSCM-RAG}
+\label{sec:legalscm_rag}
+
+We propose \textit{LegalSCM-RAG}, a retrieval-augmented generation framework
+for multi-hop legal question answering that integrates retrieval over a
+directed condition--consequence graph, multi-hop path reasoning, and selective
+verification through a Legal Structural Causal Model (\textit{LegalSCM}).
+
+Given an input question $q$, the overall pipeline is
+\begin{equation}
+\begin{aligned}
+q
+&\rightarrow
+\text{Causal Retrieval}
+\rightarrow
+\mathcal{P}(q)
+\rightarrow
+P^*\\
+&\rightarrow
+\text{Question-Aware Verification}
+\rightarrow
+\mathcal{E}^*
+\rightarrow
+(a,C),
+\end{aligned}
+\label{eq:overall_pipeline}
+\end{equation}
+where $P^*$ is the primary reasoning path, $\mathcal{E}^*$ is the selected
+evidence, $a$ is the answer, and $C$ is the set of cited provisions.
+
+\subsection{Legal Graph-Based Retrieval}
+
+The system embeds the question and retrieves semantically relevant legal events
+and rules from causal memory. Retrieved events serve as seeds for graph
+expansion. Starting from each seed, the system traverses directed
+condition--consequence relations to construct
+\begin{equation}
+\mathcal{P}(q)=\{P_1,P_2,\ldots,P_K\},
+\end{equation}
+where
+\begin{equation}
+P_i=v_0\xrightarrow{r_1}v_1\xrightarrow{r_2}\cdots
+\xrightarrow{r_h}v_h.
+\end{equation}
+Unlike conventional semantic RAG, the retrieval unit includes legal events and
+the directed rule relations connecting them, rather than only independent text
+passages.
+
+\subsection{Reasoning Path Ranking}
+
+Candidate paths are ranked using semantic and structural signals:
+\begin{equation}
+S(P_i,q)=
+\alpha S_{\mathrm{sem}}+
+\beta S_{\mathrm{graph}}+
+\gamma S_{\mathrm{seed}}+
+\delta S_{\mathrm{path}}.
+\end{equation}
+The primary path is
+\begin{equation}
+P^*=\arg\max_{P_i\in\mathcal{P}(q)}S(P_i,q).
+\end{equation}
+Rules and provisions associated with $P^*$ are passed to verification as
+structured evidence.
+
+\subsection{LegalSCM Fixed-Point Inference}
+
+LegalSCM is a deterministic three-valued normative rule model. Each event is in
+$\{\mathrm{TRUE},\mathrm{FALSE},\mathrm{UNKNOWN}\}$. A rule has the form
+\begin{equation}
+X_1\land\cdots\land X_k\rightarrow Y.
+\end{equation}
+It fires only when all condition literals have their required settled states
+and no encoded exception is active. Conditions within one rule are therefore
+conjunctive. Multiple independently activated rules deriving the same state of
+$Y$ are alternative, disjunctive support. Opposite supports are retained as a
+conflict and mapped to an effective \textsc{unknown} state. The rule operator
+is iterated until a fixed point is reached, as formalized in
+Section~\ref{sec:problem_formulation}.
+
+The canonical engine supports multiple conditions and exceptions, but the
+legacy records used in the reported experiment instantiate one positive
+condition and one positive effect per rule. Consequently, the present results
+do not constitute an empirical evaluation of multi-condition conjunction or
+explicit exception handling.
+
+LegalSCM models normative dependencies extracted from statutes. It neither
+discovers causal relations from observational data nor estimates statistical
+causal effects.
+
+\subsection{Hard Intervention and Topological Diagnostic}
+
+For an explicit query about removing an intermediate event $M$, LegalSCM
+performs a hard intervention relative to the encoded rule model
+\cite{pearl2009causality}:
+\begin{equation}
+do(X_M=0),\qquad 0\equiv\mathrm{FALSE}.
+\end{equation}
+The intervention fixes $X_M$ to false, blocks every rule mechanism whose effect
+is $X_M$, and recomputes the fixed point. If the factual target $Y$ is true and
+\begin{equation}
+Y_{do(X_M=0)}=\mathrm{FALSE},
+\end{equation}
+then $M$ is necessary under the encoded context. If
+$Y_{do(X_M=0)}=\mathrm{TRUE}$, an alternative mechanism supports the target.
+An unknown state in either world yields an indeterminate result.
+
+This operation is distinct from the auxiliary topological ablation that forms
+$G^{-M}=G[V\setminus\{M\}]$ and searches for a bounded alternative path. The
+latter removes the node and its incident edges and is retained only as a
+diagnostic or fallback. It cannot be interpreted as a Pearl-style intervention.
+Moreover, LegalSCM performs no exogenous-state abduction; the result is
+model-relative necessity in the supplied normative context, not unit-level
+actual causation.
+
+\subsection{Question-Aware Verification}
+
+The verifier selects one of three routes from the query. A direct claim
+$A\rightarrow C$ is checked against conservatively grounded graph endpoints.
+A standard legal question receives factual LegalSCM validation of the primary
+path without an intervention. Only an explicit mediator-removal or necessity
+query requests $do(X_M=0)$ and compares factual and intervened worlds. This
+routing prevents a topological direct-edge test or ordinary factual validation
+from being mislabeled as a structural intervention.
+
+\subsection{Selective Verification}
+
+The system distinguishes event states
+$\{\mathrm{TRUE},\mathrm{FALSE},\mathrm{UNKNOWN}\}$, internal intervention
+statuses such as necessary or non-necessary, and final query labels
+\begin{equation}
+\mathcal{Z}=\{\textsc{supported},\textsc{reject-direct-claim},
+\textsc{uncertain}\}.
+\end{equation}
+A verifier label becomes authoritative only when confidence, endpoint or
+mediator grounding, primary-path coverage, and state-consistency checks pass:
+\begin{equation}
+z=
+\begin{cases}
+z_{\mathrm{SCM}}, & G_{\mathrm{commit}}=1,\\[3pt]
+z_{\mathrm{LLM}}, & G_{\mathrm{commit}}=0.
+\end{cases}
+\end{equation}
+When the gate fails, the verifier does not force an \textsc{uncertain} label.
+Instead, the unchanged Causal Path RAG evidence is supplied to the common
+generation model. Full LegalSCM is therefore a selective hybrid rather than an
+SCM-authoritative classifier for every sample.
+
+\subsection{Evidence Refinement and Answer Generation}
+
+After verification, the system constructs
+\begin{equation}
+\mathcal{E}^*=\{r_j\mid r_j\text{ supports }P^*\}
+\end{equation}
+and provides
+\begin{equation}
+I_q=(q,P^*,z,\mathcal{E}^*)
+\end{equation}
+to the language model, which generates
+\begin{equation}
+(a,C)=f_{\theta}(I_q).
+\end{equation}
+This separation makes retrieval, rule inference, the selected verification
+route, and generation independently auditable.

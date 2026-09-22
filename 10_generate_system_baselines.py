@@ -40,6 +40,7 @@ import shutil
 import sys
 import time
 import traceback
+from collections import Counter
 from dataclasses import asdict, dataclass, field, is_dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -47,9 +48,9 @@ from typing import Any, Iterable, Mapping, Optional, Sequence
 from urllib import error, request
 
 
-RUNNER_VERSION = "1.1-selective-scm-safe-step3-fallback"
-GENERATION_CONTRACT_VERSION = "1.0-common-ollama-json"
-PROMPT_VERSION = "1.0-legal-system-comparison"
+RUNNER_VERSION = "1.2-intervention-audit-forced-binary"
+GENERATION_CONTRACT_VERSION = "1.1-policy-audited-ollama-json"
+PROMPT_VERSION = "1.1-decision-policy-audited"
 
 MODES = (
     "llm_only",
@@ -86,6 +87,9 @@ DEFAULT_MAX_CONTEXT_CHARS = 18000
 DEFAULT_MAX_EVIDENCE = 8
 DEFAULT_SCM_COMMIT_THRESHOLD = 0.55
 DEFAULT_SCM_GROUNDING_THRESHOLD = 0.80
+DEFAULT_LLM_DECISION_POLICY = "abstain_allowed"
+LLM_DECISION_POLICIES = ("abstain_allowed", "forced_binary")
+DEFAULT_MIN_STRUCTURAL_INTERVENTIONS = 0
 
 DEFAULT_CORPUS = "data/1_raw_data.json"
 DEFAULT_ARTICLE_INDEX = "data/baselines/vanilla_rag_articles.index"
@@ -118,6 +122,7 @@ class Sample:
 class PreparedContext:
     mode: str
     policy: str
+    decision_policy: str = "ABSTENTION_ALLOWED"
     context_blocks: list[str] = field(default_factory=list)
     allowed_article_ids: list[str] = field(default_factory=list)
     retrieved_rule_ids: list[str] = field(default_factory=list)
@@ -401,7 +406,7 @@ COMMON_SYSTEM_PROMPT = """Bạn là hệ thống hỏi đáp pháp luật Việt
 Mọi cấu hình đều phải tuân theo cùng các quy tắc sau:
 1. Đọc CONTEXT_POLICY trong yêu cầu. Với CLOSED_BOOK_INTERNAL_KNOWLEDGE, chỉ dùng tri thức nội tại của mô hình. Với EVIDENCE_ONLY, chỉ dùng evidence được cung cấp. Với VERIFIED_EVIDENCE_AND_AUTHORITATIVE_DECISION, chỉ dùng evidence và kết quả xác minh được cung cấp.
 2. Nếu AUTHORITATIVE_DECISION khác NONE, verification_decision phải sao chép chính xác giá trị đó và câu trả lời không được mâu thuẫn với nó.
-3. Nếu căn cứ không đủ, trả UNCERTAIN; không bịa quy định, causal path, số điều luật hoặc kết quả can thiệp.
+3. Đọc DECISION_POLICY. Với ABSTENTION_ALLOWED, nếu căn cứ không đủ thì trả UNCERTAIN. Với FORCED_BINARY, bắt buộc chọn SUPPORTED hoặc REJECT_DIRECT_CLAIM bằng suy luận tốt nhất và không được trả UNCERTAIN; vẫn không được bịa quy định, causal path, số điều luật hoặc kết quả can thiệp.
 4. Với cấu hình có evidence, citations chỉ được lấy từ AVAILABLE_CITATIONS. Với cấu hình closed-book, chỉ nêu số điều nếu thực sự chắc chắn.
 5. Không tạo rule_id, event_id hoặc citation dạng [E1] trong final_answer.
 6. Trả lời ngắn gọn, trực tiếp bằng tiếng Việt.
@@ -446,6 +451,7 @@ class CommonPromptBuilder:
         )
         context_value = packed_context or "Không có context truy xuất."
         user_prompt = f"""CONTEXT_POLICY: {prepared.policy}
+DECISION_POLICY: {prepared.decision_policy}
 AUTHORITATIVE_DECISION: {authoritative}
 AUTHORITATIVE_DECISION_SCORE: {authoritative_score}
 AVAILABLE_CITATIONS: {available_citations}
@@ -459,6 +465,7 @@ CONTEXT:
 Hãy trả về đúng JSON schema đã quy định."""
         metadata = {
             "prompt_version": PROMPT_VERSION,
+            "decision_policy": prepared.decision_policy,
             "system_prompt_sha256": sha256_text(COMMON_SYSTEM_PROMPT),
             "system_prompt_chars": len(COMMON_SYSTEM_PROMPT),
             "user_prompt_chars": len(user_prompt),
@@ -1185,6 +1192,7 @@ def detect_scm_guard(
         "REMOVE_MEDIATOR_OUTCOME_DISAPPEARS",
         "REMOVE_MEDIATOR_OUTCOME_REMAINS",
         "MEDIATOR_NECESSARY_CLAIM",
+        "MEDIATOR_OMITTABLE_CLAIM",
         "COUNTERFACTUAL_UNSPECIFIED",
     }:
         mediator_id = safe_string(analysis.get("matched_mediator_id"))
@@ -1346,6 +1354,11 @@ class SystemBaselineRunner:
         return PreparedContext(
             mode=self.mode,
             policy="CLOSED_BOOK_INTERNAL_KNOWLEDGE",
+            decision_policy=(
+                "FORCED_BINARY"
+                if self.args.llm_decision_policy == "forced_binary"
+                else "ABSTENTION_ALLOWED"
+            ),
             retrieval_payload={
                 "retrieval_type": "none",
                 "retrieved_rule_ids": [],
@@ -1361,6 +1374,11 @@ class SystemBaselineRunner:
                 "retrieval_enabled": False,
                 "causal_graph_enabled": False,
                 "counterfactual_verification_enabled": False,
+                "decision_policy": (
+                    "FORCED_BINARY"
+                    if self.args.llm_decision_policy == "forced_binary"
+                    else "ABSTENTION_ALLOWED"
+                ),
             },
         )
 
@@ -1746,6 +1764,10 @@ class SystemBaselineRunner:
             authoritative_applied
             and generation.decision != prepared.authoritative_decision
         )
+        decision_policy_violation = bool(
+            prepared.decision_policy == "FORCED_BINARY"
+            and generation.decision == UNCERTAIN
+        )
         final_decision = (
             prepared.authoritative_decision
             if authoritative_applied
@@ -1769,6 +1791,7 @@ class SystemBaselineRunner:
             "seed": self.args.seed,
             "thinking": self.args.thinking,
             "format": "json",
+            "decision_policy": prepared.decision_policy,
             "extractive_fallback": False,
         }
         return {
@@ -1804,6 +1827,8 @@ class SystemBaselineRunner:
                 "citations": generation.citations,
                 "llm_decision": generation.decision,
                 "llm_decision_score": generation.decision_score,
+                "decision_policy": prepared.decision_policy,
+                "decision_policy_violation": decision_policy_violation,
                 "final_decision": final_decision,
                 "decision_score": final_score,
                 "authoritative_decision_applied": authoritative_applied,
@@ -1821,6 +1846,8 @@ class SystemBaselineRunner:
                 "runner_version": RUNNER_VERSION,
                 "generation_contract_version": GENERATION_CONTRACT_VERSION,
                 "prompt_version": PROMPT_VERSION,
+                "decision_policy": prepared.decision_policy,
+                "decision_policy_violation": decision_policy_violation,
                 "metric_applicability": applicability,
                 **prepared.preparation_metadata,
                 "provider": "ollama",
@@ -1940,6 +1967,8 @@ def configuration_payload(args: argparse.Namespace) -> dict[str, Any]:
         "retries": args.retries,
         "seed": args.seed,
         "thinking": args.thinking,
+        "llm_decision_policy": args.llm_decision_policy,
+        "minimum_structural_interventions": args.minimum_structural_interventions,
         "format": "json",
         "max_context_chars": args.max_context_chars,
         "max_evidence": args.max_evidence,
@@ -1978,6 +2007,111 @@ def configuration_fingerprint(args: argparse.Namespace) -> str:
     return sha256_text(encoded)
 
 
+def build_run_audit(
+    predictions: Mapping[str, Mapping[str, Any]],
+    sample_order: Sequence[str],
+) -> dict[str, Any]:
+    """Aggregate abstention, routing, commit, and intervention coverage."""
+
+    ordered = [predictions[item] for item in sample_order if item in predictions]
+    successful = [row for row in ordered if not safe_string(row.get("error"))]
+    decision_counts: Counter[str] = Counter()
+    claim_type_counts: Counter[str] = Counter()
+    route_counts: Counter[str] = Counter()
+    guard_status_counts: Counter[str] = Counter()
+    verifier_committed = 0
+    step3_fallback = 0
+    intervention_requested = 0
+    intervention_executed = 0
+    structural_result_used = 0
+    node_deletion_diagnostic = 0
+    decision_policy_violations = 0
+
+    for row in successful:
+        decision_counts[normalize_decision(row.get("verification_decision"))] += 1
+        generation = row.get("generation") or {}
+        pipeline = row.get("pipeline_metadata") or {}
+        verification = row.get("verification") or {}
+        if not isinstance(generation, Mapping):
+            generation = {}
+        if not isinstance(pipeline, Mapping):
+            pipeline = {}
+        if not isinstance(verification, Mapping):
+            verification = {}
+        analysis = verification.get("query_analysis") or {}
+        if not isinstance(analysis, Mapping):
+            analysis = {}
+        guard = verification.get("runner_scm_guard") or pipeline.get("scm_guard") or {}
+        if not isinstance(guard, Mapping):
+            guard = {}
+
+        claim_type = safe_string(analysis.get("claim_type")) or "N/A"
+        route = safe_string(analysis.get("verification_route")) or "N/A"
+        guard_status = safe_string(guard.get("status")) or "N/A"
+        claim_type_counts[claim_type] += 1
+        route_counts[route] += 1
+        guard_status_counts[guard_status] += 1
+        verifier_committed += int(bool(guard.get("verifier_commit")))
+        step3_fallback += int(bool(pipeline.get("step3_safe_fallback")))
+        intervention_requested += int(
+            bool(analysis.get("structural_intervention_requested"))
+        )
+        intervention_executed += int(
+            bool(analysis.get("structural_intervention_executed"))
+        )
+        structural_result_used += int(bool(analysis.get("structural_result_used")))
+        decision_policy_violations += int(
+            bool(
+                generation.get("decision_policy_violation")
+                or pipeline.get("decision_policy_violation")
+            )
+        )
+
+        used_node_deletion = False
+        for item in verification.get("path_verifications") or []:
+            if not isinstance(item, Mapping):
+                continue
+            summary = item.get("counterfactual_summary") or {}
+            if not isinstance(summary, Mapping):
+                continue
+            baseline = summary.get("baseline") or {}
+            if (
+                isinstance(baseline, Mapping)
+                and baseline.get("method") == "node_deletion_reachability"
+                and bool(baseline.get("interventions"))
+            ):
+                used_node_deletion = True
+                break
+        node_deletion_diagnostic += int(used_node_deletion)
+
+    successful_count = len(successful)
+    uncertain_count = decision_counts.get(UNCERTAIN, 0)
+    return {
+        "prediction_count": len(ordered),
+        "successful_prediction_count": successful_count,
+        "decision_counts": dict(sorted(decision_counts.items())),
+        "abstention_count": uncertain_count,
+        "abstention_rate": (
+            uncertain_count / successful_count if successful_count else None
+        ),
+        "non_abstention_coverage": (
+            (successful_count - uncertain_count) / successful_count
+            if successful_count else None
+        ),
+        "decision_policy_violation_count": decision_policy_violations,
+        "claim_type_counts": dict(sorted(claim_type_counts.items())),
+        "verification_route_counts": dict(sorted(route_counts.items())),
+        "guard_status_counts": dict(sorted(guard_status_counts.items())),
+        "verifier_committed_count": verifier_committed,
+        "step3_safe_fallback_count": step3_fallback,
+        "structural_intervention_requested_count": intervention_requested,
+        "structural_intervention_executed_count": intervention_executed,
+        "structural_result_used_count": structural_result_used,
+        "node_deletion_diagnostic_count": node_deletion_diagnostic,
+        "supports_structural_intervention_claim": intervention_executed > 0,
+    }
+
+
 def save_predictions(
     *,
     args: argparse.Namespace,
@@ -1987,6 +2121,7 @@ def save_predictions(
 ) -> None:
     ordered = [predictions[item] for item in sample_order if item in predictions]
     successful = sum(not safe_string(row.get("error")) for row in ordered)
+    audit = build_run_audit(predictions, sample_order)
     write_json(Path(args.output), {
         "metadata": {
             "name": "BLHS Controlled System-Level Baseline Predictions",
@@ -2004,6 +2139,7 @@ def save_predictions(
             "prediction_count": len(ordered),
             "successful_prediction_count": successful,
             "failed_prediction_count": len(ordered) - successful,
+            "run_audit": audit,
             "evaluation_compatible": True,
             "gold_access_during_generation": False,
             "extractive_fallback": False,
@@ -2077,6 +2213,18 @@ def parse_args() -> argparse.Namespace:
     )
     common.add_argument("--max-evidence", type=int, default=DEFAULT_MAX_EVIDENCE)
 
+    closed_book = parser.add_argument_group("closed-book LLM baseline")
+    closed_book.add_argument(
+        "--llm-decision-policy",
+        choices=LLM_DECISION_POLICIES,
+        default=DEFAULT_LLM_DECISION_POLICY,
+        help=(
+            "abstain_allowed giữ baseline bảo thủ hiện tại; forced_binary "
+            "yêu cầu LLM-only chọn SUPPORTED hoặc REJECT_DIRECT_CLAIM. "
+            "Mọi vi phạm vẫn được giữ nguyên và đếm trong audit."
+        ),
+    )
+
     vanilla = parser.add_argument_group("vanilla RAG")
     vanilla.add_argument("--vanilla-script", default=DEFAULT_VANILLA_SCRIPT)
     vanilla.add_argument("--corpus", default=DEFAULT_CORPUS)
@@ -2147,6 +2295,15 @@ def parse_args() -> argparse.Namespace:
             "giữ nguyên Step-3 path 0 và raw evidence."
         ),
     )
+    verifier.add_argument(
+        "--minimum-structural-interventions",
+        type=int,
+        default=DEFAULT_MIN_STRUCTURAL_INTERVENTIONS,
+        help=(
+            "Số mẫu tối thiểu phải thực thi hard do() trong full_legal_scm. "
+            "Runner vẫn ghi artifacts/audit rồi trả lỗi nếu coverage thấp hơn."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -2154,6 +2311,8 @@ def derive_output_paths(args: argparse.Namespace) -> None:
     slug = model_slug(args.model)
     base_dir = REPO_ROOT / "data" / "baselines" / "system_level"
     base_name = f"{args.mode}_{slug}"
+    if args.mode == "llm_only" and args.llm_decision_policy == "forced_binary":
+        base_name = f"{args.mode}_forced_binary_{slug}"
     output = resolve_repo_path(args.output) if args.output else base_dir / f"{base_name}_predictions.json"
     args.output = str(output)
     args.jsonl_output = str(
@@ -2221,6 +2380,22 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError("--scm-commit-threshold phải thuộc [0, 1].")
     if not 0.0 <= args.scm_grounding_threshold <= 1.0:
         raise ValueError("--scm-grounding-threshold phải thuộc [0, 1].")
+    if args.minimum_structural_interventions < 0:
+        raise ValueError("--minimum-structural-interventions không được âm.")
+    if (
+        args.mode != "llm_only"
+        and args.llm_decision_policy != DEFAULT_LLM_DECISION_POLICY
+    ):
+        raise ValueError(
+            "--llm-decision-policy chỉ áp dụng cho mode llm_only."
+        )
+    if (
+        args.mode != "full_legal_scm"
+        and args.minimum_structural_interventions
+    ):
+        raise ValueError(
+            "--minimum-structural-interventions chỉ áp dụng cho full_legal_scm."
+        )
 
     required = [Path(args.benchmark)]
     if args.mode == "vanilla_rag":
@@ -2254,6 +2429,8 @@ def print_configuration(args: argparse.Namespace) -> None:
     print(f"Max tokens         : {args.max_tokens}")
     print(f"Context chars      : {args.max_context_chars}")
     print(f"Seed / thinking    : {args.seed} / {args.thinking}")
+    print(f"Decision policy    : {args.llm_decision_policy}")
+    print(f"Minimum do() count : {args.minimum_structural_interventions}")
     print(f"Output             : {args.output}")
     print("Extractive fallback: DISABLED")
     print("Gold access        : DISABLED")
@@ -2391,8 +2568,21 @@ def main() -> int:
 
     ordered = [predictions[item] for item in selected_order if item in predictions]
     failed = sum(bool(safe_string(row.get("error"))) for row in ordered)
+    audit = build_run_audit(predictions, selected_order)
+    executed_interventions = safe_int(
+        audit.get("structural_intervention_executed_count"),
+        0,
+    )
+    intervention_coverage_met = (
+        executed_interventions >= args.minimum_structural_interventions
+    )
+    run_status = (
+        "FAILED_INTERVENTION_COVERAGE"
+        if not intervention_coverage_met
+        else ("COMPLETED_WITH_ERRORS" if failed else "COMPLETED")
+    )
     write_json(run_log_path, {
-        "status": "COMPLETED_WITH_ERRORS" if failed else "COMPLETED",
+        "status": run_status,
         "method": METHOD_NAMES[args.mode],
         "mode": args.mode,
         "runner_version": RUNNER_VERSION,
@@ -2405,6 +2595,9 @@ def main() -> int:
         "prediction_count": len(ordered),
         "successful_prediction_count": len(ordered) - failed,
         "failed_prediction_count": failed,
+        "run_audit": audit,
+        "minimum_structural_interventions": args.minimum_structural_interventions,
+        "intervention_coverage_requirement_met": intervention_coverage_met,
         "generated_this_run": generated,
         "skipped_this_run": skipped,
         "configuration": configuration_payload(args),
@@ -2413,8 +2606,26 @@ def main() -> int:
         "jsonl_output": args.jsonl_output,
     })
 
+    if not intervention_coverage_met:
+        raise RuntimeError(
+            "Structural intervention coverage không đạt yêu cầu: "
+            f"executed={executed_interventions}, "
+            f"required={args.minimum_structural_interventions}. "
+            "Artifacts và run audit đã được ghi để chẩn đoán."
+        )
+
     print("=" * 80)
     print(f"Done: {len(ordered)} predictions, {failed} errors")
+    print(
+        "Audit: abstain={abstain}, commit={commit}, fallback={fallback}, "
+        "do_requested={requested}, do_executed={executed}".format(
+            abstain=audit.get("abstention_count", 0),
+            commit=audit.get("verifier_committed_count", 0),
+            fallback=audit.get("step3_safe_fallback_count", 0),
+            requested=audit.get("structural_intervention_requested_count", 0),
+            executed=audit.get("structural_intervention_executed_count", 0),
+        )
+    )
     print(f"Output: {output_path}")
     print("=" * 80)
     return 0

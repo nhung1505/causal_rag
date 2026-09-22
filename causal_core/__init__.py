@@ -9,6 +9,8 @@ from causal_core.legal_scm import (
     LegalSCM,
     RuleEvaluation,
     RuleEvaluationStatus,
+    SparseBinaryMatrix,
+    SparseRuleEncoding,
 )
 from causal_core.schema import (
     CausalLiteral,
@@ -36,4 +38,6 @@ __all__ = [
     "NormalizationAction",
     "RuleEvaluation",
     "RuleEvaluationStatus",
+    "SparseBinaryMatrix",
+    "SparseRuleEncoding",
 ]

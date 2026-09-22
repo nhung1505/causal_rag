@@ -1,14 +1,15 @@
-"""Deterministic structural inference for normative legal causal rules.
+"""Deterministic three-valued inference for normative legal causal rules.
 
 ``LegalSCM`` is intentionally independent from NetworkX and the retrieval
 pipeline.  It executes canonical :class:`~causal_core.schema.CausalRule`
 mechanisms, supports explicit ``do(X=x)`` interventions, and returns auditable
 factual/counterfactual traces with rule provenance.
 
-This is a normative Boolean structural model, not causal discovery or causal
-effect estimation from observational data.  Events produced by at least one
-rule are treated as endogenous and default to ``FALSE`` when no mechanism
-produces them.  Root events remain ``UNKNOWN`` until supplied in the context.
+This is a normative three-valued structural rule model, not causal discovery
+or causal-effect estimation from observational data.  Events produced by at
+least one rule are endogenous and default to ``FALSE`` when no mechanism
+produces them.  Root events remain ``UNKNOWN`` until supplied in the context;
+conflicting TRUE/FALSE support is also exposed as effective ``UNKNOWN``.
 """
 
 from __future__ import annotations
@@ -23,6 +24,138 @@ from causal_core.schema import CausalLiteral, CausalRule, EventState
 
 AssignmentValue = Union[EventState, bool, str, None]
 SupportMap = dict[str, set[EventState]]
+
+
+@dataclass(frozen=True)
+class SparseBinaryMatrix:
+    """Dependency-free COO representation of a binary incidence matrix."""
+
+    name: str
+    row_labels: tuple[str, ...]
+    column_labels: tuple[str, ...]
+    nonzero_indices: tuple[tuple[int, int], ...]
+
+    def __post_init__(self) -> None:
+        row_count = len(self.row_labels)
+        column_count = len(self.column_labels)
+        normalized = tuple(sorted(set(self.nonzero_indices)))
+        for row, column in normalized:
+            if not 0 <= row < row_count or not 0 <= column < column_count:
+                raise ValueError(
+                    f"{self.name} chứa tọa độ ngoài shape "
+                    f"({row_count}, {column_count}): {(row, column)}"
+                )
+        object.__setattr__(self, "nonzero_indices", normalized)
+
+    @property
+    def shape(self) -> tuple[int, int]:
+        return len(self.row_labels), len(self.column_labels)
+
+    @property
+    def nnz(self) -> int:
+        return len(self.nonzero_indices)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "format": "coo_binary",
+            "shape": list(self.shape),
+            "row_labels": list(self.row_labels),
+            "column_labels": list(self.column_labels),
+            "nonzero_indices": [list(item) for item in self.nonzero_indices],
+            "nnz": self.nnz,
+        }
+
+
+@dataclass(frozen=True)
+class SparseRuleEncoding:
+    """Sparse linear-algebraic view of the symbolic rule program.
+
+    Body matrices are rule-by-event.  Head matrices are event-by-rule so an
+    OR aggregation over independently activated rules is explicit.  TRUE and
+    FALSE use separate channels; UNKNOWN is represented by no settled channel
+    (or by conflicting support, which the inference engine reports explicitly).
+    """
+
+    event_ids: tuple[str, ...]
+    rule_ids: tuple[str, ...]
+    condition_true: SparseBinaryMatrix
+    condition_false: SparseBinaryMatrix
+    exception_true: SparseBinaryMatrix
+    exception_false: SparseBinaryMatrix
+    head_true: SparseBinaryMatrix
+    head_false: SparseBinaryMatrix
+    body_thresholds: tuple[int, ...]
+    version: str = "1.0-three-valued-sparse-incidence"
+
+    @staticmethod
+    def _rows_with_nonzero(matrix: SparseBinaryMatrix) -> set[int]:
+        return {row for row, _ in matrix.nonzero_indices}
+
+    @staticmethod
+    def _rows_with_multiple_nonzero(matrix: SparseBinaryMatrix) -> set[int]:
+        counts: dict[int, int] = {}
+        for row, _ in matrix.nonzero_indices:
+            counts[row] = counts.get(row, 0) + 1
+        return {row for row, count in counts.items() if count > 1}
+
+    def summary(self) -> dict[str, Any]:
+        exception_rows = (
+            self._rows_with_nonzero(self.exception_true)
+            | self._rows_with_nonzero(self.exception_false)
+        )
+        alternative_head_rows = (
+            self._rows_with_multiple_nonzero(self.head_true)
+            | self._rows_with_multiple_nonzero(self.head_false)
+        )
+        matrices = (
+            self.condition_true,
+            self.condition_false,
+            self.exception_true,
+            self.exception_false,
+            self.head_true,
+            self.head_false,
+        )
+        return {
+            "version": self.version,
+            "event_count": len(self.event_ids),
+            "rule_count": len(self.rule_ids),
+            "conjunctive_rule_count": sum(
+                threshold > 1 for threshold in self.body_thresholds
+            ),
+            "rules_with_exceptions": len(exception_rows),
+            "alternative_support_event_count": len(alternative_head_rows),
+            "condition_aggregation": "AND_WITHIN_RULE",
+            "same_head_rule_aggregation": "OR_ACROSS_RULES",
+            "exception_aggregation": "ANY_MATCH_BLOCKS_RULE",
+            "unknown_encoding": "NO_SETTLED_CHANNEL_OR_CONFLICT",
+            "runtime_engine": "SYMBOLIC_FIXED_POINT",
+            "matrix_shapes": {
+                matrix.name: list(matrix.shape) for matrix in matrices
+            },
+            "matrix_nnz": {
+                matrix.name: matrix.nnz for matrix in matrices
+            },
+        }
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            **self.summary(),
+            "event_ids": list(self.event_ids),
+            "rule_ids": list(self.rule_ids),
+            "body_thresholds": list(self.body_thresholds),
+            "matrices": {
+                matrix.name: matrix.to_dict()
+                for matrix in (
+                    self.condition_true,
+                    self.condition_false,
+                    self.exception_true,
+                    self.exception_false,
+                    self.head_true,
+                    self.head_false,
+                )
+            },
+        }
 
 
 class RuleEvaluationStatus(str, Enum):
@@ -207,9 +340,10 @@ class LegalSCM:
     """Forward structural model over legal rule mechanisms.
 
     Context assignments are factual inputs.  A hard intervention takes
-    precedence over context and disables every mechanism whose effect is the
-    intervened event, implementing the graph operation that cuts incoming
-    causal edges before fixing the event value.
+    precedence over context, disables every rule mechanism whose effect is the
+    intervened event, and fixes that event to a concrete state.  This is
+    structural-equation replacement within the encoded rule model; it does not
+    delete a node from the retrieval graph.
     """
 
     def __init__(
@@ -247,6 +381,29 @@ class LegalSCM:
 
         self.event_ids = frozenset(event_ids)
         self.endogenous_event_ids = frozenset(self.rules_by_effect)
+        self._sparse_rule_encoding: SparseRuleEncoding | None = None
+
+    @classmethod
+    def from_records(
+        cls,
+        records: Iterable[CausalRule | Mapping[str, Any]],
+        *,
+        validate: bool = True,
+        closed_world: bool = True,
+    ) -> LegalSCM:
+        """Load canonical multi-literal records and legacy flat records."""
+
+        rules = (
+            record
+            if isinstance(record, CausalRule)
+            else CausalRule.from_dict(record, validate=validate)
+            for record in records
+        )
+        return cls(
+            rules,
+            validate=validate,
+            closed_world=closed_world,
+        )
 
     @classmethod
     def from_legacy_records(
@@ -256,6 +413,8 @@ class LegalSCM:
         validate: bool = True,
         closed_world: bool = True,
     ) -> LegalSCM:
+        """Load the historical one-positive-condition record format."""
+
         rules = (
             CausalRule.from_legacy_rule(record, validate=validate)
             for record in records
@@ -265,6 +424,83 @@ class LegalSCM:
             validate=validate,
             closed_world=closed_world,
         )
+
+    def to_sparse_rule_encoding(self) -> SparseRuleEncoding:
+        """Return the lossless sparse incidence encoding used in the paper.
+
+        This method exposes an auditable linear-algebraic view without changing
+        the runtime semantics: inference continues to evaluate the same sparse
+        :class:`CausalRule` objects symbolically to a fixed point.
+        """
+
+        cached = self._sparse_rule_encoding
+        if cached is not None:
+            return cached
+
+        event_ids = tuple(sorted(self.event_ids))
+        rule_ids = tuple(rule.rule_id for rule in self.rules)
+        event_index = {
+            event_id: position for position, event_id in enumerate(event_ids)
+        }
+
+        condition_true: list[tuple[int, int]] = []
+        condition_false: list[tuple[int, int]] = []
+        exception_true: list[tuple[int, int]] = []
+        exception_false: list[tuple[int, int]] = []
+        head_true: list[tuple[int, int]] = []
+        head_false: list[tuple[int, int]] = []
+        thresholds: list[int] = []
+
+        for rule_index, rule in enumerate(self.rules):
+            thresholds.append(len(rule.conditions))
+            for literal in rule.conditions:
+                target = (
+                    condition_true
+                    if literal.state is EventState.TRUE
+                    else condition_false
+                )
+                target.append((rule_index, event_index[literal.event_id]))
+            for literal in rule.exceptions:
+                target = (
+                    exception_true
+                    if literal.state is EventState.TRUE
+                    else exception_false
+                )
+                target.append((rule_index, event_index[literal.event_id]))
+            target = (
+                head_true
+                if rule.effect.state is EventState.TRUE
+                else head_false
+            )
+            target.append((event_index[rule.effect.event_id], rule_index))
+
+        rule_event_shape = (rule_ids, event_ids)
+        event_rule_shape = (event_ids, rule_ids)
+        encoding = SparseRuleEncoding(
+            event_ids=event_ids,
+            rule_ids=rule_ids,
+            condition_true=SparseBinaryMatrix(
+                "condition_true", *rule_event_shape, tuple(condition_true)
+            ),
+            condition_false=SparseBinaryMatrix(
+                "condition_false", *rule_event_shape, tuple(condition_false)
+            ),
+            exception_true=SparseBinaryMatrix(
+                "exception_true", *rule_event_shape, tuple(exception_true)
+            ),
+            exception_false=SparseBinaryMatrix(
+                "exception_false", *rule_event_shape, tuple(exception_false)
+            ),
+            head_true=SparseBinaryMatrix(
+                "head_true", *event_rule_shape, tuple(head_true)
+            ),
+            head_false=SparseBinaryMatrix(
+                "head_false", *event_rule_shape, tuple(head_false)
+            ),
+            body_thresholds=tuple(thresholds),
+        )
+        self._sparse_rule_encoding = encoding
+        return encoding
 
     @staticmethod
     def _normalize_assignments(
@@ -813,4 +1049,6 @@ __all__ = [
     "LegalSCM",
     "RuleEvaluation",
     "RuleEvaluationStatus",
+    "SparseBinaryMatrix",
+    "SparseRuleEncoding",
 ]

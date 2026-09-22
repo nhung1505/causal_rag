@@ -1,0 +1,161 @@
+% =========================================================
+% III. PROBLEM FORMULATION
+% =========================================================
+\section{Phát biểu bài toán}
+\label{sec:problem_formulation}
+
+Nghiên cứu xem xét bài toán hỏi đáp pháp luật nhiều bước, trong đó kết luận có
+thể phụ thuộc vào nhiều điều kiện, sự kiện trung gian và hệ quả pháp lý. Gọi
+câu hỏi đầu vào là $q\in\mathcal{Q}$. Tri thức pháp luật được biểu diễn bằng đồ
+thị có hướng $G=(V,E)$ và tập quy tắc liên kết $\mathcal{R}$. Mỗi nút
+$v_i\in V$ là một sự kiện pháp lý đã chuẩn hóa; mỗi cạnh tóm tắt một hoặc nhiều
+quy tắc điều kiện--hệ quả. Ngữ nghĩa suy luận cấu trúc được xác định bởi tập quy
+tắc, không chỉ bởi tính đạt được trên đồ thị.
+
+Với $q$, hệ thống truy xuất các sự kiện liên quan và xây dựng tập đường suy
+luận ứng viên
+\begin{equation}
+\mathcal{P}(q)=\{P_1,P_2,\ldots,P_K\},
+\end{equation}
+trong đó
+\begin{equation}
+P_i=v_0\xrightarrow{r_1}v_1\xrightarrow{r_2}\cdots
+\xrightarrow{r_h}v_h.
+\end{equation}
+Đường suy luận chính được chọn bởi
+\begin{equation}
+P^*=\arg\max_{P_i\in\mathcal{P}(q)}S(P_i,q),
+\end{equation}
+trong đó $S(P_i,q)$ kết hợp độ phù hợp ngữ nghĩa và tín hiệu cấu trúc.
+
+\subsection{Ngữ nghĩa quy tắc ba giá trị}
+
+Mỗi sự kiện được gắn với một biến cấu trúc
+\begin{equation}
+X_i\in\{1,0,\bot\},
+\end{equation}
+trong đó $1$, $0$ và $\bot$ lần lượt biểu diễn \textsc{true},
+\textsc{false} và \textsc{unknown}. Giá trị thứ ba biểu diễn bằng chứng chưa
+được xác lập hoặc bị xung đột, không phải một giá trị số nằm giữa 0 và 1. Thiết
+kế này dựa trên ngữ nghĩa điểm bất động ba giá trị cho logic programming
+\cite{kleene1952metamathematics,fitting1985kripke} và các mở rộng đại số tuyến
+tính \cite{sato2020threevalued}.
+
+Để không gán một giá trị số cho $\bot$, trạng thái được mã hóa bằng hai kênh hỗ
+trợ
+\begin{equation}
+t_i=\mathbb{I}[X_i=1],\qquad
+f_i=\mathbb{I}[X_i=0].
+\label{eq:two_channel_state}
+\end{equation}
+Do đó, $X_i=\bot$ tương ứng với $(t_i,f_i)=(0,0)$. Nếu đồng thời tồn tại hỗ
+trợ dương và âm, engine thận trọng quy trạng thái hiệu dụng về $\bot$.
+
+Gọi $\mathbf{B}^{+},\mathbf{B}^{-}\in\{0,1\}^{|\mathcal{R}|\times |V|}$ là
+hai ma trận incidence cho các literal trong thân quy tắc lần lượt yêu cầu trạng
+thái đúng và sai. Với quy tắc $r$, đặt
+$k_r=\sum_i(B^{+}_{ri}+B^{-}_{ri})$. Thân hội của quy tắc chỉ được thỏa mãn khi
+mọi literal có đúng trạng thái yêu cầu:
+\begin{equation}
+b_r(\mathbf{t},\mathbf{f})=
+\mathbb{I}\!\left[
+\sum_i B^{+}_{ri}t_i+
+\sum_i B^{-}_{ri}f_i=k_r
+\right].
+\label{eq:conjunctive_body}
+\end{equation}
+Nếu $e_r$ cho biết ít nhất một ngoại lệ đã thỏa mãn, mức kích hoạt của quy tắc
+là $a_r=b_r(1-e_r)$. Gọi $\mathbf{H}^{+}$ và $\mathbf{H}^{-}$ là các ma trận
+incidence cho phần đầu quy tắc. Hỗ trợ dương cho sự kiện $i$ được tổng hợp bởi
+\begin{equation}
+d_i^{+}=\mathbb{I}\!\left[\sum_r H^{+}_{ir}a_r\geq 1\right],
+\label{eq:disjunctive_support}
+\end{equation}
+và hỗ trợ âm được tính tương tự. Vì vậy, các literal trong cùng một quy tắc có
+quan hệ hội, còn nhiều quy tắc độc lập có cùng hệ quả biểu diễn các cơ chế thay
+thế theo quan hệ tuyển. Cụ thể, $(A\land B)\rightarrow Y$ là một quy tắc có hai
+literal trong thân; $(A\lor B)\rightarrow Y$ được chuẩn hóa thành hai quy tắc
+$A\rightarrow Y$ và $B\rightarrow Y$. Schema hiện tại không hỗ trợ phần đầu
+quy tắc dạng tuyển. Cách nhìn incidence giữa thân và đầu quy tắc là biểu diễn ma
+trận thưa tương ứng với các mô hình logic programming trong không gian ma
+trận/tensor \cite{sakama2021tensor}.
+
+Trạng thái factual là điểm bất động
+\begin{equation}
+\mathbf{x}^{F}
+=
+\operatorname{Fix}(\Phi_{\mathcal{R}},\mathbf{x}^{(0)}),
+\label{eq:factual_fixed_point}
+\end{equation}
+trong đó $\Phi_{\mathcal{R}}$ kích hoạt các cơ chế quy tắc. Các ma trận trên là
+biểu diễn đại số chính thức; implementation hiện tại đánh giá các quy tắc thưa
+tương đương bằng phép suy luận ký hiệu tới điểm bất động, không thực hiện phép
+nhân ma trận dày. Engine hỗ trợ nhiều literal trong thân, nhưng dữ liệu legacy
+của thực nghiệm hiện tại ánh xạ mỗi bản ghi thành một antecedent dương và một
+consequent dương. Do đó, khả năng xử lý conjunction chưa được đánh giá thực
+nghiệm trong benchmark này.
+
+\subsection{Graph ablation và structural intervention}
+
+Gọi $M(P^*)=\{v_1,\ldots,v_{h-1}\}$ là tập sự kiện trung gian của đường chính.
+Nghiên cứu phân biệt hai phép toán không tương đương. Thứ nhất, phép kiểm tra tô
+pô tạo đồ thị cảm sinh
+\begin{equation}
+G^{-M}=G[V\setminus\{M\}]
+\end{equation}
+và kiểm tra tính đạt được có giới hạn
+\begin{equation}
+\rho_{\mathrm{top}}(s,Y\mid M)
+=
+\mathbb{I}[Y\text{ đạt được từ }s\text{ trong }G^{-M}].
+\label{eq:topological_ablation}
+\end{equation}
+Phép toán này chỉ cho biết có tìm thấy đường đồ thị thay thế trong giới hạn tìm
+kiếm hay không. Nó được dùng như diagnostic/fallback về topology, không phải
+định nghĩa phản thực của LegalSCM.
+
+Thứ hai, với câu hỏi yêu cầu loại bỏ rõ ràng một mediator, LegalSCM thực hiện
+hard intervention
+\begin{equation}
+do(X_M=0),
+\label{eq:problem_do}
+\end{equation}
+trong đó $0\equiv\mathrm{FALSE}$. Biến $X_M$ và phần còn lại của cấu trúc quy
+tắc vẫn được giữ; mọi quy tắc có phần đầu là $X_M$ bị vô hiệu hóa và cơ chế xác
+định $X_M$ được thay bằng phép gán hằng $X_M:=0$. Tương đương,
+\begin{equation}
+\mathcal{R}^{do(X_M=0)}
+=
+\{r\in\mathcal{R}\mid \operatorname{head}(r)\neq X_M\}.
+\end{equation}
+Thế giới phản thực được suy luận lại bởi
+\begin{equation}
+\mathbf{x}^{CF}_{M}
+=
+\operatorname{Fix}\!\left(
+\Phi_{\mathcal{R}^{do(X_M=0)}},
+\mathbf{x}^{(0)}\cup\{X_M=0\}
+\right).
+\label{eq:cf_fixed_point}
+\end{equation}
+Với biến đích $Y$, $M$ là cần thiết tương đối với mô hình quy phạm đã mã hóa nếu
+$x_Y^{F}=1$ và $x_{Y,M}^{CF}=0$; $M$ không cần thiết nếu
+$x_{Y,M}^{CF}=1$; kết quả là chưa xác định nếu một trong hai thế giới có trạng
+thái unknown. Đây là hard intervention trên mô hình quy tắc đã mã hóa, không có
+bước abduction biến ngoại sinh, và không được đồng nhất với thao tác xóa $M$
+khỏi $G$.
+
+Cuối cùng, hệ thống dự đoán nhãn phụ thuộc câu hỏi $z\in\mathcal{Z}$, trong đó
+\begin{equation}
+\begin{aligned}
+\mathcal{Z}=\{&\textsc{supported},\textsc{uncertain},\\
+&\textsc{reject-direct-claim}\},
+\end{aligned}
+\end{equation}
+và sinh câu trả lời $a$ cùng các căn cứ $C$:
+\begin{equation}
+f:(q,G,\mathcal{R})\rightarrow(P^*,z,\mathcal{E}^*,a,C),
+\end{equation}
+trong đó $\mathcal{E}^*$ là tập bằng chứng đã tinh lọc. Miền nhãn quyết định này
+khác với miền trạng thái sự kiện $\{1,0,\bot\}$ và các trạng thái nội bộ như
+necessary hoặc non-necessary.

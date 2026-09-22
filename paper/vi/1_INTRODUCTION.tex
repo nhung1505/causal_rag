@@ -1,0 +1,41 @@
+\section{Giới thiệu}
+\label{sec:introduction}
+
+Các mô hình ngôn ngữ lớn (Large Language Models -- LLMs) đã đạt nhiều kết quả
+tích cực trong hỏi đáp. Tuy nhiên, trong lĩnh vực pháp luật, một câu trả lời
+đáng tin cậy không chỉ cần trôi chảy mà còn phải xác định đúng căn cứ và chuỗi
+suy luận nối các điều kiện, sự kiện trung gian và hệ quả
+\cite{chalkidis2020legalbert,guha2023legalbench}.
+
+Retrieval-Augmented Generation (RAG) giảm phụ thuộc vào tri thức nội tại của
+LLM bằng cách truy xuất bằng chứng trước bước sinh
+\cite{lewis2020retrieval,gao2024ragsurvey}. Tuy nhiên, RAG truyền thống chủ yếu
+dựa vào tương đồng ngữ nghĩa và thường xem các đoạn văn là bằng chứng độc lập.
+Cách này còn hạn chế với câu hỏi pháp luật nhiều bước, trong đó kết luận phụ
+thuộc vào chuỗi quy tắc điều kiện--hệ quả liên kết.
+
+Chúng tôi đề xuất \textbf{LegalSCM-RAG}, kết hợp truy xuất trên đồ thị pháp luật
+có hướng với xác minh cấu trúc phụ thuộc câu hỏi. Verifier chuyển claim trực
+tiếp tới phép kiểm tra cạnh đã ground, câu hỏi thông thường tới suy luận factual
+ba giá trị, và câu hỏi nêu rõ việc loại mediator tới hard intervention. Commit
+gate chỉ sử dụng quyết định verifier khi thỏa mãn các yêu cầu về grounding, độ
+phủ đường, confidence và nhất quán trạng thái; nếu không, hệ thống giữ nguyên
+context và quyết định của Causal Path RAG.
+
+Các đóng góp chính gồm:
+\begin{itemize}
+    \item formulation điểm bất động ba giá trị với mã hóa incidence thưa cho
+    thân/đầu quy tắc, trong đó conjunction nằm trong một quy tắc và disjunction
+    thay thế nằm giữa nhiều quy tắc;
+    \item phân biệt chính thức và ở mức implementation giữa node-deletion
+    reachability với mechanism-replacement $do(X_M=0)$; và
+    \item đánh giá có kiểm soát bốn hệ thống, kèm kiểm định theo cặp, phân tích
+    abstention và audit route/commit.
+\end{itemize}
+
+Trên benchmark hiện tại, selective verification cải thiện có ý nghĩa Decision
+Accuracy so với Causal Path RAG nhưng không cải thiện chất lượng answer hoặc
+citation. Batch được báo cáo chỉ gồm factual validation và direct-edge route,
+không có mediator intervention nào được thực thi. Vì vậy, mức tăng được diễn
+giải là hiệu quả của toàn bộ selective verifier, không phải bằng chứng thực
+nghiệm riêng cho structural counterfactual intervention.

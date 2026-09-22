@@ -1,112 +1,47 @@
-\documentclass[11pt,a4paper,twocolumn]{article}
+\documentclass[runningheads]{llncs}
 
-% ============================================================
-% Page layout: compact two-column paper style (ACL-like)
-% Compile with XeLaTeX
-% ============================================================
-\usepackage[a4paper,top=2.0cm,bottom=2.2cm,left=1.8cm,right=1.8cm]{geometry}
-\setlength{\columnsep}{0.65cm}
-\setlength{\parindent}{1em}
-\setlength{\parskip}{0pt}
-\raggedbottom
-
-% ============================================================
-% Fonts
-% ============================================================
-\usepackage{fontspec}
-\defaultfontfeatures{Ligatures=TeX}
-\IfFontExistsTF{TeX Gyre Termes}
-  {\setmainfont{TeX Gyre Termes}}
-  {\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{}}
-\IfFontExistsTF{TeX Gyre Heros}
-  {\setsansfont{TeX Gyre Heros}}
-  {\IfFontExistsTF{Arial}{\setsansfont{Arial}}{}}
-\IfFontExistsTF{Latin Modern Mono}
-  {\setmonofont{Latin Modern Mono}[Scale=MatchLowercase]}
-  {\IfFontExistsTF{Consolas}{\setmonofont{Consolas}[Scale=MatchLowercase]}{}}
-
-% ============================================================
-% Math, tables, and lists
-% ============================================================
+% Springer CCIS/LNCS proceedings format for SOICT 2026.
+% Do not add geometry, fancyhdr, titlesec, setspace, or custom font packages:
+% the llncs class controls the required page size, margins, headings, and fonts.
+\usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb}
-\usepackage{booktabs,tabularx,array}
-\usepackage{enumitem}
-\setlist{nosep,leftmargin=*}
-
-% ============================================================
-% Figures and formatting
-% ============================================================
 \usepackage{graphicx}
-\usepackage{xcolor}
-\usepackage{microtype}
-\usepackage{titlesec}
+\usepackage{booktabs}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
-\usepackage[numbers,sort&compress]{natbib}
-
-\titleformat{\section}
-  {\normalfont\bfseries\large}
-  {\thesection}{0.7em}{}
-\titlespacing*{\section}{0pt}{1.2ex plus .2ex minus .2ex}{0.7ex}
-
-\titleformat{\subsection}
-  {\normalfont\bfseries\normalsize}
-  {\thesubsection}{0.6em}{}
-\titlespacing*{\subsection}{0pt}{1.0ex plus .2ex minus .2ex}{0.5ex}
-
-% ============================================================
-% Custom commands
-% ============================================================
-\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
-\newcommand{\todo}[1]{\textcolor{red!75!black}{\textbf{TODO:} #1}}
-\newcommand{\stateT}{\mathsf{T}}
-\newcommand{\stateF}{\mathsf{F}}
-\newcommand{\stateU}{\mathsf{U}}
-\newcommand{\doop}{\operatorname{do}}
-\newcommand{\system}{\textsc{CausalRAG}}
-
-% ============================================================
-% Title block
-% ============================================================
-\title{\vspace{-0.7cm}\bfseries\LARGE
-CausalRAG for Vietnamese Criminal-Law Reasoning:\\
-Multi-Hop Retrieval and Query-Aware Counterfactual Verification
-\vspace{0.4cm}}
-
-\author{\large\bfseries Nguyễn Thị Nhung\\[0.25em]
-\normalsize Hanoi University of Science and Technology\\
-\normalsize \texttt{\todo{email@domain.com}}}
-
-\date{}
-
-\hypersetup{
-  pdftitle={CausalRAG for Vietnamese Criminal-Law Reasoning: Multi-Hop Retrieval and Query-Aware Counterfactual Verification},
-  pdfauthor={Nguyễn Thị Nhung}
-}
 
 \begin{document}
 
+\title{LegalSCM-RAG: Causal Path Retrieval and Selective Structural Verification for Vietnamese Multi-Hop Legal Question Answering}
+\titlerunning{LegalSCM-RAG}
+
+% SOICT 2026 uses single-blind review, so author names and affiliations
+% must remain in the submission manuscript.
+\author{Nguyen Thi Nhung, Nguyen Quoc Tuan, Nguyen Thi Kim Anh}
+% \authorrunning{N. T. Nhung}
+
+\institute{Hanoi University of Science and Technology, Hanoi, Vietnam\\
+\email{ }}
+
 \maketitle
-\vspace{-0.6cm}
+% SOICT 2026 requires submission PDFs without page numbers.
+\pagestyle{empty}
 
-\input{1_abstract}
-\input{2_introduction}
+\begin{abstract}
+Large language models and Retrieval-Augmented Generation (RAG) remain limited on legal questions that require linking multiple statutory condition--consequence relations. We propose \textbf{LegalSCM-RAG}, which combines causal-path retrieval with a deterministic three-valued normative rule model and a selective commit gate. The formulation distinguishes bounded node-deletion reachability, used only as a topological diagnostic, from the hard intervention $do(X_M=0)$, which disables mechanisms producing mediator $M$ and recomputes the rule fixed point. Conjunction is represented within a rule and alternative disjunctive support by multiple rules with the same consequent. On 250 graph-derived Vietnamese Penal Code questions, Full LegalSCM attains 96.80\% decision accuracy, compared with 90.80\% for Causal Path RAG and 55.60\% for Vanilla RAG. The paired improvement over Causal Path RAG is 6.0 percentage points (95\% CI: 2.8--9.6; Holm-adjusted $p=0.0029$), while Answer F1, ROUGE-L, and Citation F1 do not differ significantly. A route audit shows 230 factual-validation cases and 20 direct-edge checks, with no executed mediator intervention in this batch. The experiment therefore supports the decision-level benefit of selective structural verification, but does not yet establish the effectiveness of $do$-based mediator reasoning.
+
+\keywords{Retrieval-Augmented Generation \and Multi-hop Question Answering \and Three-Valued Logic \and Structural Verification \and Legal Question Answering \and Vietnamese Legal NLP}
+\end{abstract}
+
+\input{1_INTRODUCTION}
 \input{2_related_work}
-\input{3_problem_formulation_and_scope}
-\input{4_proposed_method}
-\input{5_data_and_benchmark}
-\input{6_experimental_setup}
-\input{7_results}
-\input{8_error_analysis_and_discussion}
-\input{9_limitations_threats_to_validity_and_responsible_use}
-\input{10_future_work_and_next_experimental_stage}
-\input{11_conclusion}
+\input{3_problem_formulation}
+\input{4_legalSCM_RAG}
+\input{5_experimental_setup}
+\input{6_results}
+\input{7_conclusion}
 
-\appendix
-\input{A_reproducibility_checklist}
-\input{B_claim_boundary_checklist}
-
-\bibliographystyle{plainnat}
+\bibliographystyle{splncs04}
 \bibliography{../references}
 
 \end{document}

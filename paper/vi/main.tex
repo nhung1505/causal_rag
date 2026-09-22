@@ -1,107 +1,46 @@
-\documentclass[11pt,a4paper,twocolumn]{article}
+\documentclass[conference]{IEEEtran}
 
-% ============================================================
-% Page layout: compact two-column paper style (ACL-like)
-% Compile with XeLaTeX on Overleaf
-% ============================================================
-\usepackage[a4paper,top=2.0cm,bottom=2.2cm,left=1.8cm,right=1.8cm]{geometry}
-\setlength{\columnsep}{0.65cm}
-\setlength{\parindent}{1em}
-\setlength{\parskip}{0pt}
-\raggedbottom
-
-% ============================================================
-% Fonts
-% ============================================================
-\usepackage{fontspec}
-\defaultfontfeatures{Ligatures=TeX}
-\setmainfont{TeX Gyre Termes}
-\setsansfont{TeX Gyre Heros}
-\setmonofont{Latin Modern Mono}[Scale=MatchLowercase]
-
-% ============================================================
-% Math, tables, lists
-% ============================================================
 \usepackage{amsmath,amssymb}
-\usepackage{booktabs,tabularx,array}
-\usepackage{enumitem}
-\setlist{nosep,leftmargin=*}
-
-% ============================================================
-% Figures and formatting
-% ============================================================
 \usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{hyperref}
 \usepackage{xcolor}
-\usepackage{microtype}
-\usepackage{titlesec}
-\usepackage{url}
-\usepackage[hidelinks]{hyperref}
-\usepackage[numbers,sort&compress]{natbib}
+\usepackage{fontspec}
 
-% Section style close to conference papers
-\titleformat{\section}
-  {\normalfont\bfseries\large}
-  {\thesection}{0.7em}{}
-\titlespacing*{\section}{0pt}{1.2ex plus .2ex minus .2ex}{0.7ex}
+\title{LegalSCM-RAG: Truy xuất đường dẫn nhân quả và xác minh cấu trúc chọn lọc cho hỏi đáp pháp luật đa bước tiếng Việt}
 
-\titleformat{\subsection}
-  {\normalfont\bfseries\normalsize}
-  {\thesubsection}{0.6em}{}
-\titlespacing*{\subsection}{0pt}{1.0ex plus .2ex minus .2ex}{0.5ex}
-
-% ============================================================
-% Custom commands
-% ============================================================
-\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
-\newcommand{\todo}[1]{\textcolor{red!75!black}{\textbf{TODO:} #1}}
-\newcommand{\stateT}{\mathsf{T}}
-\newcommand{\stateF}{\mathsf{F}}
-\newcommand{\stateU}{\mathsf{U}}
-\newcommand{\doop}{\operatorname{do}}
-\newcommand{\system}{\textsc{CausalRAG}}
-
-% ============================================================
-% Title block
-% ============================================================
-\title{\vspace{-0.7cm}\bfseries\LARGE
-CausalRAG cho suy luận pháp luật hình sự Việt Nam:\\
-Truy hồi đa bước và xác minh phản thực tế theo truy vấn
-\vspace{0.4cm}}
-
-\author{\large\bfseries Nguyễn Thị Nhung\\[0.25em]
-\normalsize Trường Đại học Bách khoa Hà Nội\\
-\normalsize \texttt{\todo{email@domain.com}}}
-
-\date{}
-
-\hypersetup{
-  pdftitle={CausalRAG cho suy luận pháp luật hình sự Việt Nam: Truy hồi đa bước và xác minh phản thực tế theo truy vấn},
-  pdfauthor={Nguyễn Thị Nhung}
+\author{
+\IEEEauthorblockN{Nguyễn Thị Nhung, Nguyễn Quốc Tuấn, Nguyễn Thị Kim Anh}
 }
 
 \begin{document}
 
 \maketitle
-\vspace{-0.6cm}
 
-\input{1_abstract}
-\input{2_gioi_thieu}
-\input{2_cong_trinh_lien_quan}
-\input{3_phat_bieu_bai_toan_va_pham_vi}
-\input{4_phuong_phap_de_xuat}
-\input{5_du_lieu_benchmark}
-\input{6_thiet_lap_thuc_nghiem}
-\input{7_ket_qua}
-\input{8_phan_tic_loi_va_thao_luan}
-\input{9_han_che_va_nguy_co_tinh_hop_le}
-\input{10_huong_phat_trien}
-\input{11_ket_luan}
+\renewcommand{\abstractname}{Tóm tắt}
+\renewcommand{\IEEEkeywordsname}{Từ khóa}
 
-\appendix
-\input{A_danh_sach_tai_lap}
-\input{B_ranh_gioi_tuyen_bo}
+\begin{abstract}
+Các mô hình ngôn ngữ lớn và kiến trúc sinh tăng cường truy xuất còn hạn chế với câu hỏi pháp luật cần liên kết nhiều quan hệ điều kiện--hệ quả. Bài báo đề xuất \textbf{LegalSCM-RAG}, kết hợp truy xuất đường dẫn với mô hình quy tắc quy phạm ba giá trị có tính xác định và cơ chế commit chọn lọc. Formulation phân biệt phép xóa nút và kiểm tra tính đạt được có giới hạn, chỉ dùng như diagnostic về topology, với hard intervention $do(X_M=0)$, trong đó các cơ chế sinh mediator $M$ bị vô hiệu hóa trước khi suy luận lại điểm bất động. Conjunction được biểu diễn trong một quy tắc, còn hỗ trợ disjunction thay thế được biểu diễn bằng nhiều quy tắc có cùng hệ quả. Trên 250 câu hỏi sinh từ đồ thị Bộ luật Hình sự Việt Nam, Full LegalSCM đạt Decision Accuracy 96,80\%, so với 90,80\% của Causal Path RAG và 55,60\% của Vanilla RAG. Mức tăng theo cặp so với Causal Path RAG là 6,0 điểm phần trăm (CI 95\%: 2,8--9,6; $p$ hiệu chỉnh Holm $=0,0029$), trong khi Answer F1, ROUGE-L và Citation F1 không khác biệt có ý nghĩa. Audit route cho thấy 230 mẫu factual validation, 20 mẫu direct-edge topology và không có mediator intervention nào được thực thi trong batch này. Vì vậy, thực nghiệm chứng minh lợi ích ở mức quyết định của selective structural verification, nhưng chưa chứng minh hiệu quả của suy luận mediator dựa trên $do$.
+\end{abstract}
 
-\bibliographystyle{plainnat}
+\begin{IEEEkeywords}
+hỏi đáp pháp luật, RAG, hỏi đáp đa bước, logic ba giá trị,
+xác minh cấu trúc, xử lý ngôn ngữ pháp luật tiếng Việt
+\end{IEEEkeywords}
+
+\input{1_INTRODUCTION}
+\input{2_related_work}
+\input{3_problem_formulatin}
+\input{4_legalSCM_RAG}
+\input{5_experimental_setup}
+\input{6_results}
+\input{7_conclusion}
+
+\bibliographystyle{IEEEtran}
 \bibliography{../references}
 
 \end{document}

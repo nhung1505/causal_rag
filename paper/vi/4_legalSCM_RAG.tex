@@ -1,0 +1,166 @@
+% =========================================================
+% IV. LEGALSCM-RAG
+% =========================================================
+\section{LegalSCM-RAG}
+\label{sec:legalscm_rag}
+
+Chúng tôi đề xuất \textit{LegalSCM-RAG}, một kiến trúc RAG cho hỏi đáp pháp
+luật nhiều bước, kết hợp truy xuất trên đồ thị điều kiện--hệ quả, suy luận theo
+đường nhiều bước và xác minh chọn lọc bằng mô hình nhân quả cấu trúc pháp lý
+(\textit{Legal Structural Causal Model -- LegalSCM}).
+
+Với câu hỏi $q$, pipeline tổng thể là
+\begin{equation}
+\begin{aligned}
+q
+&\rightarrow
+\text{Causal Retrieval}
+\rightarrow
+\mathcal{P}(q)
+\rightarrow
+P^*\\
+&\rightarrow
+\text{Question-Aware Verification}
+\rightarrow
+\mathcal{E}^*
+\rightarrow
+(a,C),
+\end{aligned}
+\label{eq:overall_pipeline}
+\end{equation}
+trong đó $P^*$ là đường suy luận chính, $\mathcal{E}^*$ là tập bằng chứng được
+chọn, $a$ là câu trả lời và $C$ là tập căn cứ pháp lý.
+
+\subsection{Truy xuất dựa trên đồ thị pháp luật}
+
+Hệ thống biểu diễn câu hỏi bằng embedding và truy xuất các sự kiện, quy tắc
+liên quan từ causal memory. Các sự kiện truy xuất đóng vai trò seed để mở rộng
+trên đồ thị. Từ mỗi seed, hệ thống duyệt các quan hệ điều kiện--hệ quả có hướng
+để xây dựng
+\begin{equation}
+\mathcal{P}(q)=\{P_1,P_2,\ldots,P_K\},
+\end{equation}
+trong đó
+\begin{equation}
+P_i=v_0\xrightarrow{r_1}v_1\xrightarrow{r_2}\cdots
+\xrightarrow{r_h}v_h.
+\end{equation}
+Khác RAG ngữ nghĩa thông thường, đơn vị truy xuất bao gồm cả sự kiện pháp lý và
+các quan hệ quy tắc có hướng nối chúng, thay vì chỉ gồm các đoạn văn độc lập.
+
+\subsection{Xếp hạng đường suy luận}
+
+Các đường ứng viên được xếp hạng bằng tín hiệu ngữ nghĩa và cấu trúc:
+\begin{equation}
+S(P_i,q)=
+\alpha S_{\mathrm{sem}}+
+\beta S_{\mathrm{graph}}+
+\gamma S_{\mathrm{seed}}+
+\delta S_{\mathrm{path}}.
+\end{equation}
+Đường chính được chọn bởi
+\begin{equation}
+P^*=\arg\max_{P_i\in\mathcal{P}(q)}S(P_i,q).
+\end{equation}
+Các quy tắc và điều khoản gắn với $P^*$ được chuyển tới tầng xác minh dưới dạng
+bằng chứng có cấu trúc.
+
+\subsection{Suy luận điểm bất động LegalSCM}
+
+LegalSCM là mô hình quy tắc quy phạm ba giá trị và có tính xác định. Mỗi sự kiện
+thuộc $\{\mathrm{TRUE},\mathrm{FALSE},\mathrm{UNKNOWN}\}$. Một quy tắc có
+dạng
+\begin{equation}
+X_1\land\cdots\land X_k\rightarrow Y.
+\end{equation}
+Quy tắc chỉ kích hoạt khi mọi literal điều kiện có trạng thái xác định đúng yêu
+cầu và không có ngoại lệ được mã hóa nào đang hoạt động. Vì vậy, các điều kiện
+trong một quy tắc có quan hệ hội. Nhiều quy tắc kích hoạt độc lập cùng suy ra
+một trạng thái của $Y$ biểu diễn hỗ trợ thay thế theo quan hệ tuyển. Các hỗ trợ
+trái dấu được giữ như xung đột và quy về trạng thái hiệu dụng
+\textsc{unknown}. Toán tử quy tắc được lặp tới điểm bất động như trong
+Mục~\ref{sec:problem_formulation}.
+
+Engine chuẩn hỗ trợ nhiều điều kiện và ngoại lệ, nhưng dữ liệu legacy trong
+thực nghiệm hiện tại chỉ tạo một điều kiện dương và một hệ quả dương cho mỗi
+quy tắc. Do đó, kết quả hiện tại chưa phải là đánh giá thực nghiệm cho
+conjunction nhiều điều kiện hoặc xử lý ngoại lệ tường minh.
+
+LegalSCM mô hình hóa các phụ thuộc quy phạm trích xuất từ luật thành văn; mô
+hình không học quan hệ nhân quả từ dữ liệu quan sát và không ước lượng hiệu ứng
+nhân quả thống kê.
+
+\subsection{Hard intervention và topological diagnostic}
+
+Với câu hỏi yêu cầu rõ ràng việc loại bỏ sự kiện trung gian $M$, LegalSCM thực
+hiện hard intervention tương đối với mô hình quy tắc đã mã hóa
+\cite{pearl2009causality}:
+\begin{equation}
+do(X_M=0),\qquad 0\equiv\mathrm{FALSE}.
+\end{equation}
+Phép can thiệp cố định $X_M$ ở false, chặn mọi cơ chế quy tắc có hệ quả là
+$X_M$, rồi suy luận lại điểm bất động. Nếu đích factual $Y$ là true và
+\begin{equation}
+Y_{do(X_M=0)}=\mathrm{FALSE},
+\end{equation}
+thì $M$ là cần thiết trong ngữ cảnh đã mã hóa. Nếu
+$Y_{do(X_M=0)}=\mathrm{TRUE}$, một cơ chế thay thế vẫn hỗ trợ đích. Nếu một
+trong hai thế giới là unknown, kết quả chưa xác định.
+
+Phép toán này khác với graph ablation phụ trợ tạo
+$G^{-M}=G[V\setminus\{M\}]$ rồi tìm đường thay thế có giới hạn. Phép ablation
+xóa nút cùng các cạnh kề và chỉ được giữ như diagnostic/fallback về topology;
+nó không phải Pearl-style intervention. Ngoài ra, LegalSCM không thực hiện
+abduction trạng thái ngoại sinh. Kết quả vì vậy là tính cần thiết tương đối với
+mô hình quy phạm và context đầu vào, không phải actual causation ở cấp cá thể.
+
+\subsection{Xác minh phụ thuộc câu hỏi}
+
+Verifier chọn một trong ba route từ nội dung câu hỏi. Một claim trực tiếp
+$A\rightarrow C$ được kiểm tra trên hai endpoint được ground thận trọng trong
+đồ thị. Câu hỏi pháp lý thông thường nhận factual validation của Primary Path
+bằng LegalSCM mà không can thiệp. Chỉ câu hỏi nêu rõ việc loại mediator hoặc
+tính cần thiết mới yêu cầu $do(X_M=0)$ và so sánh hai thế giới. Routing này
+ngăn direct-edge topology hoặc factual validation bị gọi nhầm là structural
+intervention.
+
+\subsection{Cơ chế xác minh chọn lọc}
+
+Hệ thống phân biệt miền trạng thái sự kiện
+$\{\mathrm{TRUE},\mathrm{FALSE},\mathrm{UNKNOWN}\}$, các trạng thái can thiệp
+nội bộ như necessary/non-necessary, và miền nhãn cuối
+\begin{equation}
+\mathcal{Z}=\{\textsc{supported},\textsc{reject-direct-claim},
+\textsc{uncertain}\}.
+\end{equation}
+Nhãn verifier chỉ có tính ràng buộc khi vượt qua các điều kiện về confidence,
+endpoint hoặc mediator grounding, độ phủ Primary Path và tính nhất quán trạng
+thái:
+\begin{equation}
+z=
+\begin{cases}
+z_{\mathrm{SCM}}, & G_{\mathrm{commit}}=1,\\[3pt]
+z_{\mathrm{LLM}}, & G_{\mathrm{commit}}=0.
+\end{cases}
+\end{equation}
+Khi gate thất bại, verifier không ép nhãn \textsc{uncertain}. Thay vào đó, bằng
+chứng Causal Path RAG không đổi được chuyển cho mô hình sinh chung. Full
+LegalSCM do đó là một hệ lai chọn lọc, không phải classifier do SCM quyết định
+trên mọi mẫu.
+
+\subsection{Tinh lọc bằng chứng và sinh câu trả lời}
+
+Sau xác minh, hệ thống tạo
+\begin{equation}
+\mathcal{E}^*=\{r_j\mid r_j\text{ hỗ trợ }P^*\}
+\end{equation}
+và cung cấp
+\begin{equation}
+I_q=(q,P^*,z,\mathcal{E}^*)
+\end{equation}
+cho mô hình ngôn ngữ để sinh
+\begin{equation}
+(a,C)=f_{\theta}(I_q).
+\end{equation}
+Việc tách các tầng giúp truy xuất, suy luận quy tắc, route xác minh và sinh ngôn
+ngữ có thể được kiểm tra độc lập.

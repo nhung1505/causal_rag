@@ -1,0 +1,41 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Large Language Models (LLMs) have demonstrated strong performance across a wide
+range of question-answering tasks. In the legal domain, however, a reliable
+answer requires more than fluent generation: the system must identify relevant
+provisions and reconstruct the reasoning chain connecting conditions,
+intermediate events, and legal consequences
+\cite{chalkidis2020legalbert,guha2023legalbench}.
+
+RAG augments an LLM with evidence retrieved before generation
+\cite{lewis2020retrieval,gao2024ragsurvey}. Conventional RAG is nevertheless
+primarily driven by semantic similarity and often treats passages as
+independent evidence. This is insufficient for multi-hop legal questions whose
+conclusion depends on a sequence of connected condition--consequence rules.
+
+We propose \textbf{LegalSCM-RAG}, which combines directed legal-graph retrieval
+with question-aware structural verification. The verifier routes direct claims
+to grounded edge checking, ordinary causal questions to three-valued factual
+rule inference, and explicit mediator-removal questions to hard intervention.
+A conservative commit gate uses a verifier decision only when grounding, path
+coverage, confidence, and state-consistency requirements are satisfied;
+otherwise it preserves the Causal Path RAG context and LLM decision.
+
+The main contributions are:
+\begin{itemize}
+    \item a three-valued fixed-point formulation with an explicit sparse
+    body/head incidence encoding, in which conjunction occurs within a rule and
+    alternative disjunctive support across rules;
+    \item a formal and implementation-level separation between graph
+    node-deletion reachability and mechanism-replacement $do(X_M=0)$; and
+    \item a controlled four-system evaluation with paired significance tests,
+    abstention analysis, and route/commit auditing.
+\end{itemize}
+
+On the current benchmark, selective verification significantly improves
+structured decision accuracy over Causal Path RAG, but not free-form answer or
+citation quality. Importantly, the evaluated batch contains factual-validation
+and direct-edge routes but no executed mediator intervention. We therefore
+report the measured gain as evidence for the selective verifier as a whole,
+not as an empirical validation of structural counterfactual intervention.

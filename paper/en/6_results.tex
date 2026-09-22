@@ -1,0 +1,120 @@
+% =========================================================
+% VI. RESULTS AND ANALYSIS
+% =========================================================
+\section{Results and Analysis}
+\label{sec:results_analysis}
+
+\subsection{Overall Results and the Closed-Book Baseline}
+
+All four runs produced 250/250 successful predictions with no pipeline errors
+and shared the same model and generation settings. Table~\ref{tab:main_results}
+reports end-to-end quality; retrieval/path cells are discussed only for systems
+that expose those components.
+
+\begin{table}[t]
+\centering
+\caption{Overall performance on 250 questions (percent except time).}
+\label{tab:main_results}
+\scriptsize
+\setlength{\tabcolsep}{1.35pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\hline
+\textbf{Method}
+& \textbf{Acc.}
+& \textbf{B.Acc.}
+& \textbf{M-F1}
+& \textbf{Ans.F1}
+& \textbf{R-L}
+& \textbf{Cit.F1}
+& \textbf{Sec.}\\
+\hline
+Closed-book LLM & 0.00 & 0.00 & 0.00 & 12.98 & 11.27 & 0.00 & 0.841\\
+Vanilla RAG & 55.60 & 59.89 & 67.60 & 23.28 & 21.45 & 49.37 & 2.308\\
+Causal Path RAG & 90.80 & 88.15 & 84.36 & \textbf{36.53} & \textbf{35.82} & 58.70 & 2.107\\
+Full LegalSCM & \textbf{96.80} & \textbf{95.98} & \textbf{93.31} & 36.32 & 35.73 & \textbf{59.30} & 3.324\\
+\hline
+\end{tabular}
+\end{table}
+
+The 0.00\% closed-book decision score is not a failed run or an evaluator
+parsing error. All 250 successful generations returned the valid label
+\textsc{uncertain}. Since the gold set contains 230 \textsc{supported}, 20
+\textsc{reject-direct-claim}, and no \textsc{uncertain} item, exact-label
+accuracy is zero. The result therefore measures \emph{complete abstention under
+this conservative shared prompt/model configuration}; it must not be read as
+zero general legal competence. Conversely, an always-\textsc{supported}
+classifier would obtain 92\% raw accuracy on this imbalanced set, which is why
+Balanced Accuracy and Macro-F1 are reported alongside Accuracy.
+
+\subsection{Paired Effect of Selective Verification}
+
+Full LegalSCM answers 242 questions correctly versus 227 for Causal Path RAG.
+Among paired outcomes, Full alone is correct on 17 samples, Causal Path RAG
+alone on 2, both are correct on 225, and both are wrong on 6. The accuracy gain
+is therefore 6.0 percentage points, with paired bootstrap 95\% CI
+$[2.8,9.6]$ points, exact McNemar $p=0.000729$, and Holm-adjusted
+$p=0.002914$. Macro-F1 increases descriptively by 8.94 points, from 84.36\% to
+93.31\%.
+
+The gain is decision-specific. Relative to Causal Path RAG, Full changes Answer
+F1 by $-0.21$ points (95\% CI $[-1.83,1.43]$), ROUGE-L by $-0.09$ points
+(95\% CI $[-1.71,1.56]$), and Citation F1 by $+0.59$ points (95\% CI
+$[-0.72,2.03]$). All three Holm-adjusted $p$-values equal 1.0. Thus the data
+support improved structured decisions, not a general improvement in answer
+wording or citations.
+
+\subsection{Route, Commit, and Error Audit}
+
+Table~\ref{tab:route_audit} reports independent runtime counters. The query
+router sends 230 samples to factual LegalSCM validation and 20 direct claims to
+grounded edge checking. No query requests the mediator-intervention route.
+
+\begin{table}[t]
+\centering
+\caption{Full LegalSCM route and commit audit.}
+\label{tab:route_audit}
+\small
+\begin{tabular}{lr}
+\hline
+\textbf{Audit quantity} & \textbf{Count}\\
+\hline
+Factual LegalSCM route & 230\\
+Grounded direct-edge route & 20\\
+Verifier committed & 230\\
+No-primary-path safe fallback & 20\\
+Executed $do(X_M=0)$ intervention & 0\\
+\hline
+\end{tabular}
+\end{table}
+
+All 17 Full-only gains occur when the verifier commits: 14 arise from factual
+rule validation and 3 from direct-edge topology. In the 20 safe-fallback cases,
+Full and Causal Path RAG make the same decision on 19 samples; 13 are jointly
+correct and 6 jointly wrong. The remaining case is correct only for Causal Path
+RAG. Hence the fallback contributes no Full-only gain.
+
+Full makes eight decision errors. Seven occur after no-primary-path fallback,
+primarily because first-hop retrieval does not expose a usable primary path.
+The remaining error is a direct-claim endpoint-grounding error. In three error
+cases the generated prose also contradicts the structured label, identifying a
+separate generation-consistency issue.
+
+The direct-claim counterexample subset yields 95\% accuracy for Full and 85\%
+for Causal Path RAG. However, all 20 samples are evaluated by direct-edge
+topology and none executes $do(X_M=0)$. This subset supports the value of
+query-aware direct-claim checking, not the effectiveness of structural mediator
+intervention.
+
+\subsection{Retrieval, Path Ranking, and Runtime}
+
+Causal Path RAG and Full share the same retrieval output. Article Recall@5,
+Rule Recall@5, and Event Recall@5 are 75.40\%, 71.20\%, and 74.79\%.
+Top-1 Exact Path is 38.56\%, while Oracle Exact Path is 75.42\%. The 36.86-point
+gap shows that the gold path is often in the candidate set but ranked below the
+first position; retrieval/path equality also localizes the Full--Causal
+decision difference to the selective verification layer rather than retrieval.
+
+Full requires 3.324 seconds per successful question versus 2.107 seconds for
+Causal Path RAG, a $1.58\times$ average-time increase. The measured trade-off is
+therefore a statistically reliable 6.0-point decision gain at approximately
+58\% additional per-sample runtime.

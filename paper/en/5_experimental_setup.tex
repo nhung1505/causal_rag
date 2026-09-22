@@ -1,0 +1,103 @@
+% =========================================================
+% V. EXPERIMENTAL SETUP
+% =========================================================
+\section{Experimental Setup}
+\label{sec:experimental_setup}
+
+\subsection{Evaluation Data}
+
+Experiments use 250 multi-hop questions constructed in this study from the
+Vietnamese Penal Code and the derived legal graph. Each sample contains a
+question, relevant rules and events, a gold reasoning path, a reference
+decision, a reference answer, and legal citations. Of the 250 samples, 236 have
+a linear gold path and are used for path evaluation.
+
+The decision labels are imbalanced: 230 samples are \textsc{supported} and 20
+are \textsc{reject-direct-claim}; no gold sample is \textsc{uncertain}. The 20
+negative samples ask whether an endpoint causes another endpoint directly,
+without the intermediate event of a supported two-hop chain. They are therefore
+\emph{direct-claim counterexamples}. They do not explicitly request
+$do(X_M=0)$ and are routed to grounded direct-edge topology. The reported batch
+contains no explicit mediator-intervention query; this distinction is retained
+in the result interpretation.
+
+Because both the questions and gold paths are derived from the same structured
+legal resource used to build the retrieval graph, the experiment measures
+controlled internal validity rather than external expert-level legal validity.
+
+\subsection{Compared Systems}
+
+We evaluate four configurations:
+\begin{itemize}
+    \item \textbf{Closed-book LLM}: Qwen3-8B receives only the question under
+    the shared verification-oriented output contract. The prompt requires the
+    model to return \textsc{uncertain} instead of fabricating unsupported
+    evidence. This is a conservative abstaining baseline, not an unrestricted
+    estimate of general legal ability.
+    \item \textbf{Vanilla RAG}: retrieves statutory provisions by semantic
+    similarity before generation.
+    \item \textbf{Causal Path RAG}: retrieves rules, events, and multi-hop paths
+    without LegalSCM verification.
+    \item \textbf{Full LegalSCM}: adds question-aware LegalSCM verification and
+    the selective commit gate to the same Causal Path RAG pipeline.
+\end{itemize}
+
+All systems use the same model, JSON output schema, system-prompt rules, context
+limit, and decoding parameters. The prompt policy differs only in whether no
+context, retrieved evidence, or a committed authoritative verifier decision is
+available.
+
+\subsection{Experimental Configuration}
+
+Qwen3-8B is executed locally through Ollama. Table~\ref{tab:experimental_config}
+shows the common settings.
+\begin{table}[t]
+\centering
+\caption{Main experimental configuration.}
+\label{tab:experimental_config}
+\small
+\begin{tabular}{lc}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+LLM & Qwen3-8B \\
+Embedding model & BAAI/bge-m3 \\
+Temperature & 0.1 \\
+Random seed & 42 \\
+Maximum output tokens & 1200 \\
+Context window & 32768 \\
+Maximum context characters & 18000 \\
+Retrieval $K$ & 5 \\
+Maximum graph hops & 2 \\
+\hline
+\end{tabular}
+\end{table}
+BGE-M3 \cite{chen2024bgem3} encodes questions and legal knowledge, and FAISS
+performs nearest-neighbor search over causal memory.
+
+\subsection{Metrics and Run Audit}
+
+Retrieval is evaluated with Recall@5, MRR, and MAP for each applicable
+component. Top-1 Exact Path and Edge F1 evaluate the selected linear path;
+Oracle Exact Path diagnoses whether a gold path occurs anywhere in the
+candidate set. Oracle performance is not a deployable score.
+
+Decision Accuracy is exact agreement among
+\textsc{supported}, \textsc{reject-direct-claim}, and \textsc{uncertain}. We
+also report Macro-F1 and Balanced Accuracy because the gold labels are
+imbalanced. Token-F1 and ROUGE-L evaluate answers, and precision, recall, and F1
+evaluate citations. Missing or failed predictions receive zero on shared
+end-to-end metrics.
+
+For every run we audit prediction coverage, failures, generation signatures,
+query route, commit-gate status, fallback status, and whether a structural
+intervention was actually executed. This prevents a direct-edge or factual
+route from being counted as a $do$-based counterfactual result.
+
+\subsection{Statistical Significance Testing}
+
+All comparisons are paired on the same 250 questions. We estimate 95\%
+confidence intervals using 5,000 bootstrap samples. Decision Accuracy uses the
+exact McNemar test; Answer F1, ROUGE-L, and Citation F1 use 5,000 paired
+randomization sign-flips. Holm correction controls multiple comparisons, with
+random seed 42.

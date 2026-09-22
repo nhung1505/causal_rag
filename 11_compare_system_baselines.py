@@ -35,7 +35,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Optional, Sequence
 
 
-COMPARATOR_VERSION = "1.0-system-level-paired-comparison"
+COMPARATOR_VERSION = "1.1-system-level-paired-audited-comparison"
 REPO_ROOT = Path(__file__).resolve().parent
 DEFAULT_BENCHMARK = "data/blhs_multihop_benchmark_250.json"
 DEFAULT_EVALUATOR = "7_compute_evaluation_metrics.py"
@@ -205,6 +205,9 @@ def generation_signature(metadata: Mapping[str, Any]) -> dict[str, Any]:
         "num_ctx": safe_float(configuration.get("num_ctx")),
         "seed": safe_float(configuration.get("seed")),
         "thinking": safe_string(configuration.get("thinking")),
+        "decision_policy": safe_string(
+            configuration.get("llm_decision_policy") or "abstain_allowed"
+        ),
         "format": safe_string(configuration.get("format")),
         "max_context_chars": safe_float(configuration.get("max_context_chars")),
         "extractive_fallback": bool(metadata.get("extractive_fallback", False)),
@@ -236,6 +239,7 @@ def validate_generation_contracts(
         "num_ctx",
         "seed",
         "thinking",
+        "decision_policy",
         "format",
         "max_context_chars",
     )
@@ -288,11 +292,12 @@ def infer_applicability(
             "counterfactual_verifier": safe_bool(explicit.get("counterfactual_verifier")),
         }
     normalized = normalize_name(method)
+    llm_only = normalized == "llm_only" or normalized.startswith("llm_only_")
     causal = normalized in {"causal_path_rag", "full_legal_scm"}
     return {
         "rule_retrieval": causal,
         "event_retrieval": causal,
-        "article_retrieval": normalized != "llm_only",
+        "article_retrieval": not llm_only,
         "causal_path": causal,
         "counterfactual_verifier": normalized == "full_legal_scm",
     }
@@ -361,6 +366,29 @@ def evaluate_method(
             path_metrics = {}
             oracle_metrics = {}
 
+        raw_prediction = (
+            prediction.raw if isinstance(prediction.raw, Mapping) else {}
+        )
+        raw_verification = raw_prediction.get("verification") or {}
+        raw_generation = raw_prediction.get("generation") or {}
+        raw_pipeline = raw_prediction.get("pipeline_metadata") or {}
+        if not isinstance(raw_verification, Mapping):
+            raw_verification = {}
+        if not isinstance(raw_generation, Mapping):
+            raw_generation = {}
+        if not isinstance(raw_pipeline, Mapping):
+            raw_pipeline = {}
+        query_analysis = raw_verification.get("query_analysis") or {}
+        if not isinstance(query_analysis, Mapping):
+            query_analysis = {}
+        scm_guard = (
+            raw_verification.get("runner_scm_guard")
+            or raw_pipeline.get("scm_guard")
+            or {}
+        )
+        if not isinstance(scm_guard, Mapping):
+            scm_guard = {}
+
         row = {
             "method": method,
             "id": gold.sample_id,
@@ -381,6 +409,34 @@ def evaluate_method(
             "citation_recall": citation_metrics["recall"],
             "citation_f1": citation_metrics["f1"],
             "runtime_seconds": prediction.runtime_seconds,
+            "decision_policy": safe_string(
+                raw_generation.get("decision_policy")
+                or raw_pipeline.get("decision_policy")
+            ),
+            "decision_policy_violation": int(
+                safe_bool(
+                    raw_generation.get("decision_policy_violation"),
+                    safe_bool(raw_pipeline.get("decision_policy_violation")),
+                )
+            ),
+            "claim_type": safe_string(query_analysis.get("claim_type")),
+            "verification_route": safe_string(
+                query_analysis.get("verification_route")
+            ),
+            "guard_status": safe_string(scm_guard.get("status")),
+            "verifier_committed": int(safe_bool(scm_guard.get("verifier_commit"))),
+            "step3_safe_fallback": int(
+                safe_bool(raw_pipeline.get("step3_safe_fallback"))
+            ),
+            "structural_intervention_requested": int(
+                safe_bool(query_analysis.get("structural_intervention_requested"))
+            ),
+            "structural_intervention_executed": int(
+                safe_bool(query_analysis.get("structural_intervention_executed"))
+            ),
+            "structural_result_used": int(
+                safe_bool(query_analysis.get("structural_result_used"))
+            ),
             "rule_metric_applicable": int(rule_applicable),
             "event_metric_applicable": int(event_applicable),
             "article_metric_applicable": int(article_applicable),
@@ -538,6 +594,24 @@ def aggregate_method(
         for row in successful_rows
         if safe_float(row.get("runtime_seconds")) is not None
     ]
+    decision_counts = Counter(
+        safe_string(row.get("predicted_decision")) or "NO_PREDICTION"
+        for row in successful_rows
+    )
+    claim_type_counts = Counter(
+        safe_string(row.get("claim_type")) or "N/A"
+        for row in successful_rows
+    )
+    route_counts = Counter(
+        safe_string(row.get("verification_route")) or "N/A"
+        for row in successful_rows
+    )
+    guard_status_counts = Counter(
+        safe_string(row.get("guard_status")) or "N/A"
+        for row in successful_rows
+    )
+    successful_count = len(successful_rows)
+    abstention_count = decision_counts.get("UNCERTAIN", 0)
     return recursive_round({
         "sample_count": len(rows),
         "prediction_coverage": mean_or_none(row.get("prediction_present") for row in rows),
@@ -578,6 +652,44 @@ def aggregate_method(
             "decision_accuracy": mean_or_none(row.get("decision_accuracy") for row in counterfactual_rows),
             "answer_token_f1": mean_or_none(row.get("answer_token_f1") for row in counterfactual_rows),
             "citation_f1": mean_or_none(row.get("citation_f1") for row in counterfactual_rows),
+        },
+        "audit": {
+            "decision_counts": dict(sorted(decision_counts.items())),
+            "abstention_count": abstention_count,
+            "abstention_rate": (
+                abstention_count / successful_count if successful_count else None
+            ),
+            "non_abstention_coverage": (
+                (successful_count - abstention_count) / successful_count
+                if successful_count else None
+            ),
+            "decision_policy_violation_count": sum(
+                safe_bool(row.get("decision_policy_violation"))
+                for row in successful_rows
+            ),
+            "claim_type_counts": dict(sorted(claim_type_counts.items())),
+            "verification_route_counts": dict(sorted(route_counts.items())),
+            "guard_status_counts": dict(sorted(guard_status_counts.items())),
+            "verifier_committed_count": sum(
+                safe_bool(row.get("verifier_committed"))
+                for row in successful_rows
+            ),
+            "step3_safe_fallback_count": sum(
+                safe_bool(row.get("step3_safe_fallback"))
+                for row in successful_rows
+            ),
+            "structural_intervention_requested_count": sum(
+                safe_bool(row.get("structural_intervention_requested"))
+                for row in successful_rows
+            ),
+            "structural_intervention_executed_count": sum(
+                safe_bool(row.get("structural_intervention_executed"))
+                for row in successful_rows
+            ),
+            "structural_result_used_count": sum(
+                safe_bool(row.get("structural_result_used"))
+                for row in successful_rows
+            ),
         },
         "runtime": {
             "average_seconds_successful_only": (
@@ -806,8 +918,8 @@ def build_summary_markdown(
         "",
         "## Main comparison",
         "",
-        f"| Method | Success | Decision Acc. | Macro-F1 | Answer F1 | ROUGE-L | Citation F1 | Article R@{k} | Rule R@{k} | Event R@{k} | Top-1 Path | Avg. sec |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        f"| Method | Success | Decision Acc. | Balanced Acc. | Macro-F1 | Answer F1 | ROUGE-L | Citation F1 | Article R@{k} | Rule R@{k} | Event R@{k} | Top-1 Path | Avg. sec |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for method, aggregate in aggregates.items():
         verification = aggregate["verification"]
@@ -819,6 +931,7 @@ def build_summary_markdown(
         lines.append(
             f"| {method} | {format_percentage(aggregate['success_rate'])} | "
             f"{format_percentage(verification['accuracy'])} | "
+            f"{format_percentage(verification['balanced_accuracy'])} | "
             f"{format_percentage(verification['macro_f1'])} | "
             f"{format_percentage(answer['token_f1'])} | "
             f"{format_percentage(answer['rouge_l_f1'])} | "
@@ -828,6 +941,28 @@ def build_summary_markdown(
             f"{format_percentage(retrieval['event_recall_at_k'])} | "
             f"{format_percentage(path['top1_exact_path_match'])} | "
             f"{format_number(runtime['average_seconds_successful_only'])} |"
+        )
+
+    lines.extend([
+        "",
+        "## Decision and verification audit",
+        "",
+        "| Method | Non-abstain coverage | Abstain | Factual route | Direct-edge route | do() requested | do() executed | Committed | Step-3 fallback |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+    ])
+    for method, aggregate in aggregates.items():
+        audit = aggregate.get("audit") or {}
+        routes = audit.get("verification_route_counts") or {}
+        lines.append(
+            f"| {method} | "
+            f"{format_percentage(audit.get('non_abstention_coverage'))} | "
+            f"{format_number(audit.get('abstention_count'), 0)} | "
+            f"{format_number(routes.get('legal_scm_factual_validation', 0), 0)} | "
+            f"{format_number(routes.get('grounded_direct_edge_topology', 0), 0)} | "
+            f"{format_number(audit.get('structural_intervention_requested_count', 0), 0)} | "
+            f"{format_number(audit.get('structural_intervention_executed_count', 0), 0)} | "
+            f"{format_number(audit.get('verifier_committed_count', 0), 0)} | "
+            f"{format_number(audit.get('step3_safe_fallback_count', 0), 0)} |"
         )
 
     lines.extend([
@@ -1014,6 +1149,10 @@ def main() -> int:
         "generation_contract_warnings": contract_warnings,
         "completeness_warnings": completeness_errors,
         "metric_applicability": applicability_by_method,
+        "prediction_run_audits": {
+            method: dict(metadata_by_method[method].get("run_audit") or {})
+            for method in methods
+        },
         "aggregates": aggregates,
         "bootstrap_confidence_intervals": confidence_intervals,
         "paired_significance": significance_rows,
@@ -1039,6 +1178,11 @@ def main() -> int:
                 "gold_path is empty."
             ),
             "oracle_path": "Oracle path remains diagnostic and is not a deployable score.",
+            "verification_audit": (
+                "Route, commit, fallback, abstention, and structural-intervention "
+                "counts are reconstructed from each saved prediction. A do()-based "
+                "claim requires structural_intervention_executed_count > 0."
+            ),
         },
     }
 

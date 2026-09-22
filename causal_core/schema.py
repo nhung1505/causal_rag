@@ -486,6 +486,93 @@ class CausalRule:
         compare=False,
     )
 
+    @staticmethod
+    def _text_tuple(value: Any, *, field_name: str) -> tuple[str, ...]:
+        """Normalize an optional canonical text sequence."""
+
+        if value is None:
+            return ()
+        if isinstance(value, str):
+            return (value,)
+        if not isinstance(value, (list, tuple)):
+            raise TypeError(f"{field_name} phải là string hoặc JSON array.")
+        return tuple("" if item is None else str(item) for item in value)
+
+    @classmethod
+    def from_dict(
+        cls,
+        data: Mapping[str, Any],
+        *,
+        validate: bool = True,
+    ) -> CausalRule:
+        """Load either a canonical or a backward-compatible legacy record.
+
+        Canonical records contain a ``conditions`` array, an optional
+        ``exceptions`` array, and one ``effect`` literal.  Conditions inside a
+        record are conjunctive.  Disjunction is represented losslessly by
+        separate records with the same effect, allowing each rule to activate
+        independently.  Flat records without ``conditions`` continue through
+        the legacy one-condition adapter.
+        """
+
+        if not isinstance(data, Mapping):
+            raise TypeError("Causal rule phải là một mapping.")
+        if "conditions" not in data:
+            return cls.from_legacy_rule(data, validate=validate)
+
+        raw_conditions = data.get("conditions")
+        raw_exceptions = data.get("exceptions", [])
+        raw_effect = data.get("effect")
+        if not isinstance(raw_conditions, (list, tuple)):
+            raise TypeError("CausalRule.conditions phải là JSON array.")
+        if not isinstance(raw_exceptions, (list, tuple)):
+            raise TypeError("CausalRule.exceptions phải là JSON array.")
+        if not isinstance(raw_effect, Mapping):
+            raise TypeError("CausalRule.effect phải là một literal object.")
+        if any(not isinstance(item, Mapping) for item in raw_conditions):
+            raise TypeError("Mỗi condition phải là một literal object.")
+        if any(not isinstance(item, Mapping) for item in raw_exceptions):
+            raise TypeError("Mỗi exception phải là một literal object.")
+
+        raw_metadata = data.get("metadata") or {}
+        if not isinstance(raw_metadata, Mapping):
+            raise TypeError("CausalRule.metadata phải là một mapping.")
+
+        result = cls(
+            rule_id=str(data.get("rule_id", data.get("index", ""))).strip(),
+            article_id=data.get("article_id"),
+            legal_subject=str(data.get("legal_subject") or ""),
+            conditions=tuple(
+                CausalLiteral.from_dict(item) for item in raw_conditions
+            ),
+            exceptions=tuple(
+                CausalLiteral.from_dict(item) for item in raw_exceptions
+            ),
+            effect=CausalLiteral.from_dict(raw_effect),
+            condition_texts=cls._text_tuple(
+                data.get("condition_texts"),
+                field_name="condition_texts",
+            ),
+            effect_text=str(data.get("effect_text") or ""),
+            rule_text=str(data.get("rule_text") or ""),
+            article_title=str(data.get("article_title") or ""),
+            condition_modalities=cls._text_tuple(
+                data.get("condition_modalities"),
+                field_name="condition_modalities",
+            ),
+            effect_modality=str(data.get("effect_modality") or ""),
+            causal_type=str(data.get("causal_type") or ""),
+            quality_status=str(data.get("quality_status") or ""),
+            source_scope=str(data.get("source_scope") or ""),
+            event_normalization_version=str(
+                data.get("event_normalization_version") or ""
+            ),
+            metadata=deepcopy(dict(raw_metadata)),
+        )
+        if validate:
+            result.validate()
+        return result
+
     @classmethod
     def from_legacy_rule(
         cls,

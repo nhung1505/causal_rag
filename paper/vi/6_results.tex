@@ -1,0 +1,115 @@
+% =========================================================
+% VI. RESULTS AND ANALYSIS
+% =========================================================
+\section{Kết quả và phân tích}
+\label{sec:results_analysis}
+
+\subsection{Kết quả tổng thể và closed-book baseline}
+
+Cả bốn run đều tạo đủ 250/250 prediction thành công, không có pipeline error và
+dùng cùng model cùng generation settings. Bảng~\ref{tab:main_results} báo cáo
+end-to-end quality; retrieval/path chỉ được diễn giải với hệ thống có thành
+phần tương ứng.
+
+\begin{table*}[t]
+\centering
+\caption{Kết quả trên 250 câu hỏi (đơn vị phần trăm, trừ thời gian).}
+\label{tab:main_results}
+\small
+\begin{tabular}{lrrrrrrr}
+\hline
+\textbf{Phương pháp}
+& \textbf{Acc.}
+& \textbf{B.Acc.}
+& \textbf{M-F1}
+& \textbf{Ans.F1}
+& \textbf{R-L}
+& \textbf{Cit.F1}
+& \textbf{Giây}\\
+\hline
+Closed-book LLM & 0.00 & 0.00 & 0.00 & 12.98 & 11.27 & 0.00 & 0.841\\
+Vanilla RAG & 55.60 & 59.89 & 67.60 & 23.28 & 21.45 & 49.37 & 2.308\\
+Causal Path RAG & 90.80 & 88.15 & 84.36 & \textbf{36.53} & \textbf{35.82} & 58.70 & 2.107\\
+Full LegalSCM & \textbf{96.80} & \textbf{95.98} & \textbf{93.31} & 36.32 & 35.73 & \textbf{59.30} & 3.324\\
+\hline
+\end{tabular}
+\end{table*}
+
+Điểm quyết định 0,00\% của closed-book baseline không phải do run lỗi hoặc
+evaluator parse sai. Cả 250 generation thành công đều trả nhãn hợp lệ
+\textsc{uncertain}. Gold gồm 230 \textsc{supported}, 20
+\textsc{reject-direct-claim} và không có \textsc{uncertain}, nên exact-label
+accuracy bằng 0. Kết quả này đo \emph{complete abstention dưới cấu hình
+prompt/model thận trọng hiện tại}, không có nghĩa model có năng lực pháp luật
+chung bằng 0. Ngược lại, classifier luôn đoán \textsc{supported} sẽ đạt 92\%
+raw accuracy trên tập lệch nhãn này; do đó Balanced Accuracy và Macro-F1 được
+báo cáo cùng Accuracy.
+
+\subsection{Ảnh hưởng theo cặp của selective verification}
+
+Full LegalSCM đúng 242 câu, Causal Path RAG đúng 227 câu. Full-only correct có
+17 mẫu, Causal-only correct có 2 mẫu, cả hai đúng 225 và cả hai sai 6. Mức tăng
+Accuracy là 6,0 điểm phần trăm, với paired bootstrap CI 95\%
+$[2,8;9,6]$ điểm, exact McNemar $p=0,000729$ và Holm-adjusted
+$p=0,002914$. Macro-F1 tăng mô tả 8,94 điểm, từ 84,36\% lên 93,31\%.
+
+Lợi ích chỉ xuất hiện rõ ở mức quyết định. So với Causal Path RAG, Full thay đổi
+Answer F1 $-0,21$ điểm (CI 95\% $[-1,83;1,43]$), ROUGE-L $-0,09$ điểm
+(CI 95\% $[-1,71;1,56]$) và Citation F1 $+0,59$ điểm (CI 95\%
+$[-0,72;2,03]$). Cả ba Holm-adjusted $p$ đều bằng 1,0. Vì vậy, dữ liệu hỗ trợ
+cải thiện structured decision, không hỗ trợ kết luận cải thiện chung về cách
+diễn đạt hoặc citation.
+
+\subsection{Audit route, commit và lỗi}
+
+Bảng~\ref{tab:route_audit} báo cáo các runtime counter độc lập. Router chuyển
+230 mẫu tới factual LegalSCM validation và 20 direct claim tới grounded edge
+checking. Không câu nào yêu cầu mediator-intervention route.
+
+\begin{table}[t]
+\centering
+\caption{Audit route và commit của Full LegalSCM.}
+\label{tab:route_audit}
+\small
+\begin{tabular}{lr}
+\hline
+\textbf{Đại lượng audit} & \textbf{Số mẫu}\\
+\hline
+Factual LegalSCM route & 230\\
+Grounded direct-edge route & 20\\
+Verifier committed & 230\\
+No-primary-path safe fallback & 20\\
+Đã thực thi $do(X_M=0)$ & 0\\
+\hline
+\end{tabular}
+\end{table}
+
+Cả 17 Full-only gain đều xuất hiện khi verifier commit: 14 từ factual rule
+validation và 3 từ direct-edge topology. Trong 20 safe fallback, Full và Causal
+Path RAG đưa cùng quyết định ở 19 mẫu; 13 mẫu cùng đúng và 6 mẫu cùng sai. Mẫu
+còn lại chỉ Causal Path RAG đúng. Vì vậy fallback không tạo Full-only gain.
+
+Full sai tám quyết định. Bảy lỗi xảy ra sau no-primary-path fallback, chủ yếu do
+first-hop retrieval không cung cấp Primary Path có thể dùng. Lỗi còn lại là lỗi
+ground endpoint của direct claim. Trong ba mẫu lỗi, phần prose được sinh còn
+mâu thuẫn với structured label, cho thấy một vấn đề consistency riêng ở tầng
+sinh.
+
+Trên direct-claim counterexample subset, Full đạt 95\% và Causal Path RAG đạt
+85\%. Tuy nhiên, toàn bộ 20 mẫu được đánh giá bằng direct-edge topology và
+không mẫu nào chạy $do(X_M=0)$. Subset này hỗ trợ giá trị của query-aware
+direct-claim checking, không chứng minh hiệu quả structural mediator
+intervention.
+
+\subsection{Retrieval, path ranking và runtime}
+
+Causal Path RAG và Full dùng cùng retrieval output. Article Recall@5, Rule
+Recall@5 và Event Recall@5 lần lượt là 75,40\%, 71,20\% và 74,79\%. Top-1 Exact
+Path là 38,56\%, còn Oracle Exact Path là 75,42\%. Khoảng cách 36,86 điểm cho
+thấy gold path thường đã nằm trong candidate set nhưng chưa được xếp đầu; việc
+retrieval/path giống nhau cũng khoanh vùng chênh lệch quyết định Full--Causal ở
+tầng selective verification thay vì retrieval.
+
+Full cần trung bình 3,324 giây mỗi câu thành công, so với 2,107 giây của Causal
+Path RAG, tức tăng $1,58\times$. Trade-off đo được là mức tăng quyết định 6,0
+điểm có ý nghĩa thống kê với khoảng 58\% runtime bổ sung trên mỗi mẫu.

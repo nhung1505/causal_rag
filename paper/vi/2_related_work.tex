@@ -1,0 +1,101 @@
+% =========================================================
+% II. RELATED WORK
+% =========================================================
+\section{Related Work}
+\label{sec:related_work}
+
+\subsection{Retrieval-Augmented Generation}
+
+Retrieval-Augmented Generation (RAG) kết hợp mô hình ngôn ngữ với một thành
+phần truy xuất bên ngoài nhằm cung cấp bằng chứng liên quan trước khi sinh câu
+trả lời \cite{lewis2020retrieval,gao2024ragsurvey}. Các phương pháp truy xuất
+dense như DPR \cite{karpukhin2020dense} giúp cải thiện khả năng tìm kiếm tài
+liệu theo ngữ nghĩa. Các nghiên cứu tiếp theo đã mở rộng theo hướng tổng hợp
+nhiều đoạn truy xuất, truy xuất thích ứng kết hợp tự phản hồi, và tổ chức truy
+xuất theo cấu trúc phân cấp
+\cite{izacard2021fid,asai2024selfrag,sarthi2024raptor}. Tuy nhiên, phần lớn hệ
+thống RAG truyền thống vẫn cung cấp bằng chứng truy xuất chủ yếu dưới dạng ngữ
+cảnh văn bản thay vì một cấu trúc suy luận tường minh.
+
+Cách tiếp cận này phù hợp với các câu hỏi có thể trả lời từ một hoặc một số đoạn
+văn trực tiếp, nhưng gặp hạn chế trong các bài toán đòi hỏi kết nối nhiều bước
+suy luận.
+
+\subsection{Multi-hop Question Answering}
+
+Multi-hop Question Answering yêu cầu hệ thống kết hợp thông tin từ nhiều bằng
+chứng để suy ra câu trả lời cuối cùng. Các bộ dữ liệu như HotpotQA
+\cite{yang2018hotpotqa} và MuSiQue \cite{trivedi2022musique} cho thấy việc truy
+xuất đúng từng tài liệu chưa đủ; hệ thống còn phải xác định được chuỗi bằng
+chứng liên kết giữa chúng.
+
+Trong miền pháp luật, yêu cầu này đặc biệt quan trọng vì một kết luận pháp lý
+thường phụ thuộc vào nhiều điều kiện và hậu quả trung gian. Do đó, việc biểu
+diễn rõ cấu trúc suy luận có thể giúp hệ thống hạn chế các bước nối suy luận
+không được hỗ trợ bởi văn bản pháp luật.
+
+\subsection{Graph-based and Causal RAG}
+
+Một hướng nghiên cứu gần đây sử dụng đồ thị để tổ chức tri thức và hỗ trợ truy
+xuất nhiều bước. GraphRAG khai thác cấu trúc đồ thị nhằm mở rộng khả năng truy
+xuất và tổng hợp thông tin trên nhiều thực thể hoặc đoạn văn liên quan
+\cite{edge2024graphrag}. Think-on-Graph tiếp tục cho thấy việc duyệt tường minh
+trên đồ thị tri thức có thể hỗ trợ suy luận nhiều bước và tạo ra các đường suy
+luận có khả năng truy vết \cite{sun2024thinkongraph}.
+
+Gần với hướng nghiên cứu của chúng tôi hơn, CausalRAG sử dụng quan hệ nhân quả
+để hướng dẫn quá trình truy xuất và suy luận thay vì chỉ dựa trên độ tương đồng
+ngữ nghĩa \cite{wang2025causalrag}. CC-RAG cũng xây dựng các chuỗi nhân quả
+nhằm hỗ trợ suy luận nhiều bước có cấu trúc trên các kho dữ liệu chuyên miền
+\cite{parekh2025ccrag}. Những hướng nghiên cứu này cho thấy cấu trúc quan hệ
+giữa các sự kiện có thể cung cấp tín hiệu bổ sung cho các câu hỏi nhiều bước.
+
+Tuy nhiên, trong bài toán pháp luật, quan hệ được sử dụng trong nghiên cứu này
+được hiểu là quan hệ có hướng giữa điều kiện và hệ quả pháp lý được trích xuất
+từ văn bản luật, không phải quan hệ nhân quả được ước lượng từ dữ liệu quan sát.
+
+\subsection{Counterfactual Reasoning and Legal QA}
+
+Counterfactual reasoning đã được sử dụng để đánh giá liệu một kết luận còn giữ
+nguyên khi một điều kiện hoặc sự kiện trung gian thay đổi. Trong Multi-hop QA,
+các nghiên cứu về câu hỏi phản thực tế cho thấy mô hình có thể đạt kết quả đúng
+nhưng vẫn dựa vào chuỗi suy luận không phù hợp \cite{guo2023counterfactual}.
+
+Trong lĩnh vực pháp luật, các benchmark như LexGLUE, CaseHOLD và LegalBench,
+cùng với các mô hình chuyên miền như LEGAL-BERT, đã cho thấy những đặc trưng
+riêng của ngôn ngữ pháp luật cũng như những thách thức còn tồn tại đối với suy
+luận pháp lý có cấu trúc
+\cite{chalkidis2022lexglue,zheng2021casehold,guha2023legalbench,chalkidis2020legalbert}.
+Điều này tạo động lực cho các phương pháp kết hợp truy xuất bằng chứng với biểu
+diễn quan hệ pháp lý và cấu trúc suy luận tường minh hơn.
+
+\subsection{Logic programming ba giá trị và biểu diễn đại số tuyến tính}
+
+Logic ba giá trị phân biệt true, false và trạng thái undefined/unknown
+\cite{kleene1952metamathematics}. Ngữ nghĩa Kripke--Kleene của Fitting cung cấp
+cách xây dựng điểm bất động cho logic program khi thông tin chưa đầy đủ
+\cite{fitting1985kripke}. Các nghiên cứu gần đây mã hóa ngữ nghĩa logic program
+hai và ba giá trị trong không gian vector \cite{sato2020threevalued}, đồng thời
+dùng ma trận và tensor bậc ba cho definite, disjunctive và normal logic program
+\cite{sakama2021tensor}. Các công trình này tạo nền tảng cho formulation đại số
+của chúng tôi. Runtime hiện tại vẫn là engine quy tắc thưa ký hiệu: AND nằm
+trong một quy tắc và OR nằm giữa các quy tắc độc lập có cùng consequent, thay vì
+thực hiện phép nhân tensor.
+
+\subsection{Research Gap}
+
+Các phương pháp RAG truyền thống chủ yếu tối ưu khả năng truy xuất bằng chứng
+có liên quan về mặt ngữ nghĩa, trong khi các phương pháp dựa trên đồ thị tập
+trung vào việc kết nối nhiều thực thể hoặc sự kiện. Tuy nhiên, vẫn còn ít nghiên
+cứu kết hợp đồng thời:
+
+\begin{itemize}
+    \item biểu diễn các quy tắc pháp luật dưới dạng quan hệ điều kiện--hệ quả;
+    \item truy xuất và xếp hạng các đường suy luận nhiều bước;
+    \item xác minh vai trò của các sự kiện trung gian bằng phân tích phản thực tế;
+    \item và sử dụng kết quả xác minh để tinh lọc bằng chứng trước khi sinh câu trả lời.
+\end{itemize}
+
+Nghiên cứu này hướng tới khoảng trống trên bằng cách kết hợp causal graph
+retrieval, multi-hop path reasoning và counterfactual verification trong một
+pipeline RAG dành cho hỏi đáp pháp luật nhiều bước.
