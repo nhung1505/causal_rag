@@ -1,0 +1,168 @@
+% =========================================================
+% III. PROBLEM FORMULATION
+% =========================================================
+\section{Phát biểu bài toán}
+\label{sec:problem_formulation}
+
+Chúng tôi xét bài toán hỏi đáp pháp luật nhiều bước, trong đó một kết luận có
+thể yêu cầu liên kết các điều kiện luật định, sự kiện trung gian và hệ quả pháp
+lý. Tri thức pháp luật được biểu diễn bằng đồ thị có hướng $G=(V,E)$ và tập quy
+tắc $\mathcal{R}$. Mỗi nút biểu diễn một sự kiện pháp lý đã được chuẩn hóa, còn
+mỗi cạnh tóm tắt một hoặc nhiều quy tắc điều kiện--hệ quả. Đồ thị hỗ trợ truy
+xuất và phân tích tô-pô, trong khi $\mathcal{R}$ xác định ngữ nghĩa suy luận.
+
+Với câu hỏi $q$, hệ thống xây dựng các đường suy luận ứng viên
+\begin{equation}
+\mathcal{P}(q)=\{P_1,\ldots,P_K\},\qquad
+P_i=v_0\xrightarrow{r_1}\cdots\xrightarrow{r_h}v_h,
+\end{equation}
+và chọn đường chính
+\begin{equation}
+P^*=\arg\max_{P_i\in\mathcal{P}(q)}S(P_i,q),
+\end{equation}
+trong đó $S$ kết hợp độ phù hợp ngữ nghĩa và cấu trúc.
+
+\subsection{Ngữ nghĩa ba giá trị dựa trên đại số tuyến tính}
+
+Mỗi sự kiện được gắn với một biến
+\begin{equation}
+X_i\in\{1,0,\bot\},
+\end{equation}
+lần lượt biểu diễn \textsc{true}, \textsc{false} và \textsc{unknown}. Trạng
+thái unknown thể hiện hỗ trợ bị thiếu hoặc xung đột, không phải một giá trị số
+nằm giữa 0 và 1. Formulation này dựa trên ngữ nghĩa điểm bất động ba giá trị
+\cite{kleene1952metamathematics,fitting1985kripke} và các mở rộng trong không
+gian vector \cite{sato2020threevalued}.
+
+Trạng thái sự kiện được mã hóa bằng hai kênh hỗ trợ:
+\begin{equation}
+(t_i,f_i)=
+\begin{cases}
+(1,0), & X_i=1,\\
+(0,1), & X_i=0,\\
+(0,0), & X_i=\bot.
+\end{cases}
+\label{eq:two_channel_state}
+\end{equation}
+
+Đặt $n=|V|$ và $p=|\mathcal{R}|$. Chúng tôi định nghĩa các ma trận incidence
+cho thân quy tắc
+$\mathbf{B}^{+},\mathbf{B}^{-}\in\{0,1\}^{p\times n}$ và các ma trận incidence
+cho đầu quy tắc
+$\mathbf{H}^{+},\mathbf{H}^{-}\in\{0,1\}^{n\times p}$. Với
+$\mathbf{k}=(\mathbf{B}^{+}+\mathbf{B}^{-})\mathbf{1}$, các thân quy tắc và mức
+kích hoạt được tính bởi
+\begin{equation}
+\mathbf{b}
+=
+\mathbb{I}
+[\mathbf{B}^{+}\mathbf{t}
++\mathbf{B}^{-}\mathbf{f}
+=\mathbf{k}],
+\qquad
+\mathbf{a}
+=
+\mathbf{b}\odot(\mathbf{1}-\mathbf{e}),
+\label{eq:rule_activation}
+\end{equation}
+trong đó $\mathbf{e}$ biểu diễn các ngoại lệ đang hoạt động. Điều kiện bằng
+$\mathbf{k}$ yêu cầu mọi literal trong thân quy tắc đều được thỏa mãn, qua đó
+biểu diễn phép hội trong từng quy tắc.
+
+Hỗ trợ cho các đầu quy tắc được tổng hợp như sau:
+\begin{equation}
+\mathbf{d}^{+}
+=
+\mathbb{I}[\mathbf{H}^{+}\mathbf{a}\geq1],
+\qquad
+\mathbf{d}^{-}
+=
+\mathbb{I}[\mathbf{H}^{-}\mathbf{a}\geq1].
+\label{eq:head_support}
+\end{equation}
+Phép đặt ngưỡng biểu diễn phép tuyển giữa các quy tắc được kích hoạt độc lập có
+cùng hệ quả. Do đó, $(A\land B)\rightarrow Y$ được mã hóa thành một quy tắc có
+hai phần tử trong thân, còn $(A\lor B)\rightarrow Y$ được chuẩn hóa thành
+$A\rightarrow Y$ và $B\rightarrow Y$. Biểu diễn incidence này có liên hệ với
+lập trình logic trong không gian ma trận và tensor
+\cite{sakama2021tensor}.
+
+Trạng thái factual được xác định bằng phép lặp tới điểm bất động:
+\begin{equation}
+\mathbf{x}^{F}
+=
+\operatorname{Fix}
+(\Phi_{\mathcal{R}},\mathbf{x}^{(0)}).
+\label{eq:factual_fixed_point}
+\end{equation}
+Chỉ có hỗ trợ dương hoặc chỉ có hỗ trợ âm lần lượt tạo trạng thái true hoặc
+false; không có hỗ trợ hoặc có hỗ trợ xung đột tạo trạng thái unknown. Runtime
+đánh giá các quy tắc thưa bằng phép suy luận ký hiệu thay vì thực hiện phép nhân
+ma trận dày. Mặc dù engine hỗ trợ thân quy tắc có nhiều literal, dữ liệu hiện
+tại chỉ chứa một tiền đề dương trong mỗi quy tắc được import. Vì vậy, khả năng
+xử lý phép hội chưa được đánh giá thực nghiệm trong nghiên cứu này.
+
+\subsection{Chẩn đoán tô-pô và can thiệp cấu trúc}
+
+Gọi $\mathcal{M}(P^*)=\{v_1,\ldots,v_{h-1}\}$ là tập sự kiện trung gian của
+đường chính và $m\in\mathcal{M}(P^*)$ là một sự kiện trung gian. Phép chẩn đoán
+xóa nút tạo
+\begin{equation}
+G^{-m}=G[V\setminus\{m\}]
+\end{equation}
+và kiểm tra
+\begin{equation}
+\rho_{\mathrm{top}}(s,Y\mid m)
+=
+\mathbb{I}
+[Y\text{ có thể đạt được từ }s\text{ trong }G^{-m}].
+\label{eq:topological_ablation}
+\end{equation}
+Phép toán này chỉ đo tính đạt được tô-pô có giới hạn và không được sử dụng làm
+định nghĩa phản thực của LegalSCM.
+
+Với câu hỏi yêu cầu loại bỏ sự kiện trung gian một cách tường minh, LegalSCM
+thay vào đó áp dụng can thiệp cấu trúc \cite{pearl2009causality}
+\begin{equation}
+do(X_m=0),\qquad 0\equiv\mathrm{FALSE}.
+\end{equation}
+Can thiệp cố định $X_m$ ở trạng thái false và vô hiệu hóa mọi quy tắc xác định
+biến này:
+\begin{equation}
+\mathcal{R}^{do(X_m=0)}
+=
+\{r\in\mathcal{R}\mid
+\operatorname{var}(\operatorname{head}(r))\neq m\}.
+\end{equation}
+Sau đó, trạng thái phản thực được suy luận lại:
+\begin{equation}
+\mathbf{x}^{CF(m)}
+=
+\operatorname{Fix}\!\left(
+\Phi_{\mathcal{R}^{do(X_m=0)}},
+\mathbf{x}^{(0)}[X_m\leftarrow0]
+\right).
+\label{eq:cf_fixed_point}
+\end{equation}
+
+Sự kiện trung gian $m$ là cần thiết đối với đích $Y$ khi $x_Y^{F}=1$ và
+$x_Y^{CF(m)}=0$; không cần thiết khi cả hai giá trị đều bằng $1$; và chưa xác
+định trong các trường hợp còn lại. Đây là can thiệp cấu trúc tương đối với mô
+hình đã mã hóa, không có bước abduction đối với biến ngoại sinh, và không được
+đồng nhất với thao tác xóa $m$ khỏi $G$.
+
+Cuối cùng, hệ thống dự đoán
+\begin{equation}
+z\in\{
+\textsc{supported},
+\textsc{reject-direct-claim},
+\textsc{uncertain}
+\}
+\end{equation}
+và sinh đầu ra
+\begin{equation}
+f:(q,G,\mathcal{R})
+\rightarrow(P^*,z,\mathcal{E}^*,a,C),
+\end{equation}
+trong đó $\mathcal{E}^*$ là bằng chứng đã được xác minh, $a$ là câu trả lời và
+$C$ là tập căn cứ pháp lý được trích dẫn.

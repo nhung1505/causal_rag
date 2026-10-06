@@ -4,51 +4,30 @@
 \section{Thiết lập thực nghiệm}
 \label{sec:experimental_setup}
 
-\subsection{Dữ liệu đánh giá}
+\subsection{Dữ liệu và các hệ thống so sánh}
 
-Thực nghiệm sử dụng 250 câu hỏi nhiều bước được xây dựng trong nghiên cứu này
-từ Bộ luật Hình sự Việt Nam và đồ thị pháp luật dẫn xuất. Mỗi mẫu có câu hỏi,
-quy tắc và sự kiện liên quan, đường suy luận chuẩn, quyết định tham chiếu, câu
-trả lời chuẩn và căn cứ pháp lý. Trong 250 mẫu, 236 mẫu có gold path tuyến tính
-để đánh giá đường.
+Chúng tôi đánh giá trên 250 câu hỏi nhiều bước được xây dựng từ Bộ luật Hình sự
+Việt Nam \cite{blhs2025} và đồ thị pháp luật dẫn xuất. Trong số đó, 236 câu có
+đường chuẩn tuyến tính. Các nhãn quyết định gồm 230 mẫu
+\textsc{supported} và 20 mẫu \textsc{reject-direct-claim}, không có mẫu chuẩn
+\textsc{uncertain}. Bộ định tuyến xử lý 13 mẫu âm bằng phép kiểm tra cạnh trực
+tiếp và 7 mẫu loại bỏ sự kiện trung gian tường minh bằng $do(X_m=0)$. Các
+trường chuẩn và trường đánh giá không bao giờ được truy cập trong quá trình sinh
+dự đoán. Do các câu hỏi và đồ thị truy xuất có cùng nguồn dữ liệu có cấu trúc,
+thực nghiệm chủ yếu đo tính hợp lệ nội tại trong môi trường có kiểm soát.
 
-Phân bố nhãn quyết định bị lệch: 230 mẫu \textsc{supported} và 20 mẫu
-\textsc{reject-direct-claim}; không có gold \textsc{uncertain}. Hai mươi mẫu
-âm hỏi liệu một endpoint có trực tiếp gây ra endpoint khác mà không qua sự kiện
-trung gian của chuỗi hai hop đã được hỗ trợ hay không. Vì vậy, chúng là các
-\emph{direct-claim counterexamples}. Chúng không yêu cầu tường minh
-$do(X_M=0)$ và được route tới grounded direct-edge topology. Batch báo cáo
-không chứa câu hỏi mediator intervention tường minh; phần diễn giải kết quả giữ
-rõ giới hạn này.
+Chúng tôi so sánh: (1) LLM closed-book cho phép abstention; (2) LLM closed-book
+buộc quyết định nhị phân; (3) Vanilla RAG; (4) Causal Path RAG; và (5) Full
+LegalSCM. Bốn hệ thống cho phép abstention sử dụng cùng bộ sinh, quy tắc prompt,
+schema đầu ra, ngân sách ngữ cảnh và tham số giải mã. Biến thể buộc quyết định
+nhị phân chỉ thay đổi chính sách quyết định và được xem là một đối chứng phân
+tích độ nhạy. Không hệ thống nào sử dụng fallback trích xuất cho câu trả lời.
 
-Do câu hỏi và gold path được dẫn xuất từ cùng nguồn tri thức cấu trúc dùng để
-xây retrieval graph, thực nghiệm đo internal validity trong môi trường có kiểm
-soát, không phải external legal validity ở mức chuyên gia.
+\subsection{Cấu hình}
 
-\subsection{Các phương pháp so sánh}
+Qwen3-8B được chạy qua Ollama, trong khi BGE-M3
+\cite{chen2024bgem3} và FAISS đảm nhiệm truy xuất ngữ nghĩa.
 
-Chúng tôi đánh giá bốn cấu hình:
-\begin{itemize}
-    \item \textbf{Closed-book LLM}: Qwen3-8B chỉ nhận câu hỏi dưới output
-    contract định hướng verification dùng chung. Prompt yêu cầu trả
-    \textsc{uncertain} thay vì bịa bằng chứng. Đây là baseline thận trọng có
-    abstention, không phải ước lượng không ràng buộc về năng lực pháp luật chung.
-    \item \textbf{Vanilla RAG}: truy xuất điều khoản theo tương đồng ngữ nghĩa
-    trước bước sinh.
-    \item \textbf{Causal Path RAG}: truy xuất quy tắc, sự kiện và đường nhiều
-    bước nhưng không chạy LegalSCM.
-    \item \textbf{Full LegalSCM}: bổ sung question-aware LegalSCM verification
-    và selective commit gate trên cùng pipeline Causal Path RAG.
-\end{itemize}
-
-Tất cả hệ thống dùng cùng model, JSON output schema, quy tắc system prompt, giới
-hạn context và tham số giải mã. Prompt policy chỉ khác ở việc không có context,
-có bằng chứng truy xuất, hoặc có quyết định verifier đã commit.
-
-\subsection{Cấu hình thực nghiệm}
-
-Qwen3-8B chạy cục bộ qua Ollama. Bảng~\ref{tab:experimental_config} trình bày
-các thiết lập dùng chung.
 \begin{table}[t]
 \centering
 \caption{Cấu hình thực nghiệm chính.}
@@ -56,44 +35,35 @@ các thiết lập dùng chung.
 \small
 \begin{tabular}{lc}
 \hline
-\textbf{Tham số} & \textbf{Giá trị} \\
+\textbf{Tham số} & \textbf{Giá trị}\\
 \hline
-LLM & Qwen3-8B \\
-Embedding model & BAAI/bge-m3 \\
-Temperature & 0.1 \\
-Random seed & 42 \\
-Max output tokens & 1200 \\
-Context window & 32768 \\
-Max context characters & 18000 \\
-Retrieval $K$ & 5 \\
-Max graph hops & 2 \\
+Bộ sinh / mô hình embedding & Qwen3-8B / BGE-M3\\
+Nhiệt độ / seed & 0.1 / 42\\
+Token đầu ra / cửa sổ ngữ cảnh & 1200 / 32768\\
+Số ký tự ngữ cảnh tối đa & 18000\\
+Top-$K$ Vanilla / sự kiện / quy tắc & 5 / 8 / 8\\
+Top-$K$ bằng chứng nhân quả cuối cùng & 12\\
+Số hop đồ thị tối đa & 2\\
+Ngưỡng commit / grounding & 0.55 / 0.80\\
 \hline
 \end{tabular}
 \end{table}
-BGE-M3 \cite{chen2024bgem3} mã hóa câu hỏi và tri thức pháp luật; FAISS thực
-hiện nearest-neighbor search trên causal memory.
 
-\subsection{Chỉ số và audit run}
+\subsection{Chỉ số và kiểm định thống kê}
 
-Retrieval được đánh giá bằng Recall@5, MRR và MAP cho từng thành phần phù hợp.
-Top-1 Exact Path và Edge F1 đánh giá đường tuyến tính được chọn; Oracle Exact
-Path chẩn đoán liệu gold path có xuất hiện trong tập ứng viên hay không và không
-phải deployable score.
+Chúng tôi báo cáo Decision Accuracy, Balanced Accuracy và Macro-F1. Do không có
+mẫu chuẩn nào thuộc lớp \textsc{uncertain}, hai chỉ số sau được lấy trung bình
+trên hai lớp có trong dữ liệu chuẩn. Token-F1 và ROUGE-L đánh giá câu trả lời,
+trong khi F1 dựa trên tập hợp đánh giá căn cứ được trích dẫn. Các thành phần
+truy xuất phù hợp được đánh giá bằng Recall@5, MRR và MAP; Top-1 Exact Path và
+Oracle Exact Path lần lượt đánh giá đường được chọn và đường ứng viên. Các điểm
+Oracle chỉ dùng cho mục đích chẩn đoán. Dự đoán bị thiếu hoặc thất bại nhận điểm
+0 trên các chỉ số end-to-end dùng chung, còn thời gian chạy được lấy trung bình
+trên các dự đoán thành công.
 
-Decision Accuracy là exact agreement giữa \textsc{supported},
-\textsc{reject-direct-claim} và \textsc{uncertain}. Macro-F1 và Balanced
-Accuracy được báo cáo do phân bố gold lệch. Token-F1 và ROUGE-L đánh giá câu trả
-lời; precision, recall và F1 đánh giá citation. Prediction thiếu hoặc lỗi nhận
-điểm 0 trên các end-to-end metric dùng chung.
-
-Mỗi run được audit về coverage, lỗi, generation signature, query route, trạng
-thái commit gate, fallback và việc structural intervention có thực sự được chạy
-hay không. Điều này ngăn direct-edge hoặc factual route bị tính nhầm thành kết
-quả counterfactual dựa trên $do$.
-
-\subsection{Kiểm định thống kê}
-
-Mọi so sánh đều theo cặp trên cùng 250 câu hỏi. CI 95\% được ước lượng bằng
-5.000 bootstrap sample. Decision Accuracy dùng exact McNemar; Answer F1,
-ROUGE-L và Citation F1 dùng 5.000 paired randomization sign-flip. Hiệu chỉnh
-Holm kiểm soát multiple comparisons, với random seed 42.
+Mọi so sánh đều theo cặp trên cùng 250 câu hỏi. Chúng tôi dùng 5.000 mẫu
+bootstrap cho khoảng tin cậy 95\%, kiểm định McNemar chính xác cho Decision
+Accuracy và 5.000 phép đổi dấu ngẫu nhiên theo cặp cho Answer F1, ROUGE-L và
+Citation F1, cùng hiệu chỉnh Holm. Chúng tôi cũng kiểm toán route xác minh,
+quyết định commit, fallback, và việc $do(X_m=0)$ có được yêu cầu và thực thi hay
+không.

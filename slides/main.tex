@@ -1,0 +1,555 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+% Biên dịch bằng pdfLaTeX trên Overleaf.
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+% =========================================================
+% ĐỊNH DẠNG HỌC THUẬT TỐI GIẢN
+% =========================================================
+\usetheme{default}
+\usefonttheme{serif}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamersize{text margin left=7mm,text margin right=7mm}
+
+\definecolor{AcademicBlue}{RGB}{31,55,79}
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=AcademicBlue}
+\setbeamercolor{frametitle}{fg=AcademicBlue,bg=white}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamercolor{block title}{fg=black,bg=black!9}
+\setbeamercolor{block body}{fg=black,bg=black!2}
+\setbeamercolor{alerted text}{fg=black}
+\setbeamertemplate{blocks}[default]
+\setbeamertemplate{itemize item}{\raisebox{0.15ex}{\tiny$\blacksquare$}}
+\setbeamertemplate{itemize subitem}{\raisebox{0.15ex}{\tiny$\blacktriangleright$}}
+
+\setbeamertemplate{frametitle}{%
+  \vspace{2mm}%
+  \insertframetitle\par
+  \vspace{1mm}%
+  {\color{black!40}\rule{\textwidth}{0.4pt}}%
+}
+
+\tikzset{
+  process/.style={
+    draw=black!70,
+    fill=white,
+    rounded corners=1pt,
+    line width=0.5pt,
+    align=center,
+    minimum height=1.15cm,
+    text width=1.72cm,
+    inner sep=3pt,
+    font=\scriptsize
+  },
+  flow/.style={-{Latex[length=1.8mm]},line width=0.6pt,draw=black!75},
+  entity/.style={draw=black!70,fill=white,circle,minimum size=9mm,font=\scriptsize}
+}
+
+\title[LegalSCM-RAG]{LegalSCM-RAG: Phương pháp và kết quả thực nghiệm}
+\author{Nguyễn Thị Nhung}
+\institute{Đại học Bách khoa Hà Nội}
+\date{}
+
+\begin{document}
+
+% Bộ tài liệu gồm đúng 10 slide nội dung.
+% Nếu cần slide tiêu đề, có thể bổ sung \begin{frame}\titlepage\end{frame}.
+
+% =========================================================
+% SLIDE 1
+% =========================================================
+\begin{frame}{1. Quy trình phương pháp}
+\centering
+\begin{tikzpicture}[node distance=2.8mm]
+  \node[process] (rules) {Quy tắc\\đã chuẩn hóa};
+  \node[process,right=of rules] (graph) {Bước 1\\Xây graph};
+  \node[process,right=of graph] (memory) {Bước 2\\Causal memory};
+  \node[process,right=of memory] (retrieval) {Bước 3\\Truy xuất đa bước};
+  \node[process,right=of retrieval] (verification) {Bước 4\\LegalSCM verification};
+  \node[process,right=of verification] (generation) {Bước 5\\Sinh câu trả lời};
+  \draw[flow] (rules) -- (graph);
+  \draw[flow] (graph) -- (memory);
+  \draw[flow] (memory) -- (retrieval);
+  \draw[flow] (retrieval) -- (verification);
+  \draw[flow] (verification) -- (generation);
+\end{tikzpicture}
+
+\vspace{5mm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\textbf{Xử lý ngoại tuyến}
+\begin{itemize}\small
+  \item Chuẩn hóa rule và event pháp lý.
+  \item Xây dựng đồ thị điều kiện--hệ quả.
+  \item Mã hóa RULE/EVENT và tạo FAISS index.
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Xử lý theo truy vấn}
+\begin{itemize}\small
+  \item Truy xuất semantic seed và causal path.
+  \item Xác minh factual, direct hoặc intervention claim.
+  \item Áp dụng selective commit và sinh câu trả lời có citation.
+\end{itemize}
+\end{columns}
+
+\vspace{3mm}
+\begin{equation*}
+q\rightarrow \mathcal{O}_{3}(q)\rightarrow \mathcal{O}_{4}(q)
+\rightarrow(\widetilde z,\mathcal{E}^{*})\rightarrow(a,C).
+\end{equation*}
+\end{frame}
+
+% =========================================================
+% SLIDE 2
+% =========================================================
+\begin{frame}{2. Bước 1: Xây dựng legal causal graph}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\centering
+\begin{tikzpicture}[node distance=11mm and 14mm]
+  \node[draw=black!70,rectangle,font=\scriptsize] (article) {ARTICLE};
+  \node[draw=black!70,rectangle,below=of article,font=\scriptsize] (rule) {RULE $r_j$};
+  \node[entity,below left=of rule] (condition) {$u_j$};
+  \node[entity,below right=of rule] (effect) {$v_j$};
+  \node[draw=black!70,rectangle,right=of rule,font=\scriptsize] (subject) {SUBJECT};
+  \draw[flow] (article) -- node[left,font=\tiny]{HAS\_RULE} (rule);
+  \draw[flow] (rule) -- node[left,font=\tiny]{HAS\_CONDITION} (condition);
+  \draw[flow] (rule) -- node[right,font=\tiny]{HAS\_EFFECT} (effect);
+  \draw[flow] (rule) -- node[above,font=\tiny]{HAS\_SUBJECT} (subject);
+  \draw[flow,line width=1pt] (condition) -- node[below,font=\scriptsize]{CAUSES} (effect);
+\end{tikzpicture}
+
+\vspace{2mm}
+\begin{equation*}
+r_j:\quad u_j\xrightarrow{\;r_j,\,a_j\;}v_j.
+\end{equation*}
+
+\column{0.49\textwidth}
+\begin{itemize}\small
+  \item Biểu diễn bằng \texttt{NetworkX MultiDiGraph}.
+  \item Bốn loại nút: ARTICLE, RULE, EVENT và SUBJECT.
+  \item Cạnh CAUSES giữ \texttt{rule\_id}, \texttt{article\_id} và metadata pháp lý.
+  \item Nhiều rule có thể cùng hỗ trợ một cặp event mà không mất provenance.
+  \item Các cách diễn đạt tương đương dùng chung \texttt{event\_id}.
+\end{itemize}
+
+\medskip
+\textbf{Hình thành path đa bước}
+\begin{equation*}
+A\xrightarrow{r_1}B,\quad B\xrightarrow{r_2}C
+\quad\Longrightarrow\quad
+A\rightarrow B\rightarrow C.
+\end{equation*}
+\end{columns}
+
+\vfill
+{\scriptsize Đầu ra: GraphML/GEXF, thống kê đồ thị và danh sách chuỗi hai hop.}
+\end{frame}
+
+% =========================================================
+% SLIDE 3
+% =========================================================
+\begin{frame}{3. Bước 2: Xây dựng causal memory}
+\centering
+\begin{tikzpicture}[node distance=5mm]
+  \node[process,text width=2.15cm] (rulemem) {RULE memory\\condition, effect, article};
+  \node[process,text width=2.15cm,below=5mm of rulemem] (eventmem) {EVENT memory\\role, alias, context};
+  \node[process,text width=1.8cm,right=14mm of rulemem,yshift=-9mm] (encoder) {BGE-M3\\encoder};
+  \node[process,text width=1.8cm,right=of encoder] (normalization) {L2\\normalization};
+  \node[process,text width=2.1cm,right=of normalization] (index) {FAISS\\IndexFlatIP};
+  \draw[flow] (rulemem.east) -- (encoder.west);
+  \draw[flow] (eventmem.east) -- (encoder.west);
+  \draw[flow] (encoder) -- (normalization);
+  \draw[flow] (normalization) -- (index);
+\end{tikzpicture}
+
+\vspace{3mm}
+\begin{columns}[T,onlytextwidth]
+\column{0.50\textwidth}
+\textbf{Thành phần bộ nhớ}
+\begin{itemize}\small
+  \item RULE: chủ thể, điều kiện, hệ quả, event, modality và điều luật.
+  \item EVENT: tên, alias, vai trò và ngữ cảnh điều kiện/hệ quả.
+  \item BRIDGE event vừa là effect của rule trước, vừa là condition của rule sau.
+\end{itemize}
+
+\column{0.47\textwidth}
+\textbf{Điểm tương đồng}
+\begin{equation*}
+\widehat{\mathbf z}_j=\frac{\mathbf z_j}{\|\mathbf z_j\|_2},
+\qquad
+s(q,c_j)=\widehat{\mathbf q}^{\top}\widehat{\mathbf z}_j
+=\cos(\mathbf q,\mathbf z_j).
+\end{equation*}
+\begin{itemize}\small
+  \item \texttt{memory\_id} trùng vị trí vector trong index.
+  \item Kiểm tra nhất quán giữa CSV, embedding và FAISS.
+\end{itemize}
+\end{columns}
+
+\vfill
+{\scriptsize Đầu ra: \texttt{causal\_memory.csv}, \texttt{causal\_memory.index} và \texttt{causal\_memory\_embeddings.npy}.}
+\end{frame}
+
+% =========================================================
+% SLIDE 4
+% =========================================================
+\begin{frame}{4. Bước 3: Truy xuất causal path đa bước}
+\begin{columns}[T,onlytextwidth]
+\column{0.43\textwidth}
+\textbf{Luồng truy xuất}
+\begin{enumerate}\small
+  \item Mã hóa query bằng BGE-M3.
+  \item FAISS lấy 100 RULE/EVENT gần nhất.
+  \item Chọn EVENT top-8 ($s\geq0.20$) và RULE top-8 ($s\geq0.15$).
+  \item Chọn hướng forward, backward hoặc both từ query intent.
+  \item BFS tối đa 2 hop, không lặp nút; giữ 30 path/seed.
+  \item Hợp rule từ seed, path và direct hits; chọn top-12 evidence.
+\end{enumerate}
+
+\column{0.55\textwidth}
+\textbf{Điểm causal path}
+\begin{equation*}
+S_{\mathrm{path}}=\operatorname{clip}_{[0,1]}
+\left(
+0.54s_{\mathrm{seed}}+0.28s_{\mathrm{sup}}
++b_{\mathrm{bridge}}+b_{\mathrm{hop}}
+\right).
+\end{equation*}
+\begin{equation*}
+b_{\mathrm{bridge}}=\min(0.18,0.06N_{\mathrm{bridge}}),
+\qquad
+b_{\mathrm{hop}}=0.18\ \text{nếu đạt 2 hop}.
+\end{equation*}
+
+\medskip
+\textbf{Điểm rule evidence}
+\begin{equation*}
+\begin{aligned}
+S_{\mathrm{rule}}={}&0.32S_{\mathrm{semantic}}
++0.36S_{\mathrm{graph}}+0.10S_{\mathrm{seed}}\\
+&+0.07S_{\mathrm{direct}}+0.15S_{\mathrm{priority}}.
+\end{aligned}
+\end{equation*}
+
+\medskip
+{\small Trọng số graph/path được đặt cao để bảo toàn rule ở hop thứ hai, ngay cả khi query chủ yếu nhắc tới event đầu chuỗi.}
+\end{columns}
+\end{frame}
+
+% =========================================================
+% SLIDE 5
+% =========================================================
+\begin{frame}{5. LegalSCM: Ngữ nghĩa ba giá trị và AND/OR}
+\begin{columns}[T,onlytextwidth]
+\column{0.53\textwidth}
+\textbf{Biểu diễn trạng thái}
+\begin{equation*}
+X_i\in\{1,0,\bot\},\qquad
+(t_i,f_i)=
+\begin{cases}
+(1,0),&X_i=1,\\
+(0,1),&X_i=0,\\
+(0,0),&X_i=\bot.
+\end{cases}
+\end{equation*}
+
+\textbf{Kích hoạt rule}
+\begin{equation*}
+\mathbf b=\mathbb I[\mathbf B^+\mathbf t+\mathbf B^-\mathbf f=\mathbf k],
+\qquad
+\mathbf a=\mathbf b\odot(\mathbf 1-\mathbf e).
+\end{equation*}
+\begin{equation*}
+\mathbf d^+=\mathbb I[\mathbf H^+\mathbf a\geq1],
+\qquad
+\mathbf d^-=\mathbb I[\mathbf H^-\mathbf a\geq1].
+\end{equation*}
+
+\column{0.44\textwidth}
+\textbf{Conjunction trong một rule}
+\begin{equation*}
+(A\land B)\rightarrow Y.
+\end{equation*}
+{\small Rule chỉ kích hoạt khi cả hai literal đều thỏa mãn.}
+
+\medskip
+\textbf{Alternative disjunction giữa các rule}
+\begin{equation*}
+A\rightarrow Y,
+\qquad
+B\rightarrow Y.
+\end{equation*}
+{\small Một trong hai rule kích hoạt là đủ để hỗ trợ $Y$.}
+
+\medskip
+\begin{equation*}
+\mathbf x^F=\operatorname{Fix}
+(\Phi_{\mathcal R},\mathbf x^{(0)}).
+\end{equation*}
+\end{columns}
+
+\vspace{2mm}
+{\small\textbf{Giới hạn:} engine hỗ trợ nhiều condition/exception, nhưng dữ liệu hiện tại chủ yếu có một antecedent dương; conjunction chưa được kiểm chứng đầy đủ.}
+
+\vfill
+{\tiny Nền tảng: Kleene (1952); Fitting (1985); Sato et al. (2020); Sakama et al. (2021).}
+\end{frame}
+
+% =========================================================
+% SLIDE 6
+% =========================================================
+\begin{frame}{6. Bước 4: Xác minh phụ thuộc loại câu hỏi}
+\scriptsize
+\begin{tabular}{p{0.18\textwidth}p{0.35\textwidth}p{0.40\textwidth}}
+\toprule
+\textbf{Route} & \textbf{Dạng câu hỏi} & \textbf{Phương pháp xác minh}\\
+\midrule
+DIRECT
+& ``$A$ có trực tiếp gây ra $Y$?''
+& Ground hai endpoint ($\geq0.80$), sau đó kiểm tra cạnh $A\to Y$.\\
+FACTUAL
+& ``$A$ có dẫn đến $Y$?''
+& Gán seed TRUE; yêu cầu outcome TRUE, đủ rule coverage và không conflict.\\
+INTERVENTION
+& ``Nếu bỏ $m$, $Y$ có còn xảy ra?''
+& Ground mediator ($\geq0.80$), chạy $do(X_m=0)$ và suy luận lại fixed point.\\
+\bottomrule
+\end{tabular}
+
+\vspace{4mm}
+\begin{columns}[T,onlytextwidth]
+\column{0.50\textwidth}
+\textbf{Structural intervention}
+\begin{equation*}
+\mathcal R^{do(X_m=0)}
+=\{r\in\mathcal R:\operatorname{head}(r)\neq X_m\},
+\end{equation*}
+\begin{equation*}
+\mathbf x^{CF(m)}=\operatorname{Fix}
+\left(
+\Phi_{\mathcal R^{do(X_m=0)}},
+\mathbf x^{(0)}[X_m\leftarrow0]
+\right).
+\end{equation*}
+\begin{equation*}
+\nu(m;Y)=
+\begin{cases}
+\mathrm{NECESSARY},&x_Y^F=1,\ x_Y^{CF(m)}=0,\\
+\mathrm{NON\_NECESSARY},&x_Y^F=1,\ x_Y^{CF(m)}=1.
+\end{cases}
+\end{equation*}
+
+\column{0.47\textwidth}
+\textbf{Node-deletion diagnostic}
+\begin{equation*}
+G^{-m}=G[V\setminus\{m\}],
+\qquad
+\rho_{\mathrm{top}}=
+\mathbb I[Y\text{ reachable in }G^{-m}].
+\end{equation*}
+\begin{itemize}\small
+  \item Chỉ tìm alternative path trong giới hạn 3 hop, 30 path.
+  \item Không thay thế structural world-state.
+  \item Mặc định chỉ Step-3 path 0 được structural verification.
+\end{itemize}
+\begin{equation*}
+\boxed{G^{-m}\neq do(X_m=0)}
+\end{equation*}
+\end{columns}
+
+\vfill
+{\tiny Structural intervention theo Pearl (2009).}
+\end{frame}
+
+% =========================================================
+% SLIDE 7
+% =========================================================
+\begin{frame}{7. Selective commit và sinh câu trả lời}
+\centering
+\begin{tikzpicture}[node distance=5mm]
+  \node[process,text width=1.9cm] (verdict) {Step 4\\verdict + audit};
+  \node[process,text width=2.1cm,right=of verdict] (guard) {Selective\\commit guard};
+  \node[process,text width=2.2cm,right=11mm of guard,yshift=7mm] (pass) {Đạt gate\\$z_4$ + verified evidence};
+  \node[process,text width=2.2cm,right=11mm of guard,yshift=-7mm] (fallback) {Không đạt\\Step-3 context};
+  \node[process,text width=2.0cm,right=14mm of guard] (llm) {Common LLM\\answer + citation};
+  \draw[flow] (verdict) -- (guard);
+  \draw[flow] (guard.east) -- (pass.west);
+  \draw[flow] (guard.east) -- (fallback.west);
+  \draw[flow] (pass.east) -- (llm.west);
+  \draw[flow] (fallback.east) -- (llm.west);
+\end{tikzpicture}
+
+\vspace{4mm}
+\begin{columns}[T,onlytextwidth]
+\column{0.50\textwidth}
+\textbf{Điều kiện commit}
+\begin{itemize}\small
+  \item Primary path hợp lệ và khớp context Step 3.
+  \item Verdict khác \textsc{uncertain}; score $\geq0.55$.
+  \item Không sử dụng structural fallback bị chặn.
+  \item DIRECT: endpoint grounding $\geq0.80$.
+  \item FACTUAL: outcome TRUE, đủ hop, không conflict.
+  \item INTERVENTION: $do(X_m=0)$ thực thi và world-state xác định.
+\end{itemize}
+
+\column{0.47\textwidth}
+\textbf{Generation contract}
+\begin{itemize}\small
+  \item Input gồm question, selected path/evidence, decision và intervention audit.
+  \item Không sinh điều luật hoặc citation ngoài context.
+  \item Citation được giới hạn trong tập article được cung cấp.
+  \item Nếu gate không đạt, common generator quyết định từ nguyên Step-3 evidence.
+\end{itemize}
+\end{columns}
+
+\vfill
+{\scriptsize Trong protocol chính: cùng Qwen3-8B, prompt, JSON schema, parser và seed; extractive fallback bị tắt.}
+\end{frame}
+
+% =========================================================
+% SLIDE 8
+% =========================================================
+\begin{frame}{8. Thiết lập thực nghiệm có kiểm soát}
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\textbf{Benchmark}
+\begin{itemize}\small
+  \item 250 câu hỏi từ graph Bộ luật Hình sự Việt Nam.
+  \item 230 \textsc{supported}, 20 \textsc{reject-direct-claim}; không có gold \textsc{uncertain}.
+  \item 236 mẫu có linear gold path.
+  \item 13 direct-edge và 7 mediator-intervention cases.
+  \item Gold/evaluation fields không được đọc khi sinh prediction.
+\end{itemize}
+
+\medskip
+\textbf{Cấu hình chung}
+\begin{tabular}{ll}
+\toprule
+Generator / embedding & Qwen3-8B / BGE-M3\\
+Temperature / seed & 0.1 / 42\\
+Output tokens / context & 1200 / 32768\\
+Context budget & 18{,}000 ký tự\\
+\bottomrule
+\end{tabular}
+
+\column{0.47\textwidth}
+\textbf{Các cấu hình so sánh}
+\begin{enumerate}\small
+  \item LLM-only, cho phép abstention.
+  \item LLM-only, forced binary (sensitivity control).
+  \item Vanilla RAG: top-5 điều luật thô.
+  \item Causal Path RAG: chạy Step 3, bỏ qua Step 4.
+  \item Full LegalSCM: Step 3 + Step 4 + commit guard.
+\end{enumerate}
+
+\medskip
+{\small Bốn cấu hình cho phép abstention dùng cùng model, decoding, prompt rules, JSON schema, parser và context budget; chỉ nguồn context/verification thay đổi.}
+\end{columns}
+\end{frame}
+
+% =========================================================
+% SLIDE 9
+% =========================================================
+\begin{frame}{9. Kết quả chính}
+\centering
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+\textbf{Phương pháp}
+& \textbf{Acc.}
+& \textbf{B.Acc.}
+& \textbf{M-F1}
+& \textbf{Ans.F1}
+& \textbf{R-L}
+& \textbf{Cit.F1}
+& \textbf{Giây}\\
+\midrule
+LLM-only (abstain) & 4.40 & 27.50 & 22.00 & 15.08 & 13.19 & 0.00 & 1.031\\
+LLM-only (forced) & 9.20 & 50.65 & 8.78 & 18.44 & 16.19 & 0.27 & 0.900\\
+Vanilla RAG & 55.20 & 71.09 & 49.88 & 28.18 & 25.68 & 50.75 & 2.369\\
+Causal Path RAG & 88.80 & 89.35 & 76.30 & 37.27 & 36.40 & 58.41 & 1.947\\
+\textbf{Full LegalSCM}
+& \textbf{96.80} & \textbf{98.26} & \textbf{91.67}
+& \textbf{37.60} & \textbf{36.92} & \textbf{58.89} & 3.238\\
+\bottomrule
+\end{tabular}%
+}
+
+\vspace{5mm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\textbf{Chênh lệch quyết định}
+\begin{equation*}
+96.80-88.80=\mathbf{+8.0}\ \text{điểm Accuracy}.
+\end{equation*}
+\begin{equation*}
+76.30\rightarrow91.67
+\quad(+15.37\ \text{điểm Macro-F1}).
+\end{equation*}
+
+\column{0.48\textwidth}
+\textbf{Phân tích đối chứng closed-book}
+\begin{itemize}\small
+  \item Abstain: 220/250 output là \textsc{uncertain}.
+  \item Forced binary: 247/250 output là \textsc{reject-direct-claim}.
+  \item Kết quả phản ánh thiếu legal grounding dưới verification contract, không đại diện cho năng lực pháp luật tổng quát.
+\end{itemize}
+\end{columns}
+
+\vfill
+{\tiny Các chỉ số chất lượng theo \%; thời gian là trung bình trên prediction thành công.}
+\end{frame}
+
+% =========================================================
+% SLIDE 10
+% =========================================================
+\begin{frame}{10. Kiểm định thống kê và diễn giải}
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\textbf{Full LegalSCM so với Causal Path RAG}
+\begin{itemize}\small
+  \item Số câu đúng: 242 so với 222.
+  \item Full-only: 23; Causal-only: 3.
+  \item Cả hai đúng: 219; cả hai sai: 5.
+  \item $\Delta\mathrm{Acc}=+8.0$ điểm.
+  \item Bootstrap CI 95\%: $[4.4,12.0]$.
+  \item Exact McNemar: $p=8.8\times10^{-5}$; Holm-adjusted $p=0.0011$.
+\end{itemize}
+
+\medskip
+\textbf{Audit}
+\begin{itemize}\small
+  \item Factual / direct / intervention: 230 / 13 / 7.
+  \item Verifier committed: 230; Step-3 fallback: 20.
+  \item Cả 8 lỗi của Full xảy ra sau no-primary-path fallback.
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Phạm vi kết luận}
+\begin{itemize}\small
+  \item Selective verification cải thiện có ý nghĩa structured decision.
+  \item Answer F1, ROUGE-L và Citation F1 không khác biệt có ý nghĩa (Holm $p=1.0$).
+  \item Cả Full và Causal Path đều đúng 7/7 intervention cases; chưa tách được lợi ích riêng của $do(X_m=0)$.
+  \item Top-1 Exact Path 38.56\%, Oracle 75.42\%; path ranking vẫn là nút thắt.
+  \item Runtime: 3.238 so với 1.947 giây ($\approx66\%$ overhead).
+\end{itemize}
+
+\medskip
+\textbf{Hướng tiếp theo:} mở rộng benchmark intervention và multi-antecedent; cải thiện first-hop retrieval, path ranking và grounding.
+\end{columns}
+\end{frame}
+
+\end{document}

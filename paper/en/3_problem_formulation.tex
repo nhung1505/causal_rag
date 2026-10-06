@@ -5,160 +5,160 @@
 \label{sec:problem_formulation}
 
 We consider multi-hop legal question answering, where a conclusion may require
-connecting several statutory conditions, intermediate events, and legal
-consequences. Let the input question be $q\in\mathcal{Q}$. Legal knowledge is
-represented by a directed graph $G=(V,E)$ and an associated rule set
-$\mathcal{R}$. Each node $v_i\in V$ denotes a normalized legal event, while an
-edge summarizes one or more statutory condition--consequence rules. The rule
-set, rather than graph reachability alone, defines the structural inference
+connecting statutory conditions, intermediate events, and legal consequences.
+Legal knowledge is represented by a directed graph $G=(V,E)$ and a rule set
+$\mathcal{R}$. Each node denotes a normalized legal event, while each edge
+summarizes one or more condition--consequence rules. The graph supports
+retrieval and topological analysis, whereas $\mathcal{R}$ defines the inference
 semantics.
 
-Given $q$, the system retrieves relevant events and constructs candidate
-reasoning paths
+Given a question $q$, the system constructs candidate reasoning paths
 \begin{equation}
-\mathcal{P}(q)=\{P_1,P_2,\ldots,P_K\},
+\mathcal{P}(q)=\{P_1,\ldots,P_K\},\qquad
+P_i=v_0\xrightarrow{r_1}\cdots\xrightarrow{r_h}v_h,
 \end{equation}
-where
-\begin{equation}
-P_i=v_0\xrightarrow{r_1}v_1\xrightarrow{r_2}\cdots
-\xrightarrow{r_h}v_h.
-\end{equation}
-The primary path is selected by
+and selects
 \begin{equation}
 P^*=\arg\max_{P_i\in\mathcal{P}(q)}S(P_i,q),
 \end{equation}
-where $S(P_i,q)$ combines semantic and structural relevance.
+where $S$ combines semantic and structural relevance.
 
-\subsection{Three-Valued Rule Semantics}
+\subsection{Three-Valued Linear-Algebraic Semantics}
 
-Each event is associated with a structural variable
+Each event is associated with
 \begin{equation}
 X_i\in\{1,0,\bot\},
 \end{equation}
-where $1$, $0$, and $\bot$ denote \textsc{true}, \textsc{false}, and
-\textsc{unknown}. The third value represents evidence that is not established
-or is conflicting; it is not interpreted as a numeric value between zero and
-one. This design follows three-valued fixed-point semantics for logic programs
-\cite{kleene1952metamathematics,fitting1985kripke} and their linear-algebraic
+representing \textsc{true}, \textsc{false}, and \textsc{unknown}. Unknown
+denotes missing or conflicting support, not a numeric value between zero and
+one. This follows three-valued fixed-point semantics
+\cite{kleene1952metamathematics,fitting1985kripke} and its vector-space
 extensions \cite{sato2020threevalued}.
 
-To encode the state without assigning a numeric value to $\bot$, we use two
-support channels
+The event state is encoded using two support channels:
 \begin{equation}
-t_i=\mathbb{I}[X_i=1],\qquad
-f_i=\mathbb{I}[X_i=0].
+(t_i,f_i)=
+\begin{cases}
+(1,0), & X_i=1,\\
+(0,1), & X_i=0,\\
+(0,0), & X_i=\bot.
+\end{cases}
 \label{eq:two_channel_state}
 \end{equation}
-Thus, $X_i=\bot$ gives $(t_i,f_i)=(0,0)$. Conflicting positive and negative
-support is conservatively projected to $\bot$ by the runtime inference engine.
 
-Let $\mathbf{B}^{+},\mathbf{B}^{-}\in\{0,1\}^{|\mathcal{R}|\times |V|}$ be
-body-incidence matrices for literals requiring true and false states. For rule
-$r$, let $k_r=\sum_i(B^{+}_{ri}+B^{-}_{ri})$. Its conjunctive body is satisfied
-iff every literal has the required settled state:
+Let $n=|V|$ and $p=|\mathcal{R}|$. We define body-incidence matrices
+$\mathbf{B}^{+},\mathbf{B}^{-}\in\{0,1\}^{p\times n}$ and head-incidence
+matrices $\mathbf{H}^{+},\mathbf{H}^{-}\in\{0,1\}^{n\times p}$. For
+$\mathbf{k}=(\mathbf{B}^{+}+\mathbf{B}^{-})\mathbf{1}$, rule bodies and
+activations are
 \begin{equation}
-b_r(\mathbf{t},\mathbf{f})=
-\mathbb{I}\!\left[
-\sum_i B^{+}_{ri}t_i+
-\sum_i B^{-}_{ri}f_i=k_r
-\right].
-\label{eq:conjunctive_body}
+\mathbf{b}
+=
+\mathbb{I}
+[\mathbf{B}^{+}\mathbf{t}
++\mathbf{B}^{-}\mathbf{f}
+=\mathbf{k}],
+\qquad
+\mathbf{a}
+=
+\mathbf{b}\odot(\mathbf{1}-\mathbf{e}),
+\label{eq:rule_activation}
 \end{equation}
-If $e_r$ indicates that at least one encoded exception is satisfied, the rule
-activation is $a_r=b_r(1-e_r)$. Let $\mathbf{H}^{+}$ and $\mathbf{H}^{-}$ be
-head-incidence matrices. Positive support for event $i$ is aggregated as
-\begin{equation}
-d_i^{+}=\mathbb{I}\!\left[\sum_r H^{+}_{ir}a_r\geq 1\right],
-\label{eq:disjunctive_support}
-\end{equation}
-with an analogous expression for negative support. Consequently, literals
-inside one rule are conjunctive, whereas independently activated rules with the
-same head are alternative, disjunctive mechanisms. For example,
-$(A\land B)\rightarrow Y$ is one rule with two body entries, while
-$(A\lor B)\rightarrow Y$ is normalized into $A\rightarrow Y$ and
-$B\rightarrow Y$. Disjunctive heads are outside the current rule schema.
-This body/head incidence view is the sparse matrix counterpart of
-linear-algebraic and tensor-space representations of definite, disjunctive,
-and normal logic programs \cite{sakama2021tensor}.
+where $\mathbf{e}$ indicates active exceptions. Requiring equality with
+$\mathbf{k}$ implements conjunction among literals within each rule.
 
-The factual state is the fixed point
+Support for rule heads is aggregated as
+\begin{equation}
+\mathbf{d}^{+}
+=
+\mathbb{I}[\mathbf{H}^{+}\mathbf{a}\geq1],
+\qquad
+\mathbf{d}^{-}
+=
+\mathbb{I}[\mathbf{H}^{-}\mathbf{a}\geq1].
+\label{eq:head_support}
+\end{equation}
+The threshold implements disjunction across independently activated rules with
+the same consequent. Thus, $(A\land B)\rightarrow Y$ is encoded as one rule
+with two body entries, whereas $(A\lor B)\rightarrow Y$ is normalized into
+$A\rightarrow Y$ and $B\rightarrow Y$. This incidence representation is
+related to matrix- and tensor-space logic programming
+\cite{sakama2021tensor}.
+
+The factual state is obtained by fixed-point iteration:
 \begin{equation}
 \mathbf{x}^{F}
 =
-\operatorname{Fix}(\Phi_{\mathcal{R}},\mathbf{x}^{(0)}),
+\operatorname{Fix}
+(\Phi_{\mathcal{R}},\mathbf{x}^{(0)}).
 \label{eq:factual_fixed_point}
 \end{equation}
-where $\Phi_{\mathcal{R}}$ activates the encoded rule mechanisms. The matrices
-above define a formal algebraic representation. The implementation evaluates
-the corresponding sparse rules symbolically and iterates to a fixed point; it
-does not perform dense matrix multiplication. The engine supports multiple
-body literals, but the legacy rule collection used in the reported experiment
-maps each record to one positive antecedent and one positive consequent.
-Therefore, conjunction is an engine-level capability and is not empirically
-validated by the present benchmark.
+Positive-only and negative-only support produce true and false states,
+respectively; absent or conflicting support produces unknown. The runtime
+evaluates sparse rules symbolically rather than performing dense matrix
+multiplication. Although the engine supports multi-literal bodies, the current
+dataset contains only one positive antecedent per imported rule; conjunction is
+therefore not empirically evaluated in this experiment.
 
-\subsection{Topological Ablation and Structural Intervention}
+\subsection{Topological Diagnostic and Structural Intervention}
 
-Let $M(P^*)=\{v_1,\ldots,v_{h-1}\}$ denote the intermediate events of the
-primary path. We distinguish two non-equivalent operations. First, a
-node-deletion diagnostic forms the induced subgraph
+Let $\mathcal{M}(P^*)=\{v_1,\ldots,v_{h-1}\}$ be the intermediate events of the
+primary path and let $m\in\mathcal{M}(P^*)$. A node-deletion diagnostic forms
 \begin{equation}
-G^{-M}=G[V\setminus\{M\}]
+G^{-m}=G[V\setminus\{m\}]
 \end{equation}
-and checks bounded reachability
+and checks
 \begin{equation}
-\rho_{\mathrm{top}}(s,Y\mid M)
+\rho_{\mathrm{top}}(s,Y\mid m)
 =
-\mathbb{I}[Y\text{ is reachable from }s\text{ in }G^{-M}].
+\mathbb{I}
+[Y\text{ is reachable from }s\text{ in }G^{-m}].
 \label{eq:topological_ablation}
 \end{equation}
-This operation reports whether an alternative graph path is found within the
-search limits. It is used only as a topology diagnostic or fallback and is not
-the LegalSCM counterfactual definition.
+This operation only measures bounded topological reachability and is not used
+as the LegalSCM counterfactual definition.
 
-Second, for an explicit mediator-removal query, LegalSCM applies the hard
-intervention
+For an explicit mediator-removal query, LegalSCM instead applies the structural
+intervention \cite{pearl2009causality}
 \begin{equation}
-do(X_M=0),
-\label{eq:problem_do}
+do(X_m=0),\qquad 0\equiv\mathrm{FALSE}.
 \end{equation}
-where $0\equiv\mathrm{FALSE}$. The variable and the remaining rule structure
-are preserved; every rule whose head is $X_M$ is disabled and the mechanism for
-$X_M$ is replaced by the constant assignment $X_M:=0$. Equivalently,
+The intervention fixes $X_m$ to false and disables every rule that determines
+it:
 \begin{equation}
-\mathcal{R}^{do(X_M=0)}
+\mathcal{R}^{do(X_m=0)}
 =
-\{r\in\mathcal{R}\mid \operatorname{head}(r)\neq X_M\}.
+\{r\in\mathcal{R}\mid
+\operatorname{var}(\operatorname{head}(r))\neq m\}.
 \end{equation}
-The counterfactual world is recomputed as
+The counterfactual state is then recomputed as
 \begin{equation}
-\mathbf{x}^{CF}_{M}
+\mathbf{x}^{CF(m)}
 =
 \operatorname{Fix}\!\left(
-\Phi_{\mathcal{R}^{do(X_M=0)}},
-\mathbf{x}^{(0)}\cup\{X_M=0\}
+\Phi_{\mathcal{R}^{do(X_m=0)}},
+\mathbf{x}^{(0)}[X_m\leftarrow0]
 \right).
 \label{eq:cf_fixed_point}
 \end{equation}
-For a target $Y$, $M$ is necessary relative to the encoded normative model when
-$x_Y^{F}=1$ and $x_{Y,M}^{CF}=0$; it is non-necessary when
-$x_{Y,M}^{CF}=1$, and remains indeterminate when either world is unknown.
-This is a hard intervention over the encoded rule model, without an exogenous
-abduction layer, and must not be equated with deleting $M$ from $G$.
 
-Finally, the system predicts a query-relative decision $z\in\mathcal{Z}$,
-where
+Mediator $m$ is necessary for target $Y$ when $x_Y^{F}=1$ and
+$x_Y^{CF(m)}=0$, non-necessary when both values are $1$, and indeterminate
+otherwise. This is a model-relative structural intervention without exogenous
+abduction and must not be equated with deleting $m$ from $G$.
+
+Finally, the system predicts
 \begin{equation}
-\begin{aligned}
-\mathcal{Z}=\{&\textsc{supported},\textsc{uncertain},\\
-&\textsc{reject-direct-claim}\},
-\end{aligned}
+z\in\{
+\textsc{supported},
+\textsc{reject-direct-claim},
+\textsc{uncertain}
+\}
 \end{equation}
-and generates an answer $a$ with statutory citations $C$:
+and produces
 \begin{equation}
-f:(q,G,\mathcal{R})\rightarrow(P^*,z,\mathcal{E}^*,a,C),
+f:(q,G,\mathcal{R})
+\rightarrow(P^*,z,\mathcal{E}^*,a,C),
 \end{equation}
-where $\mathcal{E}^*$ is the refined evidence supplied to the generation model.
-The decision labels are distinct from both the event-state domain
-$\{1,0,\bot\}$ and internal mediator statuses such as necessary or
-non-necessary.
+where $\mathcal{E}^*$ is the verified evidence, $a$ is the answer, and $C$ is
+the set of statutory citations.

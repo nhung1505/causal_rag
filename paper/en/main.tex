@@ -28,10 +28,35 @@
 \pagestyle{empty}
 
 \begin{abstract}
-Large language models and Retrieval-Augmented Generation (RAG) remain limited on legal questions that require linking multiple statutory condition--consequence relations. We propose \textbf{LegalSCM-RAG}, which combines causal-path retrieval with a deterministic three-valued normative rule model and a selective commit gate. The formulation distinguishes bounded node-deletion reachability, used only as a topological diagnostic, from the hard intervention $do(X_M=0)$, which disables mechanisms producing mediator $M$ and recomputes the rule fixed point. Conjunction is represented within a rule and alternative disjunctive support by multiple rules with the same consequent. On 250 graph-derived Vietnamese Penal Code questions, Full LegalSCM attains 96.80\% decision accuracy, compared with 90.80\% for Causal Path RAG and 55.60\% for Vanilla RAG. The paired improvement over Causal Path RAG is 6.0 percentage points (95\% CI: 2.8--9.6; Holm-adjusted $p=0.0029$), while Answer F1, ROUGE-L, and Citation F1 do not differ significantly. A route audit shows 230 factual-validation cases and 20 direct-edge checks, with no executed mediator intervention in this batch. The experiment therefore supports the decision-level benefit of selective structural verification, but does not yet establish the effectiveness of $do$-based mediator reasoning.
+Large language models and Retrieval-Augmented Generation remain limited on
+legal questions requiring multi-hop condition--consequence reasoning. We
+propose \textbf{LegalSCM-RAG}, which combines causal-path retrieval,
+three-valued normative rule inference, and selective structural verification.
+Legal events are represented by separate true and false support channels, while
+sparse body/head incidence matrices encode conjunction within a rule and
+alternative disjunctive support across rules. We further distinguish
+node-deletion reachability, used only as a topological diagnostic, from the
+structural intervention $do(X_M=0)$, which fixes mediator $M$ to false, replaces
+its mechanism, and recomputes the rule fixed point.
 
-\keywords{Retrieval-Augmented Generation \and Multi-hop Question Answering \and Three-Valued Logic \and Structural Verification \and Legal Question Answering \and Vietnamese Legal NLP}
+On 250 graph-derived Vietnamese Penal Code questions, Full LegalSCM achieves
+96.80\% decision accuracy, compared with 88.80\% for Causal Path RAG and
+55.20\% for Vanilla RAG. The 8.0-point paired improvement over Causal Path RAG
+is statistically significant (95\% CI: 4.4--12.0; Holm-adjusted
+$p=0.0011$), whereas Answer F1, ROUGE-L, and Citation F1 do not differ
+significantly. Closed-book controls reach 4.40\% with abstention and 9.20\%
+under forced binary decisions, reflecting behavior under the verification
+contract rather than general legal competence. Seven $do(X_M=0)$ interventions
+are executed, but Causal Path RAG already answers all seven corresponding
+questions correctly. The results therefore support the overall selective
+verification mechanism, while the isolated benefit of structural intervention
+remains to be established.
+
+\keywords{Retrieval-Augmented Generation \and Multi-hop Question Answering
+\and Three-Valued Logic \and Linear-Algebraic Logic Programming
+\and Structural Intervention \and Vietnamese Legal Question Answering}
 \end{abstract}
+
 
 \input{1_INTRODUCTION}
 \input{2_related_work}
@@ -40,8 +65,9 @@ Large language models and Retrieval-Augmented Generation (RAG) remain limited on
 \input{5_experimental_setup}
 \input{6_results}
 \input{7_conclusion}
+\input{references}
 
 \bibliographystyle{splncs04}
-\bibliography{../references}
+
 
 \end{document}

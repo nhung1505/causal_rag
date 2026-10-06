@@ -1,41 +1,55 @@
 \section{Giới thiệu}
 \label{sec:introduction}
 
-Các mô hình ngôn ngữ lớn (Large Language Models -- LLMs) đã đạt nhiều kết quả
-tích cực trong hỏi đáp. Tuy nhiên, trong lĩnh vực pháp luật, một câu trả lời
-đáng tin cậy không chỉ cần trôi chảy mà còn phải xác định đúng căn cứ và chuỗi
-suy luận nối các điều kiện, sự kiện trung gian và hệ quả
-\cite{chalkidis2020legalbert,guha2023legalbench}.
+Các mô hình ngôn ngữ lớn (Large Language Models -- LLMs) đạt kết quả tốt trên
+nhiều bài toán hỏi đáp. Tuy nhiên, một hệ thống hỏi đáp pháp luật đáng tin cậy
+cần cả căn cứ luật thành văn phù hợp và chuỗi suy luận có thể truy vết, liên kết
+các điều kiện, sự kiện trung gian và hệ quả pháp lý
+\cite{chalkidis2020legalbert,guha2023legalbench}. Sinh tăng cường truy xuất
+(Retrieval-Augmented Generation -- RAG) cung cấp bằng chứng bên ngoài trước
+bước sinh \cite{lewis2020retrieval,gao2024ragsurvey}; tuy nhiên, truy xuất ngữ
+nghĩa truyền thống thường xem các đoạn văn là độc lập và không biểu diễn tường
+minh các quan hệ điều kiện--hệ quả nhiều bước.
 
-Retrieval-Augmented Generation (RAG) giảm phụ thuộc vào tri thức nội tại của
-LLM bằng cách truy xuất bằng chứng trước bước sinh
-\cite{lewis2020retrieval,gao2024ragsurvey}. Tuy nhiên, RAG truyền thống chủ yếu
-dựa vào tương đồng ngữ nghĩa và thường xem các đoạn văn là bằng chứng độc lập.
-Cách này còn hạn chế với câu hỏi pháp luật nhiều bước, trong đó kết luận phụ
-thuộc vào chuỗi quy tắc điều kiện--hệ quả liên kết.
+Chúng tôi đề xuất \textbf{LegalSCM-RAG}, kết hợp truy xuất đường dẫn nhân quả
+với xác minh cấu trúc phụ thuộc câu hỏi. Đồ thị biểu diễn các quan hệ phụ thuộc
+quy phạm được trích xuất từ luật thành văn, không phải hiệu ứng nhân quả được
+ước lượng từ dữ liệu quan sát. Tầng quy tắc sử dụng ngữ nghĩa điểm bất động ba
+giá trị \cite{kleene1952metamathematics,fitting1985kripke} và biểu diễn đại số
+tuyến tính thưa dựa trên các nghiên cứu về logic programming trong không gian
+vector và tensor \cite{sato2020threevalued,sakama2021tensor}. Các ma trận
+incidence cho thân và đầu quy tắc mã hóa phép hội giữa các literal trong cùng
+một quy tắc và hỗ trợ tuyển thay thế giữa các quy tắc có cùng hệ quả.
 
-Chúng tôi đề xuất \textbf{LegalSCM-RAG}, kết hợp truy xuất trên đồ thị pháp luật
-có hướng với xác minh cấu trúc phụ thuộc câu hỏi. Verifier chuyển claim trực
-tiếp tới phép kiểm tra cạnh đã ground, câu hỏi thông thường tới suy luận factual
-ba giá trị, và câu hỏi nêu rõ việc loại mediator tới hard intervention. Commit
-gate chỉ sử dụng quyết định verifier khi thỏa mãn các yêu cầu về grounding, độ
-phủ đường, confidence và nhất quán trạng thái; nếu không, hệ thống giữ nguyên
-context và quyết định của Causal Path RAG.
+Bộ xác minh chuyển claim trực tiếp tới phép kiểm tra cạnh với hai đầu mút đã
+được ground, câu hỏi thông thường tới suy luận quy tắc factual, và câu hỏi loại
+bỏ sự kiện trung gian tường minh tới can thiệp cứng $do(X_m=0)$. Chúng tôi phân
+biệt can thiệp này với tính đạt được sau khi xóa nút: kiểm tra tính đạt được
+trong $G^{-m}$ chỉ là một chẩn đoán tô-pô có giới hạn, trong khi
+$do(X_m=0)$ cố định sự kiện trung gian $m$ ở trạng thái sai, thay thế cơ chế
+cấu trúc tương ứng và suy luận lại điểm bất động. Selective commit gate chỉ
+chấp nhận quyết định của bộ xác minh khi các điều kiện về grounding, độ phủ
+đường, confidence và tính nhất quán trạng thái được thỏa mãn.
 
-Các đóng góp chính gồm:
+Các đóng góp chính của nghiên cứu gồm:
 \begin{itemize}
-    \item formulation điểm bất động ba giá trị với mã hóa incidence thưa cho
-    thân/đầu quy tắc, trong đó conjunction nằm trong một quy tắc và disjunction
-    thay thế nằm giữa nhiều quy tắc;
-    \item phân biệt chính thức và ở mức implementation giữa node-deletion
-    reachability với mechanism-replacement $do(X_M=0)$; và
-    \item đánh giá có kiểm soát bốn hệ thống, kèm kiểm định theo cặp, phân tích
-    abstention và audit route/commit.
+    \item một framework truy xuất và xếp hạng các đường suy luận nhiều bước
+    trên quan hệ điều kiện--hệ quả trong luật thành văn;
+    \item một formulation quy tắc ba giá trị dựa trên đại số tuyến tính, hỗ trợ
+    phép hội, các cơ chế tuyển thay thế và can thiệp cấu trúc tường minh; và
+    \item một đánh giá có kiểm soát trên năm cấu hình, sử dụng kiểm định ý nghĩa
+    theo cặp cùng các audit về route, commit, abstention và intervention.
 \end{itemize}
 
-Trên benchmark hiện tại, selective verification cải thiện có ý nghĩa Decision
-Accuracy so với Causal Path RAG nhưng không cải thiện chất lượng answer hoặc
-citation. Batch được báo cáo chỉ gồm factual validation và direct-edge route,
-không có mediator intervention nào được thực thi. Vì vậy, mức tăng được diễn
-giải là hiệu quả của toàn bộ selective verifier, không phải bằng chứng thực
-nghiệm riêng cho structural counterfactual intervention.
+Trên 250 câu hỏi được sinh từ đồ thị Bộ luật Hình sự Việt Nam, Full LegalSCM
+đạt độ chính xác quyết định 96,80\%, so với 88,80\% của Causal Path RAG và
+55,20\% của Vanilla RAG. Mức tăng theo cặp 8,0 điểm so với Causal Path RAG có
+ý nghĩa thống kê (CI 95\%: $4{,}4$--$12{,}0$; $p$ hiệu chỉnh Holm
+$=0{,}0011$), trong khi Answer F1, ROUGE-L và Citation F1 không khác biệt có ý
+nghĩa. Độ chính xác của closed-book vẫn thấp khi cho phép abstention (4,40\%)
+và khi buộc quyết định nhị phân (9,20\%). Các kết quả này phản ánh hành vi dưới
+output contract định hướng xác minh khi không có bằng chứng pháp luật được truy
+xuất, thay vì năng lực pháp luật tổng quát của LLM. Mặc dù hệ thống thực thi
+bảy can thiệp $do(X_m=0)$, Causal Path RAG cũng trả lời đúng cả bảy câu hỏi
+tương ứng. Vì vậy, kết quả hỗ trợ hiệu quả tổng thể của cơ chế xác minh chọn
+lọc, còn lợi ích riêng của can thiệp cấu trúc cần được đánh giá thêm.

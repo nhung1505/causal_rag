@@ -1,46 +1,77 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[runningheads]{llncs}
 
+% Định dạng Springer CCIS/LNCS cho SOICT 2026, đồng bộ với bản tiếng Anh.
+% Không thêm geometry, fancyhdr, titlesec, setspace hoặc gói font tùy chỉnh:
+% lớp llncs kiểm soát khổ giấy, lề, tiêu đề và kiểu chữ theo yêu cầu.
+\usepackage[T5]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{multirow}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-\usepackage{hyperref}
-\usepackage{xcolor}
-\usepackage{fontspec}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
 
-\title{LegalSCM-RAG: Truy xuất đường dẫn nhân quả và xác minh cấu trúc chọn lọc cho hỏi đáp pháp luật đa bước tiếng Việt}
-
-\author{
-\IEEEauthorblockN{Nguyễn Thị Nhung, Nguyễn Quốc Tuấn, Nguyễn Thị Kim Anh}
-}
+\renewcommand{\abstractname}{Tóm tắt}
+\providecommand{\keywordname}{}
+\renewcommand{\keywordname}{\textbf{Từ khóa:}}
 
 \begin{document}
 
-\maketitle
+\title{LegalSCM-RAG: Truy xuất đường dẫn nhân quả và xác minh cấu trúc chọn lọc cho hỏi đáp pháp luật đa bước tiếng Việt}
+\titlerunning{LegalSCM-RAG}
 
-\renewcommand{\abstractname}{Tóm tắt}
-\renewcommand{\IEEEkeywordsname}{Từ khóa}
+% SOICT 2026 sử dụng phản biện single-blind, vì vậy giữ tên tác giả và cơ quan.
+\author{Nguyễn Thị Nhung, Nguyễn Quốc Tuấn, Nguyễn Thị Kim Anh}
+% \authorrunning{N. T. Nhung và cộng sự}
+
+\institute{Đại học Bách khoa Hà Nội, Hà Nội, Việt Nam\\
+\email{ }}
+
+\maketitle
+% SOICT 2026 yêu cầu bản nộp PDF không có số trang.
+\pagestyle{empty}
 
 \begin{abstract}
-Các mô hình ngôn ngữ lớn và kiến trúc sinh tăng cường truy xuất còn hạn chế với câu hỏi pháp luật cần liên kết nhiều quan hệ điều kiện--hệ quả. Bài báo đề xuất \textbf{LegalSCM-RAG}, kết hợp truy xuất đường dẫn với mô hình quy tắc quy phạm ba giá trị có tính xác định và cơ chế commit chọn lọc. Formulation phân biệt phép xóa nút và kiểm tra tính đạt được có giới hạn, chỉ dùng như diagnostic về topology, với hard intervention $do(X_M=0)$, trong đó các cơ chế sinh mediator $M$ bị vô hiệu hóa trước khi suy luận lại điểm bất động. Conjunction được biểu diễn trong một quy tắc, còn hỗ trợ disjunction thay thế được biểu diễn bằng nhiều quy tắc có cùng hệ quả. Trên 250 câu hỏi sinh từ đồ thị Bộ luật Hình sự Việt Nam, Full LegalSCM đạt Decision Accuracy 96,80\%, so với 90,80\% của Causal Path RAG và 55,60\% của Vanilla RAG. Mức tăng theo cặp so với Causal Path RAG là 6,0 điểm phần trăm (CI 95\%: 2,8--9,6; $p$ hiệu chỉnh Holm $=0,0029$), trong khi Answer F1, ROUGE-L và Citation F1 không khác biệt có ý nghĩa. Audit route cho thấy 230 mẫu factual validation, 20 mẫu direct-edge topology và không có mediator intervention nào được thực thi trong batch này. Vì vậy, thực nghiệm chứng minh lợi ích ở mức quyết định của selective structural verification, nhưng chưa chứng minh hiệu quả của suy luận mediator dựa trên $do$.
+Các mô hình ngôn ngữ lớn và kiến trúc sinh tăng cường truy xuất vẫn gặp hạn chế
+với câu hỏi pháp luật yêu cầu suy luận điều kiện--hệ quả nhiều bước. Bài báo đề
+xuất \textbf{LegalSCM-RAG}, kết hợp truy xuất đường dẫn nhân quả, suy luận quy
+tắc quy phạm ba giá trị và xác minh cấu trúc chọn lọc. Các sự kiện pháp lý được
+biểu diễn bằng hai kênh hỗ trợ đúng và sai, trong khi các ma trận incidence thưa
+cho thân và đầu quy tắc mã hóa phép hội trong một quy tắc và hỗ trợ tuyển thay
+thế giữa nhiều quy tắc. Chúng tôi cũng phân biệt tính đạt được sau khi xóa nút,
+chỉ được dùng như một chẩn đoán tô-pô, với can thiệp cấu trúc $do(X_M=0)$.
+Phép can thiệp này cố định sự kiện trung gian $M$ ở trạng thái sai, thay thế cơ
+chế tương ứng và suy luận lại điểm bất động của hệ quy tắc.
+
+Trên 250 câu hỏi được sinh từ đồ thị Bộ luật Hình sự Việt Nam, Full LegalSCM đạt
+độ chính xác quyết định 96,80\%, so với 88,80\% của Causal Path RAG và 55,20\%
+của Vanilla RAG. Mức tăng theo cặp 8,0 điểm so với Causal Path RAG có ý nghĩa
+thống kê (CI 95\%: 4,4--12,0; $p$ hiệu chỉnh Holm $=0,0011$), trong khi Answer
+F1, ROUGE-L và Citation F1 không khác biệt có ý nghĩa. Các đối chứng closed-book
+đạt 4,40\% khi cho phép abstention và 9,20\% khi buộc quyết định nhị phân; các
+kết quả này phản ánh hành vi dưới output contract kiểm chứng thay vì năng lực
+pháp luật tổng quát. Hệ thống thực thi 7 phép $do(X_M=0)$, nhưng Causal Path RAG
+đã trả lời đúng cả 7 câu hỏi tương ứng. Vì vậy, kết quả hỗ trợ hiệu quả của toàn
+bộ cơ chế xác minh chọn lọc, còn lợi ích riêng của can thiệp cấu trúc cần được
+xác lập thêm.
+
+\keywords{Sinh tăng cường truy xuất \and Hỏi đáp đa bước
+\and Logic ba giá trị \and Lập trình logic đại số tuyến tính
+\and Can thiệp cấu trúc \and Hỏi đáp pháp luật tiếng Việt}
 \end{abstract}
 
-\begin{IEEEkeywords}
-hỏi đáp pháp luật, RAG, hỏi đáp đa bước, logic ba giá trị,
-xác minh cấu trúc, xử lý ngôn ngữ pháp luật tiếng Việt
-\end{IEEEkeywords}
+
 
 \input{1_INTRODUCTION}
 \input{2_related_work}
-\input{3_problem_formulatin}
+\input{3_problem_formulation}
 \input{4_legalSCM_RAG}
 \input{5_experimental_setup}
 \input{6_results}
 \input{7_conclusion}
+\input{References}
 
-\bibliographystyle{IEEEtran}
-\bibliography{../references}
+\bibliographystyle{splncs04}
 
 \end{document}

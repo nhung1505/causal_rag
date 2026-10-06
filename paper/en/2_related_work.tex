@@ -1,113 +1,97 @@
-
 % =========================================================
 % II. RELATED WORK
 % =========================================================
 \section{Related Work}
 \label{sec:related_work}
 
-\subsection{Retrieval-Augmented Generation}
+\subsection{Retrieval-Augmented Generation and Multi-hop QA}
 
-Retrieval-Augmented Generation (RAG) combines a language model with an external
-retrieval component to provide relevant evidence prior to answer generation
-\cite{lewis2020retrieval,gao2024ragsurvey}. Dense retrieval methods such as DPR
-\cite{karpukhin2020dense} improve semantic document retrieval by representing
-queries and passages in a shared embedding space. Subsequent work has explored
-the aggregation of multiple retrieved passages, adaptive retrieval and
-self-reflection, and hierarchical retrieval structures
-\cite{izacard2021fid,asai2024selfrag,sarthi2024raptor}. However, most
-conventional RAG systems still provide retrieved evidence primarily as textual
-context rather than as an explicit reasoning structure.
+Retrieval-Augmented Generation (RAG) combines a language model with external
+evidence retrieved before answer generation
+\cite{lewis2020retrieval,gao2024ragsurvey}. Dense retrievers such as DPR
+represent queries and passages in a shared embedding space
+\cite{karpukhin2020dense}, while subsequent work improves evidence aggregation,
+adaptive retrieval, and hierarchical organization
+\cite{izacard2021fid,asai2024selfrag,sarthi2024raptor}. Nevertheless, most RAG
+systems still provide evidence primarily as independent textual passages rather
+than as an explicit reasoning structure.
 
-This paradigm is effective for questions that can be answered using one or a
-small number of directly relevant passages. Its effectiveness is more limited,
-however, for tasks that require information to be connected across multiple
-reasoning steps.
-
-\subsection{Multi-hop Question Answering}
-
-Multi-hop Question Answering requires a system to integrate information from
-multiple pieces of evidence in order to derive a final answer. Benchmarks such
-as HotpotQA \cite{yang2018hotpotqa} and MuSiQue \cite{trivedi2022musique}
-demonstrate that retrieving individually relevant documents is not sufficient;
-a system must also identify the reasoning chain that connects the supporting
-evidence.
-
-This requirement is particularly important in the legal domain, where a legal
-conclusion may depend on multiple conditions, exceptions, and intermediate
-consequences. Explicitly representing such reasoning structures may therefore
-help reduce unsupported reasoning transitions and improve the traceability of
-generated conclusions.
+Multi-hop benchmarks such as HotpotQA \cite{yang2018hotpotqa} and MuSiQue
+\cite{trivedi2022musique} show that retrieving individually relevant passages
+is insufficient when an answer depends on several connected reasoning steps.
+This limitation is particularly important in legal QA, where a conclusion may
+depend on a sequence of statutory conditions, intermediate events, exceptions,
+and consequences.
 
 \subsection{Graph-based and Causal RAG}
 
-Recent research has explored graph-based representations as a means of
-organizing knowledge and supporting multi-hop retrieval. GraphRAG leverages
-graph structures to expand retrieval and aggregate information across related
-entities and passages \cite{edge2024graphrag}. Think-on-Graph further
-demonstrates that explicit traversal over a knowledge graph can support
-multi-step reasoning and provide traceable reasoning paths
-\cite{sun2024thinkongraph}.
+Graph-based retrieval organizes evidence through relations among entities,
+events, or passages. GraphRAG uses graph structure to aggregate information
+across related sources \cite{edge2024graphrag}, while Think-on-Graph performs
+explicit graph traversal to construct traceable reasoning paths
+\cite{sun2024thinkongraph}. CausalRAG incorporates causal relations into
+retrieval and reasoning \cite{wang2025causalrag}, and CC-RAG constructs causal
+chains for structured multi-hop inference \cite{parekh2025ccrag}.
 
-More closely related to our work, CausalRAG incorporates causal relations into
-retrieval and reasoning rather than relying solely on semantic similarity
-\cite{wang2025causalrag}. CC-RAG similarly constructs causal chains to support
-structured multi-hop inference over domain-specific corpora
-\cite{parekh2025ccrag}. This line of work suggests that explicit relations
-among events can provide useful structural signals for multi-hop reasoning.
+Our setting differs in that graph edges represent normative
+condition--consequence dependencies extracted from statutory text. They are
+used to organize legal reasoning and should not be interpreted as statistical
+causal effects estimated from observational data. Moreover, graph reachability
+alone does not define the semantics of the associated legal rules.
 
-In the legal setting considered in this study, however, these relations are
-interpreted as directed condition--consequence relations derived from statutory
-text. They should therefore be understood as a structured representation of
-legal dependencies rather than as causal effects estimated from observational
-data.
+\subsection{Legal QA and Counterfactual Reasoning}
 
-\subsection{Counterfactual Reasoning and Legal QA}
+Legal benchmarks and domain-specific models, including LexGLUE, CaseHOLD,
+LegalBench, and LEGAL-BERT, demonstrate both the distinct characteristics of
+legal language and the difficulty of structured legal reasoning
+\cite{chalkidis2022lexglue,zheng2021casehold,guha2023legalbench,
+chalkidis2020legalbert}. These studies motivate systems that combine legal
+evidence retrieval with explicit and auditable reasoning structures.
 
-Counterfactual reasoning provides a mechanism for examining whether a
-conclusion would remain valid if an intermediate condition or event were
-modified or removed. In multi-hop question answering, prior work on
-counterfactual questions has shown that a model may arrive at the correct
-answer while relying on an inappropriate, incomplete, or disconnected
-reasoning chain \cite{guo2023counterfactual}.
-
-In the legal domain, benchmarks such as LexGLUE, CaseHOLD, and LegalBench, as
-well as domain-specific models such as LEGAL-BERT, have highlighted both the
-distinctive characteristics of legal language and the continuing difficulty of
-structured legal reasoning
-\cite{chalkidis2022lexglue,zheng2021casehold,guha2023legalbench,chalkidis2020legalbert}.
-These limitations motivate approaches that combine evidence retrieval with more
-explicit representations of legal relations and reasoning structure.
+Counterfactual multi-hop QA further shows that a model may produce a correct
+answer while relying on a disconnected or inappropriate reasoning chain
+\cite{guo2023counterfactual}. In structural causal models, however, an
+intervention is not equivalent to deleting a node from a graph
+\cite{pearl2009causality}. A node-deletion test only examines topological
+reachability, whereas $do(X_m=0)$ fixes the mediator variable $X_m$ to false
+and replaces its structural mechanism before descendant variables are
+recomputed. This distinction is essential when evaluating the role of an
+intermediate legal event.
 
 \subsection{Three-Valued and Linear-Algebraic Logic Programming}
 
 Three-valued logic distinguishes true, false, and an undefined or unknown state
 \cite{kleene1952metamathematics}. Fitting's Kripke--Kleene semantics provides a
-fixed-point account for logic programs under partial information
-\cite{fitting1985kripke}. More recent work encodes two- and three-valued logic
-program semantics in vector spaces \cite{sato2020threevalued}, while matrix and
-third-order tensor representations support definite, disjunctive, and normal
-logic programs \cite{sakama2021tensor}. These studies motivate our algebraic
-formulation. Our runtime remains a symbolic sparse-rule engine: it uses AND
-within one rule and OR across independently activated rules with the same
-consequent rather than executing tensor multiplication.
+fixed-point interpretation of logic programs under partial information
+\cite{fitting1985kripke}. Sato et al. encode two- and three-valued logic-program
+semantics in vector spaces \cite{sato2020threevalued}, while Sakama et al. use
+matrix and tensor representations for definite, disjunctive, and normal logic
+programs \cite{sakama2021tensor}.
+
+These studies motivate our sparse body/head incidence formulation. Conjunction
+is represented by multiple literals within one rule, whereas alternative
+disjunctive support is represented by independently activated rules with the
+same consequent. The formulation provides a linear-algebraic view of the rule
+system, but our runtime evaluates the corresponding sparse rules symbolically
+to a fixed point rather than performing dense matrix or tensor multiplication.
 
 \subsection{Research Gap}
 
-Conventional RAG primarily focuses on retrieving semantically relevant
-evidence, whereas graph-based approaches emphasize structural connections
-among entities, events, or passages. Nevertheless, relatively limited research
-has investigated legal QA frameworks that jointly incorporate the following
-capabilities:
+Existing RAG approaches emphasize semantic retrieval, graph-based approaches
+emphasize structural connectivity, and linear-algebraic logic programming
+provides formal rule semantics. However, limited work combines these directions
+in a legal QA framework that jointly:
 
 \begin{itemize}
-    \item representing legal rules as directed condition--consequence relations;
-    \item retrieving and ranking multi-hop reasoning paths;
-    \item assessing the necessity of intermediate events through counterfactual
-    analysis; and
-    \item using verification outcomes to refine the evidence provided to the
-    answer-generation model.
+    \item retrieves and ranks statutory multi-hop reasoning paths;
+    \item represents incomplete legal states using three-valued rule semantics;
+    \item handles conjunction within rules and alternative disjunctive
+    mechanisms across rules;
+    \item distinguishes topological node deletion from structural intervention;
+    and
+    \item selectively commits verified decisions before answer generation.
 \end{itemize}
 
-This work addresses this gap by integrating causal graph retrieval, multi-hop
-path reasoning, and counterfactual verification within a unified RAG framework
-for Vietnamese multi-hop legal question answering.
+LegalSCM-RAG addresses this gap by integrating causal-path retrieval,
+three-valued fixed-point inference, query-aware structural verification, and an
+audited commit gate for Vietnamese multi-hop legal question answering.

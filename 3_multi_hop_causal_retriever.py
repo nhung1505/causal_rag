@@ -39,12 +39,6 @@ DEFAULT_FINAL_TOP_K = 12
 DEFAULT_MIN_EVENT_SCORE = 0.20
 DEFAULT_MIN_RULE_SCORE = 0.15
 
-# Trọng số xếp hạng rule cuối cùng.
-#
-# Phiên bản cũ để semantic similarity chiếm 58%, khiến rule ở hop thứ hai
-# thường bị tụt hạng vì nội dung câu hỏi chủ yếu nhắc tới event đầu chuỗi.
-# Phiên bản này tăng vai trò của causal path và thêm tín hiệu ưu tiên các
-# rule thuộc những path multi-hop đứng đầu. Tổng các trọng số bằng 1.0.
 SEMANTIC_RULE_WEIGHT = 0.32
 GRAPH_PATH_WEIGHT = 0.36
 SEED_EVENT_WEIGHT = 0.10

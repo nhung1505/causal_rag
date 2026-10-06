@@ -4,46 +4,39 @@
 \section{Thảo luận và hạn chế}
 \label{sec:discussion_limitations}
 
-Thực nghiệm có kiểm soát cho thấy truy xuất event--rule có cấu trúc và selective
-verification cải thiện exact decision label. Full LegalSCM đạt 96,80\% so với
-90,80\% của Causal Path RAG, với mức tăng theo cặp có ý nghĩa thống kê. Do hai
-hệ thống có retrieval/path giống nhau và cả 17 Full-only gain đều xuất hiện sau
-verifier commit, chênh lệch được khoanh vùng ở factual validation đã commit và
-grounded direct-edge checking.
+Full LegalSCM đạt độ chính xác quyết định 96,80\%, so với 88,80\% của Causal
+Path RAG. Do hai hệ thống sử dụng đầu ra truy xuất giống hệt nhau và cả 23
+trường hợp chỉ Full cải thiện đều xuất hiện sau khi bộ xác minh commit, mức cải
+thiện được khu trú ở bước xác thực factual đã commit và bước kiểm tra cạnh trực
+tiếp có grounding. Tuy nhiên, Answer F1, ROUGE-L và Citation F1 không cải thiện
+có ý nghĩa, cho thấy tính đúng đắn của quyết định có cấu trúc và chất lượng câu
+trả lời tự do vẫn là hai mục tiêu riêng biệt.
 
-Kết quả không có nghĩa mọi khía cạnh đều tốt hơn. Answer F1 và ROUGE-L của Full
-thấp hơn nhẹ; khác biệt theo cặp của hai chỉ số này và Citation F1 đều không có
-ý nghĩa. Structured-label correctness và lexical answer overlap do đó là hai
-mục tiêu khác nhau. Ba mẫu lỗi còn có prose mâu thuẫn với structured decision,
-cho thấy cần constraint consistency riêng ở tầng sinh.
+Kết quả closed-book cần được diễn giải thận trọng. Độ chính xác thấp của chúng
+phản ánh hợp đồng nhãn định hướng xác minh, việc không có bằng chứng pháp luật
+được truy xuất và sự mất cân bằng lớp lớn, thay vì năng lực pháp luật tổng quát
+của Qwen3-8B. Điều này tạo động lực để báo cáo Balanced Accuracy và Macro-F1
+cùng với Accuracy thô.
 
-Kết quả closed-book LLM phụ thuộc mạnh vào prompt và task. Accuracy 0\% xuất
-hiện vì cả 250 output thành công đều abstain bằng \textsc{uncertain}, trong khi
-gold không có abstention class. Đây không phải bằng chứng Qwen3-8B không có tri
-thức pháp luật. Phân bố gold 230/20 cũng khiến raw accuracy dễ bị thổi phồng;
-vì vậy cần báo cáo kèm Balanced Accuracy, Macro-F1, class coverage và confusion
-matrix.
+Thực nghiệm thực thi $do(X_m=0)$ trên bảy câu hỏi loại bỏ sự kiện trung gian,
+nhưng Causal Path RAG cũng trả lời đúng cả bảy câu. Vì vậy, các kết quả hiện tại
+chưa tách biệt được lợi ích của can thiệp cấu trúc. Tương tự, mặc dù engine hỗ
+trợ thân quy tắc có quan hệ hội và các cơ chế tuyển thay thế, các quy tắc được
+nhập chỉ chứa một tiền đề dương trên mỗi bản ghi. Cả suy luận can thiệp và suy
+luận nhiều tiền đề đều cần các benchmark chuyên biệt lớn hơn.
 
-Quan trọng nhất, thực nghiệm này không xác nhận structural mediator
-intervention. Hai mươi mẫu âm là direct-edge counterexample và Full run đã lưu
-thực thi 0 phép $do(X_M=0)$. Điểm subset 95\% đo grounded direct-edge topology.
-Hard intervention đã được cài đặt và phân biệt chính thức với phép xóa nút
-$G^{-M}$, nhưng cần benchmark mới với câu hỏi removal/necessity tường minh trước
-khi kết luận về hiệu quả. Tương tự, engine hỗ trợ conjunctive body và alternative
-disjunctive mechanisms, còn các quy tắc import hiện tại đều là unary positive;
-hành vi AND/OR phong phú chưa được kiểm thử thực nghiệm.
+Truy xuất cũng vẫn là một nút thắt. Top-1 Exact Path đạt 38,56\%, so với Oracle
+Exact Path 75,42\%, và cả tám lỗi của Full đều xảy ra sau fallback do thiếu
+đường chính. Hơn nữa, benchmark có quy mô nhỏ, được sinh từ đồ thị và được xây
+dựng từ chính nguồn dữ liệu có cấu trúc mà hệ thống sử dụng. Cần có các câu hỏi
+pháp lý được chuyên gia rà soát và nằm ngoài đồ thị để đánh giá tính hợp lệ bên
+ngoài.
 
-Top-1 Exact Path chỉ đạt 38,56\%, so với Oracle Exact Path 75,42\%. Bảy trong
-tám lỗi Full xảy ra sau missing-primary-path fallback, xác nhận first-hop
-retrieval và path ranking vẫn là nút thắt. Ngoài ra, benchmark còn nhỏ, được
-sinh từ đồ thị và dùng cùng nguồn cấu trúc với hệ thống. Cần rà soát chuyên gia,
-câu hỏi pháp lý ngoài graph và đánh giá miền ngoài để bảo đảm external validity.
-
-Cuối cùng, LegalSCM phụ thuộc vào rule extraction, event normalization,
-endpoint/mediator grounding và graph construction. Đây là mô hình quy tắc quy
-phạm có tính xác định, không phải causal discovery hoặc effect estimation. Toán
-tử $do(\cdot)$ chỉ có nghĩa tương đối với các cơ chế đã mã hóa và không có tầng
-abduction biến ngoại sinh của phân tích counterfactual cấp cá thể đầy đủ.
+Cuối cùng, LegalSCM là một mô hình quy tắc quy phạm tất định, không phải là một
+phương pháp khám phá nhân quả hay ước lượng hiệu ứng thống kê. Ngữ nghĩa can
+thiệp của mô hình chỉ tương đối với các cơ chế pháp lý đã mã hóa và không bao
+gồm bước abduction biến ngoại sinh cần thiết cho phân tích quan hệ nhân quả
+thực tế ở cấp cá thể.
 
 % =========================================================
 % VIII. CONCLUSION
@@ -51,15 +44,16 @@ abduction biến ngoại sinh của phân tích counterfactual cấp cá thể �
 \section{Kết luận}
 \label{sec:conclusion}
 
-LegalSCM-RAG kết hợp causal-path retrieval, suy luận quy tắc ba giá trị và
-selective commit gate cho hỏi đáp pháp luật đa bước tiếng Việt. Trên benchmark
-250 câu hiện tại, hệ thống tăng Decision Accuracy 6,0 điểm so với Causal Path
-RAG với bằng chứng thống kê theo cặp, nhưng không cải thiện có ý nghĩa các chỉ
-số answer hoặc citation.
+LegalSCM-RAG kết hợp truy xuất đường dẫn nhân quả, suy luận quy tắc ba giá trị
+và xác minh cấu trúc chọn lọc cho hỏi đáp pháp luật tiếng Việt đa bước. Trên 250
+câu hỏi, hệ thống cải thiện độ chính xác quyết định 8,0 điểm so với Causal Path
+RAG với bằng chứng thống kê theo cặp, trong khi mức cải thiện câu trả lời và căn
+cứ trích dẫn không có ý nghĩa.
 
-Kết luận mạnh nhất được dữ liệu hỗ trợ là selective factual/direct-claim
-verification cải thiện độ tin cậy quyết định trong môi trường có kiểm soát.
-Nghiên cứu tiếp theo sẽ xây benchmark explicit mediator intervention và quy tắc
-nhiều antecedent, cải thiện first-hop retrieval cùng endpoint grounding, ràng
-buộc consistency answer--decision và tổ chức đánh giá chuyên gia trên câu hỏi
-không sinh từ source graph.
+Các kết quả ủng hộ cơ chế xác minh factual và xác minh khẳng định trực tiếp có
+chọn lọc trong môi trường có kiểm soát này, nhưng chưa xác lập lợi ích độc lập
+của $do(X_m=0)$. Nghiên cứu tương lai sẽ mở rộng các benchmark về can thiệp sự
+kiện trung gian và quy tắc nhiều tiền đề, cải thiện xếp hạng đường cùng
+Grounding, áp đặt tính nhất quán giữa câu trả lời và quyết định, đồng thời tổ
+chức đánh giá chuyên gia trên các câu hỏi pháp lý không được sinh từ đồ thị
+nguồn.

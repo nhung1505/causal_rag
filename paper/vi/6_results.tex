@@ -4,20 +4,19 @@
 \section{Kết quả và phân tích}
 \label{sec:results_analysis}
 
-\subsection{Kết quả tổng thể và closed-book baseline}
+\subsection{Kết quả tổng thể và các đối chứng closed-book}
 
-Cả bốn run đều tạo đủ 250/250 prediction thành công, không có pipeline error và
-dùng cùng model cùng generation settings. Bảng~\ref{tab:main_results} báo cáo
-end-to-end quality; retrieval/path chỉ được diễn giải với hệ thống có thành
-phần tương ứng.
+Cả năm lượt chạy đều sinh đủ 250/250 dự đoán mà không có lỗi pipeline.
+Bảng~\ref{tab:main_results} trình bày kết quả end-to-end.
 
-\begin{table*}[t]
+\begin{table}[t]
 \centering
-\caption{Kết quả trên 250 câu hỏi (đơn vị phần trăm, trừ thời gian).}
+\caption{Hiệu năng trên 250 câu hỏi (đơn vị phần trăm, trừ thời gian).}
 \label{tab:main_results}
-\small
-\begin{tabular}{lrrrrrrr}
-\hline
+\scriptsize
+\setlength{\tabcolsep}{1.35pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
 \textbf{Phương pháp}
 & \textbf{Acc.}
 & \textbf{B.Acc.}
@@ -26,90 +25,90 @@ phần tương ứng.
 & \textbf{R-L}
 & \textbf{Cit.F1}
 & \textbf{Giây}\\
-\hline
-Closed-book LLM & 0.00 & 0.00 & 0.00 & 12.98 & 11.27 & 0.00 & 0.841\\
-Vanilla RAG & 55.60 & 59.89 & 67.60 & 23.28 & 21.45 & 49.37 & 2.308\\
-Causal Path RAG & 90.80 & 88.15 & 84.36 & \textbf{36.53} & \textbf{35.82} & 58.70 & 2.107\\
-Full LegalSCM & \textbf{96.80} & \textbf{95.98} & \textbf{93.31} & 36.32 & 35.73 & \textbf{59.30} & 3.324\\
-\hline
-\end{tabular}
-\end{table*}
-
-Điểm quyết định 0,00\% của closed-book baseline không phải do run lỗi hoặc
-evaluator parse sai. Cả 250 generation thành công đều trả nhãn hợp lệ
-\textsc{uncertain}. Gold gồm 230 \textsc{supported}, 20
-\textsc{reject-direct-claim} và không có \textsc{uncertain}, nên exact-label
-accuracy bằng 0. Kết quả này đo \emph{complete abstention dưới cấu hình
-prompt/model thận trọng hiện tại}, không có nghĩa model có năng lực pháp luật
-chung bằng 0. Ngược lại, classifier luôn đoán \textsc{supported} sẽ đạt 92\%
-raw accuracy trên tập lệch nhãn này; do đó Balanced Accuracy và Macro-F1 được
-báo cáo cùng Accuracy.
-
-\subsection{Ảnh hưởng theo cặp của selective verification}
-
-Full LegalSCM đúng 242 câu, Causal Path RAG đúng 227 câu. Full-only correct có
-17 mẫu, Causal-only correct có 2 mẫu, cả hai đúng 225 và cả hai sai 6. Mức tăng
-Accuracy là 6,0 điểm phần trăm, với paired bootstrap CI 95\%
-$[2,8;9,6]$ điểm, exact McNemar $p=0,000729$ và Holm-adjusted
-$p=0,002914$. Macro-F1 tăng mô tả 8,94 điểm, từ 84,36\% lên 93,31\%.
-
-Lợi ích chỉ xuất hiện rõ ở mức quyết định. So với Causal Path RAG, Full thay đổi
-Answer F1 $-0,21$ điểm (CI 95\% $[-1,83;1,43]$), ROUGE-L $-0,09$ điểm
-(CI 95\% $[-1,71;1,56]$) và Citation F1 $+0,59$ điểm (CI 95\%
-$[-0,72;2,03]$). Cả ba Holm-adjusted $p$ đều bằng 1,0. Vì vậy, dữ liệu hỗ trợ
-cải thiện structured decision, không hỗ trợ kết luận cải thiện chung về cách
-diễn đạt hoặc citation.
-
-\subsection{Audit route, commit và lỗi}
-
-Bảng~\ref{tab:route_audit} báo cáo các runtime counter độc lập. Router chuyển
-230 mẫu tới factual LegalSCM validation và 20 direct claim tới grounded edge
-checking. Không câu nào yêu cầu mediator-intervention route.
-
-\begin{table}[t]
-\centering
-\caption{Audit route và commit của Full LegalSCM.}
-\label{tab:route_audit}
-\small
-\begin{tabular}{lr}
-\hline
-\textbf{Đại lượng audit} & \textbf{Số mẫu}\\
-\hline
-Factual LegalSCM route & 230\\
-Grounded direct-edge route & 20\\
-Verifier committed & 230\\
-No-primary-path safe fallback & 20\\
-Đã thực thi $do(X_M=0)$ & 0\\
-\hline
+\midrule
+Closed-book (abstain) & 4.40 & 27.50 & 22.00 & 15.08 & 13.19 & 0.00 & 1.031\\
+Closed-book (forced) & 9.20 & 50.65 & 8.78 & 18.44 & 16.19 & 0.27 & 0.900\\
+Vanilla RAG & 55.20 & 71.09 & 49.88 & 28.18 & 25.68 & 50.75 & 2.369\\
+Causal Path RAG & 88.80 & 89.35 & 76.30 & 37.27 & 36.40 & 58.41 & 1.947\\
+Full LegalSCM & \textbf{96.80} & \textbf{98.26} & \textbf{91.67}
+& \textbf{37.60} & \textbf{36.92} & \textbf{58.89} & 3.238\\
+\bottomrule
 \end{tabular}
 \end{table}
 
-Cả 17 Full-only gain đều xuất hiện khi verifier commit: 14 từ factual rule
-validation và 3 từ direct-edge topology. Trong 20 safe fallback, Full và Causal
-Path RAG đưa cùng quyết định ở 19 mẫu; 13 mẫu cùng đúng và 6 mẫu cùng sai. Mẫu
-còn lại chỉ Causal Path RAG đúng. Vì vậy fallback không tạo Full-only gain.
+Điểm closed-book thấp không bắt nguồn từ lượt chạy thất bại hay lỗi phân tích
+đầu ra. Khi cho phép abstention, mô hình trả \textsc{uncertain} cho 220 câu
+hỏi; do tập chuẩn không chứa nhãn \textsc{uncertain}, chỉ 11 dự đoán là đúng.
+Khi bị buộc đưa ra quyết định nhị phân, mô hình dự đoán
+\textsc{reject-direct-claim} cho 247 trong số 250 câu hỏi và đạt độ chính xác
+9,20\%. Như vậy, loại bỏ abstention tạo ra thiên lệch bác bỏ gần như đồng nhất
+thay vì khôi phục năng lực pháp luật. Vì một bộ phân loại luôn dự đoán
+\textsc{supported} sẽ đạt độ chính xác thô 92\% trên benchmark lệch lớp này,
+Balanced Accuracy và Macro-F1 cung cấp nhiều thông tin hơn so với chỉ riêng
+Accuracy.
 
-Full sai tám quyết định. Bảy lỗi xảy ra sau no-primary-path fallback, chủ yếu do
-first-hop retrieval không cung cấp Primary Path có thể dùng. Lỗi còn lại là lỗi
-ground endpoint của direct claim. Trong ba mẫu lỗi, phần prose được sinh còn
-mâu thuẫn với structured label, cho thấy một vấn đề consistency riêng ở tầng
-sinh.
+\subsection{Ảnh hưởng của xác minh chọn lọc}
 
-Trên direct-claim counterexample subset, Full đạt 95\% và Causal Path RAG đạt
-85\%. Tuy nhiên, toàn bộ 20 mẫu được đánh giá bằng direct-edge topology và
-không mẫu nào chạy $do(X_M=0)$. Subset này hỗ trợ giá trị của query-aware
-direct-claim checking, không chứng minh hiệu quả structural mediator
-intervention.
+Full LegalSCM trả lời đúng 242 câu hỏi, so với 222 câu của Causal Path RAG. Chỉ
+Full đúng trên 23 mẫu, chỉ Causal Path RAG đúng trên 3 mẫu, cả hai cùng đúng
+trên 219 mẫu và cả hai cùng sai trên 5 mẫu. Mức cải thiện 8,0 điểm thu được có
+khoảng tin cậy bootstrap theo cặp 95\% là $[4{,}4;12{,}0]$, với kiểm định
+McNemar chính xác $p=8{,}8\times10^{-5}$ và $p$ hiệu chỉnh Holm $=0{,}0011$.
+Macro-F1 tăng từ 76,30\% lên 91,67\%, trong khi F1 của lớp âm tăng từ 59,02\%
+lên 85,11\%.
 
-\subsection{Retrieval, path ranking và runtime}
+Các khác biệt về sinh văn bản tự do nhỏ hơn đáng kể: Answer F1, ROUGE-L và
+Citation F1 lần lượt thay đổi $+0{,}33$, $+0{,}52$ và $+0{,}47$ điểm. Khoảng
+tin cậy của cả ba chỉ số đều chứa 0 và cả ba giá trị $p$ hiệu chỉnh Holm đều
+bằng 1,0. Do đó, mức cải thiện đo được chỉ đặc trưng cho độ chính xác của quyết
+định có cấu trúc.
 
-Causal Path RAG và Full dùng cùng retrieval output. Article Recall@5, Rule
-Recall@5 và Event Recall@5 lần lượt là 75,40\%, 71,20\% và 74,79\%. Top-1 Exact
-Path là 38,56\%, còn Oracle Exact Path là 75,42\%. Khoảng cách 36,86 điểm cho
-thấy gold path thường đã nằm trong candidate set nhưng chưa được xếp đầu; việc
-retrieval/path giống nhau cũng khoanh vùng chênh lệch quyết định Full--Causal ở
-tầng selective verification thay vì retrieval.
+\subsection{Kiểm toán xác minh và lỗi}
 
-Full cần trung bình 3,324 giây mỗi câu thành công, so với 2,107 giây của Causal
-Path RAG, tức tăng $1,58\times$. Trade-off đo được là mức tăng quyết định 6,0
-điểm có ý nghĩa thống kê với khoảng 58\% runtime bổ sung trên mỗi mẫu.
+Các thống kê về route và commit của Full LegalSCM được trình bày trong
+Bảng~\ref{tab:route_audit}.
+
+\begin{table}[t]
+\centering
+\caption{Kiểm toán xác minh của Full LegalSCM.}
+\label{tab:route_audit}
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Đại lượng kiểm toán} & \textbf{Số lượng}\\
+\midrule
+Route xác thực factual & 230\\
+Route cạnh trực tiếp & 13\\
+Route can thiệp sự kiện trung gian & 7\\
+Bộ xác minh đã commit & 230\\
+Fallback do không có đường chính & 20\\
+Đã thực thi $do(X_m=0)$ & 7\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Cả 23 trường hợp chỉ Full cải thiện đều xuất hiện sau khi bộ xác minh commit:
+21 trường hợp đến từ xác thực factual và 2 trường hợp đến từ kiểm tra cạnh trực
+tiếp. Không trường hợp nào đến từ route can thiệp. Trong 20 trường hợp
+fallback, Full không có cải thiện riêng, còn chỉ Causal Path RAG đúng trên 3
+mẫu.
+
+Cả tám lỗi của Full đều xảy ra sau fallback do không có đường chính; bảy trong
+số đó là câu hỏi suy luận ngược. Không có lỗi nào xảy ra sau một kết quả đã
+được bộ xác minh commit. Trong 20 mẫu âm, Full trả lời đúng cả 13 trường hợp
+cạnh trực tiếp và cả 7 trường hợp can thiệp sự kiện trung gian, so với độ chính
+xác tổng thể 90\% của Causal Path RAG. Tuy nhiên, Causal Path RAG cũng trả lời
+đúng cả 7 trường hợp can thiệp. Vì vậy, các can thiệp đã thực thi có thể được
+kiểm toán nhưng không tạo lợi thế theo cặp riêng biệt trên tập con này.
+
+\subsection{Truy xuất, xếp hạng đường và thời gian chạy}
+
+Causal Path RAG và Full sử dụng đầu ra truy xuất giống hệt nhau. Article,
+Rule và Event Recall@5 của chúng lần lượt là 75,40\%, 71,20\% và 74,79\%, trong
+khi Vanilla RAG đạt Article Recall@5 là 60,07\%. Top-1 Exact Path đạt 38,56\%,
+so với Oracle Exact Path 75,42\%; khoảng cách này cho thấy một đường phù hợp
+thường đã được truy xuất nhưng chưa được xếp hạng đầu tiên.
+
+Full cần 3,238 giây cho mỗi câu hỏi, so với 1,947 giây của Causal Path RAG. Vì
+vậy, xác minh chọn lọc cải thiện 8,0 điểm độ chính xác quyết định với thời gian
+chạy tăng thêm xấp xỉ 66\%.

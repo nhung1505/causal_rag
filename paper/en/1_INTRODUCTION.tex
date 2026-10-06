@@ -1,41 +1,55 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Large Language Models (LLMs) have demonstrated strong performance across a wide
-range of question-answering tasks. In the legal domain, however, a reliable
-answer requires more than fluent generation: the system must identify relevant
-provisions and reconstruct the reasoning chain connecting conditions,
-intermediate events, and legal consequences
-\cite{chalkidis2020legalbert,guha2023legalbench}.
+Large Language Models (LLMs) perform well on many question-answering tasks, but
+reliable legal QA requires both relevant statutory evidence and a traceable
+reasoning chain connecting conditions, intermediate events, and legal
+consequences \cite{chalkidis2020legalbert,guha2023legalbench}.
+Retrieval-Augmented Generation (RAG) provides external evidence before
+generation \cite{lewis2020retrieval,gao2024ragsurvey}; however, conventional
+semantic retrieval often treats passages independently and does not explicitly
+represent multi-hop condition--consequence relations.
 
-RAG augments an LLM with evidence retrieved before generation
-\cite{lewis2020retrieval,gao2024ragsurvey}. Conventional RAG is nevertheless
-primarily driven by semantic similarity and often treats passages as
-independent evidence. This is insufficient for multi-hop legal questions whose
-conclusion depends on a sequence of connected condition--consequence rules.
+We propose \textbf{LegalSCM-RAG}, which integrates a Legal Structural Causal
+Model (LegalSCM) with RAG through causal-path retrieval and question-aware
+structural verification. The graph represents normative dependencies extracted
+from statutes rather than causal effects estimated from observational data. Its
+rule layer follows three-valued fixed-point semantics
+\cite{kleene1952metamathematics,fitting1985kripke} and uses a sparse
+linear-algebraic representation motivated by vector- and tensor-space logic
+programming \cite{sato2020threevalued,sakama2021tensor}. Body/head incidence
+matrices encode conjunction among literals within a rule and alternative
+disjunctive support across rules sharing the same consequent.
 
-We propose \textbf{LegalSCM-RAG}, which combines directed legal-graph retrieval
-with question-aware structural verification. The verifier routes direct claims
-to grounded edge checking, ordinary causal questions to three-valued factual
-rule inference, and explicit mediator-removal questions to hard intervention.
-A conservative commit gate uses a verifier decision only when grounding, path
-coverage, confidence, and state-consistency requirements are satisfied;
-otherwise it preserves the Causal Path RAG context and LLM decision.
+The verifier routes direct claims to grounded edge checking, ordinary questions
+to factual rule inference, and explicit mediator-removal questions to the hard
+intervention $do(X_m=0)$. We distinguish this intervention from node-deletion
+reachability: testing reachability in $G^{-m}$ is only a bounded topological
+diagnostic, whereas $do(X_m=0)$ fixes the mediator variable $X_m$ to false,
+replaces its structural mechanism, and recomputes the rule fixed point. A
+selective commit gate accepts a verifier decision only when grounding, path
+coverage, confidence, and state-consistency conditions are satisfied.
 
 The main contributions are:
 \begin{itemize}
-    \item a three-valued fixed-point formulation with an explicit sparse
-    body/head incidence encoding, in which conjunction occurs within a rule and
-    alternative disjunctive support across rules;
-    \item a formal and implementation-level separation between graph
-    node-deletion reachability and mechanism-replacement $do(X_M=0)$; and
-    \item a controlled four-system evaluation with paired significance tests,
-    abstention analysis, and route/commit auditing.
+    \item a framework for retrieving and ranking multi-hop paths over statutory
+    condition--consequence relations;
+    \item a three-valued linear-algebraic rule formulation supporting
+    conjunction, alternative disjunctive mechanisms, and explicit structural
+    intervention; and
+    \item a controlled five-configuration evaluation with paired significance
+    tests and route, commit, abstention, and intervention audits.
 \end{itemize}
 
-On the current benchmark, selective verification significantly improves
-structured decision accuracy over Causal Path RAG, but not free-form answer or
-citation quality. Importantly, the evaluated batch contains factual-validation
-and direct-edge routes but no executed mediator intervention. We therefore
-report the measured gain as evidence for the selective verifier as a whole,
-not as an empirical validation of structural counterfactual intervention.
+On 250 graph-derived Vietnamese Penal Code questions, Full LegalSCM achieves
+96.80\% decision accuracy, compared with 88.80\% for Causal Path RAG and
+55.20\% for Vanilla RAG. Its paired 8.0-point improvement over Causal Path RAG
+is significant (95\% CI: 4.4--12.0; Holm-adjusted $p=0.0011$), whereas Answer
+F1, ROUGE-L, and Citation F1 do not differ significantly. Closed-book accuracy
+remains low both with abstention (4.40\%) and forced binary decisions (9.20\%),
+indicating behavior under the verification-oriented contract without retrieved
+legal evidence rather than general LLM competence. Although seven
+$do(X_m=0)$ interventions are executed, Causal Path RAG also answers those
+seven questions correctly. The results therefore support the overall selective
+verification mechanism, while the isolated benefit of structural intervention
+requires further evaluation.
