@@ -1,0 +1,141 @@
+% ============================================================
+% PHẦN 3. THỰC NGHIỆM VÀ ĐÁNH GIÁ
+% ============================================================
+\setroadmap{-1}
+\section{Thực nghiệm và đánh giá}
+
+% ------------------------------------------------------------
+% F3.1 Benchmark
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Benchmark: 250 câu hỏi đa bước từ đồ thị BLHS}
+\begin{columns}[T,onlytextwidth]
+\column{0.50\textwidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  xbar, bar width=6.5pt, scale only axis, width=3.3cm, height=4.15cm, clip=false,
+  xmin=0, xmax=88, y dir=reverse, ytick={1,...,9},
+  yticklabels={Đa bước xuôi, Suy luận ngược, Sự kiện cầu nối, Giải thích chuỗi,
+               Có/không -- khẳng định, Có/không -- phản ví dụ, Hội tụ,
+               Cầu nối/hội tụ (dự phòng), Rẽ nhánh},
+  yticklabel style={font=\scriptsize}, xticklabel style={font=\scriptsize},
+  xtick={0,20,40,60,80},
+  axis x line*=bottom, axis y line*=left, enlarge y limits=0.07,
+  nodes near coords, nodes near coords style={font=\scriptsize},
+  xlabel={số câu hỏi}, xlabel style={font=\scriptsize}]
+\addplot[fill=schemaNavy!75, draw=none, bar shift=0pt]
+  coordinates {(70,1) (40,3) (35,4) (20,5) (20,6) (10,7) (6,8) (4,9)};
+\addplot[fill=stepRetrieve, draw=none, bar shift=0pt] coordinates {(45,2)};
+\node[font=\scriptsize\bfseries,text=stepRetrieve!80!black,anchor=west] at (axis cs:57,2) {loại của ví dụ};
+\end{axis}
+\end{tikzpicture}
+
+\column{0.46\textwidth}
+\footnotesize
+\begin{itemize}
+  \item Nhãn chuẩn: 230 \labSup, 20 \labRejS; không có \labUnc.
+  \item 236 câu có đường chuẩn tuyến tính; 14 câu rẽ nhánh/hội tụ không tính vào chỉ số đường.
+  \item 20 mẫu âm: 13 khẳng định cạnh trực tiếp, 7 câu bỏ qua sự kiện trung gian.
+  \item Gold gồm rule, sự kiện, đường, câu trả lời, trích dẫn; không được dùng khi sinh dự đoán.
+\end{itemize}
+
+\vspace{0.1cm}
+\begin{alertblock}{Lưu ý về tính hợp lệ}
+\footnotesize Câu hỏi và đồ thị cùng một nguồn $\Rightarrow$ đo \textbf{tính hợp lệ nội tại};
+cần rà soát thủ công trước khi dùng làm chuẩn chính thức.
+\end{alertblock}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% F3.2 Năm cấu hình
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Năm cấu hình: chỉ thay ngữ cảnh và bước xác minh}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[tag] at (5.6,-0.15) {đầu vào của LLM};
+  \node[tag] at (11.75,-0.15) {nhãn được phép};
+  \foreach \i/\c/\n in {1/sysCBa/{Closed-book\\(abstain)},2/sysCBf/{Closed-book\\(forced)},
+                        3/sysVan/Vanilla RAG,4/sysCPR/Causal Path RAG,5/sysFull/Full LegalSCM}{
+    \node[sys=\c,text width=2.0cm,anchor=west,minimum height=0.66cm] (s\i) at (0,-0.72*\i) {\n};
+    \node[chip=schemaGray,anchor=west] (q\i) at (2.4,-0.72*\i) {Câu hỏi};
+    \node[chip=schemaNavy,font=\scriptsize\bfseries,minimum width=0.95cm] (l\i) at (10.05,-0.72*\i) {LLM};
+  }
+  \node[chip=sysVan,anchor=west] (c3) at (3.85,-2.16) {5 điều luật thô (BGE-M3 + FAISS)};
+  \node[chip=stepRetrieve,anchor=west] (c4) at (3.85,-2.88) {Bước 3: đường dẫn, rule, sự kiện};
+  \node[chip=stepRetrieve,anchor=west] (c5a) at (3.85,-3.6) {Bước 3};
+  \node[chip=stepVerify,anchor=west] (c5b) at (5.15,-3.6) {Bước 4: xác minh + commit};
+  \node at ($(q3.east)!0.5!(c3.west)$) {+};
+  \node at ($(q4.east)!0.5!(c4.west)$) {+};
+  \node at ($(q5.east)!0.5!(c5a.west)$) {+};
+  \node at ($(c5a.east)!0.5!(c5b.west)$) {+};
+  \draw[flow] (q1.east) -- (l1.west);
+  \draw[flow] (q2.east) -- (l2.west);
+  \draw[flow] (c3.east) -- (l3.west);
+  \draw[flow] (c4.east) -- (l4.west);
+  \draw[flow] (c5b.east) -- (l5.west);
+  \foreach \i/\t in {1/{SUP / REJ / UNC},2/{SUP / REJ (buộc chọn)},3/{SUP / REJ / UNC},
+                     4/{SUP / REJ / UNC},5/{SUP / REJ / UNC}}{
+    \draw[flow] (l\i.east) -- ++(0.35,0) node[anchor=west,font=\scriptsize] {\texttt{\t}};
+  }
+  \node[tag,anchor=west,fill=white] at (3.85,-1.44) {đối chứng độ nhạy: không có \labUnc};
+\end{tikzpicture}
+
+\vspace{0.12cm}
+\raggedright
+{\footnotesize\textbf{\color{schemaNavy}So sánh công bằng:} bốn cấu hình cho phép abstention dùng cùng bộ sinh,
+prompt, JSON schema, parser, ngân sách ngữ cảnh và tham số giải mã; biến thể forced chỉ đổi chính sách quyết định.
+Không hệ thống nào dùng fallback trích xuất. Causal Path RAG và Full dùng đầu ra truy xuất giống hệt nhau.\par}
+
+\vspace{0.12cm}
+\keymsg{So sánh Full LegalSCM với Causal Path RAG cô lập đóng góp của Bước 4.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F3.3 Cấu hình, chỉ số, kiểm định
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Cấu hình chung, chỉ số và kiểm định thống kê}
+\begin{columns}[T,onlytextwidth]
+\column{0.46\textwidth}
+\scriptsize
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l l@{}}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị}\\
+\midrule
+Bộ sinh / embedding & Qwen3-8B / BGE-M3\\
+Nhiệt độ / seed & 0,1 / 42\\
+Token ra / cửa sổ ngữ cảnh & 1.200 / 32.768\\
+Ngân sách ngữ cảnh & 18.000 ký tự\\
+Top-$K$ Vanilla/sự kiện/rule & 5 / 8 / 8\\
+Bằng chứng cuối / hop tối đa & 12 / 2\\
+Ngưỡng commit / grounding & 0,55 / 0,80\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.1cm}
+{\scriptsize\color{schemaGray} Qwen3-8B chạy qua Ollama. Dự đoán lỗi nhận điểm 0; thời gian tính trên dự đoán thành công.\par}
+
+\column{0.50\textwidth}
+\begin{block}{Chỉ số}
+\footnotesize
+\begin{itemize}
+  \item Quyết định: Decision Accuracy, Balanced Accuracy, Macro-F1 (2 lớp có trong gold).
+  \item $\text{B.Acc}=\tfrac12\big(\text{Recall}_{\text{SUP}}+\text{Recall}_{\text{REJ}}\big)$:
+        \dien không bị lớp đa số chi phối.
+  \item Câu trả lời: Token-F1, ROUGE-L; trích dẫn: F1 theo tập điều luật.
+  \item Truy xuất: Recall@5, MRR; đường: Top-1 và Oracle Exact Path (Oracle chỉ để chẩn đoán).
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.1cm}
+\begin{block}{Kiểm định theo cặp trên cùng 250 câu}
+\footnotesize Bootstrap 5.000 mẫu $\rightarrow$ CI 95\%; McNemar chính xác cho Decision Accuracy;
+5.000 phép đổi dấu ngẫu nhiên cho Answer F1, ROUGE-L, Citation F1; hiệu chỉnh Holm.
+\end{block}
+\end{frame}

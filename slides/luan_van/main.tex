@@ -1,0 +1,249 @@
+\documentclass[t,aspectratio=169]{beamer}
+% Biên dịch bằng pdfLaTeX (local: latexmk -pdf main.tex; Overleaf: compiler pdfLaTeX).
+\usepackage[utf8]{vietnam}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{booktabs,array,multirow}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit,backgrounds}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18,every axis/.append style={font=\scriptsize}}
+\pgfkeys{/pgf/number format/.cd,use comma,1000 sep={.}}
+
+% Template HUST (giữ nguyên như bộ slide mẫu)
+\def\slideContentLeftMargin{0.7cm}
+\def\slideContentRightMargin{0.9cm}
+\def\hustHeaderHeight{0.9cm}
+\def\slideContentBotMargin{3.5cm}
+\usepackage[blue,169]{beamerthemeHUST}
+
+\renewcommand{\titlePageTitleX}{-1.0cm}
+\renewcommand{\titlePageTitleY}{-0.45cm}
+\renewcommand{\hustTitleAlign}{\alignLeft}
+\renewcommand{\hustSubtitleAlign}{\alignLeft}
+\renewcommand{\hustAuthorAlign}{\alignLeft}
+\renewcommand{\hustInstAlign}{\alignLeft}
+
+% ---------------------------------------------------------------
+% Màu của template
+% ---------------------------------------------------------------
+\definecolor{schemaCyan}{HTML}{00A6D6}
+\definecolor{schemaNavy}{HTML}{073B5C}
+\definecolor{schemaRed}{HTML}{CE1628}
+\definecolor{schemaGreen}{HTML}{1C8C66}
+\definecolor{schemaGold}{HTML}{D89B16}
+\definecolor{schemaLight}{HTML}{EAF5FA}
+\definecolor{schemaGray}{HTML}{5A6872}
+
+\setbeamercolor{block title}{fg=white,bg=schemaNavy}
+\setbeamercolor{block body}{fg=black,bg=schemaLight}
+\setbeamercolor{block title alerted}{fg=white,bg=schemaRed}
+\setbeamercolor{block body alerted}{fg=black,bg=schemaRed!7}
+\setbeamercolor{block title example}{fg=white,bg=schemaGreen}
+\setbeamercolor{block body example}{fg=black,bg=schemaGreen!8}
+\setbeamercolor{alerted text}{fg=schemaRed}
+
+% Danh sách gọn hơn (khoảng cách giữa các ý nhỏ lại) cho khổ 16:9
+\makeatletter
+\setbeamertemplate{itemize/enumerate body begin}{%
+  \leftmargini=1.6em
+  \def\@listi{\leftmargin\leftmargini\topsep 2pt plus 1pt minus 1pt
+    \parsep 0pt\itemsep 2pt plus 1pt minus 1pt}%
+  \let\@listI\@listi}
+\setbeamertemplate{itemize/enumerate subbody begin}{%
+  \leftmarginii=1.4em
+  \def\@listii{\leftmargin\leftmarginii\topsep 1pt plus 1pt\parsep 0pt\itemsep 0.5pt}}
+\makeatother
+
+\newcommand{\code}[1]{\texttt{\color{schemaNavy}#1}}
+\newcommand{\metric}[2]{%
+  \begin{minipage}[c]{0.21\textwidth}\centering
+    {\fontsize{26}{28}\selectfont\bfseries\color{schemaNavy}#1}\\[-1mm]
+    {\scriptsize #2}
+  \end{minipage}}
+\newcommand{\stepbox}[2]{%
+  \node[rounded corners=2pt,draw=#1,fill=#1!10,minimum height=0.95cm,
+        minimum width=2.05cm,align=center,font=\scriptsize\bfseries] (#2) {#2};}
+
+% ---------------------------------------------------------------
+% Màu theo bước của pipeline và theo hệ thống
+% ---------------------------------------------------------------
+\colorlet{stepData}{schemaGray}
+\colorlet{stepGraph}{schemaCyan}
+\colorlet{stepMemory}{schemaGreen}
+\colorlet{stepRetrieve}{schemaGold}
+\definecolor{stepVerify}{HTML}{7A3E9D}
+\colorlet{stepAnswer}{schemaNavy}
+\colorlet{sysCBa}{schemaGray!45}
+\colorlet{sysCBf}{schemaGray!80}
+\colorlet{sysVan}{hustprimary!55}
+\colorlet{sysCPR}{stepRetrieve}
+\colorlet{sysFull}{stepVerify}
+
+\newcommand{\labSup}{\textcolor{schemaGreen}{\texttt{SUPPORTED}}}
+\newcommand{\labRej}{\textcolor{schemaRed}{\texttt{REJECT\_DIRECT\_CLAIM}}}
+\newcommand{\labRejS}{\textcolor{schemaRed}{\texttt{REJECT}}}
+\newcommand{\labUnc}{\textcolor{schemaGray}{\texttt{UNCERTAIN}}}
+\newcommand{\ok}{\textcolor{schemaGreen}{$\checkmark$}}
+\newcommand{\ko}{\textcolor{schemaRed}{$\times$}}
+\newcommand{\exid}{\texttt{BLHS\_MH\_0081}}
+\newcommand{\sysmark}[1]{\textcolor{#1}{\rule[-0.1ex]{1.4ex}{1.4ex}}\,}
+\newcommand{\cm}[2]{\cellcolor{#1}#2}
+\newcommand{\dien}{\textcolor{schemaGray}{\textit{Diễn giải:}}\ }
+
+% Thẻ số liệu lớn (nhãn nhiều dòng không chồng lên số)
+\newcommand{\kpi}[3][schemaNavy]{%
+  \begin{minipage}[t]{0.23\textwidth}\centering
+    {\fontsize{22}{24}\selectfont\bfseries\color{#1}#2\par}
+    \vspace{1pt}
+    {\scriptsize\color{black!80}#3\par}
+  \end{minipage}}
+
+\setbeamercolor{keymsg}{fg=black,bg=schemaGold!16}
+\newcommand{\keymsg}[1]{%
+  \begin{beamercolorbox}[rounded=true,sep=0.12em,wd=\textwidth]{keymsg}
+    \footnotesize\textbf{\color{schemaNavy}Thông điệp chính:} #1
+  \end{beamercolorbox}}
+
+% Hộp ví dụ theo màu của bước hiện tại
+\newcommand{\exboxof}[4]{%
+  \begin{tikzpicture}\node[draw=#1,fill=#1!7,rounded corners=3pt,line width=0.7pt,
+    inner sep=4pt,text width=#2,align=left,font=\footnotesize]
+    {{\bfseries\color{#1!80!black}Ví dụ #3.}\ #4};\end{tikzpicture}}
+\newcommand{\exbox}[3]{\exboxof{#1}{#2}{\exid}{#3}}
+
+% Thẻ câu hỏi nghiên cứu
+\newcommand{\rqcard}[5][\small]{%
+  \begin{tikzpicture}\node[draw=#2,fill=#2!8,rounded corners=3pt,line width=0.7pt,
+    inner sep=4pt,text width=0.92\linewidth,align=left,font=#1]
+    {\textbf{\color{#2!80!black}#3 $\cdot$ #4}\\[1pt] #5};\end{tikzpicture}}
+
+\tikzset{
+  stepnode/.style={rounded corners=2pt,draw=#1,fill=#1!10,line width=0.7pt,
+                   align=center,font=\scriptsize,inner sep=3pt,minimum height=0.9cm},
+  evnode/.style={rounded corners=3pt,draw=#1,fill=#1!8,line width=0.6pt,align=center,
+                 font=\scriptsize,text width=2.55cm,inner sep=2pt,minimum height=0.75cm},
+  bridgenode/.style={evnode=#1,double,double distance=0.9pt},
+  minibox/.style={rounded corners=2pt,draw=#1,fill=#1!10,line width=0.6pt,
+                  align=center,inner sep=2pt,minimum height=0.62cm,font=\scriptsize},
+  tnode/.style={draw=#1,fill=#1!10,rounded corners=2pt,inner sep=2.5pt,line width=0.6pt,
+                minimum height=0.5cm,font=\scriptsize},
+  sn/.style={stepnode=#1,text width=2.55cm,minimum height=1.0cm},
+  funnel/.style={fill=stepRetrieve!#1,draw=stepRetrieve!70,rounded corners=2pt,
+                 minimum height=0.46cm,font=\scriptsize,inner sep=1pt},
+  quote/.style={draw=#1,fill=#1!7,rounded corners=3pt,inner sep=4pt,align=left,
+                font=\scriptsize,line width=0.6pt},
+  sys/.style={draw=#1,fill=#1!25,rounded corners=2pt,line width=0.7pt,text width=2.1cm,
+              minimum height=0.62cm,align=left,font=\scriptsize\bfseries,inner sep=2.5pt},
+  chip/.style={draw=#1,fill=#1!12,rounded corners=2pt,line width=0.6pt,
+               minimum height=0.5cm,font=\scriptsize,inner sep=2pt,align=center},
+  cell/.style={draw=white,line width=1pt,minimum width=1.5cm,minimum height=0.95cm,
+               font=\small\bfseries,fill=#1},
+  flow/.style={-{Latex[length=1.8mm]},line width=0.6pt,draw=schemaGray},
+  causes/.style={-{Latex[length=2mm]},line width=0.9pt,draw=#1},
+  elab/.style={font=\scriptsize,fill=white,inner sep=1pt},
+  faded/.style={opacity=0.35},
+  tag/.style={font=\scriptsize,text=schemaGray,inner sep=1pt}
+}
+
+% ---------------------------------------------------------------
+% Lộ trình nhỏ ở chân trang: cho biết đang ở bước nào của pipeline
+% ---------------------------------------------------------------
+\newcommand{\rmnode}[4]{%
+  \ifnum#1=#4\relax
+    \node[rounded corners=1.5pt,minimum height=0.30cm,minimum width=1.05cm,inner sep=1pt,
+          font=\tiny\bfseries,fill=#3,draw=#3,text=white]
+      at ($(current page.south east)+(-7.40cm+#1*1.12cm,0.34cm)$) {#2};
+  \else
+    \node[rounded corners=1.5pt,minimum height=0.30cm,minimum width=1.05cm,inner sep=1pt,
+          font=\tiny,fill=#3!12,draw=#3!50,text=#3!75!black]
+      at ($(current page.south east)+(-7.40cm+#1*1.12cm,0.34cm)$) {#2};
+  \fi}
+\newcommand{\hustRoadmapStep}{-1}
+\newcommand{\setroadmap}[1]{\renewcommand{\hustRoadmapStep}{#1}}
+\newcommand{\drawroadmap}[1]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \rmnode{0}{Dữ liệu}{stepData}{#1}
+    \rmnode{1}{Đồ thị}{stepGraph}{#1}
+    \rmnode{2}{Bộ nhớ}{stepMemory}{#1}
+    \rmnode{3}{Truy xuất}{stepRetrieve}{#1}
+    \rmnode{4}{Xác minh}{stepVerify}{#1}
+    \rmnode{5}{Trả lời}{stepAnswer}{#1}
+  \end{tikzpicture}}
+% Giống frametitle của theme, thêm lộ trình
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=west, xshift=0.3cm, yshift=-0.4cm] at (current page.north west)
+      {\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle};
+  \end{tikzpicture}%
+  \ifnum\hustRoadmapStep>-1\relax\drawroadmap{\hustRoadmapStep}\fi}
+
+% ---------------------------------------------------------------
+% Trang tiêu đề luận văn (một tác giả, có GVHD và chuyên ngành)
+% ---------------------------------------------------------------
+\newcommand{\thesisAdvisors}{TS. Nguyễn Quốc Tuấn và PGS.TS. Nguyễn Thị Kim Anh}
+\newcommand{\thesisMajor}{Thạc sĩ Khoa học Máy tính}
+\renewcommand{\husttitlepage}{%
+  {\setbeamertemplate{background}{\includegraphics[width=\paperwidth,height=\paperheight]{\hustbg{title}}\drawHustPageNum}%
+   \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[anchor=center,xshift=\titlePageTitleX,yshift=\titlePageTitleY,text width=0.80\paperwidth]
+        at (current page.center) {%
+        {\raggedright\Large\bfseries\color{hustprimary}\MakeUppercase{\inserttitle}\par}
+        \vspace{0.14cm}
+        {\raggedright\normalsize\bfseries\color{black!80}\insertsubtitle\par}
+        \vspace{0.32cm}
+        {\raggedright\small
+          {\color{hustprimary}\bfseries Học viên:} \insertauthor\par
+          {\color{hustprimary}\bfseries Giảng viên hướng dẫn:} \thesisAdvisors\par
+          {\color{hustprimary}\bfseries Chuyên ngành:} \thesisMajor\par
+          \vspace{0.12cm}
+          {\color{hustprimary}\bfseries\insertinstitute} \quad\textbar\quad \insertdate\par}
+      };
+    \end{tikzpicture}
+   \end{frame}}}
+
+\title{Cải thiện Multi-hop Question Answering bằng cách kết hợp Causal Graph và Counterfactual Reasoning trong RAG}
+\subtitle{LegalSCM-RAG cho hỏi đáp pháp luật đa bước tiếng Việt}
+\author{Nguyễn Thị Nhung -- 20251329M}
+\institute{Đại học Bách khoa Hà Nội}
+\date{Tháng 12 năm 2026}
+
+\begin{document}
+
+\hustintropage{}
+\husttitlepage
+
+\begin{frame}{Nội dung trình bày}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+\resetPageCount
+\showPageNumber
+\useStyleHustFull
+\useThinBar
+
+% ================================================================
+\input{1_gioi_thieu}
+% ================================================================
+\input{2_du_lieu_va_phuong_phap}
+% ================================================================
+\input{3_thuc_nghiem_va_danh_gia}
+% ================================================================
+\input{4_ket_qua_va_phan_tich}
+% ================================================================
+\input{5_ket_luan}
+\hidePageNumber
+\hustthankyou
+
+% Phụ lục (dùng khi hỏi đáp)
+\appendix
+\showPageNumber
+\input{6_phu_luc}
+
+\end{document}

@@ -1,0 +1,107 @@
+% ============================================================
+% PHẦN 5. KẾT LUẬN
+% ============================================================
+\setroadmap{-1}
+\section{Kết luận}
+
+% ------------------------------------------------------------
+% F5.1 Trả lời câu hỏi nghiên cứu
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Trả lời bốn câu hỏi nghiên cứu}
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\rqcard[\footnotesize]{stepMemory}{RQ1}{Truy xuất có cấu trúc}{\textbf{Có.} Article Recall@5 75,40\%
+so với 60,07\% (Vanilla RAG); Rule / Event Recall@5: 71,20\% / 74,79\%.}
+
+\vspace{0.15cm}
+\rqcard[\footnotesize]{stepVerify}{RQ3}{Xác minh chọn lọc}{\textbf{Có, cho quyết định.} +8,0 điểm
+Decision Accuracy (CI 95\% $[4{,}4;\,12{,}0]$; $p$ Holm = 0,0011); 23 câu chỉ Full đúng:
+21 factual + 2 cạnh trực tiếp. Lợi ích riêng của $do(X_m=0)$ chưa tách được (7/7 ở cả hai hệ thống).}
+\column{0.49\textwidth}
+\rqcard[\footnotesize]{stepRetrieve}{RQ2}{Đường suy luận đa bước}{\textbf{Một phần.} Đường phù hợp có trong
+tập ứng viên ở 75,42\% câu (Oracle) nhưng chỉ 38,56\% đứng đầu (Top-1) $\Rightarrow$ xếp hạng là nút thắt;
+8/8 lỗi của Full xảy ra khi thiếu đường chính.}
+
+\vspace{0.15cm}
+\rqcard[\footnotesize]{stepAnswer}{RQ4}{Hiệu quả đầu--cuối}{\textbf{Có so với closed-book và Vanilla RAG;
+chưa so với Causal Path RAG.} Answer F1 37,60\% so với 15,08\% / 18,44\% (closed-book) và 28,18\%
+(Vanilla RAG); Citation F1 58,89\% so với 0,00\% / 0,27\% và 50,75\% ($p$ Holm $\le$ 0,0096);
+so với Causal Path RAG: không khác biệt có ý nghĩa ($p$ Holm = 1,0).}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% F5.2 Hạn chế
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Hạn chế và các mối đe dọa tính hợp lệ}
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\begin{block}{Tính hợp lệ nội tại}
+\footnotesize Câu hỏi được sinh từ chính đồ thị và nguồn có cấu trúc mà hệ thống truy xuất;
+benchmark chưa được rà soát thủ công.
+\end{block}
+\vspace{0.05cm}
+\begin{block}{Kết luận thống kê và chỉ số}
+\footnotesize
+\begin{itemize}
+  \item 20 mẫu âm, 7 câu can thiệp $\Rightarrow$ chưa tách được lợi ích của $do(X_m=0)$;
+        lớp lệch 230/20, không có gold \labUnc.
+  \item Token-F1/ROUGE-L đo trùng từ: câu ``không đủ thông tin'' ở \exid{} vẫn đạt 36,67\%.
+\end{itemize}
+\end{block}
+\column{0.49\textwidth}
+\begin{block}{Tính hợp lệ bên ngoài}
+\footnotesize Chỉ Bộ luật Hình sự và 250 câu sinh từ đồ thị; cần câu hỏi do chuyên gia viết
+hoặc rà soát, nằm ngoài đồ thị.
+\end{block}
+\vspace{0.05cm}
+\begin{block}{Tính hợp lệ cấu trúc}
+\footnotesize
+\begin{itemize}
+  \item Mỗi rule chỉ một tiền đề dương (0 rule hội, 0 ngoại lệ) $\Rightarrow$ phép hội chưa được kiểm chứng.
+  \item LegalSCM là mô hình quy tắc tất định: không khám phá nhân quả, không có abduction.
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.12cm}
+\keymsg{96,80\% là bằng chứng nội tại có kiểm soát, chưa phải năng lực tư vấn pháp lý.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F5.3 Kết luận và hướng phát triển
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Kết luận và hướng phát triển}
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\begin{block}{Kết luận}
+\footnotesize
+\begin{itemize}
+  \item LegalSCM-RAG: truy xuất đường dẫn nhân quả + suy luận ba giá trị + xác minh chọn lọc.
+  \item Decision Accuracy 96,80\%, hơn Causal Path RAG 8,0 điểm, có ý nghĩa thống kê.
+  \item Câu trả lời, trích dẫn chưa cải thiện có ý nghĩa; lợi ích riêng của $do(X_m=0)$ chưa được xác lập.
+\end{itemize}
+\end{block}
+\column{0.49\textwidth}
+\begin{block}{Hướng phát triển}
+\footnotesize
+\begin{itemize}
+  \item Benchmark can thiệp và rule nhiều tiền đề.
+  \item Cải thiện xếp hạng đường và grounding.
+  \item Ép nhất quán câu trả lời -- quyết định.
+  \item Đánh giá chuyên gia, câu hỏi ngoài đồ thị.
+  \item Nạp tài nguyên một lần để giảm thời gian.
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.2cm}
+\begin{center}
+\kpi[stepVerify]{96,80\%}{Decision Accuracy\\(Full LegalSCM)}\hfill
+\kpi{+8,0}{điểm so với\\Causal Path RAG}\hfill
+\kpi{0,0011}{giá trị $p$\\(hiệu chỉnh Holm)}
+\end{center}
+\end{frame}

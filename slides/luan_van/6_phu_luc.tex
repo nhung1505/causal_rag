@@ -1,0 +1,254 @@
+% ============================================================
+% PHỤ LỤC (dùng khi hỏi đáp)
+% ============================================================
+\setroadmap{-1}
+\section{Phụ lục}
+
+% ------------------------------------------------------------
+% A1 Công thức xếp hạng Bước 3
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Phụ lục A1 -- Công thức xếp hạng của Bước 3}
+\footnotesize
+\textbf{Điểm hỗ trợ của đường} ($h$ bước, $n_k$ = số rule hỗ trợ bước $k$):\\[2pt]
+\centerline{$s_{\text{sup}}=\min\!\Big(1,\ \dfrac{1}{h}\displaystyle\sum_{k=1}^{h}\dfrac{\ln\big(1+\max(1,n_k)\big)}{\ln 4}\Big),\qquad
+b_{\text{hop}}=\begin{cases}0{,}18 & h=h^{*}=2\\ 0{,}03\cdot h/h^{*} & \text{ngược lại}\end{cases}$}
+\dien bước có nhiều rule hỗ trợ thì tin cậy hơn (bão hòa ở 1); đường đủ số bước được thưởng.
+
+\vspace{0.1cm}
+\textbf{Điểm bằng chứng của rule:}\quad
+$S_{\text{rule}}=0{,}32\,S_{\text{sem}}+0{,}36\,S_{\text{graph}}+0{,}10\,S_{\text{seed}}
++0{,}07\,S_{\text{direct}}+0{,}15\,S_{\text{priority}}$\\[2pt]
+\dien trọng số đồ thị/đường cao để giữ rule ở bước thứ hai dù câu hỏi chủ yếu nhắc sự kiện đầu chuỗi.
+
+\vspace{0.1cm}
+\exbox{stepRetrieve}{0.96\linewidth}{\\[1pt]
+rule 106: $0{,}32\cdot0{,}653+0{,}36\cdot0{,}705+0{,}10\cdot0{,}603+0{,}07\cdot0{,}653+0{,}15\cdot1{,}0=\mathbf{0{,}719}$ (hạng 1)\\
+rule 47: $0{,}32\cdot0{,}555+0{,}36\cdot0{,}705+0{,}10\cdot0{,}603+0+0{,}15\cdot1{,}0=\mathbf{0{,}642}$ (hạng 2)\\
+$P_0$: $s_{\text{sup}}=\ln2/\ln4=0{,}5$ (mỗi bước một rule) $\Rightarrow S(P_0)=0{,}705$.}
+
+\vspace{0.08cm}
+Cấu hình: 100 kết quả ngữ nghĩa; $\le$ 200 rule ứng viên; 30 đường/seed; 12 bằng chứng; ngưỡng sự kiện 0,20, rule 0,15.
+\end{frame}
+
+% ------------------------------------------------------------
+% A2 Ngữ nghĩa LegalSCM
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Phụ lục A2 -- Ngữ nghĩa LegalSCM và quy ước cài đặt}
+\footnotesize
+$n=|V|$ sự kiện, $p=|\mathcal R|$ rule;\quad
+$\mathbf B^{\pm}\in\{0,1\}^{p\times n}$ (thân rule: literal dương/âm),\quad
+$\mathbf H^{\pm}\in\{0,1\}^{n\times p}$ (đầu rule),\quad
+$\mathbf k=(\mathbf B^{+}+\mathbf B^{-})\mathbf 1$.
+\[
+\mathbf b=\mathbb I[\mathbf B^{+}\mathbf t+\mathbf B^{-}\mathbf f=\mathbf k],\quad
+\mathbf a=\mathbf b\odot(\mathbf 1-\mathbf e),\quad
+\mathbf d^{\pm}=\mathbb I[\mathbf H^{\pm}\mathbf a\ge1],\quad
+\mathbf x^{F}=\operatorname{Fix}(\Phi_{\mathcal R},\mathbf x^{(0)})
+\]
+\dien hội trong thân rule, tuyển giữa các rule cùng đầu, lặp tới điểm bất động.
+
+\vspace{0.1cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Theo bài báo}
+\footnotesize
+\begin{itemize}
+  \item Chỉ có hỗ trợ dương $\rightarrow$ TRUE; chỉ có hỗ trợ âm $\rightarrow$ FALSE.
+  \item Không có hỗ trợ hoặc hỗ trợ xung đột $\rightarrow$ UNKNOWN.
+\end{itemize}
+\end{block}
+\column{0.48\textwidth}
+\begin{block}{Theo cài đặt (dùng trong thực nghiệm)}
+\footnotesize
+\begin{itemize}
+  \item Sự kiện nội sinh (là hệ quả của ít nhất một rule) mặc định FALSE khi không cơ chế nào sinh ra.
+  \item Sự kiện gốc UNKNOWN cho đến khi có trong ngữ cảnh; xung đột $\rightarrow$ UNKNOWN.
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.12cm}
+Kích thước thực nghiệm: 1.814 sự kiện, 2.884 rule; 187 sự kiện có hỗ trợ thay thế; 0 rule hội; 0 ngoại lệ.
+\end{frame}
+
+% ------------------------------------------------------------
+% A3 Can thiệp và xóa nút
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Phụ lục A3 -- Can thiệp cấu trúc và chẩn đoán xóa nút}
+\footnotesize
+Sự kiện trung gian của đường chính: $\mathcal M(P^{*})=\{v_1,\dots,v_{h-1}\}$.
+
+\vspace{0.1cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Chẩn đoán tô-pô}
+\footnotesize
+$G^{-m}=G[V\setminus\{m\}]$\\[2pt]
+$\rho_{\text{top}}(s,Y\mid m)=\mathbb I\big[Y\ \text{đạt được từ}\ s\ \text{trong}\ G^{-m}\big]$\\[2pt]
+Giới hạn 3 hop, 30 đường.
+\end{block}
+\column{0.48\textwidth}
+\begin{block}{Can thiệp cấu trúc $do(X_m=0)$}
+\footnotesize
+$0\equiv\text{FALSE}$;\quad $\mathcal R^{do(X_m=0)}=\{r\in\mathcal R\mid \operatorname{var}(\operatorname{head}(r))\neq m\}$\\[2pt]
+$\mathbf x^{CF(m)}=\operatorname{Fix}\big(\Phi_{\mathcal R^{do(X_m=0)}},\mathbf x^{(0)}[X_m\leftarrow0]\big)$
+\end{block}
+\end{columns}
+
+\vspace{0.12cm}
+\[
+\nu(m;Y)=\begin{cases}
+\text{NECESSARY}, & x_Y^{F}=1,\ x_Y^{CF(m)}=0,\\
+\text{NON\_NECESSARY}, & x_Y^{F}=1,\ x_Y^{CF(m)}=1,\\
+\text{chưa xác định}, & \text{các trường hợp còn lại.}
+\end{cases}
+\]
+
+\begin{itemize}
+  \item Chỉ đường chính (path 0) được xác minh cấu trúc.
+  \item Can thiệp tương đối với mô hình quy tắc đã mã hóa; không có bước abduction biến ngoại sinh.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+% A4 Kiểm định theo cặp đầy đủ
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Phụ lục A4 -- Kiểm định theo cặp đầy đủ (tham chiếu: Full LegalSCM)}
+\vspace{-0.1cm}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{0.93}
+\begin{tabular}{@{}l l r c r@{}}
+\toprule
+\textbf{So với} & \textbf{Chỉ số} & \textbf{$\Delta$ (điểm)} & \textbf{CI 95\%} & \textbf{$p$ Holm}\\
+\midrule
+Closed-book (abstain) & Decision Acc. & +92,40 & $[89{,}20;\,95{,}60]$ & $<0{,}001$\\
+ & Answer F1 & +22,52 & $[19{,}07;\,26{,}17]$ & 0,0024\\
+ & ROUGE-L & +23,72 & $[20{,}26;\,27{,}19]$ & 0,0024\\
+ & Citation F1 & +58,89 & $[54{,}27;\,63{,}49]$ & 0,0024\\
+\addlinespace[3pt]
+Closed-book (forced) & Decision Acc. & +87,60 & $[83{,}60;\,91{,}60]$ & $<0{,}001$\\
+ & Answer F1 & +19,16 & $[15{,}93;\,22{,}30]$ & 0,0024\\
+ & ROUGE-L & +20,73 & $[17{,}66;\,23{,}86]$ & 0,0024\\
+ & Citation F1 & +58,62 & $[54{,}18;\,63{,}13]$ & 0,0024\\
+\addlinespace[3pt]
+Vanilla RAG & Decision Acc. & +41,60 & $[35{,}20;\,48{,}00]$ & $<0{,}001$\\
+ & Answer F1 & +9,42 & $[6{,}26;\,12{,}61]$ & 0,0024\\
+ & ROUGE-L & +11,23 & $[8{,}14;\,14{,}39]$ & 0,0024\\
+ & Citation F1 & +8,14 & $[2{,}82;\,13{,}56]$ & 0,0096\\
+\addlinespace[3pt]
+\rowcolor{schemaLight}Causal Path RAG & Decision Acc. & \textbf{+8,00} & $[4{,}40;\,12{,}00]$ & \textbf{0,0011}\\
+ & Answer F1 & +0,33 & $[-1{,}19;\,1{,}85]$ & 1,0\\
+ & ROUGE-L & +0,52 & $[-0{,}95;\,2{,}00]$ & 1,0\\
+ & Citation F1 & +0,47 & $[-1{,}00;\,1{,}95]$ & 1,0\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.06cm}
+\raggedright
+Decision Acc.: McNemar chính xác; các chỉ số khác: đổi dấu ngẫu nhiên theo cặp (5.000 lần); CI: bootstrap 5.000 mẫu.
+Cặp bất đồng (Full đúng / baseline đúng): 231/0, 219/0, 107/3, 23/3.
+\end{frame}
+
+% ------------------------------------------------------------
+% A5 Chỉ số theo lớp
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Phụ lục A5 -- Chỉ số theo lớp và khoảng tin cậy}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}l ccc ccc c@{}}
+\toprule
+& \multicolumn{3}{c}{\textbf{Lớp SUPPORTED (230)}} & \multicolumn{3}{c}{\textbf{Lớp REJECT (20)}} & \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+\textbf{Hệ thống} & P & R & F1 & P & R & F1 & \textbf{Decision Acc. [CI 95\%]}\\
+\midrule
+\sysmark{sysCBa}Closed-book (abstain) & 0 & 0 & 0 & 36,67 & 55,00 & 44,00 & 4,40 $[2{,}00;\,7{,}20]$\\
+\sysmark{sysCBf}Closed-book (forced) & 100 & 1,30 & 2,58 & 8,10 & 100 & 14,98 & 9,20 $[6{,}00;\,12{,}80]$\\
+\sysmark{sysVan}Vanilla RAG & 98,36 & 52,17 & 68,18 & 19,15 & 90,00 & 31,58 & 55,20 $[49{,}20;\,61{,}20]$\\
+\sysmark{sysCPR}Causal Path RAG & 99,03 & 88,70 & 93,58 & 43,90 & 90,00 & 59,02 & 88,80 $[84{,}80;\,92{,}40]$\\
+\rowcolor{schemaLight}\sysmark{sysFull}\textbf{Full LegalSCM} & 100 & 96,52 & 98,23 & 74,07 & 100 & 85,11 & \textbf{96,80} $[94{,}40;\,98{,}80]$\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.2cm}
+\raggedright
+Đơn vị \%. P: precision; R: recall. Macro-F1 = trung bình F1 của hai lớp; lớp \labUnc{} không có mẫu gold.
+\end{frame}
+
+% ------------------------------------------------------------
+% A6 Tám lỗi của Full
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Phụ lục A6 -- Tám lỗi của Full LegalSCM}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.3cm} l l l@{}}
+\toprule
+\textbf{Mẫu} & \textbf{Loại câu hỏi} & \textbf{Full} & \textbf{Causal Path RAG}\\
+\midrule
+\texttt{BLHS\_MH\_0072}, 0074, 0076, 0078, 0080 & suy luận ngược & \labRejS & \labRejS{} (cũng sai)\\
+\texttt{BLHS\_MH\_0088} & suy luận ngược & \labUnc & \labSup{} (đúng)\\
+\texttt{BLHS\_MH\_0108} & suy luận ngược & \labRejS & \labSup{} (đúng)\\
+\texttt{BLHS\_MH\_0209} & có/không -- khẳng định & \labRejS & \labSup{} (đúng)\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.25cm}
+\raggedright
+\begin{itemize}
+  \item Cả 8 lỗi có trạng thái cổng \texttt{NO\_PRIMARY\_PATH} (không có đường chính $\Rightarrow$ fallback về ngữ cảnh Bước 3).
+  \item 20 câu fallback: 18 suy luận ngược + 2 có/không -- khẳng định; Full đúng 12/20, Causal Path RAG đúng 15/20.
+  \item Không có lỗi nào sau khi bộ xác minh commit.
+\end{itemize}
+\end{frame}
+
+% ------------------------------------------------------------
+% A7 Tài liệu tham khảo
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Phụ lục A7 -- Tài liệu tham khảo chính (1/2)}
+\scriptsize
+\begin{enumerate}\setlength{\itemsep}{1pt}
+  \item Lewis và cs. (2020). Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. \textit{NeurIPS} 33.
+  \item Karpukhin và cs. (2020). Dense Passage Retrieval for Open-Domain Question Answering. \textit{EMNLP}.
+  \item Izacard \& Grave (2021). Leveraging Passage Retrieval with Generative Models for Open Domain QA. \textit{EACL}.
+  \item Asai và cs. (2024). Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection. \textit{ICLR}.
+  \item Sarthi và cs. (2024). RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval. \textit{ICLR}.
+  \item Gao và cs. (2024). Retrieval-Augmented Generation for Large Language Models: A Survey. \textit{arXiv:2312.10997}.
+  \item Yang và cs. (2018). HotpotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering. \textit{EMNLP}.
+  \item Trivedi và cs. (2022). MuSiQue: Multihop Questions via Single-hop Question Composition. \textit{TACL} 10.
+  \item Edge và cs. (2024). From Local to Global: A Graph RAG Approach to Query-Focused Summarization. \textit{arXiv:2404.16130}.
+  \item Sun và cs. (2024). Think-on-Graph: Deep and Responsible Reasoning of LLM on Knowledge Graph. \textit{ICLR}.
+  \item Wang và cs. (2025). CausalRAG: Integrating Causal Graphs into Retrieval-Augmented Generation. \textit{Findings of ACL 2025}.
+  \item Parekh và cs. (2025). CC-RAG: Structured Multi-Hop Reasoning via Theme-Based Causal Graphs. \textit{arXiv:2506.08364}.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Phụ lục A7 -- Tài liệu tham khảo chính (2/2)}
+\scriptsize
+\begin{enumerate}\setcounter{enumi}{12}\setlength{\itemsep}{1pt}
+  \item Guo và cs. (2023). Counterfactual Multihop QA: A Cause-Effect Approach for Reducing Disconnected Reasoning. \textit{ACL}.
+  \item Pearl (2009). \textit{Causality: Models, Reasoning, and Inference}, 2nd ed. Cambridge University Press.
+  \item Kleene (1952). \textit{Introduction to Metamathematics}. North-Holland.
+  \item Fitting (1985). A Kripke--Kleene Semantics for Logic Programs. \textit{The Journal of Logic Programming} 2(4).
+  \item Sato, Sakama \& Inoue (2020). From 3-valued Semantics to Supported Model Computation for Logic Programs in Vector Spaces. \textit{ICAART}.
+  \item Sakama, Inoue \& Sato (2021). Logic Programming in Tensor Spaces. \textit{Annals of Mathematics and Artificial Intelligence} 89(12).
+  \item Chen và cs. (2024). BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings. \textit{arXiv:2402.03216}.
+  \item Chalkidis và cs. (2020). LEGAL-BERT: The Muppets straight out of Law School. \textit{Findings of EMNLP 2020}.
+  \item Zheng và cs. (2021). When Does Pretraining Help? Self-Supervised Learning for Law and the CaseHOLD Dataset. \textit{ICAIL}.
+  \item Chalkidis và cs. (2022). LexGLUE: A Benchmark Dataset for Legal Language Understanding in English. \textit{ACL}.
+  \item Guha và cs. (2023). LegalBench: Measuring Legal Reasoning in Large Language Models. \textit{NeurIPS} 36.
+  \item Văn phòng Quốc hội (2025). \textit{Văn bản hợp nhất số 135/VBHN-VPQH -- Bộ luật Hình sự}. Hà Nội.
+\end{enumerate}
+\end{frame}

@@ -1,0 +1,674 @@
+% ============================================================
+% PHẦN 2. DỮ LIỆU VÀ PHƯƠNG PHÁP
+% ============================================================
+\setroadmap{-1}
+\section{Dữ liệu và phương pháp}
+
+% ------------------------------------------------------------
+% F2.1 Tổng quan pipeline
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{LegalSCM-RAG: hai pha, năm bước}
+\vspace{-0.05cm}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  % Hàng 1: ngoại tuyến
+  \node[sn=stepData] (raw) at (1.55,0) {\textbf{BLHS}\\406 điều luật};
+  \node[sn=stepData,text width=2.95cm] (pre) at (5.15,0) {\textbf{Tiền xử lý}\\(a1) trích xuất rule\\(a2) chuẩn hóa sự kiện};
+  \node[sn=stepGraph] (g) at (8.75,0) {\textbf{Bước 1 $\cdot$ Đồ thị}\\nhân quả pháp lý\\5.134 nút};
+  \node[sn=stepMemory] (mem) at (12.35,0) {\textbf{Bước 2 $\cdot$ Bộ nhớ}\\nhân quả\\4.698 vector};
+  \draw[flow] (raw) -- (pre);
+  \draw[flow] (pre) -- (g);
+  \draw[flow] (g) -- (mem);
+  % Hàng 2: theo từng câu hỏi
+  \node[stepnode=schemaGray,text width=1.15cm,minimum height=1.0cm] (q) at (0.7,-2.25) {\textbf{Câu hỏi}\\$q$};
+  \node[sn=stepRetrieve,text width=2.2cm] (s3) at (3.1,-2.25) {\textbf{Bước 3}\\Truy xuất đường dẫn\\$\rightarrow P^{*}$};
+  \node[sn=stepVerify,text width=2.3cm] (s4) at (5.95,-2.25) {\textbf{Bước 4}\\Xác minh LegalSCM\\theo loại câu hỏi};
+  \node[draw=stepVerify,fill=stepVerify!10,shape=diamond,aspect=1.7,inner sep=0.5pt,
+        line width=0.7pt,font=\scriptsize\bfseries] (gate) at (8.5,-2.25) {Commit?};
+  \node[sn=stepAnswer,text width=2.15cm] (s5) at (13.05,-2.25) {\textbf{Bước 5}\\Sinh câu trả lời\\+ trích dẫn $(a,C)$};
+  \draw[flow] (q) -- (s3);
+  \draw[flow] (s3) -- (s4);
+  \draw[flow] (s4) -- (gate);
+  \draw[flow] (gate.north east) to[bend left=10] node[above,align=center,font=\scriptsize]{đạt:\\quyết định SCM} (s5.west);
+  \draw[flow,dashed] (gate.south east) to[bend right=10] node[below,align=center,font=\scriptsize]{không đạt:\\ngữ cảnh Bước 3} (s5.west);
+  % Nền của hai pha
+  \begin{scope}[on background layer]
+    \node[fill=schemaLight,rounded corners=4pt,inner sep=5pt,fit=(raw)(mem)] (off) {};
+    \node[fill=schemaLight,rounded corners=4pt,inner sep=5pt,fit=(q)(s5)(gate)] (on) {};
+  \end{scope}
+  \node[anchor=south west,font=\scriptsize\bfseries,text=schemaNavy,inner sep=1pt] at (off.north west) {Ngoại tuyến (một lần)};
+  \node[anchor=south west,font=\scriptsize\bfseries,text=schemaNavy,inner sep=1pt] at (on.north west) {Theo từng câu hỏi};
+  \draw[flow,dashed,draw=schemaNavy] (off.south) -- node[right,font=\scriptsize,text=schemaNavy]{tài nguyên dùng chung: đồ thị, bộ nhớ, tập rule $\mathcal R$} ($(on.north)+(0,0.42)$);
+\end{tikzpicture}
+
+\vspace{0.1cm}
+\raggedright
+\footnotesize $q\rightarrow P^{*}\rightarrow(z,\mathcal E^{*})\rightarrow(a,C)$:\quad
+chọn đường suy luận $\rightarrow$ ra quyết định có xác minh $\rightarrow$ sinh câu trả lời kèm căn cứ.
+
+\vspace{0.1cm}
+\keymsg{Điểm mới: bước xác minh LegalSCM (Legal Structural Causal Model, mô hình quy tắc quy phạm ba giá trị)
+được đặt có chọn lọc giữa truy xuất đường dẫn và sinh câu trả lời.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.2 Dữ liệu nguồn
+% ------------------------------------------------------------
+\setroadmap{0}
+\begin{frame}
+\frametitle{Dữ liệu nguồn: 406 điều của Bộ luật Hình sự}
+\small
+\begin{itemize}
+  \item \textbf{Văn bản:} VBHN số 135/VBHN-VPQH -- Bộ luật Hình sự (VPQH, 05/09/2025).
+  \item \textbf{Dữ liệu thô:} 406 điều, mã 1--426 (không có 20 mã: Điều 90--107, 292, 317);
+        mỗi bản ghi gồm mã điều, tiêu đề và nội dung.
+  \item \textbf{Sau trích xuất:} 2.884 rule từ 395 điều; 11 điều không sinh rule nào.
+  \item Trung bình 7,30 rule/điều; nhiều nhất 41 rule (Điều 251); 41 chủ thể pháp lý.
+  \item Nhãn chất lượng của rule cuối: \code{CURATED\_FROM\_STATUTORY\_CLAUSE} 2.654;
+        \code{CURATED} 230.
+\end{itemize}
+
+\vspace{0.15cm}
+\begin{center}
+\kpi[stepData]{406}{điều luật\\(dữ liệu thô)}\hfill
+\kpi[stepData]{2.884}{quy tắc\\điều kiện--hệ quả}\hfill
+\kpi[stepGraph]{1.814}{sự kiện\\chuẩn hóa}\hfill
+\kpi[stepData]{41}{chủ thể\\pháp lý}
+\end{center}
+
+\vspace{0.05cm}
+\keymsg{Đơn vị tri thức là rule điều kiện--hệ quả gắn với điều luật nguồn, không phải đoạn văn.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.3a Trích xuất quy tắc
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Tiền xử lý (a1): trích xuất quy tắc từ điều luật bằng LLM}
+\begin{columns}[T,onlytextwidth]
+\column{0.46\textwidth}
+\footnotesize
+\begin{itemize}
+  \item Mỗi điều luật $\rightarrow$ Qwen3-8B (Ollama, temperature 0, đầu ra theo JSON schema).
+  \item Mỗi rule gồm: chủ thể, điều kiện, hệ quả và câu luật \code{rule\_text}.
+  \item \code{rule\_text} theo mẫu ``Nếu $\langle$điều kiện$\rangle$ thì $\langle$hệ quả$\rangle$.'';
+        chỉ dùng nội dung có trong điều luật.
+  \item Khử trùng lặp; thử lại tối đa 3 lần khi đầu ra lỗi.
+  \item Bộ rule cuối được rà soát trước khi dựng đồ thị.
+\end{itemize}
+
+\column{0.50\textwidth}
+\centering
+\begin{tikzpicture}
+  \node[quote=schemaGray,text width=6.3cm] (src) at (0,0)
+    {\textbf{Điều 22, khoản 2:}
+     \textit{``Vượt quá giới hạn phòng vệ chính đáng là hành vi chống trả rõ ràng quá mức
+     cần thiết, không phù hợp với tính chất và mức độ nguy hiểm cho xã hội của hành vi xâm hại.''}};
+  \node[stepnode=stepData,text width=3.6cm,minimum height=0.5cm,below=0.3cm of src] (llm)
+    {Qwen3-8B + JSON schema};
+  \node[quote=stepGraph,text width=6.3cm,below=0.3cm of llm] (rule)
+    {\textbf{rule 47} (bản cuối, đã rà soát) -- chủ thể: \textit{Người phòng vệ}\\
+     \textbf{Điều kiện:} chống trả rõ ràng quá mức cần thiết và không phù hợp với tính chất,
+     mức độ nguy hiểm của hành vi xâm hại\\
+     \textbf{Hệ quả:} được xác định là vượt quá giới hạn phòng vệ chính đáng};
+  \draw[flow] (src) -- (llm);
+  \draw[flow] (llm) -- (rule);
+\end{tikzpicture}
+\end{columns}
+
+\vspace{0.12cm}
+\keymsg{Mỗi rule là một cặp điều kiện $\rightarrow$ hệ quả gắn với điều luật nguồn.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.3b Chuẩn hóa sự kiện
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Tiền xử lý (a2): chuẩn hóa sự kiện để nối các điều luật}
+\begin{columns}[T,onlytextwidth]
+\column{0.57\textwidth}
+\footnotesize
+\begin{itemize}
+  \item Nhiều cách diễn đạt $\rightarrow$ một \code{event\_id}: ``phải chịu TNHS'', ``chịu TNHS'',
+        ``bị truy cứu TNHS'' $\rightarrow$ \textit{Chịu trách nhiệm hình sự}.
+  \item Không gộp khái niệm chỉ gần nghĩa: ``Miễn TNHS'' $\neq$ ``Không phải chịu TNHS''.
+  \item Điểm ứng viên
+        $s_{\text{lex}}=0{,}45\,\text{Jaccard}+0{,}35\,\text{SeqMatch}+0{,}20\,\text{containment}$\\
+        \dien độ trùng từ + độ giống chuỗi + mức bao hàm.
+  \item LLM chọn \code{USE\_EXISTING} hoặc \code{CREATE\_NEW}; chỉ dùng sự kiện có sẵn khi
+        điểm $\ge 0{,}60$ và đúng vai trò.
+  \item Kết quả: 1.814 sự kiện (1.416 ở phía điều kiện, 412 ở phía hệ quả, 14 ở cả hai).
+\end{itemize}
+
+\column{0.39\textwidth}
+\centering
+\begin{tikzpicture}
+  \node[quote=schemaGray,text width=2.25cm] (e47) at (0,0.95)
+    {\textbf{rule 47 $\cdot$ hệ quả}\\``được xác định là vượt quá giới hạn PVCĐ''};
+  \node[quote=schemaGray,text width=2.25cm] (c106) at (0,-0.95)
+    {\textbf{rule 106 $\cdot$ điều kiện}\\``người phạm tội phạm tội trong trường hợp vượt quá giới hạn PVCĐ''};
+  \node[bridgenode=stepGraph,text width=1.85cm] (ev) at (3.15,0)
+    {\textbf{Vượt quá giới hạn phòng vệ chính đáng}};
+  \draw[flow] (e47.east) -- (ev.west);
+  \draw[flow] (c106.east) -- (ev.west);
+  \node[tag,below=2pt of ev,align=center] {cùng một sự kiện\\(cầu nối)};
+\end{tikzpicture}
+\end{columns}
+
+\vspace{0.1cm}
+\keymsg{Chuẩn hóa nối Điều 22 với Điều 51 qua một sự kiện chung.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.4 Bước 1: đồ thị
+% ------------------------------------------------------------
+\setroadmap{1}
+\begin{frame}
+\frametitle{Bước 1: đồ thị nhân quả pháp lý dị thể}
+\begin{columns}[T,onlytextwidth]
+\column{0.45\textwidth}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[tnode=schemaGray] (art) at (0,0) {ARTICLE $a_j$};
+  \node[tnode=stepGraph] (rule) at (0,-1.0) {RULE $r_j$};
+  \node[tnode=schemaGray] (subj) at (2.75,0) {SUBJECT};
+  \node[tnode=stepGraph] (u) at (-1.6,-1.95) {EVENT $u_j$};
+  \node[tnode=stepGraph] (v) at (1.6,-1.95) {EVENT $v_j$};
+  \draw[flow] (art) -- node[left,font=\scriptsize]{HAS\_RULE} (rule);
+  \draw[flow] (rule.east) -- node[below right=-2pt,font=\scriptsize]{HAS\_SUBJECT} (subj.south west);
+  \draw[flow] (rule) -- node[left=2pt,font=\scriptsize]{HAS\_CONDITION} (u);
+  \draw[flow] (rule) -- node[right=2pt,font=\scriptsize]{HAS\_EFFECT} (v);
+  \draw[causes=stepGraph,line width=1.3pt] (u) -- node[below,font=\scriptsize\bfseries,text=stepGraph!80!black]{CAUSES} (v);
+\end{tikzpicture}
+
+\vspace{0.05cm}
+\raggedright\footnotesize
+$r_j:\;u_j\xrightarrow{\;r_j,\,a_j\;}v_j$\quad
+\dien mỗi rule là một cạnh CAUSES mang mã rule và điều luật nguồn.
+
+\vspace{0.08cm}
+$A\xrightarrow{r_1}B,\ B\xrightarrow{r_2}C\ \Rightarrow\ A\rightarrow B\rightarrow C$\quad
+\dien hệ quả rule trước = điều kiện rule sau $\Rightarrow$ chuỗi.
+
+\column{0.51\textwidth}
+\footnotesize
+\renewcommand{\arraystretch}{1.02}
+\begin{tabular}{@{}l r@{}}
+\toprule
+Tổng số nút & \textbf{5.134}\\
+\quad ARTICLE $\cdot$ RULE & 395 $\cdot$ 2.884\\
+\quad EVENT $\cdot$ SUBJECT & 1.814 $\cdot$ 41\\
+Cạnh (5 loại $\times$ 2.884) & \textbf{14.420}\\
+Cặp sự kiện CAUSES duy nhất & 2.122\\
+Sự kiện cầu nối $\cdot$ chuỗi hai bước & 14 $\cdot$ 112\\
+Đồ thị sự kiện & DAG\\
+Thành phần liên thông yếu & 248\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.1cm}
+\begin{itemize}
+  \item NetworkX MultiDiGraph: cạnh CAUSES giữ mã rule và mã điều luật
+        $\Rightarrow$ nhiều rule cùng hỗ trợ một cặp sự kiện mà không mất nguồn gốc.
+\end{itemize}
+\end{columns}
+
+\vspace{0.1cm}
+\keymsg{Đồ thị phục vụ truy xuất và phân tích tô-pô; ngữ nghĩa suy luận do tập rule $\mathcal R$ quyết định.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.5 Lát cắt đồ thị quanh ví dụ
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Lát cắt thật của đồ thị quanh ví dụ xuyên suốt}
+\vspace{-0.1cm}
+\centering
+\begin{tikzpicture}[font=\scriptsize,
+  lbl/.style={font=\scriptsize,fill=white,inner sep=0.8pt,align=center,text=stepGraph!70!black}]
+  % Điều kiện
+  \node[evnode=stepGraph,text width=2.8cm] (c1) at (1.5,0) {Chống trả cần thiết để bảo vệ lợi ích chính đáng};
+  \node[evnode=stepGraph,text width=2.8cm] (c2) at (1.5,-1.2) {Gây thiệt hại nhỏ hơn để tránh thiệt hại lớn hơn};
+  \node[evnode=stepGraph,text width=2.8cm,line width=1.1pt] (c3) at (1.5,-2.55) {Chống trả rõ ràng quá mức cần thiết};
+  % Cầu nối
+  \node[bridgenode=stepGraph,text width=2.6cm] (b1) at (7.0,0) {Phòng vệ chính đáng};
+  \node[bridgenode=stepGraph,text width=2.6cm] (b2) at (7.0,-1.2) {Tình thế cấp thiết};
+  \node[bridgenode=stepGraph,text width=2.6cm,line width=1.1pt] (b3) at (7.0,-2.55) {Vượt quá giới hạn phòng vệ chính đáng};
+  % Hệ quả
+  \node[evnode=stepGraph,text width=2.9cm] (e1) at (12.55,-0.6) {Không bị coi là tội phạm\\{\color{schemaGray}$\leftarrow$ 5 rule (Điều 8, 22--25)}};
+  \node[evnode=stepGraph,text width=2.9cm] (e2) at (12.55,-1.95) {Chịu trách nhiệm hình sự\\{\color{schemaGray}$\leftarrow$ 18 rule}};
+  \node[evnode=stepGraph,text width=2.9cm,line width=1.1pt] (e3) at (12.55,-3.15) {Có tình tiết giảm nhẹ TNHS\\{\color{schemaGray}$\leftarrow$ 28 rule (Điều 51, 84)}};
+  % Cạnh
+  \draw[causes=stepGraph!60,line width=0.6pt] (c1) -- node[lbl,above=1pt]{rule 45 $\cdot$ Điều 22} (b1);
+  \draw[causes=stepGraph!60,line width=0.6pt] (c2) -- node[lbl,above=1pt]{rule 49 $\cdot$ Điều 23} (b2);
+  \draw[causes=stepGraph,line width=1.4pt] (c3) -- node[lbl,above=1pt]{rule 47 $\cdot$ Điều 22} (b3);
+  \draw[causes=stepGraph!60,line width=0.6pt] (b1.east) -- node[lbl,above=1pt,pos=0.45]{rule 46 $\cdot$ Điều 22} (e1.west);
+  \draw[causes=stepGraph!60,line width=0.6pt] (b2.east) -- node[lbl,below=1pt,pos=0.45]{rule 50 $\cdot$ Điều 23} (e1.west);
+  \draw[causes=stepGraph!60,line width=0.6pt] (b3.east) -- node[lbl,above=1pt,pos=0.5]{rule 48 $\cdot$ Điều 22} (e2.west);
+  \draw[causes=stepGraph,line width=1.4pt] (b3.east) -- node[lbl,below=1pt,pos=0.5]{rule 106 $\cdot$ Điều 51} (e3.west);
+  \node[tag,below=1pt of c3] {\textbf{đường của ví dụ} \exid};
+\end{tikzpicture}
+
+\vspace{0.05cm}
+\raggedright
+\footnotesize
+\begin{itemize}
+  \item 3 trong 14 sự kiện cầu nối nằm trong lát cắt này; có \textbf{rẽ nhánh} (một cầu nối $\rightarrow$
+        hai hệ quả) và \textbf{hội tụ} (hai đường $\rightarrow$ \textit{Không bị coi là tội phạm}, tức tuyển giữa các rule).
+\end{itemize}
+
+\vspace{0.05cm}
+\keymsg{Sự kiện cầu nối biến hai điều luật rời rạc thành một chuỗi suy luận hai bước.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.6 Bước 2: bộ nhớ nhân quả
+% ------------------------------------------------------------
+\setroadmap{2}
+\begin{frame}
+\frametitle{Bước 2: bộ nhớ nhân quả cho tìm kiếm ngữ nghĩa}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[stepnode=stepMemory,text width=4.6cm,minimum height=0.72cm,align=left] (rm) at (0,0.43)
+    {\textbf{RULE memory}: chủ thể, điều kiện, hệ quả, điều luật};
+  \node[stepnode=stepMemory,text width=4.6cm,minimum height=0.72cm,align=left] (em) at (0,-0.43)
+    {\textbf{EVENT memory}: tên, alias, vai trò, ngữ cảnh};
+  \node[stepnode=stepMemory,text width=1.75cm] (enc) at (4.25,0) {\textbf{BGE-M3}\\1.024 chiều};
+  \node[stepnode=stepMemory,text width=1.5cm] (l2) at (6.65,0) {Chuẩn hóa\\L2};
+  \node[stepnode=stepMemory,text width=1.9cm] (idx) at (9.15,0) {\textbf{FAISS}\\IndexFlatIP};
+  \draw[flow] (rm.east) -- (enc);
+  \draw[flow] (em.east) -- (enc);
+  \draw[flow] (enc) -- (l2);
+  \draw[flow] (l2) -- (idx);
+  \node[tag,anchor=west] at (10.35,0) {4.698 vector};
+\end{tikzpicture}
+
+\vspace{0.1cm}
+\raggedright
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\footnotesize
+\textbf{Trực giác:} mỗi rule và mỗi sự kiện thành một vector; câu hỏi tìm các vector gần nhất.
+
+\vspace{0.1cm}
+\centering
+$\hat{\mathbf z}_j=\dfrac{\mathbf z_j}{\|\mathbf z_j\|_2},\qquad
+s(q,c_j)=\hat{\mathbf q}^{\top}\hat{\mathbf z}_j=\cos(\mathbf q,\mathbf z_j)$
+
+\vspace{0.05cm}
+\raggedright
+\dien sau chuẩn hóa, tích vô hướng chính là cosine; IndexFlatIP tìm kiếm chính xác, không xấp xỉ.
+
+\vspace{0.05cm}
+{\scriptsize\color{schemaGray} BGE-M3: Chen và cs. (2024).}
+
+\column{0.47\textwidth}
+\footnotesize
+\begin{itemize}
+  \item 4.698 vector = 2.884 RULE + 1.814 EVENT.
+  \item Vai trò EVENT: CONDITION 1.402, EFFECT 398, BRIDGE 14.
+  \item \code{memory\_id} trùng vị trí vector; kiểm tra nhất quán CSV -- embedding -- FAISS.
+\end{itemize}
+\vspace{0.05cm}
+\exbox{stepMemory}{0.92\linewidth}{ba EVENT xếp đầu \#2956 (CONDITION), \#2957 (BRIDGE),
+\#3047 (EFFECT) là đúng ba sự kiện của chuỗi; RULE 106 (Điều 51) gần câu hỏi nhất, cos = 0,653.}
+\end{columns}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.7 Bước 3: truy xuất đường dẫn
+% ------------------------------------------------------------
+\setroadmap{3}
+\begin{frame}
+\frametitle{Bước 3: truy xuất đường dẫn theo hướng câu hỏi}
+\begin{columns}[T,onlytextwidth]
+\column{0.47\textwidth}
+\small
+\begin{enumerate}
+  \item Mã hóa câu hỏi bằng BGE-M3.
+  \item FAISS lấy 100 RULE/EVENT gần nhất.
+  \item Chọn seed: EVENT top-8 ($s\ge0{,}20$) và RULE top-8 ($s\ge0{,}15$).
+  \item Suy hướng từ ý định câu hỏi: xuôi, ngược hoặc cả hai.
+  \item BFS tối đa 2 hop, không lặp nút, tối đa 30 đường mỗi seed.
+  \item Gom rule từ seed, đường và kết quả trực tiếp $\rightarrow$ xếp hạng $\rightarrow$ 12 bằng chứng.
+\end{enumerate}
+
+\column{0.49\textwidth}
+\centering
+\exbox{stepRetrieve}{0.92\linewidth}{Cụm ``bắt nguồn từ'' $\Rightarrow$ hướng \textbf{ngược} (backward).}
+
+\vspace{0.15cm}
+\begin{tikzpicture}
+  \node[funnel=10,minimum width=6.4cm] (f1) at (0,0) {100 kết quả ngữ nghĩa (RULE + EVENT)};
+  \node[funnel=20,minimum width=5.7cm] (f2) at (0,-0.6) {8 seed sự kiện + 8 rule trực tiếp};
+  \node[funnel=30,minimum width=5.0cm] (f3) at (0,-1.2) {33 đường ứng viên, 1 đường đủ 2 bước};
+  \node[funnel=42,minimum width=4.0cm] (f4) at (0,-1.8) {36 rule ứng viên};
+  \node[funnel=55,minimum width=3.2cm,font=\scriptsize\bfseries] (f5) at (0,-2.4) {12 bằng chứng cuối};
+  \foreach \a/\b in {f1/f2,f2/f3,f3/f4,f4/f5} \draw[flow,shorten >=0pt,shorten <=0pt] (\a) -- (\b);
+\end{tikzpicture}
+\end{columns}
+
+\vspace{0.25cm}
+\keymsg{Khác RAG thường: ngữ cảnh gồm sự kiện, rule và quan hệ có hướng nối chúng, không chỉ các đoạn văn độc lập.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.8 Xếp hạng đường dẫn
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Xếp hạng đường dẫn: ưu tiên đường đủ bước qua cầu nối}
+\footnotesize
+\textbf{Trực giác:} đường tốt bắt đầu từ seed gần câu hỏi, được rule hỗ trợ, đi qua sự kiện cầu nối
+và đủ số bước.
+
+\vspace{0.1cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\footnotesize
+\textbf{Bài báo:} $P^{*}=\arg\max_{P_i\in\mathcal P(q)}S(P_i,q)$\\
+\dien chọn đường có điểm phù hợp ngữ nghĩa và cấu trúc cao nhất.
+
+\vspace{0.12cm}
+\textbf{Điểm được cài đặt:}\\[2pt]
+$S_{\text{path}}=\operatorname{clip}_{[0,1]}\big(0{,}54\,s_{\text{seed}}+0{,}28\,s_{\text{sup}}
++b_{\text{bridge}}+b_{\text{hop}}\big)$\\[3pt]
+$b_{\text{bridge}}=\min(0{,}18;\,0{,}06\,N_{\text{bridge}}),\quad b_{\text{hop}}=0{,}18$ nếu đủ 2 bước\\[2pt]
+\dien độ gần của seed chiếm phần lớn; hai khoản thưởng ưu tiên đường hai bước qua cầu nối.
+
+\column{0.41\textwidth}
+\exbox{stepRetrieve}{0.92\linewidth}{%
+$S(P_0)=0{,}54\cdot0{,}602+0{,}28\cdot0{,}5+0{,}06+0{,}18=\mathbf{0{,}705}$
+$\Rightarrow$ hạng 1/33.\\[2pt]
+Đường 1 bước tốt nhất: $S(P_1)=0{,}481$.}
+
+\vspace{0.1cm}
+\footnotesize
+Điểm bằng chứng của rule kết hợp 5 tín hiệu (Phụ lục A1):
+rule 106 = 0,719 (hạng 1), rule 47 = 0,642 (hạng 2).
+\end{columns}
+
+\vspace{0.15cm}
+\keymsg{Với ví dụ, đường đúng đứng đầu; trên toàn benchmark, xếp hạng đường vẫn là nút thắt (Phần 4).}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.9 Ngữ nghĩa ba giá trị
+% ------------------------------------------------------------
+\setroadmap{4}
+\begin{frame}
+\frametitle{Bước 4: mỗi sự kiện pháp lý có ba trạng thái}
+\begin{columns}[T,onlytextwidth]
+\column{0.50\textwidth}
+\footnotesize
+\begin{itemize}
+  \item \textbf{Trực giác:} thông tin pháp lý thường chưa đầy đủ -- ``chưa biết'' khác ``sai''.
+  \item $X_i\in\{1,0,\bot\}$ = TRUE / FALSE / UNKNOWN; $\bot$ là thiếu hoặc xung đột hỗ trợ,
+        không phải giá trị nằm giữa 0 và 1.
+  \item Rule kích hoạt khi \textbf{mọi} điều kiện thỏa (AND trong rule); hệ quả đúng khi
+        \textbf{ít nhất một} rule kích hoạt (OR giữa các rule); lặp đến điểm bất động.
+  \item Quy ước cài đặt: sự kiện gốc chưa cho $\rightarrow$ UNKNOWN; hệ quả không có rule nào
+        kích hoạt $\rightarrow$ FALSE (thế giới đóng); xung đột $\rightarrow$ UNKNOWN.
+\end{itemize}
+{\scriptsize\color{schemaGray} Nền tảng: Kleene (1952); Fitting (1985).}
+
+\column{0.46\textwidth}
+\exbox{stepVerify}{0.92\linewidth}{điểm bất động factual (--: chưa suy ra).}
+
+\vspace{0.1cm}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.25}
+\newcommand{\tv}{\cellcolor{schemaGreen!22}TRUE}
+\newcommand{\un}{\cellcolor{schemaGray!12}--}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.55cm}
+                >{\centering\arraybackslash}p{1.45cm}
+                >{\centering\arraybackslash}p{1.45cm}
+                >{\centering\arraybackslash}p{1.45cm}@{}}
+\toprule
+\textbf{Vòng} & \textbf{Chống trả rõ ràng quá mức} & \textbf{Vượt quá giới hạn PVCĐ} & \textbf{Có tình tiết giảm nhẹ TNHS}\\
+\midrule
+Ngữ cảnh & \tv & \un & \un\\
+Sau rule 47 & \tv & \tv & \un\\
+Sau rule 106 & \tv & \tv & \tv\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.08cm}
+Hội tụ sau 3 vòng lặp; mọi hop có rule kích hoạt (47, 106); không có xung đột
+$\Rightarrow$ outcome TRUE.
+\end{columns}
+
+\vspace{0.05cm}
+\keymsg{Kết luận chỉ được chấp nhận khi chuỗi rule thực sự suy ra được hệ quả.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.10 Biểu diễn thưa
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Biểu diễn thưa: AND trong một rule, OR giữa các rule}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\footnotesize
+$(t_i,f_i)=(1,0),(0,1),(0,0)$ khi $X_i=1,0,\bot$\quad \dien hai kênh hỗ trợ đúng/sai.
+
+\vspace{0.14cm}
+$\mathbf b=\mathbb I[\mathbf B^{+}\mathbf t+\mathbf B^{-}\mathbf f=\mathbf k],\qquad
+ \mathbf a=\mathbf b\odot(\mathbf 1-\mathbf e)$\\[1pt]
+\dien rule kích hoạt khi đủ mọi literal trong thân ($\mathbf k$ = số literal) và không bị
+ngoại lệ $\mathbf e$ chặn.
+
+\vspace{0.14cm}
+$\mathbf d^{+}=\mathbb I[\mathbf H^{+}\mathbf a\ge1],\ \ \mathbf d^{-}=\mathbb I[\mathbf H^{-}\mathbf a\ge1]$\quad
+\dien có hỗ trợ khi $\ge1$ rule kích hoạt.
+
+\vspace{0.14cm}
+$\mathbf x^{F}=\operatorname{Fix}(\Phi_{\mathcal R},\mathbf x^{(0)})$\quad
+\dien lặp đến khi trạng thái không đổi.
+
+\vspace{0.14cm}
+{\scriptsize\color{schemaGray} Nền tảng: Sato và cs. (2020); Sakama và cs. (2021).}
+
+\column{0.41\textwidth}
+\begin{block}{Hội và tuyển}
+\footnotesize
+$(A\wedge B)\to Y$: một rule có hai literal.\\
+$(A\vee B)\to Y$: tách thành $A\to Y$ và $B\to Y$.
+\end{block}
+\vspace{0.05cm}
+\begin{block}{Quy mô trong thực nghiệm}
+\footnotesize
+$\mathbf B^{+}\in\{0,1\}^{2884\times1814}$, $\mathbf H^{+}\in\{0,1\}^{1814\times2884}$:
+mỗi ma trận 2.884 phần tử khác 0; $\mathbf B^{-}$, $\mathbf H^{-}$, ngoại lệ rỗng.
+187 sự kiện có $\ge2$ rule hỗ trợ (tuyển).
+\end{block}
+\end{columns}
+
+\vspace{0.15cm}
+{\footnotesize\textcolor{schemaRed}{\textbf{Giới hạn:}} mỗi rule hiện chỉ có một tiền đề dương
+(0 rule hội) $\Rightarrow$ phép hội chưa được kiểm chứng thực nghiệm.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.11 Ba route xác minh
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Ba route xác minh theo loại câu hỏi}
+\vspace{-0.05cm}
+\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.17\textwidth}
+                >{\raggedright\arraybackslash}p{0.26\textwidth}
+                >{\raggedright\arraybackslash}p{0.42\textwidth}
+                >{\centering\arraybackslash}p{0.07\textwidth}@{}}
+\toprule
+\textbf{Route} & \textbf{Dạng câu hỏi} & \textbf{Cách xác minh} & \textbf{Số câu}\\
+\midrule
+{\color{stepVerify}\textbf{FACTUAL}} & ``$A$ có dẫn đến $Y$?'' (hỏi xuôi hoặc ngược)
+  & Gán seed = TRUE; yêu cầu outcome TRUE, mọi hop có rule kích hoạt, không xung đột. & \textbf{230}\\
+{\color{stepVerify}\textbf{DIRECT}} & ``$A$ trực tiếp gây ra $Y$?''
+  & Ground hai đầu mút ($\ge0{,}80$), rồi kiểm tra cạnh $A\to Y$. & \textbf{13}\\
+{\color{stepVerify}\textbf{INTERVENTION}} & ``Bỏ qua bước $m$, $Y$ còn xảy ra?''
+  & Ground sự kiện trung gian ($\ge0{,}80$), chạy $do(X_m=0)$, suy luận lại điểm bất động. & \textbf{7}\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.2cm}
+\begin{itemize}
+  \item \textbf{FACTUAL} -- \exid{} (ví dụ xuyên suốt) $\Rightarrow$ \labSup.
+  \item \textbf{DIRECT} -- \texttt{BLHS\_MH\_0221}: ``Nhận định \textit{Chống trả rõ ràng quá mức cần thiết}
+        trực tiếp gây ra \textit{Chịu trách nhiệm hình sự} mà không cần sự kiện trung gian là đúng hay sai?''\\
+        Hai đầu mút được ground với độ tin cậy 1,0; đồ thị chỉ có đường qua
+        \textit{Vượt quá giới hạn PVCĐ} (rule 47 $\rightarrow$ rule 48, xem lát cắt đồ thị) $\Rightarrow$ \labRej.
+\end{itemize}
+
+\vspace{0.2cm}
+{\scriptsize\color{schemaGray} Router dựa trên dấu hiệu từ vựng của câu hỏi; chỉ đường chính (path 0) được xác minh cấu trúc.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.12 do() khác xóa nút
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Can thiệp $do(X_m=0)$ không phải là xóa nút}
+\vspace{-0.1cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\centering
+{\footnotesize\textbf{Xóa nút (chẩn đoán tô-pô)}}\\[1pt]
+\begin{tikzpicture}[font=\scriptsize]
+  \node[tnode=schemaGray] (a) at (0,0) {$A$};
+  \node[tnode=schemaGray] (m) at (1.7,0.45) {$m$};
+  \node[tnode=schemaGray] (d) at (1.7,-0.45) {$D$};
+  \node[tnode=schemaGray] (y) at (3.4,0) {$Y$};
+  \draw[flow] (a) -- (m); \draw[flow] (m) -- (y);
+  \draw[flow,dashed] (a) -- (d); \draw[flow,dashed] (d) -- (y);
+  \draw[schemaRed,line width=1.2pt] (m.north west) -- (m.south east) (m.north east) -- (m.south west);
+  \node[tag,anchor=west] at (3.75,0) {đường khác?};
+\end{tikzpicture}\\[1pt]
+\footnotesize
+$\rho_{\text{top}}=\mathbb I\big[\,Y\ \text{đạt được trong}\ G^{-m}=G[V\setminus\{m\}]\,\big]$\\
+\dien chỉ hỏi còn đường khác hay không (giới hạn 3 hop, 30 đường).
+
+\column{0.48\textwidth}
+\centering
+{\footnotesize\textbf{Can thiệp cấu trúc}}\\[1pt]
+\begin{tikzpicture}[font=\scriptsize]
+  \node[tnode=stepVerify] (a) at (0,0) {$A$};
+  \node[tnode=stepVerify,fill=schemaRed!12] (m) at (1.7,0.45) {$m$ = FALSE};
+  \node[tnode=stepVerify] (d) at (1.7,-0.45) {$D$};
+  \node[tnode=stepVerify] (y) at (3.4,0) {$Y$};
+  \draw[flow,dotted] (a) -- node[midway,font=\scriptsize\bfseries,text=schemaRed]{$\times$} (m);
+  \draw[flow] (m) -- (y);
+  \draw[flow,dashed] (a) -- (d); \draw[flow,dashed] (d) -- (y);
+  \node[tag,anchor=west] at (3.75,0) {suy ra theo rule?};
+\end{tikzpicture}\\[1pt]
+\footnotesize
+$\mathbf x^{CF(m)}=\operatorname{Fix}\big(\Phi_{\mathcal R^{do(X_m=0)}},\mathbf x^{(0)}[X_m\leftarrow0]\big)$\\
+\dien cố định $m$ = FALSE, bỏ cơ chế sinh ra $m$, rồi suy luận lại theo luật.
+\end{columns}
+
+\vspace{0.1cm}
+\exboxof{stepVerify}{0.97\linewidth}{\texttt{BLHS\_MH\_0223}}{(câu hỏi: có thể bỏ qua bước
+\textit{Tình thế cấp thiết} để kết luận trực tiếp không?)\\[1pt]
+Factual: \textit{Gây thiệt hại nhỏ hơn\ldots} $\rightarrow$ \textit{Tình thế cấp thiết}
+$\rightarrow$ \textit{Không bị coi là tội phạm}: đều TRUE.\\
+$do(\text{Tình thế cấp thiết}=0)$: \textit{Không bị coi là tội phạm} TRUE $\rightarrow$ \textbf{FALSE}
+(rule 49, 50 không còn kích hoạt) $\Rightarrow$ NECESSARY $\Rightarrow$ \labRej{} (0,723; đã commit).}
+
+\vspace{0.08cm}
+\keymsg{$G^{-m}\neq do(X_m=0)$ (Pearl, 2009): xóa nút hỏi ``còn đường khác không?'';
+can thiệp hỏi ``theo luật, hệ quả còn được suy ra không?''.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.13 Cổng commit
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Cổng commit: chỉ tin bộ xác minh khi đủ điều kiện}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[stepnode=stepVerify,text width=2.3cm] (v) at (0,0) {\textbf{Bước 4}\\quyết định + audit};
+  \node[draw=stepVerify,fill=stepVerify!10,shape=diamond,aspect=1.7,inner sep=0.5pt,
+        line width=0.7pt,font=\scriptsize\bfseries] (g) at (3.25,0) {Đạt cổng?};
+  \node[stepnode=stepVerify,text width=3.4cm,minimum height=0.55cm] (pass) at (7.0,0.48) {$z_{\text{SCM}}$ + bằng chứng đã xác minh};
+  \node[stepnode=schemaGray,text width=3.4cm,minimum height=0.55cm] (fail) at (7.0,-0.48) {giữ ngữ cảnh Bước 3; LLM tự quyết};
+  \node[stepnode=stepAnswer,text width=2.2cm] (llm) at (10.9,0) {\textbf{LLM chung}\\$\rightarrow (a,C)$};
+  \draw[flow] (v) -- (g);
+  \draw[flow] (g.north east) -- node[above left=-1pt,font=\scriptsize]{đạt} (pass.west);
+  \draw[flow,dashed] (g.south east) -- node[below left=-1pt,font=\scriptsize]{không đạt} (fail.west);
+  \draw[flow] (pass.east) -- (llm);
+  \draw[flow,dashed] (fail.east) -- (llm);
+\end{tikzpicture}
+
+\vspace{0.12cm}
+\raggedright
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\footnotesize
+$G_{\text{commit}}=\mathbb I\big[g_{\text{ground}}\wedge g_{\text{path}}\wedge(s_{\text{SCM}}\ge\tau)
+\wedge g_{\text{consistent}}\big]$, với $\tau=0{,}55$\\
+\dien chỉ khi cả bốn điều kiện đạt, quyết định của bộ xác minh mới có thẩm quyền.
+
+\vspace{0.1cm}
+$z=z_{\text{SCM}}$ nếu $G_{\text{commit}}=1$, ngược lại $z=z_{\text{LLM}}$;\quad
+$\mathcal E^{*}=\mathcal E_{\text{verified}}$ hoặc $\mathcal E_{\text{path}}$.
+
+\vspace{0.1cm}
+Khi không đạt: không ép \labUnc, không biến chẩn đoán tô-pô thành quyết định SCM.
+
+\column{0.41\textwidth}
+\exbox{stepVerify}{0.92\linewidth}{\\[1pt]
+\ok\ đường chính hợp lệ (path 0)\\
+\ok\ mọi hop có rule kích hoạt\\
+\ok\ 0 xung đột; outcome TRUE\\
+\ok\ $s_{\text{SCM}}=0{,}577\ge0{,}55$\\[1pt]
+$\Rightarrow$ \texttt{VERIFIER\_COMMITTED}}
+\end{columns}
+
+\vspace{0.1cm}
+\keymsg{Full LegalSCM là hệ lai có chọn lọc: kết luận hình thức khi đủ căn cứ, quay về ngữ cảnh truy xuất khi không.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F2.14 Bước 5: sinh câu trả lời
+% ------------------------------------------------------------
+\setroadmap{5}
+\begin{frame}
+\frametitle{Bước 5: sinh câu trả lời và vết suy luận đầy đủ}
+\begin{columns}[T,onlytextwidth]
+\column{0.40\textwidth}
+\footnotesize
+\[
+I_q=(q,P^{*},z,\mathcal E^{*}),\qquad (a,C)=f_\theta(I_q)
+\]
+\dien LLM diễn đạt quyết định và bằng chứng được cung cấp, kèm trích dẫn.
+
+\column{0.56\textwidth}
+\footnotesize
+\begin{itemize}
+  \item Cùng Qwen3-8B, prompt, JSON schema, parser và seed cho mọi hệ thống; không dùng fallback trích xuất.
+  \item Trích dẫn chỉ trong tập điều luật được cung cấp.
+  \item Ghi audit: route, grounding, can thiệp, commit, fallback, bằng chứng cuối.
+\end{itemize}
+\end{columns}
+
+\vspace{0.2cm}
+{\footnotesize\textbf{Ví dụ \exid{} qua năm bước}}\\[3pt]
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[stepnode=stepGraph,text width=2.3cm,minimum height=2.05cm,align=left] (t1) at (0,0)
+    {\textbf{1 $\cdot$ Đồ thị}\\chuỗi rule 47 (Điều 22) $\rightarrow$ rule 106 (Điều 51) có sẵn.};
+  \node[stepnode=stepMemory,text width=2.3cm,minimum height=2.05cm,align=left] (t2) at (2.95,0)
+    {\textbf{2 $\cdot$ Bộ nhớ}\\EVENT \#2956, \#2957, \#3047; RULE 106: cos 0,653.};
+  \node[stepnode=stepRetrieve,text width=2.3cm,minimum height=2.05cm,align=left] (t3) at (5.9,0)
+    {\textbf{3 $\cdot$ Truy xuất}\\hướng ngược; 33 đường; $P_0$ hạng 1 (0,705).};
+  \node[stepnode=stepVerify,text width=2.3cm,minimum height=2.05cm,align=left] (t4) at (8.85,0)
+    {\textbf{4 $\cdot$ Xác minh}\\factual; 3 vòng; outcome TRUE; 0,577 $\ge$ 0,55 $\Rightarrow$ commit.};
+  \node[stepnode=stepAnswer,text width=2.3cm,minimum height=2.05cm,align=left] (t5) at (11.8,0)
+    {\textbf{5 $\cdot$ Trả lời}\\\labSup; ``Sự kiện trước là `Chống trả rõ ràng quá mức cần thiết'.''; Điều 22, 51; 2,83 giây.};
+  \foreach \a/\b in {t1/t2,t2/t3,t3/t4,t4/t5} \draw[flow] (\a) -- (\b);
+\end{tikzpicture}
+\end{frame}

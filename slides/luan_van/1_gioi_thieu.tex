@@ -1,0 +1,315 @@
+% ============================================================
+% PHẦN 1. GIỚI THIỆU
+% ============================================================
+\setroadmap{-1}
+\section{Giới thiệu}
+
+% ------------------------------------------------------------
+% F1.1 Động lực
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{LLM trả lời trôi chảy nhưng chưa đủ căn cứ pháp lý}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\small
+\begin{itemize}
+  \item LLM làm tốt nhiều bài toán hỏi đáp, nhưng hỏi đáp pháp luật
+        đáng tin cậy cần \textbf{đồng thời}:
+  \begin{itemize}
+    \item căn cứ luật thành văn phù hợp;
+    \item chuỗi suy luận truy vết được: điều kiện $\rightarrow$
+          sự kiện trung gian $\rightarrow$ hệ quả pháp lý.
+  \end{itemize}
+  \item RAG bổ sung bằng chứng bên ngoài trước bước sinh
+        {\color{schemaGray}(Lewis và cs., 2020; Gao và cs., 2024)}.
+  \item Nhưng truy xuất ngữ nghĩa thường xem các đoạn văn là
+        \alert{độc lập}, không biểu diễn tường minh quan hệ
+        điều kiện--hệ quả nhiều bước.
+\end{itemize}
+
+\column{0.41\textwidth}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  % RAG cơ bản
+  \node[font=\scriptsize\bfseries,text=schemaGray,anchor=west] at (-0.2,1.7) {RAG cơ bản};
+  \node[minibox=schemaGray,minimum width=0.95cm] (q) at (0.35,0.65) {Câu\\hỏi};
+  \node[minibox=schemaGray,minimum height=0.34cm,minimum width=1.05cm] (d1) at (1.85,1.12) {đoạn 1};
+  \node[minibox=schemaGray,minimum height=0.34cm,minimum width=1.05cm] (d2) at (1.85,0.65) {đoạn 2};
+  \node[minibox=schemaGray,minimum height=0.34cm,minimum width=1.05cm] (d3) at (1.85,0.18) {đoạn 3};
+  \node[fit=(d1)(d3),inner sep=1.5pt] (docs) {};
+  \node[minibox=schemaGray,minimum width=0.8cm] (llm) at (3.3,0.65) {LLM};
+  \node[minibox=schemaGray,minimum width=1.05cm] (ans) at (4.7,0.65) {Câu\\trả lời};
+  \draw[flow] (q) -- (docs);
+  \draw[flow] (docs) -- (llm);
+  \draw[flow] (llm) -- (ans);
+  \node[tag] at (1.85,-0.3) {các đoạn độc lập};
+  % Điều bài toán cần
+  \node[font=\scriptsize\bfseries,text=stepGraph!80!black,anchor=west] at (-0.2,-0.85) {Điều bài toán cần};
+  \node[minibox=stepGraph] (c) at (0.35,-1.75) {Điều\\kiện};
+  \node[minibox=stepGraph,double,double distance=0.8pt] (m) at (2.5,-1.75) {Sự kiện\\trung gian};
+  \node[minibox=stepGraph] (e) at (4.6,-1.75) {Hệ quả\\pháp lý};
+  \draw[causes=stepGraph] (c) -- node[above=1pt,font=\scriptsize]{Điều $a$} (m);
+  \draw[causes=stepGraph] (m) -- node[above=1pt,font=\scriptsize]{Điều $b$} (e);
+  \node[tag] at (2.5,-2.5) {quan hệ có hướng, mang nguồn điều luật};
+\end{tikzpicture}
+\end{columns}
+
+\vspace{0.35cm}
+\keymsg{Truy xuất đúng tài liệu chưa chắc dẫn đến suy luận đúng.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F1.2 Ví dụ xuyên suốt
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Ví dụ xuyên suốt: câu hỏi cần nối hai điều luật}
+\vspace{-0.2cm}
+\begin{block}{Câu hỏi \exid{} (suy luận ngược, 2 bước)}
+\small ``Kết quả \textit{Có tình tiết giảm nhẹ trách nhiệm hình sự} trong chain này bắt
+nguồn từ sự kiện nào trước khi đi qua bước \textit{Vượt quá giới hạn phòng vệ chính đáng}?''
+\end{block}
+
+\vspace{0.05cm}
+\centering
+\begin{tikzpicture}
+  \node[evnode=stepGraph,text width=2.75cm,dashed,line width=0.9pt] (a) at (0,0) {Chống trả rõ ràng\\quá mức cần thiết};
+  \node[bridgenode=stepGraph,text width=2.75cm] (b) at (5.55,0) {Vượt quá giới hạn\\phòng vệ chính đáng};
+  \node[evnode=stepGraph,text width=2.75cm] (c) at (11.1,0) {Có tình tiết giảm nhẹ\\trách nhiệm hình sự};
+  \draw[causes=stepGraph] (a) -- node[above=1pt,font=\scriptsize]{rule 47 $\cdot$ Điều 22} (b);
+  \draw[causes=stepGraph] (b) -- node[above=1pt,font=\scriptsize]{rule 106 $\cdot$ Điều 51} (c);
+  \node[tag,below=1pt of a] {\textbf{đáp án cần tìm}};
+  \node[tag,below=1pt of b] {sự kiện cầu nối (phải đi qua)};
+  \node[tag,below=1pt of c] {điểm xuất phát của câu hỏi};
+\end{tikzpicture}
+
+\vspace{-0.05cm}
+\raggedright
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\begin{block}{Vì sao khó?}
+\footnotesize
+\begin{itemize}
+  \item Hỏi ngược: từ hệ quả về điều kiện ban đầu.
+  \item Phải nối hai điều luật: Điều 22 và Điều 51.
+  \item Sự kiện cầu nối không là đáp án nhưng phải đi qua.
+\end{itemize}
+\end{block}
+\column{0.41\textwidth}
+\begin{alertblock}{Closed-book (abstain) trả lời}
+\footnotesize ``Không đủ thông tin để xác định sự kiện trước bước
+`Vượt quá giới hạn PVCĐ'.'' $\Rightarrow$ \labUnc
+\end{alertblock}
+\end{columns}
+
+\vspace{0.08cm}
+{\scriptsize\color{schemaGray} Viết tắt: PVCĐ -- phòng vệ chính đáng; TNHS -- trách nhiệm hình sự; BLHS -- Bộ luật Hình sự.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F1.3 Phát biểu bài toán
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Bài toán: quyết định, câu trả lời và căn cứ truy vết được}
+\vspace{-0.2cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\begin{block}{Đầu vào}
+\footnotesize
+\begin{itemize}
+  \item Câu hỏi pháp lý $q$.
+  \item Đồ thị có hướng $G=(V,E)$: nút là sự kiện pháp lý, cạnh là rule.
+  \item Tập rule $\mathcal R$ xác định ngữ nghĩa suy luận.
+\end{itemize}
+\end{block}
+\column{0.48\textwidth}
+\begin{block}{Đầu ra}
+\footnotesize
+\begin{itemize}
+  \item Đường suy luận $P^{*}=v_0\xrightarrow{r_1}v_1\cdots\xrightarrow{r_h}v_h$.
+  \item Quyết định $z$ và tập bằng chứng $\mathcal E^{*}$.
+  \item Câu trả lời $a$ và căn cứ trích dẫn $C$.
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.05cm}
+\begin{center}
+$f:\ (q,G,\mathcal R)\ \longrightarrow\ (P^{*},\,z,\,\mathcal E^{*},\,a,\,C)$\\[1pt]
+{\footnotesize\dien hệ thống phải trả về chuỗi lập luận và quyết định đã kiểm chứng,
+không chỉ một câu trả lời.}
+\end{center}
+
+\vspace{-0.2cm}
+{\footnotesize
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{@{}l p{0.72\textwidth}@{}}
+\toprule
+\labSup & Luật (qua đồ thị và rule) hỗ trợ quan hệ được hỏi.\\
+\labRej & Bác bỏ khẳng định ``trực tiếp'' hoặc ``bỏ qua được bước trung gian''
+          khi luật chỉ hỗ trợ chuỗi gián tiếp $A\to B\to C$.\\
+\labUnc & Không đủ căn cứ để kết luận (từ chối trả lời).\\
+\bottomrule
+\end{tabular}}
+
+\vspace{0.05cm}
+{\scriptsize\color{schemaRed} Lưu ý: cạnh ``nhân quả'' là phụ thuộc quy phạm trích từ luật, không ước lượng từ dữ liệu quan sát.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F1.4 Nghiên cứu liên quan
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Nghiên cứu liên quan: RAG, đồ thị và suy luận quy tắc}
+\vspace{-0.05cm}
+{\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.39\textwidth}
+                >{\raggedright\arraybackslash}p{0.28\textwidth}
+                >{\raggedright\arraybackslash}p{0.29\textwidth}@{}}
+\toprule
+\textbf{Hướng nghiên cứu} & \textbf{Ý tưởng chính} & \textbf{Hạn chế với QA pháp luật đa bước}\\
+\midrule
+\textbf{RAG và truy xuất dense}\newline
+{\color{schemaGray}Lewis và cs. (2020); Karpukhin và cs. (2020); Asai và cs. (2024); Sarthi và cs. (2024)}
+& Ghép bằng chứng truy xuất vào LLM; truy xuất thích ứng, phân cấp.
+& Bằng chứng là các đoạn văn độc lập, thiếu cấu trúc suy luận.\\
+\addlinespace[1pt]
+\textbf{Hỏi đáp đa bước}\newline
+{\color{schemaGray}Yang và cs. (2018); Trivedi và cs. (2022)}
+& Câu trả lời cần nhiều bằng chứng liên kết.
+& Truy xuất riêng lẻ từng đoạn là chưa đủ.\\
+\addlinespace[1pt]
+\textbf{RAG trên đồ thị và quan hệ nhân quả}\newline
+{\color{schemaGray}Edge và cs. (2024); Sun và cs. (2024); Wang và cs. (2025); Parekh và cs. (2025)}
+& Tổ chức bằng chứng theo quan hệ; duyệt đồ thị; chuỗi nhân quả.
+& Tính đạt được trên đồ thị không tự xác định ngữ nghĩa quy tắc pháp luật.\\
+\addlinespace[1pt]
+\textbf{Suy luận phản thực và SCM}\newline
+{\color{schemaGray}Pearl (2009); Guo và cs. (2023)}
+& Mô hình có thể đúng nhờ suy luận rời rạc; can thiệp khác xóa nút.
+& Chưa được tích hợp vào pipeline RAG pháp luật.\\
+\addlinespace[1pt]
+\textbf{Logic ba giá trị, LP đại số tuyến tính}\newline
+{\color{schemaGray}Kleene (1952); Fitting (1985); Sato và cs. (2020); Sakama và cs. (2021)}
+& Ngữ nghĩa điểm bất động; vector, ma trận, tensor.
+& Ít được kết hợp với truy xuất và hỏi đáp pháp luật.\\
+\bottomrule
+\end{tabular}}
+
+\vspace{0.05cm}
+{\scriptsize\color{schemaGray} LP: lập trình logic. Benchmark pháp luật: LexGLUE, CaseHOLD, LegalBench. Danh mục: Phụ lục A7.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F1.5 Khoảng trống nghiên cứu
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Khoảng trống nghiên cứu và vị trí của luận văn}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\small
+Chưa có framework hỏi đáp pháp luật \textbf{đồng thời}:
+\begin{itemize}
+  \item truy xuất và xếp hạng đường suy luận nhiều bước;
+  \item biểu diễn trạng thái pháp lý chưa đầy đủ bằng ngữ nghĩa ba giá trị;
+  \item xử lý phép hội trong một rule và tuyển thay thế giữa nhiều rule;
+  \item phân biệt xóa nút tô-pô với can thiệp cấu trúc;
+  \item commit có chọn lọc quyết định đã xác minh trước bước sinh.
+\end{itemize}
+
+\column{0.41\textwidth}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \def\r{1.05}
+  \fill[stepMemory,opacity=0.16] (90:0.68) circle (\r);
+  \fill[stepGraph,opacity=0.16] (210:0.68) circle (\r);
+  \fill[stepVerify,opacity=0.16] (330:0.68) circle (\r);
+  \draw[stepMemory,line width=0.8pt] (90:0.68) circle (\r);
+  \draw[stepGraph,line width=0.8pt] (210:0.68) circle (\r);
+  \draw[stepVerify,line width=0.8pt] (330:0.68) circle (\r);
+  \node[align=center,font=\scriptsize\bfseries,text=stepMemory!75!black] at (0,2.02) {Truy xuất ngữ nghĩa (RAG)};
+  \node[align=center,font=\scriptsize,text=stepGraph!75!black] at (-1.5,-1.92) {\textbf{Kết nối cấu trúc}\\(Graph/Causal RAG)};
+  \node[align=center,font=\scriptsize,text=stepVerify!85!black] at (1.5,-1.92) {\textbf{Quy tắc hình thức}\\(ba giá trị, SCM)};
+  \node[font=\scriptsize\bfseries,text=schemaNavy,fill=white,fill opacity=0.85,text opacity=1,
+        rounded corners=2pt,inner sep=1.5pt] at (0,0) {LegalSCM-RAG};
+\end{tikzpicture}
+\end{columns}
+
+\vspace{0.3cm}
+\keymsg{LegalSCM-RAG tích hợp truy xuất đường dẫn nhân quả, suy luận điểm bất động ba giá trị,
+xác minh phụ thuộc câu hỏi và cổng commit có kiểm toán.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F1.6 Câu hỏi nghiên cứu
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Bốn câu hỏi nghiên cứu}
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\rqcard{stepMemory}{RQ1}{Truy xuất có cấu trúc}{Truy xuất trên rule, sự kiện và đường dẫn có tìm
+đúng căn cứ pháp lý tốt hơn truy xuất điều luật thô (Vanilla RAG) không?}
+
+\vspace{0.2cm}
+\rqcard{stepVerify}{RQ3}{Xác minh chọn lọc}{Xác minh LegalSCM (factual, cạnh trực tiếp,
+$do(X_m=0)$) có cải thiện quyết định so với chỉ truy xuất đường dẫn không?
+Lợi ích đến từ route nào?}
+\column{0.49\textwidth}
+\rqcard{stepRetrieve}{RQ2}{Đường suy luận đa bước}{Truy xuất theo đường dẫn nhân quả có chọn
+đúng chuỗi suy luận nhiều bước không?}
+
+\vspace{0.2cm}
+\rqcard{stepAnswer}{RQ4}{Hiệu quả đầu--cuối}{Câu trả lời và trích dẫn có tốt hơn LLM closed-book,
+Vanilla RAG và Causal Path RAG không?}
+\end{columns}
+
+\vspace{0.45cm}
+\begin{center}
+\small\textit{Mỗi câu hỏi được trả lời bằng số liệu và kiểm định ở Phần 5.}
+\end{center}
+\end{frame}
+
+% ------------------------------------------------------------
+% F1.7 Đóng góp
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Đóng góp của luận văn}
+\begin{columns}[T,onlytextwidth]
+\column{0.315\textwidth}
+\begin{block}{Dữ liệu và tri thức}
+\footnotesize
+\begin{itemize}
+  \item 2.884 quy tắc điều kiện--hệ quả từ 395 điều BLHS.
+  \item Đồ thị nhân quả pháp lý 5.134 nút, 14.420 cạnh.
+  \item Benchmark 250 câu hỏi đa bước có gold rule, sự kiện, đường và trích dẫn.
+\end{itemize}
+\end{block}
+\column{0.315\textwidth}
+\begin{block}{Phương pháp}
+\footnotesize
+\begin{itemize}
+  \item Truy xuất và xếp hạng đường suy luận đa bước.
+  \item Quy tắc ba giá trị dạng đại số tuyến tính: hội, tuyển thay thế, can thiệp cấu trúc.
+  \item Xác minh phụ thuộc câu hỏi và cổng commit chọn lọc.
+\end{itemize}
+\end{block}
+\column{0.315\textwidth}
+\begin{block}{Đánh giá}
+\footnotesize
+\begin{itemize}
+  \item So sánh có kiểm soát năm cấu hình.
+  \item Kiểm định theo cặp: bootstrap, McNemar, hiệu chỉnh Holm.
+  \item Kiểm toán route, commit, abstention và can thiệp.
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.35cm}
+\begin{center}
+\kpi[stepVerify]{96,80\%}{Decision Accuracy\\của Full LegalSCM}\hfill
+\kpi{+8,0}{điểm so với\\Causal Path RAG}\hfill
+\kpi{0,0011}{giá trị $p$\\(hiệu chỉnh Holm)}\hfill
+\kpi{250}{câu hỏi BLHS\\đa bước}
+\end{center}
+\end{frame}

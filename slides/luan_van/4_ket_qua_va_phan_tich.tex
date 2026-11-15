@@ -1,0 +1,381 @@
+% ============================================================
+% PHẦN 4. KẾT QUẢ VÀ PHÂN TÍCH
+% ============================================================
+\setroadmap{-1}
+\section{Kết quả và phân tích}
+
+% ------------------------------------------------------------
+% F4.1 Kết quả chính
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Full LegalSCM đạt độ chính xác quyết định cao nhất}
+\centering
+\small
+\setlength{\tabcolsep}{0.1cm}
+\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{@{}l rrr rrr r@{}}
+\toprule
+& \multicolumn{3}{c}{\textbf{Quyết định}} & \multicolumn{3}{c}{\textbf{Văn bản và trích dẫn}} & \textbf{Chi phí}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(l){8-8}
+\textbf{Phương pháp} & \textbf{Acc.} & \textbf{B.Acc.} & \textbf{M-F1} & \textbf{Ans.F1} & \textbf{R-L} & \textbf{Cit.F1} & \textbf{Giây}\\
+\midrule
+\sysmark{sysCBa}Closed-book (abstain) & 4,40 & 27,50 & 22,00 & 15,08 & 13,19 & 0,00 & 1,031\\
+\sysmark{sysCBf}Closed-book (forced) & 9,20 & 50,65 & 8,78 & 18,44 & 16,19 & 0,27 & 0,900\\
+\sysmark{sysVan}Vanilla RAG & 55,20 & 71,09 & 49,88 & 28,18 & 25,68 & 50,75 & 2,369\\
+\sysmark{sysCPR}Causal Path RAG & 88,80 & 89,35 & 76,30 & 37,27 & 36,40 & 58,41 & 1,947\\
+\rowcolor{schemaLight}\sysmark{sysFull}\textbf{Full LegalSCM} & \textbf{96,80} & \textbf{98,26} & \textbf{91,67}
+  & \textbf{37,60} & \textbf{36,92} & \textbf{58,89} & 3,238\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.03cm}
+\raggedright
+{\scriptsize\color{schemaGray} Đơn vị \%; thời gian: giây/câu (trên dự đoán thành công). Cả 5 lượt chạy đủ 250/250 dự đoán, không lỗi pipeline.}
+
+\vspace{0.1cm}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[chip=sysVan,minimum width=2.7cm] (v) at (0,0) {Vanilla RAG\\\textbf{55,20}};
+  \node[chip=sysCPR,minimum width=2.7cm] (c) at (5.6,0) {Causal Path RAG\\\textbf{88,80}};
+  \node[chip=sysFull,minimum width=2.7cm] (f) at (11.2,0) {Full LegalSCM\\\textbf{96,80}};
+  \draw[flow] (v) -- node[above]{\textbf{+33,60} điểm} node[below]{ngữ cảnh đường dẫn} (c);
+  \draw[flow] (c) -- node[above]{\textbf{+8,00} điểm} node[below]{xác minh LegalSCM} (f);
+  \node[tag,anchor=south] at (0,0.42) {Decision Accuracy (\%)};
+\end{tikzpicture}
+
+\vspace{0.08cm}
+\keymsg{Quyết định tăng qua từng thành phần; văn bản gần như không đổi giữa hai hệ thống cuối.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F4.2 Accuracy và lớp lệch
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Accuracy thô dễ gây hiểu lầm khi dữ liệu lệch lớp}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  ybar, bar width=4.6pt, scale only axis, width=6.6cm, height=4.1cm,
+  ymin=0, ymax=105, ytick={0,25,50,75,100},
+  xtick={1,...,5}, xticklabels={{CB\\(abstain)},{CB\\(forced)},Vanilla,{Causal\\Path},Full},
+  xticklabel style={font=\scriptsize,align=center}, yticklabel style={font=\scriptsize},
+  enlarge x limits=0.13, axis x line*=bottom, axis y line*=left,
+  ylabel={\%}, ylabel style={font=\scriptsize},
+  legend style={font=\scriptsize,at={(0.02,0.84)},anchor=north west,draw=none,
+                fill=white,fill opacity=0.85,text opacity=1}]
+\addplot[fill=hustprimary,draw=none] coordinates {(1,4.40) (2,9.20) (3,55.20) (4,88.80) (5,96.80)};
+\addplot[fill=hustprimary!55,draw=none] coordinates {(1,27.50) (2,50.65) (3,71.09) (4,89.35) (5,98.26)};
+\addplot[fill=hustprimary!25,draw=none] coordinates {(1,22.00) (2,8.78) (3,49.88) (4,76.30) (5,91.67)};
+\legend{Accuracy, Balanced Acc., Macro-F1}
+\draw[dashed,schemaRed,line width=0.7pt] (axis cs:0.4,92) -- (axis cs:5.6,92);
+\node[font=\scriptsize,text=schemaRed,anchor=south west] at (axis cs:0.45,92) {luôn đoán SUPPORTED: Acc.\ 92\%};
+\end{axis}
+\end{tikzpicture}
+
+\column{0.41\textwidth}
+\footnotesize
+\begin{itemize}
+  \item Lớp lệch 230/20: luôn đoán \labSup{} đã đạt 92\% Accuracy $\Rightarrow$ cần Balanced Accuracy
+        và Macro-F1.
+  \item Closed-book (abstain): 220/250 câu trả \labUnc{} $\Rightarrow$ chỉ 11 câu đúng (4,40\%).
+  \item Closed-book (forced): 247/250 câu đoán \labRejS{} $\Rightarrow$ 9,20\%; bỏ abstention tạo
+        thiên lệch bác bỏ, không khôi phục năng lực pháp luật.
+  \item Điểm closed-book phản ánh hành vi khi không có bằng chứng dưới hợp đồng nhãn của bài toán,
+        không phải năng lực pháp luật tổng quát của Qwen3-8B.
+\end{itemize}
+\end{columns}
+
+\vspace{0.15cm}
+\keymsg{Luôn báo cáo Balanced Accuracy và Macro-F1 cùng với Accuracy.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F4.3 Kiểm định thống kê
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Mức tăng +8,0 điểm có ý nghĩa thống kê}
+\begin{columns}[T,onlytextwidth]
+\column{0.40\textwidth}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[cell=stepVerify!12] (a) at (0,0) {219};
+  \node[cell=stepVerify!45] (b) at (1.5,0) {23};
+  \node[cell=stepRetrieve!45] (c) at (0,-0.95) {3};
+  \node[cell=schemaGray!18] (d) at (1.5,-0.95) {5};
+  \node[anchor=east] at (-0.8,0) {đúng};
+  \node[anchor=east] at (-0.8,-0.95) {sai};
+  \node[anchor=south] at (0,0.47) {đúng};
+  \node[anchor=south] at (1.5,0.47) {sai};
+  \node[anchor=south,font=\scriptsize\bfseries] at (0.75,0.8) {Causal Path RAG};
+  \node[anchor=south,font=\scriptsize\bfseries,rotate=90] at (-1.55,-0.475) {Full LegalSCM};
+\end{tikzpicture}\\[2pt]
+\footnotesize Full 242/250 $\cdot$ Causal Path RAG 222/250\\
+\dien McNemar chỉ dựa vào các cặp bất đồng: \textbf{23} so với \textbf{3}.
+
+\column{0.56\textwidth}
+\footnotesize
+\begin{itemize}
+  \item $\Delta\text{Acc}=+8{,}0$ điểm; CI 95\% bootstrap $[4{,}4;\,12{,}0]$.
+  \item McNemar chính xác: $p=8{,}8\times10^{-5}$; hiệu chỉnh Holm: $p=0{,}0011$.
+  \item Macro-F1: 76,30 $\rightarrow$ 91,67; F1 của lớp \labRejS: 59,02 $\rightarrow$ 85,11.
+  \item Answer F1 / ROUGE-L / Citation F1: +0,33 / +0,52 / +0,47 điểm; CI đều chứa 0; $p$ Holm = 1,0.
+\end{itemize}
+
+\vspace{0.1cm}
+{\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l r c r@{}}
+\toprule
+\textbf{Full so với} & \textbf{$\Delta$Acc (điểm)} & \textbf{CI 95\%} & \textbf{$p$ Holm}\\
+\midrule
+Vanilla RAG & +41,6 & $[35{,}2;\,48{,}0]$ & $<0{,}001$\\
+Closed-book (forced) & +87,6 & $[83{,}6;\,91{,}6]$ & $<0{,}001$\\
+Closed-book (abstain) & +92,4 & $[89{,}2;\,95{,}6]$ & $<0{,}001$\\
+\bottomrule
+\end{tabular}}
+\end{columns}
+
+\vspace{0.15cm}
+\keymsg{Cải thiện có ý nghĩa nằm ở quyết định có cấu trúc; văn bản tự do và trích dẫn chưa khác biệt.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F4.4 Ma trận nhầm lẫn
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Lợi ích đến từ việc sửa các lần bác bỏ nhầm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\centering
+{\footnotesize\textbf{\sysmark{sysCPR}Causal Path RAG}}\\[3pt]
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l ccc@{}}
+\toprule
+Gold $\backslash$ Dự đoán & SUP & REJ & UNC\\
+\midrule
+\labSup{} (230) & \cm{stepRetrieve!50}{204} & \cm{schemaRed!35}{\textbf{23}} & \cm{schemaRed!8}{3}\\
+\labRejS{} (20) & \cm{schemaRed!12}{2} & \cm{stepRetrieve!50}{18} & 0\\
+\bottomrule
+\end{tabular}
+
+\column{0.48\textwidth}
+\centering
+{\footnotesize\textbf{\sysmark{sysFull}Full LegalSCM}}\\[3pt]
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}l ccc@{}}
+\toprule
+Gold $\backslash$ Dự đoán & SUP & REJ & UNC\\
+\midrule
+\labSup{} (230) & \cm{stepVerify!40}{222} & \cm{schemaRed!15}{\textbf{7}} & \cm{schemaRed!5}{1}\\
+\labRejS{} (20) & 0 & \cm{stepVerify!40}{20} & 0\\
+\bottomrule
+\end{tabular}
+\end{columns}
+
+\vspace{0.3cm}
+\footnotesize
+\begin{itemize}
+  \item Causal Path RAG bác bỏ nhầm \textbf{23} câu \labSup; Full LegalSCM còn \textbf{7}.
+  \item Full đúng 20/20 mẫu âm (Causal Path RAG: 18/20).
+  \item Precision lớp \labRejS: 43,90\% $\rightarrow$ 74,07\%; recall lớp \labSup: 88,70\% $\rightarrow$ 96,52\%.
+\end{itemize}
+{\scriptsize\color{schemaGray} SUP = SUPPORTED; REJ/REJECT = REJECT\_DIRECT\_CLAIM; UNC = UNCERTAIN. Ô đỏ: lỗi.}
+
+\vspace{0.15cm}
+\keymsg{Trên cùng ngữ cảnh truy xuất, bộ xác minh chủ yếu sửa các lần LLM bác bỏ nhầm câu được luật hỗ trợ.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F4.5 Kiểm toán route và lỗi
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Mọi lỗi của Full xảy ra khi thiếu đường chính}
+\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[chip=schemaNavy,text width=1.15cm,minimum height=0.9cm] (all) at (0.65,-0.9) {\textbf{250}\\câu hỏi};
+  \node[chip=stepVerify,text width=2.0cm] (rf) at (3.3,0.05) {Factual\\\textbf{230}};
+  \node[chip=stepVerify,text width=2.0cm] (rd) at (3.3,-1.35) {Cạnh trực tiếp\\\textbf{13}};
+  \node[chip=stepVerify,text width=2.0cm] (ri) at (3.3,-2.35) {Can thiệp $do(\cdot)$\\\textbf{7}};
+  \node[chip=schemaGray,dashed,text width=2.45cm] (fb) at (6.6,0.5) {Fallback \textbf{20}\\không có đường chính};
+  \node[chip=stepVerify,text width=2.45cm] (c1) at (6.6,-0.45) {Commit \textbf{210}};
+  \node[chip=stepVerify,text width=2.45cm] (c2) at (6.6,-1.35) {Commit \textbf{13}};
+  \node[chip=stepVerify,text width=2.45cm] (c3) at (6.6,-2.35) {Commit \textbf{7}};
+  \node[draw=schemaRed,fill=schemaRed!6,rounded corners=2pt,line width=0.8pt,text width=4.2cm,
+        align=left,inner sep=3pt] (o2) at (11.6,0.5)
+       {\textbf{20 câu fallback:} 8 lỗi của Full (7 câu suy luận ngược); Causal Path RAG đúng thêm 3 câu;
+        Full không có cải thiện riêng.};
+  \node[draw=schemaGreen,fill=schemaGreen!7,rounded corners=2pt,line width=0.8pt,text width=4.2cm,
+        align=left,inner sep=3pt] (o1) at (11.6,-1.45)
+       {\textbf{230 câu đã commit: 0 lỗi.}\\23 câu chỉ Full đúng = 21 factual + 2 cạnh trực tiếp
+        + 0 can thiệp.};
+  \draw[flow] (all.east) -- (rf.west);
+  \draw[flow] (all.east) -- (rd.west);
+  \draw[flow] (all.east) -- (ri.west);
+  \draw[flow,dashed] (rf.east) -- (fb.west);
+  \draw[flow] (rf.east) -- (c1.west);
+  \draw[flow] (rd) -- (c2);
+  \draw[flow] (ri) -- (c3);
+  \draw[flow,dashed] (fb.east) -- (o2.west);
+  \draw[flow] (c1.east) -- (o1.west);
+  \draw[flow] (c2.east) -- (o1.west);
+  \draw[flow] (c3.east) -- (o1.west);
+  \node[tag] at (3.3,0.78) {route xác minh};
+  \node[tag] at (6.6,1.32) {cổng commit};
+\end{tikzpicture}
+
+\vspace{0.15cm}
+\raggedright
+\footnotesize
+\begin{itemize}
+  \item $do(X_m=0)$ được yêu cầu và thực thi 7/7; Causal Path RAG cũng đúng 7/7 câu này
+        $\Rightarrow$ chưa tách được lợi ích riêng của can thiệp.
+\end{itemize}
+
+\vspace{0.1cm}
+\keymsg{Điểm yếu còn lại nằm ở truy xuất (thiếu đường chính), không ở các quyết định đã commit.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F4.6 Ví dụ xuyên suốt: năm câu trả lời
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Ví dụ xuyên suốt: một câu hỏi, năm câu trả lời}
+\vspace{-0.1cm}
+{\footnotesize \exid{} -- gold: \labSup; ``Chống trả rõ ràng quá mức cần thiết''; Điều 22, Điều 51.}
+
+\vspace{0.08cm}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.25cm} >{\raggedright\arraybackslash}p{1.45cm}
+                >{\raggedright\arraybackslash}p{5.6cm} >{\raggedright\arraybackslash}p{1.45cm}
+                >{\raggedright\arraybackslash}p{1.6cm}@{}}
+\toprule
+\textbf{Hệ thống} & \textbf{Quyết định} & \textbf{Câu trả lời (nguyên văn; PVCĐ viết tắt)} & \textbf{Trích dẫn} & \textbf{Kết quả}\\
+\midrule
+\sysmark{sysCBa}Closed-book (abstain) & \labUnc & ``Không đủ thông tin để xác định sự kiện trước bước `Vượt quá giới hạn PVCĐ'.'' & -- & \ko\\
+\sysmark{sysCBf}Closed-book (forced) & \labRejS & (như trên) & -- & \ko\\
+\sysmark{sysVan}Vanilla RAG & \labSup & ``Sự kiện trước đó là `Phạm tội trong trường hợp vượt quá giới hạn PVCĐ'.'' & Điều 51, 126 & nhãn \ok\newline nội dung \ko\\
+\sysmark{sysCPR}Causal Path RAG & \labRejS & ``Không đủ căn cứ xác định sự kiện trước `Vượt quá giới hạn PVCĐ'.'' & Điều 22, 51 & \ko\\
+\bottomrule
+\end{tabular}
+
+\pause
+\vspace{0.05cm}
+\begin{exampleblock}{\sysmark{white}Full LegalSCM}
+\footnotesize \labSup{} -- ``Sự kiện trước là `Chống trả rõ ràng quá mức cần thiết'.'' -- Điều 22, 51 --
+\ok{} (commit: 0,577 $\ge$ 0,55)\\
+Cùng 8 bằng chứng như Causal Path RAG; chỉ Full có kết quả xác minh trong prompt.
+\end{exampleblock}
+
+\vspace{0.06cm}
+\keymsg{Truy xuất đúng chưa đủ; xác minh biến bằng chứng đúng thành quyết định đúng.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F4.7 Nút thắt xếp hạng đường
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Nút thắt: đường đúng có trong ứng viên nhưng chưa xếp đầu}
+\begin{columns}[T,onlytextwidth]
+\column{0.50\textwidth}
+\centering
+{\footnotesize\textbf{Truy xuất: Recall@5 (\%)}}\\[2pt]
+\begin{tikzpicture}
+\begin{axis}[
+  ybar, bar width=10pt, scale only axis, width=5.2cm, height=1.95cm,
+  ymin=0, ymax=100, ytick={0,25,50,75,100},
+  xtick={1,2,3}, xticklabels={Điều luật,Rule,Sự kiện}, enlarge x limits=0.25,
+  xticklabel style={font=\scriptsize}, yticklabel style={font=\scriptsize},
+  axis x line*=bottom, axis y line*=left,
+  nodes near coords={\pgfmathprintnumber[fixed,fixed zerofill,precision=2]{\pgfplotspointmeta}},
+  nodes near coords style={font=\scriptsize},
+  legend style={font=\scriptsize,at={(0.5,1.03)},anchor=south,legend columns=2,draw=none}]
+\addplot[fill=sysVan,draw=none] coordinates {(1,60.07)};
+\addplot[fill=sysCPR,draw=none] coordinates {(1,75.40) (2,71.20) (3,74.79)};
+\legend{Vanilla RAG,Causal Path RAG = Full}
+\end{axis}
+\end{tikzpicture}\\
+{\scriptsize\color{schemaGray} Vanilla RAG không có rule/sự kiện.}
+
+\column{0.46\textwidth}
+\centering
+{\footnotesize\textbf{Đường suy luận (\%; 236 câu)}}\\[2pt]
+\begin{tikzpicture}
+\begin{axis}[
+  ybar, bar width=12pt, scale only axis, width=4.6cm, height=1.95cm,
+  ymin=0, ymax=100, ytick={0,25,50,75,100},
+  xtick={1,2}, xticklabels={Exact Path,Edge F1}, enlarge x limits=0.5,
+  xticklabel style={font=\scriptsize}, yticklabel style={font=\scriptsize},
+  axis x line*=bottom, axis y line*=left,
+  nodes near coords={\pgfmathprintnumber[fixed,fixed zerofill,precision=2]{\pgfplotspointmeta}},
+  nodes near coords style={font=\scriptsize},
+  legend style={font=\scriptsize,at={(0.5,1.03)},anchor=south,legend columns=2,draw=none}]
+\addplot[fill=stepRetrieve,draw=none] coordinates {(1,38.56) (2,58.19)};
+\addplot[fill=stepRetrieve!35,draw=stepRetrieve] coordinates {(1,75.42) (2,79.80)};
+\legend{Top-1,Oracle (chẩn đoán)}
+\end{axis}
+\end{tikzpicture}\\
+{\scriptsize\color{schemaRed} Exact Path: Top-1 kém Oracle 36,86 điểm.}
+\end{columns}
+
+\vspace{0.08cm}
+\footnotesize
+\begin{itemize}
+  \item Đường phù hợp thường đã được truy xuất nhưng chưa xếp đầu; cả 8 lỗi của Full xảy ra khi không có đường chính.
+  \item MRR: điều luật 82,87\%, rule 78,12\%, sự kiện 80,42\% (Vanilla RAG: điều luật 72,84\%).
+\end{itemize}
+
+\vspace{0.06cm}
+\keymsg{Ưu tiên tiếp theo: cải thiện xếp hạng đường và grounding.}
+\end{frame}
+
+% ------------------------------------------------------------
+% F4.8 Đánh đổi thời gian
+% ------------------------------------------------------------
+\begin{frame}
+\frametitle{Đánh đổi: +8,0 điểm quyết định, +66\% thời gian}
+\begin{columns}[T,onlytextwidth]
+\column{0.55\textwidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  scale only axis, width=6.0cm, height=3.9cm, clip=false,
+  xmin=0, xmax=3.6, ymin=0, ymax=108, xtick={0,1,2,3}, ytick={0,25,50,75,100},
+  xlabel={Thời gian trung bình (giây/câu)}, ylabel={Decision Accuracy (\%)},
+  label style={font=\scriptsize}, tick label style={font=\scriptsize},
+  axis x line*=bottom, axis y line*=left]
+\addplot[only marks,mark=*,mark size=3pt,color=sysCBa] coordinates {(1.031,4.40)};
+\addplot[only marks,mark=*,mark size=3pt,color=sysCBf] coordinates {(0.900,9.20)};
+\addplot[only marks,mark=*,mark size=3pt,color=sysVan] coordinates {(2.369,55.20)};
+\addplot[only marks,mark=*,mark size=3pt,color=sysCPR] coordinates {(1.947,88.80)};
+\addplot[only marks,mark=*,mark size=3.4pt,color=sysFull] coordinates {(3.238,96.80)};
+\node[font=\scriptsize,anchor=west] at (axis cs:1.10,2.5) {Closed-book (abstain)};
+\node[font=\scriptsize,anchor=west] at (axis cs:0.98,13) {Closed-book (forced)};
+\node[font=\scriptsize,anchor=west] at (axis cs:2.45,55.2) {Vanilla RAG};
+\node[font=\scriptsize,anchor=east] at (axis cs:1.88,88.8) {Causal Path RAG};
+\node[font=\scriptsize\bfseries,anchor=south east] at (axis cs:3.30,99.5) {Full LegalSCM};
+\draw[-{Latex[length=1.8mm]},line width=0.7pt,schemaNavy] (axis cs:2.0,89.4) -- (axis cs:3.18,96.4);
+\node[font=\scriptsize,anchor=north,text=schemaNavy] at (axis cs:2.65,90.5) {+1,29 giây; +8,0 điểm};
+\end{axis}
+\end{tikzpicture}
+
+\column{0.41\textwidth}
+\footnotesize
+\begin{itemize}
+  \item Full LegalSCM: 3,238 giây/câu so với 1,947 giây ($\approx$ +66\%); trung vị 3,118 so với 1,795 giây.
+  \item 250 câu của Full LegalSCM chạy trong 956,75 giây ($\approx$ 16 phút).
+  \item Một phần chi phí do Bước 4 nạp lại đồ thị và bộ nhớ cho từng câu
+        $\Rightarrow$ có thể nạp một lần cho cả lượt chạy.
+\end{itemize}
+\end{columns}
+
+\vspace{0.2cm}
+\keymsg{Đổi thêm 1,29 giây mỗi câu lấy +8,0 điểm Decision Accuracy.}
+\end{frame}
